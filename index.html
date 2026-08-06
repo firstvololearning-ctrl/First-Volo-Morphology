@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    First Volo Morphology | Prefixes, Roots, and Word Building
+  </title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ========================================
+       HEADER
+       ======================================== -->
+  <header class="site-header">
+
+    <div class="brand-block">
+
+  <a
+    class="brand-logo-link"
+    href="https://firstvololearning.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit First Volo Learning"
+  >
+    <div class="brand-logo-wrap">
+      <img
+        class="brand-logo"
+        src="images/logo/logo.png"
+        alt="First Volo Learning logo"
+      >
+    </div>
+  </a>
+
+</div>
+    <div class="title-group">
+
+      <h1>
+        First Volo Morphology
+      </h1>
+
+      <p class="site-subtitle">
+        Prefixes, Roots, and Word Building
+      </p>
+
+      <p class="site-description">
+        Learn meaningful word parts, discover how they work,
+        and use them to understand and build new words.
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button
+        class="header-link"
+        id="aboutButton"
+        type="button"
+      >
+        ℹ️ About This Site
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ========================================
+       MAIN PAGE
+       ======================================== -->
+
+  <main class="page">
+
+
+    <!-- STEP 1: CHOOSE WORD PARTS -->
+
+    <section
+      class="selector-section"
+      aria-labelledby="studySelectorLabel"
+    >
+
+      <label
+        class="selector-label"
+        id="studySelectorLabel"
+        for="studySelect"
+      >
+
+        <span
+          class="step-number"
+          aria-hidden="true"
+        >
+          1
+        </span>
+
+        <span>
+          Choose what you want to study
+
+          <small>
+            Select one word part or a word-building combination.
+          </small>
+        </span>
+
+      </label>
+
+      <div class="select-wrap">
+
+        <select
+          class="study-select"
+          id="studySelect"
+          required
+        >
+
+          <option
+            value=""
+            selected
+            disabled
+          >
+            Choose word parts
+          </option>
+
+          <optgroup label="Individual Word Parts">
+
+            <option value="prefixes">
+              🟢 Prefixes
+            </option>
+
+            <option value="roots">
+              🔵 Roots
+            </option>
+
+            <option value="suffixes">
+              🟣 Suffixes
+            </option>
+
+          </optgroup>
+
+          <optgroup label="Word Building">
+
+            <option value="prefix-root">
+              🟢 Prefixes + 🔵 Roots
+            </option>
+
+            <option value="root-suffix">
+              🔵 Roots + 🟣 Suffixes
+            </option>
+
+            <option value="prefix-root-suffix">
+              🟢 Prefixes + 🔵 Roots + 🟣 Suffixes
+            </option>
+
+          </optgroup>
+
+        </select>
+
+      </div>
+
+      <p
+        class="study-availability"
+        id="studyAvailability"
+        aria-live="polite"
+      ></p>
+
+    </section>
+
+
+    <!-- STEP 2: CHOOSE ACTIVITY -->
+
+    <section
+      class="activity-selector-section"
+      aria-labelledby="activitySelectorLabel"
+    >
+
+      <div
+        class="selector-label"
+        id="activitySelectorLabel"
+      >
+
+        <span
+          class="step-number"
+          aria-hidden="true"
+        >
+          2
+        </span>
+
+        <span>
+          Choose an activity
+
+          <small>
+            Move from learning and recognition to inference
+            and word building.
+          </small>
+        </span>
+
+      </div>
+
+      <nav
+        class="activity-menu"
+        aria-label="Choose an activity"
+      >
+
+        <button
+          class="activity-button active"
+          data-mode="learn"
+          type="button"
+          aria-pressed="true"
+        >
+          <span class="activity-icon">
+            📖
+          </span>
+
+          <span class="activity-name">
+            Learn
+          </span>
+
+          <small>
+            Explore word parts
+          </small>
+        </button>
+
+
+        <button
+          class="activity-button"
+          data-mode="find"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="activity-icon">
+            🔎
+          </span>
+
+          <span class="activity-name">
+            Find
+          </span>
+
+          <small>
+            Identify the word part
+          </small>
+        </button>
+
+
+        <button
+          class="activity-button"
+          data-mode="meaning"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="activity-icon">
+            ✅
+          </span>
+
+          <span class="activity-name">
+            Meaning
+          </span>
+
+          <small>
+            Choose the meaning
+          </small>
+        </button>
+
+
+        <button
+          class="activity-button"
+          data-mode="morpheme"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="activity-icon">
+            🧩
+          </span>
+
+          <span class="activity-name">
+            Word Part
+          </span>
+
+          <small>
+            Choose the morpheme
+          </small>
+        </button>
+
+
+        <button
+          class="activity-button"
+          data-mode="infer"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="activity-icon">
+            💡
+          </span>
+
+          <span class="activity-name">
+            Figure It Out
+          </span>
+
+          <small>
+            Infer a word’s meaning
+          </small>
+        </button>
+
+
+        <button
+          class="activity-button"
+          data-mode="build"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="activity-icon">
+            🏗️
+          </span>
+
+          <span class="activity-name">
+            Build Words
+          </span>
+
+          <small>
+            Combine word parts
+          </small>
+        </button>
+
+      </nav>
+
+    </section>
+
+
+    <!-- ========================================
+         ACTIVITY WORKSPACE
+         ======================================== -->
+
+    <section
+      class="workspace"
+      aria-labelledby="workspaceTitle"
+    >
+
+      <header class="workspace-header">
+
+        <div>
+
+          <p class="workspace-label">
+            Current activity
+          </p>
+
+          <h2 id="workspaceTitle">
+            Learn
+          </h2>
+
+          <p
+            class="workspace-subtitle"
+            id="workspaceSubtitle"
+          >
+            Choose prefixes or roots to begin.
+          </p>
+
+        </div>
+
+        <div
+          class="activity-progress"
+          id="activityProgress"
+          aria-live="polite"
+          hidden
+        >
+          Question 1 of 10
+        </div>
+
+      </header>
+
+
+      <!-- START MESSAGE -->
+
+      <section
+        class="start-panel"
+        id="startPanel"
+      >
+
+        <div class="start-icon">
+          🧠
+        </div>
+
+        <h3>
+          Choose what you want to study.
+        </h3>
+
+        <p>
+          Begin with prefixes or roots. Suffixes and additional
+          word-building combinations can be added as the site grows.
+        </p>
+
+      </section>
+
+
+      <!-- LEARN -->
+
+      <section
+        class="activity-panel"
+        id="learnActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Learn the Word Parts
+          </h3>
+
+          <p>
+            Select a card to see the meaning, hear the word part,
+            and explore common words that contain it.
+          </p>
+
+        </div>
+
+        <div
+          class="learning-grid"
+          id="learningGrid"
+        ></div>
+
+      </section>
+
+
+      <!-- FIND -->
+
+      <section
+        class="activity-panel"
+        id="findActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Find the Word Part
+          </h3>
+
+          <p>
+            Look at the whole word. Choose the prefix, root,
+            or suffix that appears in it.
+          </p>
+
+        </div>
+
+        <div class="question-card">
+
+          <p
+  class="question-prompt"
+  id="inferPrompt"
+>
+  Based on the word part, what might this word mean?
+</p>
+
+          <div
+            class="target-word"
+            id="findWord"
+          >
+            preview
+          </div>
+
+          <div
+            class="answer-grid"
+            id="findChoices"
+          ></div>
+
+          <div
+            class="feedback-panel"
+            id="findFeedback"
+            aria-live="polite"
+            hidden
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CHOOSE MEANING -->
+
+      <section
+        class="activity-panel"
+        id="meaningActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Choose the Meaning
+          </h3>
+
+          <p>
+            Look at the word part and choose its meaning
+            from four choices.
+          </p>
+
+        </div>
+
+        <div class="question-card">
+
+          <p class="question-prompt">
+            What does this word part mean?
+          </p>
+
+          <div
+            class="morpheme-display"
+            id="meaningMorpheme"
+          >
+            pre-
+          </div>
+
+          <div
+            class="answer-grid"
+            id="meaningChoices"
+          ></div>
+
+          <div
+            class="feedback-panel"
+            id="meaningFeedback"
+            aria-live="polite"
+            hidden
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CHOOSE MORPHEME -->
+
+      <section
+        class="activity-panel"
+        id="morphemeActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Choose the Word Part
+          </h3>
+
+          <p>
+            Read the meaning and choose the prefix, root,
+            or suffix that carries that meaning.
+          </p>
+
+        </div>
+
+        <div class="question-card">
+
+          <p class="question-prompt">
+            Which word part means:
+          </p>
+
+          <div
+            class="meaning-display"
+            id="morphemeMeaning"
+          >
+            before
+          </div>
+
+          <div
+            class="answer-grid"
+            id="morphemeChoices"
+          ></div>
+
+          <div
+            class="feedback-panel"
+            id="morphemeFeedback"
+            aria-live="polite"
+            hidden
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- FIGURE IT OUT -->
+
+      <section
+        class="activity-panel"
+        id="inferActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Figure It Out
+          </h3>
+
+          <p>
+            Use the meaning of a known word part to infer
+            the meaning of a whole word.
+          </p>
+
+        </div>
+
+        <div class="question-card">
+
+          <div
+            class="known-part-box"
+            id="knownPartBox"
+          >
+            <strong>spect</strong>
+            <span>look or watch</span>
+          </div>
+
+          <p class="question-prompt">
+            Based on the root, what might this word mean?
+          </p>
+
+          <div
+            class="target-word"
+            id="inferWord"
+          >
+            inspect
+          </div>
+
+          <div
+            class="answer-grid"
+            id="inferChoices"
+          ></div>
+
+          <div
+            class="feedback-panel"
+            id="inferFeedback"
+            aria-live="polite"
+            hidden
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BUILD WORDS -->
+
+      <section
+        class="activity-panel"
+        id="buildActivity"
+        hidden
+      >
+
+        <div class="activity-introduction">
+
+          <h3>
+            Build Words
+          </h3>
+
+          <p>
+            Combine word parts to create real words.
+            The available pieces depend on the study set you selected.
+          </p>
+
+        </div>
+
+
+        <div
+          class="build-pattern-menu"
+          role="group"
+          aria-label="Choose a word-building pattern"
+        >
+
+          <button
+            class="build-pattern-button active"
+            data-pattern="prefix-root"
+            type="button"
+            aria-pressed="true"
+          >
+            Prefix + Root
+          </button>
+
+          <button
+            class="build-pattern-button"
+            data-pattern="root-suffix"
+            type="button"
+            aria-pressed="false"
+          >
+            Root + Suffix
+          </button>
+
+          <button
+            class="build-pattern-button"
+            data-pattern="prefix-root-suffix"
+            type="button"
+            aria-pressed="false"
+          >
+            Prefix + Root + Suffix
+          </button>
+
+        </div>
+
+
+        <div class="build-card">
+
+          <p
+            class="build-directions"
+            id="buildDirections"
+          >
+            Build a real word.
+          </p>
+
+          <div
+            class="word-part-banks"
+            id="wordPartBanks"
+          ></div>
+
+          <div
+            class="word-building-workspace"
+            id="wordBuildingWorkspace"
+          >
+            <span class="empty-build-message">
+              Select word parts to build a word.
+            </span>
+          </div>
+
+          <div class="build-actions">
+
+            <button
+              class="secondary-button"
+              id="clearBuildButton"
+              type="button"
+            >
+              Clear
+            </button>
+
+            <button
+              class="primary-button"
+              id="checkBuildButton"
+              type="button"
+            >
+              Check Word
+            </button>
+
+          </div>
+
+          <div
+            class="feedback-panel"
+            id="buildFeedback"
+            aria-live="polite"
+            hidden
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SHARED NEXT BUTTON -->
+
+      <div
+        class="workspace-actions"
+        id="workspaceActions"
+        hidden
+      >
+
+        <button
+          class="primary-button"
+          id="nextQuestionButton"
+          type="button"
+        >
+          Next
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ========================================
+       ABOUT MODAL
+       ======================================== -->
+
+  <div
+    class="about-modal"
+    id="aboutModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="aboutTitle"
+    hidden
+  >
+
+    <div class="about-card">
+
+      <button
+        class="about-close"
+        id="aboutClose"
+        type="button"
+        aria-label="Close About This Site"
+      >
+        ×
+      </button>
+
+      <h2 id="aboutTitle">
+        First Volo Morphology
+      </h2>
+
+      <p class="about-subtitle">
+        Prefixes, Roots, and Word Building
+      </p>
+
+      <p>
+        First Volo Morphology provides explicit, scaffolded
+        instruction in meaningful word parts. Students move
+        from learning and recognizing morphemes to using them
+        to infer word meanings and build new words.
+      </p>
+
+      <p>
+        Illustrated cards support initial learning and feedback.
+        Text-only word-part tiles are used during questions so
+        that the pictures do not reveal the correct answer.
+      </p>
+
+      <p>
+        Related forms such as
+        <strong>in-, im-, il-, and ir-</strong>
+        are taught together as a meaning family and practiced
+        separately when students identify or build actual words.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+
+  <footer class="site-footer">
+
+    <p>
+      © 2026 Alexis Sacco / First Volo Learning.
+      All rights reserved.
+    </p>
+
+  </footer>
+
+
+  <noscript>
+    This activity requires JavaScript to run.
+  </noscript>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
