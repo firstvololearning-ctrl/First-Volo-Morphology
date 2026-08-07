@@ -443,7 +443,79 @@ const roots = [
     meaning: "call; voice",
     image: "images/roots/voc.png",
   examples: ["vocal", "vocation", "vocabulary"]
-  }
+  },
+  {
+  id: "act",
+  type: "root",
+  label: "act",
+  speech: "act",
+  meaning: "do; act",
+  image: "images/roots/act.png",
+  examples: ["active", "activity", "inactive"]
+},
+{
+  id: "aud",
+  type: "root",
+  label: "aud",
+  speech: "aud",
+  meaning: "hear",
+  image: "images/roots/aud.png",
+  examples: ["audio", "audible", "audience"]
+},
+{
+  id: "cred",
+  type: "root",
+  label: "cred",
+  speech: "cred",
+  meaning: "believe; trust",
+  image: "images/roots/cred.png",
+  examples: ["credible", "credit", "incredible"]
+},
+{
+  id: "dict",
+  type: "root",
+  label: "dict",
+  speech: "dict",
+  meaning: "say; tell",
+  image: "images/roots/dict.png",
+  examples: ["predict", "dictionary", "contradict"]
+},
+{
+  id: "form",
+  type: "root",
+  label: "form",
+  speech: "form",
+  meaning: "shape; form",
+  image: "images/roots/form.png",
+  examples: ["transform", "reform", "formation"]
+},
+{
+  id: "graph",
+  type: "root",
+  label: "graph",
+  speech: "graph",
+  meaning: "write; record",
+  image: "images/roots/graph.png",
+  examples: ["biography", "autograph", "graphic"]
+},
+{
+  id: "mot",
+  type: "root",
+  label: "mot/mov",
+  speech: "mot or move",
+  meaning: "move",
+  image: "images/roots/mot-mov.png",
+  examples: ["motion", "movement", "remove"]
+},
+{
+  id: "vis",
+  type: "root",
+  label: "vis/vid",
+  speech: "vis or vid",
+  meaning: "see",
+  image: "images/roots/vis-vid.png",
+  examples: ["visible", "vision", "video"]
+}
 ];
 
 /* ========================================
@@ -1059,6 +1131,118 @@ const rootFindQuestions = [
     literal: "turn or change",
     definition: "to change something into a different form"
   }
+  {
+  type: "root",
+  word: "inactive",
+  before: "in",
+  target: "act",
+  after: "ive",
+  answer: "act",
+  choices: ["act", "form", "spect", "struct"],
+  itemId: "act",
+  image: "images/roots/act.png",
+  base: "in- = not; -ive = having a quality or tendency",
+  literal: "not acting or active",
+  definition: "not active or not taking part"
+},
+{
+  type: "root",
+  word: "audible",
+  before: "",
+  target: "aud",
+  after: "ible",
+  answer: "aud",
+  choices: ["aud", "voc", "spect", "dict"],
+  itemId: "aud",
+  image: "images/roots/aud.png",
+  base: "-ible = able to be",
+  literal: "able to be heard",
+  definition: "loud or clear enough to be heard"
+},
+{
+  type: "root",
+  word: "credible",
+  before: "",
+  target: "cred",
+  after: "ible",
+  answer: "cred",
+  choices: ["cred", "dict", "val", "form"],
+  itemId: "cred",
+  image: "images/roots/cred.png",
+  base: "-ible = able to be",
+  literal: "able to be believed",
+  definition: "believable or worthy of trust"
+},
+{
+  type: "root",
+  word: "predict",
+  before: "pre",
+  target: "dict",
+  after: "",
+  answer: "dict",
+  choices: ["dict", "voc", "scrib/script", "sequ"],
+  itemId: "dict",
+  image: "images/roots/dict.png",
+  base: "pre- = before",
+  literal: "say before",
+  definition: "to say what you think will happen before it happens"
+},
+{
+  type: "root",
+  word: "transform",
+  before: "trans",
+  target: "form",
+  after: "",
+  answer: "form",
+  choices: ["form", "struct", "vert", "tract"],
+  itemId: "form",
+  image: "images/roots/form.png",
+  base: "trans- = across; through",
+  literal: "change form",
+  definition: "to change into a different form"
+},
+{
+  type: "root",
+  word: "biography",
+  before: "bio",
+  target: "graph",
+  after: "y",
+  answer: "graph",
+  choices: ["graph", "scrib/script", "dict", "voc"],
+  itemId: "graph",
+  image: "images/roots/graph.png",
+  base: "bio = life",
+  literal: "writing about a life",
+  definition: "a written account of a person's life"
+},
+{
+  type: "root",
+  word: "motion",
+  before: "",
+  target: "mot",
+  after: "ion",
+  answer: "mot/mov",
+  choices: ["mot/mov", "tract", "fer", "sequ"],
+  itemId: "mot",
+  image: "images/roots/mot.png",
+  base: "-ion = act or process",
+  literal: "act or process of moving",
+  definition: "movement or the act of moving"
+},
+{
+  type: "root",
+  word: "visible",
+  before: "",
+  target: "vis",
+  after: "ible",
+  answer: "vis/vid",
+  choices: ["vis/vid", "spect", "voc", "graph"],
+  itemId: "vis",
+  image: "images/roots/vis.png",
+  base: "-ible = able to be",
+  literal: "able to be seen",
+  definition: "able to be seen"
+}
 ];
 const suffixFindQuestions = [
   {
@@ -2047,7 +2231,287 @@ const buildWords = [
   }
 ];
 
+/* ========================================
+   ROOT / BASE + SUFFIX BUILDING DATA
+   ======================================== */
 
+const rootSuffixBuildWords = [
+  {
+    word: "portable",
+    baseId: "port",
+    base: "port",
+    baseMeaning: "carry",
+    suffixId: "able",
+    suffix: "-able",
+    suffixMeaning: "can be; able to be",
+    literal: "able to be carried",
+    definition: "easy to carry or move"
+  },
+  {
+    word: "readable",
+    baseId: "read",
+    base: "read",
+    baseMeaning: "understand written words",
+    suffixId: "able",
+    suffix: "-able",
+    suffixMeaning: "can be; able to be",
+    literal: "able to be read",
+    definition: "easy or possible to read"
+  },
+  {
+    word: "visible",
+    baseId: "vis",
+    base: "vis",
+    baseMeaning: "see",
+    suffixId: "ible",
+    suffix: "-ible",
+    suffixMeaning: "can be; able to be",
+    literal: "able to be seen",
+    definition: "able to be seen"
+  },
+  {
+    word: "teacher",
+    baseId: "teach",
+    base: "teach",
+    baseMeaning: "help someone learn",
+    suffixId: "er-agent",
+    suffix: "-er",
+    suffixMeaning: "one who",
+    literal: "one who teaches",
+    definition: "a person who teaches"
+  },
+  {
+    word: "inspector",
+    baseId: "inspect",
+    base: "inspect",
+    baseMeaning: "look at carefully",
+    suffixId: "or-agent",
+    suffix: "-or",
+    suffixMeaning: "one who",
+    literal: "one who inspects",
+    definition: "a person whose job is to inspect things"
+  },
+  {
+    word: "taller",
+    baseId: "tall",
+    base: "tall",
+    baseMeaning: "having greater height",
+    suffixId: "er-more-build",
+    suffix: "-er",
+    suffixMeaning: "more",
+    literal: "more tall",
+    definition: "having greater height than something else"
+  },
+  {
+    word: "fastest",
+    baseId: "fast",
+    base: "fast",
+    baseMeaning: "moving quickly",
+    suffixId: "est",
+    suffix: "-est",
+    suffixMeaning: "the most",
+    literal: "the most fast",
+    definition: "moving more quickly than all the others"
+  },
+  {
+    word: "helpful",
+    baseId: "help",
+    base: "help",
+    baseMeaning: "give assistance",
+    suffixId: "ful",
+    suffix: "-ful",
+    suffixMeaning: "full of",
+    literal: "full of help",
+    definition: "giving help or making something easier"
+  },
+  {
+    word: "hopeless",
+    baseId: "hope",
+    base: "hope",
+    baseMeaning: "expect something good",
+    suffixId: "less",
+    suffix: "-less",
+    suffixMeaning: "without",
+    literal: "without hope",
+    definition: "having little or no hope"
+  },
+  {
+    word: "quickly",
+    baseId: "quick",
+    base: "quick",
+    baseMeaning: "fast",
+    suffixId: "ly",
+    suffix: "-ly",
+    suffixMeaning: "how something is done",
+    literal: "in a quick way",
+    definition: "in a fast way"
+  },
+  {
+    word: "movement",
+    baseId: "move",
+    base: "move",
+    baseMeaning: "change position",
+    suffixId: "ment",
+    suffix: "-ment",
+    suffixMeaning: "act, result, or state",
+    literal: "act or result of moving",
+    definition: "the act or process of changing position"
+  },
+  {
+    word: "dangerous",
+    baseId: "danger",
+    base: "danger",
+    baseMeaning: "possibility of harm",
+    suffixId: "ous",
+    suffix: "-ous",
+    suffixMeaning: "having the quality of",
+    literal: "having the quality of danger",
+    definition: "likely to cause harm or injury"
+  },
+  {
+    word: "kindness",
+    baseId: "kind",
+    base: "kind",
+    baseMeaning: "caring or helpful",
+    suffixId: "ness",
+    suffix: "-ness",
+    suffixMeaning: "state or quality",
+    literal: "state or quality of being kind",
+    definition: "the quality of being kind"
+  },
+  {
+    word: "musical",
+    baseId: "music",
+    base: "music",
+    baseMeaning: "organized sound",
+    suffixId: "al",
+    suffix: "-al",
+    suffixMeaning: "related to",
+    literal: "related to music",
+    definition: "related to music"
+  },
+  {
+    word: "poetic",
+    baseId: "poet",
+    base: "poet",
+    baseMeaning: "a person who writes poetry",
+    suffixId: "ic",
+    suffix: "-ic",
+    suffixMeaning: "related to",
+    literal: "related to poetry or a poet",
+    definition: "having qualities associated with poetry"
+  },
+  {
+    word: "active",
+    baseId: "act",
+    base: "act",
+    baseMeaning: "do; take action",
+    suffixId: "ive",
+    suffix: "-ive",
+    suffixMeaning: "having a quality; tending to",
+    literal: "tending to act",
+    definition: "doing things or being involved in activity"
+  },
+  {
+    word: "artist",
+    baseId: "art",
+    base: "art",
+    baseMeaning: "creative work",
+    suffixId: "ist",
+    suffix: "-ist",
+    suffixMeaning: "person who does or studies",
+    literal: "person who does art",
+    definition: "a person who creates art"
+  },
+  {
+    word: "modernize",
+    baseId: "modern",
+    base: "modern",
+    baseMeaning: "current or up to date",
+    suffixId: "ize",
+    suffix: "-ize",
+    suffixMeaning: "make; become",
+    literal: "make modern",
+    definition: "to make something more modern"
+  },
+  {
+    word: "classify",
+    baseId: "class",
+    base: "class",
+    baseMeaning: "group or category",
+    suffixId: "ify",
+    suffix: "-ify",
+    suffixMeaning: "make; cause to become",
+    literal: "make into a class or group",
+    definition: "to arrange things into groups or categories"
+  },
+  {
+    word: "performance",
+    baseId: "perform",
+    base: "perform",
+    baseMeaning: "carry out or present",
+    suffixId: "ance",
+    suffix: "-ance",
+    suffixMeaning: "state, quality, or act",
+    literal: "act or result of performing",
+    definition: "the act of performing or carrying something out"
+  },
+  {
+    word: "existence",
+    baseId: "exist",
+    base: "exist",
+    baseMeaning: "be or be present",
+    suffixId: "ence",
+    suffix: "-ence",
+    suffixMeaning: "state, quality, or act",
+    literal: "state of existing",
+    definition: "the state of being real or present"
+  },
+  {
+    word: "jumped",
+    baseId: "jump",
+    base: "jump",
+    baseMeaning: "push oneself into the air",
+    suffixId: "ed",
+    suffix: "-ed",
+    suffixMeaning: "past; already happened",
+    literal: "jump in the past",
+    definition: "performed the action of jumping earlier"
+  },
+  {
+    word: "jumping",
+    baseId: "jump",
+    base: "jump",
+    baseMeaning: "push oneself into the air",
+    suffixId: "ing",
+    suffix: "-ing",
+    suffixMeaning: "action happening now or in progress",
+    literal: "jump happening or in progress",
+    definition: "performing the action of jumping"
+  },
+  {
+    word: "books",
+    baseId: "book",
+    base: "book",
+    baseMeaning: "a written work",
+    suffixId: "s",
+    suffix: "-s",
+    suffixMeaning: "more than one",
+    literal: "more than one book",
+    definition: "two or more books"
+  },
+  {
+    word: "boxes",
+    baseId: "box",
+    base: "box",
+    baseMeaning: "a container",
+    suffixId: "es",
+    suffix: "-es",
+    suffixMeaning: "more than one",
+    literal: "more than one box",
+    definition: "two or more boxes"
+  }
+];
 /* ========================================
    DOM REFERENCES
    ======================================== */
@@ -2293,7 +2757,6 @@ function showStartMessage(title, message) {
 
 function prepareUnavailableOptions() {
 
-  // Suffix study sets are now available.
   [...studySelect.options].forEach((option) => {
     option.disabled = false;
 
@@ -2303,23 +2766,25 @@ function prepareUnavailableOptions() {
     );
   });
 
-  // For now, only Prefix + Root is ready
-  // inside the Build Words activity.
   buildPatternButtons.forEach((button) => {
+    const pattern = button.dataset.pattern;
 
-    if (button.dataset.pattern === "prefix-root") {
-      button.disabled = false;
+    const isReady =
+      pattern === "prefix-root" ||
+      pattern === "root-suffix";
+
+    button.disabled = !isReady;
+
+    if (isReady) {
       button.style.opacity = "";
       button.style.cursor = "";
       button.title = "";
     } else {
-      button.disabled = true;
       button.style.opacity = "0.45";
       button.style.cursor = "not-allowed";
       button.title =
-        "This word-building pattern is coming next.";
+        "Prefix + Root + Suffix is coming next.";
     }
-
   });
 }
 
@@ -2347,14 +2812,18 @@ function renderCurrentActivity() {
     return;
   }
 
-  if (activeMode === "build" && studyMode !== "prefix-root") {
-    showStartMessage(
-      "Choose Prefixes + Roots.",
-      "Select Prefixes + Roots in Step 1 to use the Build Words activity."
-    );
+  if (
+  activeMode === "build" &&
+  studyMode !== "prefix-root" &&
+  studyMode !== "root-suffix"
+) {
+  showStartMessage(
+    "Choose a word-building set.",
+    "Select Prefixes + Roots or Roots + Suffixes in Step 1 to use Build Words."
+  );
 
-    return;
-  }
+  return;
+}
 
   startPanel.hidden = true;
   hideAllPanels();
@@ -3531,27 +4000,76 @@ function showNextButton() {
       : "Next";
 }
 
-
 /* ========================================
    BUILD WORDS
    ======================================== */
+
+function getActiveBuildWords() {
+  if (studyMode === "root-suffix") {
+    return rootSuffixBuildWords;
+  }
+
+  return buildWords;
+}
+
+
+function syncBuildPatternButtons() {
+  buildPatternButtons.forEach((button) => {
+    const pattern = button.dataset.pattern;
+
+    const isReady =
+      pattern === "prefix-root" ||
+      pattern === "root-suffix";
+
+    const isActive =
+      pattern === studyMode;
+
+    button.disabled = !isReady;
+
+    button.classList.toggle(
+      "active",
+      isActive
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      String(isActive)
+    );
+  });
+}
+
 
 function renderBuildActivity() {
   panels.build.hidden = false;
 
   workspaceTitle.textContent = "Build Words";
-  workspaceSubtitle.textContent =
-    "Combine a prefix and a root to create a real word.";
+
+  if (studyMode === "root-suffix") {
+    workspaceSubtitle.textContent =
+      "Combine a root or base with a suffix to create a real word.";
+  } else {
+    workspaceSubtitle.textContent =
+      "Combine a prefix and a root to create a real word.";
+  }
 
   activityProgress.hidden = true;
   workspaceActions.hidden = true;
 
+  syncBuildPatternButtons();
   renderBuildRound();
 }
 
+
 function renderBuildRound() {
+  const activeBuildWords =
+    getActiveBuildWords();
+
   currentBuildTarget =
-    buildWords[Math.floor(Math.random() * buildWords.length)];
+    activeBuildWords[
+      Math.floor(
+        Math.random() * activeBuildWords.length
+      )
+    ];
 
   selectedBuildParts = {
     prefix: null,
@@ -3564,10 +4082,31 @@ function renderBuildRound() {
   buildDirections.textContent =
     `Build the word that means: “${currentBuildTarget.definition}”`;
 
+  if (studyMode === "root-suffix") {
+    renderRootSuffixBuildBanks(
+      activeBuildWords
+    );
+  } else {
+    renderPrefixRootBuildBanks(
+      activeBuildWords
+    );
+  }
+
+  updateBuildWorkspace();
+}
+
+
+/* PREFIX + ROOT */
+
+function renderPrefixRootBuildBanks(
+  activeBuildWords
+) {
   const prefixDistractors = uniqueBy(
     shuffle(
-      buildWords.filter(
-        (item) => item.prefixId !== currentBuildTarget.prefixId
+      activeBuildWords.filter(
+        (item) =>
+          item.prefixId !==
+          currentBuildTarget.prefixId
       )
     ),
     (item) => item.prefixId
@@ -3575,8 +4114,10 @@ function renderBuildRound() {
 
   const rootDistractors = uniqueBy(
     shuffle(
-      buildWords.filter(
-        (item) => item.rootId !== currentBuildTarget.rootId
+      activeBuildWords.filter(
+        (item) =>
+          item.rootId !==
+          currentBuildTarget.rootId
       )
     ),
     (item) => item.rootId
@@ -3587,6 +4128,7 @@ function renderBuildRound() {
       id: currentBuildTarget.prefixId,
       label: currentBuildTarget.prefix
     },
+
     ...prefixDistractors.map((item) => ({
       id: item.prefixId,
       label: item.prefix
@@ -3598,6 +4140,7 @@ function renderBuildRound() {
       id: currentBuildTarget.rootId,
       label: currentBuildTarget.root
     },
+
     ...rootDistractors.map((item) => ({
       id: item.rootId,
       label: item.root
@@ -3633,29 +4176,136 @@ function renderBuildRound() {
   `;
 
   renderBuildOptions(
-    document.getElementById("prefixBankOptions"),
+    document.getElementById(
+      "prefixBankOptions"
+    ),
     prefixOptions,
     "prefix"
   );
 
   renderBuildOptions(
-    document.getElementById("rootBankOptions"),
+    document.getElementById(
+      "rootBankOptions"
+    ),
     rootOptions,
     "root"
   );
-
-  updateBuildWorkspace();
 }
 
-function renderBuildOptions(container, options, type) {
+
+/* ROOT / BASE + SUFFIX */
+
+function renderRootSuffixBuildBanks(
+  activeBuildWords
+) {
+  const baseDistractors = uniqueBy(
+    shuffle(
+      activeBuildWords.filter(
+        (item) =>
+          item.baseId !==
+          currentBuildTarget.baseId
+      )
+    ),
+    (item) => item.baseId
+  ).slice(0, 2);
+
+  const suffixDistractors = uniqueBy(
+    shuffle(
+      activeBuildWords.filter(
+        (item) =>
+          item.suffixId !==
+          currentBuildTarget.suffixId
+      )
+    ),
+    (item) => item.suffixId
+  ).slice(0, 2);
+
+  const baseOptions = shuffle([
+    {
+      id: currentBuildTarget.baseId,
+      label: currentBuildTarget.base
+    },
+
+    ...baseDistractors.map((item) => ({
+      id: item.baseId,
+      label: item.base
+    }))
+  ]);
+
+  const suffixOptions = shuffle([
+    {
+      id: currentBuildTarget.suffixId,
+      label: currentBuildTarget.suffix
+    },
+
+    ...suffixDistractors.map((item) => ({
+      id: item.suffixId,
+      label: item.suffix
+    }))
+  ]);
+
+  wordPartBanks.innerHTML = `
+    <section class="word-part-bank root-bank">
+
+      <h4 class="bank-heading">
+        Roots / Bases
+      </h4>
+
+      <div
+        class="bank-options"
+        id="rootBankOptions"
+      ></div>
+
+    </section>
+
+    <section class="word-part-bank suffix-bank">
+
+      <h4 class="bank-heading">
+        Suffixes
+      </h4>
+
+      <div
+        class="bank-options"
+        id="suffixBankOptions"
+      ></div>
+
+    </section>
+  `;
+
+  renderBuildOptions(
+    document.getElementById(
+      "rootBankOptions"
+    ),
+    baseOptions,
+    "root"
+  );
+
+  renderBuildOptions(
+    document.getElementById(
+      "suffixBankOptions"
+    ),
+    suffixOptions,
+    "suffix"
+  );
+}
+
+
+function renderBuildOptions(
+  container,
+  options,
+  type
+) {
   options.forEach((option) => {
-    const button = document.createElement("button");
+    const button =
+      document.createElement("button");
 
     button.type = "button";
+
     button.className =
       `word-part-option ${type}-option`;
 
     button.textContent = option.label;
+
     button.dataset.id = option.id;
     button.dataset.type = type;
 
@@ -3671,23 +4321,32 @@ function renderBuildOptions(container, options, type) {
   });
 }
 
-function selectBuildPart(button, option, type) {
+
+function selectBuildPart(
+  button,
+  option,
+  type
+) {
   document
     .querySelectorAll(
       `.word-part-option[data-type="${type}"]`
     )
     .forEach((otherButton) => {
-      otherButton.classList.remove("selected");
+      otherButton.classList.remove(
+        "selected"
+      );
     });
 
   button.classList.add("selected");
 
-  selectedBuildParts[type] = option;
+  selectedBuildParts[type] =
+    option;
 
   buildFeedback.hidden = true;
 
   updateBuildWorkspace();
 }
+
 
 function updateBuildWorkspace() {
   const parts = [];
@@ -3695,7 +4354,9 @@ function updateBuildWorkspace() {
   if (selectedBuildParts.prefix) {
     parts.push(`
       <span class="built-part prefix-part">
-        ${escapeHTML(selectedBuildParts.prefix.label)}
+        ${escapeHTML(
+          selectedBuildParts.prefix.label
+        )}
       </span>
     `);
   }
@@ -3703,23 +4364,44 @@ function updateBuildWorkspace() {
   if (selectedBuildParts.root) {
     parts.push(`
       <span class="built-part root-part">
-        ${escapeHTML(selectedBuildParts.root.label)}
+        ${escapeHTML(
+          selectedBuildParts.root.label
+        )}
+      </span>
+    `);
+  }
+
+  if (selectedBuildParts.suffix) {
+    parts.push(`
+      <span class="built-part suffix-part">
+        ${escapeHTML(
+          selectedBuildParts.suffix.label
+        )}
       </span>
     `);
   }
 
   if (parts.length === 0) {
-    wordBuildingWorkspace.innerHTML = `
-      <span class="empty-build-message">
-        Select a prefix and a root.
-      </span>
-    `;
+    wordBuildingWorkspace.innerHTML =
+      studyMode === "root-suffix"
+        ? `
+          <span class="empty-build-message">
+            Select a root or base and a suffix.
+          </span>
+        `
+        : `
+          <span class="empty-build-message">
+            Select a prefix and a root.
+          </span>
+        `;
 
     return;
   }
 
-  wordBuildingWorkspace.innerHTML = parts.join("");
+  wordBuildingWorkspace.innerHTML =
+    parts.join("");
 }
+
 
 function clearBuildSelection() {
   selectedBuildParts = {
@@ -3729,9 +4411,13 @@ function clearBuildSelection() {
   };
 
   document
-    .querySelectorAll(".word-part-option")
+    .querySelectorAll(
+      ".word-part-option"
+    )
     .forEach((button) => {
-      button.classList.remove("selected");
+      button.classList.remove(
+        "selected"
+      );
     });
 
   buildFeedback.hidden = true;
@@ -3739,33 +4425,69 @@ function clearBuildSelection() {
   updateBuildWorkspace();
 }
 
+
 function checkBuiltWord() {
-  if (
-    !selectedBuildParts.prefix ||
-    !selectedBuildParts.root
-  ) {
+  const isRootSuffix =
+    studyMode === "root-suffix";
+
+  const hasRequiredParts =
+    isRootSuffix
+      ? (
+          selectedBuildParts.root &&
+          selectedBuildParts.suffix
+        )
+      : (
+          selectedBuildParts.prefix &&
+          selectedBuildParts.root
+        );
+
+  if (!hasRequiredParts) {
     buildFeedback.hidden = false;
+
     buildFeedback.className =
       "feedback-panel incorrect-feedback";
 
-    buildFeedback.innerHTML = `
-      <h4 class="feedback-heading">
-        Choose both word parts.
-      </h4>
+    buildFeedback.innerHTML =
+      isRootSuffix
+        ? `
+          <h4 class="feedback-heading">
+            Choose both word parts.
+          </h4>
 
-      <p>
-        Select one prefix and one root before checking the word.
-      </p>
-    `;
+          <p>
+            Select one root or base and one suffix
+            before checking the word.
+          </p>
+        `
+        : `
+          <h4 class="feedback-heading">
+            Choose both word parts.
+          </h4>
+
+          <p>
+            Select one prefix and one root
+            before checking the word.
+          </p>
+        `;
 
     return;
   }
 
-  const isCorrect =
-    selectedBuildParts.prefix.id ===
-      currentBuildTarget.prefixId &&
-    selectedBuildParts.root.id ===
-      currentBuildTarget.rootId;
+  let isCorrect = false;
+
+  if (isRootSuffix) {
+    isCorrect =
+      selectedBuildParts.root.id ===
+        currentBuildTarget.baseId &&
+      selectedBuildParts.suffix.id ===
+        currentBuildTarget.suffixId;
+  } else {
+    isCorrect =
+      selectedBuildParts.prefix.id ===
+        currentBuildTarget.prefixId &&
+      selectedBuildParts.root.id ===
+        currentBuildTarget.rootId;
+  }
 
   buildFeedback.hidden = false;
 
@@ -3781,7 +4503,9 @@ function checkBuiltWord() {
       <p>
         Look again at the meaning:
         <strong>
-          ${escapeHTML(currentBuildTarget.definition)}
+          ${escapeHTML(
+            currentBuildTarget.definition
+          )}
         </strong>
       </p>
     `;
@@ -3792,64 +4516,171 @@ function checkBuiltWord() {
   buildFeedback.className =
     "feedback-panel correct-feedback";
 
-  buildFeedback.innerHTML = `
-    <h4 class="feedback-heading">
-      Correct! You built
-      <strong>${escapeHTML(currentBuildTarget.word)}</strong>.
-    </h4>
+  if (isRootSuffix) {
+    buildFeedback.innerHTML = `
+      <h4 class="feedback-heading">
+        Correct! You built
+        <strong>
+          ${escapeHTML(
+            currentBuildTarget.word
+          )}
+        </strong>.
+      </h4>
 
     <p>
-      <strong>${escapeHTML(currentBuildTarget.prefix)}</strong>
-      = ${escapeHTML(currentBuildTarget.prefixMeaning)}
-    </p>
+  <strong>Root / Base:</strong>
+  ${escapeHTML(
+    currentBuildTarget.base
+  )}
+  =
+  ${escapeHTML(
+    currentBuildTarget.baseMeaning
+  )}
+</p>
+<p>
+  <strong>Suffix:</strong>
+  ${escapeHTML(
+    currentBuildTarget.suffix
+  )}
+  =
+  ${escapeHTML(
+    currentBuildTarget.suffixMeaning
+  )}
+</p>
 
-    <p>
-      <strong>${escapeHTML(currentBuildTarget.root)}</strong>
-      = ${escapeHTML(currentBuildTarget.rootMeaning)}
-    </p>
+      <p>
+        <strong>Literal meaning:</strong>
+        ${escapeHTML(
+          currentBuildTarget.literal
+        )}
+      </p>
 
-    <p>
-      <strong>Literal meaning:</strong>
-      ${escapeHTML(currentBuildTarget.literal)}
-    </p>
+      <p>
+        <strong>
+          Student-friendly meaning:
+        </strong>
+        ${escapeHTML(
+          currentBuildTarget.definition
+        )}
+      </p>
 
-    <p>
-      <strong>Student-friendly meaning:</strong>
-      ${escapeHTML(currentBuildTarget.definition)}
-    </p>
+      <button
+        class="audio-button"
+        type="button"
+      >
+        🔊 Hear the explanation
+      </button>
 
-    <button
-      class="audio-button"
-      type="button"
-    >
-      🔊 Hear the explanation
-    </button>
+      <button
+        class="primary-button"
+        id="nextBuildButton"
+        type="button"
+        style="margin-left: 10px;"
+      >
+        Build Another Word
+      </button>
+    `;
 
-    <button
-      class="primary-button"
-      id="nextBuildButton"
-      type="button"
-      style="margin-left: 10px;"
-    >
-      Build Another Word
-    </button>
-  `;
+    setAudioButton(
+      buildFeedback,
+      `${currentBuildTarget.base} means ` +
+      `${currentBuildTarget.baseMeaning}. ` +
+      `${currentBuildTarget.suffix} means ` +
+      `${currentBuildTarget.suffixMeaning}. ` +
+      `${currentBuildTarget.word} literally means ` +
+      `${currentBuildTarget.literal}. ` +
+      `${currentBuildTarget.word} means ` +
+      `${currentBuildTarget.definition}.`
+    );
+  } else {
+    buildFeedback.innerHTML = `
+      <h4 class="feedback-heading">
+        Correct! You built
+        <strong>
+          ${escapeHTML(
+            currentBuildTarget.word
+          )}
+        </strong>.
+      </h4>
 
-  setAudioButton(
-    buildFeedback,
-    `${currentBuildTarget.prefix} means ` +
-    `${currentBuildTarget.prefixMeaning}. ` +
-    `${currentBuildTarget.root} means ` +
-    `${currentBuildTarget.rootMeaning}. ` +
-    `${currentBuildTarget.word} literally means ` +
-    `${currentBuildTarget.literal}. ` +
-    `${currentBuildTarget.word} means ` +
-    `${currentBuildTarget.definition}.`
-  );
+      <p>
+        <strong>
+          ${escapeHTML(
+            currentBuildTarget.prefix
+          )}
+        </strong>
+        =
+        ${escapeHTML(
+          currentBuildTarget.prefixMeaning
+        )}
+      </p>
+
+      <p>
+        <strong>
+          ${escapeHTML(
+            currentBuildTarget.root
+          )}
+        </strong>
+        =
+        ${escapeHTML(
+          currentBuildTarget.rootMeaning
+        )}
+      </p>
+
+      <p>
+        <strong>Literal meaning:</strong>
+        ${escapeHTML(
+          currentBuildTarget.literal
+        )}
+      </p>
+
+      <p>
+        <strong>
+          Student-friendly meaning:
+        </strong>
+        ${escapeHTML(
+          currentBuildTarget.definition
+        )}
+      </p>
+
+      <button
+        class="audio-button"
+        type="button"
+      >
+        🔊 Hear the explanation
+      </button>
+
+      <button
+        class="primary-button"
+        id="nextBuildButton"
+        type="button"
+        style="margin-left: 10px;"
+      >
+        Build Another Word
+      </button>
+    `;
+
+    setAudioButton(
+      buildFeedback,
+      `${currentBuildTarget.prefix} means ` +
+      `${currentBuildTarget.prefixMeaning}. ` +
+      `${currentBuildTarget.root} means ` +
+      `${currentBuildTarget.rootMeaning}. ` +
+      `${currentBuildTarget.word} literally means ` +
+      `${currentBuildTarget.literal}. ` +
+      `${currentBuildTarget.word} means ` +
+      `${currentBuildTarget.definition}.`
+    );
+  }
 
   document
-    .getElementById("nextBuildButton")
-    .addEventListener("click", renderBuildRound);
+    .getElementById(
+      "nextBuildButton"
+    )
+    .addEventListener(
+      "click",
+      renderBuildRound
+    );
 }
 
 
@@ -3861,14 +4692,21 @@ studySelect.addEventListener("change", () => {
   studyMode = studySelect.value;
 
   const messages = {
-    prefixes:
-      "Prefix learning, recognition, meaning, and inference activities are ready.",
-    roots:
-      "Root learning, recognition, meaning, and inference activities are ready.",
-    "prefix-root":
-      "Combined prefix and root practice is ready, including Build Words."
-  };
+  prefixes:
+    "Prefix learning, recognition, meaning, and inference activities are ready.",
 
+  roots:
+    "Root learning, recognition, meaning, and inference activities are ready.",
+
+  suffixes:
+    "Suffix learning, recognition, meaning, and inference activities are ready.",
+
+  "prefix-root":
+    "Combined prefix and root practice is ready, including Build Words.",
+
+  "root-suffix":
+    "Combined root or base and suffix practice is ready, including Build Words."
+};
   studyAvailability.textContent =
     messages[studyMode] || "";
 
@@ -3896,7 +4734,32 @@ nextQuestionButton.addEventListener("click", () => {
   quizState.index += 1;
   renderQuizQuestion();
 });
+buildPatternButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.disabled) {
+      return;
+    }
 
+    const pattern =
+      button.dataset.pattern;
+
+    studyMode = pattern;
+    studySelect.value = pattern;
+
+    const messages = {
+      "prefix-root":
+        "Combined prefix and root practice is ready, including Build Words.",
+
+      "root-suffix":
+        "Combined root or base and suffix practice is ready, including Build Words."
+    };
+
+    studyAvailability.textContent =
+      messages[pattern] || "";
+
+    renderBuildActivity();
+  });
+});
 clearBuildButton.addEventListener(
   "click",
   clearBuildSelection
