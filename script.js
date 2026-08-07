@@ -3319,7 +3319,7 @@ function renderFindQuestion(question) {
   findFeedback.hidden = true;
   findChoices.innerHTML = "";
 
-  question.choices.forEach((choice) => {
+  shuffle(question.choices).forEach((choice) => {
     const button = document.createElement("button");
     const typeClass = getTypeClass(question.type);
 
@@ -3643,7 +3643,7 @@ function renderMeaningQuestion(question) {
   meaningMorpheme.textContent = question.item.label;
   styleMorphemeDisplay(meaningMorpheme, question.item.type);
 
-  question.choices.forEach((choice) => {
+  shuffle(question.choices).forEach((choice) => {
     const button = document.createElement("button");
 
     button.type = "button";
@@ -3804,7 +3804,7 @@ inferPrompt.textContent =
       : "Based on the suffix, what might this word mean?";
   inferWord.textContent = question.word;
 
-  question.choices.forEach((choice) => {
+  shuffle(question.choices).forEach((choice) => {
     const button = document.createElement("button");
 
     button.type = "button";
