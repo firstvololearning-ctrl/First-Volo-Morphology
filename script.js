@@ -45,9 +45,9 @@ const prefixes = [
     type: "prefix",
     label: "dis-",
     speech: "dis",
-    meaning: "not; opposite of; remove",
+    meaning: "apart or away; not; opposite of",
     image: "images/prefixes/dis.png",
-    examples: ["disagree", "disconnect", "discolor"]
+    examples: ["disagree", "disconnect", "dismiss"]
   },
   {
     id: "en-em",
@@ -446,7 +446,187 @@ const roots = [
   }
 ];
 
+/* ========================================
+   SUFFIX DATA
+   ======================================== */
 
+const suffixes = [
+  {
+    id: "able-ible",
+    type: "suffix",
+    label: "-able, -ible",
+    speech: "able or ible",
+    meaning: "can be; able to be",
+    image: "images/suffixes/able-ible.png",
+    examples: ["portable", "readable", "visible"]
+  },
+  {
+    id: "ed",
+    type: "suffix",
+    label: "-ed",
+    speech: "ed",
+    meaning: "past; already happened",
+    image: "images/suffixes/ed.png",
+    examples: ["walked", "jumped", "helped"]
+  },
+  {
+    id: "er-or",
+    type: "suffix",
+    label: "-er, -or",
+    speech: "er or or",
+    meaning: "one who; person or thing that",
+    image: "images/suffixes/er-or.png",
+    examples: ["teacher", "writer", "inspector"]
+  },
+ {
+  id: "er-more",
+  type: "suffix",
+  label: "-er",
+  speech: "er",
+  meaning: "more",
+  image: "images/suffixes/er-more.png",
+  examples: ["taller", "faster", "stronger"]
+},
+  {
+    id: "est",
+    type: "suffix",
+    label: "-est",
+    speech: "est",
+    meaning: "the most",
+    image: "images/suffixes/est.png",
+    examples: ["tallest", "fastest", "strongest"]
+  },
+  {
+    id: "ful",
+    type: "suffix",
+    label: "-ful",
+    speech: "ful",
+    meaning: "full of",
+    image: "images/suffixes/ful.png",
+    examples: ["helpful", "hopeful", "careful"]
+  },
+  {
+    id: "ing",
+    type: "suffix",
+    label: "-ing",
+    speech: "ing",
+    meaning: "action happening now or in progress",
+    image: "images/suffixes/ing.png",
+    examples: ["running", "writing", "sleeping"]
+  },
+  {
+    id: "ion",
+    type: "suffix",
+    label: "-ion, -tion, -sion",
+    speech: "ion, tion, or sion",
+    meaning: "act or process",
+    image: "images/suffixes/ion.png",
+    examples: ["construction", "action", "decision"]
+  },
+  {
+    id: "less",
+    type: "suffix",
+    label: "-less",
+    speech: "less",
+    meaning: "without",
+    image: "images/suffixes/less.png",
+    examples: ["hopeless", "careless", "fearless"]
+  },
+  {
+    id: "ly",
+    type: "suffix",
+    label: "-ly",
+    speech: "lee",
+    meaning: "how something is done",
+    image: "images/suffixes/ly.png",
+    examples: ["quickly", "slowly", "carefully"]
+  },
+  {
+    id: "ment",
+    type: "suffix",
+    label: "-ment",
+    speech: "ment",
+    meaning: "act, result, or state",
+    image: "images/suffixes/ment.png",
+    examples: ["movement", "development", "enjoyment"]
+  },
+{
+  id: "ous",
+  type: "suffix",
+  label: "-ous",
+  speech: "us",
+  meaning: "having the quality of",
+  image: "images/suffixes/ous.png",
+  examples: ["joyous", "dangerous", "famous"]
+},
+  {
+    id: "s-es",
+    type: "suffix",
+    label: "-s, -es",
+    speech: "s or es",
+    meaning: "more than one",
+    image: "images/suffixes/s-es.png",
+    examples: ["books", "dogs", "boxes"]
+  }
+];
+/* ========================================
+   SUFFIX VARIANTS FOR WORD BUILDING
+   ======================================== */
+
+const suffixVariants = [
+  {
+    id: "able",
+    type: "suffix",
+    label: "-able",
+    meaning: "can be; able to be",
+    image: "images/suffixes/able.png"
+  },
+  {
+    id: "ible",
+    type: "suffix",
+    label: "-ible",
+    meaning: "can be; able to be",
+    image: "images/suffixes/ible.png"
+  },
+
+  {
+    id: "er-agent",
+    type: "suffix",
+    label: "-er",
+    meaning: "one who; person or thing that",
+    image: "images/suffixes/er-agent.png"
+  },
+  {
+    id: "or-agent",
+    type: "suffix",
+    label: "-or",
+    meaning: "one who; person or thing that",
+    image: "images/suffixes/or.png"
+  },
+
+  {
+    id: "er-more-build",
+    type: "suffix",
+    label: "-er",
+    meaning: "more",
+    image: "images/suffixes/er-more.png"
+  },
+
+  {
+    id: "s",
+    type: "suffix",
+    label: "-s",
+    meaning: "more than one",
+    image: "images/suffixes/s.png"
+  },
+  {
+    id: "es",
+    type: "suffix",
+    label: "-es",
+    meaning: "more than one",
+    image: "images/suffixes/es.png"
+  }
+];
 /* ========================================
    FIND-THE-WORD-PART QUESTIONS
    ======================================== */
@@ -503,7 +683,7 @@ const prefixFindQuestions = [
     answer: "im-",
     choices: ["im-", "in-", "inter-", "em-"],
     itemId: "negative-in-family",
-    image: "images/prefixes/im-02.png",
+    image: "images/prefixes/im-not.png",
     base: "possible = able to happen or be done",
     literal: "not possible",
     definition: "unable to happen or be done"
@@ -545,7 +725,7 @@ const prefixFindQuestions = [
     answer: "in-",
     choices: ["in-", "im-", "en-", "inter-"],
     itemId: "negative-in-family",
-    image: "images/prefixes/in-02.png",
+    image: "images/prefixes/in-not.png",
     base: "active = moving, working, or participating",
     literal: "not active",
     definition: "not moving, working, or participating"
@@ -1206,7 +1386,8 @@ function escapeHTML(value) {
 }
 
 function getItemById(id) {
-  return [...prefixes, ...roots].find((item) => item.id === id);
+  return [...prefixes, ...roots, ...suffixes]
+    .find((item) => item.id === id);
 }
 
 function getCurrentStudyItems() {
@@ -1218,8 +1399,20 @@ function getCurrentStudyItems() {
     return roots;
   }
 
+  if (studyMode === "suffixes") {
+    return suffixes;
+  }
+
   if (studyMode === "prefix-root") {
     return [...prefixes, ...roots];
+  }
+
+  if (studyMode === "root-suffix") {
+    return [...roots, ...suffixes];
+  }
+
+  if (studyMode === "prefix-root-suffix") {
+    return [...prefixes, ...roots, ...suffixes];
   }
 
   return [];
@@ -1295,26 +1488,34 @@ function showStartMessage(title, message) {
    ======================================== */
 
 function prepareUnavailableOptions() {
-  const unavailableValues = [
-    "suffixes",
-    "root-suffix",
-    "prefix-root-suffix"
-  ];
 
+  // Suffix study sets are now available.
   [...studySelect.options].forEach((option) => {
-    if (unavailableValues.includes(option.value)) {
-      option.disabled = true;
-      option.textContent += " — coming after suffixes are added";
-    }
+    option.disabled = false;
+
+    option.textContent = option.textContent.replace(
+      " — coming after suffixes are added",
+      ""
+    );
   });
 
+  // For now, only Prefix + Root is ready
+  // inside the Build Words activity.
   buildPatternButtons.forEach((button) => {
-    if (button.dataset.pattern !== "prefix-root") {
+
+    if (button.dataset.pattern === "prefix-root") {
+      button.disabled = false;
+      button.style.opacity = "";
+      button.style.cursor = "";
+      button.title = "";
+    } else {
       button.disabled = true;
       button.style.opacity = "0.45";
       button.style.cursor = "not-allowed";
-      button.title = "Available after suffixes are added.";
+      button.title =
+        "This word-building pattern is coming next.";
     }
+
   });
 }
 
