@@ -271,7 +271,7 @@ const roots = [
     speech: "duct or duce",
     meaning: "lead",
     image: "images/roots/duct-duce.png",
-    examples: ["conduct", "introduce", "educate"]
+   examples: ["conduct", "introduce", "produce"]
   },
   {
     id: "fer",
@@ -280,7 +280,7 @@ const roots = [
     speech: "fer",
     meaning: "carry; bear",
     image: "images/roots/fer.png",
-    examples: ["transfer", "refer", "offer"]
+  examples: ["transfer", "refer", "confer"]
   },
   {
     id: "ject",
@@ -388,7 +388,7 @@ const roots = [
     speech: "struct",
     meaning: "build",
     image: "images/roots/struct.png",
-    examples: ["construct", "structure", "reconstruct"]
+    examples: ["construct", "structure", "instruct"]
   },
   {
     id: "ten",
@@ -397,7 +397,7 @@ const roots = [
     speech: "ten",
     meaning: "hold",
     image: "images/roots/ten.png",
-    examples: ["retain", "detention", "tenacious"]
+   examples: ["detention", "retention", "tenable"]
   },
   {
     id: "tract",
@@ -433,7 +433,7 @@ const roots = [
     speech: "vert",
     meaning: "turn",
     image: "images/roots/vert.png",
-    examples: ["convert", "reverse", "invert"]
+   examples: ["convert", "divert", "invert"]
   },
   {
     id: "voc",
@@ -442,7 +442,7 @@ const roots = [
     speech: "voke",
     meaning: "call; voice",
     image: "images/roots/voc.png",
-    examples: ["vocal", "invoke", "vocabulary"]
+  examples: ["vocal", "vocation", "vocabulary"]
   }
 ];
 
@@ -451,6 +451,106 @@ const roots = [
    ======================================== */
 
 const suffixes = [
+   {
+    id: "al",
+    type: "suffix",
+    label: "-al",
+    speech: "al",
+    meaning: "related to",
+    image: "images/suffixes/al.png",
+    examples: ["natural", "musical", "regional"]
+  },
+  {
+    id: "ance",
+    type: "suffix",
+    label: "-ance",
+    speech: "ance",
+    meaning: "state, quality, or act",
+    image: "images/suffixes/ance.png",
+    examples: ["performance", "importance", "acceptance"]
+  },
+  {
+    id: "ence",
+    type: "suffix",
+    label: "-ence",
+    speech: "ence",
+    meaning: "state, quality, or act",
+    image: "images/suffixes/ence.png",
+    examples: ["difference", "existence", "evidence"]
+  },
+  {
+    id: "ic",
+    type: "suffix",
+    label: "-ic",
+    speech: "ic",
+    meaning: "related to",
+    image: "images/suffixes/ic.png",
+    examples: ["poetic", "scientific", "historic"]
+  },
+  {
+    id: "ity",
+    type: "suffix",
+    label: "-ity",
+    speech: "ity",
+    meaning: "state or condition",
+    image: "images/suffixes/ity.png",
+    examples: ["activity", "clarity", "security"]
+  },
+  {
+    id: "ive",
+    type: "suffix",
+    label: "-ive",
+    speech: "ive",
+    meaning: "having a quality; tending to",
+    image: "images/suffixes/ive.png",
+    examples: ["active", "creative", "sensitive"]
+  },
+  {
+    id: "ist",
+    type: "suffix",
+    label: "-ist",
+    speech: "ist",
+    meaning: "person who does or studies",
+    image: "images/suffixes/ist.png",
+    examples: ["artist", "scientist", "pianist"]
+  },
+  {
+    id: "ize",
+    type: "suffix",
+    label: "-ize",
+    speech: "ize",
+    meaning: "make; become",
+    image: "images/suffixes/ize.png",
+    examples: ["realize", "modernize", "organize"]
+  },
+  {
+    id: "ify",
+    type: "suffix",
+    label: "-ify",
+    speech: "ify",
+    meaning: "make; cause to become",
+    image: "images/suffixes/ify.png",
+    examples: ["clarify", "simplify", "beautify"]
+  },
+  {
+    id: "ness",
+    type: "suffix",
+    label: "-ness",
+    speech: "ness",
+    meaning: "state or quality",
+    image: "images/suffixes/ness.png",
+    examples: ["kindness", "darkness", "happiness"]
+  },
+  {
+    id: "ology",
+    type: "suffix",
+    label: "-ology",
+    speech: "ology",
+    meaning: "study of",
+    image: "images/suffixes/ology.png",
+    examples: ["biology", "geology", "psychology"]
+  },
+ 
   {
     id: "able-ible",
     type: "suffix",
@@ -903,7 +1003,7 @@ const rootFindQuestions = [
     answer: "sequ",
     choices: ["sequ", "spect", "struct", "tract"],
     itemId: "sequ",
-    base: "-ence = state or condition",
+    base: "-ence = state, quality, or act",
     literal: "things that follow",
     definition: "a set of things arranged in a particular order"
   },
@@ -960,7 +1060,232 @@ const rootFindQuestions = [
     definition: "to change something into a different form"
   }
 ];
-
+const suffixFindQuestions = [
+  {
+    type: "suffix",
+    word: "portable",
+    before: "port",
+    target: "able",
+    after: "",
+    answer: "-able",
+    choices: ["-able", "-ful", "-less", "-ment"],
+    itemId: "able-ible",
+    image: "images/suffixes/able.png",
+    base: "port = carry",
+    literal: "can be carried",
+    definition: "easy to carry or move"
+  },
+  {
+    type: "suffix",
+    word: "visible",
+    before: "vis",
+    target: "ible",
+    after: "",
+    answer: "-ible",
+    choices: ["-ible", "-ous", "-ly", "-ed"],
+    itemId: "able-ible",
+    image: "images/suffixes/ible.png",
+    base: "vis = see",
+    literal: "can be seen",
+    definition: "able to be seen"
+  },
+  {
+    type: "suffix",
+    word: "walked",
+    before: "walk",
+    target: "ed",
+    after: "",
+    answer: "-ed",
+    choices: ["-ed", "-ing", "-ly", "-est"],
+    itemId: "ed",
+    image: "images/suffixes/ed.png",
+    base: "walk = move on foot",
+    literal: "walk in the past",
+    definition: "moved on foot at an earlier time"
+  },
+  {
+    type: "suffix",
+    word: "teacher",
+    before: "teach",
+    target: "er",
+    after: "",
+    answer: "-er",
+    choices: ["-er", "-or", "-ful", "-ment"],
+    itemId: "er-or",
+    image: "images/suffixes/er-agent.png",
+    base: "teach = help someone learn",
+    literal: "one who teaches",
+    definition: "a person who teaches"
+  },
+  {
+    type: "suffix",
+    word: "inspector",
+    before: "inspect",
+    target: "or",
+    after: "",
+    answer: "-or",
+    choices: ["-or", "-er", "-ous", "-less"],
+    itemId: "er-or",
+    image: "images/suffixes/or.png",
+    base: "inspect = look at carefully",
+    literal: "one who inspects",
+    definition: "a person whose job is to inspect things"
+  },
+  {
+    type: "suffix",
+    word: "taller",
+    before: "tall",
+    target: "er",
+    after: "",
+    answer: "-er",
+    choices: ["-er", "-est", "-ly", "-ful"],
+    itemId: "er-more",
+    image: "images/suffixes/er-more.png",
+    base: "tall = having greater height",
+    literal: "more tall",
+    definition: "having more height than something else"
+  },
+  {
+    type: "suffix",
+    word: "fastest",
+    before: "fast",
+    target: "est",
+    after: "",
+    answer: "-est",
+    choices: ["-est", "-er", "-ed", "-ing"],
+    itemId: "est",
+    image: "images/suffixes/est.png",
+    base: "fast = moving quickly",
+    literal: "the most fast",
+    definition: "moving more quickly than all the others"
+  },
+  {
+    type: "suffix",
+    word: "helpful",
+    before: "help",
+    target: "ful",
+    after: "",
+    answer: "-ful",
+    choices: ["-ful", "-less", "-ous", "-ly"],
+    itemId: "ful",
+    image: "images/suffixes/ful.png",
+    base: "help = give assistance",
+    literal: "full of help",
+    definition: "giving help or making something easier"
+  },
+  {
+    type: "suffix",
+    word: "sleeping",
+    before: "sleep",
+    target: "ing",
+    after: "",
+    answer: "-ing",
+    choices: ["-ing", "-ed", "-ly", "-ment"],
+    itemId: "ing",
+    image: "images/suffixes/ing.png",
+    base: "sleep = rest",
+    literal: "sleep happening now",
+    definition: "being in the state of sleep"
+  },
+  {
+    type: "suffix",
+    word: "construction",
+    before: "construc",
+    target: "tion",
+    after: "",
+    answer: "-tion",
+    choices: ["-tion", "-ment", "-ous", "-ful"],
+    itemId: "ion",
+    image: "images/suffixes/ion.png",
+    base: "construct = build",
+    literal: "act or process of building",
+    definition: "the process of building something"
+  },
+  {
+    type: "suffix",
+    word: "hopeless",
+    before: "hope",
+    target: "less",
+    after: "",
+    answer: "-less",
+    choices: ["-less", "-ful", "-ous", "-ly"],
+    itemId: "less",
+    image: "images/suffixes/less.png",
+    base: "hope = feeling that something good may happen",
+    literal: "without hope",
+    definition: "having little or no hope"
+  },
+  {
+    type: "suffix",
+    word: "quickly",
+    before: "quick",
+    target: "ly",
+    after: "",
+    answer: "-ly",
+    choices: ["-ly", "-ing", "-ed", "-ment"],
+    itemId: "ly",
+    image: "images/suffixes/ly.png",
+    base: "quick = fast",
+    literal: "in a quick way",
+    definition: "in a fast way"
+  },
+  {
+    type: "suffix",
+    word: "movement",
+    before: "move",
+    target: "ment",
+    after: "",
+    answer: "-ment",
+    choices: ["-ment", "-tion", "-ful", "-less"],
+    itemId: "ment",
+    image: "images/suffixes/ment.png",
+    base: "move = change position",
+    literal: "act or result of moving",
+    definition: "the act of changing position or place"
+  },
+  {
+    type: "suffix",
+    word: "dangerous",
+    before: "danger",
+    target: "ous",
+    after: "",
+    answer: "-ous",
+    choices: ["-ous", "-ful", "-less", "-ly"],
+    itemId: "ous",
+    image: "images/suffixes/ous.png",
+    base: "danger = possibility of harm",
+    literal: "having the quality of danger",
+    definition: "likely to cause harm or injury"
+  },
+  {
+    type: "suffix",
+    word: "boxes",
+    before: "box",
+    target: "es",
+    after: "",
+    answer: "-es",
+    choices: ["-es", "-s", "-ed", "-ing"],
+    itemId: "s-es",
+    image: "images/suffixes/es.png",
+    base: "box = a container",
+    literal: "more than one box",
+    definition: "two or more boxes"
+  },
+  {
+    type: "suffix",
+    word: "books",
+    before: "book",
+    target: "s",
+    after: "",
+    answer: "-s",
+    choices: ["-s", "-es", "-ed", "-ing"],
+    itemId: "s-es",
+    image: "images/suffixes/s.png",
+    base: "book = a written work",
+    literal: "more than one book",
+    definition: "two or more books"
+  }
+];
 /* ========================================
    WORD HUNT QUESTIONS
    ======================================== */
@@ -1323,6 +1648,263 @@ const inferQuestions = [
     definition: "coming after something else in time or order",
     image: "images/roots/sequ.png"
   }
+  ,
+  {
+    type: "suffix",
+    knownLabel: "-able",
+    knownMeaning: "can be; able to be",
+    word: "washable",
+    correct: "able to be washed",
+    choices: [
+      "able to be washed",
+      "already washed",
+      "washing right now",
+      "full of washing"
+    ],
+    literal: "can be washed",
+    definition: "able to be washed without being damaged",
+    image: "images/suffixes/able.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ible",
+    knownMeaning: "can be; able to be",
+    word: "visible",
+    correct: "able to be seen",
+    choices: [
+      "able to be seen",
+      "unable to be seen",
+      "someone who sees",
+      "the act of seeing"
+    ],
+    literal: "can be seen",
+    definition: "able to be seen",
+    image: "images/suffixes/ible.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ful",
+    knownMeaning: "full of",
+    word: "hopeful",
+    correct: "having or showing hope",
+    choices: [
+      "having or showing hope",
+      "without hope",
+      "more hopeful than another",
+      "the act of hoping"
+    ],
+    literal: "full of hope",
+    definition: "feeling or showing hope that something good will happen",
+    image: "images/suffixes/ful.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-less",
+    knownMeaning: "without",
+    word: "fearless",
+    correct: "not afraid",
+    choices: [
+      "not afraid",
+      "full of fear",
+      "more afraid",
+      "acting fearfully"
+    ],
+    literal: "without fear",
+    definition: "showing little or no fear",
+    image: "images/suffixes/less.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-er",
+    knownMeaning: "one who",
+    word: "teacher",
+    correct: "a person who teaches",
+    choices: [
+      "a person who teaches",
+      "something that was taught",
+      "the act of teaching",
+      "more difficult to teach"
+    ],
+    literal: "one who teaches",
+    definition: "a person whose work is helping others learn",
+    image: "images/suffixes/er-agent.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-or",
+    knownMeaning: "one who",
+    word: "inspector",
+    correct: "a person who inspects",
+    choices: [
+      "a person who inspects",
+      "something that was inspected",
+      "the act of inspecting",
+      "able to be inspected"
+    ],
+    literal: "one who inspects",
+    definition: "a person whose job is to examine something carefully",
+    image: "images/suffixes/or.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-er",
+    knownMeaning: "more",
+    word: "taller",
+    correct: "having more height",
+    choices: [
+      "having more height",
+      "having the most height",
+      "without height",
+      "a person who measures height"
+    ],
+    literal: "more tall",
+    definition: "having greater height than someone or something else",
+    image: "images/suffixes/er-more.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-est",
+    knownMeaning: "the most",
+    word: "fastest",
+    correct: "moving faster than all the others",
+    choices: [
+      "moving faster than all the others",
+      "moving faster than one other thing",
+      "moving slowly",
+      "having moved in the past"
+    ],
+    literal: "the most fast",
+    definition: "moving more quickly than all the others being compared",
+    image: "images/suffixes/est.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ing",
+    knownMeaning: "action happening now or in progress",
+    word: "jumping",
+    correct: "the action of jumping is happening",
+    choices: [
+      "the action of jumping is happening",
+      "the jumping already happened",
+      "a person who jumps",
+      "able to jump"
+    ],
+    literal: "jump happening or in progress",
+    definition: "performing the action of jumping",
+    image: "images/suffixes/ing.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ed",
+    knownMeaning: "past; already happened",
+    word: "jumped",
+    correct: "the jumping happened earlier",
+    choices: [
+      "the jumping happened earlier",
+      "the jumping is happening now",
+      "someone who jumps",
+      "able to jump"
+    ],
+    literal: "jump in the past",
+    definition: "performed the action of jumping at an earlier time",
+    image: "images/suffixes/ed.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ly",
+    knownMeaning: "how something is done",
+    word: "slowly",
+    correct: "in a slow way",
+    choices: [
+      "in a slow way",
+      "the slowest",
+      "without slowness",
+      "a person who is slow"
+    ],
+    literal: "in a slow way",
+    definition: "in a way that is not fast",
+    image: "images/suffixes/ly.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ment",
+    knownMeaning: "act, result, or state",
+    word: "movement",
+    correct: "the act of moving",
+    choices: [
+      "the act of moving",
+      "someone who moves",
+      "able to move",
+      "moving in the past"
+    ],
+    literal: "act or result of moving",
+    definition: "the act or process of changing position or place",
+    image: "images/suffixes/ment.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-tion",
+    knownMeaning: "act or process",
+    word: "construction",
+    correct: "the process of building",
+    choices: [
+      "the process of building",
+      "a person who builds",
+      "able to be built",
+      "building again"
+    ],
+    literal: "act or process of building",
+    definition: "the process of building or putting something together",
+    image: "images/suffixes/ion.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ous",
+    knownMeaning: "having the quality of",
+    word: "dangerous",
+    correct: "having qualities that may cause harm",
+    choices: [
+      "having qualities that may cause harm",
+      "without danger",
+      "more dangerous than another",
+      "the act of causing danger"
+    ],
+    literal: "having the quality of danger",
+    definition: "likely to cause harm or injury",
+    image: "images/suffixes/ous.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-s",
+    knownMeaning: "more than one",
+    word: "books",
+    correct: "more than one book",
+    choices: [
+      "more than one book",
+      "a person who reads books",
+      "a book from the past",
+      "able to be booked"
+    ],
+    literal: "more than one book",
+    definition: "two or more books",
+    image: "images/suffixes/s.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-es",
+    knownMeaning: "more than one",
+    word: "boxes",
+    correct: "more than one box",
+    choices: [
+      "more than one box",
+      "a person who makes boxes",
+      "a box from the past",
+      "able to be boxed"
+    ],
+    literal: "more than one box",
+    definition: "two or more boxes",
+    image: "images/suffixes/es.png"
+  }
 ];
 
 
@@ -1342,16 +1924,16 @@ const buildWords = [
     literal: "build together",
     definition: "to build or put parts together"
   },
-  {
-    word: "reconstruct",
-    prefixId: "re",
-    prefix: "re-",
-    prefixMeaning: "again",
-    rootId: "struct",
-    root: "struct",
-    rootMeaning: "build",
-    literal: "build again",
-    definition: "to build or form something again"
+    {
+    word: "interrupt",
+    prefixId: "inter",
+    prefix: "inter-",
+    prefixMeaning: "between",
+    rootId: "rupt",
+    root: "rupt",
+    rootMeaning: "break",
+    literal: "break between",
+    definition: "to break into something; to stop it briefly"
   },
   {
     word: "transport",
@@ -1927,15 +2509,31 @@ function renderLearnDetail(item) {
 function startQuiz(mode) {
   let items = [];
 
-  if (mode === "find") {
-    if (studyMode === "prefixes") {
-      items = prefixFindQuestions;
-    } else if (studyMode === "roots") {
-      items = rootFindQuestions;
-    } else {
-      items = [...prefixFindQuestions, ...rootFindQuestions];
-    }
+if (mode === "find") {
+  if (studyMode === "prefixes") {
+    items = prefixFindQuestions;
+  } else if (studyMode === "roots") {
+    items = rootFindQuestions;
+  } else if (studyMode === "suffixes") {
+    items = suffixFindQuestions;
+  } else if (studyMode === "prefix-root") {
+    items = [
+      ...prefixFindQuestions,
+      ...rootFindQuestions
+    ];
+  } else if (studyMode === "root-suffix") {
+    items = [
+      ...rootFindQuestions,
+      ...suffixFindQuestions
+    ];
+  } else if (studyMode === "prefix-root-suffix") {
+    items = [
+      ...prefixFindQuestions,
+      ...rootFindQuestions,
+      ...suffixFindQuestions
+    ];
   }
+}
   if (mode === "hunt") {
   items = wordHuntQuestions.filter((item) => {
     if (studyMode === "prefixes") {
@@ -1974,19 +2572,42 @@ function startQuiz(mode) {
     items = createMorphemeQuestions(getCurrentStudyItems());
   }
 
-  if (mode === "infer") {
-    items = inferQuestions.filter((item) => {
-      if (studyMode === "prefixes") {
-        return item.type === "prefix";
-      }
+if (mode === "infer") {
+  items = inferQuestions.filter((item) => {
 
-      if (studyMode === "roots") {
-        return item.type === "root";
-      }
+    if (studyMode === "prefixes") {
+      return item.type === "prefix";
+    }
 
+    if (studyMode === "roots") {
+      return item.type === "root";
+    }
+
+    if (studyMode === "suffixes") {
+      return item.type === "suffix";
+    }
+
+    if (studyMode === "prefix-root") {
+      return (
+        item.type === "prefix" ||
+        item.type === "root"
+      );
+    }
+
+    if (studyMode === "root-suffix") {
+      return (
+        item.type === "root" ||
+        item.type === "suffix"
+      );
+    }
+
+    if (studyMode === "prefix-root-suffix") {
       return true;
-    });
-  }
+    }
+
+    return false;
+  });
+}
 
   quizState = {
     mode,
@@ -2001,9 +2622,14 @@ function startQuiz(mode) {
 
 function createMeaningQuestions(items) {
   return items.map((item) => {
+    const itemMeaning = normalizeMeaning(item.meaning);
+
     const possibleDistractors = uniqueBy(
-      items.filter((other) => other.id !== item.id),
-      (other) => other.meaning
+      items.filter((other) =>
+        other.id !== item.id &&
+        normalizeMeaning(other.meaning) !== itemMeaning
+      ),
+      (other) => normalizeMeaning(other.meaning)
     );
 
     const distractors = shuffle(possibleDistractors)
@@ -2021,10 +2647,22 @@ function createMeaningQuestions(items) {
   });
 }
 
+function normalizeMeaning(text) {
+  return text.toLowerCase().replace(/[;,.]/g, "").replace(/\s+/g, " ").trim();
+}
+
 function createMorphemeQuestions(items) {
   return items.map((item) => {
+    const itemMeaning = normalizeMeaning(item.meaning);
+
     const distractors = shuffle(
-      items.filter((other) => other.id !== item.id)
+      uniqueBy(
+        items.filter((other) =>
+          other.id !== item.id &&
+          normalizeMeaning(other.meaning) !== itemMeaning
+        ),
+        (other) => normalizeMeaning(other.meaning)
+      )
     ).slice(0, 3);
 
     return {
