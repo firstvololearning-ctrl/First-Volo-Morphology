@@ -4127,6 +4127,10 @@ function getActiveBuildWords() {
     return rootSuffixBuildWords;
   }
 
+  if (studyMode === "prefix-root-suffix") {
+    return prefixRootSuffixBuildWords;
+  }
+
   return buildWords;
 }
 
