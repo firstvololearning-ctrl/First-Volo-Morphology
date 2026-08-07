@@ -245,7 +245,24 @@
           </small>
         </button>
 
+<button
+  class="activity-button"
+  data-mode="hunt"
+  type="button"
+  aria-pressed="false"
+>
+  <span class="activity-icon">
+    🎯
+  </span>
 
+  <span class="activity-name">
+    Word Hunt
+  </span>
+
+  <small>
+    Find all matching words
+  </small>
+</button>
         <button
           class="activity-button"
           data-mode="meaning"
@@ -447,11 +464,11 @@
 
         <div class="question-card">
 
-          <p
+<p
   class="question-prompt"
   id="inferPrompt"
 >
-  Based on the word part, what might this word mean?
+  Based on the root, what might this word mean?
 </p>
 
           <div
@@ -477,7 +494,83 @@
 
       </section>
 
+<!-- WORD HUNT -->
 
+<section
+  class="activity-panel"
+  id="huntActivity"
+  hidden
+>
+
+  <div class="activity-introduction">
+
+    <h3>
+      Word Hunt
+    </h3>
+
+    <p>
+      Find every word that contains the target word part.
+      Select all that apply, then check your answers.
+    </p>
+
+  </div>
+
+  <div class="question-card">
+
+    <p class="question-prompt">
+      Find all the words that contain:
+    </p>
+
+    <div
+      class="morpheme-display"
+      id="huntMorpheme"
+    >
+      struct
+    </div>
+
+    <div
+      class="hunt-word-grid"
+      id="huntWordChoices"
+    ></div>
+
+    <p
+      class="hunt-selection-count"
+      id="huntSelectionCount"
+      aria-live="polite"
+    >
+      0 selected
+    </p>
+
+    <div class="build-actions">
+
+      <button
+        class="secondary-button"
+        id="clearHuntButton"
+        type="button"
+      >
+        Clear
+      </button>
+
+      <button
+        class="primary-button"
+        id="checkHuntButton"
+        type="button"
+      >
+        Check My Words
+      </button>
+
+    </div>
+
+    <div
+      class="feedback-panel"
+      id="huntFeedback"
+      aria-live="polite"
+      hidden
+    ></div>
+
+  </div>
+
+</section>
       <!-- CHOOSE MEANING -->
 
       <section

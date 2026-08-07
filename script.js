@@ -961,6 +961,218 @@ const rootFindQuestions = [
   }
 ];
 
+/* ========================================
+   WORD HUNT QUESTIONS
+   ======================================== */
+
+const wordHuntQuestions = [
+  // PREFIXES
+  {
+    type: "prefix",
+    itemId: "pre",
+    label: "pre-",
+    meaning: "before",
+    words: [
+      { word: "preview", correct: true, before: "", target: "pre", after: "view" },
+      { word: "preheat", correct: true, before: "", target: "pre", after: "heat" },
+      { word: "preschool", correct: true, before: "", target: "pre", after: "school" },
+      { word: "pregame", correct: true, before: "", target: "pre", after: "game" },
+      { word: "rebuild", correct: false },
+      { word: "transport", correct: false },
+      { word: "unhappy", correct: false },
+      { word: "submarine", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "re",
+    label: "re-",
+    meaning: "again; back",
+    words: [
+      { word: "rebuild", correct: true, before: "", target: "re", after: "build" },
+      { word: "reread", correct: true, before: "", target: "re", after: "read" },
+      { word: "rewrite", correct: true, before: "", target: "re", after: "write" },
+      { word: "return", correct: true, before: "", target: "re", after: "turn" },
+      { word: "preview", correct: false },
+      { word: "misread", correct: false },
+      { word: "export", correct: false },
+      { word: "unhappy", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "sub",
+    label: "sub-",
+    meaning: "under; below",
+    words: [
+      { word: "submarine", correct: true, before: "", target: "sub", after: "marine" },
+      { word: "subsoil", correct: true, before: "", target: "sub", after: "soil" },
+      { word: "submerge", correct: true, before: "", target: "sub", after: "merge" },
+      { word: "subset", correct: true, before: "", target: "sub", after: "set" },
+      { word: "superhuman", correct: false },
+      { word: "transport", correct: false },
+      { word: "preview", correct: false },
+      { word: "nonverbal", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "mis",
+    label: "mis-",
+    meaning: "wrongly; badly",
+    words: [
+      { word: "misread", correct: true, before: "", target: "mis", after: "read" },
+      { word: "misfire", correct: true, before: "", target: "mis", after: "fire" },
+      { word: "misplace", correct: true, before: "", target: "mis", after: "place" },
+      { word: "mistake", correct: true, before: "", target: "mis", after: "take" },
+      { word: "reread", correct: false },
+      { word: "disconnect", correct: false },
+      { word: "preview", correct: false },
+      { word: "overcook", correct: false }
+    ]
+  },
+
+  // ROOTS
+  {
+    type: "root",
+    itemId: "struct",
+    label: "struct",
+    meaning: "build",
+    words: [
+      { word: "construct", correct: true, before: "con", target: "struct", after: "" },
+      { word: "structure", correct: true, before: "", target: "struct", after: "ure" },
+      { word: "reconstruct", correct: true, before: "recon", target: "struct", after: "" },
+      { word: "instruct", correct: true, before: "in", target: "struct", after: "" },
+      { word: "transport", correct: false },
+      { word: "inspect", correct: false },
+      { word: "rupture", correct: false },
+      { word: "sequence", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "port",
+    label: "port",
+    meaning: "carry",
+    words: [
+      { word: "transport", correct: true, before: "trans", target: "port", after: "" },
+      { word: "portable", correct: true, before: "", target: "port", after: "able" },
+      { word: "import", correct: true, before: "im", target: "port", after: "" },
+      { word: "export", correct: true, before: "ex", target: "port", after: "" },
+      { word: "construct", correct: false },
+      { word: "rupture", correct: false },
+      { word: "spectator", correct: false },
+      { word: "sequence", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "spect",
+    label: "spect",
+    meaning: "look; watch",
+    words: [
+      { word: "inspect", correct: true, before: "in", target: "spect", after: "" },
+      { word: "spectator", correct: true, before: "", target: "spect", after: "ator" },
+      { word: "respect", correct: true, before: "re", target: "spect", after: "" },
+      { word: "perspective", correct: true, before: "per", target: "spect", after: "ive" },
+      { word: "manuscript", correct: false },
+      { word: "transport", correct: false },
+      { word: "structure", correct: false },
+      { word: "sequence", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "rupt",
+    label: "rupt",
+    meaning: "break",
+    words: [
+      { word: "rupture", correct: true, before: "", target: "rupt", after: "ure" },
+      { word: "interrupt", correct: true, before: "inter", target: "rupt", after: "" },
+      { word: "disrupt", correct: true, before: "dis", target: "rupt", after: "" },
+      { word: "eruption", correct: true, before: "e", target: "rupt", after: "ion" },
+      { word: "construct", correct: false },
+      { word: "portable", correct: false },
+      { word: "sequence", correct: false },
+      { word: "inspect", correct: false }
+    ]
+  },
+
+  // SUFFIXES
+  {
+    type: "suffix",
+    itemId: "ful",
+    label: "-ful",
+    meaning: "full of",
+    words: [
+      { word: "helpful", correct: true, before: "help", target: "ful", after: "" },
+      { word: "hopeful", correct: true, before: "hope", target: "ful", after: "" },
+      { word: "careful", correct: true, before: "care", target: "ful", after: "" },
+      { word: "playful", correct: true, before: "play", target: "ful", after: "" },
+      { word: "hopeless", correct: false },
+      { word: "quickly", correct: false },
+      { word: "movement", correct: false },
+      { word: "walked", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "less",
+    label: "-less",
+    meaning: "without",
+    words: [
+      { word: "hopeless", correct: true, before: "hope", target: "less", after: "" },
+      { word: "careless", correct: true, before: "care", target: "less", after: "" },
+      { word: "fearless", correct: true, before: "fear", target: "less", after: "" },
+      { word: "speechless", correct: true, before: "speech", target: "less", after: "" },
+      { word: "helpful", correct: false },
+      { word: "slowly", correct: false },
+      { word: "movement", correct: false },
+      { word: "jumped", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "ing",
+    label: "-ing",
+    meaning: "action happening now or in progress",
+    words: [
+      { word: "running", correct: true, before: "runn", target: "ing", after: "" },
+      { word: "writing", correct: true, before: "writ", target: "ing", after: "" },
+      { word: "sleeping", correct: true, before: "sleep", target: "ing", after: "" },
+      { word: "jumping", correct: true, before: "jump", target: "ing", after: "" },
+      { word: "walked", correct: false },
+      { word: "helpful", correct: false },
+      { word: "fastest", correct: false },
+      { word: "movement", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "ed",
+    label: "-ed",
+    meaning: "past; already happened",
+    words: [
+      { word: "walked", correct: true, before: "walk", target: "ed", after: "" },
+      { word: "jumped", correct: true, before: "jump", target: "ed", after: "" },
+      { word: "helped", correct: true, before: "help", target: "ed", after: "" },
+      { word: "painted", correct: true, before: "paint", target: "ed", after: "" },
+      { word: "running", correct: false },
+      { word: "hopeful", correct: false },
+      { word: "fastest", correct: false },
+      { word: "boxes", correct: false }
+    ]
+  }
+];
 
 /* ========================================
    FIGURE-IT-OUT QUESTIONS
@@ -1273,6 +1485,7 @@ const activityProgress = document.getElementById("activityProgress");
 const panels = {
   learn: document.getElementById("learnActivity"),
   find: document.getElementById("findActivity"),
+  hunt: document.getElementById("huntActivity"),
   meaning: document.getElementById("meaningActivity"),
   morpheme: document.getElementById("morphemeActivity"),
   infer: document.getElementById("inferActivity"),
@@ -1284,6 +1497,13 @@ const learningGrid = document.getElementById("learningGrid");
 const findWord = document.getElementById("findWord");
 const findChoices = document.getElementById("findChoices");
 const findFeedback = document.getElementById("findFeedback");
+
+const huntMorpheme = document.getElementById("huntMorpheme");
+const huntWordChoices = document.getElementById("huntWordChoices");
+const huntSelectionCount = document.getElementById("huntSelectionCount");
+const clearHuntButton = document.getElementById("clearHuntButton");
+const checkHuntButton = document.getElementById("checkHuntButton");
+const huntFeedback = document.getElementById("huntFeedback");
 
 const meaningMorpheme = document.getElementById("meaningMorpheme");
 const meaningChoices = document.getElementById("meaningChoices");
@@ -1334,6 +1554,8 @@ let quizState = {
   score: 0,
   answered: false
 };
+
+let selectedHuntWords = new Set();
 
 let currentBuildTarget = null;
 
@@ -1714,6 +1936,35 @@ function startQuiz(mode) {
       items = [...prefixFindQuestions, ...rootFindQuestions];
     }
   }
+  if (mode === "hunt") {
+  items = wordHuntQuestions.filter((item) => {
+    if (studyMode === "prefixes") {
+      return item.type === "prefix";
+    }
+
+    if (studyMode === "roots") {
+      return item.type === "root";
+    }
+
+    if (studyMode === "suffixes") {
+      return item.type === "suffix";
+    }
+
+    if (studyMode === "prefix-root") {
+      return item.type === "prefix" || item.type === "root";
+    }
+
+    if (studyMode === "root-suffix") {
+      return item.type === "root" || item.type === "suffix";
+    }
+
+    if (studyMode === "prefix-root-suffix") {
+      return true;
+    }
+
+    return false;
+  });
+}
 
   if (mode === "meaning") {
     items = createMeaningQuestions(getCurrentStudyItems());
@@ -1810,6 +2061,9 @@ function renderQuizQuestion() {
   if (quizState.mode === "find") {
     renderFindQuestion(question);
   }
+  if (quizState.mode === "hunt") {
+  renderHuntQuestion(question);
+}
 
   if (quizState.mode === "meaning") {
     renderMeaningQuestion(question);
@@ -1905,6 +2159,247 @@ function answerFindQuestion(button, choice, question) {
   showNextButton();
 }
 
+/* ========================================
+   WORD HUNT
+   ======================================== */
+
+function renderHuntQuestion(question) {
+  panels.hunt.hidden = false;
+
+  workspaceTitle.textContent = "Word Hunt";
+  workspaceSubtitle.textContent =
+    "Find every word that contains the target word part.";
+
+  selectedHuntWords = new Set();
+
+  huntFeedback.hidden = true;
+  huntWordChoices.innerHTML = "";
+
+  huntMorpheme.textContent = question.label;
+  styleMorphemeDisplay(huntMorpheme, question.type);
+
+  huntSelectionCount.textContent = "0 selected";
+
+  const words = shuffle(question.words);
+
+  words.forEach((wordItem) => {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "hunt-word-button";
+    button.textContent = wordItem.word;
+    button.dataset.word = wordItem.word;
+
+    button.addEventListener("click", () => {
+      if (quizState.answered) {
+        return;
+      }
+
+      if (selectedHuntWords.has(wordItem.word)) {
+        selectedHuntWords.delete(wordItem.word);
+        button.classList.remove("selected");
+      } else {
+        selectedHuntWords.add(wordItem.word);
+        button.classList.add("selected");
+      }
+
+      const count = selectedHuntWords.size;
+
+      huntSelectionCount.textContent =
+        `${count} selected`;
+    });
+
+    huntWordChoices.append(button);
+  });
+}
+
+
+function clearHuntSelection() {
+  if (quizState.answered) {
+    return;
+  }
+
+  selectedHuntWords.clear();
+
+  [...huntWordChoices.children].forEach((button) => {
+    button.classList.remove("selected");
+  });
+
+  huntSelectionCount.textContent = "0 selected";
+  huntFeedback.hidden = true;
+}
+
+
+function checkHuntAnswers() {
+  if (quizState.answered) {
+    return;
+  }
+
+  if (selectedHuntWords.size === 0) {
+    huntFeedback.hidden = false;
+    huntFeedback.className =
+      "feedback-panel incorrect-feedback";
+
+    huntFeedback.innerHTML = `
+      <h4 class="feedback-heading">
+        Choose at least one word.
+      </h4>
+
+      <p>
+        Select every word you think contains the target word part.
+      </p>
+    `;
+
+    return;
+  }
+
+  const question = quizState.items[quizState.index];
+
+  const correctWords = question.words
+    .filter((item) => item.correct)
+    .map((item) => item.word);
+
+  const correctSet = new Set(correctWords);
+
+  const selectedCorrectly = correctWords.filter((word) =>
+    selectedHuntWords.has(word)
+  );
+
+  const incorrectSelections = [...selectedHuntWords].filter(
+    (word) => !correctSet.has(word)
+  );
+
+  const missedWords = correctWords.filter(
+    (word) => !selectedHuntWords.has(word)
+  );
+
+  const isPerfect =
+    incorrectSelections.length === 0 &&
+    missedWords.length === 0;
+
+  quizState.answered = true;
+
+  if (isPerfect) {
+    quizState.score += 1;
+  }
+
+  [...huntWordChoices.children].forEach((button) => {
+    button.disabled = true;
+
+    const word = button.dataset.word;
+    const isCorrectWord = correctSet.has(word);
+    const wasSelected = selectedHuntWords.has(word);
+
+    if (isCorrectWord && wasSelected) {
+      button.classList.add("correct");
+    }
+
+    if (!isCorrectWord && wasSelected) {
+      button.classList.add("incorrect");
+    }
+
+    if (isCorrectWord && !wasSelected) {
+      button.classList.add("missed");
+    }
+  });
+
+  renderHuntFeedback(
+    question,
+    selectedCorrectly.length,
+    correctWords.length,
+    isPerfect
+  );
+
+  showNextButton();
+}
+
+
+function renderHuntFeedback(
+  question,
+  numberFound,
+  totalCorrect,
+  isPerfect
+) {
+  const item = getItemById(question.itemId);
+  const typeClass = getTypeClass(question.type);
+
+  const correctWordMarkup = question.words
+    .filter((wordItem) => wordItem.correct)
+    .map((wordItem) => `
+      <div class="hunt-answer-word">
+        ${escapeHTML(wordItem.before || "")}
+        <span class="highlight-${typeClass}">
+          ${escapeHTML(wordItem.target)}
+        </span>
+        ${escapeHTML(wordItem.after || "")}
+      </div>
+    `)
+    .join("");
+
+  huntFeedback.hidden = false;
+
+  huntFeedback.className =
+    `feedback-panel ${
+      isPerfect
+        ? "correct-feedback"
+        : "incorrect-feedback"
+    }`;
+
+  huntFeedback.innerHTML = `
+    <div class="feedback-card-layout">
+
+      <img
+        class="feedback-image"
+        src="${escapeHTML(item.image)}"
+        alt="${escapeHTML(item.label)} means ${escapeHTML(item.meaning)}"
+      >
+
+      <div class="feedback-details">
+
+        <h4 class="feedback-heading">
+          ${isPerfect
+            ? "You found them all!"
+            : `You found ${numberFound} of ${totalCorrect}.`}
+        </h4>
+
+        <div class="feedback-label">
+          Word part
+        </div>
+
+        <div class="feedback-value">
+          <strong>${escapeHTML(item.label)}</strong>
+          = ${escapeHTML(item.meaning)}
+        </div>
+
+        <div class="feedback-label">
+          Words with this part
+        </div>
+
+        <div class="hunt-answer-list">
+          ${correctWordMarkup}
+        </div>
+
+        <button
+          class="audio-button"
+          type="button"
+        >
+          🔊 Hear it
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  setAudioButton(
+    huntFeedback,
+    `${item.speech} means ${item.meaning}. ` +
+    `Words with this word part include ${question.words
+      .filter((wordItem) => wordItem.correct)
+      .map((wordItem) => wordItem.word)
+      .join(", ")}.`
+  );
+}
 
 /* ========================================
    CHOOSE THE MEANING
@@ -2768,7 +3263,15 @@ clearBuildButton.addEventListener(
   "click",
   clearBuildSelection
 );
+clearHuntButton.addEventListener(
+  "click",
+  clearHuntSelection
+);
 
+checkHuntButton.addEventListener(
+  "click",
+  checkHuntAnswers
+);
 checkBuildButton.addEventListener(
   "click",
   checkBuiltWord
