@@ -1130,7 +1130,7 @@ const rootFindQuestions = [
     base: "con- = together or completely",
     literal: "turn or change",
     definition: "to change something into a different form"
-  }
+  },
   {
   type: "root",
   word: "inactive",
@@ -2510,6 +2510,124 @@ const rootSuffixBuildWords = [
     suffixMeaning: "more than one",
     literal: "more than one box",
     definition: "two or more boxes"
+  }
+];
+/* ========================================
+   PREFIX + ROOT / BASE + SUFFIX BUILDING DATA
+   ======================================== */
+
+const prefixRootSuffixBuildWords = [
+  {
+    word: "construction",
+    prefixId: "con",
+    prefix: "con-",
+    prefixMeaning: "together",
+    baseId: "struct",
+    base: "struct",
+    baseMeaning: "build",
+    suffixId: "ion",
+    suffix: "-tion",
+    suffixMeaning: "act or process",
+    literal: "process of building together",
+    definition: "the process of building or putting something together"
+  },
+  {
+    word: "projection",
+    prefixId: "pro",
+    prefix: "pro-",
+    prefixMeaning: "forward",
+    baseId: "ject",
+    base: "ject",
+    baseMeaning: "throw",
+    suffixId: "ion",
+    suffix: "-ion",
+    suffixMeaning: "act or process",
+    literal: "act or result of throwing forward",
+    definition: "the act or result of projecting something forward"
+  },
+  {
+    word: "inactive",
+    prefixId: "in",
+    prefix: "in-",
+    prefixMeaning: "not",
+    baseId: "act",
+    base: "act",
+    baseMeaning: "do; act",
+    suffixId: "ive",
+    suffix: "-ive",
+    suffixMeaning: "having a quality; tending to",
+    literal: "not tending to act",
+    definition: "not active or not taking part"
+  },
+  {
+    word: "inspector",
+    prefixId: "in",
+    prefix: "in-",
+    prefixMeaning: "in; into",
+    baseId: "spect",
+    base: "spect",
+    baseMeaning: "look; watch",
+    suffixId: "or-agent",
+    suffix: "-or",
+    suffixMeaning: "one who",
+    literal: "one who looks into",
+    definition: "a person whose job is to examine things carefully"
+  },
+  {
+    word: "incredible",
+    prefixId: "in",
+    prefix: "in-",
+    prefixMeaning: "not",
+    baseId: "cred",
+    base: "cred",
+    baseMeaning: "believe; trust",
+    suffixId: "ible",
+    suffix: "-ible",
+    suffixMeaning: "can be; able to be",
+    literal: "not able to be believed",
+    definition: "so unusual or impressive that it is hard to believe"
+  },
+  {
+    word: "convention",
+    prefixId: "con",
+    prefix: "con-",
+    prefixMeaning: "together",
+    baseId: "vent",
+    base: "vent",
+    baseMeaning: "come",
+    suffixId: "ion",
+    suffix: "-ion",
+    suffixMeaning: "act or process",
+    literal: "coming together",
+    definition: "a meeting or gathering of people"
+  },
+  {
+    word: "nonverbal",
+    prefixId: "non",
+    prefix: "non-",
+    prefixMeaning: "not",
+    baseId: "verb",
+    base: "verb",
+    baseMeaning: "word",
+    suffixId: "al",
+    suffix: "-al",
+    suffixMeaning: "related to",
+    literal: "not related to words",
+    definition: "communicating without spoken words"
+  },
+  {
+    word: "international",
+    prefixId: "inter",
+    prefix: "inter-",
+    prefixMeaning: "between; among",
+    baseId: "nation",
+    base: "nation",
+    baseMeaning: "country",
+    suffixId: "al",
+    suffix: "-al",
+    suffixMeaning: "related to",
+    literal: "related to between nations",
+    definition: "involving two or more countries"
   }
 ];
 /* ========================================
