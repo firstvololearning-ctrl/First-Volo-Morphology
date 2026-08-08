@@ -3102,6 +3102,7 @@ const panels = {
   hunt: document.getElementById("huntActivity"),
   meaning: document.getElementById("meaningActivity"),
   morpheme: document.getElementById("morphemeActivity"),
+  break: document.getElementById("breakActivity"),
   infer: document.getElementById("inferActivity"),
   build: document.getElementById("buildActivity")
 };
@@ -3126,6 +3127,10 @@ const meaningFeedback = document.getElementById("meaningFeedback");
 const morphemeMeaning = document.getElementById("morphemeMeaning");
 const morphemeChoices = document.getElementById("morphemeChoices");
 const morphemeFeedback = document.getElementById("morphemeFeedback");
+
+const breakWord = document.getElementById("breakWord");
+const breakChoices = document.getElementById("breakChoices");
+const breakFeedback = document.getElementById("breakFeedback");
 
 const knownPartBox = document.getElementById("knownPartBox");
 const inferPrompt = document.getElementById("inferPrompt");
@@ -3396,6 +3401,12 @@ function showStartMessage(title, message) {
         "Choose the word part that matches the meaning."
     },
 
+    break: {
+      title: "Break It Apart",
+      subtitle:
+        "Split the whole word into its meaningful parts."
+    },
+
     infer: {
       title: "Figure It Out",
       subtitle:
@@ -3535,6 +3546,7 @@ function updateStudySelectForActivity() {
       hunt: "Word Hunt",
       meaning: "Meaning",
       morpheme: "Word Part",
+      break: "Break It Apart",
       infer: "Figure It Out",
       build: "Build Words"
     };
@@ -3764,6 +3776,283 @@ const exampleLabel =
 
 
 /* ========================================
+   BREAK IT APART QUESTION GENERATION
+   ======================================== */
+
+function getBreakSegmentationParts(segmentation) {
+  return String(segmentation || "")
+    .split(" + ")
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function getBreakSurfacePart(part) {
+  return part.replace(/^-+|-+$/g, "");
+}
+
+function getBreakSurfaceParts(segmentation) {
+  return getBreakSegmentationParts(segmentation)
+    .map(getBreakSurfacePart);
+}
+
+function getBreakMorphemeTypes(segmentation) {
+  const inventory =
+    window.FIRST_VOLO_MORPHEME_INVENTORY || [];
+
+  const types = new Set();
+
+  getBreakSegmentationParts(segmentation)
+    .forEach((part) => {
+      const target =
+        normalizeMorphemeForMatch(part);
+
+      inventory.forEach((entry) => {
+        const variants = [
+          entry.id,
+          entry.label
+        ]
+          .flatMap((value) =>
+            String(value || "").split(/[\\/,]/)
+          )
+          .map(normalizeMorphemeForMatch)
+          .filter(Boolean);
+
+        if (variants.includes(target)) {
+          types.add(entry.type);
+        }
+      });
+    });
+
+  return [...types];
+}
+
+function getBreakBoundaryPositions(parts) {
+  const boundaries = [];
+  let position = 0;
+
+  parts.slice(0, -1).forEach((part) => {
+    position += part.length;
+    boundaries.push(position);
+  });
+
+  return boundaries;
+}
+
+function splitWordAtBoundaries(word, boundaries) {
+  const parts = [];
+  let start = 0;
+
+  boundaries.forEach((boundary) => {
+    parts.push(word.slice(start, boundary));
+    start = boundary;
+  });
+
+  parts.push(word.slice(start));
+
+  return parts;
+}
+
+function createBreakDistractors(word, correctParts) {
+  const correctBoundaries =
+    getBreakBoundaryPositions(correctParts);
+
+  const correctDisplay =
+    correctParts.join(" + ");
+
+  const distractors = [];
+  const seen = new Set([correctDisplay]);
+
+  function addCandidate(boundaries) {
+    const sorted = [...boundaries].sort((a, b) => a - b);
+
+    if (
+      sorted.some(
+        (boundary, index) =>
+          boundary <= 0 ||
+          boundary >= word.length ||
+          (index > 0 && boundary <= sorted[index - 1])
+      )
+    ) {
+      return;
+    }
+
+    const parts =
+      splitWordAtBoundaries(word, sorted);
+
+    if (parts.some((part) => !part)) {
+      return;
+    }
+
+    const display = parts.join(" + ");
+
+    if (seen.has(display)) {
+      return;
+    }
+
+    seen.add(display);
+    distractors.push(display);
+  }
+
+  if (correctBoundaries.length === 1) {
+    const correctBoundary = correctBoundaries[0];
+
+    for (
+      let distance = 1;
+      distance < word.length &&
+      distractors.length < 3;
+      distance += 1
+    ) {
+      addCandidate([
+        correctBoundary - distance
+      ]);
+
+      if (distractors.length < 3) {
+        addCandidate([
+          correctBoundary + distance
+        ]);
+      }
+    }
+  }
+
+  if (correctBoundaries.length === 2) {
+    const [first, second] = correctBoundaries;
+
+    const shifts = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+      [-1, -1],
+      [1, 1],
+      [-1, 1],
+      [1, -1],
+      [-2, 0],
+      [2, 0],
+      [0, -2],
+      [0, 2]
+    ];
+
+    shifts.forEach(([firstShift, secondShift]) => {
+      if (distractors.length >= 3) {
+        return;
+      }
+
+      addCandidate([
+        first + firstShift,
+        second + secondShift
+      ]);
+    });
+  }
+
+  return distractors.slice(0, 3);
+}
+
+function createBreakApartQuestions() {
+  const inventory =
+    window.FIRST_VOLO_WORD_INVENTORY || [];
+
+  return inventory
+    .filter(
+      (entry) =>
+        entry.status === "current" &&
+        typeof entry.segmentation === "string" &&
+        entry.segmentation.trim() &&
+        !entry.segmentation.includes(";")
+    )
+    .map((entry) => {
+      const surfaceParts =
+        getBreakSurfaceParts(entry.segmentation);
+
+      return {
+        entry,
+        surfaceParts
+      };
+    })
+    .filter(({ entry, surfaceParts }) => {
+      if (
+        surfaceParts.length !== 2 &&
+        surfaceParts.length !== 3
+      ) {
+        return false;
+      }
+
+      return (
+        surfaceParts.join("").toLowerCase() ===
+        entry.word.toLowerCase()
+      );
+    })
+    .map(({ entry, surfaceParts }) => {
+      const correct =
+        surfaceParts.join(" + ");
+
+      const distractors =
+        createBreakDistractors(
+          entry.word,
+          surfaceParts
+        );
+
+      return {
+        word: entry.word,
+        segmentation: entry.segmentation,
+        definition: entry.definition || "",
+        types: getBreakMorphemeTypes(
+          entry.segmentation
+        ),
+        correct,
+        choices: [
+          correct,
+          ...distractors
+        ]
+      };
+    })
+    .filter(
+      (question) =>
+        question.choices.length === 4
+    );
+}
+
+const breakApartQuestions =
+  createBreakApartQuestions();
+
+
+function isBreakQuestionEligibleForStudyMode(question) {
+  const types = question?.types || [];
+
+  if (studyMode === "prefixes") {
+    return types.includes("prefix");
+  }
+
+  if (studyMode === "roots") {
+    return types.includes("root");
+  }
+
+  if (studyMode === "suffixes") {
+    return types.includes("suffix");
+  }
+
+  if (studyMode === "prefix-root") {
+    return (
+      types.includes("prefix") ||
+      types.includes("root")
+    );
+  }
+
+  if (studyMode === "root-suffix") {
+    return (
+      types.includes("root") ||
+      types.includes("suffix")
+    );
+  }
+
+  if (studyMode === "prefix-root-suffix") {
+    return true;
+  }
+
+  return false;
+}
+
+
+/* ========================================
    QUIZ CREATION
    ======================================== */
 
@@ -3856,6 +4145,12 @@ if (mode === "meaning") {
     items = createMorphemeQuestions(getCurrentStudyItems());
   }
 
+  if (mode === "break") {
+    items = breakApartQuestions.filter(
+      isBreakQuestionEligibleForStudyMode
+    );
+  }
+
 if (mode === "infer") {
   items = inferQuestions.filter((item) => {
 
@@ -3895,6 +4190,7 @@ if (mode === "infer") {
 
   if (
     mode === "find" ||
+    mode === "break" ||
     mode === "infer"
   ) {
     items = filterWordsBySelectedFilters(items);
@@ -3907,6 +4203,7 @@ if (mode === "infer") {
     ) &&
     (
       mode === "find" ||
+      mode === "break" ||
       mode === "infer"
     ) &&
     items.length === 0
@@ -3914,7 +4211,9 @@ if (mode === "infer") {
     const activityName =
       mode === "find"
         ? "Find"
-        : "Figure It Out";
+        : mode === "break"
+          ? "Break It Apart"
+          : "Figure It Out";
 
     showStartMessage(
       `No ${activityName} items match ${getActiveWordFilterLabel()} for this word-part selection yet.`,
@@ -4024,6 +4323,10 @@ function renderQuizQuestion() {
 
   if (quizState.mode === "morpheme") {
     renderMorphemeQuestion(question);
+  }
+
+  if (quizState.mode === "break") {
+    renderBreakQuestion(question);
   }
 
   if (quizState.mode === "infer") {
@@ -4500,6 +4803,149 @@ function answerMorphemeQuestion(
     morphemeFeedback,
     question.item,
     isCorrect
+  );
+
+  showNextButton();
+}
+
+
+/* ========================================
+   BREAK IT APART
+   ======================================== */
+
+function renderBreakQuestion(question) {
+  panels.break.hidden = false;
+
+  workspaceTitle.textContent = "Break It Apart";
+  workspaceSubtitle.textContent =
+    "Split the whole word into its meaningful parts.";
+
+  breakFeedback.hidden = true;
+  breakChoices.innerHTML = "";
+
+  breakWord.textContent = question.word;
+
+  shuffle(question.choices).forEach((choice) => {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "answer-button";
+    button.textContent = choice;
+
+    button.addEventListener("click", () => {
+      answerBreakQuestion(
+        button,
+        choice,
+        question
+      );
+    });
+
+    breakChoices.append(button);
+  });
+}
+
+function answerBreakQuestion(
+  button,
+  choice,
+  question
+) {
+  if (quizState.answered) {
+    return;
+  }
+
+  quizState.answered = true;
+
+  const isCorrect =
+    choice === question.correct;
+
+  if (isCorrect) {
+    quizState.score += 1;
+  }
+
+  [...breakChoices.children].forEach(
+    (choiceButton) => {
+      choiceButton.disabled = true;
+
+      if (
+        choiceButton.textContent ===
+        question.correct
+      ) {
+        choiceButton.classList.add("correct");
+      }
+    }
+  );
+
+  if (!isCorrect) {
+    button.classList.add("incorrect");
+  }
+
+  breakFeedback.hidden = false;
+
+  breakFeedback.className =
+    `feedback-panel ${
+      isCorrect
+        ? "correct-feedback"
+        : "incorrect-feedback"
+    }`;
+
+  const definitionHTML =
+    question.definition
+      ? [
+          '<div class="feedback-label">',
+          '  Meaning',
+          '</div>',
+          '',
+          '<div class="feedback-value">',
+          `  ${escapeHTML(question.definition)}`,
+          '</div>'
+        ].join("\n")
+      : "";
+
+  breakFeedback.innerHTML = `
+    <div class="feedback-details">
+
+      <h4 class="feedback-heading">
+        ${isCorrect ? "Correct!" : "Not quite."}
+      </h4>
+
+      <div class="feedback-label">
+        Correct breakdown
+      </div>
+
+      <div class="feedback-value">
+        <strong>
+          ${escapeHTML(question.segmentation)}
+        </strong>
+      </div>
+
+      <div class="feedback-label">
+        Whole word
+      </div>
+
+      <div class="feedback-value">
+        ${escapeHTML(question.word)}
+      </div>
+
+      ${definitionHTML}
+
+      <button
+        class="audio-button"
+        type="button"
+      >
+        🔊 Hear the explanation
+      </button>
+
+    </div>
+  `;
+
+  setAudioButton(
+    breakFeedback,
+    `${question.word} can be broken into ${question.segmentation.replaceAll("+", " plus ")}. ` +
+    (
+      question.definition
+        ? `${question.word} means ${question.definition}.`
+        : ""
+    )
   );
 
   showNextButton();
