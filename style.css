@@ -1752,3 +1752,111 @@ a:focus-visible {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ========================================
+   STUDY CHOICE BUTTONS
+   ======================================== */
+
+.study-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+
+  max-width: 760px;
+  margin-top: 12px;
+}
+
+.study-choice-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  min-height: 96px;
+  padding: 14px 12px;
+
+  border: 2px solid #d4dfea;
+  border-radius: var(--radius-medium);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f8fbfe
+    );
+
+  color: var(--navy);
+  text-align: center;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-small);
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.study-choice-button:hover {
+  transform: translateY(-2px);
+  border-color: #90aaca;
+}
+
+.study-choice-button:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(40, 118, 187, 0.14),
+    var(--shadow-small);
+}
+
+.study-choice-button.active {
+  border-color: var(--navy);
+
+  background:
+    linear-gradient(
+      180deg,
+      #edf5fc,
+      #e4f0fa
+    );
+
+  box-shadow:
+    0 0 0 3px rgba(40, 118, 187, 0.12),
+    var(--shadow-small);
+
+  transform: translateY(-2px);
+}
+
+.study-choice-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.study-choice-button strong {
+  color: var(--navy);
+  font-size: 0.98rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.study-choice-button small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 700px) {
+  .study-choice-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .study-choice-grid {
+    grid-template-columns: 1fr;
+  }
+}

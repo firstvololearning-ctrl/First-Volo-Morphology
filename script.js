@@ -3083,6 +3083,10 @@ const prefixRootSuffixBuildWords = [
    ======================================== */
 
 const studySelect = document.getElementById("studySelect");
+
+const studyChoiceButtons = [
+  ...document.querySelectorAll(".study-choice-button")
+];
 const gradeBandSelect = document.getElementById("gradeBandSelect");
 const vocabLevelSelect = document.getElementById("vocabLevelSelect");
 const studyAvailability = document.getElementById("studyAvailability");
@@ -3529,8 +3533,10 @@ function updateStudySelectForActivity() {
     }
   );
 
-  const allowedModes =
-    isBuild ? buildModes : individualModes;
+  const allowedModes = new Set([
+    ...individualModes,
+    ...buildModes
+  ]);
 
   if (!allowedModes.has(studyMode)) {
     studyMode = "";
@@ -6285,6 +6291,35 @@ function checkBuiltWord() {
 /* ========================================
    EVENT LISTENERS
    ======================================== */
+
+studyChoiceButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const selectedMode =
+      button.dataset.studyMode;
+
+    studySelect.value = selectedMode;
+
+    studyChoiceButtons.forEach((choice) => {
+      const isActive =
+        choice === button;
+
+      choice.classList.toggle(
+        "active",
+        isActive
+      );
+
+      choice.setAttribute(
+        "aria-pressed",
+        String(isActive)
+      );
+    });
+
+    studySelect.dispatchEvent(
+      new Event("change")
+    );
+  });
+});
+
 
 studySelect.addEventListener("change", () => {
   studyMode = studySelect.value;

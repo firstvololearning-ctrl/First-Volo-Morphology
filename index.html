@@ -110,57 +110,109 @@
 
       </label>
 
-      <div class="select-wrap">
+      <div
+        class="study-choice-grid"
+        id="studyChoiceGrid"
+        aria-label="Choose word parts to study"
+      >
 
-        <select
-          class="study-select"
-          id="studySelect"
-          required
+        <button
+          class="study-choice-button prefix-choice"
+          data-study-mode="prefixes"
+          type="button"
+          aria-pressed="false"
         >
+          <span class="study-choice-icon">🟢</span>
+          <strong>Prefixes</strong>
+          <small>Practice prefixes</small>
+        </button>
 
-          <option
-            value=""
-            selected
-            disabled
-          >
-            Choose word parts
-          </option>
+        <button
+          class="study-choice-button root-choice"
+          data-study-mode="roots"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="study-choice-icon">🔵</span>
+          <strong>Roots</strong>
+          <small>Practice roots</small>
+        </button>
 
-          <optgroup label="Individual Word Parts">
+        <button
+          class="study-choice-button suffix-choice"
+          data-study-mode="suffixes"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="study-choice-icon">🟣</span>
+          <strong>Suffixes</strong>
+          <small>Practice suffixes</small>
+        </button>
 
-            <option value="prefixes">
-              🟢 Prefixes
-            </option>
+        <button
+          class="study-choice-button combined-choice"
+          data-study-mode="prefix-root"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="study-choice-icon">🟢 🔵</span>
+          <strong>Prefixes + Roots</strong>
+          <small>Practice both together</small>
+        </button>
 
-            <option value="roots">
-              🔵 Roots
-            </option>
+        <button
+          class="study-choice-button combined-choice"
+          data-study-mode="root-suffix"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="study-choice-icon">🔵 🟣</span>
+          <strong>Roots + Suffixes</strong>
+          <small>Practice both together</small>
+        </button>
 
-            <option value="suffixes">
-              🟣 Suffixes
-            </option>
-
-          </optgroup>
-
-          <optgroup label="Word Building">
-
-            <option value="prefix-root">
-              🟢 Prefixes + 🔵 Roots
-            </option>
-
-            <option value="root-suffix">
-              🔵 Roots + 🟣 Suffixes
-            </option>
-
-            <option value="prefix-root-suffix">
-              🟢 Prefixes + 🔵 Roots + 🟣 Suffixes
-            </option>
-
-          </optgroup>
-
-        </select>
+        <button
+          class="study-choice-button combined-choice"
+          data-study-mode="prefix-root-suffix"
+          type="button"
+          aria-pressed="false"
+        >
+          <span class="study-choice-icon">🟢 🔵 🟣</span>
+          <strong>Prefixes + Roots + Suffixes</strong>
+          <small>Practice all three together</small>
+        </button>
 
       </div>
+
+      <!--
+        Keep the original select as the internal state control
+        while the visible button interface is introduced.
+      -->
+      <select
+        id="studySelect"
+        class="study-select"
+        hidden
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <option value="" selected disabled>
+          Choose word parts
+        </option>
+
+        <optgroup label="Individual Word Parts">
+          <option value="prefixes">Prefixes</option>
+          <option value="roots">Roots</option>
+          <option value="suffixes">Suffixes</option>
+        </optgroup>
+
+        <optgroup label="Word Building">
+          <option value="prefix-root">Prefixes + Roots</option>
+          <option value="root-suffix">Roots + Suffixes</option>
+          <option value="prefix-root-suffix">
+            Prefixes + Roots + Suffixes
+          </option>
+        </optgroup>
+      </select>
   <div class="filter-control">
 
     <label
