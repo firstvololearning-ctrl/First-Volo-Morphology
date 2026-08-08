@@ -30,6 +30,46 @@ function getWordInventoryEntry(word) {
   ) || null;
 }
 
+function getWordMetadata(word) {
+  const entry = getWordInventoryEntry(word);
+
+  if (!entry) {
+    return null;
+  }
+
+  return {
+    word: entry.word,
+    practiceBand: entry.practiceBand || null,
+    accessibilityBand: entry.accessibilityBand || null,
+    morphemeIntroBand: entry.morphemeIntroBand || null,
+    vocabLevel: entry.vocabLevel || null,
+    transparency: entry.transparency || null,
+    gradeConfidence: entry.gradeConfidence || null,
+    vocabConfidence: entry.vocabConfidence || null,
+    ccssSkill: entry.ccssSkill || null,
+    recommendedActivityUse:
+      entry.recommendedActivityUse || null,
+    reviewCaution: entry.reviewCaution || null,
+    evidence: entry.evidence || {}
+  };
+}
+
+function getWordPracticeBand(word) {
+  return getWordMetadata(word)?.practiceBand || null;
+}
+
+function getWordVocabularyLevel(word) {
+  return getWordMetadata(word)?.vocabLevel || null;
+}
+
+function getWordTransparency(word) {
+  return getWordMetadata(word)?.transparency || null;
+}
+
+function wordHasReviewCaution(word) {
+  return Boolean(getWordMetadata(word)?.reviewCaution);
+}
+
 const prefixes = [
   {
     id: "un",

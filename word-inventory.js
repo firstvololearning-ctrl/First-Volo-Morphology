@@ -1,6 +1,6 @@
 /*
   First Volo Morphology — Master Word Inventory
-  Generated from: First_Volo_Morphology_Master_Word_Inventory_v4_Focus_Sync.xlsx
+  Generated from: First_Volo_Morphology_Master_Word_Inventory_v5_Status_Sync.xlsx
 
   IMPORTANT:
   - practiceBand = recommended band for morphology work with the WORD
@@ -10,7 +10,7 @@
   - evidence fields are supporting evidence, not automatic grade assignments
 */
 
-window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v4-focus-sync";
+window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v5-status-sync";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
   {
@@ -673,7 +673,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "bibliography",
-    "status": "recommended",
+    "status": "current",
     "morphemes": [
       "biblio",
       "graph"
@@ -1805,7 +1805,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "depend",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "pend/pens"
     ],
@@ -1899,7 +1899,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "dermal",
-    "status": "recommended",
+    "status": "current",
     "morphemes": [
       "-al",
       "derma"
@@ -2217,7 +2217,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "difference",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "-ence"
     ],
@@ -2284,7 +2284,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "dismiss",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "dis-"
     ],
@@ -2696,7 +2696,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "epidermis",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "derma"
     ],
@@ -2787,7 +2787,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "evidence",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "-ence"
     ],
@@ -3147,7 +3147,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "geography",
-    "status": "recommended",
+    "status": "current",
     "morphemes": [
       "geo",
       "graph"
@@ -6126,7 +6126,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "respect",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "spect"
     ],
@@ -7875,7 +7875,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "vocabulary",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "voc"
     ],
@@ -7969,7 +7969,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "vocation",
-    "status": "current",
+    "status": "recommended",
     "morphemes": [
       "voc"
     ],
