@@ -74,6 +74,15 @@ function filterWordsBySelectedGrade(items) {
   );
 }
 
+function filterWordsBySelectedFilters(items) {
+  return items.filter(
+    (item) =>
+      item?.word &&
+      isWordEligibleForSelectedGrade(item.word) &&
+      isWordEligibleForSelectedVocabulary(item.word)
+  );
+}
+
 function isWordHuntEligibleForSelectedGrade(question) {
   if (gradeBand === "all") {
     return true;
@@ -94,6 +103,41 @@ function isWordHuntEligibleForSelectedGrade(question) {
 
 function getWordVocabularyLevel(word) {
   return getWordMetadata(word)?.vocabLevel || null;
+}
+
+function isWordEligibleForSelectedVocabulary(word) {
+  if (vocabLevel === "all") {
+    return true;
+  }
+
+  return (
+    getWordVocabularyLevel(word) === vocabLevel
+  );
+}
+
+function getVocabularyLevelLabel() {
+  const labels = {
+    all: "All Vocabulary",
+    familiar: "Familiar",
+    academic: "Academic",
+    challenge: "Challenge"
+  };
+
+  return labels[vocabLevel] || "All Vocabulary";
+}
+
+function getActiveWordFilterLabel() {
+  const parts = [];
+
+  if (gradeBand !== "all") {
+    parts.push(getGradeBandLabel());
+  }
+
+  if (vocabLevel !== "all") {
+    parts.push(getVocabularyLevelLabel());
+  }
+
+  return parts.join(" + ");
 }
 
 function getWordTransparency(word) {
@@ -3001,6 +3045,7 @@ const prefixRootSuffixBuildWords = [
 
 const studySelect = document.getElementById("studySelect");
 const gradeBandSelect = document.getElementById("gradeBandSelect");
+const vocabLevelSelect = document.getElementById("vocabLevelSelect");
 const studyAvailability = document.getElementById("studyAvailability");
 
 const activityButtons = [
@@ -3077,6 +3122,7 @@ const aboutClose = document.getElementById("aboutClose");
 let studyMode = "";
 let activeMode = "learn";
 let gradeBand = gradeBandSelect?.value || "all";
+let vocabLevel = vocabLevelSelect?.value || "all";
 
 let quizState = {
   mode: "",
@@ -3793,11 +3839,14 @@ if (mode === "infer") {
     mode === "find" ||
     mode === "infer"
   ) {
-    items = filterWordsBySelectedGrade(items);
+    items = filterWordsBySelectedFilters(items);
   }
 
   if (
-    gradeBand !== "all" &&
+    (
+      gradeBand !== "all" ||
+      vocabLevel !== "all"
+    ) &&
     (
       mode === "find" ||
       mode === "infer"
@@ -3810,8 +3859,8 @@ if (mode === "infer") {
         : "Figure It Out";
 
     showStartMessage(
-      `No ${getGradeBandLabel()} ${activityName} items are available for this word-part selection yet.`,
-      "Choose another grade band or word part, or select All Grades."
+      `No ${activityName} items match ${getActiveWordFilterLabel()} for this word-part selection yet.`,
+      "Choose another Grade Band, Vocabulary level, or word part."
     );
 
     return;
@@ -4756,7 +4805,7 @@ function getActiveBuildWords() {
     items = buildWords;
   }
 
-  return filterWordsBySelectedGrade(items);
+  return filterWordsBySelectedFilters(items);
 }
 
 
@@ -4791,12 +4840,15 @@ function renderBuildActivity() {
     getActiveBuildWords();
 
   if (
-    gradeBand !== "all" &&
+    (
+      gradeBand !== "all" ||
+      vocabLevel !== "all"
+    ) &&
     activeBuildWords.length === 0
   ) {
     showStartMessage(
-      `No ${getGradeBandLabel()} Build Words are available for this pattern yet.`,
-      "Choose another grade band or word-building pattern, or select All Grades."
+      `No Build Words match ${getActiveWordFilterLabel()} for this pattern yet.`,
+      "Choose another Grade Band, Vocabulary level, or word-building pattern."
     );
 
     return;
@@ -5486,6 +5538,12 @@ activityButtons.forEach((button) => {
 
 gradeBandSelect.addEventListener("change", () => {
   gradeBand = gradeBandSelect.value;
+
+  renderCurrentActivity();
+});
+
+vocabLevelSelect.addEventListener("change", () => {
+  vocabLevel = vocabLevelSelect.value;
 
   renderCurrentActivity();
 });
