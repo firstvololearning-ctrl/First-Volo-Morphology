@@ -506,6 +506,12 @@
           </small>
         </button>
 
+
+        <button class="activity-button" data-mode="use" type="button" aria-pressed="false">
+          <span class="activity-icon">✏️</span>
+          <span class="activity-name">Use It</span>
+          <small>Use words in context</small>
+        </button>
       </nav>
 
     </section>
@@ -1058,6 +1064,22 @@
 
       </section>
 
+
+
+      <!-- USE IT -->
+
+      <section class="activity-panel" id="useActivity" hidden>
+        <div class="activity-introduction">
+          <h3>Use It</h3>
+          <p>Use morphology to choose and build words that fit sentences.</p>
+        </div>
+
+        <div class="question-card">
+          <div id="usePrompt"></div>
+          <div class="answer-grid" id="useChoices"></div>
+          <div class="feedback-panel" id="useFeedback" aria-live="polite" hidden></div>
+        </div>
+      </section>
 
       <!-- SHARED NEXT BUTTON -->
 
@@ -1680,6 +1702,7 @@
 
   <script src="word-inventory.js"></script>
   <script src="script.js"></script>
+  <script src="use-it.js"></script>
 
 </body>
 </html>

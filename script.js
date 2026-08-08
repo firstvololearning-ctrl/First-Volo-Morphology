@@ -3094,7 +3094,8 @@ const panels = {
   morpheme: document.getElementById("morphemeActivity"),
   break: document.getElementById("breakActivity"),
   infer: document.getElementById("inferActivity"),
-  build: document.getElementById("buildActivity")
+  build: document.getElementById("buildActivity"),
+  use: document.getElementById("useActivity")
 };
 
 const learningGrid = document.getElementById("learningGrid");
@@ -3403,6 +3404,12 @@ function showStartMessage(title, message) {
         "Use a known word part to infer the word's meaning."
     },
 
+    use: {
+      title: "Use It",
+      subtitle:
+        "Use morphology to choose words that fit sentences."
+    },
+
     build: {
       title: "Build Words",
       subtitle:
@@ -3480,7 +3487,8 @@ function prepareUnavailableOptions() {
    ======================================== */
 
 function updateStudySelectForActivity() {
-  const isBuild = activeMode === "build";
+  const usesWordBuildingSet =
+    activeMode === "build" || activeMode === "use";
 
   const individualModes = new Set([
     "prefixes",
@@ -3497,25 +3505,25 @@ function updateStudySelectForActivity() {
   [...studySelect.options].forEach((option) => {
     if (!option.value) {
       option.hidden = false;
-      option.textContent = isBuild
+      option.textContent = usesWordBuildingSet
         ? "Choose a word-building pattern"
         : "Choose word parts";
       return;
     }
 
-    option.hidden = isBuild
+    option.hidden = usesWordBuildingSet
       ? !buildModes.has(option.value)
       : !individualModes.has(option.value);
   });
 
   [...studySelect.querySelectorAll("optgroup")].forEach(
     (group) => {
-      const isBuildGroup =
+      const usesWordBuildingSetGroup =
         group.label === "Word Building";
 
-      group.hidden = isBuild
-        ? !isBuildGroup
-        : isBuildGroup;
+      group.hidden = usesWordBuildingSet
+        ? !usesWordBuildingSetGroup
+        : usesWordBuildingSetGroup;
     }
   );
 
@@ -3537,13 +3545,14 @@ function updateStudySelectForActivity() {
       morpheme: "Word Part",
       break: "Break It Apart",
       infer: "Figure It Out",
-      build: "Build Words"
+      build: "Build Words",
+      use: "Use It"
     };
 
     workspaceTitle.textContent =
       activityTitles[activeMode] || "";
 
-    workspaceSubtitle.textContent = isBuild
+    workspaceSubtitle.textContent = usesWordBuildingSet
       ? "Choose a word-building pattern to begin."
       : "Choose Prefixes, Roots, or Suffixes to begin.";
   }
@@ -3592,7 +3601,7 @@ function renderCurrentActivity() {
   }
 
   if (
-    activeMode === "build" &&
+    (activeMode === "build" || activeMode === "use") &&
     studyMode !== "prefix-root" &&
     studyMode !== "root-suffix" &&
     studyMode !== "prefix-root-suffix"
@@ -3616,6 +3625,11 @@ function renderCurrentActivity() {
 
   if (activeMode === "build") {
     renderBuildActivity();
+    return;
+  }
+
+  if (activeMode === "use") {
+    renderUseItActivity();
     return;
   }
 
@@ -6374,6 +6388,11 @@ vocabLevelSelect.addEventListener("change", () => {
 
 
 nextQuestionButton.addEventListener("click", () => {
+  if (activeMode === "use") {
+    goToNextUseItQuestion();
+    return;
+  }
+
   const isLast =
     quizState.index === quizState.items.length - 1;
 
