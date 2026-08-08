@@ -126,6 +126,27 @@ function getVocabularyLevelLabel() {
   return labels[vocabLevel] || "All Vocabulary";
 }
 
+function getLearnExamplesForSelectedVocabulary(item) {
+  const examples = item?.examples || [];
+
+  if (vocabLevel === "all") {
+    return examples;
+  }
+
+  return examples.filter(
+    (word) =>
+      isWordEligibleForSelectedVocabulary(word)
+  );
+}
+
+function getLearnExampleLabel() {
+  if (vocabLevel === "all") {
+    return "Common words";
+  }
+
+  return `${getVocabularyLevelLabel()} words`;
+}
+
 function getActiveWordFilterLabel() {
   const parts = [];
 
@@ -3649,7 +3670,16 @@ function renderLearnDetail(item) {
     return;
   }
 
-  const examples = item.examples.join(" · ");
+  const filteredExamples =
+  getLearnExamplesForSelectedVocabulary(item);
+
+const examples =
+  filteredExamples.length > 0
+    ? filteredExamples.join(" · ")
+    : `No ${getVocabularyLevelLabel().toLowerCase()} examples are currently included for this word part.`;
+
+const exampleLabel =
+  getLearnExampleLabel();
 
   detail.hidden = false;
   detail.className = "feedback-panel correct-feedback";
@@ -3678,7 +3708,7 @@ function renderLearnDetail(item) {
         </div>
 
         <div class="feedback-label">
-          Common words
+          ${escapeHTML(exampleLabel)}
         </div>
 
         <div class="feedback-value">
@@ -3697,10 +3727,15 @@ function renderLearnDetail(item) {
     </div>
   `;
 
+  const audioExampleText =
+    filteredExamples.length > 0
+      ? `Examples include ${filteredExamples.join(", ")}.`
+      : `No ${getVocabularyLevelLabel().toLowerCase()} examples are currently included for this word part.`;
+
   setAudioButton(
     detail,
     `${item.speech} means ${item.meaning}. ` +
-    `Examples include ${item.examples.join(", ")}.`
+    audioExampleText
   );
 
   detail.scrollIntoView({
