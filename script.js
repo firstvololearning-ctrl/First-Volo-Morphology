@@ -47,7 +47,7 @@ const prefixes = [
     speech: "dis",
     meaning: "apart or away; not; opposite of",
     image: "images/prefixes/dis.png",
-    examples: ["disagree", "disconnect", "dismiss"]
+    examples: ["disagree", "disconnect", "disobey"]
   },
   {
     id: "en-em",
@@ -334,7 +334,7 @@ const roots = [
     speech: "pend or pens",
     meaning: "hang",
     image: "images/roots/pend-pens.png",
-    examples: ["suspend", "pendant", "depend"]
+    examples: ["suspend", "pendant", "pendulum"]
   },
   {
     id: "port",
@@ -397,7 +397,7 @@ const roots = [
     speech: "spect",
     meaning: "look; watch",
     image: "images/roots/spect.png",
-    examples: ["inspect", "spectator", "respect"]
+    examples: ["inspect", "spectator", "inspector"]
   },
   {
     id: "struct",
@@ -460,7 +460,7 @@ const roots = [
     speech: "voke",
     meaning: "call; voice",
     image: "images/roots/voc.png",
-  examples: ["vocal", "vocation", "vocabulary"]
+  examples: ["vocal", "vocalize", "vocalist"]
   },
   {
   id: "act",
@@ -577,7 +577,7 @@ const roots = [
   speech: "derma",
   meaning: "skin",
   image: "images/roots/derma.png",
-  examples: ["dermatology", "dermatologist", "epidermis"]
+  examples: ["dermatology", "dermatologist", "dermal"]
 },
 {
   id: "phon",
@@ -665,7 +665,7 @@ const suffixes = [
     speech: "ence",
     meaning: "state, quality, or act",
     image: "images/suffixes/ence.png",
-    examples: ["difference", "existence", "evidence"]
+    examples: ["existence", "persistence", "dependence"]
   },
   {
     id: "ic",
@@ -1728,7 +1728,7 @@ const wordHuntQuestions = [
     words: [
       { word: "inspect", correct: true, before: "in", target: "spect", after: "" },
       { word: "spectator", correct: true, before: "", target: "spect", after: "ator" },
-      { word: "respect", correct: true, before: "re", target: "spect", after: "" },
+      { word: "inspector", correct: true, before: "in", target: "spect", after: "or" },
       { word: "perspective", correct: true, before: "per", target: "spect", after: "ive" },
       { word: "manuscript", correct: false },
       { word: "transport", correct: false },
