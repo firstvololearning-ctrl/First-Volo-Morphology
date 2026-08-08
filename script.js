@@ -237,6 +237,24 @@ const prefixes = [
     meaning: "forward; for",
     image: "images/prefixes/pro.png",
     examples: ["proceed", "promote", "project"]
+  },
+  {
+    id: "retro",
+    type: "prefix",
+    label: "retro-",
+    speech: "retro",
+    meaning: "backward; back",
+    image: "images/prefixes/retro.png",
+    examples: ["retrospective", "retroactive", "retrofit"]
+  },
+  {
+    id: "circum",
+    type: "prefix",
+    label: "circum-",
+    speech: "circum",
+    meaning: "around",
+    image: "images/prefixes/circum.png",
+    examples: ["circumference", "circumnavigate", "circumscribe"]
   }
 ];
 
@@ -515,6 +533,105 @@ const roots = [
   meaning: "see",
   image: "images/roots/vis-vid.png",
   examples: ["visible", "vision", "video"]
+},
+{
+  id: "micro",
+  type: "root",
+  label: "micro",
+  speech: "micro",
+  meaning: "small",
+  image: "images/roots/micro.png",
+  examples: ["microscope", "microscopic", "microorganism"]
+},
+{
+  id: "tele",
+  type: "root",
+  label: "tele",
+  speech: "tele",
+  meaning: "far; distant",
+  image: "images/roots/tele.png",
+  examples: ["telegraph", "telescope", "television"]
+},
+{
+  id: "auto",
+  type: "root",
+  label: "auto",
+  speech: "auto",
+  meaning: "self",
+  image: "images/roots/auto.png",
+  examples: ["autograph", "autobiography", "automatic"]
+},
+{
+  id: "biblio",
+  type: "root",
+  label: "biblio",
+  speech: "biblio",
+  meaning: "book",
+  image: "images/roots/biblio.png",
+  examples: ["bibliography", "bibliographic", "bibliophile"]
+},
+{
+  id: "derma",
+  type: "root",
+  label: "derma",
+  speech: "derma",
+  meaning: "skin",
+  image: "images/roots/derma.png",
+  examples: ["dermatology", "dermatologist", "epidermis"]
+},
+{
+  id: "phon",
+  type: "root",
+  label: "phon/phone",
+  speech: "phon or phone",
+  meaning: "sound",
+  image: "images/roots/phon-phone.png",
+  examples: ["phonics", "telephone", "phonograph"]
+},
+{
+  id: "scop",
+  type: "root",
+  label: "scop/scope",
+  speech: "scop or scope",
+  meaning: "look; examine",
+  image: "images/roots/scop-scope.png",
+  examples: ["microscope", "telescope", "periscope"]
+},
+{
+  id: "metr",
+  type: "root",
+  label: "metr/meter",
+  speech: "metr or meter",
+  meaning: "measure",
+  image: "images/roots/metr-meter.png",
+  examples: ["metric", "diameter", "thermometer"]
+},
+{
+  id: "therm",
+  type: "root",
+  label: "therm",
+  speech: "therm",
+  meaning: "heat",
+  image: "images/roots/therm.png",
+  examples: ["thermal", "thermometer", "geothermal"]
+},
+{
+  id: "geo",
+  type: "root",
+  label: "geo",
+  speech: "geo",
+  meaning: "earth",
+  image: "images/roots/geo.png",
+  examples: ["geology", "geography", "geothermal"]
+},
+{
+  id: "terr",
+  type: "root",
+  label: "terr",
+  speech: "terr",
+  meaning: "earth; land",
+  image: "images/roots/terr.png",
+  examples: ["terrain", "territory", "subterranean"]
 }
 ];
 
@@ -732,6 +849,15 @@ const suffixes = [
   examples: ["joyous", "dangerous", "famous"]
 },
   {
+    id: "ant-ent",
+    type: "suffix",
+    label: "-ant, -ent",
+    speech: "ant or ent",
+    meaning: "one who; having or being",
+    image: "images/suffixes/ant-ent.png",
+    examples: ["assistant", "dependent", "resistant"]
+  },
+  {
     id: "s-es",
     type: "suffix",
     label: "-s, -es",
@@ -782,6 +908,21 @@ const suffixVariants = [
     label: "-er",
     meaning: "more",
     image: "images/suffixes/er-more.png"
+  },
+
+  {
+    id: "ant",
+    type: "suffix",
+    label: "-ant",
+    meaning: "one who; having or being",
+    image: "images/suffixes/ant.png"
+  },
+  {
+    id: "ent",
+    type: "suffix",
+    label: "-ent",
+    meaning: "one who; having or being",
+    image: "images/suffixes/ent.png"
   },
 
   {
