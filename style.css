@@ -417,6 +417,30 @@ a:focus-visible {
     0 5px 14px rgba(16, 45, 80, 0.09);
 }
 
+
+.filter-control {
+  margin-top: 20px;
+  max-width: 760px;
+}
+
+.filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  margin: 0 0 8px;
+
+  color: var(--navy);
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.filter-label small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .study-availability {
   min-height: 24px;
   margin: 12px 0 0;
