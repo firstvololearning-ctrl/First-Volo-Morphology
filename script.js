@@ -2966,20 +2966,6 @@ const rootSuffixBuildWords = [
 
 const prefixRootSuffixBuildWords = [
   {
-    word: "construction",
-    prefixId: "con",
-    prefix: "con-",
-    prefixMeaning: "together",
-    baseId: "struct",
-    base: "struct",
-    baseMeaning: "build",
-    suffixId: "ion",
-    suffix: "-tion",
-    suffixMeaning: "act or process",
-    literal: "process of building together",
-    definition: "the process of building or putting something together"
-  },
-  {
     word: "projection",
     prefixId: "pro",
     prefix: "pro-",
