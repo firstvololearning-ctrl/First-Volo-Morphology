@@ -74,6 +74,24 @@ function filterWordsBySelectedGrade(items) {
   );
 }
 
+function isWordHuntEligibleForSelectedGrade(question) {
+  if (gradeBand === "all") {
+    return true;
+  }
+
+  const correctWords = question.words
+    .filter((item) => item.correct)
+    .map((item) => item.word);
+
+  return (
+    correctWords.length > 0 &&
+    correctWords.every(
+      (word) =>
+        isWordEligibleForSelectedGrade(word)
+    )
+  );
+}
+
 function getWordVocabularyLevel(word) {
   return getWordMetadata(word)?.vocabLevel || null;
 }
@@ -3262,6 +3280,65 @@ function showStartMessage(title, message) {
   hideAllPanels();
   hideQuizControls();
 
+  const activityHeaders = {
+    learn: {
+      title: "Learn",
+      subtitle:
+        "Select a card to explore its meaning and example words."
+    },
+
+    find: {
+      title: "Find",
+      subtitle:
+        "Identify the target word part in the whole word."
+    },
+
+    hunt: {
+      title: "Word Hunt",
+      subtitle:
+        "Find every word that contains the target word part."
+    },
+
+    meaning: {
+      title: "Meaning",
+      subtitle:
+        "Choose the meaning carried by the word part."
+    },
+
+    morpheme: {
+      title: "Word Part",
+      subtitle:
+        "Choose the word part that matches the meaning."
+    },
+
+    infer: {
+      title: "Figure It Out",
+      subtitle:
+        "Use a known word part to infer the word's meaning."
+    },
+
+    build: {
+      title: "Build Words",
+      subtitle:
+        studyMode === "root-suffix"
+          ? "Combine a root or base with a suffix to create a real word."
+          : studyMode === "prefix-root"
+            ? "Combine a prefix and a root to create a real word."
+            : "Combine word parts to create a real word."
+    }
+  };
+
+  const currentHeader =
+    activityHeaders[activeMode];
+
+  if (currentHeader) {
+    workspaceTitle.textContent =
+      currentHeader.title;
+
+    workspaceSubtitle.textContent =
+      currentHeader.subtitle;
+  }
+
   startPanel.hidden = false;
 
   const heading = startPanel.querySelector("h3");
@@ -3648,6 +3725,24 @@ if (mode === "find") {
     return false;
   });
 }
+
+  if (mode === "hunt") {
+    items = items.filter(
+      isWordHuntEligibleForSelectedGrade
+    );
+
+    if (
+      gradeBand !== "all" &&
+      items.length === 0
+    ) {
+      showStartMessage(
+        `No complete ${getGradeBandLabel()} Word Hunt rounds are available for this word-part selection yet.`,
+        "Choose another grade band or word part, or select All Grades."
+      );
+
+      return;
+    }
+  }
 
   if (mode === "meaning") {
     items = createMeaningQuestions(getCurrentStudyItems());
