@@ -58,6 +58,22 @@ function getWordPracticeBand(word) {
   return getWordMetadata(word)?.practiceBand || null;
 }
 
+function isWordEligibleForSelectedGrade(word) {
+  if (gradeBand === "all") {
+    return true;
+  }
+
+  return getWordPracticeBand(word) === gradeBand;
+}
+
+function filterWordsBySelectedGrade(items) {
+  return items.filter(
+    (item) =>
+      item?.word &&
+      isWordEligibleForSelectedGrade(item.word)
+  );
+}
+
 function getWordVocabularyLevel(word) {
   return getWordMetadata(word)?.vocabLevel || null;
 }
@@ -3678,6 +3694,34 @@ if (mode === "infer") {
   });
 }
 
+  if (
+    mode === "find" ||
+    mode === "infer"
+  ) {
+    items = filterWordsBySelectedGrade(items);
+  }
+
+  if (
+    gradeBand !== "all" &&
+    (
+      mode === "find" ||
+      mode === "infer"
+    ) &&
+    items.length === 0
+  ) {
+    const activityName =
+      mode === "find"
+        ? "Find"
+        : "Figure It Out";
+
+    showStartMessage(
+      `No ${getGradeBandLabel()} ${activityName} items are available for this word-part selection yet.`,
+      "Choose another grade band or word part, or select All Grades."
+    );
+
+    return;
+  }
+
   quizState = {
     mode,
     items: shuffle(items).slice(0, 10),
@@ -4605,15 +4649,19 @@ function showNextButton() {
    ======================================== */
 
 function getActiveBuildWords() {
+  let items = [];
+
   if (studyMode === "root-suffix") {
-    return rootSuffixBuildWords;
+    items = rootSuffixBuildWords;
+  } else if (
+    studyMode === "prefix-root-suffix"
+  ) {
+    items = prefixRootSuffixBuildWords;
+  } else {
+    items = buildWords;
   }
 
-  if (studyMode === "prefix-root-suffix") {
-    return prefixRootSuffixBuildWords;
-  }
-
-  return buildWords;
+  return filterWordsBySelectedGrade(items);
 }
 
 
@@ -4644,6 +4692,21 @@ function syncBuildPatternButtons() {
 
 
 function renderBuildActivity() {
+  const activeBuildWords =
+    getActiveBuildWords();
+
+  if (
+    gradeBand !== "all" &&
+    activeBuildWords.length === 0
+  ) {
+    showStartMessage(
+      `No ${getGradeBandLabel()} Build Words are available for this pattern yet.`,
+      "Choose another grade band or word-building pattern, or select All Grades."
+    );
+
+    return;
+  }
+
   panels.build.hidden = false;
 
   workspaceTitle.textContent = "Build Words";
