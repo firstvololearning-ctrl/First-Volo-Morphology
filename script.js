@@ -2966,6 +2966,7 @@ const prefixRootSuffixBuildWords = [
    ======================================== */
 
 const studySelect = document.getElementById("studySelect");
+const gradeBandSelect = document.getElementById("gradeBandSelect");
 const studyAvailability = document.getElementById("studyAvailability");
 
 const activityButtons = [
@@ -3041,6 +3042,7 @@ const aboutClose = document.getElementById("aboutClose");
 
 let studyMode = "";
 let activeMode = "learn";
+let gradeBand = gradeBandSelect?.value || "all";
 
 let quizState = {
   mode: "",
@@ -3107,32 +3109,86 @@ function getItemById(id) {
     .find((item) => item.id === id);
 }
 
+function getMorphemeInventoryEntry(itemOrId) {
+  const id =
+    typeof itemOrId === "string"
+      ? itemOrId
+      : itemOrId?.id;
+
+  if (!id) {
+    return null;
+  }
+
+  return (
+    window.FIRST_VOLO_MORPHEME_INVENTORY || []
+  ).find(
+    (entry) => entry.id === id
+  ) || null;
+}
+
+function getMorphemeIntroBand(itemOrId) {
+  return (
+    getMorphemeInventoryEntry(itemOrId)
+      ?.introBand || null
+  );
+}
+
+function isMorphemeEligibleForSelectedGrade(item) {
+  if (gradeBand === "all") {
+    return true;
+  }
+
+  return (
+    getMorphemeIntroBand(item) === gradeBand
+  );
+}
+
+function getGradeBandLabel() {
+  const labels = {
+    all: "All Grades",
+    "2-3": "Grades 2–3",
+    "4-5": "Grades 4–5",
+    "6-8": "Grades 6–8"
+  };
+
+  return labels[gradeBand] || "All Grades";
+}
+
+function getStudyModeLabel() {
+  const labels = {
+    prefixes: "prefixes",
+    roots: "roots",
+    suffixes: "suffixes"
+  };
+
+  return labels[studyMode] || "word parts";
+}
+
+
 function getCurrentStudyItems() {
+  let items = [];
+
   if (studyMode === "prefixes") {
-    return prefixes;
+    items = prefixes;
+  } else if (studyMode === "roots") {
+    items = roots;
+  } else if (studyMode === "suffixes") {
+    items = suffixes;
+  } else if (studyMode === "prefix-root") {
+    items = [...prefixes, ...roots];
+  } else if (studyMode === "root-suffix") {
+    items = [...roots, ...suffixes];
+  } else if (studyMode === "prefix-root-suffix") {
+    items = [
+      ...prefixes,
+      ...roots,
+      ...suffixes
+    ];
   }
 
-  if (studyMode === "roots") {
-    return roots;
-  }
-
-  if (studyMode === "suffixes") {
-    return suffixes;
-  }
-
-  if (studyMode === "prefix-root") {
-    return [...prefixes, ...roots];
-  }
-
-  if (studyMode === "root-suffix") {
-    return [...roots, ...suffixes];
-  }
-
-  if (studyMode === "prefix-root-suffix") {
-    return [...prefixes, ...roots, ...suffixes];
-  }
-
-  return [];
+  return items.filter(
+    isMorphemeEligibleForSelectedGrade
+  );
 }
 
 function getTypeClass(type) {
@@ -3326,6 +3382,27 @@ function activateActivityButton(mode) {
 }
 
 function renderCurrentActivity() {
+  const gradeFilteredMorphemeModes =
+    new Set([
+      "learn",
+      "meaning",
+      "morpheme"
+    ]);
+
+  if (
+    studyMode &&
+    gradeBand !== "all" &&
+    gradeFilteredMorphemeModes.has(activeMode) &&
+    getCurrentStudyItems().length === 0
+  ) {
+    showStartMessage(
+      `No ${getGradeBandLabel()} ${getStudyModeLabel()} are available here yet.`,
+      "Choose another grade band or word part, or select All Grades."
+    );
+
+    return;
+  }
+
   if (!studyMode) {
     showStartMessage(
       "Choose what you want to study.",
@@ -5248,6 +5325,13 @@ activityButtons.forEach((button) => {
     renderCurrentActivity();
   });
 });
+
+gradeBandSelect.addEventListener("change", () => {
+  gradeBand = gradeBandSelect.value;
+
+  renderCurrentActivity();
+});
+
 
 nextQuestionButton.addEventListener("click", () => {
   const isLast =
