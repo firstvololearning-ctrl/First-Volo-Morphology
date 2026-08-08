@@ -3035,7 +3035,12 @@ function showStartMessage(title, message) {
 function prepareUnavailableOptions() {
 
   [...studySelect.options].forEach((option) => {
-    option.disabled = false;
+    const isPlaceholder = option.value === "";
+    const isUnavailableBuild =
+      option.value === "prefix-root-suffix";
+
+    option.disabled =
+      isPlaceholder || isUnavailableBuild;
 
     option.textContent = option.textContent.replace(
       " — coming after suffixes are added",
@@ -3070,6 +3075,73 @@ function prepareUnavailableOptions() {
    ACTIVITY SELECTION
    ======================================== */
 
+function updateStudySelectForActivity() {
+  const isBuild = activeMode === "build";
+
+  const individualModes = new Set([
+    "prefixes",
+    "roots",
+    "suffixes"
+  ]);
+
+  const buildModes = new Set([
+    "prefix-root",
+    "root-suffix",
+    "prefix-root-suffix"
+  ]);
+
+  [...studySelect.options].forEach((option) => {
+    if (!option.value) {
+      option.hidden = false;
+      option.textContent = isBuild
+        ? "Choose a word-building pattern"
+        : "Choose word parts";
+      return;
+    }
+
+    option.hidden = isBuild
+      ? !buildModes.has(option.value)
+      : !individualModes.has(option.value);
+  });
+
+  [...studySelect.querySelectorAll("optgroup")].forEach(
+    (group) => {
+      const isBuildGroup =
+        group.label === "Word Building";
+
+      group.hidden = isBuild
+        ? !isBuildGroup
+        : isBuildGroup;
+    }
+  );
+
+  const allowedModes =
+    isBuild ? buildModes : individualModes;
+
+  if (!allowedModes.has(studyMode)) {
+    studyMode = "";
+    studySelect.value = "";
+    studyAvailability.textContent = "";
+
+    const activityTitles = {
+      learn: "Learn",
+      find: "Find",
+      hunt: "Word Hunt",
+      meaning: "Meaning",
+      morpheme: "Word Part",
+      infer: "Figure It Out",
+      build: "Build Words"
+    };
+
+    workspaceTitle.textContent =
+      activityTitles[activeMode] || "";
+
+    workspaceSubtitle.textContent = isBuild
+      ? "Choose a word-building pattern to begin."
+      : "Choose Prefixes, Roots, or Suffixes to begin.";
+  }
+}
+
 function activateActivityButton(mode) {
   activityButtons.forEach((button) => {
     const isActive = button.dataset.mode === mode;
@@ -3077,6 +3149,8 @@ function activateActivityButton(mode) {
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
   });
+
+  updateStudySelectForActivity();
 }
 
 function renderCurrentActivity() {
