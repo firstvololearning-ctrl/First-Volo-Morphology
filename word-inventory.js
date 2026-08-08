@@ -1,6 +1,6 @@
 /*
   First Volo Morphology — Master Word Inventory
-  Generated from: First_Volo_Morphology_Master_Word_Inventory_v3_Boundary_Review.xlsx
+  Generated from: First_Volo_Morphology_Master_Word_Inventory_v4_Focus_Sync.xlsx
 
   IMPORTANT:
   - practiceBand = recommended band for morphology work with the WORD
@@ -10,7 +10,7 @@
   - evidence fields are supporting evidence, not automatic grade assignments
 */
 
-window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v3-boundary-review";
+window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v4-focus-sync";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
   {
@@ -1827,6 +1827,29 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     }
   },
   {
+    "word": "dependence",
+    "status": "current",
+    "morphemes": [
+      "-ence"
+    ],
+    "segmentation": "depend + -ence",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "state of depending",
+    "definition": "the state of relying on someone or something",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
+    }
+  },
+  {
     "word": "dependent",
     "status": "current",
     "morphemes": [
@@ -2280,6 +2303,29 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "ngslRank": 2392,
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  },
+  {
+    "word": "disobey",
+    "status": "current",
+    "morphemes": [
+      "dis-"
+    ],
+    "segmentation": "dis- + obey",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "high",
+    "vocabConfidence": "high",
+    "literal": "not obey",
+    "definition": "to refuse or fail to obey",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
     }
   },
   {
@@ -4928,6 +4974,28 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     }
   },
   {
+    "word": "pendulum",
+    "status": "current",
+    "morphemes": [
+      "pend/pens"
+    ],
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "hanging thing",
+    "definition": "a weight that hangs and swings back and forth",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
+    }
+  },
+  {
     "word": "performance",
     "status": "current",
     "morphemes": [
@@ -4971,6 +5039,29 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  },
+  {
+    "word": "persistence",
+    "status": "current",
+    "morphemes": [
+      "-ence"
+    ],
+    "segmentation": "persist + -ence",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "state of persisting",
+    "definition": "the quality of continuing even when something is difficult",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
     }
   },
   {
@@ -5812,7 +5903,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "re-",
       "struct"
     ],
-    "segmentation": "recon + struct",
+    "segmentation": "re- + con- + struct",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -5823,8 +5914,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "build again",
     "definition": "to build or form something again",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
-    "reviewCaution": "Current app inference simplifies the word. Preserve re- + con- + struct; do not treat construct as an unanalyzed base when the goal is classical-root morphology.",
+    "recommendedActivityUse": "Learn / Find / Meaning; scaffolded analysis only; avoid simple Build",
+    "reviewCaution": "Word Hunt is appropriate for locating struct. Preserve re- + con- + struct in explanations; do not simplify the full structure to re- + struct.",
     "evidence": {
       "nawl": true,
       "wviVerification": "Not bulk-verified",
@@ -7824,6 +7915,56 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  },
+  {
+    "word": "vocalist",
+    "status": "current",
+    "morphemes": [
+      "voc",
+      "-al",
+      "-ist"
+    ],
+    "segmentation": "voc + -al + -ist",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "person connected with voice",
+    "definition": "a singer",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; layered Build only if all pieces are shown",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
+    }
+  },
+  {
+    "word": "vocalize",
+    "status": "current",
+    "morphemes": [
+      "voc",
+      "-al",
+      "-ize"
+    ],
+    "segmentation": "voc + -al + -ize",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "make or use the voice",
+    "definition": "to make sounds with the voice",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; layered Build only if all pieces are shown",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
     }
   },
   {

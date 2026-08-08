@@ -1867,7 +1867,7 @@ const inferQuestions = [
     type: "prefix",
     knownLabel: "re-",
     knownMeaning: "again",
-    word: "reconstruct",
+    word: "rebuild",
     correct: "to build something again",
     choices: [
       "to build something again",
