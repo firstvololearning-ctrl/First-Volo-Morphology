@@ -1,16 +1,9 @@
 /*
   First Volo Morphology — Master Word Inventory
-  Generated from: First_Volo_Morphology_Master_Word_Inventory_v5_Status_Sync.xlsx
-
-  IMPORTANT:
-  - practiceBand = recommended band for morphology work with the WORD
-  - accessibilityBand = accessibility of the whole WORD
-  - morphemeIntroBand = recommended introduction band for the MORPHEME
-  - vocabLevel is separate from morphological transparency
-  - evidence fields are supporting evidence, not automatic grade assignments
+  Generated from: First_Volo_Morphology_Master_Word_Inventory_v6_FigureItOut_Sync.xlsx
 */
 
-window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v5-status-sync";
+window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v6-figure-it-out-sync";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
   {
@@ -881,7 +874,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "more than one book",
     "definition": "two or more books",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 171,
@@ -909,7 +902,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "more than one box",
     "definition": "two or more boxes",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 861,
@@ -1469,7 +1462,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "medium",
     "literal": "act or process of building",
     "definition": "the process of building something",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1400,
@@ -1703,7 +1696,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "having the quality of danger",
     "definition": "likely to cause harm or injury",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1419,
@@ -3001,7 +2994,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "the most fast",
     "definition": "moving more quickly than all the others",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 631,
@@ -3818,7 +3811,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "medium",
     "literal": "one who inspects",
     "definition": "a person whose job is to inspect things",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -4261,7 +4254,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "jump in the past",
     "definition": "performed the action of jumping earlier",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1324,
@@ -4287,7 +4280,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "jump happening or in progress",
     "definition": "performing the action of jumping",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1324,
@@ -4718,7 +4711,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "act or result of moving",
     "definition": "the act of changing position or place",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 803,
@@ -5264,7 +5257,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "medium",
     "literal": "can be carried",
     "definition": "easy to carry or move",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -7030,7 +7023,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "more tall",
     "definition": "having more height than something else",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1785,
@@ -7080,7 +7073,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "one who teaches",
     "definition": "a person who teaches",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 496,
@@ -7813,7 +7806,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "can be seen",
     "definition": "able to be seen",
-    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 2419,

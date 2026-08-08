@@ -70,6 +70,138 @@ function wordHasReviewCaution(word) {
   return Boolean(getWordMetadata(word)?.reviewCaution);
 }
 
+function getWordRecommendedUse(word) {
+  return (
+    getWordMetadata(word)?.recommendedActivityUse || ""
+  ).toLowerCase();
+}
+
+function getWordReviewText(word) {
+  return (
+    getWordMetadata(word)?.reviewCaution || ""
+  ).toLowerCase();
+}
+
+function isWordEligibleForFind(word) {
+  const metadata = getWordMetadata(word);
+
+  if (!metadata) return false;
+
+  return (
+    metadata.transparency !== "low" &&
+    getWordRecommendedUse(word).includes("find")
+  );
+}
+
+function isWordEligibleForInference(word) {
+  const metadata = getWordMetadata(word);
+
+  if (!metadata) return false;
+
+  const recommendedUse =
+    getWordRecommendedUse(word);
+
+  const caution =
+    getWordReviewText(word);
+
+  if (metadata.transparency === "low") {
+    return false;
+  }
+
+  if (
+    caution.includes("avoid independent inference") ||
+    caution.includes("avoid inference") ||
+    caution.includes("recognition only")
+  ) {
+    return false;
+  }
+
+  return recommendedUse.includes("figure it out");
+}
+
+function isWordEligibleForBuild(word) {
+  const metadata = getWordMetadata(word);
+
+  if (!metadata) return false;
+
+  const recommendedUse =
+    getWordRecommendedUse(word);
+
+  const caution =
+    getWordReviewText(word);
+
+  if (!metadata.segmentation) {
+    return false;
+  }
+
+  if (metadata.transparency === "low") {
+    return false;
+  }
+
+  if (
+    caution.includes("avoid build") ||
+    caution.includes("not simple") ||
+    caution.includes("do not simplify")
+  ) {
+    return false;
+  }
+
+  return recommendedUse.includes("build");
+}
+
+function normalizeMorphemeForMatch(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[–—]/g, "-")
+    .replace(/\s+/g, "")
+    .replace(/^-|-$/g, "");
+}
+
+function wordContainsTaughtMorpheme(
+  word,
+  targetMorpheme
+) {
+  const entry = getWordInventoryEntry(word);
+
+  if (!entry || !targetMorpheme) {
+    return false;
+  }
+
+  const target =
+    normalizeMorphemeForMatch(targetMorpheme);
+
+  return (entry.morphemes || []).some(
+    (morpheme) => {
+      const variants = String(morpheme)
+        .split(/[\/,]/)
+        .map(normalizeMorphemeForMatch);
+
+      return variants.includes(target);
+    }
+  );
+}
+
+function isWordEligibleForWordHunt(
+  word,
+  targetMorpheme
+) {
+  const metadata = getWordMetadata(word);
+
+  if (!metadata) return false;
+
+  /*
+    Word Hunt is recognition, not whole-word
+    inference. Medium transparency and selected
+    cautioned words can therefore still be valid
+    when the target morpheme itself is explicitly
+    taught and visibly locatable.
+  */
+  return wordContainsTaughtMorpheme(
+    word,
+    targetMorpheme
+  );
+}
+
 const prefixes = [
   {
     id: "un",
