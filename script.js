@@ -12,6 +12,24 @@
    in words and generative activities.
    ======================================== */
 
+/* ========================================
+   MASTER WORD INVENTORY LOOKUP
+   ======================================== */
+
+const WORD_INVENTORY = window.FIRST_VOLO_WORD_INVENTORY || [];
+
+const WORD_INVENTORY_BY_WORD = new Map(
+  WORD_INVENTORY.map(item => [item.word.toLowerCase(), item])
+);
+
+function getWordInventoryEntry(word) {
+  if (!word) return null;
+
+  return WORD_INVENTORY_BY_WORD.get(
+    String(word).trim().toLowerCase()
+  ) || null;
+}
+
 const prefixes = [
   {
     id: "un",
