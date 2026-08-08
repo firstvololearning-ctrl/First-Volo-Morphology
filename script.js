@@ -3453,11 +3453,7 @@ function prepareUnavailableOptions() {
 
   [...studySelect.options].forEach((option) => {
     const isPlaceholder = option.value === "";
-    const isUnavailableBuild =
-      option.value === "prefix-root-suffix";
-
-    option.disabled =
-      isPlaceholder || isUnavailableBuild;
+    option.disabled = isPlaceholder;
 
     option.textContent = option.textContent.replace(
       " — coming after suffixes are added",
@@ -3470,7 +3466,8 @@ function prepareUnavailableOptions() {
 
     const isReady =
       pattern === "prefix-root" ||
-      pattern === "root-suffix";
+      pattern === "root-suffix" ||
+      pattern === "prefix-root-suffix";
 
     button.disabled = !isReady;
 
@@ -3603,17 +3600,18 @@ function renderCurrentActivity() {
   }
 
   if (
-  activeMode === "build" &&
-  studyMode !== "prefix-root" &&
-  studyMode !== "root-suffix"
-) {
-  showStartMessage(
-    "Choose a word-building set.",
-    "Select Prefixes + Roots or Roots + Suffixes in Step 1 to use Build Words."
-  );
+    activeMode === "build" &&
+    studyMode !== "prefix-root" &&
+    studyMode !== "root-suffix" &&
+    studyMode !== "prefix-root-suffix"
+  ) {
+    showStartMessage(
+      "Choose a word-building set.",
+      "Select a word-building pattern in Step 1 to use Build Words."
+    );
 
-  return;
-}
+    return;
+  }
 
   startPanel.hidden = true;
   hideAllPanels();
@@ -5319,7 +5317,8 @@ function syncBuildPatternButtons() {
 
     const isReady =
       pattern === "prefix-root" ||
-      pattern === "root-suffix";
+      pattern === "root-suffix" ||
+      pattern === "prefix-root-suffix";
 
     const isActive =
       pattern === studyMode;
@@ -5365,6 +5364,11 @@ function renderBuildActivity() {
   if (studyMode === "root-suffix") {
     workspaceSubtitle.textContent =
       "Combine a root or base with a suffix to create a real word.";
+  } else if (
+    studyMode === "prefix-root-suffix"
+  ) {
+    workspaceSubtitle.textContent =
+      "Combine a prefix, root or base, and suffix to create a real word.";
   } else {
     workspaceSubtitle.textContent =
       "Combine a prefix and a root to create a real word.";
@@ -5402,6 +5406,12 @@ function renderBuildRound() {
 
   if (studyMode === "root-suffix") {
     renderRootSuffixBuildBanks(
+      activeBuildWords
+    );
+  } else if (
+    studyMode === "prefix-root-suffix"
+  ) {
+    renderPrefixRootSuffixBuildBanks(
       activeBuildWords
     );
   } else {
@@ -5507,6 +5517,147 @@ function renderPrefixRootBuildBanks(
     ),
     rootOptions,
     "root"
+  );
+}
+
+
+/* PREFIX + ROOT / BASE + SUFFIX */
+
+function renderPrefixRootSuffixBuildBanks(
+  activeBuildWords
+) {
+  const prefixDistractors = uniqueBy(
+    shuffle(
+      activeBuildWords.filter(
+        (item) =>
+          item.prefixId !==
+          currentBuildTarget.prefixId
+      )
+    ),
+    (item) => item.prefixId
+  ).slice(0, 2);
+
+  const baseDistractors = uniqueBy(
+    shuffle(
+      activeBuildWords.filter(
+        (item) =>
+          item.baseId !==
+          currentBuildTarget.baseId
+      )
+    ),
+    (item) => item.baseId
+  ).slice(0, 2);
+
+  const suffixDistractors = uniqueBy(
+    shuffle(
+      activeBuildWords.filter(
+        (item) =>
+          item.suffixId !==
+          currentBuildTarget.suffixId
+      )
+    ),
+    (item) => item.suffixId
+  ).slice(0, 2);
+
+  const prefixOptions = shuffle([
+    {
+      id: currentBuildTarget.prefixId,
+      label: currentBuildTarget.prefix
+    },
+
+    ...prefixDistractors.map((item) => ({
+      id: item.prefixId,
+      label: item.prefix
+    }))
+  ]);
+
+  const rootOptions = shuffle([
+    {
+      id: currentBuildTarget.baseId,
+      label: currentBuildTarget.base
+    },
+
+    ...baseDistractors.map((item) => ({
+      id: item.baseId,
+      label: item.base
+    }))
+  ]);
+
+  const suffixOptions = shuffle([
+    {
+      id: currentBuildTarget.suffixId,
+      label: currentBuildTarget.suffix
+    },
+
+    ...suffixDistractors.map((item) => ({
+      id: item.suffixId,
+      label: item.suffix
+    }))
+  ]);
+
+  wordPartBanks.innerHTML = `
+    <section class="word-part-bank prefix-bank">
+
+      <h4 class="bank-heading">
+        Prefixes
+      </h4>
+
+      <div
+        class="bank-options"
+        id="prefixBankOptions"
+      ></div>
+
+    </section>
+
+    <section class="word-part-bank root-bank">
+
+      <h4 class="bank-heading">
+        Roots / Bases
+      </h4>
+
+      <div
+        class="bank-options"
+        id="rootBankOptions"
+      ></div>
+
+    </section>
+
+    <section class="word-part-bank suffix-bank">
+
+      <h4 class="bank-heading">
+        Suffixes
+      </h4>
+
+      <div
+        class="bank-options"
+        id="suffixBankOptions"
+      ></div>
+
+    </section>
+  `;
+
+  renderBuildOptions(
+    document.getElementById(
+      "prefixBankOptions"
+    ),
+    prefixOptions,
+    "prefix"
+  );
+
+  renderBuildOptions(
+    document.getElementById(
+      "rootBankOptions"
+    ),
+    rootOptions,
+    "root"
+  );
+
+  renderBuildOptions(
+    document.getElementById(
+      "suffixBankOptions"
+    ),
+    suffixOptions,
+    "suffix"
   );
 }
 
@@ -5700,18 +5851,27 @@ function updateBuildWorkspace() {
   }
 
   if (parts.length === 0) {
-    wordBuildingWorkspace.innerHTML =
-      studyMode === "root-suffix"
-        ? `
-          <span class="empty-build-message">
-            Select a root or base and a suffix.
-          </span>
-        `
-        : `
-          <span class="empty-build-message">
-            Select a prefix and a root.
-          </span>
-        `;
+    if (studyMode === "root-suffix") {
+      wordBuildingWorkspace.innerHTML = `
+        <span class="empty-build-message">
+          Select a root or base and a suffix.
+        </span>
+      `;
+    } else if (
+      studyMode === "prefix-root-suffix"
+    ) {
+      wordBuildingWorkspace.innerHTML = `
+        <span class="empty-build-message">
+          Select a prefix, a root or base, and a suffix.
+        </span>
+      `;
+    } else {
+      wordBuildingWorkspace.innerHTML = `
+        <span class="empty-build-message">
+          Select a prefix and a root.
+        </span>
+      `;
+    }
 
     return;
   }
@@ -5748,16 +5908,25 @@ function checkBuiltWord() {
   const isRootSuffix =
     studyMode === "root-suffix";
 
+  const isThreePart =
+    studyMode === "prefix-root-suffix";
+
   const hasRequiredParts =
     isRootSuffix
       ? (
           selectedBuildParts.root &&
           selectedBuildParts.suffix
         )
-      : (
-          selectedBuildParts.prefix &&
-          selectedBuildParts.root
-        );
+      : isThreePart
+        ? (
+            selectedBuildParts.prefix &&
+            selectedBuildParts.root &&
+            selectedBuildParts.suffix
+          )
+        : (
+            selectedBuildParts.prefix &&
+            selectedBuildParts.root
+          );
 
   if (!hasRequiredParts) {
     buildFeedback.hidden = false;
@@ -5765,28 +5934,40 @@ function checkBuiltWord() {
     buildFeedback.className =
       "feedback-panel incorrect-feedback";
 
-    buildFeedback.innerHTML =
-      isRootSuffix
-        ? `
-          <h4 class="feedback-heading">
-            Choose both word parts.
-          </h4>
+    if (isRootSuffix) {
+      buildFeedback.innerHTML = `
+        <h4 class="feedback-heading">
+          Choose both word parts.
+        </h4>
 
-          <p>
-            Select one root or base and one suffix
-            before checking the word.
-          </p>
-        `
-        : `
-          <h4 class="feedback-heading">
-            Choose both word parts.
-          </h4>
+        <p>
+          Select one root or base and one suffix
+          before checking the word.
+        </p>
+      `;
+    } else if (isThreePart) {
+      buildFeedback.innerHTML = `
+        <h4 class="feedback-heading">
+          Choose all three word parts.
+        </h4>
 
-          <p>
-            Select one prefix and one root
-            before checking the word.
-          </p>
-        `;
+        <p>
+          Select one prefix, one root or base,
+          and one suffix before checking the word.
+        </p>
+      `;
+    } else {
+      buildFeedback.innerHTML = `
+        <h4 class="feedback-heading">
+          Choose both word parts.
+        </h4>
+
+        <p>
+          Select one prefix and one root
+          before checking the word.
+        </p>
+      `;
+    }
 
     return;
   }
@@ -5795,6 +5976,14 @@ function checkBuiltWord() {
 
   if (isRootSuffix) {
     isCorrect =
+      selectedBuildParts.root.id ===
+        currentBuildTarget.baseId &&
+      selectedBuildParts.suffix.id ===
+        currentBuildTarget.suffixId;
+  } else if (isThreePart) {
+    isCorrect =
+      selectedBuildParts.prefix.id ===
+        currentBuildTarget.prefixId &&
       selectedBuildParts.root.id ===
         currentBuildTarget.baseId &&
       selectedBuildParts.suffix.id ===
@@ -5910,6 +6099,97 @@ function checkBuiltWord() {
       `${currentBuildTarget.word} means ` +
       `${currentBuildTarget.definition}.`
     );
+  } else if (isThreePart) {
+    buildFeedback.innerHTML = `
+      <h4 class="feedback-heading">
+        Correct! You built
+        <strong>
+          ${escapeHTML(
+            currentBuildTarget.word
+          )}
+        </strong>.
+      </h4>
+
+      <p>
+        <strong>Prefix:</strong>
+        ${escapeHTML(
+          currentBuildTarget.prefix
+        )}
+        =
+        ${escapeHTML(
+          currentBuildTarget.prefixMeaning
+        )}
+      </p>
+
+      <p>
+        <strong>Root / Base:</strong>
+        ${escapeHTML(
+          currentBuildTarget.base
+        )}
+        =
+        ${escapeHTML(
+          currentBuildTarget.baseMeaning
+        )}
+      </p>
+
+      <p>
+        <strong>Suffix:</strong>
+        ${escapeHTML(
+          currentBuildTarget.suffix
+        )}
+        =
+        ${escapeHTML(
+          currentBuildTarget.suffixMeaning
+        )}
+      </p>
+
+      <p>
+        <strong>Literal meaning:</strong>
+        ${escapeHTML(
+          currentBuildTarget.literal
+        )}
+      </p>
+
+      <p>
+        <strong>
+          Student-friendly meaning:
+        </strong>
+        ${escapeHTML(
+          currentBuildTarget.definition
+        )}
+      </p>
+
+      <button
+        class="audio-button"
+        type="button"
+      >
+        🔊 Hear the explanation
+      </button>
+
+      <button
+        class="primary-button"
+        id="nextBuildButton"
+        type="button"
+        style="margin-left: 10px;"
+      >
+        Build Another Word
+      </button>
+    `;
+
+    setAudioButton(
+      buildFeedback,
+      `${currentBuildTarget.prefix} means ` +
+      `${currentBuildTarget.prefixMeaning}. ` +
+      `${currentBuildTarget.base} means ` +
+      `${currentBuildTarget.baseMeaning}. ` +
+      `${currentBuildTarget.suffix} means ` +
+      `${currentBuildTarget.suffixMeaning}. ` +
+      `${currentBuildTarget.word} literally means ` +
+      `${currentBuildTarget.literal}. ` +
+      `${currentBuildTarget.word} means ` +
+      `${currentBuildTarget.definition}.`
+    );
+
   } else {
     buildFeedback.innerHTML = `
       <h4 class="feedback-heading">
@@ -6023,7 +6303,10 @@ studySelect.addEventListener("change", () => {
     "Combined prefix and root practice is ready, including Build Words.",
 
   "root-suffix":
-    "Combined root or base and suffix practice is ready, including Build Words."
+    "Combined root or base and suffix practice is ready, including Build Words.",
+
+  "prefix-root-suffix":
+    "Combined prefix, root or base, and suffix practice is ready, including Build Words."
 };
   studyAvailability.textContent =
     messages[studyMode] || "";
