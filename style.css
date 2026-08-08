@@ -1860,3 +1860,337 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ========================================
+   EXPANDED MORPHOLOGY ABOUT
+   ======================================== */
+
+.about-card {
+  width: min(980px, 96vw);
+}
+
+.about-lead {
+  max-width: 850px;
+  line-height: 1.65;
+}
+
+.about-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.about-section h3 {
+  margin: 0 0 14px;
+  color: var(--navy);
+  font-size: 1.28rem;
+}
+
+.about-section h4 {
+  margin: 0 0 12px;
+  color: var(--navy);
+}
+
+.about-section p {
+  line-height: 1.62;
+}
+
+.about-morpheme-grid,
+.about-level-grid,
+.about-source-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.about-morpheme-grid,
+.about-level-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.about-source-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-morpheme-card,
+.about-level-card,
+.about-source-card,
+.about-progression-panel {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #f9fbfd;
+}
+
+.about-morpheme-card p,
+.about-level-card p {
+  margin: 7px 0 0;
+}
+
+.about-morpheme-card strong {
+  font-size: 1.02rem;
+}
+
+.about-morpheme-card.prefix-card {
+  background: var(--prefix-soft);
+  color: var(--prefix-dark);
+}
+
+.about-morpheme-card.root-card {
+  background: var(--root-soft);
+  color: var(--root-dark);
+}
+
+.about-morpheme-card.suffix-card {
+  background: var(--suffix-soft);
+  color: var(--suffix-dark);
+}
+
+.about-morpheme-card p {
+  color: inherit;
+}
+
+.about-word-example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  margin: 18px 0 10px;
+  padding: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #f7fafc;
+}
+
+.about-part {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 74px;
+  padding: 10px 15px;
+
+  border-radius: 14px;
+
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.prefix-example {
+  color: var(--prefix-dark);
+  background: var(--prefix-soft);
+}
+
+.root-example {
+  color: var(--root-dark);
+  background: var(--root-soft);
+}
+
+.suffix-example {
+  color: var(--suffix-dark);
+  background: var(--suffix-soft);
+}
+
+.about-plus,
+.about-equals {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.about-small-note {
+  color: var(--muted) !important;
+  font-size: 0.92rem;
+}
+
+.about-progression-columns {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.about-progression-panel h4 {
+  font-size: 1.08rem;
+}
+
+.about-skill-flow {
+  display: grid;
+  gap: 8px;
+}
+
+.about-skill-step {
+  display: grid;
+  grid-template-columns: 145px 1fr;
+  gap: 10px;
+  align-items: start;
+
+  padding: 10px 12px;
+
+  border-radius: 13px;
+  background: var(--white);
+}
+
+.about-skill-step strong {
+  color: var(--navy);
+}
+
+.about-skill-step span {
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.about-progression-summary {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
+  background: #edf4fa;
+}
+
+.about-grade-stage + .about-grade-stage {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.about-grade-stage > strong {
+  color: var(--navy);
+  font-size: 1.02rem;
+}
+
+.about-grade-stage p {
+  margin: 6px 0 10px;
+}
+
+.about-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.about-chip-row span {
+  padding: 5px 9px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--white);
+
+  color: var(--navy);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.about-source-card {
+  display: grid;
+  gap: 4px;
+}
+
+.about-source-card strong {
+  color: var(--navy);
+}
+
+.about-source-card span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.about-creator-section {
+  margin-top: 32px;
+  padding: 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: #f8fbfd;
+}
+
+.about-credentials-title {
+  margin-top: 22px !important;
+}
+
+.about-credentials {
+  margin: 0;
+  padding-left: 22px;
+
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.about-closing {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+
+  .about-card {
+    width: min(96vw, 680px);
+    padding: 28px 20px;
+  }
+
+  .about-morpheme-grid,
+  .about-level-grid,
+  .about-source-grid,
+  .about-progression-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .about-skill-step {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .about-word-example {
+    padding: 14px 10px;
+  }
+
+  .about-creator-section {
+    padding: 18px;
+  }
+
+}
+
+.about-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 5;
+}
+
+/* Keep the About close button available throughout scrolling */
+.about-close {
+  position: sticky;
+  top: 10px;
+  float: none;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  z-index: 20;
+}
+
+/* ========================================
+   ABOUT MODAL — FULL PAGE SCROLL
+   ======================================== */
+
+.about-modal {
+  display: block;
+  overflow-y: auto;
+}
+
+.about-card {
+  max-height: none;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+.about-close {
+  position: sticky;
+  top: 10px;
+  display: block;
+  margin-left: auto;
+  z-index: 30;
+}
