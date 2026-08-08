@@ -3951,6 +3951,19 @@ function createBreakDistractors(word, correctParts) {
   return distractors.slice(0, 3);
 }
 
+const breakApartExcludedWords = new Set([
+  "attract",
+  "biology",
+  "dermal",
+  "perspective",
+  "running",
+  "rupture",
+  "spectator",
+  "structure",
+  "writing"
+]);
+
+
 function createBreakApartQuestions() {
   const inventory =
     window.FIRST_VOLO_WORD_INVENTORY || [];
@@ -3959,6 +3972,9 @@ function createBreakApartQuestions() {
     .filter(
       (entry) =>
         entry.status === "current" &&
+        !breakApartExcludedWords.has(
+          entry.word.toLowerCase()
+        ) &&
         typeof entry.segmentation === "string" &&
         entry.segmentation.trim() &&
         !entry.segmentation.includes(";")
