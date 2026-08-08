@@ -101,6 +101,24 @@ function isWordHuntEligibleForSelectedGrade(question) {
   );
 }
 
+function isWordHuntEligibleForSelectedVocabulary(question) {
+  if (vocabLevel === "all") {
+    return true;
+  }
+
+  const correctWords = question.words
+    .filter((item) => item.correct)
+    .map((item) => item.word);
+
+  return (
+    correctWords.length > 0 &&
+    correctWords.every(
+      (word) =>
+        isWordEligibleForSelectedVocabulary(word)
+    )
+  );
+}
+
 function getWordVocabularyLevel(word) {
   return getWordMetadata(word)?.vocabLevel || null;
 }
@@ -3808,24 +3826,29 @@ if (mode === "find") {
 }
 
   if (mode === "hunt") {
-    items = items.filter(
-      isWordHuntEligibleForSelectedGrade
+  items = items.filter(
+    (question) =>
+      isWordHuntEligibleForSelectedGrade(question) &&
+      isWordHuntEligibleForSelectedVocabulary(question)
+  );
+
+  if (
+    (gradeBand !== "all" || vocabLevel !== "all") &&
+    items.length === 0
+  ) {
+    const filterLabel =
+      getActiveWordFilterLabel();
+
+    showStartMessage(
+      `No complete ${filterLabel} Word Hunt rounds are available for this word-part selection yet.`,
+      "Choose another grade band, vocabulary level, or word part."
     );
 
-    if (
-      gradeBand !== "all" &&
-      items.length === 0
-    ) {
-      showStartMessage(
-        `No complete ${getGradeBandLabel()} Word Hunt rounds are available for this word-part selection yet.`,
-        "Choose another grade band or word part, or select All Grades."
-      );
-
-      return;
-    }
+    return;
   }
+}
 
-  if (mode === "meaning") {
+if (mode === "meaning") {
     items = createMeaningQuestions(getCurrentStudyItems());
   }
 
