@@ -3195,7 +3195,8 @@ const panels = {
   break: document.getElementById("breakActivity"),
   infer: document.getElementById("inferActivity"),
   build: document.getElementById("buildActivity"),
-  use: document.getElementById("useActivity")
+  use: document.getElementById("useActivity"),
+  change: document.getElementById("changeActivity")
 };
 
 const learningGrid = document.getElementById("learningGrid");
@@ -3588,7 +3589,9 @@ function prepareUnavailableOptions() {
 
 function updateStudySelectForActivity() {
   const usesWordBuildingSet =
-    activeMode === "build" || activeMode === "use";
+    activeMode === "build" ||
+    activeMode === "use" ||
+    activeMode === "change";
 
   const individualModes = new Set([
     "prefixes",
@@ -3646,7 +3649,8 @@ function updateStudySelectForActivity() {
       break: "Break It Apart",
       infer: "Figure It Out",
       build: "Build Words",
-      use: "Use It"
+      use: "Use It",
+      change: "Change It"
     };
 
     workspaceTitle.textContent =
@@ -3701,7 +3705,7 @@ function renderCurrentActivity() {
   }
 
   if (
-    (activeMode === "build" || activeMode === "use") &&
+    (activeMode === "build" || activeMode === "use" || activeMode === "change") &&
     studyMode !== "prefix-root" &&
     studyMode !== "root-suffix" &&
     studyMode !== "prefix-root-suffix"
@@ -3730,6 +3734,11 @@ function renderCurrentActivity() {
 
   if (activeMode === "use") {
     renderUseItActivity();
+    return;
+  }
+
+  if (activeMode === "change") {
+    renderChangeItActivity();
     return;
   }
 
@@ -6514,6 +6523,11 @@ vocabLevelSelect.addEventListener("change", () => {
 nextQuestionButton.addEventListener("click", () => {
   if (activeMode === "use") {
     goToNextUseItQuestion();
+    return;
+  }
+
+  if (activeMode === "change") {
+    goToNextChangeItQuestion();
     return;
   }
 
