@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extend the Learning | First Volo Morphology</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .extend-page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 24px 64px;
+    }
+
+    .extend-hero {
+      background: #f5f9ff;
+      border: 1px solid #d7e4f4;
+      border-radius: 24px;
+      padding: 34px;
+      margin-bottom: 28px;
+    }
+
+    .extend-kicker {
+      margin: 0 0 8px;
+      color: #274b84;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .extend-hero h1 {
+      margin: 0 0 12px;
+      color: #17365f;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.05;
+    }
+
+    .extend-lead {
+      max-width: 850px;
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: #34465f;
+    }
+
+    .extend-section {
+      margin-top: 34px;
+    }
+
+    .extend-section h2 {
+      margin-bottom: 10px;
+      color: #17365f;
+    }
+
+    .extend-section-intro {
+      max-width: 900px;
+      margin-top: 0;
+      color: #485b72;
+      line-height: 1.65;
+    }
+
+    .routine-grid,
+    .content-grid,
+    .idea-grid,
+    .look-for-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .routine-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .content-grid,
+    .idea-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .look-for-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .extend-card {
+      background: #fff;
+      border: 1px solid #dce5ef;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(24, 54, 95, .06);
+    }
+
+    .extend-card h3 {
+      margin: 0 0 8px;
+      color: #274b84;
+      font-size: 1.05rem;
+    }
+
+    .extend-card p {
+      margin: 0;
+      color: #46596f;
+      line-height: 1.55;
+    }
+
+    .routine-number {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      background: #e7f0fb;
+      color: #274b84;
+      font-weight: 900;
+    }
+
+    .morpheme-example {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f7f9fc;
+      font-size: .95rem;
+      line-height: 1.55;
+    }
+
+    .morpheme-example strong {
+      color: #17365f;
+    }
+
+    .quick-routine {
+      border-left: 5px solid #7e9f73;
+    }
+
+    .teacher-note {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: #fff8e8;
+      border: 1px solid #f0dca7;
+      color: #564825;
+      line-height: 1.6;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .source-link {
+      display: block;
+      padding: 16px 18px;
+      border: 1px solid #dce5ef;
+      border-radius: 14px;
+      background: #fff;
+      color: #274b84;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .source-link small {
+      display: block;
+      margin-top: 4px;
+      color: #617187;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .source-link:hover {
+      background: #f6f9fd;
+    }
+
+    .extend-back {
+      display: inline-block;
+      margin-bottom: 22px;
+      color: #274b84;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .extend-back:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 650px) {
+      .extend-page {
+        padding: 24px 16px 48px;
+      }
+
+      .extend-hero {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="brand-block">
+      <a
+        class="brand-logo-link"
+        href="https://firstvololearning.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit First Volo Learning"
+      >
+        <div class="brand-logo-wrap">
+          <img
+            class="brand-logo"
+            src="images/logo/logo.png"
+            alt="First Volo Learning logo"
+          >
+        </div>
+      </a>
+    </div>
+
+    <div class="title-group">
+      <h1>First Volo Morphology</h1>
+      <p class="site-subtitle">Extend the Learning</p>
+      <p class="site-description">
+        Practical ways to reinforce morphology across reading, writing,
+        science, social studies, mathematics, and everyday classroom language.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <a class="header-link" href="index.html">🏠 Morphology Activities</a>
+      <a class="header-link" href="progress-monitoring.html">📋 Progress Monitoring</a>
+    </div>
+  </header>
+
+  <main class="extend-page">
+
+    <a class="extend-back" href="index.html">← Back to First Volo Morphology</a>
+
+    <section class="extend-hero">
+      <p class="extend-kicker">For Educators</p>
+      <h1>🌱 Extend the Learning</h1>
+      <p class="extend-lead">
+        First Volo provides explicit practice with meaningful word parts.
+        The next step is helping students notice and use those same patterns
+        in authentic classroom language. Short, repeated connections across
+        subjects can help students build flexible word knowledge and learn
+        to apply morphology as a vocabulary problem-solving strategy.
+      </p>
+    </section>
+
+    <section class="extend-section">
+      <h2>A Simple 5-Minute Routine</h2>
+      <p class="extend-section-intro">
+        Use a word that already matters in the lesson. The goal is not to
+        turn every class into a morphology lesson; it is to make useful
+        word relationships visible when they naturally support learning.
+      </p>
+
+      <div class="routine-grid">
+        <article class="extend-card">
+          <span class="routine-number">1</span>
+          <h3>Notice</h3>
+          <p>Choose one important, morphologically rich word from the text, lesson, directions, or discussion.</p>
+        </article>
+
+        <article class="extend-card">
+          <span class="routine-number">2</span>
+          <h3>Break It Apart</h3>
+          <p>Identify any useful prefix, root/base, or suffix. Do not force a word apart when the structure is not instructionally helpful.</p>
+        </article>
+
+        <article class="extend-card">
+          <span class="routine-number">3</span>
+          <h3>Think</h3>
+          <p>Use the known morpheme meanings to form a reasonable hypothesis about the whole word.</p>
+        </article>
+
+        <article class="extend-card">
+          <span class="routine-number">4</span>
+          <h3>Check</h3>
+          <p>Read the sentence or surrounding passage. Does the hypothesized meaning fit the context?</p>
+        </article>
+
+        <article class="extend-card">
+          <span class="routine-number">5</span>
+          <h3>Connect</h3>
+          <p>Add one or two related words from the same morphological family, including words from other subjects when useful.</p>
+        </article>
+
+        <article class="extend-card">
+          <span class="routine-number">6</span>
+          <h3>Use It</h3>
+          <p>Have students say, write, compare, sort, or explain one of the words so the connection becomes active knowledge.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="extend-section">
+      <h2>Make Connections Across Content Areas</h2>
+      <p class="extend-section-intro">
+        A root becomes more useful when students meet it in more than one word
+        and more than one setting. Revisit familiar morphemes when they appear
+        naturally in current curriculum.
+      </p>
+
+      <div class="content-grid">
+        <article class="extend-card">
+          <h3>🔬 Science</h3>
+          <p>Connect roots to the language of systems, processes, measurement, and living things.</p>
+          <div class="morpheme-example">
+            <strong>therm = heat</strong><br>
+            thermometer · thermal · geothermal · hypothermia
+          </div>
+          <div class="morpheme-example">
+            <strong>bio = life</strong><br>
+            biology · biography · biodegradable · biodiversity
+          </div>
+        </article>
+
+        <article class="extend-card">
+          <h3>🌎 Social Studies</h3>
+          <p>Highlight recurring prefixes and roots in geography, government, history, and civic vocabulary.</p>
+          <div class="morpheme-example">
+            <strong>trans- = across</strong><br>
+            transportation · transcontinental · transfer
+          </div>
+          <div class="morpheme-example">
+            <strong>inter- = between</strong><br>
+            interstate · international · interaction
+          </div>
+        </article>
+
+        <article class="extend-card">
+          <h3>📐 Mathematics</h3>
+          <p>Notice meaningful parts in academic directions and mathematical vocabulary, then connect them to related words students already know.</p>
+          <div class="morpheme-example">
+            <strong>graph = write / draw</strong><br>
+            graph · graphic · graphing · infographic
+          </div>
+          <div class="morpheme-example">
+            Ask: <strong>What does the shared part contribute?</strong>
+          </div>
+        </article>
+
+        <article class="extend-card">
+          <h3>📚 ELA & Writing</h3>
+          <p>Use word families to connect vocabulary, grammar, and precise word choice.</p>
+          <div class="morpheme-example">
+            <strong>act</strong><br>
+            act · action · active · actively
+          </div>
+          <div class="morpheme-example">
+            Ask: <strong>How did the suffix change the word's job in the sentence?</strong>
+          </div>
+        </article>
+
+        <article class="extend-card">
+          <h3>🗣️ Multilingual Learning</h3>
+          <p>Invite students to notice useful cognates and related morphemes across languages when a genuine connection exists.</p>
+          <div class="morpheme-example">
+            Examples may include families such as
+            <strong>photo / foto</strong> or
+            <strong>international / internacional</strong>.
+          </div>
+          <div class="morpheme-example">
+            Ask: <strong>Does another language you know give you a clue?</strong>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="extend-section">
+      <h2>Quick Ways to Reinforce a Morpheme</h2>
+      <p class="extend-section-intro">
+        These routines can take only a few minutes and can be used during
+        whole-group instruction, small groups, intervention, speech-language
+        sessions, or independent follow-up.
+      </p>
+
+      <div class="idea-grid">
+        <article class="extend-card quick-routine">
+          <h3>Text Hunt</h3>
+          <p>Find two or three words in today's reading that contain a familiar morpheme. Discuss whether the morpheme contributes the same idea in each word.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Family Web</h3>
+          <p>Put a root or base in the center and add related words around it. Compare meaning, spelling, pronunciation, and grammatical role.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Change the Word Job</h3>
+          <p>Give a base or root and build related nouns, verbs, adjectives, or adverbs. Put each form into a sentence.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Compare Two</h3>
+          <p>Ask how two related words differ: <em>inspect / inspector</em>, <em>active / inactive</em>, or <em>predict / prediction</em>.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Morpheme + Context Detective</h3>
+          <p>Use the parts inside the word to make a meaning hypothesis, then use clues outside the word to confirm, revise, or reject it.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Cognate Connection</h3>
+          <p>When appropriate, compare a word with a related word in a student's other language and identify the shared meaning-bearing parts.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>Notice the Spelling or Sound</h3>
+          <p>Compare members of a family when spelling or pronunciation shifts. Help students see that related words may not always look or sound identical.</p>
+        </article>
+
+        <article class="extend-card quick-routine">
+          <h3>One-Word Exit Ticket</h3>
+          <p>Give an untaught word containing a familiar morpheme. Ask: “What might it mean? Which clue helped you?”</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="extend-section">
+      <h2>Choose Words Strategically</h2>
+
+      <div class="look-for-grid">
+        <article class="extend-card">
+          <h3>Prioritize useful patterns</h3>
+          <p>Choose morphemes that occur in many words and matter in current classroom reading and vocabulary.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>Start clearer, then stretch</h3>
+          <p>Begin with more transparent relationships and gradually include families with spelling or pronunciation shifts.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>Return to the family</h3>
+          <p>Repeated encounters with related words are more useful than treating each vocabulary word as an isolated item.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>Use context too</h3>
+          <p>Morphology is a powerful clue, but it does not explain every word. Teach students to check their reasoning against sentence and text meaning.</p>
+        </article>
+      </div>
+
+      <div class="teacher-note">
+        <strong>Keep the content lesson central.</strong>
+        Morphology should support science, social studies, mathematics, literature,
+        and writing—not take them over. A brief, well-chosen connection is often
+        enough to help students notice a reusable language pattern.
+      </div>
+    </section>
+
+    <section class="extend-section">
+      <h2>What Transfer Can Look Like</h2>
+      <p class="extend-section-intro">
+        Look for growing independence rather than simple memorization.
+      </p>
+
+      <div class="look-for-grid">
+        <article class="extend-card">
+          <h3>“I know that part.”</h3>
+          <p>The student spontaneously notices a familiar morpheme in a new word.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>“These words are related.”</h3>
+          <p>The student connects a new word to a known morphological family.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>“That meaning fits here.”</h3>
+          <p>The student combines morpheme clues with sentence or passage context.</p>
+        </article>
+
+        <article class="extend-card">
+          <h3>“This ending changes the job.”</h3>
+          <p>The student uses suffix information to reason about a word's grammatical role.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="extend-section">
+      <h2>Sources & Further Reading</h2>
+      <p class="extend-section-intro">
+        These resources helped inform the classroom-extension ideas on this page.
+        The suggestions above are original First Volo wording and are intended as
+        practical educator guidance rather than a scripted program.
+      </p>
+
+      <div class="source-list">
+        <a
+          class="source-link"
+          href="https://www.readingrockets.org/topics/vocabulary/articles/linking-language-cross-disciplinary-vocabulary-approach"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Reading Rockets — Linking the Language: A Cross-Disciplinary Vocabulary Approach
+          <small>Word families, cross-content connections, morpheme + context clues, and distributed review.</small>
+        </a>
+
+        <a
+          class="source-link"
+          href="https://literacyhow.org/morphology/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Literacy How — Morphology
+          <small>Contextualized morphology instruction, high-utility affixes and roots, and word webs.</small>
+        </a>
+
+        <a class="source-link" href="research-evidence.pdf">
+          First Volo — Research That Shapes First Volo
+          <small>Research and guidance informing the design of First Volo Morphology.</small>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Alexis Sacco / First Volo Learning. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
