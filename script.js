@@ -1175,6 +1175,106 @@ const suffixes = [
   }
 ];
 /* ========================================
+   SUFFIX GRAMMATICAL FUNCTION
+   ======================================== */
+
+const suffixFunctionInfo = {
+  "al": {
+    role: "Often forms an adjective",
+    function: "Helps make a describing word that means related to the base."
+  },
+
+  "ance": {
+    role: "Forms a noun",
+    function: "Helps name an action, state, or quality."
+  },
+
+  "ence": {
+    role: "Forms a noun",
+    function: "Helps name an action, state, or quality."
+  },
+
+  "ic": {
+    role: "Often forms an adjective",
+    function: "Helps make a describing word related to the base."
+  },
+
+  "ity": {
+    role: "Forms a noun",
+    function: "Helps name a state, condition, or quality."
+  },
+
+  "ive": {
+    role: "Often forms an adjective",
+    function: "Helps make a word that describes a quality or tendency."
+  },
+
+  "ist": {
+    role: "Forms a noun",
+    function: "Often names a person who does, practices, or studies something."
+  },
+
+  "ize": {
+    role: "Forms a verb",
+    function: "Helps make an action word meaning make or become."
+  },
+
+  "ify": {
+    role: "Forms a verb",
+    function: "Helps make an action word meaning make or cause to become."
+  },
+
+  "ness": {
+    role: "Forms a noun",
+    function: "Helps name a state or quality."
+  },
+
+  "ology": {
+    role: "Forms a noun",
+    function: "Helps name a field or study of something."
+  },
+
+  "able-ible": {
+    role: "Often forms an adjective",
+    function: "Helps make a describing word meaning can be or able to be."
+  },
+
+  "er-or": {
+    role: "Forms a noun",
+    function: "Often names a person or thing that does something."
+  },
+
+  "ful": {
+    role: "Often forms an adjective",
+    function: "Helps make a describing word meaning full of or having."
+  },
+
+  "ion": {
+    role: "Forms a noun",
+    function: "Helps name an action, process, state, or result."
+  },
+
+  "less": {
+    role: "Forms an adjective",
+    function: "Helps make a describing word meaning without."
+  },
+
+  "ly": {
+    role: "Often forms an adverb",
+    function: "Often tells how an action is done."
+  },
+
+  "ment": {
+    role: "Forms a noun",
+    function: "Helps name an action, result, process, or state."
+  },
+
+  "ous": {
+    role: "Forms an adjective",
+    function: "Helps make a describing word meaning having a quality."
+  }
+};
+/* ========================================
    SUFFIX VARIANTS FOR WORD BUILDING
    ======================================== */
 
@@ -3714,7 +3814,31 @@ const examples =
 
 const exampleLabel =
   getLearnExampleLabel();
+const suffixInfo =
+  item.type === "suffix"
+    ? suffixFunctionInfo[item.id]
+    : null;
 
+const suffixFunctionMarkup =
+  suffixInfo
+    ? `
+        <div class="feedback-label">
+          Word job
+        </div>
+
+        <div class="feedback-value">
+          <strong>${escapeHTML(suffixInfo.role)}</strong>
+        </div>
+
+        <div class="feedback-label">
+          What it does
+        </div>
+
+        <div class="feedback-value">
+          ${escapeHTML(suffixInfo.function)}
+        </div>
+      `
+    : "";
   detail.hidden = false;
   detail.className = "feedback-panel correct-feedback";
 
@@ -3740,7 +3864,7 @@ const exampleLabel =
         <div class="feedback-value">
           <strong>${escapeHTML(item.meaning)}</strong>
         </div>
-
+${suffixFunctionMarkup}
         <div class="feedback-label">
           ${escapeHTML(exampleLabel)}
         </div>
