@@ -2463,3 +2463,32 @@ a:focus-visible {
   }
 
 }
+
+/* ========================================
+   PROGRAM PROGRESS REPORTING
+   ======================================== */
+
+.student-progress-details h4 {
+  margin-top: 28px;
+  margin-bottom: 14px;
+}
+
+.progress-session-row {
+  margin-bottom: 8px;
+}
+
+.word-part-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.word-part-progress-row > div {
+  font-weight: 600;
+}
+
+.word-part-progress-row small {
+  display: block;
+  line-height: 1.45;
+}

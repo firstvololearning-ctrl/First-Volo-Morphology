@@ -199,8 +199,6 @@ window.FirstVoloProgress = {
   save: saveProgressData
 };
 
-renderStudentRoster();
-
 function getProgressActivityLabel(activity) {
   const labels = {
     find: "Find",
@@ -209,6 +207,7 @@ function getProgressActivityLabel(activity) {
     morpheme: "Word Part",
     break: "Break It Apart",
     infer: "Figure It Out",
+    build: "Build",
     use: "Use It",
     change: "Change It"
   };
@@ -224,12 +223,95 @@ function getProgressSkillLabel(skill) {
     morpheme: "Word Part",
     break: "Break It Apart",
     infer: "Figure It Out",
+    build: "Build",
     use: "Use It",
     change: "Change It"
   };
 
   return labels[skill] || skill || "Activity";
 }
+
+const FV_STANDARD_DEFINITIONS = {
+  "2-3": {
+    meaning: {
+      codes: "CCSS L.2.4b-c / L.3.4b-c",
+      description:
+        "Use known prefixes, affixes, and roots to determine or clarify word meaning."
+    },
+    analysis: {
+      codes: "CCSS RF.2.3d / RF.3.3a-b",
+      description:
+        "Use common prefixes, suffixes, and morphology in word reading and analysis."
+    }
+  },
+
+  "4-5": {
+    meaning: {
+      codes: "CCSS L.4.4b / L.5.4b",
+      description:
+        "Use common, grade-appropriate Greek and Latin affixes and roots as clues to word meaning."
+    },
+    analysis: {
+      codes: "CCSS RF.4.3a / RF.5.3a",
+      description:
+        "Use morphology, including roots and affixes, when reading unfamiliar multisyllabic words."
+    }
+  },
+
+  "6-8": {
+    meaning: {
+      codes: "CCSS L.6.4b / L.7.4b / L.8.4b",
+      description:
+        "Use common, grade-appropriate Greek and Latin affixes and roots as clues to word meaning."
+    }
+  }
+};
+
+const FV_ACTIVITY_STANDARD_MAP = {
+  "2-3": {
+    find: ["analysis"],
+    hunt: ["analysis"],
+    break: ["analysis"],
+    meaning: ["meaning"],
+    morpheme: ["meaning"],
+    infer: ["meaning"],
+    build: ["meaning"],
+    use: ["meaning"],
+    change: ["meaning"]
+  },
+
+  "4-5": {
+    find: ["analysis"],
+    hunt: ["analysis"],
+    break: ["analysis"],
+    meaning: ["meaning"],
+    morpheme: ["meaning"],
+    infer: ["meaning"],
+    build: ["meaning"],
+    use: ["meaning"],
+    change: ["meaning"]
+  },
+
+  "6-8": {
+    meaning: ["meaning"],
+    morpheme: ["meaning"],
+    infer: ["meaning"],
+    build: ["meaning"],
+    use: ["meaning"],
+    change: ["meaning"]
+  }
+};
+
+function getProgressGradeBandLabel(gradeBand) {
+  const labels = {
+    "2-3": "Grades 2–3",
+    "4-5": "Grades 4–5",
+    "6-8": "Grades 6–8"
+  };
+
+  return labels[gradeBand] || gradeBand;
+}
+
 
 function renderStudentProgressDetails(student) {
   let details =
@@ -295,29 +377,37 @@ function renderStudentProgressDetails(student) {
         ? new Date(dateValue).toLocaleDateString()
         : "Saved session";
 
-      const totalItems = Number(session.totalItems) || attempted;
+      const totalItems = Number(session.totalItems) || 0;
+      const isBuild = session.activity === "build";
+      const isComplete = Boolean(session.completedAt);
 
-      const isComplete =
-        Boolean(session.completedAt) ||
-        (totalItems > 0 && attempted >= totalItems);
+      const progressText = isBuild
+        ? `${attempted} ${attempted === 1 ? "word" : "words"} completed`
+        : `${attempted}/${totalItems || attempted} answered`;
 
       const scoreText =
         attempted > 0
-          ? `${correct}/${attempted} correct` +
-            (accuracy !== null ? ` (${accuracy}%)` : "")
-          : "No answers yet";
+          ? isBuild
+            ? `${correct}/${attempted} independent` +
+              (accuracy !== null ? ` (${accuracy}%)` : "")
+            : `${correct}/${attempted} correct` +
+              (accuracy !== null ? ` (${accuracy}%)` : "")
+          : isBuild
+            ? "No completed words yet"
+            : "No answers yet";
 
       row.textContent =
         `${dateLabel} · ` +
         `${getProgressActivityLabel(session.activity)} · ` +
-        `${attempted}/${totalItems} answered · ` +
+        `${progressText} · ` +
         `${scoreText} · ` +
         `${isComplete ? "Session complete" : "In progress"}`;
 
       details.append(row);
     });
 
-  const wordParts = new Map();
+  const directWordParts = new Map();
+  const applicationWordParts = new Map();
 
   sessions.forEach((session) => {
     const responses = Array.isArray(session.responses)
@@ -325,98 +415,421 @@ function renderStudentProgressDetails(student) {
       : [];
 
     responses.forEach((response) => {
-      if (!response.primaryTarget) {
-        return;
+      if (response.primaryTarget) {
+        const type =
+          response.targetType || "word part";
+
+        const key =
+          `${type}::${response.primaryTarget}`;
+
+        if (!directWordParts.has(key)) {
+          directWordParts.set(key, {
+            label: response.primaryTarget,
+            type,
+            attempts: 0,
+            correct: 0,
+            skills: {}
+          });
+        }
+
+        const entry = directWordParts.get(key);
+
+        entry.attempts += 1;
+
+        if (response.correct) {
+          entry.correct += 1;
+        }
+
+        const skill =
+          response.skill || "activity";
+
+        if (!entry.skills[skill]) {
+          entry.skills[skill] = {
+            attempts: 0,
+            correct: 0
+          };
+        }
+
+        entry.skills[skill].attempts += 1;
+
+        if (response.correct) {
+          entry.skills[skill].correct += 1;
+        }
       }
 
-      const type =
-        response.targetType || "word part";
+      const supportingTargets =
+        Array.isArray(response.supportingTargets)
+          ? [...new Set(
+              response.supportingTargets.filter(Boolean)
+            )]
+          : [];
 
-      const key =
-        `${type}::${response.primaryTarget}`;
+      supportingTargets.forEach((target) => {
+        if (!applicationWordParts.has(target)) {
+          applicationWordParts.set(target, {
+            label: target,
+            opportunities: 0,
+            skills: {}
+          });
+        }
 
-      if (!wordParts.has(key)) {
-        wordParts.set(key, {
-          label: response.primaryTarget,
-          type,
-          attempts: 0,
-          correct: 0,
-          skills: {}
-        });
-      }
+        const entry =
+          applicationWordParts.get(target);
 
-      const entry = wordParts.get(key);
+        entry.opportunities += 1;
 
-      entry.attempts += 1;
+        const skill =
+          response.skill || "activity";
 
-      if (response.correct) {
-        entry.correct += 1;
-      }
+        if (!entry.skills[skill]) {
+          entry.skills[skill] = {
+            attempts: 0,
+            correct: 0
+          };
+        }
 
-      const skill =
-        response.skill || "activity";
+        entry.skills[skill].attempts += 1;
 
-      if (!entry.skills[skill]) {
-        entry.skills[skill] = {
-          attempts: 0,
-          correct: 0
-        };
-      }
-
-      entry.skills[skill].attempts += 1;
-
-      if (response.correct) {
-        entry.skills[skill].correct += 1;
-      }
+        if (response.correct) {
+          entry.skills[skill].correct += 1;
+        }
+      });
     });
   });
 
-  const wordPartHeading = document.createElement("h4");
-  wordPartHeading.textContent = "Word-Part Performance";
-  details.append(wordPartHeading);
+  const directHeading =
+    document.createElement("h4");
 
-  if (wordParts.size === 0) {
+  directHeading.textContent =
+    "Direct Word-Part Performance";
+
+  details.append(directHeading);
+
+  if (directWordParts.size === 0) {
     const empty = document.createElement("p");
+
     empty.textContent =
-      "No word-part-specific responses saved yet.";
+      "No direct word-part responses saved yet.";
+
     details.append(empty);
-    return;
+  } else {
+    [...directWordParts.values()]
+      .sort((a, b) =>
+        a.type.localeCompare(b.type) ||
+        a.label.localeCompare(b.label)
+      )
+      .forEach((entry) => {
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "word-part-progress-row";
+
+        const accuracy =
+          Math.round(
+            (entry.correct / entry.attempts) * 100
+          );
+
+        const main =
+          document.createElement("div");
+
+        main.textContent =
+          `${entry.label} (${entry.type}) — ` +
+          `${entry.correct}/${entry.attempts} ` +
+          `(${accuracy}%)`;
+
+        row.append(main);
+
+        const skillLine =
+          document.createElement("small");
+
+        skillLine.textContent =
+          Object.entries(entry.skills)
+            .map(([skill, score]) =>
+              `${getProgressSkillLabel(skill)} ` +
+              `${score.correct}/${score.attempts}`
+            )
+            .join(" · ");
+
+        row.append(skillLine);
+        details.append(row);
+      });
   }
 
-  [...wordParts.values()]
-    .sort((a, b) =>
-      a.type.localeCompare(b.type) ||
-      a.label.localeCompare(b.label)
-    )
-    .forEach((entry) => {
-      const row = document.createElement("div");
-      row.className = "word-part-progress-row";
+  const applicationHeading =
+    document.createElement("h4");
 
-      const accuracy =
-        Math.round(
-          (entry.correct / entry.attempts) * 100
+  applicationHeading.textContent =
+    "Application & Word-Structure Evidence";
+
+  details.append(applicationHeading);
+
+  if (applicationWordParts.size === 0) {
+    const empty = document.createElement("p");
+
+    empty.textContent =
+      "No application or word-structure responses saved yet.";
+
+    details.append(empty);
+  } else {
+    [...applicationWordParts.values()]
+      .sort((a, b) =>
+        a.label.localeCompare(b.label)
+      )
+      .forEach((entry) => {
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "word-part-progress-row";
+
+        const main =
+          document.createElement("div");
+
+        main.textContent =
+          `${entry.label} — ` +
+          `${entry.opportunities} ` +
+          `${entry.opportunities === 1
+            ? "application opportunity"
+            : "application opportunities"}`;
+
+        row.append(main);
+
+        const skillLine =
+          document.createElement("small");
+
+        skillLine.textContent =
+          Object.entries(entry.skills)
+            .map(([skill, score]) => {
+              const resultLabel =
+                skill === "build"
+                  ? "independent"
+                  : "correct";
+
+              return (
+                `${getProgressSkillLabel(skill)} ` +
+                `${score.correct}/${score.attempts} ` +
+                `${resultLabel}`
+              );
+            })
+            .join(" · ");
+
+        row.append(skillLine);
+        details.append(row);
+      });
+  }
+
+  const standardsPracticed = new Map();
+  let allGradeResponses = 0;
+
+  sessions.forEach((session) => {
+    const band = session.gradeBand || "all";
+
+    const responses = Array.isArray(session.responses)
+      ? session.responses
+      : [];
+
+    if (band === "all") {
+      allGradeResponses += responses.length;
+      return;
+    }
+
+    const bandMap =
+      FV_ACTIVITY_STANDARD_MAP[band];
+
+    const definitions =
+      FV_STANDARD_DEFINITIONS[band];
+
+    if (!bandMap || !definitions) {
+      return;
+    }
+
+    responses.forEach((response) => {
+      const skill =
+        response.skill || session.activity;
+
+      const standardGroups =
+        bandMap[skill] || [];
+
+      standardGroups.forEach((group) => {
+        const definition =
+          definitions[group];
+
+        if (!definition) {
+          return;
+        }
+
+        const key =
+          `${band}::${group}`;
+
+        if (!standardsPracticed.has(key)) {
+          standardsPracticed.set(key, {
+            band,
+            codes: definition.codes,
+            description: definition.description,
+            opportunities: 0,
+            direct: 0,
+            application: 0,
+            activities: new Set(),
+            wordParts: new Set()
+          });
+        }
+
+        const entry =
+          standardsPracticed.get(key);
+
+        entry.opportunities += 1;
+        entry.activities.add(
+          getProgressSkillLabel(skill)
         );
 
-      const main = document.createElement("div");
-      main.textContent =
-        `${entry.label} (${entry.type}) — ` +
-        `${entry.correct}/${entry.attempts} (${accuracy}%)`;
+        if (response.primaryTarget) {
+          entry.direct += 1;
+          entry.wordParts.add(
+            response.primaryTarget
+          );
+        } else {
+          const supportingTargets =
+            Array.isArray(response.supportingTargets)
+              ? response.supportingTargets
+              : [];
 
-      row.append(main);
+          if (supportingTargets.length > 0) {
+            entry.application += 1;
 
-      const skillLine = document.createElement("small");
-
-      skillLine.textContent =
-        Object.entries(entry.skills)
-          .map(([skill, score]) =>
-            `${getProgressSkillLabel(skill)} ` +
-            `${score.correct}/${score.attempts}`
-          )
-          .join(" · ");
-
-      row.append(skillLine);
-      details.append(row);
+            supportingTargets
+              .filter(Boolean)
+              .forEach((target) =>
+                entry.wordParts.add(target)
+              );
+          }
+        }
+      });
     });
+  });
+
+  const standardsHeading =
+    document.createElement("h4");
+
+  standardsHeading.textContent =
+    "Standards Practiced";
+
+  details.append(standardsHeading);
+
+  const standardsNote =
+    document.createElement("p");
+
+  standardsNote.textContent =
+    "Standards shown reflect grade-band-aligned practice opportunities in completed or in-progress activities. They do not represent a mastery determination.";
+
+  details.append(standardsNote);
+
+  if (standardsPracticed.size === 0) {
+    const empty =
+      document.createElement("p");
+
+    empty.textContent =
+      allGradeResponses > 0
+        ? "Grade-specific standards are not assigned to sessions completed with All Grades selected."
+        : "No grade-specific standards practice is saved yet.";
+
+    details.append(empty);
+  } else {
+    [...standardsPracticed.values()]
+      .sort((a, b) =>
+        a.band.localeCompare(b.band) ||
+        a.codes.localeCompare(b.codes)
+      )
+      .forEach((entry) => {
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "word-part-progress-row";
+
+        const main =
+          document.createElement("div");
+
+        main.textContent =
+          `${getProgressGradeBandLabel(entry.band)} · ` +
+          `${entry.codes}`;
+
+        row.append(main);
+
+        const description =
+          document.createElement("small");
+
+        description.textContent =
+          entry.description;
+
+        row.append(description);
+
+        const opportunityLine =
+          document.createElement("small");
+
+        const evidenceParts = [
+          `${entry.opportunities} ${
+            entry.opportunities === 1
+              ? "practice opportunity"
+              : "practice opportunities"
+          }`
+        ];
+
+        if (entry.direct > 0) {
+          evidenceParts.push(
+            `${entry.direct} direct`
+          );
+        }
+
+        if (entry.application > 0) {
+          evidenceParts.push(
+            `${entry.application} application`
+          );
+        }
+
+        opportunityLine.textContent =
+          evidenceParts.join(" · ");
+
+        row.append(opportunityLine);
+
+        const activityLine =
+          document.createElement("small");
+
+        activityLine.textContent =
+          "Activities: " +
+          [...entry.activities]
+            .sort()
+            .join(" · ");
+
+        row.append(activityLine);
+
+        if (entry.wordParts.size > 0) {
+          const wordPartLine =
+            document.createElement("small");
+
+          wordPartLine.textContent =
+            "Word parts practiced: " +
+            [...entry.wordParts]
+              .sort()
+              .join(" · ");
+
+          row.append(wordPartLine);
+        }
+
+        details.append(row);
+      });
+
+    if (allGradeResponses > 0) {
+      const allGradeNote =
+        document.createElement("p");
+
+      allGradeNote.textContent =
+        "Additional responses from All Grades sessions are not assigned grade-specific standards.";
+
+      details.append(allGradeNote);
+    }
+  }
+
 }
 
 
@@ -424,6 +837,8 @@ function refreshProgressFromStorage() {
   progressData = loadProgressData();
   renderStudentRoster();
 }
+
+renderStudentRoster();
 
 window.addEventListener("focus", refreshProgressFromStorage);
 window.addEventListener("storage", (event) => {

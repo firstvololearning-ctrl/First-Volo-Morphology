@@ -6386,7 +6386,17 @@ function syncBuildPatternButtons() {
 }
 
 
+let buildHadRetry = false;
+let buildRoundRecorded = false;
+
 function renderBuildActivity() {
+  const existingBuildSession =
+    window.FirstVoloActivityProgress?.getCurrentSession();
+
+  if (existingBuildSession?.activity === "build") {
+    window.FirstVoloActivityProgress.finishSession();
+  }
+
   const activeBuildWords =
     getActiveBuildWords();
 
@@ -6426,6 +6436,15 @@ function renderBuildActivity() {
   workspaceActions.hidden = true;
 
   syncBuildPatternButtons();
+
+  window.FirstVoloActivityProgress?.startSession({
+    activity: "build",
+    studyMode,
+    gradeBand,
+    vocabLevel,
+    totalItems: 0
+  });
+
   renderBuildRound();
 }
 
@@ -6446,6 +6465,9 @@ function renderBuildRound() {
     root: null,
     suffix: null
   };
+
+  buildHadRetry = false;
+  buildRoundRecorded = false;
 
   buildFeedback.hidden = true;
 
@@ -7047,6 +7069,8 @@ function checkBuiltWord() {
   buildFeedback.hidden = false;
 
   if (!isCorrect) {
+    buildHadRetry = true;
+
     buildFeedback.className =
       "feedback-panel incorrect-feedback";
 
@@ -7066,6 +7090,31 @@ function checkBuiltWord() {
     `;
 
     return;
+  }
+
+  if (!buildRoundRecorded) {
+    const buildBase =
+      currentBuildTarget.root ||
+      currentBuildTarget.base;
+
+    recordCoreProgressResponse({
+      skill: "build",
+      correct: !buildHadRetry,
+      primaryTarget: null,
+      targetType: "word-building",
+      supportingTargets: [
+        currentBuildTarget.prefix,
+        buildBase,
+        currentBuildTarget.suffix
+      ].filter(Boolean),
+      word: currentBuildTarget.word,
+      response: buildHadRetry
+        ? "Completed after retry"
+        : "Completed on first check",
+      correctAnswer: currentBuildTarget.word
+    });
+
+    buildRoundRecorded = true;
   }
 
   buildFeedback.className =
@@ -7393,7 +7442,16 @@ studySelect.addEventListener("change", () => {
 
 activityButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    activeMode = button.dataset.mode;
+    const nextMode = button.dataset.mode;
+
+    if (
+      activeMode === "build" &&
+      nextMode !== "build"
+    ) {
+      window.FirstVoloActivityProgress?.finishSession();
+    }
+
+    activeMode = nextMode;
 
     activateActivityButton(activeMode);
     renderCurrentActivity();
