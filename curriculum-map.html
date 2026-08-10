@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum Map | First Volo Morphology</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .curriculum-page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 24px 64px;
+    }
+
+    .curriculum-hero {
+      margin-bottom: 28px;
+      padding: 32px 34px;
+      border: 1px solid #d7e4f4;
+      border-radius: 24px;
+      background: #f5f9ff;
+    }
+
+    .curriculum-kicker {
+      margin: 0 0 8px;
+      color: #274b84;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .curriculum-hero h1 {
+      margin: 0 0 12px;
+      color: #17365f;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.05;
+    }
+
+    .curriculum-lead {
+      max-width: 880px;
+      margin: 0;
+      color: #34465f;
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+
+    .curriculum-back {
+      display: inline-block;
+      margin-bottom: 22px;
+      color: #274b84;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .curriculum-back:hover {
+      text-decoration: underline;
+    }
+
+    .curriculum-page .extend-section {
+      margin-top: 0;
+    }
+
+    .curriculum-page .extend-section h2 {
+      margin-bottom: 10px;
+      color: #17365f;
+    }
+
+    .curriculum-page .extend-section-intro {
+      max-width: 900px;
+      margin-top: 0;
+      color: #485b72;
+      line-height: 1.65;
+    }
+
+    .scope-note {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #f5f9ff;
+      border: 1px solid #d7e4f4;
+      color: #42556c;
+      line-height: 1.6;
+    }
+
+    .scope-accordion {
+      display: grid;
+      gap: 14px;
+    }
+
+    .scope-band {
+      border: 1px solid #dce5ef;
+      border-radius: 18px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(24,54,95,.05);
+    }
+
+    .scope-band summary {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      cursor: pointer;
+      color: #17365f;
+      font-weight: 800;
+    }
+
+    .scope-band-title {
+      font-size: 1.08rem;
+    }
+
+    .scope-band-count {
+      margin-left: auto;
+      color: #617187;
+      font-size: .88rem;
+    }
+
+    .scope-band-body {
+      padding: 18px 20px 22px;
+      border-top: 1px solid #e5ebf1;
+    }
+
+    .scope-parts-grid,
+    .scope-word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .scope-part-box,
+    .scope-word-group {
+      padding: 15px;
+      border-radius: 14px;
+      border: 1px solid #dfe7ef;
+    }
+
+    .scope-part-box h3,
+    .scope-word-group h4 {
+      margin: 0 0 10px;
+    }
+
+    .scope-prefix {
+      background: #eff8f0;
+      border-color: #cfe5d2;
+    }
+
+    .scope-root {
+      background: #eef5fb;
+      border-color: #d1e2ef;
+    }
+
+    .scope-suffix {
+      background: #f4f0fa;
+      border-color: #ded3ed;
+    }
+
+    .scope-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .scope-pill {
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.88);
+      color: #33475b;
+      font-size: .91rem;
+      font-weight: 700;
+    }
+
+    .scope-words {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e5ebf1;
+    }
+
+    .scope-words > h3 {
+      margin: 0 0 6px;
+      color: #274b84;
+    }
+
+    .scope-word-note {
+      margin: 0 0 14px;
+      color: #617187;
+      line-height: 1.55;
+    }
+
+    .scope-word-group {
+      background: #f8fafc;
+    }
+
+    .scope-word-group h4 {
+      color: #17365f;
+    }
+
+    .scope-word-group p {
+      margin: 0;
+      color: #4a5d73;
+      line-height: 1.7;
+      font-size: .94rem;
+    }
+
+
+    @media (max-width: 650px) {
+      .curriculum-page {
+        padding: 24px 16px 48px;
+      }
+
+      .curriculum-hero {
+        padding: 24px 20px;
+      }
+
+      .scope-band summary {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .scope-band-count {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="brand-block">
+      <a
+        class="brand-logo-link"
+        href="https://firstvololearning.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit First Volo Learning"
+      >
+        <div class="brand-logo-wrap">
+          <img
+            class="brand-logo"
+            src="images/logo/logo.png"
+            alt="First Volo Learning logo"
+          >
+        </div>
+      </a>
+    </div>
+
+    <div class="title-group">
+      <h1>First Volo Morphology</h1>
+      <p class="site-subtitle">Curriculum Map</p>
+      <p class="site-description">
+        Word parts and practice vocabulary across Grades 2–3, 4–5, and 6–8.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <a class="header-link" href="index.html">🏠 Morphology Activities</a>
+      <a class="header-link" href="extend-learning.html">🌱 Extend the Learning</a>
+    </div>
+  </header>
+
+  <main class="curriculum-page">
+
+    <a class="curriculum-back" href="index.html">← Back to First Volo Morphology</a>
+
+    <section class="curriculum-hero">
+      <p class="curriculum-kicker">Instructional Scope</p>
+      <h1>📚 Curriculum Map</h1>
+      <p class="curriculum-lead">
+        See the prefixes, roots, suffixes, and practice vocabulary currently
+        included in First Volo Morphology. Word parts are introduced
+        progressively and then revisited in increasingly varied and complex words.
+      </p>
+    </section>
+    <section class="extend-section" id="instructional-scope"><h2>What Does First Volo Teach?</h2><p class="extend-section-intro">First Volo introduces meaningful prefixes, roots, and suffixes across three instructional bands and then revisits those word parts in increasingly varied and complex vocabulary.</p><div class="scope-note"><strong>About the grade bands: </strong>A word-part introduction band shows when a morpheme is introduced. A practice-word band shows the level at which an individual word is currently used. Previously learned word parts continue to appear in later and more complex words.</div><div class="scope-accordion"><details class="scope-band" open><summary><span class="scope-band-title">Grades 2–3</span><span class="scope-band-count">25 word parts · 40 practice words</span></summary><div class="scope-band-body"><div class="scope-parts-grid"><div class="scope-part-box scope-prefix"><h3>Prefixes</h3><div class="scope-pill-list"><span class="scope-pill">un-</span><span class="scope-pill">re-</span><span class="scope-pill">dis-</span><span class="scope-pill">en-, em-</span><span class="scope-pill">non-</span><span class="scope-pill">over-</span><span class="scope-pill">mis-</span><span class="scope-pill">sub-</span><span class="scope-pill">pre-</span><span class="scope-pill">fore-</span><span class="scope-pill">mid-</span><span class="scope-pill">under-</span></div></div><div class="scope-part-box scope-suffix"><h3>Suffixes</h3><div class="scope-pill-list"><span class="scope-pill">-ness</span><span class="scope-pill">-able, -ible</span><span class="scope-pill">-ed</span><span class="scope-pill">-er, -or</span><span class="scope-pill">-er</span><span class="scope-pill">-est</span><span class="scope-pill">-ful</span><span class="scope-pill">-ing</span><span class="scope-pill">-ion, -tion, -sion</span><span class="scope-pill">-less</span><span class="scope-pill">-ly</span><span class="scope-pill">-ment</span><span class="scope-pill">-s, -es</span></div></div></div><div class="scope-words"><h3>Practice Words</h3><p class="scope-word-note">These words are currently used across First Volo activities at this level for recognition, analysis, meaning inference, word building, and application.</p><div class="scope-word-grid"><div class="scope-word-group"><h4>Familiar</h4><p>books · boxes · careful · careless · disobey · fastest · fearless · helped · helpful · hopeful · hopeless · jumped · jumping · kindness · misplace · misread · mistake · painted · playful · pregame · preheat · preschool · preview · quickly · readable · rebuild · reread · return · rewrite · sleeping · slowly · speechless · submarine · taller · teacher · unhappy · walked · washable</p></div><div class="scope-word-group"><h4>Challenge</h4><p>misfire · subsoil</p></div></div></div></div></details><details class="scope-band"><summary><span class="scope-band-title">Grades 4–5</span><span class="scope-band-count">41 word parts · 46 practice words</span></summary><div class="scope-band-body"><div class="scope-parts-grid"><div class="scope-part-box scope-prefix"><h3>Prefixes</h3><div class="scope-pill-list"><span class="scope-pill">in-, im-, il-, ir-</span><span class="scope-pill">in-, im-</span><span class="scope-pill">inter-</span><span class="scope-pill">de-</span><span class="scope-pill">trans-</span><span class="scope-pill">super-</span><span class="scope-pill">semi-</span><span class="scope-pill">anti-</span><span class="scope-pill">con-, com-</span><span class="scope-pill">e-, ex-</span><span class="scope-pill">pro-</span><span class="scope-pill">circum-</span></div></div><div class="scope-part-box scope-root"><h3>Roots</h3><div class="scope-pill-list"><span class="scope-pill">bio</span><span class="scope-pill">port</span><span class="scope-pill">rupt</span><span class="scope-pill">scrib/script</span><span class="scope-pill">spect</span><span class="scope-pill">struct</span><span class="scope-pill">act</span><span class="scope-pill">dict</span><span class="scope-pill">form</span><span class="scope-pill">graph</span><span class="scope-pill">mot/mov</span><span class="scope-pill">vis/vid</span><span class="scope-pill">micro</span><span class="scope-pill">tele</span><span class="scope-pill">auto</span><span class="scope-pill">phon/phone</span><span class="scope-pill">scop/scope</span><span class="scope-pill">metr/meter</span><span class="scope-pill">therm</span><span class="scope-pill">geo</span></div></div><div class="scope-part-box scope-suffix"><h3>Suffixes</h3><div class="scope-pill-list"><span class="scope-pill">-al</span><span class="scope-pill">-ic</span><span class="scope-pill">-ity</span><span class="scope-pill">-ive</span><span class="scope-pill">-ist</span><span class="scope-pill">-ize</span><span class="scope-pill">-ify</span><span class="scope-pill">-ology</span><span class="scope-pill">-ous</span></div></div></div><div class="scope-words"><h3>Practice Words</h3><p class="scope-word-note">These words are currently used across First Volo activities at this level for recognition, analysis, meaning inference, word building, and application.</p><div class="scope-word-grid"><div class="scope-word-group"><h4>Familiar</h4><p>action · active · actively · artist · dangerous · exhale · export · illegal · impossible · movement · musical · portable · predict · semicircle · transport · visible</p></div><div class="scope-word-group"><h4>Academic</h4><p>biography · biology · classify · construct · construction · dictate · disrupt · eruption · geography · inactive · inspect · inspection · inspector · instruct · invisible · irregular · manuscript · miscalculate · modernize · motion · nonverbal · perspective · poetic · reconstruct · rupture · spectator · structure · submerge · subset · transform</p></div></div></div></div></details><details class="scope-band"><summary><span class="scope-band-title">Grades 6–8</span><span class="scope-band-count">27 word parts · 32 practice words</span></summary><div class="scope-band-body"><div class="scope-parts-grid"><div class="scope-part-box scope-prefix"><h3>Prefixes</h3><div class="scope-pill-list"><span class="scope-pill">ab-</span><span class="scope-pill">a-, ad-</span><span class="scope-pill">retro-</span></div></div><div class="scope-part-box scope-root"><h3>Roots</h3><div class="scope-pill-list"><span class="scope-pill">chron</span><span class="scope-pill">duct/duce</span><span class="scope-pill">fer</span><span class="scope-pill">ject</span><span class="scope-pill">mit</span><span class="scope-pill">pel</span><span class="scope-pill">pend/pens</span><span class="scope-pill">pos</span><span class="scope-pill">put</span><span class="scope-pill">sequ</span><span class="scope-pill">ten</span><span class="scope-pill">tract</span><span class="scope-pill">val</span><span class="scope-pill">ven/vent</span><span class="scope-pill">vert</span><span class="scope-pill">voc</span><span class="scope-pill">aud</span><span class="scope-pill">cred</span><span class="scope-pill">biblio</span><span class="scope-pill">derma</span><span class="scope-pill">terr</span></div></div><div class="scope-part-box scope-suffix"><h3>Suffixes</h3><div class="scope-pill-list"><span class="scope-pill">-ance</span><span class="scope-pill">-ence</span><span class="scope-pill">-ant, -ent</span></div></div></div><div class="scope-words"><h3>Practice Words</h3><p class="scope-word-note">These words are currently used across First Volo activities at this level for recognition, analysis, meaning inference, word building, and application.</p><div class="scope-word-grid"><div class="scope-word-group"><h4>Familiar</h4><p>attract · project</p></div><div class="scope-word-group"><h4>Academic</h4><p>abduct · audible · auditory · bibliography · chronology · construction · constructive · convention · convert · credibility · credible · dependence · distraction · emit · existence · incredible · international · performance · persistence · prediction · predictive · projection · reject · retractable · sequence · sequential · subsequent · transmit · vocalist · vocalize</p></div></div></div></div></details></div></section>
+
+  </main>
+</body>
+</html>
