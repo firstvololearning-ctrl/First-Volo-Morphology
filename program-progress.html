@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Progress Monitoring | First Volo Morphology
+  </title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="progress-page">
+
+  <header class="site-header progress-header">
+
+    <div class="brand-block">
+
+      <a
+        class="brand-logo-link"
+        href="https://firstvololearning.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div class="brand-logo-wrap">
+
+          <img
+            class="brand-logo"
+            src="images/logo/logo.png"
+            alt="First Volo Learning logo"
+          >
+
+        </div>
+      </a>
+
+    </div>
+
+
+    <div class="title-group">
+
+      <h1>
+        Progress Monitoring
+      </h1>
+
+      <p class="site-subtitle">
+        First Volo Morphology
+      </p>
+
+      <p class="site-description">
+        Track student performance within First Volo Morphology across activities, sessions, and word parts.
+      </p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <a
+        class="header-link"
+        href="index.html"
+      >
+        ← Back to Activities
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main class="progress-content">
+
+    <section class="student-tracker" id="studentTracker">
+  <h2>📊 Program Progress</h2>
+  <p>Create or select a student to track performance within First Volo Morphology on this device.</p>
+  <div class="tracker-local-note">🔒 Progress data is stored locally in this browser and is not sent to First Volo Learning. Educators may enter a student name, initials, ID, or other code in accordance with school or district policies.</div>
+  <div class="tracker-controls">
+    <label for="studentSelect">Current student</label>
+    <select id="studentSelect"><option value="">Select a student</option></select>
+    <input id="studentName" type="text" maxlength="80" placeholder="Student name or code">
+    <button id="addStudentButton" type="button">＋ Add Student</button>
+  </div>
+  <div class="tracker-student-summary" id="studentSummary" hidden>
+    <h3 id="studentSummaryName"></h3>
+    <p id="studentSummaryText">No saved sessions yet.</p>
+    <button id="renameStudentButton" type="button">Rename</button>
+    <button id="clearStudentProgressButton" type="button">Clear Student Progress</button>
+    <button id="deleteStudentButton" type="button">Delete Student</button>
+  </div>
+</section>
+
+
+</main>
+
+
+  <footer class="site-footer">
+
+    <p>
+      © 2026 Alexis Sacco / First Volo Learning.
+      All rights reserved.
+    </p>
+
+  </footer>
+
+  <script src="progress-tracker.js"></script>
+
+</body>
+
+</html>
+
