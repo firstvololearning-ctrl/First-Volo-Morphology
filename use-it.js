@@ -294,6 +294,14 @@ function renderUseItActivity() {
     answered: false
   };
 
+  window.FirstVoloActivityProgress?.startSession({
+    activity: "use",
+    studyMode,
+    gradeBand,
+    vocabLevel,
+    totalItems: useItState.items.length
+  });
+
   renderUseItQuestion();
 }
 
@@ -407,6 +415,17 @@ function checkUseItChoice(
   if (isCorrect) {
     useItState.score += 1;
   }
+
+  window.FirstVoloActivityProgress?.recordResponse({
+    skill: "use",
+    correct: isCorrect,
+    primaryTarget: null,
+    targetType: "word-application",
+    supportingTargets: [item.prefix, item.base, item.suffix].filter(Boolean),
+    word: item.word,
+    response: selectedWord,
+    correctAnswer: item.word
+  });
 
   document
     .querySelectorAll(

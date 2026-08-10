@@ -4384,6 +4384,14 @@ if (mode === "infer") {
     answered: false
   };
 
+  window.FirstVoloActivityProgress?.startSession({
+    activity: mode,
+    studyMode,
+    gradeBand,
+    vocabLevel,
+    totalItems: quizState.items.length
+  });
+
   renderQuizQuestion();
 }
 
@@ -4488,6 +4496,10 @@ function renderQuizQuestion() {
 }
 
 
+function recordCoreProgressResponse(details) {
+  window.FirstVoloActivityProgress?.recordResponse(details);
+}
+
 /* ========================================
    FIND ACTIVITY
    ======================================== */
@@ -4532,6 +4544,17 @@ function answerFindQuestion(button, choice, question) {
   if (isCorrect) {
     quizState.score += 1;
   }
+
+  recordCoreProgressResponse({
+    skill: "find",
+    correct: isCorrect,
+    primaryTarget: question.target,
+    targetType: question.type,
+    word: question.word,
+    itemId: question.itemId,
+    response: choice,
+    correctAnswer: question.answer
+  });
 
   [...findChoices.children].forEach((choiceButton) => {
     choiceButton.disabled = true;
@@ -4691,6 +4714,15 @@ function checkHuntAnswers() {
   if (isPerfect) {
     quizState.score += 1;
   }
+
+  recordCoreProgressResponse({
+    skill: "hunt",
+    correct: isPerfect,
+    primaryTarget: question.label,
+    targetType: question.type,
+    response: [...selectedHuntWords].join(", "),
+    correctAnswer: correctWords.join(", ")
+  });
 
   [...huntWordChoices.children].forEach((button) => {
     button.disabled = true;
@@ -4859,6 +4891,16 @@ function answerMeaningQuestion(button, choice, question) {
     quizState.score += 1;
   }
 
+  recordCoreProgressResponse({
+    skill: "meaning",
+    correct: isCorrect,
+    primaryTarget: question.item.label,
+    targetType: question.item.type,
+    itemId: question.item.id,
+    response: choice,
+    correctAnswer: question.correct
+  });
+
   [...meaningChoices.children].forEach((choiceButton) => {
     choiceButton.disabled = true;
 
@@ -4935,6 +4977,16 @@ function answerMorphemeQuestion(
   if (isCorrect) {
     quizState.score += 1;
   }
+
+  recordCoreProgressResponse({
+    skill: "morpheme",
+    correct: isCorrect,
+    primaryTarget: question.item.label,
+    targetType: question.item.type,
+    itemId: question.item.id,
+    response: choiceItem.label,
+    correctAnswer: question.item.label
+  });
 
   [...morphemeChoices.children].forEach(
     (choiceButton, index) => {
@@ -5014,6 +5066,17 @@ function answerBreakQuestion(
   if (isCorrect) {
     quizState.score += 1;
   }
+
+  recordCoreProgressResponse({
+    skill: "break",
+    correct: isCorrect,
+    primaryTarget: null,
+    targetType: "word-structure",
+    supportingTargets: question.segmentation.split("+").map((part) => part.trim()).filter(Boolean),
+    word: question.word,
+    response: choice,
+    correctAnswer: question.correct
+  });
 
   [...breakChoices.children].forEach(
     (choiceButton) => {
@@ -5121,14 +5184,10 @@ function renderInferQuestion(question) {
 
   knownPartBox.innerHTML = `
     <strong>${escapeHTML(question.knownLabel)}</strong>
-    <span>${escapeHTML(question.knownMeaning)}</span>
   `;
 inferPrompt.textContent =
-  question.type === "prefix"
-    ? "Based on the prefix, what might this word mean?"
-    : question.type === "root"
-      ? "Based on the root, what might this word mean?"
-      : "Based on the suffix, what might this word mean?";
+  "Based on the word part, what might this word mean?";
+
   inferWord.textContent = question.word;
 
   shuffle(question.choices).forEach((choice) => {
@@ -5162,6 +5221,16 @@ function answerInferQuestion(button, choice, question) {
   if (isCorrect) {
     quizState.score += 1;
   }
+
+  recordCoreProgressResponse({
+    skill: "infer",
+    correct: isCorrect,
+    primaryTarget: question.knownLabel,
+    targetType: question.type,
+    word: question.word,
+    response: choice,
+    correctAnswer: question.correct
+  });
 
   [...inferChoices.children].forEach((choiceButton) => {
     choiceButton.disabled = true;

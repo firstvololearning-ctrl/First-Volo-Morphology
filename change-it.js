@@ -167,6 +167,14 @@ function renderChangeItActivity() {
     answered: false
   };
 
+  window.FirstVoloActivityProgress?.startSession({
+    activity: "change",
+    studyMode,
+    gradeBand,
+    vocabLevel,
+    totalItems: changeItState.items.length
+  });
+
   renderChangeItQuestion();
 }
 
@@ -219,6 +227,16 @@ function checkChangeItChoice(selectedButton, selectedWord, item) {
   if (isCorrect) {
     changeItState.score += 1;
   }
+
+  window.FirstVoloActivityProgress?.recordResponse({
+    skill: "change",
+    correct: isCorrect,
+    primaryTarget: item.suffix,
+    targetType: "suffix",
+    word: item.answer,
+    response: selectedWord,
+    correctAnswer: item.answer
+  });
 
   document
     .querySelectorAll("#changeChoices .change-choice")
