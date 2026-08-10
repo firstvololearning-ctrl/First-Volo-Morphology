@@ -1791,6 +1791,216 @@ const rootFindQuestions = [
   literal: "able to be seen",
   definition: "able to be seen"
 }
+,
+  {
+    "type": "root",
+    "word": "perspective",
+    "before": "per",
+    "target": "spect",
+    "after": "ive",
+    "answer": "spect",
+    "choices": [
+      "spect",
+      "struct",
+      "tract",
+      "script"
+    ],
+    "itemId": "spect",
+    "image": "images/roots/spect.png",
+    "base": "spect = look or watch",
+    "literal": "a way of looking",
+    "definition": "a particular way of viewing or thinking about something"
+  },
+  {
+    "type": "root",
+    "word": "transport",
+    "before": "trans",
+    "target": "port",
+    "after": "",
+    "answer": "port",
+    "choices": [
+      "port",
+      "mit",
+      "tract",
+      "duct"
+    ],
+    "itemId": "port",
+    "image": "images/roots/port.png",
+    "base": "trans- = across",
+    "literal": "carry across",
+    "definition": "to move people or things from one place to another"
+  },
+  {
+    "type": "root",
+    "word": "dictate",
+    "before": "",
+    "target": "dict",
+    "after": "ate",
+    "answer": "dict",
+    "choices": [
+      "dict",
+      "voc",
+      "scrib/script",
+      "aud"
+    ],
+    "itemId": "dict",
+    "image": "images/roots/dict.png",
+    "base": "dict = say or speak",
+    "literal": "say or speak",
+    "definition": "to say words aloud so another person can write them down"
+  },
+  {
+    "type": "root",
+    "word": "reject",
+    "before": "re",
+    "target": "ject",
+    "after": "",
+    "answer": "ject",
+    "choices": [
+      "ject",
+      "mit",
+      "port",
+      "tract"
+    ],
+    "itemId": "ject",
+    "image": "images/roots/ject.png",
+    "base": "re- = back",
+    "literal": "throw back",
+    "definition": "to refuse to accept, use, or believe something"
+  },
+  {
+    "type": "root",
+    "word": "construction",
+    "before": "con",
+    "target": "struct",
+    "after": "ion",
+    "answer": "struct",
+    "choices": [
+      "struct",
+      "rupt",
+      "tract",
+      "spect"
+    ],
+    "itemId": "struct",
+    "image": "images/roots/struct.png",
+    "base": "con- = together; -ion = act or process",
+    "literal": "process of building together",
+    "definition": "the process of building or putting something together"
+  },
+  {
+    "type": "root",
+    "word": "distraction",
+    "before": "dis",
+    "target": "tract",
+    "after": "ion",
+    "answer": "tract",
+    "choices": [
+      "tract",
+      "struct",
+      "port",
+      "sequ"
+    ],
+    "itemId": "tract",
+    "image": "images/roots/tract.png",
+    "base": "dis- = apart or away; -ion = act or process",
+    "literal": "a pulling away",
+    "definition": "something that draws attention away from what a person is doing"
+  },
+  {
+    "type": "root",
+    "word": "emit",
+    "before": "e",
+    "target": "mit",
+    "after": "",
+    "answer": "mit",
+    "choices": [
+      "mit",
+      "port",
+      "fer",
+      "ject"
+    ],
+    "itemId": "mit",
+    "image": "images/roots/mit.png",
+    "base": "e- = out",
+    "literal": "send out",
+    "definition": "to send out light, sound, heat, gas, or another substance"
+  },
+  {
+    "type": "root",
+    "word": "auditory",
+    "before": "",
+    "target": "aud",
+    "after": "itory",
+    "answer": "aud",
+    "choices": [
+      "aud",
+      "vis/vid",
+      "spect",
+      "voc"
+    ],
+    "itemId": "aud",
+    "image": "images/roots/aud.png",
+    "base": "aud = hear",
+    "literal": "related to hearing",
+    "definition": "connected with hearing or the sense of hearing"
+  },
+  {
+    "type": "root",
+    "word": "incredible",
+    "before": "in",
+    "target": "cred",
+    "after": "ible",
+    "answer": "cred",
+    "choices": [
+      "cred",
+      "dict",
+      "val",
+      "aud"
+    ],
+    "itemId": "cred",
+    "image": "images/roots/cred.png",
+    "base": "in- = not; -ible = able to be",
+    "literal": "not able to be believed",
+    "definition": "so unusual or impressive that it is hard to believe"
+  },
+  {
+    "type": "root",
+    "word": "geography",
+    "before": "geo",
+    "target": "graph",
+    "after": "y",
+    "answer": "graph",
+    "choices": [
+      "graph",
+      "scrib/script",
+      "dict",
+      "spect"
+    ],
+    "itemId": "graph",
+    "image": "images/roots/graph.png",
+    "base": "geo = earth",
+    "literal": "writing or description of the earth",
+    "definition": "the study of Earth's places, features, and people"
+  },
+  {
+    "type": "root",
+    "word": "invisible",
+    "before": "in",
+    "target": "vis",
+    "after": "ible",
+    "answer": "vis/vid",
+    "choices": [
+      "vis/vid",
+      "spect",
+      "aud",
+      "graph"
+    ],
+    "itemId": "vis",
+    "image": "images/roots/vis.png",
+    "base": "in- = not; -ible = able to be",
+    "literal": "not able to be seen",
+    "definition": "unable to be seen"
+  }
 ];
 const suffixFindQuestions = [
   {
@@ -2300,6 +2510,103 @@ const inferQuestions = [
     definition: "to make a mistake when calculating",
     image: "images/prefixes/mis.png"
   },
+
+  {
+    type: "prefix",
+    knownLabel: "trans-",
+    knownMeaning: "across",
+    word: "transport",
+    correct: "to carry or move something from one place to another",
+    choices: [
+      "to carry or move something from one place to another",
+      "to build something again",
+      "to pull something apart",
+      "to keep something in one place"
+    ],
+    literal: "carry across",
+    definition: "to move people or things from one place to another",
+    image: "images/prefixes/trans.png"
+  },
+  {
+    type: "prefix",
+    knownLabel: "inter-",
+    knownMeaning: "between; among",
+    word: "international",
+    correct: "involving or occurring between nations",
+    choices: [
+      "involving or occurring between nations",
+      "happening inside one classroom",
+      "taking place before a nation exists",
+      "moving away from a nation"
+    ],
+    literal: "between nations",
+    definition: "involving two or more countries or nations",
+    image: "images/prefixes/inter.png"
+  },
+  {
+    type: "prefix",
+    knownLabel: "non-",
+    knownMeaning: "not",
+    word: "nonverbal",
+    correct: "not using spoken words",
+    choices: [
+      "not using spoken words",
+      "using words again",
+      "speaking before someone else",
+      "speaking very loudly"
+    ],
+    literal: "not verbal",
+    definition: "communicating without spoken words",
+    image: "images/prefixes/non.png"
+  },
+  {
+    type: "prefix",
+    knownLabel: "ab-",
+    knownMeaning: "away",
+    word: "abduct",
+    correct: "to take or lead someone away",
+    choices: [
+      "to take or lead someone away",
+      "to bring someone together",
+      "to build something underneath",
+      "to send something forward"
+    ],
+    literal: "lead away",
+    definition: "to take a person away, especially by force",
+    image: "images/prefixes/ab.png"
+  },
+  {
+    type: "prefix",
+    knownLabel: "ex-",
+    knownMeaning: "out",
+    word: "export",
+    correct: "to send goods or materials out to another place",
+    choices: [
+      "to send goods or materials out to another place",
+      "to bring goods into a place",
+      "to carry goods underneath something",
+      "to make goods again"
+    ],
+    literal: "carry out",
+    definition: "to send goods or information out to another country or place",
+    image: "images/prefixes/e-ex.png"
+  },
+  {
+    type: "prefix",
+    knownLabel: "pro-",
+    knownMeaning: "forward",
+    word: "project",
+    correct: "to send, extend, or show something forward",
+    choices: [
+      "to send, extend, or show something forward",
+      "to pull something backward",
+      "to hide something underneath",
+      "to break something apart"
+    ],
+    literal: "throw forward",
+    definition: "to extend, send, or show something forward",
+    image: "images/prefixes/pro.png"
+  },
   {
     type: "root",
     knownLabel: "spect",
@@ -2380,7 +2687,247 @@ const inferQuestions = [
     definition: "coming after something else in time or order",
     image: "images/roots/sequ.png"
   }
-  ,
+,
+  {
+    "type": "root",
+    "knownLabel": "dict",
+    "knownMeaning": "say; speak",
+    "word": "dictate",
+    "correct": "to say words aloud for someone else to write down",
+    "choices": [
+      "to say words aloud for someone else to write down",
+      "to carry written words somewhere",
+      "to erase words from a page",
+      "to organize pictures into groups"
+    ],
+    "literal": "say or speak",
+    "definition": "to say words aloud so that another person can write them down",
+    "image": "images/roots/dict.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "spect",
+    "knownMeaning": "look; watch",
+    "word": "perspective",
+    "correct": "a particular way of looking at or thinking about something",
+    "choices": [
+      "a particular way of looking at or thinking about something",
+      "a way of carrying something",
+      "a process of breaking something apart",
+      "a written list arranged by time"
+    ],
+    "literal": "a way of looking",
+    "definition": "a particular way of viewing or thinking about something",
+    "image": "images/roots/spect.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "struct",
+    "knownMeaning": "build",
+    "word": "reconstruct",
+    "correct": "to build or put something together again",
+    "choices": [
+      "to build or put something together again",
+      "to break something into smaller pieces",
+      "to carry something to another place",
+      "to look closely at something"
+    ],
+    "literal": "build again",
+    "definition": "to build, form, or create something again",
+    "image": "images/roots/struct.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "aud",
+    "knownMeaning": "hear",
+    "word": "auditory",
+    "correct": "related to hearing",
+    "choices": [
+      "related to hearing",
+      "related to seeing",
+      "related to writing",
+      "related to movement"
+    ],
+    "literal": "related to hearing",
+    "definition": "connected with hearing or the sense of hearing",
+    "image": "images/roots/aud.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "chron",
+    "knownMeaning": "time",
+    "word": "chronology",
+    "correct": "the arrangement of events in time order",
+    "choices": [
+      "the arrangement of events in time order",
+      "a drawing of different places",
+      "a list of sounds",
+      "a group of objects organized by size"
+    ],
+    "literal": "organization by time",
+    "definition": "the arrangement of events in the order in which they happened",
+    "image": "images/roots/chron.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "cred",
+    "knownMeaning": "believe; trust",
+    "word": "credible",
+    "correct": "able to be believed or trusted",
+    "choices": [
+      "able to be believed or trusted",
+      "unable to be heard",
+      "easy to carry",
+      "likely to break"
+    ],
+    "literal": "able to be believed",
+    "definition": "believable or worthy of trust",
+    "image": "images/roots/cred.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "duct",
+    "knownMeaning": "lead",
+    "word": "abduct",
+    "correct": "to lead or take someone away",
+    "choices": [
+      "to lead or take someone away",
+      "to build something together",
+      "to write something again",
+      "to look beneath something"
+    ],
+    "literal": "lead away",
+    "definition": "to take a person away, especially by force",
+    "image": "images/roots/duct-duce.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "graph",
+    "knownMeaning": "write; draw",
+    "word": "bibliography",
+    "correct": "a list of written sources or books",
+    "choices": [
+      "a list of written sources or books",
+      "a recording of spoken sounds",
+      "a timeline of historical events",
+      "a tool used to measure distance"
+    ],
+    "literal": "writing about books",
+    "definition": "a list of books and other sources used or referred to in a work",
+    "image": "images/roots/graph.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "ject",
+    "knownMeaning": "throw",
+    "word": "reject",
+    "correct": "to refuse or throw back something that is offered",
+    "choices": [
+      "to refuse or throw back something that is offered",
+      "to carry something across",
+      "to build something again",
+      "to listen to something carefully"
+    ],
+    "literal": "throw back",
+    "definition": "to refuse to accept, use, or believe something",
+    "image": "images/roots/ject.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "mit",
+    "knownMeaning": "send",
+    "word": "transmit",
+    "correct": "to send something from one place to another",
+    "choices": [
+      "to send something from one place to another",
+      "to pull something backward",
+      "to look at something closely",
+      "to arrange something by time"
+    ],
+    "literal": "send across",
+    "definition": "to send information, sound, energy, or something else from one place to another",
+    "image": "images/roots/mit.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "sequ",
+    "knownMeaning": "follow",
+    "word": "sequence",
+    "correct": "a set of things that follow one another in order",
+    "choices": [
+      "a set of things that follow one another in order",
+      "a group of things scattered randomly",
+      "an object carried from place to place",
+      "a structure that has been broken apart"
+    ],
+    "literal": "things that follow",
+    "definition": "a set of things arranged so that one follows another",
+    "image": "images/roots/sequ.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "tract",
+    "knownMeaning": "pull; draw",
+    "word": "distraction",
+    "correct": "something that pulls attention away",
+    "choices": [
+      "something that pulls attention away",
+      "something that builds attention",
+      "something that sends a message",
+      "something arranged in time order"
+    ],
+    "literal": "a pulling away",
+    "definition": "something that draws or pulls attention away from what a person is doing",
+    "image": "images/roots/tract.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "tract",
+    "knownMeaning": "pull; draw",
+    "word": "retractable",
+    "correct": "able to be pulled back",
+    "choices": [
+      "able to be pulled back",
+      "able to be written on",
+      "able to be heard clearly",
+      "able to be built again"
+    ],
+    "literal": "able to be pulled back",
+    "definition": "able to be drawn or pulled back into a smaller or hidden position",
+    "image": "images/roots/tract.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "vert",
+    "knownMeaning": "turn",
+    "word": "convert",
+    "correct": "to turn or change something into another form",
+    "choices": [
+      "to turn or change something into another form",
+      "to carry something away",
+      "to break something apart",
+      "to hear something again"
+    ],
+    "literal": "turn or change",
+    "definition": "to change something into a different form, use, or system",
+    "image": "images/roots/vert.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "voc",
+    "knownMeaning": "voice; call",
+    "word": "vocalist",
+    "correct": "a person who uses the voice to sing",
+    "choices": [
+      "a person who uses the voice to sing",
+      "a person who writes music",
+      "a person who builds instruments",
+      "a person who studies time"
+    ],
+    "literal": "a person connected with voice",
+    "definition": "a singer, especially one who performs with a group",
+    "image": "images/roots/voc.png"
+  },
   {
     type: "suffix",
     knownLabel: "-able",
@@ -3059,6 +3606,74 @@ const rootSuffixBuildWords = [
     literal: "more than one box",
     definition: "two or more boxes"
   }
+,
+  {
+    word: "audible",
+    baseId: "aud",
+    base: "aud",
+    baseMeaning: "hear",
+    suffixId: "ible",
+    suffix: "-ible",
+    suffixMeaning: "can be; able to be",
+    literal: "able to be heard",
+    definition: "loud or clear enough to be heard"
+  },
+  {
+    word: "credible",
+    baseId: "cred",
+    base: "cred",
+    baseMeaning: "believe; trust",
+    suffixId: "ible",
+    suffix: "-ible",
+    suffixMeaning: "can be; able to be",
+    literal: "able to be believed",
+    definition: "believable or worthy of trust"
+  },
+  {
+    word: "chronology",
+    baseId: "chron",
+    base: "chron",
+    baseMeaning: "time",
+    suffixId: "ology",
+    suffix: "-ology",
+    suffixMeaning: "study or organization",
+    literal: "organization by time",
+    definition: "the arrangement of events in the order they happened"
+  },
+  {
+    word: "sequence",
+    baseId: "sequ",
+    base: "sequ",
+    baseMeaning: "follow",
+    suffixId: "ence",
+    suffix: "-ence",
+    suffixMeaning: "state, quality, or act",
+    literal: "things that follow",
+    definition: "a set of things arranged in a particular order"
+  },
+  {
+    word: "dependence",
+    baseId: "depend",
+    base: "depend",
+    baseMeaning: "rely on",
+    suffixId: "ence",
+    suffix: "-ence",
+    suffixMeaning: "state, quality, or act",
+    literal: "state of depending",
+    definition: "the state of relying on someone or something"
+  },
+  {
+    word: "persistence",
+    baseId: "persist",
+    base: "persist",
+    baseMeaning: "continue despite difficulty",
+    suffixId: "ence",
+    suffix: "-ence",
+    suffixMeaning: "state, quality, or act",
+    literal: "state of persisting",
+    definition: "the quality of continuing even when something is difficult"
+  }
+
 ];
 /* ========================================
    PREFIX + ROOT / BASE + SUFFIX BUILDING DATA

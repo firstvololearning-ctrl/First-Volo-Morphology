@@ -95,8 +95,82 @@ const useItSentenceBank = {
     "Young animals are often ___ on adults for food and protection.",
 
   convention:
-    "Thousands of people attended the science ___ this weekend."
+    "Thousands of people attended the science ___ this weekend.",
 
+portable:
+"The small speaker is ___, so we can easily carry it from room to room.",
+
+readable:
+"Her handwriting was neat and ___, so everyone could understand the note.",
+
+visible:
+"The bright moon was clearly ___ through the clouds.",
+
+teacher:
+"Our ___ explained the new lesson and answered our questions.",
+
+taller:
+"The sunflower grew ___ than the other plants in the garden.",
+
+fastest:
+"Of all the runners, Maya was the ___ to reach the finish line.",
+
+hopeless:
+"At first the problem seemed ___, but the team eventually found a solution.",
+
+quickly:
+"The students worked ___ so they could finish before the bell rang.",
+
+movement:
+"The sudden ___ of the branches showed that something was in the tree.",
+
+dangerous:
+"The broken stairs were ___, so the area was closed until they could be repaired.",
+
+musical:
+"The play included several ___ performances with singing and instruments.",
+
+poetic:
+"The author's ___ description of the sunset sounded almost like a poem.",
+
+artist:
+"The ___ used paint and charcoal to create the portrait.",
+
+modernize:
+"The city plans to ___ the old train station with updated equipment.",
+
+classify:
+"Scientists use shared traits to ___ living things into groups.",
+
+performance:
+"The audience applauded loudly after the band's ___ ended.",
+
+existence:
+"Fossils provide evidence of the ___ of animals that lived long ago.",
+
+jumped:
+"The frog ___ from the rock into the pond.",
+
+jumping:
+"The children were ___ over puddles after the rain.",
+
+books:
+"She returned three ___ to the library.",
+
+boxes:
+"We packed the supplies into two large ___ before moving them.",
+
+  chronology:
+    "The historian arranged the events in ___ so readers could follow when each one happened.",
+
+  sequence:
+    "Put the steps in the correct ___ so the procedure is easy to follow.",
+
+  dependence:
+    "The young plant's ___ on sunlight and water is necessary for its growth.",
+
+  persistence:
+    "Her ___ helped her keep working even when the problem was difficult."
 };
 
 
