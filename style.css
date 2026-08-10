@@ -2492,3 +2492,249 @@ a:focus-visible {
   display: block;
   line-height: 1.45;
 }
+
+
+/* ========================================
+   SORT IT LEARNING GAME
+   ======================================== */
+
+.learn-mode-switch {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 24px;
+  flex-wrap: wrap;
+}
+
+.learn-mode-button {
+  appearance: none;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+  background: white;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.learn-mode-button:hover {
+  transform: translateY(-1px);
+}
+
+.learn-mode-button.active {
+  background: var(--prefix-soft);
+  color: var(--prefix-dark);
+  border-color: var(--prefix-dark);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.sort-it-shell {
+  width: 100%;
+}
+
+.sort-it-heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sort-it-heading h3 {
+  margin: 6px 0 8px;
+}
+
+.sort-it-heading p {
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.sort-it-kicker {
+  font-weight: 900;
+  color: var(--prefix-dark);
+}
+
+.sort-it-feedback {
+  max-width: 720px;
+  margin: 0 auto 20px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--prefix-soft);
+  color: var(--prefix-dark);
+  text-align: center;
+  font-weight: 700;
+}
+
+.sort-target-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sort-target {
+  appearance: none;
+  width: 100%;
+  min-height: 250px;
+  border: 3px solid var(--prefix-dark);
+  border-radius: 20px;
+  background: var(--prefix-soft);
+  color: var(--prefix-dark);
+  padding: 16px;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sort-target:hover {
+  transform: translateY(-2px);
+}
+
+.sort-target-image {
+  display: block;
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  margin: 0 auto 8px;
+}
+
+.sort-target-label {
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.sort-target-meaning {
+  margin-top: 3px;
+  font-weight: 700;
+}
+
+.sort-target-placed {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  margin-top: 14px;
+}
+
+.sort-placed-word {
+  display: inline-block;
+  border-radius: 999px;
+  background: white;
+  padding: 6px 10px;
+  font-size: 0.92rem;
+}
+
+.sort-word-bank {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.sort-word-card {
+  appearance: none;
+  border: 2px solid var(--prefix-dark);
+  border-radius: 14px;
+  background: white;
+  color: inherit;
+  padding: 12px 17px;
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sort-word-card:hover {
+  transform: translateY(-2px);
+}
+
+.sort-word-card.selected {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 4px var(--prefix-soft);
+}
+
+.sort-target.just-sorted {
+  transform: scale(1.02);
+}
+
+.sort-target.try-again {
+  transform: translateY(2px);
+}
+
+@media (max-width: 800px) {
+  .sort-target-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sort-target {
+    min-height: 0;
+  }
+}
+
+.sort-round-count {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  opacity: 0.7;
+}
+
+.sort-teaching-note {
+  max-width: 720px;
+  margin: 14px auto 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #fff8dc;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.sort-target-grid.four-targets {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.sort-target-grid.two-targets {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sort-it-actions {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.sort-next-button {
+  appearance: none;
+  border: 2px solid var(--prefix-dark);
+  border-radius: 999px;
+  background: var(--prefix-dark);
+  color: white;
+  padding: 12px 22px;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.sort-next-button:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .sort-target-grid.four-targets,
+  .sort-target-grid.two-targets {
+    grid-template-columns: 1fr;
+  }
+}

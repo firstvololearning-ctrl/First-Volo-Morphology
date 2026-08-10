@@ -4024,6 +4024,12 @@ const panels = {
 };
 
 const learningGrid = document.getElementById("learningGrid");
+const learnExploreButton =
+  document.getElementById("learnExploreButton");
+const learnSortButton =
+  document.getElementById("learnSortButton");
+const learnSortWorkspace =
+  document.getElementById("learnSortWorkspace");
 
 const findWord = document.getElementById("findWord");
 const findChoices = document.getElementById("findChoices");
@@ -4081,6 +4087,8 @@ const aboutClose = document.getElementById("aboutClose");
 
 let studyMode = "";
 let activeMode = "learn";
+let learnMode = "explore";
+let sortRoundIndex = 0;
 let gradeBand = gradeBandSelect?.value || "all";
 let vocabLevel = vocabLevelSelect?.value || "all";
 
@@ -4574,6 +4582,580 @@ function renderCurrentActivity() {
    LEARN ACTIVITY
    ======================================== */
 
+function renderSortItActivity() {
+  learningGrid.hidden = true;
+  learnSortWorkspace.hidden = false;
+
+  workspaceSubtitle.textContent =
+    "Sort words and word parts into meaningful groups.";
+
+  if (studyMode !== "prefixes") {
+    learnSortWorkspace.innerHTML = `
+      <div class="sort-it-shell">
+        <div class="sort-it-heading">
+          <div class="sort-it-kicker">🗂️ Sort It</div>
+          <h3>Prefix sorting is ready</h3>
+          <p>
+            Choose <strong>Prefixes</strong> above to play the
+            first Sort It learning rounds.
+          </p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  function getPrefix(id) {
+    return prefixes.find((item) => item.id === id);
+  }
+
+  function prefixIsAvailable(id) {
+    const item = getPrefix(id);
+
+    return Boolean(
+      item &&
+      isMorphemeEligibleForSelectedGrade(item)
+    );
+  }
+
+  function makeWordFamilyRound(ids, title) {
+    const targets = ids.map((id) => {
+      const question = wordHuntQuestions.find(
+        (item) =>
+          item.type === "prefix" &&
+          item.itemId === id
+      );
+
+      const morpheme = getPrefix(id);
+
+      if (
+        !question ||
+        !morpheme ||
+        !prefixIsAvailable(id)
+      ) {
+        return null;
+      }
+
+      const words = question.words
+        .filter((word) => word.correct)
+        .slice(0, 4);
+
+      if (words.length < 4) {
+        return null;
+      }
+
+      return {
+        id,
+        label: morpheme.label,
+        meaning: morpheme.meaning,
+        image: morpheme.image,
+        words
+      };
+    }).filter(Boolean);
+
+    if (targets.length < 3) {
+      return null;
+    }
+
+    return {
+      type: "word-family",
+      kicker: "🗂️ Sort It · Prefixes",
+      title,
+      instructions:
+        "Tap a word, then tap the prefix box where it belongs. Use the picture and meaning as clues.",
+      targets,
+      cards: shuffle(
+        targets.flatMap((target) =>
+          target.words.map((word, index) => ({
+            ...word,
+            targetId: target.id,
+            cardId: `${target.id}-${index}`
+          }))
+        )
+      ),
+      completion:
+        `You practiced ${targets.length * 4} words with ${targets.length} prefixes.`
+    };
+  }
+
+  function makeChameleonRound() {
+    if (!prefixIsAvailable("negative-in-family")) {
+      return null;
+    }
+
+    const targets = [
+      {
+        id: "negative-in",
+        label: "in-",
+        meaning: "the basic form",
+        image: "images/prefixes/in-not.png"
+      },
+      {
+        id: "negative-im",
+        label: "im-",
+        meaning: "before b, m, or p",
+        image: "images/prefixes/im-not.png"
+      },
+      {
+        id: "negative-il",
+        label: "il-",
+        meaning: "before l",
+        image: "images/prefixes/il.png"
+      },
+      {
+        id: "negative-ir",
+        label: "ir-",
+        meaning: "before r",
+        image: "images/prefixes/ir.png"
+      }
+    ];
+
+    const cards = shuffle([
+      {
+        cardId: "inactive",
+        word: "inactive",
+        targetId: "negative-in",
+        before: "",
+        target: "in",
+        after: "active"
+      },
+      {
+        cardId: "impossible",
+        word: "impossible",
+        targetId: "negative-im",
+        before: "",
+        target: "im",
+        after: "possible"
+      },
+      {
+        cardId: "illegal",
+        word: "illegal",
+        targetId: "negative-il",
+        before: "",
+        target: "il",
+        after: "legal"
+      },
+      {
+        cardId: "irregular",
+        word: "irregular",
+        targetId: "negative-ir",
+        before: "",
+        target: "ir",
+        after: "regular"
+      }
+    ]);
+
+    return {
+      type: "chameleon",
+      kicker: "🦎 Chameleon Prefix",
+      title: "How does in- change its spelling?",
+      instructions:
+        "The prefix in- meaning NOT can change its spelling to match the beginning of the base. Sort each word by the form it uses.",
+      teachingNote:
+        "in- is the basic form. It changes to im- before b, m, or p; il- before l; and ir- before r.",
+      targets,
+      cards,
+      completion:
+        "You practiced the four spelling forms of the negative prefix in-."
+    };
+  }
+
+  function makeMeaningContrastRound() {
+    if (
+      !prefixIsAvailable("negative-in-family") ||
+      !prefixIsAvailable("location-in-family")
+    ) {
+      return null;
+    }
+
+    const negative = getPrefix("negative-in-family");
+    const location = getPrefix("location-in-family");
+
+    const targets = [
+      {
+        id: "not-meaning",
+        label: "in- / im-",
+        meaning: "NOT",
+        image: negative.image
+      },
+      {
+        id: "inside-meaning",
+        label: "in- / im-",
+        meaning: "IN · INTO · INSIDE",
+        image: location.image
+      }
+    ];
+
+    const cards = shuffle([
+      {
+        cardId: "contrast-inactive",
+        word: "inactive",
+        targetId: "not-meaning",
+        before: "",
+        target: "in",
+        after: "active"
+      },
+      {
+        cardId: "contrast-impossible",
+        word: "impossible",
+        targetId: "not-meaning",
+        before: "",
+        target: "im",
+        after: "possible"
+      },
+      {
+        cardId: "contrast-inbound",
+        word: "inbound",
+        targetId: "inside-meaning",
+        before: "",
+        target: "in",
+        after: "bound"
+      },
+      {
+        cardId: "contrast-insert",
+        word: "insert",
+        targetId: "inside-meaning",
+        before: "",
+        target: "in",
+        after: "sert"
+      },
+      {
+        cardId: "contrast-import",
+        word: "import",
+        targetId: "inside-meaning",
+        before: "",
+        target: "im",
+        after: "port"
+      },
+      {
+        cardId: "contrast-immerse",
+        word: "immerse",
+        targetId: "inside-meaning",
+        before: "",
+        target: "im",
+        after: "merse"
+      }
+    ]);
+
+    return {
+      type: "meaning-contrast",
+      kicker: "🔍 Same Spelling · Different Meaning",
+      title: "What does in- or im- mean in this word?",
+      instructions:
+        "The prefixes can look the same but carry different meanings. Sort each word by what its prefix means.",
+      teachingNote:
+        "Look at the whole word. in- and im- can mean NOT, or they can mean IN, INTO, or INSIDE.",
+      targets,
+      cards,
+      completion:
+        "You compared two different meanings of in- and im-."
+    };
+  }
+
+  const rounds = [
+    makeWordFamilyRound(
+      ["pre", "re", "sub"],
+      "Which prefix is in each word?"
+    ),
+    makeWordFamilyRound(
+      ["mis", "re", "sub"],
+      "Sort another set of prefix families"
+    ),
+    makeChameleonRound(),
+    makeMeaningContrastRound()
+  ].filter(Boolean);
+
+  if (rounds.length === 0) {
+    learnSortWorkspace.innerHTML = `
+      <div class="sort-it-shell">
+        <div class="sort-it-heading">
+          <div class="sort-it-kicker">🗂️ Sort It</div>
+          <h3>No Sort It rounds are available</h3>
+          <p>
+            Try a different grade band or choose All Grades.
+          </p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (sortRoundIndex >= rounds.length) {
+    sortRoundIndex = 0;
+  }
+
+  const round = rounds[sortRoundIndex];
+  const targets = round.targets;
+  const cards = round.cards;
+
+  const gridClass =
+    targets.length === 4
+      ? "four-targets"
+      : targets.length === 2
+        ? "two-targets"
+        : "";
+
+  learnSortWorkspace.innerHTML = `
+    <div class="sort-it-shell">
+
+      <div class="sort-it-heading">
+        <div class="sort-it-kicker">
+          ${escapeHTML(round.kicker)}
+        </div>
+
+        <div class="sort-round-count">
+          Round ${sortRoundIndex + 1} of ${rounds.length}
+        </div>
+
+        <h3>
+          ${escapeHTML(round.title)}
+        </h3>
+
+        <p>
+          ${escapeHTML(round.instructions)}
+        </p>
+
+        ${
+          round.teachingNote
+            ? `
+              <div class="sort-teaching-note">
+                ${escapeHTML(round.teachingNote)}
+              </div>
+            `
+            : ""
+        }
+      </div>
+
+      <div
+        class="sort-it-feedback"
+        id="sortItFeedback"
+        aria-live="polite"
+      >
+        Choose a word card to begin.
+      </div>
+
+      <div class="sort-target-grid ${gridClass}">
+        ${targets.map((target) => `
+          <button
+            class="sort-target prefix-sort-target"
+            type="button"
+            data-sort-target="${escapeHTML(target.id)}"
+            aria-label="${escapeHTML(target.label)}, ${escapeHTML(target.meaning)}"
+          >
+            <img
+              class="sort-target-image"
+              src="${escapeHTML(target.image)}"
+              alt=""
+            >
+
+            <div class="sort-target-label">
+              ${escapeHTML(target.label)}
+            </div>
+
+            <div class="sort-target-meaning">
+              ${escapeHTML(target.meaning)}
+            </div>
+
+            <div
+              class="sort-target-placed"
+              id="sortPlaced-${escapeHTML(target.id)}"
+            ></div>
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="sort-word-bank">
+        ${cards.map((card) => `
+          <button
+            class="sort-word-card"
+            type="button"
+            data-sort-card="${escapeHTML(card.cardId)}"
+          >
+            ${escapeHTML(card.word)}
+          </button>
+        `).join("")}
+      </div>
+
+      <div
+        class="sort-it-actions"
+        id="sortItActions"
+        hidden
+      >
+        <button
+          class="sort-next-button"
+          id="sortNextRoundButton"
+          type="button"
+        >
+          Next Round →
+        </button>
+      </div>
+
+    </div>
+  `;
+
+  const feedback =
+    document.getElementById("sortItFeedback");
+
+  const actions =
+    document.getElementById("sortItActions");
+
+  const nextRoundButton =
+    document.getElementById("sortNextRoundButton");
+
+  const cardButtons = [
+    ...learnSortWorkspace.querySelectorAll(
+      "[data-sort-card]"
+    )
+  ];
+
+  const targetButtons = [
+    ...learnSortWorkspace.querySelectorAll(
+      "[data-sort-target]"
+    )
+  ];
+
+  let selectedCard = null;
+  let placedCount = 0;
+
+  function clearCardSelection() {
+    cardButtons.forEach((button) => {
+      button.classList.remove("selected");
+      button.setAttribute("aria-pressed", "false");
+    });
+  }
+
+  function getWrongMessage(card) {
+    if (round.type === "chameleon") {
+      return `Look at the beginning of the base in ${card.word}. Try another form of in-.`;
+    }
+
+    if (round.type === "meaning-contrast") {
+      return `Think about what in- or im- means in ${card.word}. Try the other meaning.`;
+    }
+
+    return `Look at the beginning of ${card.word}. Try another group.`;
+  }
+
+  function getCorrectMessage(target) {
+    if (round.type === "chameleon") {
+      return `${target.label} — ${target.meaning}. Choose another word.`;
+    }
+
+    if (round.type === "meaning-contrast") {
+      return `Yes. Here the prefix means ${target.meaning}. Choose another word.`;
+    }
+
+    return `Nice! ${target.label} means ${target.meaning}. Choose another word.`;
+  }
+
+  cardButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+
+    button.addEventListener("click", () => {
+      const card = cards.find(
+        (item) =>
+          item.cardId === button.dataset.sortCard
+      );
+
+      if (!card) return;
+
+      clearCardSelection();
+
+      selectedCard = {
+        data: card,
+        button
+      };
+
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+
+      feedback.textContent =
+        `Now choose the group for ${card.word}.`;
+    });
+  });
+
+  targetButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!selectedCard) {
+        feedback.textContent =
+          "Choose a word card first, then choose its group.";
+        return;
+      }
+
+      const targetId = button.dataset.sortTarget;
+      const card = selectedCard.data;
+
+      if (card.targetId !== targetId) {
+        feedback.textContent =
+          getWrongMessage(card);
+
+        button.classList.add("try-again");
+
+        window.setTimeout(() => {
+          button.classList.remove("try-again");
+        }, 450);
+
+        return;
+      }
+
+      const target = targets.find(
+        (item) => item.id === targetId
+      );
+
+      const placedArea =
+        document.getElementById(
+          `sortPlaced-${targetId}`
+        );
+
+      const placedWord =
+        document.createElement("span");
+
+      placedWord.className = "sort-placed-word";
+
+      placedWord.innerHTML =
+        `${escapeHTML(card.before || "")}` +
+        `<strong>${escapeHTML(card.target || "")}</strong>` +
+        `${escapeHTML(card.after || "")}`;
+
+      placedArea.append(placedWord);
+
+      selectedCard.button.hidden = true;
+
+      clearCardSelection();
+
+      selectedCard = null;
+      placedCount += 1;
+
+      button.classList.add("just-sorted");
+
+      window.setTimeout(() => {
+        button.classList.remove("just-sorted");
+      }, 450);
+
+      if (placedCount === cards.length) {
+        feedback.innerHTML = `
+          <strong>Round complete!</strong>
+          ${escapeHTML(round.completion)}
+        `;
+
+        actions.hidden = false;
+        return;
+      }
+
+      feedback.textContent =
+        getCorrectMessage(target);
+    });
+  });
+
+  nextRoundButton?.addEventListener("click", () => {
+    sortRoundIndex =
+      (sortRoundIndex + 1) % rounds.length;
+
+    renderSortItActivity();
+  });
+}
+
+
 function renderLearnActivity() {
   panels.learn.hidden = false;
 
@@ -4583,6 +5165,36 @@ function renderLearnActivity() {
 
   activityProgress.hidden = true;
   workspaceActions.hidden = true;
+
+  learnExploreButton?.classList.toggle(
+    "active",
+    learnMode === "explore"
+  );
+  learnExploreButton?.setAttribute(
+    "aria-pressed",
+    String(learnMode === "explore")
+  );
+
+  learnSortButton?.classList.toggle(
+    "active",
+    learnMode === "sort"
+  );
+  learnSortButton?.setAttribute(
+    "aria-pressed",
+    String(learnMode === "sort")
+  );
+
+  if (learnMode === "sort") {
+    renderSortItActivity();
+    return;
+  }
+
+  workspaceSubtitle.textContent =
+    "Select a card to explore its meaning and example words.";
+
+  learningGrid.hidden = false;
+  learnSortWorkspace.hidden = true;
+  learnSortWorkspace.innerHTML = "";
 
   const items = getCurrentStudyItems();
 
@@ -7456,6 +8068,16 @@ activityButtons.forEach((button) => {
     activateActivityButton(activeMode);
     renderCurrentActivity();
   });
+});
+
+learnExploreButton?.addEventListener("click", () => {
+  learnMode = "explore";
+  renderLearnActivity();
+});
+
+learnSortButton?.addEventListener("click", () => {
+  learnMode = "sort";
+  renderLearnActivity();
 });
 
 gradeBandSelect.addEventListener("change", () => {
