@@ -2439,6 +2439,215 @@ const wordHuntQuestions = [
       { word: "boxes", correct: false }
     ]
   }
+,
+
+  // ADDITIONAL PREFIXES
+  {
+    type: "prefix",
+    itemId: "un",
+    label: "un-",
+    meaning: "not; opposite of",
+    words: [
+      { word: "unhappy", correct: true, before: "", target: "un", after: "happy" },
+      { word: "unfair", correct: true, before: "", target: "un", after: "fair" },
+      { word: "unlock", correct: true, before: "", target: "un", after: "lock" },
+      { word: "untie", correct: true, before: "", target: "un", after: "tie" },
+      { word: "rebuild", correct: false },
+      { word: "misread", correct: false },
+      { word: "preview", correct: false },
+      { word: "nonverbal", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "dis",
+    label: "dis-",
+    meaning: "apart; away; not; opposite of",
+    words: [
+      { word: "disconnect", correct: true, before: "", target: "dis", after: "connect" },
+      { word: "dislike", correct: true, before: "", target: "dis", after: "like" },
+      { word: "disagree", correct: true, before: "", target: "dis", after: "agree" },
+      { word: "disobey", correct: true, before: "", target: "dis", after: "obey" },
+      { word: "rebuild", correct: false },
+      { word: "preview", correct: false },
+      { word: "submarine", correct: false },
+      { word: "transport", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "trans",
+    label: "trans-",
+    meaning: "across",
+    words: [
+      { word: "transport", correct: true, before: "", target: "trans", after: "port" },
+      { word: "transform", correct: true, before: "", target: "trans", after: "form" },
+      { word: "transmit", correct: true, before: "", target: "trans", after: "mit" },
+      { word: "transfer", correct: true, before: "", target: "trans", after: "fer" },
+      { word: "preview", correct: false },
+      { word: "rebuild", correct: false },
+      { word: "submarine", correct: false },
+      { word: "nonverbal", correct: false }
+    ]
+  },
+
+  {
+    type: "prefix",
+    itemId: "non",
+    label: "non-",
+    meaning: "not",
+    words: [
+      { word: "nonverbal", correct: true, before: "", target: "non", after: "verbal" },
+      { word: "nonfiction", correct: true, before: "", target: "non", after: "fiction" },
+      { word: "nonstop", correct: true, before: "", target: "non", after: "stop" },
+      { word: "nonliving", correct: true, before: "", target: "non", after: "living" },
+      { word: "unhappy", correct: false },
+      { word: "misread", correct: false },
+      { word: "preview", correct: false },
+      { word: "transport", correct: false }
+    ]
+  },
+
+  // ADDITIONAL ROOTS
+  {
+    type: "root",
+    itemId: "dict",
+    label: "dict",
+    meaning: "say; tell",
+    words: [
+      { word: "predict", correct: true, before: "pre", target: "dict", after: "" },
+      { word: "dictate", correct: true, before: "", target: "dict", after: "ate" },
+      { word: "prediction", correct: true, before: "pre", target: "dict", after: "ion" },
+      { word: "predictive", correct: true, before: "pre", target: "dict", after: "ive" },
+      { word: "inspect", correct: false },
+      { word: "portable", correct: false },
+      { word: "sequence", correct: false },
+      { word: "construct", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "graph",
+    label: "graph",
+    meaning: "write; draw",
+    words: [
+      { word: "biography", correct: true, before: "bio", target: "graph", after: "y" },
+      { word: "geography", correct: true, before: "geo", target: "graph", after: "y" },
+      { word: "bibliography", correct: true, before: "biblio", target: "graph", after: "y" },
+      { word: "graphical", correct: true, before: "", target: "graph", after: "ical" },
+      { word: "portable", correct: false },
+      { word: "sequence", correct: false },
+      { word: "audible", correct: false },
+      { word: "construct", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "ject",
+    label: "ject",
+    meaning: "throw",
+    words: [
+      { word: "project", correct: true, before: "pro", target: "ject", after: "" },
+      { word: "projection", correct: true, before: "pro", target: "ject", after: "ion" },
+      { word: "reject", correct: true, before: "re", target: "ject", after: "" },
+      { word: "inject", correct: true, before: "in", target: "ject", after: "" },
+      { word: "inspect", correct: false },
+      { word: "transport", correct: false },
+      { word: "sequence", correct: false },
+      { word: "credible", correct: false }
+    ]
+  },
+
+  {
+    type: "root",
+    itemId: "tract",
+    label: "tract",
+    meaning: "pull; draw",
+    words: [
+      { word: "attract", correct: true, before: "at", target: "tract", after: "" },
+      { word: "distraction", correct: true, before: "dis", target: "tract", after: "ion" },
+      { word: "extraction", correct: true, before: "ex", target: "tract", after: "ion" },
+      { word: "retractable", correct: true, before: "re", target: "tract", after: "able" },
+      { word: "portable", correct: false },
+      { word: "construct", correct: false },
+      { word: "inspect", correct: false },
+      { word: "sequence", correct: false }
+    ]
+  },
+
+  // ADDITIONAL SUFFIXES
+  {
+    type: "suffix",
+    itemId: "ly",
+    label: "-ly",
+    meaning: "in a certain way",
+    words: [
+      { word: "quickly", correct: true, before: "quick", target: "ly", after: "" },
+      { word: "slowly", correct: true, before: "slow", target: "ly", after: "" },
+      { word: "carefully", correct: true, before: "careful", target: "ly", after: "" },
+      { word: "suddenly", correct: true, before: "sudden", target: "ly", after: "" },
+      { word: "movement", correct: false },
+      { word: "helpful", correct: false },
+      { word: "walked", correct: false },
+      { word: "portable", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "ment",
+    label: "-ment",
+    meaning: "act; process; result",
+    words: [
+      { word: "movement", correct: true, before: "move", target: "ment", after: "" },
+      { word: "agreement", correct: true, before: "agree", target: "ment", after: "" },
+      { word: "treatment", correct: true, before: "treat", target: "ment", after: "" },
+      { word: "development", correct: true, before: "develop", target: "ment", after: "" },
+      { word: "quickly", correct: false },
+      { word: "hopeful", correct: false },
+      { word: "prediction", correct: false },
+      { word: "visible", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "ion",
+    label: "-ion",
+    meaning: "act; process; result",
+    words: [
+      { word: "motion", correct: true, before: "mot", target: "ion", after: "" },
+      { word: "prediction", correct: true, before: "predict", target: "ion", after: "" },
+      { word: "projection", correct: true, before: "project", target: "ion", after: "" },
+      { word: "inspection", correct: true, before: "inspect", target: "ion", after: "" },
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false },
+      { word: "portable", correct: false },
+      { word: "helpful", correct: false }
+    ]
+  },
+
+  {
+    type: "suffix",
+    itemId: "able-ible",
+    label: "-able / -ible",
+    meaning: "able to be",
+    words: [
+      { word: "portable", correct: true, before: "port", target: "able", after: "" },
+      { word: "visible", correct: true, before: "vis", target: "ible", after: "" },
+      { word: "credible", correct: true, before: "cred", target: "ible", after: "" },
+      { word: "audible", correct: true, before: "aud", target: "ible", after: "" },
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false },
+      { word: "prediction", correct: false },
+      { word: "hopeful", correct: false }
+    ]
+  }
+
 ];
 
 /* ========================================
