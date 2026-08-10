@@ -54,7 +54,7 @@
       </p>
 
       <p class="site-description">
-        Informal probes for monitoring morphology growth over time.
+        Track performance within First Volo Morphology and monitor broader morphology growth over time.
       </p>
 
     </div>
@@ -76,15 +76,32 @@
 
   <main class="progress-content">
 
-    <section class="progress-intro">
+    <section class="student-tracker" id="studentTracker">
+  <h2>📊 Program Progress</h2>
+  <p>Create or select a student to track performance within First Volo Morphology on this device.</p>
+  <div class="tracker-local-note">🔒 Progress data is stored locally in this browser and is not sent to First Volo Learning. Educators may enter a student name, initials, ID, or other code in accordance with school or district policies.</div>
+  <div class="tracker-controls">
+    <label for="studentSelect">Current student</label>
+    <select id="studentSelect"><option value="">Select a student</option></select>
+    <input id="studentName" type="text" maxlength="80" placeholder="Student name or code">
+    <button id="addStudentButton" type="button">＋ Add Student</button>
+  </div>
+  <div class="tracker-student-summary" id="studentSummary" hidden>
+    <h3 id="studentSummaryName"></h3>
+    <p id="studentSummaryText">No saved sessions yet.</p>
+    <button id="renameStudentButton" type="button">Rename</button>
+    <button id="deleteStudentButton" type="button">Delete Student</button>
+  </div>
+</section>
+
+<section class="progress-intro">
 
       <h2>
-        Morphology Progress Monitoring Probes
+        Longer-Term Morphology Progress Monitoring Probes
       </h2>
 
       <p>
-        Choose the grade band that best matches the student's
-        instructional level.
+        Use these periodic probes to monitor broader morphology skills over time. Choose the grade band that best matches the student's instructional level.
       </p>
 
     </section>
@@ -201,6 +218,8 @@
     </p>
 
   </footer>
+
+  <script src="progress-tracker.js"></script>
 
 </body>
 
