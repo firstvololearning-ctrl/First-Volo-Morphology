@@ -7270,6 +7270,15 @@ checkBuildButton.addEventListener(
   checkBuiltWord
 );
 
+if (
+  window.location.hash === "#about" &&
+  aboutModal &&
+  aboutClose
+) {
+  aboutModal.hidden = false;
+  aboutClose.focus();
+}
+
 aboutButton.addEventListener("click", () => {
   aboutModal.hidden = false;
   aboutClose.focus();
