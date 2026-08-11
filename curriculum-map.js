@@ -197,6 +197,9 @@ const hunt =
 const infer =
   readLiteral(script, "inferQuestions");
 
+const prefixRoot =
+  readLiteral(script, "buildWords");
+
 const rootSuffix =
   readLiteral(script, "rootSuffixBuildWords");
 
@@ -261,6 +264,27 @@ function morphemeVariants(entry) {
 function morphemeFromLabel(value, type = "") {
   const target = normalize(value);
 
+  // First prefer an exact canonical ID or full-label match.
+  // This preserves morpheme families such as scrib/script
+  // and mot/mov instead of losing them when variants split.
+  const exact = morphemes.find((entry) => {
+    if (type && entry.type !== type) {
+      return false;
+    }
+
+    return [
+      entry.id,
+      entry.label
+    ]
+      .map(normalize)
+      .includes(target);
+  });
+
+  if (exact) {
+    return exact;
+  }
+
+  // Fall back to individual surface/allomorph variants.
   return morphemes.find((entry) => {
     if (type && entry.type !== type) {
       return false;
@@ -704,6 +728,7 @@ infer.forEach((item) => {
 /* Build */
 
 [
+  ...prefixRoot,
   ...rootSuffix,
   ...prefixRootSuffix
 ].forEach((item) => {
@@ -739,6 +764,7 @@ infer.forEach((item) => {
    a Build item must also have a sentence-bank entry. */
 
 const allBuild = [
+  ...prefixRoot,
   ...rootSuffix,
   ...prefixRootSuffix
 ];

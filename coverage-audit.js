@@ -354,6 +354,9 @@ const suffixFind = readLiteral(script, "suffixFindQuestions") || [];
 const hunt = readLiteral(script, "wordHuntQuestions") || [];
 const infer = readLiteral(script, "inferQuestions") || [];
 
+const prefixRoot =
+  readLiteral(script, "buildWords") || [];
+
 const rootSuffix =
   readLiteral(script, "rootSuffixBuildWords") || [];
 
@@ -416,12 +419,17 @@ console.log(`Meaning: generated from ${prefixes.length + roots.length + suffixes
 console.log(`Word Part: generated from ${prefixes.length + roots.length + suffixes.length} morpheme cards`);
 console.log(`Break It Apart: ${breakItems.length}`);
 console.log(`Figure It Out: ${infer.length}`);
+console.log(`Build — Prefix + Root: ${prefixRoot.length}`);
 console.log(`Build — Root + Suffix: ${rootSuffix.length}`);
 console.log(
   `Build — Prefix + Root + Suffix: ${prefixRootSuffix.length}`
 );
 
-const allBuild = [...rootSuffix, ...prefixRootSuffix];
+const allBuild = [
+  ...prefixRoot,
+  ...rootSuffix,
+  ...prefixRootSuffix
+];
 const useItems = allBuild.filter((item) =>
   Object.prototype.hasOwnProperty.call(useBank, item.word)
 );

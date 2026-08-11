@@ -2646,7 +2646,78 @@ const wordHuntQuestions = [
       { word: "prediction", correct: false },
       { word: "hopeful", correct: false }
     ]
+  },
+
+
+  {
+    type: "root",
+    itemId: "put",
+    label: "put",
+    meaning: "think; consider",
+    words: [
+      {
+        word: "compute",
+        correct: true,
+        before: "com",
+        target: "put",
+        after: "e"
+      },
+      {
+        word: "dispute",
+        correct: true,
+        before: "dis",
+        target: "put",
+        after: "e"
+      },
+      {
+        word: "reputation",
+        correct: true,
+        before: "re",
+        target: "put",
+        after: "ation"
+      },
+      { word: "position", correct: false },
+      { word: "valid", correct: false },
+      { word: "transfer", correct: false },
+      { word: "retention", correct: false }
+    ]
+  },
+
+
+  {
+    type: "prefix",
+    itemId: "a-ad",
+    label: "a-, ad-",
+    meaning: "to; toward",
+    words: [
+      {
+        word: "adjoin",
+        correct: true,
+        before: "",
+        target: "ad",
+        after: "join"
+      },
+      {
+        word: "adhere",
+        correct: true,
+        before: "",
+        target: "ad",
+        after: "here"
+      },
+      {
+        word: "advance",
+        correct: true,
+        before: "",
+        target: "ad",
+        after: "vance"
+      },
+      { word: "abduct", correct: false },
+      { word: "retroactive", correct: false },
+      { word: "transfer", correct: false },
+      { word: "underpaid", correct: false }
+    ]
   }
+
 
 ];
 
@@ -3392,7 +3463,1161 @@ const inferQuestions = [
     literal: "more than one box",
     definition: "two or more boxes",
     image: "images/suffixes/es.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "un",
+    knownLabel: "un-",
+    knownMeaning: "not; opposite of",
+    word: "unhappy",
+    correct: "sad or not feeling happy",
+    choices: [
+      "sad or not feeling happy",
+      "happy again",
+      "happier than before",
+      "happy before something happens"
+    ],
+    literal: "not happy",
+    definition: "sad or not feeling happy",
+    image: "images/prefixes/un.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "dis",
+    knownLabel: "dis-",
+    knownMeaning: "apart or away; not; opposite of",
+    word: "disagree",
+    correct: "to have a different opinion or not agree",
+    choices: [
+      "to have a different opinion or not agree",
+      "to agree again",
+      "to agree before someone else",
+      "to agree very strongly"
+    ],
+    literal: "not agree",
+    definition: "to have a different opinion or not agree",
+    image: "images/prefixes/dis.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "semi",
+    knownLabel: "semi-",
+    knownMeaning: "half; partly",
+    word: "semifinal",
+    correct: "a round near the end of a competition that comes before the final",
+    choices: [
+      "a round near the end of a competition that comes before the final",
+      "the very first round of a competition",
+      "a competition with no final round",
+      "a competition that has already ended"
+    ],
+    literal: "part of the final stage",
+    definition: "a round that determines who advances to the final",
+    image: "images/prefixes/semi.png"
+  },
+
+  {
+    type: "root",
+    itemId: "scrib",
+    knownLabel: "scrib/script",
+    knownMeaning: "write",
+    word: "manuscript",
+    correct: "an original written or typed document",
+    choices: [
+      "an original written or typed document",
+      "a tool used to erase writing",
+      "a picture made without words",
+      "a speech that is never written down"
+    ],
+    literal: "written by hand",
+    definition: "an original written or typed document",
+    image: "images/roots/scrib-script.png"
+  },
+
+  {
+    type: "root",
+    itemId: "bio",
+    knownLabel: "bio",
+    knownMeaning: "life",
+    word: "biography",
+    correct: "a written account of a person's life",
+    choices: [
+      "a written account of a person's life",
+      "a map showing where a person lives",
+      "a study of rocks and landforms",
+      "a list of sounds in a language"
+    ],
+    literal: "writing about a life",
+    definition: "a written account of a person's life",
+    image: "images/roots/bio.png"
+  },
+
+  {
+    type: "root",
+    itemId: "geo",
+    knownLabel: "geo",
+    knownMeaning: "earth",
+    word: "geography",
+    correct: "the study of Earth, places, and people",
+    choices: [
+      "the study of Earth, places, and people",
+      "the study of living things",
+      "the study of sound and speech",
+      "the study of heat and temperature"
+    ],
+    literal: "description or study of Earth",
+    definition: "the study of Earth, places, and people",
+    image: "images/roots/geo.png"
+  },
+
+  {
+    type: "root",
+    itemId: "form",
+    knownLabel: "form",
+    knownMeaning: "shape; form",
+    word: "transform",
+    correct: "to change into a different form",
+    choices: [
+      "to change into a different form",
+      "to return to the same place",
+      "to write something again",
+      "to measure something carefully"
+    ],
+    literal: "change form",
+    definition: "to change into a different form",
+    image: "images/roots/form.png"
+  },
+
+  {
+    type: "root",
+    itemId: "mot",
+    knownLabel: "mot/mov",
+    knownMeaning: "move",
+    word: "motion",
+    correct: "movement or the act of moving",
+    choices: [
+      "movement or the act of moving",
+      "the act of stopping completely",
+      "a written set of directions",
+      "the shape of an object"
+    ],
+    literal: "act or process of moving",
+    definition: "movement or the act of moving",
+    image: "images/roots/mot-mov.png"
+  },
+
+  {
+    type: "suffix",
+    itemId: "ity",
+    knownLabel: "-ity",
+    knownMeaning: "state or condition",
+    word: "activity",
+    correct: "something that is done; an action or task",
+    choices: [
+      "something that is done; an action or task",
+      "a person who watches an action",
+      "the opposite of taking action",
+      "a place where actions are stored"
+    ],
+    literal: "state or condition of acting",
+    definition: "something that is done as an action or task",
+    image: "images/suffixes/ity.png"
+  },
+
+  {
+    type: "root",
+    itemId: "tract",
+    knownLabel: "tract",
+    knownMeaning: "pull; draw",
+    word: "attract",
+    correct: "to draw something or someone toward",
+    choices: [
+      "to draw something or someone toward",
+      "to push something far away",
+      "to break something into parts",
+      "to carry something across"
+    ],
+    literal: "pull toward",
+    definition: "to draw something or someone toward",
+    image: "images/roots/tract.png"
+  },
+
+  {
+    type: "root",
+    itemId: "biblio",
+    knownLabel: "biblio",
+    knownMeaning: "book",
+    word: "bibliography",
+    correct: "a list of books or sources used in a work",
+    choices: [
+      "a list of books or sources used in a work",
+      "a person who writes a life story",
+      "a picture showing Earth's surface",
+      "a tool used to measure a book"
+    ],
+    literal: "book or source listing",
+    definition: "a list of books or sources used in a work",
+    image: "images/roots/biblio.png"
+  },
+
+
+  {
+    type: "prefix",
+    itemId: "en-em",
+    knownLabel: "en-, em-",
+    knownMeaning: "put into; cause to become",
+    word: "encircle",
+    correct: "to form a circle around something",
+    choices: [
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to cook something too much",
+      "to use something too much"
+    ],
+    literal: "put into or inside a circle",
+    definition: "to form a circle around something",
+    image: "images/prefixes/en-em.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "en-em",
+    knownLabel: "en-, em-",
+    knownMeaning: "put into; cause to become",
+    word: "enrich",
+    correct: "to improve something or make it richer",
+    choices: [
+      "to improve something or make it richer",
+      "to form a circle around something",
+      "to cook something too much",
+      "to use something too much"
+    ],
+    literal: "cause to become richer",
+    definition: "to improve something or make it richer",
+    image: "images/prefixes/en-em.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "over",
+    knownLabel: "over-",
+    knownMeaning: "above; too much",
+    word: "overcook",
+    correct: "to cook something too much",
+    choices: [
+      "to cook something too much",
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to use something too much"
+    ],
+    literal: "cook too much",
+    definition: "to cook something too much",
+    image: "images/prefixes/over.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "over",
+    knownLabel: "over-",
+    knownMeaning: "above; too much",
+    word: "overuse",
+    correct: "to use something too much",
+    choices: [
+      "to use something too much",
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to cook something too much"
+    ],
+    literal: "use too much",
+    definition: "to use something too much",
+    image: "images/prefixes/over.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "fore",
+    knownLabel: "fore-",
+    knownMeaning: "before; in front",
+    word: "forecast",
+    correct: "a prediction about what is expected to happen",
+    choices: [
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon",
+      "the point in the middle of something"
+    ],
+    literal: "tell or predict beforehand",
+    definition: "a prediction about what is expected to happen",
+    image: "images/prefixes/fore.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "fore",
+    knownLabel: "fore-",
+    knownMeaning: "before; in front",
+    word: "forehead",
+    correct: "the front part of the head above the eyes",
+    choices: [
+      "the front part of the head above the eyes",
+      "a prediction about what is expected to happen",
+      "the middle of the day; around noon",
+      "the point in the middle of something"
+    ],
+    literal: "front of the head",
+    definition: "the front part of the head above the eyes",
+    image: "images/prefixes/fore.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "mid",
+    knownLabel: "mid-",
+    knownMeaning: "middle",
+    word: "midday",
+    correct: "the middle of the day; around noon",
+    choices: [
+      "the middle of the day; around noon",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the point in the middle of something"
+    ],
+    literal: "middle of the day",
+    definition: "the middle of the day; around noon",
+    image: "images/prefixes/mid.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "mid",
+    knownLabel: "mid-",
+    knownMeaning: "middle",
+    word: "midpoint",
+    correct: "the point in the middle of something",
+    choices: [
+      "the point in the middle of something",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "middle point",
+    definition: "the point in the middle of something",
+    image: "images/prefixes/mid.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "under",
+    knownLabel: "under-",
+    knownMeaning: "below; too little",
+    word: "undercook",
+    correct: "to cook something too little",
+    choices: [
+      "to cook something too little",
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to cook something too much"
+    ],
+    literal: "cook too little",
+    definition: "to cook something too little",
+    image: "images/prefixes/under.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "under",
+    knownLabel: "under-",
+    knownMeaning: "below; too little",
+    word: "underground",
+    correct: "below the surface of the ground",
+    choices: [
+      "below the surface of the ground",
+      "causing damage or destruction",
+      "beyond normal human ability",
+      "avoiding or opposing social interaction"
+    ],
+    literal: "below the ground",
+    definition: "below the surface of the ground",
+    image: "images/prefixes/under.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "de",
+    knownLabel: "de-",
+    knownMeaning: "off; from; down",
+    word: "destruction",
+    correct: "the act or process of destroying something",
+    choices: [
+      "the act or process of destroying something",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "act or process of breaking down",
+    definition: "the act or process of destroying something",
+    image: "images/prefixes/de.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "de",
+    knownLabel: "de-",
+    knownMeaning: "off; from; down",
+    word: "destructive",
+    correct: "causing damage or destruction",
+    choices: [
+      "causing damage or destruction",
+      "below the surface of the ground",
+      "beyond normal human ability",
+      "avoiding or opposing social interaction"
+    ],
+    literal: "causing something to be broken down",
+    definition: "causing damage or destruction",
+    image: "images/prefixes/de.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "super",
+    knownLabel: "super-",
+    knownMeaning: "above; beyond",
+    word: "superhero",
+    correct: "a hero with extraordinary powers or abilities",
+    choices: [
+      "a hero with extraordinary powers or abilities",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "a hero beyond the ordinary",
+    definition: "a hero with extraordinary powers or abilities",
+    image: "images/prefixes/super.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "super",
+    knownLabel: "super-",
+    knownMeaning: "above; beyond",
+    word: "superhuman",
+    correct: "beyond normal human ability",
+    choices: [
+      "beyond normal human ability",
+      "below the surface of the ground",
+      "causing damage or destruction",
+      "avoiding or opposing social interaction"
+    ],
+    literal: "beyond ordinary human ability",
+    definition: "beyond normal human ability",
+    image: "images/prefixes/super.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "anti",
+    knownLabel: "anti-",
+    knownMeaning: "against",
+    word: "antifreeze",
+    correct: "a substance that helps prevent a liquid from freezing",
+    choices: [
+      "a substance that helps prevent a liquid from freezing",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "against freezing",
+    definition: "a substance that helps prevent a liquid from freezing",
+    image: "images/prefixes/anti.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "anti",
+    knownLabel: "anti-",
+    knownMeaning: "against",
+    word: "antisocial",
+    correct: "avoiding or opposing social interaction",
+    choices: [
+      "avoiding or opposing social interaction",
+      "below the surface of the ground",
+      "causing damage or destruction",
+      "beyond normal human ability"
+    ],
+    literal: "against or away from social interaction",
+    definition: "avoiding or opposing social interaction",
+    image: "images/prefixes/anti.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "circum",
+    knownLabel: "circum-",
+    knownMeaning: "around",
+    word: "circumference",
+    correct: "the distance around a circle",
+    choices: [
+      "the distance around a circle",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "measure around",
+    definition: "the distance around a circle",
+    image: "images/prefixes/circum.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "circum",
+    knownLabel: "circum-",
+    knownMeaning: "around",
+    word: "circumnavigate",
+    correct: "to travel all the way around something",
+    choices: [
+      "to travel all the way around something",
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to cook something too much"
+    ],
+    literal: "navigate around",
+    definition: "to travel all the way around something",
+    image: "images/prefixes/circum.png"
+  },
+
+  {
+    type: "root",
+    itemId: "phon",
+    knownLabel: "phon/phone",
+    knownMeaning: "sound",
+    word: "phonology",
+    correct: "the study of sound systems in language",
+    choices: [
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance",
+      "an instrument used to view distant objects"
+    ],
+    literal: "study of sounds",
+    definition: "the study of sound systems in language",
+    image: "images/roots/phon-phone.png"
+  },
+
+  {
+    type: "root",
+    itemId: "phon",
+    knownLabel: "phon/phone",
+    knownMeaning: "sound",
+    word: "phonics",
+    correct: "a method of reading that connects letters with sounds",
+    choices: [
+      "a method of reading that connects letters with sounds",
+      "the study of sound systems in language",
+      "a system for sending messages over a long distance",
+      "an instrument used to view distant objects"
+    ],
+    literal: "letters connected with sounds",
+    definition: "a method of reading that connects letters with sounds",
+    image: "images/roots/phon-phone.png"
+  },
+
+  {
+    type: "root",
+    itemId: "tele",
+    knownLabel: "tele",
+    knownMeaning: "far; distant",
+    word: "telegraph",
+    correct: "a system for sending messages over a long distance",
+    choices: [
+      "a system for sending messages over a long distance",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "an instrument used to view distant objects"
+    ],
+    literal: "write or record from far away",
+    definition: "a system for sending messages over a long distance",
+    image: "images/roots/tele.png"
+  },
+
+  {
+    type: "root",
+    itemId: "tele",
+    knownLabel: "tele",
+    knownMeaning: "far; distant",
+    word: "telescope",
+    correct: "an instrument used to view distant objects",
+    choices: [
+      "an instrument used to view distant objects",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "look far away",
+    definition: "an instrument used to view distant objects",
+    image: "images/roots/tele.png"
+  },
+
+  {
+    type: "root",
+    itemId: "micro",
+    knownLabel: "micro",
+    knownMeaning: "small",
+    word: "microscope",
+    correct: "an instrument used to view very small objects",
+    choices: [
+      "an instrument used to view very small objects",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "look at something small",
+    definition: "an instrument used to view very small objects",
+    image: "images/roots/micro.png"
+  },
+
+  {
+    type: "root",
+    itemId: "micro",
+    knownLabel: "micro",
+    knownMeaning: "small",
+    word: "microorganism",
+    correct: "a living thing too small to see clearly without magnification",
+    choices: [
+      "a living thing too small to see clearly without magnification",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "small organism",
+    definition: "a living thing too small to see clearly without magnification",
+    image: "images/roots/micro.png"
+  },
+
+  {
+    type: "root",
+    itemId: "therm",
+    knownLabel: "therm",
+    knownMeaning: "heat",
+    word: "thermostat",
+    correct: "a device that controls temperature",
+    choices: [
+      "a device that controls temperature",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "heat or temperature control",
+    definition: "a device that controls temperature",
+    image: "images/roots/therm.png"
+  },
+
+  {
+    type: "root",
+    itemId: "therm",
+    knownLabel: "therm",
+    knownMeaning: "heat",
+    word: "thermal",
+    correct: "related to heat",
+    choices: [
+      "related to heat",
+      "one thousandth of a meter",
+      "related to a system of measurement based on meters",
+      "acceptable, sound, or having legal force"
+    ],
+    literal: "having to do with heat",
+    definition: "related to heat",
+    image: "images/roots/therm.png"
+  },
+
+  {
+    type: "root",
+    itemId: "metr",
+    knownLabel: "metr/meter",
+    knownMeaning: "measure",
+    word: "millimeter",
+    correct: "one thousandth of a meter",
+    choices: [
+      "one thousandth of a meter",
+      "related to heat",
+      "related to a system of measurement based on meters",
+      "acceptable, sound, or having legal force"
+    ],
+    literal: "a small unit of measure",
+    definition: "one thousandth of a meter",
+    image: "images/roots/metr-meter.png"
+  },
+
+  {
+    type: "root",
+    itemId: "metr",
+    knownLabel: "metr/meter",
+    knownMeaning: "measure",
+    word: "metric",
+    correct: "related to a system of measurement based on meters",
+    choices: [
+      "related to a system of measurement based on meters",
+      "related to heat",
+      "one thousandth of a meter",
+      "acceptable, sound, or having legal force"
+    ],
+    literal: "related to measuring",
+    definition: "related to a system of measurement based on meters",
+    image: "images/roots/metr-meter.png"
+  },
+
+  {
+    type: "root",
+    itemId: "scop",
+    knownLabel: "scop/scope",
+    knownMeaning: "look; examine",
+    word: "microscope",
+    correct: "an instrument used to look at very small objects",
+    choices: [
+      "an instrument used to look at very small objects",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "look at something small",
+    definition: "an instrument used to look at very small objects",
+    image: "images/roots/scop-scope.png"
+  },
+
+  {
+    type: "root",
+    itemId: "scop",
+    knownLabel: "scop/scope",
+    knownMeaning: "look; examine",
+    word: "telescope",
+    correct: "an instrument used to look at distant objects",
+    choices: [
+      "an instrument used to look at distant objects",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "look far away",
+    definition: "an instrument used to look at distant objects",
+    image: "images/roots/scop-scope.png"
+  },
+
+  {
+    type: "root",
+    itemId: "auto",
+    knownLabel: "auto",
+    knownMeaning: "self",
+    word: "autobiography",
+    correct: "a person's written account of their own life",
+    choices: [
+      "a person's written account of their own life",
+      "a person's own signature",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds"
+    ],
+    literal: "self + life + writing",
+    definition: "a person's written account of their own life",
+    image: "images/roots/auto.png"
+  },
+
+  {
+    type: "root",
+    itemId: "auto",
+    knownLabel: "auto",
+    knownMeaning: "self",
+    word: "autograph",
+    correct: "a person's own signature",
+    choices: [
+      "a person's own signature",
+      "a person's written account of their own life",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds"
+    ],
+    literal: "self-written",
+    definition: "a person's own signature",
+    image: "images/roots/auto.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "a-ad",
+    knownLabel: "a-, ad-",
+    knownMeaning: "to; toward",
+    word: "adjoin",
+    correct: "to be next to or joined to something",
+    choices: [
+      "to be next to or joined to something",
+      "to form a circle around something",
+      "to improve something or make it richer",
+      "to cook something too much"
+    ],
+    literal: "join to or toward",
+    definition: "to be next to or joined to something",
+    image: "images/prefixes/ad.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "retro",
+    knownLabel: "retro-",
+    knownMeaning: "backward; back",
+    word: "retrospect",
+    correct: "a look back at past events",
+    choices: [
+      "a look back at past events",
+      "a prediction about what is expected to happen",
+      "the front part of the head above the eyes",
+      "the middle of the day; around noon"
+    ],
+    literal: "look back",
+    definition: "a look back at past events",
+    image: "images/prefixes/retro.png"
+  },
+
+  {
+    type: "prefix",
+    itemId: "retro",
+    knownLabel: "retro-",
+    knownMeaning: "backward; back",
+    word: "retroactive",
+    correct: "taking effect from a date in the past",
+    choices: [
+      "taking effect from a date in the past",
+      "below the surface of the ground",
+      "causing damage or destruction",
+      "beyond normal human ability"
+    ],
+    literal: "acting back into the past",
+    definition: "taking effect from a date in the past",
+    image: "images/prefixes/retro.png"
+  },
+
+  {
+    type: "root",
+    itemId: "fer",
+    knownLabel: "fer",
+    knownMeaning: "carry; bear",
+    word: "refer",
+    correct: "to direct someone to another source or person for information or help",
+    choices: [
+      "to direct someone to another source or person for information or help",
+      "to move or carry something from one place or person to another",
+      "to force or drive someone to do something",
+      "to push or drive something forward"
+    ],
+    literal: "carry or direct back",
+    definition: "to direct someone to another source or person for information or help",
+    image: "images/roots/fer.png"
+  },
+
+  {
+    type: "root",
+    itemId: "fer",
+    knownLabel: "fer",
+    knownMeaning: "carry; bear",
+    word: "transfer",
+    correct: "to move or carry something from one place or person to another",
+    choices: [
+      "to move or carry something from one place or person to another",
+      "to direct someone to another source or person for information or help",
+      "to force or drive someone to do something",
+      "to push or drive something forward"
+    ],
+    literal: "carry across",
+    definition: "to move or carry something from one place or person to another",
+    image: "images/roots/fer.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pel",
+    knownLabel: "pel",
+    knownMeaning: "push; drive",
+    word: "compel",
+    correct: "to force or drive someone to do something",
+    choices: [
+      "to force or drive someone to do something",
+      "to direct someone to another source or person for information or help",
+      "to move or carry something from one place or person to another",
+      "to push or drive something forward"
+    ],
+    literal: "push or drive",
+    definition: "to force or drive someone to do something",
+    image: "images/roots/pel.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pel",
+    knownLabel: "pel",
+    knownMeaning: "push; drive",
+    word: "propel",
+    correct: "to push or drive something forward",
+    choices: [
+      "to push or drive something forward",
+      "to direct someone to another source or person for information or help",
+      "to move or carry something from one place or person to another",
+      "to force or drive someone to do something"
+    ],
+    literal: "drive forward",
+    definition: "to push or drive something forward",
+    image: "images/roots/pel.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pend",
+    knownLabel: "pend/pens",
+    knownMeaning: "hang",
+    word: "pendant",
+    correct: "an object that hangs from a necklace or chain",
+    choices: [
+      "an object that hangs from a necklace or chain",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "hanging thing",
+    definition: "an object that hangs from a necklace or chain",
+    image: "images/roots/pend-pens.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pend",
+    knownLabel: "pend/pens",
+    knownMeaning: "hang",
+    word: "suspend",
+    correct: "to hang something so that it is supported from above",
+    choices: [
+      "to hang something so that it is supported from above",
+      "to direct someone to another source or person for information or help",
+      "to move or carry something from one place or person to another",
+      "to force or drive someone to do something"
+    ],
+    literal: "hang beneath",
+    definition: "to hang something so that it is supported from above",
+    image: "images/roots/pend-pens.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pos",
+    knownLabel: "pos",
+    knownMeaning: "put; place",
+    word: "compose",
+    correct: "to put parts together to make something",
+    choices: [
+      "to put parts together to make something",
+      "to direct someone to another source or person for information or help",
+      "to move or carry something from one place or person to another",
+      "to force or drive someone to do something"
+    ],
+    literal: "put together",
+    definition: "to put parts together to make something",
+    image: "images/roots/pos.png"
+  },
+
+  {
+    type: "root",
+    itemId: "pos",
+    knownLabel: "pos",
+    knownMeaning: "put; place",
+    word: "position",
+    correct: "the place where something is located",
+    choices: [
+      "the place where something is located",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "place or put",
+    definition: "the place where something is located",
+    image: "images/roots/pos.png"
+  },
+
+  {
+    type: "root",
+    itemId: "ten",
+    knownLabel: "ten",
+    knownMeaning: "hold",
+    word: "detention",
+    correct: "the state of being kept or held back",
+    choices: [
+      "the state of being kept or held back",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "holding back",
+    definition: "the state of being kept or held back",
+    image: "images/roots/ten.png"
+  },
+
+  {
+    type: "root",
+    itemId: "ten",
+    knownLabel: "ten",
+    knownMeaning: "hold",
+    word: "retention",
+    correct: "the act of keeping or holding something",
+    choices: [
+      "the act of keeping or holding something",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "holding or keeping",
+    definition: "the act of keeping or holding something",
+    image: "images/roots/ten.png"
+  },
+
+  {
+    type: "root",
+    itemId: "val",
+    knownLabel: "val",
+    knownMeaning: "be strong; be of worth",
+    word: "value",
+    correct: "the worth or importance of something",
+    choices: [
+      "the worth or importance of something",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "worth",
+    definition: "the worth or importance of something",
+    image: "images/roots/val.png"
+  },
+
+  {
+    type: "root",
+    itemId: "val",
+    knownLabel: "val",
+    knownMeaning: "be strong; be of worth",
+    word: "valid",
+    correct: "acceptable, sound, or having legal force",
+    choices: [
+      "acceptable, sound, or having legal force",
+      "related to heat",
+      "one thousandth of a meter",
+      "related to a system of measurement based on meters"
+    ],
+    literal: "having worth or strength",
+    definition: "acceptable, sound, or having legal force",
+    image: "images/roots/val.png"
+  },
+
+  {
+    type: "root",
+    itemId: "derma",
+    knownLabel: "derma",
+    knownMeaning: "skin",
+    word: "dermal",
+    correct: "related to the skin",
+    choices: [
+      "related to the skin",
+      "related to heat",
+      "one thousandth of a meter",
+      "related to a system of measurement based on meters"
+    ],
+    literal: "related to skin",
+    definition: "related to the skin",
+    image: "images/roots/derma.png"
+  },
+
+  {
+    type: "root",
+    itemId: "derma",
+    knownLabel: "derma",
+    knownMeaning: "skin",
+    word: "dermatitis",
+    correct: "inflammation of the skin",
+    choices: [
+      "inflammation of the skin",
+      "related to heat",
+      "one thousandth of a meter",
+      "related to a system of measurement based on meters"
+    ],
+    literal: "skin inflammation",
+    definition: "inflammation of the skin",
+    image: "images/roots/derma.png"
+  },
+
+  {
+    type: "root",
+    itemId: "terr",
+    knownLabel: "terr",
+    knownMeaning: "earth; land",
+    word: "terrain",
+    correct: "an area of land and its physical features",
+    choices: [
+      "an area of land and its physical features",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "land",
+    definition: "an area of land and its physical features",
+    image: "images/roots/terr.png"
+  },
+
+  {
+    type: "root",
+    itemId: "terr",
+    knownLabel: "terr",
+    knownMeaning: "earth; land",
+    word: "territory",
+    correct: "an area of land controlled or claimed by someone or something",
+    choices: [
+      "an area of land controlled or claimed by someone or something",
+      "the study of sound systems in language",
+      "a method of reading that connects letters with sounds",
+      "a system for sending messages over a long distance"
+    ],
+    literal: "area of land",
+    definition: "an area of land controlled or claimed by someone or something",
+    image: "images/roots/terr.png"
+  },
+
+  {
+    type: "suffix",
+    itemId: "ant-ent",
+    knownLabel: "-ant, -ent",
+    knownMeaning: "one who; having or being",
+    word: "assistant",
+    correct: "a person who helps someone",
+    choices: [
+      "a person who helps someone",
+      "relying on someone or something else for support",
+      "to do something again",
+      "something located underneath another thing"
+    ],
+    literal: "one who assists",
+    definition: "a person who helps someone",
+    image: "images/suffixes/ant-ent.png"
+  },
+
+  {
+    type: "suffix",
+    itemId: "ant-ent",
+    knownLabel: "-ant, -ent",
+    knownMeaning: "one who; having or being",
+    word: "dependent",
+    correct: "relying on someone or something else for support",
+    choices: [
+      "relying on someone or something else for support",
+      "a person who helps someone",
+      "to do something again",
+      "something located underneath another thing"
+    ],
+    literal: "being dependent",
+    definition: "relying on someone or something else for support",
+    image: "images/suffixes/ant-ent.png"
   }
+
 ];
 
 
@@ -3986,7 +5211,23 @@ const prefixRootSuffixBuildWords = [
     suffixMeaning: "related to",
     literal: "related to between nations",
     definition: "involving two or more countries"
-  }
+  },
+
+  {
+    word: "extraction",
+    prefixId: "ex",
+    prefix: "ex-",
+    prefixMeaning: "out",
+    baseId: "tract",
+    base: "tract",
+    baseMeaning: "pull; draw",
+    suffixId: "ion",
+    suffix: "-ion",
+    suffixMeaning: "act or process",
+    literal: "act or process of pulling out",
+    definition: "the act or process of pulling or taking something out"
+  },
+
 ];
 /* ========================================
    DOM REFERENCES
