@@ -4005,6 +4005,68 @@ const activityButtons = [
   ...document.querySelectorAll(".activity-button")
 ];
 
+const wordBuilderPathTrack =
+  document.getElementById("wordBuilderPathTrack");
+
+const wordBuilderPathNote =
+  document.getElementById("wordBuilderPathNote");
+
+const wordBuilderPathSummary =
+  document.getElementById("wordBuilderPathSummary");
+
+const wordBuilderPathSteps = [
+  {
+    mode: "learn",
+    icon: "📖",
+    label: "Learn"
+  },
+  {
+    mode: "find",
+    icon: "🔎",
+    label: "Find"
+  },
+  {
+    mode: "hunt",
+    icon: "🎯",
+    label: "Word Hunt"
+  },
+  {
+    mode: "meaning",
+    icon: "✅",
+    label: "Meaning"
+  },
+  {
+    mode: "morpheme",
+    icon: "🧩",
+    label: "Word Part"
+  },
+  {
+    mode: "break",
+    icon: "🔨",
+    label: "Break It Apart"
+  },
+  {
+    mode: "infer",
+    icon: "💡",
+    label: "Figure It Out"
+  },
+  {
+    mode: "build",
+    icon: "🏗️",
+    label: "Build"
+  },
+  {
+    mode: "use",
+    icon: "✏️",
+    label: "Use It"
+  },
+  {
+    mode: "change",
+    icon: "🔄",
+    label: "Change It"
+  }
+];
+
 const startPanel = document.getElementById("startPanel");
 const workspaceTitle = document.getElementById("workspaceTitle");
 const workspaceSubtitle = document.getElementById("workspaceSubtitle");
@@ -4494,6 +4556,134 @@ function updateStudySelectForActivity() {
   }
 }
 
+function getPracticedActivityModes() {
+  const student =
+    window.FirstVoloActivityProgress?.getActiveStudent?.();
+
+  if (!student || !Array.isArray(student.sessions)) {
+    return new Set();
+  }
+
+  return new Set(
+    student.sessions
+      .filter((session) => {
+        const responses =
+          Array.isArray(session.responses)
+            ? session.responses
+            : [];
+
+        return responses.length > 0;
+      })
+      .map((session) => session.activity)
+      .filter(Boolean)
+  );
+}
+
+function renderWordBuilderPath() {
+  if (!wordBuilderPathTrack) {
+    return;
+  }
+
+  const student =
+    window.FirstVoloActivityProgress?.getActiveStudent?.();
+
+  const practicedModes =
+    getPracticedActivityModes();
+
+  const practiceModes =
+    wordBuilderPathSteps
+      .filter((step) => step.mode !== "learn")
+      .map((step) => step.mode);
+
+  const practicedPracticeCount =
+    practiceModes.filter(
+      (mode) => practicedModes.has(mode)
+    ).length;
+
+  if (wordBuilderPathSummary) {
+    wordBuilderPathSummary.textContent =
+      `${practicedPracticeCount} of ${practiceModes.length} ` +
+      `practice ${practiceModes.length === 1 ? "activity" : "activities"} tried`;
+  }
+
+  if (wordBuilderPathNote) {
+    wordBuilderPathNote.textContent = student
+      ? "✓ means this activity has saved practice. Nothing is locked."
+      : "Choose any step. Select a student if you want practice saved.";
+  }
+
+  wordBuilderPathTrack.innerHTML =
+    wordBuilderPathSteps
+      .map((step) => {
+        const isCurrent =
+          step.mode === activeMode;
+
+        const isPracticed =
+          practicedModes.has(step.mode);
+
+        const classNames = [
+          "word-path-step",
+          isCurrent ? "current" : "",
+          isPracticed ? "practiced" : ""
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        const statusParts = [];
+
+        if (isCurrent) {
+          statusParts.push("current activity");
+        }
+
+        if (isPracticed) {
+          statusParts.push("practiced");
+        } else if (step.mode !== "learn") {
+          statusParts.push("not yet practiced");
+        }
+
+        return `
+          <button
+            class="${classNames}"
+            type="button"
+            data-path-mode="${step.mode}"
+            ${isCurrent ? 'aria-current="step"' : ""}
+            aria-label="${step.label}${
+              statusParts.length
+                ? `. ${statusParts.join(", ")}`
+                : ""
+            }"
+          >
+            <span class="word-path-node">
+              <span
+                class="word-path-icon"
+                aria-hidden="true"
+              >
+                ${step.icon}
+              </span>
+
+              ${
+                isPracticed
+                  ? `
+                    <span
+                      class="word-path-check"
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+                  `
+                  : ""
+              }
+            </span>
+
+            <span class="word-path-label">
+              ${step.label}
+            </span>
+          </button>
+        `;
+      })
+      .join("");
+}
+
 function activateActivityButton(mode) {
   activityButtons.forEach((button) => {
     const isActive = button.dataset.mode === mode;
@@ -4503,6 +4693,7 @@ function activateActivityButton(mode) {
   });
 
   updateStudySelectForActivity();
+  renderWordBuilderPath();
 }
 
 function renderCurrentActivity() {
@@ -8069,6 +8260,37 @@ activityButtons.forEach((button) => {
     renderCurrentActivity();
   });
 });
+
+wordBuilderPathTrack?.addEventListener(
+  "click",
+  (event) => {
+    const pathButton =
+      event.target.closest("[data-path-mode]");
+
+    if (!pathButton) {
+      return;
+    }
+
+    const mode =
+      pathButton.dataset.pathMode;
+
+    const activityButton =
+      activityButtons.find(
+        (button) =>
+          button.dataset.mode === mode
+      );
+
+    activityButton?.click();
+  }
+);
+
+window.addEventListener(
+  "firstvoloprogresschange",
+  renderWordBuilderPath
+);
+
+renderWordBuilderPath();
+
 
 learnExploreButton?.addEventListener("click", () => {
   learnMode = "explore";

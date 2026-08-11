@@ -23,11 +23,19 @@ function loadActivityProgressData() {
 let activityProgressData = loadActivityProgressData();
 let currentProgressSession = null;
 
+function notifyActivityProgressChanged() {
+  window.dispatchEvent(
+    new CustomEvent("firstvoloprogresschange")
+  );
+}
+
 function saveActivityProgressData() {
   localStorage.setItem(
     FV_ACTIVITY_PROGRESS_KEY,
     JSON.stringify(activityProgressData)
   );
+
+  notifyActivityProgressChanged();
 }
 
 function makeProgressId(prefix) {
@@ -234,6 +242,7 @@ function refreshActivityProgressFromStorage() {
 
   activityProgressData = loadActivityProgressData();
   renderActivityStudentSelect();
+  notifyActivityProgressChanged();
 }
 
 window.addEventListener("focus", refreshActivityProgressFromStorage);

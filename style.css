@@ -2738,3 +2738,278 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ========================================
+   WORD BUILDER PATH
+   ======================================== */
+
+.word-builder-path {
+  margin: 18px 0 24px;
+  padding: 18px 18px 14px;
+  border: 1px solid #dce5ec;
+  border-radius: 22px;
+  background: #fbfdff;
+}
+
+.word-builder-path-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.word-builder-path-heading strong {
+  display: block;
+  color: #243b53;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.word-builder-path-heading small {
+  display: block;
+  margin-top: 3px;
+  color: #66788a;
+  line-height: 1.35;
+}
+
+.word-builder-path-scroll {
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+}
+
+.word-builder-path-phases {
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  min-width: 980px;
+  margin-bottom: 1px;
+  color: #607284;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.word-builder-path-phases span {
+  text-align: center;
+}
+
+.word-builder-path-track {
+  position: relative;
+  display: grid;
+  grid-template-columns:
+    repeat(10, minmax(82px, 1fr));
+  gap: 12px;
+  min-width: 980px;
+  padding: 8px 0 2px;
+}
+
+.word-builder-path-track::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 36px;
+  left: 5%;
+  right: 5%;
+  height: 4px;
+  border-radius: 999px;
+  background: #dce5ec;
+}
+
+.word-path-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: #536575;
+  font: inherit;
+  cursor: pointer;
+}
+
+.word-path-node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 3px solid #cbd7e0;
+  border-radius: 50%;
+  background: white;
+  box-shadow:
+    0 3px 8px rgba(31, 50, 67, 0.08);
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease;
+}
+
+.word-path-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.word-path-label {
+  max-width: 94px;
+  color: #536575;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.word-path-step:hover .word-path-node {
+  transform: translateY(-2px);
+  border-color: #829aab;
+}
+
+.word-path-step.practiced .word-path-node {
+  border-color: #4f8a68;
+  background: #edf8f1;
+}
+
+.word-path-step.practiced .word-path-label {
+  color: #356748;
+}
+
+.word-path-check {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #4f8a68;
+  color: white;
+  font-size: 0.74rem;
+  font-weight: 1000;
+  box-shadow:
+    0 2px 5px rgba(31, 50, 67, 0.16);
+}
+
+.word-path-step.current .word-path-node {
+  transform: translateY(-2px) scale(1.05);
+  border-color: #446f91;
+  box-shadow:
+    0 0 0 5px rgba(68, 111, 145, 0.13),
+    0 4px 10px rgba(31, 50, 67, 0.12);
+}
+
+.word-path-step.current .word-path-label {
+  color: #2f5878;
+  font-weight: 900;
+}
+
+.word-path-step:focus-visible {
+  outline: none;
+}
+
+.word-path-step:focus-visible .word-path-node {
+  outline: 3px solid #2f5878;
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .word-builder-path {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .word-builder-path-heading {
+    align-items: flex-start;
+  }
+}
+
+
+/* ========================================
+   WORD BUILDER PATH COMPACT POLISH
+   ======================================== */
+
+.word-builder-path {
+  margin: 14px 0 20px;
+  padding: 14px 16px 11px;
+}
+
+.word-builder-path-heading {
+  margin-bottom: 7px;
+}
+
+.word-builder-path-summary {
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  border: 1px solid #d7e2ea;
+  border-radius: 999px;
+  background: white;
+  color: #526777;
+  font-size: 0.75rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.word-builder-path-phases {
+  grid-template-columns: repeat(10, minmax(76px, 1fr));
+  min-width: 900px;
+  margin-bottom: 0;
+}
+
+.word-builder-path-phases .path-phase-learn {
+  grid-column: 1;
+  text-align: center;
+}
+
+.word-builder-path-phases .path-phase-practice {
+  grid-column: 2 / -1;
+  padding-left: 18px;
+  text-align: left;
+}
+
+.word-builder-path-track {
+  grid-template-columns:
+    repeat(10, minmax(76px, 1fr));
+  gap: 10px;
+  min-width: 900px;
+  padding-top: 5px;
+}
+
+.word-builder-path-track::before {
+  top: 30px;
+}
+
+.word-path-node {
+  width: 50px;
+  height: 50px;
+}
+
+.word-path-icon {
+  font-size: 1.2rem;
+}
+
+.word-path-label {
+  font-size: 0.7rem;
+}
+
+.word-path-check {
+  width: 20px;
+  height: 20px;
+  font-size: 0.68rem;
+}
+
+@media (max-width: 700px) {
+  .word-builder-path-heading {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .word-builder-path-summary {
+    align-self: flex-start;
+  }
+}
