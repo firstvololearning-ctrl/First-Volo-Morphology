@@ -3673,9 +3673,9 @@ const inferQuestions = [
     correct: "to form a circle around something",
     choices: [
       "to form a circle around something",
-      "to improve something or make it richer",
-      "to cook something too much",
-      "to use something too much"
+      "to move something away from a circle",
+      "to form the same circle again",
+      "to form only half of a circle"
     ],
     literal: "put into or inside a circle",
     definition: "to form a circle around something",
@@ -3691,9 +3691,9 @@ const inferQuestions = [
     correct: "to improve something or make it richer",
     choices: [
       "to improve something or make it richer",
-      "to form a circle around something",
-      "to cook something too much",
-      "to use something too much"
+      "to make something poorer or less valuable",
+      "to make something rich again",
+      "to compare how rich two things are"
     ],
     literal: "cause to become richer",
     definition: "to improve something or make it richer",
@@ -3709,9 +3709,9 @@ const inferQuestions = [
     correct: "to cook something too much",
     choices: [
       "to cook something too much",
-      "to form a circle around something",
-      "to improve something or make it richer",
-      "to use something too much"
+      "to cook something too little",
+      "to cook something again",
+      "to cook something before it is needed"
     ],
     literal: "cook too much",
     definition: "to cook something too much",
@@ -3727,9 +3727,9 @@ const inferQuestions = [
     correct: "to use something too much",
     choices: [
       "to use something too much",
-      "to form a circle around something",
-      "to improve something or make it richer",
-      "to cook something too much"
+      "to use something too little",
+      "to use something again",
+      "to stop using something"
     ],
     literal: "use too much",
     definition: "to use something too much",
@@ -3745,9 +3745,9 @@ const inferQuestions = [
     correct: "a prediction about what is expected to happen",
     choices: [
       "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon",
-      "the point in the middle of something"
+      "a report about what already happened",
+      "a description of what is happening right now",
+      "a guess made after the result is already known"
     ],
     literal: "tell or predict beforehand",
     definition: "a prediction about what is expected to happen",
@@ -3763,9 +3763,9 @@ const inferQuestions = [
     correct: "the front part of the head above the eyes",
     choices: [
       "the front part of the head above the eyes",
-      "a prediction about what is expected to happen",
-      "the middle of the day; around noon",
-      "the point in the middle of something"
+      "the back part of the head above the neck",
+      "the lower part of the head around the chin",
+      "the side of the head near the ear"
     ],
     literal: "front of the head",
     definition: "the front part of the head above the eyes",
@@ -3781,9 +3781,9 @@ const inferQuestions = [
     correct: "the middle of the day; around noon",
     choices: [
       "the middle of the day; around noon",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the point in the middle of something"
+      "the beginning of the day; around sunrise",
+      "the end of the day; around sunset",
+      "the time before the day begins"
     ],
     literal: "middle of the day",
     definition: "the middle of the day; around noon",
@@ -3799,9 +3799,9 @@ const inferQuestions = [
     correct: "the point in the middle of something",
     choices: [
       "the point in the middle of something",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "the point where something begins",
+      "the point where something ends",
+      "a point beyond the end of something"
     ],
     literal: "middle point",
     definition: "the point in the middle of something",
@@ -3817,9 +3817,9 @@ const inferQuestions = [
     correct: "to cook something too little",
     choices: [
       "to cook something too little",
-      "to form a circle around something",
-      "to improve something or make it richer",
-      "to cook something too much"
+      "to cook something too much",
+      "to cook something again",
+      "to cook something before it is needed"
     ],
     literal: "cook too little",
     definition: "to cook something too little",
@@ -3835,9 +3835,9 @@ const inferQuestions = [
     correct: "below the surface of the ground",
     choices: [
       "below the surface of the ground",
-      "causing damage or destruction",
-      "beyond normal human ability",
-      "avoiding or opposing social interaction"
+      "above the surface of the ground",
+      "around the outside of the ground",
+      "across the surface of the ground"
     ],
     literal: "below the ground",
     definition: "below the surface of the ground",
@@ -3853,9 +3853,9 @@ const inferQuestions = [
     correct: "the act or process of destroying something",
     choices: [
       "the act or process of destroying something",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "the act or process of building something up",
+      "the act or process of building something again",
+      "the act or process of joining built parts together"
     ],
     literal: "act or process of breaking down",
     definition: "the act or process of destroying something",
@@ -3871,9 +3871,9 @@ const inferQuestions = [
     correct: "causing damage or destruction",
     choices: [
       "causing damage or destruction",
-      "below the surface of the ground",
-      "beyond normal human ability",
-      "avoiding or opposing social interaction"
+      "causing something to be built up",
+      "causing something to be built again",
+      "causing built parts to stay together"
     ],
     literal: "causing something to be broken down",
     definition: "causing damage or destruction",
@@ -3889,9 +3889,9 @@ const inferQuestions = [
     correct: "a hero with extraordinary powers or abilities",
     choices: [
       "a hero with extraordinary powers or abilities",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "a hero with only ordinary abilities",
+      "a hero with less ability than an ordinary person",
+      "a person who works against heroes"
     ],
     literal: "a hero beyond the ordinary",
     definition: "a hero with extraordinary powers or abilities",
@@ -3907,9 +3907,9 @@ const inferQuestions = [
     correct: "beyond normal human ability",
     choices: [
       "beyond normal human ability",
-      "below the surface of the ground",
-      "causing damage or destruction",
-      "avoiding or opposing social interaction"
+      "within ordinary human ability",
+      "below normal human ability",
+      "opposed to human beings"
     ],
     literal: "beyond ordinary human ability",
     definition: "beyond normal human ability",
@@ -3925,9 +3925,9 @@ const inferQuestions = [
     correct: "a substance that helps prevent a liquid from freezing",
     choices: [
       "a substance that helps prevent a liquid from freezing",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "a substance that makes a liquid freeze faster",
+      "a substance used only after a liquid has frozen",
+      "a substance that makes only part of a liquid freeze"
     ],
     literal: "against freezing",
     definition: "a substance that helps prevent a liquid from freezing",
@@ -3943,9 +3943,9 @@ const inferQuestions = [
     correct: "avoiding or opposing social interaction",
     choices: [
       "avoiding or opposing social interaction",
-      "below the surface of the ground",
-      "causing damage or destruction",
-      "beyond normal human ability"
+      "actively seeking social interaction",
+      "repeating the same social interaction",
+      "taking place between social groups"
     ],
     literal: "against or away from social interaction",
     definition: "avoiding or opposing social interaction",
@@ -3961,9 +3961,9 @@ const inferQuestions = [
     correct: "the distance around a circle",
     choices: [
       "the distance around a circle",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "the distance straight across a circle",
+      "the distance from the center to the edge",
+      "the distance halfway around a circle"
     ],
     literal: "measure around",
     definition: "the distance around a circle",
@@ -3979,9 +3979,9 @@ const inferQuestions = [
     correct: "to travel all the way around something",
     choices: [
       "to travel all the way around something",
-      "to form a circle around something",
-      "to improve something or make it richer",
-      "to cook something too much"
+      "to travel straight through something",
+      "to travel away without going around it",
+      "to travel only halfway around something"
     ],
     literal: "navigate around",
     definition: "to travel all the way around something",
@@ -3997,9 +3997,9 @@ const inferQuestions = [
     correct: "the study of sound systems in language",
     choices: [
       "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance",
-      "an instrument used to view distant objects"
+      "the study of written letter shapes in language",
+      "the study of word meanings in language",
+      "the study of sentence order in language"
     ],
     literal: "study of sounds",
     definition: "the study of sound systems in language",
@@ -4015,9 +4015,9 @@ const inferQuestions = [
     correct: "a method of reading that connects letters with sounds",
     choices: [
       "a method of reading that connects letters with sounds",
-      "the study of sound systems in language",
-      "a system for sending messages over a long distance",
-      "an instrument used to view distant objects"
+      "a method of reading that connects letters only with pictures",
+      "a method of reading that connects words only with definitions",
+      "a method of reading that focuses only on punctuation"
     ],
     literal: "letters connected with sounds",
     definition: "a method of reading that connects letters with sounds",
@@ -4033,9 +4033,9 @@ const inferQuestions = [
     correct: "a system for sending messages over a long distance",
     choices: [
       "a system for sending messages over a long distance",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "an instrument used to view distant objects"
+      "a system for sending messages only a short distance",
+      "a system for keeping messages in one place",
+      "a system for sending messages back to where they started"
     ],
     literal: "write or record from far away",
     definition: "a system for sending messages over a long distance",
@@ -4051,9 +4051,9 @@ const inferQuestions = [
     correct: "an instrument used to view distant objects",
     choices: [
       "an instrument used to view distant objects",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an instrument used to view very small nearby objects",
+      "an instrument used to view objects beneath the ground",
+      "an instrument used to view objects inside the body"
     ],
     literal: "look far away",
     definition: "an instrument used to view distant objects",
@@ -4069,9 +4069,9 @@ const inferQuestions = [
     correct: "an instrument used to view very small objects",
     choices: [
       "an instrument used to view very small objects",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an instrument used to view very distant objects",
+      "an instrument used to view only very large objects",
+      "an instrument used to view only moving objects"
     ],
     literal: "look at something small",
     definition: "an instrument used to view very small objects",
@@ -4087,9 +4087,9 @@ const inferQuestions = [
     correct: "a living thing too small to see clearly without magnification",
     choices: [
       "a living thing too small to see clearly without magnification",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "a living thing that is unusually large",
+      "a living thing defined by being very far away",
+      "a living thing that is only partly formed"
     ],
     literal: "small organism",
     definition: "a living thing too small to see clearly without magnification",
@@ -4105,9 +4105,9 @@ const inferQuestions = [
     correct: "a device that controls temperature",
     choices: [
       "a device that controls temperature",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "a device that controls sound volume",
+      "a device that controls distance",
+      "a device that controls the passage of time"
     ],
     literal: "heat or temperature control",
     definition: "a device that controls temperature",
@@ -4123,9 +4123,9 @@ const inferQuestions = [
     correct: "related to heat",
     choices: [
       "related to heat",
-      "one thousandth of a meter",
-      "related to a system of measurement based on meters",
-      "acceptable, sound, or having legal force"
+      "related to sound",
+      "related to distance",
+      "related to writing"
     ],
     literal: "having to do with heat",
     definition: "related to heat",
@@ -4141,9 +4141,9 @@ const inferQuestions = [
     correct: "one thousandth of a meter",
     choices: [
       "one thousandth of a meter",
-      "related to heat",
-      "related to a system of measurement based on meters",
-      "acceptable, sound, or having legal force"
+      "a unit used to describe sound",
+      "a unit used to describe heat",
+      "a unit used to describe time"
     ],
     literal: "a small unit of measure",
     definition: "one thousandth of a meter",
@@ -4159,9 +4159,9 @@ const inferQuestions = [
     correct: "related to a system of measurement based on meters",
     choices: [
       "related to a system of measurement based on meters",
-      "related to heat",
-      "one thousandth of a meter",
-      "acceptable, sound, or having legal force"
+      "related to a system for recording sounds",
+      "related to a system for producing heat",
+      "related to a system for organizing written words"
     ],
     literal: "related to measuring",
     definition: "related to a system of measurement based on meters",
@@ -4177,9 +4177,9 @@ const inferQuestions = [
     correct: "an instrument used to look at very small objects",
     choices: [
       "an instrument used to look at very small objects",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an instrument used to measure very small objects",
+      "an instrument used to hear very small objects",
+      "an instrument used to record very small objects"
     ],
     literal: "look at something small",
     definition: "an instrument used to look at very small objects",
@@ -4195,9 +4195,9 @@ const inferQuestions = [
     correct: "an instrument used to look at distant objects",
     choices: [
       "an instrument used to look at distant objects",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an instrument used to measure distant objects",
+      "an instrument used to hear distant objects",
+      "an instrument used to record distant objects"
     ],
     literal: "look far away",
     definition: "an instrument used to look at distant objects",
@@ -4213,9 +4213,9 @@ const inferQuestions = [
     correct: "a person's written account of their own life",
     choices: [
       "a person's written account of their own life",
-      "a person's own signature",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds"
+      "a written account of another person's life",
+      "a written account of many people's lives",
+      "a written account of the history of a place"
     ],
     literal: "self + life + writing",
     definition: "a person's written account of their own life",
@@ -4231,9 +4231,9 @@ const inferQuestions = [
     correct: "a person's own signature",
     choices: [
       "a person's own signature",
-      "a person's written account of their own life",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds"
+      "another person's signature copied by someone else",
+      "a printed version of a person's name",
+      "a signature written for an entire group"
     ],
     literal: "self-written",
     definition: "a person's own signature",
@@ -4249,9 +4249,9 @@ const inferQuestions = [
     correct: "to be next to or joined to something",
     choices: [
       "to be next to or joined to something",
-      "to form a circle around something",
-      "to improve something or make it richer",
-      "to cook something too much"
+      "to move away from or separate from something",
+      "to be placed underneath something",
+      "to break something into separate pieces"
     ],
     literal: "join to or toward",
     definition: "to be next to or joined to something",
@@ -4267,9 +4267,9 @@ const inferQuestions = [
     correct: "a look back at past events",
     choices: [
       "a look back at past events",
-      "a prediction about what is expected to happen",
-      "the front part of the head above the eyes",
-      "the middle of the day; around noon"
+      "a look forward at future events",
+      "a look only at what is happening now",
+      "a look around without considering time"
     ],
     literal: "look back",
     definition: "a look back at past events",
@@ -4285,9 +4285,9 @@ const inferQuestions = [
     correct: "taking effect from a date in the past",
     choices: [
       "taking effect from a date in the past",
-      "below the surface of the ground",
-      "causing damage or destruction",
-      "beyond normal human ability"
+      "taking effect only from a future date",
+      "taking effect only from the present moment",
+      "no longer having any effect"
     ],
     literal: "acting back into the past",
     definition: "taking effect from a date in the past",
@@ -4303,9 +4303,9 @@ const inferQuestions = [
     correct: "to direct someone to another source or person for information or help",
     choices: [
       "to direct someone to another source or person for information or help",
-      "to move or carry something from one place or person to another",
-      "to force or drive someone to do something",
-      "to push or drive something forward"
+      "to keep someone with the same source or person",
+      "to pull information away from every source",
+      "to build a new source instead of directing someone"
     ],
     literal: "carry or direct back",
     definition: "to direct someone to another source or person for information or help",
@@ -4321,9 +4321,9 @@ const inferQuestions = [
     correct: "to move or carry something from one place or person to another",
     choices: [
       "to move or carry something from one place or person to another",
-      "to direct someone to another source or person for information or help",
-      "to force or drive someone to do something",
-      "to push or drive something forward"
+      "to keep something in the same place or with the same person",
+      "to move something back to where it originally started",
+      "to break something into separate pieces"
     ],
     literal: "carry across",
     definition: "to move or carry something from one place or person to another",
@@ -4339,9 +4339,9 @@ const inferQuestions = [
     correct: "to force or drive someone to do something",
     choices: [
       "to force or drive someone to do something",
-      "to direct someone to another source or person for information or help",
-      "to move or carry something from one place or person to another",
-      "to push or drive something forward"
+      "to politely invite someone without pressure",
+      "to prevent someone from doing something",
+      "to watch someone do something"
     ],
     literal: "push or drive",
     definition: "to force or drive someone to do something",
@@ -4357,9 +4357,9 @@ const inferQuestions = [
     correct: "to push or drive something forward",
     choices: [
       "to push or drive something forward",
-      "to direct someone to another source or person for information or help",
-      "to move or carry something from one place or person to another",
-      "to force or drive someone to do something"
+      "to pull something backward",
+      "to hold something completely still",
+      "to turn something in place without moving it forward"
     ],
     literal: "drive forward",
     definition: "to push or drive something forward",
@@ -4375,9 +4375,9 @@ const inferQuestions = [
     correct: "an object that hangs from a necklace or chain",
     choices: [
       "an object that hangs from a necklace or chain",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an object that rests flat on top of a necklace",
+      "an object that stands upright from a necklace",
+      "an object hidden inside a necklace"
     ],
     literal: "hanging thing",
     definition: "an object that hangs from a necklace or chain",
@@ -4393,9 +4393,9 @@ const inferQuestions = [
     correct: "to hang something so that it is supported from above",
     choices: [
       "to hang something so that it is supported from above",
-      "to direct someone to another source or person for information or help",
-      "to move or carry something from one place or person to another",
-      "to force or drive someone to do something"
+      "to set something firmly on the ground",
+      "to push something across a surface",
+      "to place something completely inside another object"
     ],
     literal: "hang beneath",
     definition: "to hang something so that it is supported from above",
@@ -4411,9 +4411,9 @@ const inferQuestions = [
     correct: "to put parts together to make something",
     choices: [
       "to put parts together to make something",
-      "to direct someone to another source or person for information or help",
-      "to move or carry something from one place or person to another",
-      "to force or drive someone to do something"
+      "to take parts apart from one another",
+      "to move all the parts away",
+      "to leave the parts scattered without arranging them"
     ],
     literal: "put together",
     definition: "to put parts together to make something",
@@ -4429,9 +4429,9 @@ const inferQuestions = [
     correct: "the place where something is located",
     choices: [
       "the place where something is located",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "the time when something happens",
+      "the sound that something makes",
+      "the way that something moves"
     ],
     literal: "place or put",
     definition: "the place where something is located",
@@ -4447,9 +4447,9 @@ const inferQuestions = [
     correct: "the state of being kept or held back",
     choices: [
       "the state of being kept or held back",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "the state of being released immediately",
+      "the state of moving forward freely",
+      "the state of being broken into parts"
     ],
     literal: "holding back",
     definition: "the state of being kept or held back",
@@ -4465,9 +4465,9 @@ const inferQuestions = [
     correct: "the act of keeping or holding something",
     choices: [
       "the act of keeping or holding something",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "the act of releasing or letting go of something",
+      "the act of moving something far away",
+      "the act of breaking something apart"
     ],
     literal: "holding or keeping",
     definition: "the act of keeping or holding something",
@@ -4483,9 +4483,9 @@ const inferQuestions = [
     correct: "the worth or importance of something",
     choices: [
       "the worth or importance of something",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "the physical location of something",
+      "the shape or size of something",
+      "the speed at which something moves"
     ],
     literal: "worth",
     definition: "the worth or importance of something",
@@ -4501,9 +4501,9 @@ const inferQuestions = [
     correct: "acceptable, sound, or having legal force",
     choices: [
       "acceptable, sound, or having legal force",
-      "related to heat",
-      "one thousandth of a meter",
-      "related to a system of measurement based on meters"
+      "rejected as weak, unsound, or unacceptable",
+      "hidden so that it cannot be examined",
+      "moved from one place to another"
     ],
     literal: "having worth or strength",
     definition: "acceptable, sound, or having legal force",
@@ -4519,9 +4519,9 @@ const inferQuestions = [
     correct: "related to the skin",
     choices: [
       "related to the skin",
-      "related to heat",
-      "one thousandth of a meter",
-      "related to a system of measurement based on meters"
+      "related to the bones",
+      "related to the muscles",
+      "related to the blood"
     ],
     literal: "related to skin",
     definition: "related to the skin",
@@ -4537,9 +4537,9 @@ const inferQuestions = [
     correct: "inflammation of the skin",
     choices: [
       "inflammation of the skin",
-      "related to heat",
-      "one thousandth of a meter",
-      "related to a system of measurement based on meters"
+      "inflammation of the bones",
+      "inflammation of the muscles",
+      "inflammation of the lungs"
     ],
     literal: "skin inflammation",
     definition: "inflammation of the skin",
@@ -4555,9 +4555,9 @@ const inferQuestions = [
     correct: "an area of land and its physical features",
     choices: [
       "an area of land and its physical features",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "an area made entirely of water",
+      "a pattern of sounds and their features",
+      "a written record and its features"
     ],
     literal: "land",
     definition: "an area of land and its physical features",
@@ -4573,9 +4573,9 @@ const inferQuestions = [
     correct: "an area of land controlled or claimed by someone or something",
     choices: [
       "an area of land controlled or claimed by someone or something",
-      "the study of sound systems in language",
-      "a method of reading that connects letters with sounds",
-      "a system for sending messages over a long distance"
+      "a period of time controlled or claimed by someone",
+      "a collection of sounds controlled or claimed by someone",
+      "a written list controlled or claimed by someone"
     ],
     literal: "area of land",
     definition: "an area of land controlled or claimed by someone or something",
@@ -4591,9 +4591,9 @@ const inferQuestions = [
     correct: "a person who helps someone",
     choices: [
       "a person who helps someone",
-      "relying on someone or something else for support",
-      "to do something again",
-      "something located underneath another thing"
+      "the act or process of helping someone",
+      "something that is able to be helped",
+      "something that was helped in the past"
     ],
     literal: "one who assists",
     definition: "a person who helps someone",
@@ -4609,9 +4609,9 @@ const inferQuestions = [
     correct: "relying on someone or something else for support",
     choices: [
       "relying on someone or something else for support",
-      "a person who helps someone",
-      "to do something again",
-      "something located underneath another thing"
+      "the act or process of relying on something",
+      "a person who causes someone else to rely",
+      "able to be relied on by someone else"
     ],
     literal: "being dependent",
     definition: "relying on someone or something else for support",
