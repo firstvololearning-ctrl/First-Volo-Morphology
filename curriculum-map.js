@@ -325,6 +325,53 @@ function morphemesInSegmentation(segmentation) {
 }
 
 
+
+function morphemesInWordMeta(meta = {}) {
+  const ids = new Set(
+    morphemesInSegmentation(
+      meta.segmentation || ""
+    )
+  );
+
+  const explicit =
+    Array.isArray(meta.morphemes)
+      ? meta.morphemes
+      : [];
+
+  explicit.forEach((label) => {
+    /*
+     * Use the same canonical-label resolver used elsewhere
+     * in the curriculum map. This correctly maps grouped
+     * labels such as vis/vid -> vis and
+     * scrib/script -> scrib.
+     */
+    const matched = morphemeFromLabel(label);
+
+    if (matched?.id) {
+      ids.add(matched.id);
+      return;
+    }
+
+    /*
+     * Fallback for any simple inventory IDs/variants that
+     * are not resolved through the grouped-label helper.
+     */
+    const target = normalize(label);
+
+    morphemes.forEach((entry) => {
+      if (
+        normalize(entry.id) === target ||
+        morphemeVariants(entry).includes(target)
+      ) {
+        ids.add(entry.id);
+      }
+    });
+  });
+
+  return [...ids];
+}
+
+
 /* ========================================
    WORD-PART INVENTORY
    ======================================== */
@@ -492,7 +539,12 @@ const breakExcludedWords = new Set([
   "rupture",
   "spectator",
   "structure",
-  "writing"
+  "writing",
+  "transcribe",
+  "revise",
+  "subterranean",
+  "phoneme",
+  "biodiversity"
 ]);
 
 function breakSurfaceParts(segmentation) {
@@ -673,9 +725,7 @@ const breakItems = words
 
 breakItems.forEach(({ entry, surfaceParts }) => {
   const supporting =
-    morphemesInSegmentation(
-      entry.segmentation
-    );
+    morphemesInWordMeta(entry);
 
   addPracticeRow({
     activity: "Break It Apart",
@@ -735,9 +785,7 @@ infer.forEach((item) => {
   const meta = wordMeta(item.word);
 
   const supporting =
-    morphemesInSegmentation(
-      meta.segmentation
-    );
+    morphemesInWordMeta(meta);
 
   addPracticeRow({
     activity: "Build",
@@ -782,9 +830,7 @@ useItems.forEach((item) => {
   const meta = wordMeta(word);
 
   const supporting =
-    morphemesInSegmentation(
-      meta.segmentation
-    );
+    morphemesInWordMeta(meta);
 
   addPracticeRow({
     activity: "Use It",
@@ -859,6 +905,37 @@ change.forEach((item) => {
       item.sentence ||
       ""
   });
+});
+
+
+/* ========================================
+   CONTAINED MORPHEMES
+
+   Target ID describes the morpheme(s) directly assessed or
+   intentionally supported by an activity.
+
+   Contained Morphemes describes all recognized morphemes
+   present in the practice word, regardless of which one is
+   the scored target. This allows the curriculum map to show
+   cumulative morphological exposure without treating every
+   contained morpheme as directly assessed.
+   ======================================== */
+
+practiceRows.forEach((row) => {
+  const word = String(row.Word || "").trim();
+
+  if (!word) {
+    row["Contained Morphemes"] = "";
+    return;
+  }
+
+  const meta = wordMeta(word);
+
+  const contained =
+    morphemesInWordMeta(meta);
+
+  row["Contained Morphemes"] =
+    contained.join(" | ");
 });
 
 
@@ -997,6 +1074,7 @@ writeCsv(
     "Target ID",
     "Target / Word Part",
     "Target Role",
+    "Contained Morphemes",
     "Grade Band",
     "Vocabulary Level",
     "Grade Basis",

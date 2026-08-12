@@ -2000,6 +2000,54 @@ const rootFindQuestions = [
     "base": "in- = not; -ible = able to be",
     "literal": "not able to be seen",
     "definition": "unable to be seen"
+  },
+  {
+    "word": "phoneme",
+    "before": "",
+    "target": "phon",
+    "after": "eme",
+    "answer": "phon/phone",
+    "choices": [
+      "phon/phone",
+      "aud",
+      "voc",
+      "graph"
+    ],
+    "itemId": "phon",
+    "image": "images/roots/phon-phone.png",
+    "base": "phon = sound"
+  },
+  {
+    "word": "biodiversity",
+    "before": "",
+    "target": "bio",
+    "after": "diversity",
+    "answer": "bio",
+    "choices": [
+      "bio",
+      "geo",
+      "micro",
+      "phon/phone"
+    ],
+    "itemId": "bio",
+    "image": "images/roots/bio.png",
+    "base": "bio = life"
+  },
+  {
+    "word": "microscopic",
+    "before": "",
+    "target": "micro",
+    "after": "scopic",
+    "answer": "micro",
+    "choices": [
+      "micro",
+      "tele",
+      "auto",
+      "geo"
+    ],
+    "itemId": "micro",
+    "image": "images/roots/micro.png",
+    "base": "micro = small"
   }
 ];
 const suffixFindQuestions = [
@@ -4616,8 +4664,135 @@ const inferQuestions = [
     literal: "being dependent",
     definition: "relying on someone or something else for support",
     image: "images/suffixes/ant-ent.png"
+  },
+  {
+    "type": "prefix",
+    "knownLabel": "non-",
+    "knownMeaning": "not",
+    "word": "nonlinear",
+    "correct": "not forming a straight-line relationship",
+    "choices": [
+      "not forming a straight-line relationship",
+      "forming the same straight-line relationship again",
+      "forming a relationship below another line",
+      "forming a relationship between two lines"
+    ],
+    "literal": "not linear",
+    "definition": "not linear; in mathematics, not forming a straight-line relationship",
+    "image": "images/prefixes/non.png"
+  },
+  {
+    "type": "prefix",
+    "knownLabel": "dis-",
+    "knownMeaning": "apart; away; not",
+    "word": "disruption",
+    "correct": "a break or interruption in normal activity",
+    "choices": [
+      "a break or interruption in normal activity",
+      "the restarting of normal activity in the same way",
+      "the movement of normal activity to another place",
+      "the preparation of normal activity before it begins"
+    ],
+    "literal": "a breaking apart",
+    "definition": "an interruption that prevents something from continuing normally",
+    "image": "images/prefixes/dis.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "port",
+    "knownMeaning": "carry",
+    "word": "transportation",
+    "correct": "the movement or carrying of people or things from one place to another",
+    "choices": [
+      "the movement or carrying of people or things from one place to another",
+      "the building of places for people or things",
+      "the writing of information about people or things",
+      "the viewing of people or things from a distance"
+    ],
+    "literal": "act or process of carrying across",
+    "definition": "the movement of people or things from one place to another",
+    "image": "images/roots/port.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "tract",
+    "knownMeaning": "pull; draw",
+    "word": "detract",
+    "correct": "to take or draw attention, value, or importance away from something",
+    "choices": [
+      "to take or draw attention, value, or importance away from something",
+      "to add attention, value, or importance to something",
+      "to send information about something to another place",
+      "to arrange information about something in time order"
+    ],
+    "literal": "pull away",
+    "definition": "to take away from the value, quality, or importance of something",
+    "image": "images/roots/tract.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "terr",
+    "knownMeaning": "earth; land",
+    "word": "subterranean",
+    "correct": "located beneath the surface of the earth",
+    "choices": [
+      "located beneath the surface of the earth",
+      "located high above the surface of the earth",
+      "located between two bodies of water",
+      "moving through the air above the earth"
+    ],
+    "literal": "under the earth",
+    "definition": "existing or occurring beneath the surface of the earth",
+    "image": "images/roots/terr.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "scrib/script",
+    "knownMeaning": "write",
+    "word": "transcribe",
+    "correct": "to put spoken or recorded words into writing",
+    "choices": [
+      "to put spoken or recorded words into writing",
+      "to send spoken words across a room",
+      "to look at written words again without changing them",
+      "to break a written passage into separate sections"
+    ],
+    "literal": "write across or copy into writing",
+    "definition": "to make a written copy of spoken words or another source",
+    "image": "images/roots/scrib-script.png"
+  },
+  {
+    "type": "root",
+    "knownLabel": "vis/vid",
+    "knownMeaning": "see",
+    "word": "revise",
+    "correct": "to look over something again and make changes to improve it",
+    "choices": [
+      "to look over something again and make changes to improve it",
+      "to hear something again and repeat it exactly",
+      "to carry something back to where it started",
+      "to break something apart and remove a section"
+    ],
+    "literal": "see again",
+    "definition": "to look over something again and make changes to improve it",
+    "image": "images/roots/vis-vid.png"
+  },
+  {
+    "type": "prefix",
+    "knownLabel": "mis-",
+    "knownMeaning": "wrongly",
+    "word": "misinterpret",
+    "correct": "to understand or explain something incorrectly",
+    "choices": [
+      "to understand or explain something incorrectly",
+      "to understand or explain something again",
+      "to understand or explain something before it happens",
+      "to understand or explain something without words"
+    ],
+    "literal": "interpret wrongly",
+    "definition": "to understand or explain something incorrectly",
+    "image": "images/prefixes/mis.png"
   }
-
 ];
 
 
@@ -6961,7 +7136,12 @@ const breakApartExcludedWords = new Set([
   "rupture",
   "spectator",
   "structure",
-  "writing"
+  "writing",
+  "transcribe",
+  "revise",
+  "subterranean",
+  "phoneme",
+  "biodiversity"
 ]);
 
 

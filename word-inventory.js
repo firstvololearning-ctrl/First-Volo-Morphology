@@ -2075,7 +2075,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "biodegradable",
     "status": "current",
     "morphemes": [
-      "bio"
+      "bio",
+      "able-ible"
     ],
     "morphemeIntroBand": "4-5",
     "practiceBand": "6-8",
@@ -2088,21 +2089,23 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
       "wviVerification": "Not bulk-verified",
-      "nweaMatch": "No match"
-    }
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 bio family"
+    },
+    "segmentation": "bio + degrad(e) + -able"
   },
   {
     "word": "biodiversity",
-    "status": "recommended",
+    "status": "current",
     "morphemes": [
-      "-ity",
-      "bio"
+      "bio",
+      "-ity"
     ],
-    "segmentation": "bio + diversity",
+    "segmentation": "bio + divers(e) + -ity",
     "morphemeIntroBand": "4-5",
-    "practiceBand": "4-5",
-    "accessibilityBand": "4-5",
-    "ccssSkill": "RF.4–5.3a; L.4–5.4b",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
     "vocabLevel": "academic",
     "transparency": "medium",
     "gradeConfidence": "high",
@@ -2114,7 +2117,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "Exact concept label",
       "nweaBands": "211–220",
-      "nweaDomains": "Life Science"
+      "nweaDomains": "Life Science",
+      "curriculumEvidence": "Massachusetts Grade 7 Life Science; Vocabulary.com Grade 6 bio family"
     }
   },
   {
@@ -3781,7 +3785,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "disruption",
-    "status": "recommended",
+    "status": "current",
     "morphemes": [
       "-ion",
       "-tion",
@@ -3791,18 +3795,19 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     ],
     "segmentation": "dis- + rupt + -ion",
     "morphemeIntroBand": "4-5",
-    "practiceBand": "4-5",
+    "practiceBand": "6-8",
     "accessibilityBand": "4-5",
-    "ccssSkill": "RF.4–5.3a; L.4–5.4b",
+    "ccssSkill": "L.6–8.4b",
     "vocabLevel": "academic",
     "transparency": "medium",
-    "gradeConfidence": "medium",
-    "vocabConfidence": "low",
+    "gradeConfidence": "high",
+    "vocabConfidence": "medium",
     "definition": "an interruption that breaks normal activity",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
       "wviVerification": "Not bulk-verified",
-      "nweaMatch": "No match"
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 rupt family; middle-school curriculum corroboration"
     }
   },
   {
@@ -5790,21 +5795,25 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "microscopic",
     "status": "current",
     "morphemes": [
-      "micro"
+      "micro",
+      "scop/scope",
+      "-ic"
     ],
     "morphemeIntroBand": "4-5",
-    "practiceBand": "4-5",
+    "practiceBand": "6-8",
     "accessibilityBand": "4-5",
-    "ccssSkill": "RF.4–5.3a; L.4–5.4b",
+    "ccssSkill": "L.6–8.4b",
     "vocabLevel": "academic",
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Break It Apart / Figure It Out",
     "evidence": {
       "wviVerification": "Not bulk-verified",
-      "nweaMatch": "No match"
-    }
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 micro family"
+    },
+    "segmentation": "micro + scop + -ic"
   },
   {
     "word": "midday",
@@ -6033,9 +6042,12 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "motion",
     "status": "current",
     "morphemes": [
-      "mot/mov"
+      "mot/mov",
+      "-ion",
+      "-tion",
+      "-sion"
     ],
-    "segmentation": "mot + ion",
+    "segmentation": "mot + -ion",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -8251,6 +8263,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "subterranean",
     "status": "current",
     "morphemes": [
+      "sub-",
       "terr"
     ],
     "morphemeIntroBand": "6-8",
@@ -8259,13 +8272,15 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "ccssSkill": "L.6–8.4b",
     "vocabLevel": "academic",
     "transparency": "medium",
-    "gradeConfidence": "medium",
+    "gradeConfidence": "high",
     "vocabConfidence": "medium",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
       "wviVerification": "Not bulk-verified",
-      "nweaMatch": "No match"
-    }
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grades 5–6 morphology context; terr analysis reserved for First Volo 6–8"
+    },
+    "segmentation": "sub- + terr + -anean"
   },
   {
     "word": "superhero",
@@ -8311,7 +8326,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "superstructure",
     "status": "current",
     "morphemes": [
-      "super-"
+      "super-",
+      "struct"
     ],
     "morphemeIntroBand": "4-5",
     "practiceBand": "6-8",
@@ -8325,7 +8341,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
-    }
+    },
+    "segmentation": "super- + struct + -ure"
   },
   {
     "word": "suspend",
@@ -9435,6 +9452,185 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "nweaMatch": "Multiword context only",
       "nweaBands": "191–200; 161–170; 181–190; 201–210",
       "nweaDomains": "Reading; Language Usage"
+    }
+  },
+  {
+    "word": "nonlinear",
+    "status": "current",
+    "morphemes": [
+      "non-"
+    ],
+    "segmentation": "non- + linear",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "high",
+    "gradeConfidence": "high",
+    "vocabConfidence": "high",
+    "literal": "not linear",
+    "definition": "not linear; in mathematics, not forming a straight-line relationship",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Related exact concept: linear",
+      "nweaBands": "211–220",
+      "nweaDomains": "Mathematics",
+      "curriculumEvidence": "Massachusetts Grade 8 Functions explicitly uses linear/nonlinear"
+    }
+  },
+  {
+    "word": "transcribe",
+    "status": "current",
+    "morphemes": [
+      "trans-",
+      "scrib/script"
+    ],
+    "segmentation": "trans- + scrib(e)",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "medium",
+    "literal": "write across or copy into writing",
+    "definition": "to make a written copy of spoken words or another source",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 scrib/scribe family; Lexia Latin Roots aligned to L.8.4b"
+    }
+  },
+  {
+    "word": "transportation",
+    "status": "current",
+    "morphemes": [
+      "trans-",
+      "port",
+      "-ion",
+      "-tion",
+      "-sion"
+    ],
+    "segmentation": "trans- + port + -ation",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "6-8",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "high",
+    "literal": "act or process of carrying across",
+    "definition": "the movement of people or things from one place to another",
+    "recommendedActivityUse": "Learn / Find / Meaning / Break It Apart / Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Lexia Latin Roots aligned to L.8.4b; Vocabulary.com morphology family evidence"
+    }
+  },
+  {
+    "word": "detract",
+    "status": "current",
+    "morphemes": [
+      "de-",
+      "tract"
+    ],
+    "segmentation": "de- + tract",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "medium",
+    "literal": "pull away",
+    "definition": "to take away from the value, quality, or importance of something",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 tract family; Lexia Latin Roots aligned to L.8.4b"
+    }
+  },
+  {
+    "word": "revise",
+    "status": "current",
+    "morphemes": [
+      "re-",
+      "vis/vid"
+    ],
+    "segmentation": "re- + vis(e)",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "6-8",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "high",
+    "literal": "see or look at again",
+    "definition": "to look over something again and make changes to improve it",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Exact concept label",
+      "nweaBands": "181–190",
+      "nweaDomains": "Language Usage",
+      "curriculumEvidence": "Vocabulary.com Grades 7–8 vocabulary/morphology; Lexia Latin Roots aligned to L.8.4b"
+    }
+  },
+  {
+    "word": "misinterpret",
+    "status": "current",
+    "morphemes": [
+      "mis-"
+    ],
+    "segmentation": "mis- + interpret",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "high",
+    "literal": "interpret wrongly",
+    "definition": "to understand or explain something incorrectly",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Related concept/context only: interpret data",
+      "nweaDomains": "Earth and Space Science"
+    }
+  },
+  {
+    "word": "phoneme",
+    "status": "current",
+    "morphemes": [
+      "phon/phone"
+    ],
+    "segmentation": "phon + -eme",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "medium",
+    "literal": "sound unit",
+    "definition": "the smallest unit of sound that can distinguish meaning in a language",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; do not Build unless -eme is taught",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "No match",
+      "curriculumEvidence": "Vocabulary.com Grade 6 phon family"
     }
   }
 ];
