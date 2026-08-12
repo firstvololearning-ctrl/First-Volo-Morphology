@@ -3013,3 +3013,9 @@ a:focus-visible {
     align-self: flex-start;
   }
 }
+
+
+/* Extra separation below the Practice Flights explanation */
+.about-practice-flights-note {
+  margin-bottom: 16px;
+}
