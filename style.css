@@ -3993,3 +3993,15 @@ a:focus-visible {
     min-height: 0;
   }
 }
+
+/* Flight grade guidance inside About */
+
+
+
+/* Secondary grade guidance for Practice Flights */
+.flight-grade-note {
+  margin: 4px 0 8px;
+  color: #6f7f8e;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
