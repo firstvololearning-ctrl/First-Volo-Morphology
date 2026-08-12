@@ -6100,6 +6100,20 @@ function renderWordBuilderPath() {
       .join("");
 }
 
+function updateVocabularyFilterAvailability(mode = activeMode) {
+  const vocabularyDoesNotApply =
+    mode === "meaning" ||
+    mode === "morpheme";
+
+  vocabLevelSelect.disabled =
+    vocabularyDoesNotApply;
+
+  vocabLevelSelect.title =
+    vocabularyDoesNotApply
+      ? "Vocabulary level does not apply to direct word-part practice."
+      : "";
+}
+
 function activateActivityButton(mode) {
   activityButtons.forEach((button) => {
     const isActive = button.dataset.mode === mode;
@@ -6108,6 +6122,7 @@ function activateActivityButton(mode) {
     button.setAttribute("aria-pressed", String(isActive));
   });
 
+  updateVocabularyFilterAvailability(mode);
   updateStudySelectForActivity();
   renderWordBuilderPath();
 }
