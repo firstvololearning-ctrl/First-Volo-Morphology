@@ -3782,3 +3782,214 @@ a:focus-visible {
     height: 58px;
   }
 }
+
+
+/* ========================================
+   PRINTABLE MATERIALS PAGE
+   ======================================== */
+
+.printable-materials-main {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.printable-intro-card,
+.printable-development-note {
+  margin: 24px 0;
+  padding: 24px 26px;
+  border: 1px solid #dfe5ea;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(23, 61, 103, 0.06);
+}
+
+.printable-eyebrow,
+.printable-flight-label,
+.printable-resource-type {
+  margin: 0 0 6px;
+  color: #607487;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.printable-intro-card h2,
+.printable-flight-section h2,
+.printable-development-note h2 {
+  margin: 0 0 10px;
+  color: #173d67;
+}
+
+.printable-flight-section {
+  margin: 34px 0;
+}
+
+.printable-section-heading {
+  margin-bottom: 16px;
+}
+
+.printable-section-heading p {
+  max-width: 760px;
+}
+
+.printable-resource-card {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  align-items: stretch;
+  padding: 22px;
+  border: 1px solid #d8e0e7;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(23, 61, 103, 0.07);
+}
+
+.printable-resource-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  border: 3px solid #2876bb;
+  border-radius: 18px;
+  background: #f3f8fc;
+  color: #2876bb;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.printable-resource-content h3 {
+  margin: 3px 0 8px;
+  color: #173d67;
+  font-size: 1.35rem;
+}
+
+.printable-feature-list {
+  margin: 14px 0 20px;
+  padding-left: 22px;
+  line-height: 1.7;
+}
+
+.printable-resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.printable-pdf-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .printable-resource-card {
+    grid-template-columns: 1fr;
+  }
+
+  .printable-resource-badge {
+    min-height: 90px;
+  }
+}
+
+
+/* ========================================
+   EDUCATOR RESOURCES PAGE
+   ======================================== */
+
+.educator-resources-main {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.educator-resources-intro {
+  margin: 24px 0 30px;
+  padding: 24px 26px;
+  border: 1px solid #dfe5ea;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(23, 61, 103, 0.06);
+}
+
+.educator-resources-eyebrow {
+  margin: 0 0 6px;
+  color: #607487;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.educator-resources-intro h2 {
+  margin: 0 0 10px;
+  color: #173d67;
+}
+
+.educator-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 34px;
+}
+
+.educator-resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 260px;
+  padding: 24px;
+  border: 1px solid #d8e0e7;
+  border-radius: 22px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(23, 61, 103, 0.07);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.educator-resource-card:hover,
+.educator-resource-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #9db8cf;
+  box-shadow: 0 14px 32px rgba(23, 61, 103, 0.11);
+}
+
+.educator-resource-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 17px;
+  background: #f3f8fc;
+  font-size: 1.8rem;
+}
+
+.educator-resource-card h2 {
+  margin: 0 0 8px;
+  color: #173d67;
+  font-size: 1.22rem;
+}
+
+.educator-resource-card p {
+  margin: 0 0 18px;
+  line-height: 1.55;
+}
+
+.educator-resource-link {
+  color: #2876bb;
+  font-weight: 800;
+}
+
+@media (max-width: 820px) {
+  .educator-resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .educator-resource-card {
+    min-height: 0;
+  }
+}
