@@ -30,12 +30,34 @@ function notifyActivityProgressChanged() {
 }
 
 function saveActivityProgressData() {
+  const tokenUpdate =
+    window.FirstVoloTokens
+      ?.updateEarnedTokens(
+        activityProgressData
+      );
+
   localStorage.setItem(
     FV_ACTIVITY_PROGRESS_KEY,
     JSON.stringify(activityProgressData)
   );
 
   notifyActivityProgressChanged();
+
+  if (
+    tokenUpdate?.newlyEarned?.length
+  ) {
+    window.dispatchEvent(
+      new CustomEvent(
+        "firstvolotokenearned",
+        {
+          detail: {
+            tokens:
+              tokenUpdate.newlyEarned
+          }
+        }
+      )
+    );
+  }
 }
 
 function makeProgressId(prefix) {

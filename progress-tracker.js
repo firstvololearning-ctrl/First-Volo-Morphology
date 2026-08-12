@@ -20,6 +20,19 @@ function loadProgressData() {
 
 let progressData = loadProgressData();
 
+const initialTokenSync =
+  window.FirstVoloTokens
+    ?.updateEarnedTokens(
+      progressData
+    );
+
+if (initialTokenSync?.changed) {
+  localStorage.setItem(
+    FV_PROGRESS_KEY,
+    JSON.stringify(progressData)
+  );
+}
+
 const studentSelect = document.getElementById("studentSelect");
 const studentName = document.getElementById("studentName");
 const addStudentButton = document.getElementById("addStudentButton");
@@ -119,7 +132,8 @@ addStudentButton.addEventListener("click", () => {
     id: makeStudentId(),
     name,
     createdAt: new Date().toISOString(),
-    sessions: []
+    sessions: [],
+    voloTokens: {}
   };
 
   progressData.students.push(student);
@@ -169,6 +183,7 @@ clearStudentProgressButton.addEventListener("click", () => {
   if (!confirmed) return;
 
   student.sessions = [];
+  student.voloTokens = {};
   saveProgressData();
   renderStudentRoster();
 });
@@ -313,6 +328,317 @@ function getProgressGradeBandLabel(gradeBand) {
 }
 
 
+/* ========================================
+   VOLO TOKEN PROGRESS DISPLAY
+   ======================================== */
+
+function formatTokenPercent(value) {
+  return `${Math.round((Number(value) || 0) * 100)}%`;
+}
+
+function getTokenEarnedDate(student, setId) {
+  const earned =
+    student?.voloTokens?.[setId];
+
+  if (!earned?.earnedAt) {
+    return "";
+  }
+
+  const date =
+    new Date(earned.earnedAt);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleDateString();
+}
+
+function getTokenEvidenceStatus(
+  ready,
+  accuracyValue,
+  threshold
+) {
+  if (!ready) {
+    return "building evidence";
+  }
+
+  if (accuracyValue < threshold) {
+    return (
+      `${formatTokenPercent(accuracyValue)} · ` +
+      `needs ${formatTokenPercent(threshold)}`
+    );
+  }
+
+  return `ready (${formatTokenPercent(accuracyValue)})`;
+}
+
+function renderVoloTokenProgress(
+  student,
+  container
+) {
+  if (!window.FirstVoloTokens) {
+    return;
+  }
+
+  const statuses =
+    window.FirstVoloTokens
+      .evaluateStudent(student);
+
+  if (!statuses.length) {
+    return;
+  }
+
+  const earnedCount =
+    statuses.filter(
+      (status) =>
+        window.FirstVoloTokens
+          .isTokenEarned(
+            student,
+            status.setId
+          )
+    ).length;
+
+  const section =
+    document.createElement("section");
+
+  section.className =
+    "volo-token-progress";
+
+  const heading =
+    document.createElement("h4");
+
+  heading.className =
+    "volo-token-progress-heading";
+
+  heading.textContent =
+    "🪙 Volo Tokens";
+
+  section.append(heading);
+
+  const summary =
+    document.createElement("div");
+
+  summary.className =
+    "volo-token-summary";
+
+  summary.textContent =
+    `${earnedCount}/${statuses.length} Tokens earned`;
+
+  section.append(summary);
+
+  const intro =
+    document.createElement("p");
+
+  intro.className =
+    "volo-token-progress-intro";
+
+  intro.textContent =
+    "Tokens recognize evidence across a set of word parts. " +
+    "Once earned, a Token stays earned unless student progress is cleared.";
+
+  section.append(intro);
+
+  const collections = [
+    "Foundation",
+    "Expansion",
+    "Advanced"
+  ];
+
+  collections.forEach((collection) => {
+
+    const collectionStatuses =
+      statuses.filter(
+        (status) =>
+          status.collection ===
+          collection
+      );
+
+    if (!collectionStatuses.length) {
+      return;
+    }
+
+    const group =
+      document.createElement("div");
+
+    group.className =
+      "volo-token-collection";
+
+    const groupHeading =
+      document.createElement("h5");
+
+    groupHeading.textContent =
+      collection;
+
+    group.append(groupHeading);
+
+    const grid =
+      document.createElement("div");
+
+    grid.className =
+      "volo-token-grid";
+
+    collectionStatuses.forEach(
+      (status) => {
+
+        const earned =
+          window.FirstVoloTokens
+            .isTokenEarned(
+              student,
+              status.setId
+            );
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "volo-token-card " +
+          (earned
+            ? "is-earned"
+            : "is-in-progress");
+
+        const top =
+          document.createElement("div");
+
+        top.className =
+          "volo-token-card-top";
+
+        const title =
+          document.createElement("strong");
+
+        title.className =
+          "volo-token-title";
+
+        const displayLabel =
+          status.label.startsWith(
+            `${status.collection} `
+          )
+            ? status.label.slice(
+                status.collection.length + 1
+              )
+            : status.label;
+
+        title.textContent =
+          displayLabel;
+
+        const badge =
+          document.createElement("span");
+
+        badge.className =
+          "volo-token-status";
+
+        badge.textContent =
+          earned
+            ? "✓ Earned"
+            : "○ In progress";
+
+        top.append(
+          title,
+          badge
+        );
+
+        card.append(top);
+
+        if (earned) {
+          const earnedLine =
+            document.createElement("div");
+
+          earnedLine.className =
+            "volo-token-earned-line";
+
+          const dateLabel =
+            getTokenEarnedDate(
+              student,
+              status.setId
+            );
+
+          earnedLine.textContent =
+            dateLabel
+              ? `Volo Token earned ${dateLabel}`
+              : "Volo Token earned";
+
+          card.append(earnedLine);
+
+          grid.append(card);
+          return;
+        }
+
+        const morphemesReady =
+          status.morphemes.filter(
+            (item) =>
+              item.knowledgeReady &&
+              item.applicationReady
+          ).length;
+
+        const progressLine =
+          document.createElement("div");
+
+        progressLine.className =
+          "volo-token-progress-line";
+
+        progressLine.textContent =
+          `${morphemesReady}/${status.morphemes.length} ` +
+          `word parts ready`;
+
+        card.append(progressLine);
+
+        const knowledgeLine =
+          document.createElement("small");
+
+        knowledgeLine.className =
+          "volo-token-evidence-line";
+
+        knowledgeLine.textContent =
+          "Knowledge: " +
+          getTokenEvidenceStatus(
+            status.allKnowledgeReady,
+            status.knowledgeAccuracy,
+            window.FirstVoloTokens
+              .RULES.knowledgeAccuracy
+          );
+
+        card.append(knowledgeLine);
+
+        const applicationLine =
+          document.createElement("small");
+
+        applicationLine.className =
+          "volo-token-evidence-line";
+
+        applicationLine.textContent =
+          "Application: " +
+          getTokenEvidenceStatus(
+            status.allApplicationReady,
+            status.applicationAccuracy,
+            window.FirstVoloTokens
+              .RULES.applicationAccuracy
+          );
+
+        card.append(applicationLine);
+
+        const sessionsLine =
+          document.createElement("small");
+
+        sessionsLine.className =
+          "volo-token-evidence-line";
+
+        sessionsLine.textContent =
+          `Sessions: ${Math.min(status.sessionCount, 2)}/2`;
+
+        card.append(sessionsLine);
+
+        grid.append(card);
+      }
+    );
+
+    group.append(grid);
+    section.append(group);
+  });
+
+  container.append(section);
+}
+
+
 function renderStudentProgressDetails(student) {
   let details =
     document.getElementById("studentProgressDetails");
@@ -330,6 +656,11 @@ function renderStudentProgressDetails(student) {
   const sessions = Array.isArray(student.sessions)
     ? student.sessions
     : [];
+
+  renderVoloTokenProgress(
+    student,
+    details
+  );
 
   if (sessions.length === 0) {
     return;

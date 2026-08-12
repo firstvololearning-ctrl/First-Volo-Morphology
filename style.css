@@ -3019,3 +3019,84 @@ a:focus-visible {
 .about-practice-flights-note {
   margin-bottom: 16px;
 }
+
+/* ========================================
+   PROGRAM PROGRESS — VOLO TOKENS
+   ======================================== */
+
+.volo-token-progress {
+  margin-top: 24px;
+  margin-bottom: 28px;
+}
+
+.volo-token-progress-heading {
+  margin-bottom: 6px;
+}
+
+.volo-token-progress-intro {
+  margin-top: 0;
+  margin-bottom: 18px;
+  max-width: 760px;
+}
+
+.volo-token-collection {
+  margin-top: 20px;
+}
+
+.volo-token-collection h5 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.volo-token-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.volo-token-card {
+  border: 2px solid #d8dbe3;
+  border-radius: 16px;
+  padding: 14px 15px;
+  background: #fff;
+}
+
+.volo-token-card.is-earned {
+  border-color: #2876bb;
+}
+
+.volo-token-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.volo-token-title {
+  line-height: 1.25;
+}
+
+.volo-token-status {
+  flex: 0 0 auto;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.volo-token-card.is-earned
+.volo-token-status {
+  color: #2876bb;
+}
+
+.volo-token-progress-line,
+.volo-token-earned-line {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.volo-token-evidence-line {
+  display: block;
+  margin-top: 5px;
+  line-height: 1.35;
+}
