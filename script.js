@@ -5671,13 +5671,13 @@ function isMorphemeEligibleForSelectedGrade(item) {
 
 function getGradeBandLabel() {
   const labels = {
-    all: "All Grades",
-    "2-3": "Grades 2–3",
-    "4-5": "Grades 4–5",
-    "6-8": "Grades 6–8"
+    all: "All Flights",
+    "2-3": "Flight A",
+    "4-5": "Flight B",
+    "6-8": "Flight C"
   };
 
-  return labels[gradeBand] || "All Grades";
+  return labels[gradeBand] || "All Flights";
 }
 
 function getStudyModeLabel() {
@@ -6128,7 +6128,7 @@ function renderCurrentActivity() {
   ) {
     showStartMessage(
       `No ${getGradeBandLabel()} ${getStudyModeLabel()} are available here yet.`,
-      "Choose another grade band or word part, or select All Grades."
+      "Choose another practice flight or word part, or select All Flights."
     );
 
     return;
@@ -6479,7 +6479,7 @@ function renderSortItActivity() {
           <div class="sort-it-kicker">🗂️ Sort It</div>
           <h3>No Sort It rounds are available</h3>
           <p>
-            Try a different grade band or choose All Grades.
+            Try a different practice flight or choose All Flights.
           </p>
         </div>
       </div>
@@ -7331,7 +7331,7 @@ if (mode === "find") {
 
     showStartMessage(
       `No complete ${filterLabel} Word Hunt rounds are available for this word-part selection yet.`,
-      "Choose another grade band, vocabulary level, or word part."
+      "Choose another practice flight, vocabulary level, or word part."
     );
 
     return;
@@ -7418,7 +7418,7 @@ if (mode === "infer") {
 
     showStartMessage(
       `No ${activityName} items match ${getActiveWordFilterLabel()} for this word-part selection yet.`,
-      "Choose another Grade Band, Vocabulary level, or word part."
+      "Choose another practice flight, vocabulary level, or word part."
     );
 
     return;
@@ -8633,7 +8633,7 @@ function renderBuildActivity() {
   ) {
     showStartMessage(
       `No Build Words match ${getActiveWordFilterLabel()} for this pattern yet.`,
-      "Choose another Grade Band, Vocabulary level, or word-building pattern."
+      "Choose another practice flight, vocabulary level, or word-building pattern."
     );
 
     return;
