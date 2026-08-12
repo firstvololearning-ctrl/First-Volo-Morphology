@@ -3584,3 +3584,201 @@ a:focus-visible {
   left: 29px;
   transform: rotate(5deg);
 }
+
+/* Volo Token progress — student-facing progress */
+.volo-token-progress-track {
+  width: 100%;
+  height: 10px;
+  margin-top: 9px;
+  overflow: hidden;
+  border: 1px solid #cfd8e3;
+  border-radius: 999px;
+  background: #eef3f8;
+}
+
+.volo-token-progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #2876bb;
+  transition: width 0.3s ease;
+}
+
+.volo-token-encouragement {
+  display: block;
+  margin-top: 8px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+/* ========================================
+   HOME — MY VOLO GOAL
+   ======================================== */
+
+.home-volo-goals {
+  margin: 18px 0 24px;
+  padding: 20px;
+  border: 2px solid #dce5ef;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.home-volo-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.home-volo-heading-row h2 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+}
+
+.home-volo-heading-row p {
+  margin: 0;
+}
+
+.home-volo-progress-link {
+  flex: 0 0 auto;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.home-volo-goal-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.home-volo-goal-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 2px solid #d7dee8;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.home-volo-goal-choice:has(input:checked) {
+  border-color: #2876bb;
+  background: #eef6fd;
+}
+
+.home-volo-goal-choice input {
+  margin: 0;
+}
+
+.home-volo-goal-cards {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.home-volo-goal-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 2px solid #d8dbe3;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.home-volo-goal-card.is-earned {
+  border-color: #2876bb;
+}
+
+.home-volo-badge {
+  display: grid;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 3px solid #c9d4df;
+  border-radius: 50%;
+  background: #f4f7fa;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.home-volo-goal-card.is-earned
+.home-volo-badge {
+  border-color: #2876bb;
+  background: #eef6fd;
+}
+
+.home-volo-goal-content {
+  min-width: 0;
+}
+
+.home-volo-goal-eyebrow {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+.home-volo-goal-content h3 {
+  margin: 0;
+}
+
+.home-volo-goal-count {
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.home-volo-token-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.home-volo-token-slot {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid #cbd5df;
+  border-radius: 50%;
+  background: #f5f7fa;
+}
+
+.home-volo-token-slot.is-earned {
+  border-color: #2876bb;
+  background: #fff;
+}
+
+.home-volo-token-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.home-volo-goal-empty {
+  margin: 0;
+  padding: 12px 2px 2px;
+}
+
+@media (max-width: 680px) {
+  .home-volo-heading-row {
+    flex-direction: column;
+  }
+
+  .home-volo-goal-card {
+    align-items: flex-start;
+  }
+
+  .home-volo-badge {
+    flex-basis: 58px;
+    width: 58px;
+    height: 58px;
+  }
+}

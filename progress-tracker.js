@@ -570,6 +570,42 @@ function renderVoloTokenProgress(
               item.applicationReady
           ).length;
 
+        const totalMorphemes =
+          status.morphemes.length;
+
+        const completedUnits =
+          status.morphemes.reduce(
+            (total, item) =>
+              total +
+              (item.knowledgeReady ? 1 : 0) +
+              (
+                item.profile !== "recognition-only" &&
+                item.applicationReady
+                  ? 1
+                  : 0
+              ),
+            0
+          );
+
+        const possibleUnits =
+          status.morphemes.reduce(
+            (total, item) =>
+              total +
+              (
+                item.profile === "recognition-only"
+                  ? 1
+                  : 2
+              ),
+            0
+          );
+
+        const progressPercent =
+          possibleUnits
+            ? Math.round(
+                (completedUnits / possibleUnits) * 100
+              )
+            : 0;
+
         const progressLine =
           document.createElement("div");
 
@@ -577,10 +613,53 @@ function renderVoloTokenProgress(
           "volo-token-progress-line";
 
         progressLine.textContent =
-          `${morphemesReady}/${status.morphemes.length} ` +
-          `word parts ready`;
+          `${morphemesReady} of ${totalMorphemes} ` +
+          `word parts fully ready`;
 
         card.append(progressLine);
+
+        const progressTrack =
+          document.createElement("div");
+
+        progressTrack.className =
+          "volo-token-progress-track";
+
+        progressTrack.setAttribute(
+          "role",
+          "progressbar"
+        );
+
+        progressTrack.setAttribute(
+          "aria-valuemin",
+          "0"
+        );
+
+        progressTrack.setAttribute(
+          "aria-valuemax",
+          "100"
+        );
+
+        progressTrack.setAttribute(
+          "aria-valuenow",
+          String(progressPercent)
+        );
+
+        progressTrack.setAttribute(
+          "aria-label",
+          `${displayLabel}: ${progressPercent}% toward Token requirements`
+        );
+
+        const progressFill =
+          document.createElement("div");
+
+        progressFill.className =
+          "volo-token-progress-fill";
+
+        progressFill.style.width =
+          `${progressPercent}%`;
+
+        progressTrack.append(progressFill);
+        card.append(progressTrack);
 
         const knowledgeLine =
           document.createElement("small");
