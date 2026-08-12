@@ -7719,34 +7719,176 @@ if (mode === "infer") {
 
 function createMeaningQuestions(items) {
   return items.map((item) => {
-    const itemMeaning = normalizeMeaning(item.meaning);
 
-    const possibleDistractors = uniqueBy(
-      items.filter((other) =>
-        other.id !== item.id &&
-        normalizeMeaning(other.meaning) !== itemMeaning
-      ),
-      (other) => normalizeMeaning(other.meaning)
+    const candidates = shuffle(
+      uniqueBy(
+        items.filter((other) =>
+          other.id !== item.id &&
+          normalizeMeaning(other.meaning) !==
+            normalizeMeaning(item.meaning) &&
+          !(
+            (item.id === "location-in-family" && other.id === "negative-in-family") ||
+            (item.id === "negative-in-family" && other.id === "location-in-family")
+          )
+        ),
+        (other) => normalizeMeaning(other.meaning)
+      )
     );
 
-    const distractors = shuffle(possibleDistractors)
-      .slice(0, 3)
-      .map((other) => other.meaning);
+    const distractors = [];
+
+    /*
+      First preference:
+      - different from the correct meaning
+      - different from distractors already chosen
+    */
+    for (const other of candidates) {
+
+      if (distractors.length === 3) {
+        break;
+      }
+
+      if (
+        meaningsAreTooSimilar(
+          item.meaning,
+          other.meaning
+        )
+      ) {
+        continue;
+      }
+
+      if (
+        distractors.some((chosen) =>
+          meaningsAreTooSimilar(
+            chosen.meaning,
+            other.meaning
+          )
+        )
+      ) {
+        continue;
+      }
+
+      distractors.push(other);
+    }
+
+    /*
+      If a small study set does not provide three fully
+      distinct distractors, preserve separation from the
+      correct answer as the next priority.
+    */
+    if (distractors.length < 3) {
+
+      for (const other of candidates) {
+
+        if (distractors.length === 3) {
+          break;
+        }
+
+        if (distractors.includes(other)) {
+          continue;
+        }
+
+        if (
+          meaningsAreTooSimilar(
+            item.meaning,
+            other.meaning
+          )
+        ) {
+          continue;
+        }
+
+        distractors.push(other);
+      }
+    }
+
+    /*
+      Last-resort fill so a question can still have
+      four choices in unusually small study sets.
+    */
+    if (distractors.length < 3) {
+
+      for (const other of candidates) {
+
+        if (distractors.length === 3) {
+          break;
+        }
+
+        if (!distractors.includes(other)) {
+          distractors.push(other);
+        }
+      }
+    }
 
     return {
       item,
       correct: item.meaning,
       choices: shuffle([
         item.meaning,
-        ...distractors
+        ...distractors.map(
+          (other) => other.meaning
+        )
       ])
     };
   });
 }
 
+
 function normalizeMeaning(text) {
-  return text.toLowerCase().replace(/[;,.]/g, "").replace(/\s+/g, " ").trim();
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[;,.]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
+
+function meaningsAreTooSimilar(first, second) {
+
+  const firstMeaning = normalizeMeaning(first);
+  const secondMeaning = normalizeMeaning(second);
+
+  if (firstMeaning === secondMeaning) {
+    return true;
+  }
+
+  const ignoredWords = new Set([
+    "a",
+    "an",
+    "the",
+    "to",
+    "of",
+    "or",
+    "and",
+    "be",
+    "being",
+    "one",
+    "who",
+    "that",
+    "with"
+  ]);
+
+  const getMeaningWords = (meaning) =>
+    new Set(
+      meaning
+        .split(" ")
+        .filter(
+          (word) =>
+            word &&
+            !ignoredWords.has(word)
+        )
+    );
+
+  const firstWords =
+    getMeaningWords(firstMeaning);
+
+  const secondWords =
+    getMeaningWords(secondMeaning);
+
+  return [...firstWords].some(
+    (word) => secondWords.has(word)
+  );
+}
+
 
 function createMorphemeQuestions(items) {
   return items.map((item) => {
