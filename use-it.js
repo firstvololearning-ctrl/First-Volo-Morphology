@@ -496,6 +496,9 @@ function checkUseItChoice(
     primaryTarget: null,
     targetType: "word-application",
     supportingTargets: [item.prefix, item.base, item.suffix].filter(Boolean),
+    supportingTargetIds:
+      window.FirstVoloMorphemeProgress
+        ?.idsFromBuildItem(item) || [],
     word: item.word,
     response: selectedWord,
     correctAnswer: item.word

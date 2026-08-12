@@ -5652,6 +5652,265 @@ function getMorphemeInventoryEntry(itemOrId) {
   ) || null;
 }
 
+/* ========================================
+   CANONICAL PROGRESS MORPHEME IDS
+   ======================================== */
+
+const PROGRESS_MORPHEME_ID_ALIASES = {
+  "a": "a-ad",
+  "ad": "a-ad",
+  "con": "con-com",
+  "com": "con-com",
+  "e": "e-ex",
+  "ex": "e-ex",
+  "en": "en-em",
+  "em": "en-em",
+  "able": "able-ible",
+  "ible": "able-ible",
+  "er-agent": "er-or",
+  "or-agent": "er-or",
+  "er-more-build": "er-more",
+  "s": "s-es",
+  "es": "s-es"
+};
+
+function normalizeProgressMorphemeSurface(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[‐-‒–—−]/g, "-")
+    .trim()
+    .replace(/^-+|-+$/g, "");
+}
+
+function getProgressMorphemeSurfaceMatches(
+  value,
+  type = ""
+) {
+  const target =
+    normalizeProgressMorphemeSurface(value);
+
+  if (!target) {
+    return [];
+  }
+
+  const inventory =
+    window.FIRST_VOLO_MORPHEME_INVENTORY || [];
+
+  return inventory.filter((entry) => {
+    if (type && entry.type !== type) {
+      return false;
+    }
+
+    const rawVariants = [
+      entry.id,
+      entry.label
+    ];
+
+    const variants = [
+      ...rawVariants,
+      ...rawVariants.flatMap((variant) =>
+        String(variant || "").split(/[\/,]/)
+      )
+    ]
+      .map(normalizeProgressMorphemeSurface)
+      .filter(Boolean);
+
+    return variants.includes(target);
+  });
+}
+
+function getCanonicalProgressMorphemeId(
+  value,
+  {
+    type = "",
+    meaning = ""
+  } = {}
+) {
+  if (!value) {
+    return null;
+  }
+
+  const raw = String(value).trim();
+  const direct = getMorphemeInventoryEntry(raw);
+
+  if (
+    direct &&
+    (!type || direct.type === type)
+  ) {
+    return direct.id;
+  }
+
+  const surface =
+    normalizeProgressMorphemeSurface(raw);
+
+  const meaningText =
+    String(meaning || "").toLowerCase();
+
+  /*
+    in-/im- can represent two different
+    instructional morpheme families.
+    Use meaning when the context supplies it.
+  */
+  if (
+    type === "prefix" &&
+    ["in", "im", "il", "ir"].includes(surface)
+  ) {
+    if (
+      surface === "il" ||
+      surface === "ir" ||
+      /\bnot\b|\bopposite\b|\bwithout\b/.test(
+        meaningText
+      )
+    ) {
+      return "negative-in-family";
+    }
+
+    if (
+      /\bin\b|\binto\b|\binside\b|\bwithin\b/.test(
+        meaningText
+      )
+    ) {
+      return "location-in-family";
+    }
+  }
+
+  /*
+    -er is ambiguous between comparative -er
+    and the person/agent suffix family.
+  */
+  if (
+    type === "suffix" &&
+    surface === "er"
+  ) {
+    if (
+      /\bperson\b|\bone who\b|\bagent\b/.test(
+        meaningText
+      )
+    ) {
+      return "er-or";
+    }
+
+    if (
+      /\bmore\b|\bcomparative\b/.test(
+        meaningText
+      )
+    ) {
+      return "er-more";
+    }
+  }
+
+  const aliasId =
+    PROGRESS_MORPHEME_ID_ALIASES[surface];
+
+  if (aliasId) {
+    const aliasEntry =
+      getMorphemeInventoryEntry(aliasId);
+
+    if (
+      aliasEntry &&
+      (!type || aliasEntry.type === type)
+    ) {
+      return aliasEntry.id;
+    }
+  }
+
+  const matches =
+    getProgressMorphemeSurfaceMatches(
+      surface,
+      type
+    );
+
+  /*
+    Only accept an inferred surface form when
+    it maps to exactly one taught morpheme.
+    Ambiguous forms such as bare in-/im-
+    are intentionally left unresolved.
+  */
+  return matches.length === 1
+    ? matches[0].id
+    : null;
+}
+
+function getCanonicalProgressMorphemeIdsFromSegmentation(
+  segmentation
+) {
+  const ids = new Set();
+
+  String(segmentation || "")
+    .split("+")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .forEach((part) => {
+      const id =
+        getCanonicalProgressMorphemeId(part);
+
+      if (id) {
+        ids.add(id);
+      }
+    });
+
+  return [...ids];
+}
+
+function getCanonicalProgressMorphemeIdsFromBuildItem(
+  item
+) {
+  if (!item) {
+    return [];
+  }
+
+  const ids = new Set();
+
+  const candidates = [
+    {
+      value: item.prefixId || item.prefix,
+      type: "prefix",
+      meaning: item.prefixMeaning
+    },
+    {
+      value: item.rootId || item.root,
+      type: "root",
+      meaning: item.rootMeaning
+    },
+    {
+      value: item.baseId || item.base,
+      type: "root",
+      meaning: item.baseMeaning
+    },
+    {
+      value: item.suffixId || item.suffix,
+      type: "suffix",
+      meaning: item.suffixMeaning
+    }
+  ];
+
+  candidates.forEach((candidate) => {
+    const id =
+      getCanonicalProgressMorphemeId(
+        candidate.value,
+        {
+          type: candidate.type,
+          meaning: candidate.meaning
+        }
+      );
+
+    if (id) {
+      ids.add(id);
+    }
+  });
+
+  return [...ids];
+}
+
+window.FirstVoloMorphemeProgress = {
+  canonicalId: getCanonicalProgressMorphemeId,
+  idsFromSegmentation:
+    getCanonicalProgressMorphemeIdsFromSegmentation,
+  idsFromBuildItem:
+    getCanonicalProgressMorphemeIdsFromBuildItem
+};
+
+
 function getMorphemeIntroBand(itemOrId) {
   return (
     getMorphemeInventoryEntry(itemOrId)
@@ -7612,6 +7871,7 @@ function answerFindQuestion(button, choice, question) {
     skill: "find",
     correct: isCorrect,
     primaryTarget: question.target,
+    primaryTargetId: question.itemId,
     targetType: question.type,
     word: question.word,
     itemId: question.itemId,
@@ -7782,6 +8042,7 @@ function checkHuntAnswers() {
     skill: "hunt",
     correct: isPerfect,
     primaryTarget: question.label,
+    primaryTargetId: question.itemId,
     targetType: question.type,
     response: [...selectedHuntWords].join(", "),
     correctAnswer: correctWords.join(", ")
@@ -7958,6 +8219,7 @@ function answerMeaningQuestion(button, choice, question) {
     skill: "meaning",
     correct: isCorrect,
     primaryTarget: question.item.label,
+    primaryTargetId: question.item.id,
     targetType: question.item.type,
     itemId: question.item.id,
     response: choice,
@@ -8045,6 +8307,7 @@ function answerMorphemeQuestion(
     skill: "morpheme",
     correct: isCorrect,
     primaryTarget: question.item.label,
+    primaryTargetId: question.item.id,
     targetType: question.item.type,
     itemId: question.item.id,
     response: choiceItem.label,
@@ -8136,6 +8399,10 @@ function answerBreakQuestion(
     primaryTarget: null,
     targetType: "word-structure",
     supportingTargets: question.segmentation.split("+").map((part) => part.trim()).filter(Boolean),
+    supportingTargetIds:
+      getCanonicalProgressMorphemeIdsFromSegmentation(
+        question.segmentation
+      ),
     word: question.word,
     response: choice,
     correctAnswer: question.correct
@@ -8289,6 +8556,14 @@ function answerInferQuestion(button, choice, question) {
     skill: "infer",
     correct: isCorrect,
     primaryTarget: question.knownLabel,
+    primaryTargetId:
+      getCanonicalProgressMorphemeId(
+        question.knownLabel,
+        {
+          type: question.type,
+          meaning: question.knownMeaning
+        }
+      ),
     targetType: question.type,
     word: question.word,
     response: choice,
@@ -9346,6 +9621,10 @@ function checkBuiltWord() {
         buildBase,
         currentBuildTarget.suffix
       ].filter(Boolean),
+      supportingTargetIds:
+        getCanonicalProgressMorphemeIdsFromBuildItem(
+          currentBuildTarget
+        ),
       word: currentBuildTarget.word,
       response: buildHadRetry
         ? "Completed after retry"

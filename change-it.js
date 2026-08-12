@@ -522,6 +522,15 @@ function checkChangeItChoice(selectedButton, selectedWord, item) {
     skill: "change",
     correct: isCorrect,
     primaryTarget: item.suffix,
+    primaryTargetId:
+      window.FirstVoloMorphemeProgress
+        ?.canonicalId(
+          item.suffix,
+          {
+            type: "suffix",
+            meaning: item.explanation
+          }
+        ) || null,
     targetType: "suffix",
     word: item.answer,
     response: selectedWord,
