@@ -43,16 +43,21 @@ function saveActivityProgressData() {
 
   notifyActivityProgressChanged();
 
-  if (
-    tokenUpdate?.newlyEarned?.length
-  ) {
+  const activeStudentTokens =
+    tokenUpdate?.newlyEarned?.filter(
+      (token) =>
+        token.studentId ===
+        activityProgressData.activeStudentId
+    ) || [];
+
+  if (activeStudentTokens.length) {
     window.dispatchEvent(
       new CustomEvent(
         "firstvolotokenearned",
         {
           detail: {
             tokens:
-              tokenUpdate.newlyEarned
+              activeStudentTokens
           }
         }
       )
