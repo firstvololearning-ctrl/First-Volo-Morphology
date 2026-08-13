@@ -6329,6 +6329,20 @@ function renderWordBuilderPath() {
             }"
           >
             <span class="word-path-node">
+
+              ${
+                isCurrent
+                  ? `
+                    <img
+                      class="word-path-volo"
+                      src="images/volo-flying.png"
+                      alt=""
+                      aria-hidden="true"
+                    >
+                  `
+                  : ""
+              }
+
               <span
                 class="word-path-icon"
                 aria-hidden="true"

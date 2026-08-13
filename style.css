@@ -4005,3 +4005,163 @@ a:focus-visible {
   font-size: 0.78rem;
   font-weight: 700;
 }
+
+/* ========================================
+   WORD BUILDER PATH — VOLO MARKER
+   ======================================== */
+
+.word-path-volo {
+  position: absolute;
+  z-index: 4;
+  top: -32px;
+  left: 50%;
+  width: 42px;
+  height: auto;
+  transform: translateX(-50%) rotate(4deg);
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 3px 3px rgba(31, 50, 67, 0.16));
+}
+
+@media (max-width: 700px) {
+  .word-path-volo {
+    top: -27px;
+    width: 36px;
+  }
+}
+
+/* Refine flying Volo marker */
+.word-builder-path-track {
+  padding-top: 18px;
+}
+
+.word-builder-path-track::before {
+  top: 46px;
+}
+
+.word-path-volo {
+  top: -44px;
+  width: 56px;
+  transform: translateX(-50%) rotate(4deg);
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.95))
+    drop-shadow(0 4px 4px rgba(31, 50, 67, 0.22));
+}
+
+@media (max-width: 700px) {
+  .word-path-volo {
+    top: -38px;
+    width: 48px;
+  }
+}
+
+/* Give Volo and the phase labels clearer separation */
+.word-builder-path-phases {
+  margin-bottom: 10px;
+}
+
+.word-path-volo {
+  top: -42px;
+  left: 56%;
+}
+
+/* Final spacing for Word Builder Path phase labels */
+.word-builder-path-phases {
+  margin-bottom: 14px;
+}
+
+.word-builder-path-phases .path-phase-learn {
+  text-align: left;
+  padding-left: 4px;
+}
+
+.word-path-volo {
+  top: -40px;
+  left: 50%;
+  width: 54px;
+}
+
+/* ========================================
+   WORD BUILDER PATH — LEARN / PRACTICE GROUPS
+   ======================================== */
+
+/* Center the two group labels */
+.word-builder-path-phases {
+  position: relative;
+  z-index: 4;
+  margin-bottom: 8px;
+}
+
+.word-builder-path-phases .path-phase-learn,
+.word-builder-path-phases .path-phase-practice {
+  padding-left: 0;
+  text-align: center;
+}
+
+/* The track becomes the anchor for both group boxes */
+.word-builder-path-track {
+  position: relative;
+  isolation: isolate;
+
+  /* replace the old pseudo-element line */
+  background:
+    linear-gradient(
+      to right,
+      #dce5ec,
+      #dce5ec
+    )
+    5% 48px / 90% 4px
+    no-repeat;
+}
+
+/* Learn box */
+.word-builder-path-track::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+
+  top: -38px;
+  bottom: -8px;
+  left: -5px;
+  width: calc(10% - 1px);
+
+  height: auto;
+
+  border: 2px solid #d8e3ec;
+  border-radius: 16px;
+
+  background: rgba(247, 250, 253, 0.72);
+
+  pointer-events: none;
+}
+
+/* Practice box */
+.word-builder-path-track::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+
+  top: -38px;
+  bottom: -8px;
+  left: calc(10% + 7px);
+  right: -5px;
+
+  height: auto;
+
+  border: 2px solid #d8e3ec;
+  border-radius: 16px;
+
+  background: rgba(247, 250, 253, 0.72);
+
+  pointer-events: none;
+}
+
+/* Keep the actual stops above the group boxes */
+.word-path-step {
+  z-index: 2;
+}
+
+/* Keep Volo clearly above everything */
+.word-path-volo {
+  z-index: 5;
+}
