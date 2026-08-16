@@ -10278,13 +10278,73 @@ aboutModal.addEventListener("click", (event) => {
   }
 });
 
+function getAboutFocusableElements() {
+  return [
+    ...aboutModal.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), ' +
+      'select:not([disabled]), textarea:not([disabled]), ' +
+      '[tabindex]:not([tabindex="-1"])'
+    )
+  ].filter(
+    (element) =>
+      element.getClientRects().length > 0 &&
+      element.getAttribute("aria-hidden") !== "true"
+  );
+}
+
 document.addEventListener("keydown", (event) => {
-  if (
-    event.key === "Escape" &&
-    !aboutModal.hidden
-  ) {
+  if (aboutModal.hidden) {
+    return;
+  }
+
+  if (event.key === "Escape") {
     aboutModal.hidden = true;
     aboutButton.focus();
+    return;
+  }
+
+  if (event.key !== "Tab") {
+    return;
+  }
+
+  const focusableElements =
+    getAboutFocusableElements();
+
+  if (!focusableElements.length) {
+    event.preventDefault();
+    aboutClose.focus();
+    return;
+  }
+
+  const firstFocusable =
+    focusableElements[0];
+
+  const lastFocusable =
+    focusableElements[
+      focusableElements.length - 1
+    ];
+
+  if (!aboutModal.contains(document.activeElement)) {
+    event.preventDefault();
+    firstFocusable.focus();
+    return;
+  }
+
+  if (
+    event.shiftKey &&
+    document.activeElement === firstFocusable
+  ) {
+    event.preventDefault();
+    lastFocusable.focus();
+    return;
+  }
+
+  if (
+    !event.shiftKey &&
+    document.activeElement === lastFocusable
+  ) {
+    event.preventDefault();
+    firstFocusable.focus();
   }
 });
 
