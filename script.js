@@ -6425,7 +6425,7 @@ function renderCurrentActivity() {
   if (!studyMode) {
     showStartMessage(
       "Choose what you want to study.",
-      "Begin with prefixes or roots. You can also choose Prefixes + Roots for combined practice and word building."
+      "Choose prefixes, roots, suffixes, or a word-building combination above, then select an activity."
     );
 
     return;
@@ -10298,5 +10298,5 @@ activateActivityButton("learn");
 
 showStartMessage(
   "Choose what you want to study.",
-  "Begin with prefixes or roots. You can also choose Prefixes + Roots for combined practice and word building."
+  "Choose prefixes, roots, suffixes, or a word-building combination above, then select an activity."
 );
