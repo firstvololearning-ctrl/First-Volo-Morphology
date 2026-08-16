@@ -1200,7 +1200,7 @@ a:focus-visible {
 }
 
 .word-part-bank.prefix-bank .bank-heading {
-  color: var(--prefix);
+  color: var(--prefix-dark);
 }
 
 .word-part-bank.root-bank .bank-heading {
@@ -4001,7 +4001,7 @@ a:focus-visible {
 /* Secondary grade guidance for Practice Flights */
 .flight-grade-note {
   margin: 4px 0 8px;
-  color: #6f7f8e;
+  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 700;
 }
