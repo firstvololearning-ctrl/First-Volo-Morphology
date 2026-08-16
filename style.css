@@ -229,7 +229,8 @@ a:focus-visible {
   text-align: center;
 }
 
-.title-group h1 {
+.title-group h1,
+.title-group .site-title {
   margin: 0;
 
   color: var(--white);
@@ -1525,7 +1526,8 @@ a:focus-visible {
     border-radius: 22px;
   }
 
-  .title-group h1 {
+  .title-group h1,
+  .title-group .site-title {
     font-size: 2rem;
   }
 
@@ -3449,6 +3451,10 @@ a:focus-visible {
 
 
 @media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
 
   .volo-token-celebration,
   .volo-token-celebration-card,
