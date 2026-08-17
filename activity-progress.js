@@ -45,6 +45,10 @@ function saveActivityProgressData() {
     JSON.stringify(activityProgressData)
   );
 
+  window.FirstVoloMorphologyCloud
+    ?.queueSync
+    ?.();
+
   notifyActivityProgressChanged();
 
   const activeStudentTokens =

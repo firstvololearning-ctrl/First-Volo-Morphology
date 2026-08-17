@@ -50,7 +50,14 @@ const clearStudentProgressButton = document.getElementById("clearStudentProgress
 const deleteStudentButton = document.getElementById("deleteStudentButton");
 
 function saveProgressData() {
-  localStorage.setItem(FV_PROGRESS_KEY, JSON.stringify(progressData));
+  localStorage.setItem(
+    FV_PROGRESS_KEY,
+    JSON.stringify(progressData)
+  );
+
+  window.FirstVoloMorphologyCloud
+    ?.queueSync
+    ?.();
 }
 
 function makeStudentId() {
