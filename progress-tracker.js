@@ -365,7 +365,7 @@ function getProgressActivityLabel(activity) {
     morpheme: "Word Part",
     break: "Break It Apart",
     infer: "Figure It Out",
-    build: "Build",
+    build: "Build Words",
     use: "Use It",
     change: "Change It"
   };
@@ -381,7 +381,7 @@ function getProgressSkillLabel(skill) {
     morpheme: "Word Part",
     break: "Break It Apart",
     infer: "Figure It Out",
-    build: "Build",
+    build: "Build Words",
     use: "Use It",
     change: "Change It"
   };
