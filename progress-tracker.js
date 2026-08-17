@@ -462,9 +462,9 @@ const FV_ACTIVITY_STANDARD_MAP = {
 
 function getProgressGradeBandLabel(gradeBand) {
   const labels = {
-    "2-3": "Grades 2–3",
-    "4-5": "Grades 4–5",
-    "6-8": "Grades 6–8"
+    "2-3": "Flight A",
+    "4-5": "Flight B",
+    "6-8": "Flight C"
   };
 
   return labels[gradeBand] || gradeBand;
