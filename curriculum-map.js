@@ -415,7 +415,7 @@ function addPracticeRow({
     "Target ID": targetId,
     "Target / Word Part": targetLabel,
     "Target Role": targetRole,
-    "Grade Band": gradeBand,
+    "Practice Flight": gradeBand,
     "Vocabulary Level": vocabLevel,
     "Grade Basis": gradeBasis,
     "Vocabulary Basis": vocabBasis,
@@ -788,7 +788,7 @@ infer.forEach((item) => {
     morphemesInWordMeta(meta);
 
   addPracticeRow({
-    activity: "Build",
+    activity: "Build Words",
     word: item.word,
     type: "construction",
     targetId: supporting.join(" | "),
@@ -950,7 +950,7 @@ const activityNames = [
   "Word Hunt",
   "Break It Apart",
   "Figure It Out",
-  "Build",
+  "Build Words",
   "Use It",
   "Change It"
 ];
@@ -1015,7 +1015,7 @@ const summaryMap = new Map();
 
 practiceRows.forEach((row) => {
   const key = [
-    row["Grade Band"] || "Unspecified",
+    row["Practice Flight"] || "Unspecified",
     row["Vocabulary Level"] || "Unspecified",
     row.Activity
   ].join("|||");
@@ -1036,7 +1036,7 @@ const summaryRows = [
   ] = key.split("|||");
 
   return {
-    "Grade Band": gradeBand,
+    "Practice Flight": gradeBand,
     "Vocabulary Level": vocabLevel,
     Activity: activity,
     "Question / Item Count": count
@@ -1075,7 +1075,7 @@ writeCsv(
     "Target / Word Part",
     "Target Role",
     "Contained Morphemes",
-    "Grade Band",
+    "Practice Flight",
     "Vocabulary Level",
     "Grade Basis",
     "Vocabulary Basis",
@@ -1087,7 +1087,7 @@ writeCsv(
   "curriculum-map-summary.csv",
   summaryRows,
   [
-    "Grade Band",
+    "Practice Flight",
     "Vocabulary Level",
     "Activity",
     "Question / Item Count"
