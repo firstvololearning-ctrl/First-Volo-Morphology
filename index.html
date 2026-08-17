@@ -163,10 +163,38 @@
 
 
     <section class="current-student-bar" id="currentStudentBar">
-      <strong>👤 Current Student</strong>
-      <span> Select a student if you want activity progress saved. </span>
-      <select id="activityStudentSelect" aria-label="Current student"><option value="">No student selected</option></select>
-      <a href="program-progress.html" class="manage-students-link">Manage Students</a>
+
+      <div class="student-bar-intro">
+        <span class="student-bar-label">
+          👤 Studying as
+        </span>
+
+        <span class="student-bar-note">
+          Choose a student to save activity progress.
+        </span>
+      </div>
+
+      <div
+        class="student-chip-list"
+        id="activityStudentChips"
+        aria-label="Choose current student"
+      ></div>
+
+      <select
+        id="activityStudentSelect"
+        aria-label="Current student"
+        hidden
+      >
+        <option value="">No student selected</option>
+      </select>
+
+      <a
+        href="program-progress.html"
+        class="manage-students-link"
+      >
+        Manage Students
+      </a>
+
     </section>
 
     <!-- STEP 1: CHOOSE WORD PARTS -->

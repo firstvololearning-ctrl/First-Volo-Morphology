@@ -1,7 +1,11 @@
 "use strict";
 
 const FV_ACTIVITY_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
-const activityStudentSelect = document.getElementById("activityStudentSelect");
+const activityStudentSelect =
+  document.getElementById("activityStudentSelect");
+
+const activityStudentChips =
+  document.getElementById("activityStudentChips");
 
 function loadActivityProgressData() {
   try {
@@ -81,6 +85,150 @@ function getActiveStudent() {
   );
 }
 
+function getStudentInitial(name) {
+  const trimmed = String(name || "").trim();
+
+  return trimmed
+    ? trimmed.charAt(0).toUpperCase()
+    : "?";
+}
+
+function updateActivityStudentChips() {
+  if (!activityStudentChips) return;
+
+  const activeId =
+    activityProgressData.activeStudentId || "";
+
+  activityStudentChips
+    .querySelectorAll(".student-chip")
+    .forEach((button) => {
+      const isActive =
+        button.dataset.studentId === activeId;
+
+      button.classList.toggle(
+        "is-active",
+        isActive
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        String(isActive)
+      );
+    });
+}
+
+function renderActivityStudentChips() {
+  if (!activityStudentChips) return;
+
+  activityStudentChips.innerHTML = "";
+
+  const choices = [
+    {
+      id: "",
+      name: "Not saving",
+      noStudent: true
+    },
+    ...activityProgressData.students
+      .slice()
+      .sort(
+        (a, b) =>
+          a.name.localeCompare(b.name)
+      )
+  ];
+
+  choices.forEach((student) => {
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+    button.className = "student-chip";
+    button.dataset.studentId = student.id;
+
+    if (student.noStudent) {
+      button.classList.add(
+        "student-chip-none"
+      );
+    }
+
+    button.setAttribute(
+      "aria-label",
+      student.noStudent
+        ? "Do not save progress to a student"
+        : `Study as ${student.name}`
+    );
+
+    const initial =
+      document.createElement("span");
+
+    initial.className =
+      "student-chip-initial";
+
+    initial.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    initial.textContent =
+      student.noStudent
+        ? "—"
+        : getStudentInitial(student.name);
+
+    const name =
+      document.createElement("span");
+
+    name.className =
+      "student-chip-name";
+
+    name.textContent =
+      student.name;
+
+    const check =
+      document.createElement("span");
+
+    check.className =
+      "student-chip-check";
+
+    check.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    check.textContent = "✓";
+
+    button.append(
+      initial,
+      name,
+      check
+    );
+
+    button.addEventListener(
+      "click",
+      () => {
+        if (
+          activityStudentSelect.value ===
+          student.id
+        ) {
+          return;
+        }
+
+        activityStudentSelect.value =
+          student.id;
+
+        activityStudentSelect.dispatchEvent(
+          new Event(
+            "change",
+            { bubbles: true }
+          )
+        );
+      }
+    );
+
+    activityStudentChips.append(button);
+  });
+
+  updateActivityStudentChips();
+}
+
 function renderActivityStudentSelect() {
   activityStudentSelect.innerHTML = "";
 
@@ -101,6 +249,8 @@ function renderActivityStudentSelect() {
 
   activityStudentSelect.value =
     activityProgressData.activeStudentId || "";
+
+  renderActivityStudentChips();
 }
 
 function startProgressSession({
@@ -250,6 +400,7 @@ activityStudentSelect.addEventListener("change", () => {
 
   cancelProgressSession();
   saveActivityProgressData();
+  updateActivityStudentChips();
 });
 
 window.FirstVoloActivityProgress = {
