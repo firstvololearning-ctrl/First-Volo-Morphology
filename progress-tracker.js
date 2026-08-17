@@ -33,8 +33,14 @@ if (initialTokenSync?.changed) {
   );
 }
 
-const studentSelect = document.getElementById("studentSelect");
-const studentName = document.getElementById("studentName");
+const studentSelect =
+  document.getElementById("studentSelect");
+
+const progressStudentChips =
+  document.getElementById("progressStudentChips");
+
+const studentName =
+  document.getElementById("studentName");
 const addStudentButton = document.getElementById("addStudentButton");
 const studentSummary = document.getElementById("studentSummary");
 const studentSummaryName = document.getElementById("studentSummaryName");
@@ -61,6 +67,137 @@ function getActiveStudent() {
   ) || null;
 }
 
+function getProgressStudentInitial(name) {
+  const trimmed =
+    String(name || "").trim();
+
+  return trimmed
+    ? trimmed.charAt(0).toUpperCase()
+    : "?";
+}
+
+function updateProgressStudentChips() {
+  if (!progressStudentChips) return;
+
+  const activeId =
+    progressData.activeStudentId || "";
+
+  progressStudentChips
+    .querySelectorAll(".student-chip")
+    .forEach((button) => {
+      const isActive =
+        button.dataset.studentId === activeId;
+
+      button.classList.toggle(
+        "is-active",
+        isActive
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        String(isActive)
+      );
+    });
+}
+
+function renderProgressStudentChips() {
+  if (!progressStudentChips) return;
+
+  progressStudentChips.innerHTML = "";
+
+  progressData.students
+    .slice()
+    .sort(
+      (a, b) =>
+        a.name.localeCompare(b.name)
+    )
+    .forEach((student) => {
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+      button.className = "student-chip";
+      button.dataset.studentId = student.id;
+
+      button.setAttribute(
+        "aria-label",
+        `Select ${student.name}`
+      );
+
+      const initial =
+        document.createElement("span");
+
+      initial.className =
+        "student-chip-initial";
+
+      initial.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      initial.textContent =
+        getProgressStudentInitial(
+          student.name
+        );
+
+      const name =
+        document.createElement("span");
+
+      name.className =
+        "student-chip-name";
+
+      name.textContent =
+        student.name;
+
+      const check =
+        document.createElement("span");
+
+      check.className =
+        "student-chip-check";
+
+      check.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      check.textContent = "✓";
+
+      button.append(
+        initial,
+        name,
+        check
+      );
+
+      button.addEventListener(
+        "click",
+        () => {
+          if (
+            studentSelect.value ===
+            student.id
+          ) {
+            return;
+          }
+
+          studentSelect.value =
+            student.id;
+
+          studentSelect.dispatchEvent(
+            new Event(
+              "change",
+              { bubbles: true }
+            )
+          );
+        }
+      );
+
+      progressStudentChips.append(
+        button
+      );
+    });
+
+  updateProgressStudentChips();
+}
+
 function renderStudentRoster() {
   studentSelect.innerHTML = "";
 
@@ -79,7 +216,10 @@ function renderStudentRoster() {
       studentSelect.append(option);
     });
 
-  studentSelect.value = progressData.activeStudentId || "";
+  studentSelect.value =
+    progressData.activeStudentId || "";
+
+  renderProgressStudentChips();
   renderStudentSummary();
 }
 
@@ -151,8 +291,11 @@ studentName.addEventListener("keydown", (event) => {
 });
 
 studentSelect.addEventListener("change", () => {
-  progressData.activeStudentId = studentSelect.value || null;
+  progressData.activeStudentId =
+    studentSelect.value || null;
+
   saveProgressData();
+  updateProgressStudentChips();
   renderStudentSummary();
 });
 

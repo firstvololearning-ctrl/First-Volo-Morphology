@@ -82,18 +82,91 @@
   <div class="tracker-local-note">🔒 Progress data is stored locally in this browser and is not sent to First Volo Learning. Educators may enter a student name, initials, ID, or other code in accordance with school or district policies.</div>
   <p class="progress-evidence-legend"><strong>How to read the evidence:</strong> <strong>Direct</strong> = the word part itself was tested. <strong>Application</strong> = the word part was used while analyzing, building, or using a word. <strong>Independent</strong> = a Build word was completed correctly on the first check.</p>
   <div class="tracker-controls">
-    <label for="studentSelect">Current student</label>
-    <select id="studentSelect"><option value="">Select a student</option></select>
-    <input id="studentName" type="text" maxlength="80" placeholder="Student name or code">
-    <button id="addStudentButton" type="button">＋ Add Student</button>
-  </div>
-  <div class="tracker-student-summary" id="studentSummary" hidden>
-    <h3 id="studentSummaryName"></h3>
-    <p id="studentSummaryText">No saved sessions yet.</p>
 
-    <button id="renameStudentButton" type="button">Rename</button>
-    <button id="clearStudentProgressButton" type="button">Clear Student Progress</button>
-    <button id="deleteStudentButton" type="button">Delete Student</button>
+    <div class="progress-student-picker">
+      <span class="progress-student-picker-label">
+        Current student
+      </span>
+
+      <div
+        class="student-chip-list progress-student-chips"
+        id="progressStudentChips"
+        aria-label="Choose current student"
+      ></div>
+
+      <select
+        id="studentSelect"
+        aria-label="Current student"
+        hidden
+      >
+        <option value="">Select a student</option>
+      </select>
+    </div>
+
+    <div class="progress-add-student">
+      <input
+        id="studentName"
+        type="text"
+        maxlength="80"
+        placeholder="Student name or code"
+        aria-label="Student name or code"
+      >
+
+      <button
+        id="addStudentButton"
+        class="progress-add-student-button"
+        type="button"
+      >
+        ＋ Add Student
+      </button>
+    </div>
+
+  </div>
+
+  <div
+    class="tracker-student-summary"
+    id="studentSummary"
+    hidden
+  >
+    <div class="progress-student-summary-heading">
+      <div>
+        <span class="progress-student-summary-label">
+          Selected student
+        </span>
+
+        <h3 id="studentSummaryName"></h3>
+
+        <p id="studentSummaryText">
+          No saved sessions yet.
+        </p>
+      </div>
+
+      <div class="progress-student-actions">
+        <button
+          id="renameStudentButton"
+          class="progress-student-action"
+          type="button"
+        >
+          Rename
+        </button>
+
+        <button
+          id="clearStudentProgressButton"
+          class="progress-student-action progress-student-action-caution"
+          type="button"
+        >
+          Clear Progress
+        </button>
+
+        <button
+          id="deleteStudentButton"
+          class="progress-student-action progress-student-action-danger"
+          type="button"
+        >
+          Delete Student
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 

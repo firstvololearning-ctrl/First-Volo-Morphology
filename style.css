@@ -2704,6 +2704,245 @@ a:focus-visible {
 }
 
 
+/* Program Progress — student management */
+
+.student-tracker {
+  padding: 6px 0 18px;
+}
+
+.tracker-controls {
+  display: grid;
+  gap: 16px;
+
+  margin-top: 22px;
+}
+
+.progress-student-picker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px 14px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #d5e2ee;
+  border-radius: 18px;
+
+  background: #f7fbff;
+}
+
+.progress-student-picker-label {
+  color: #244f7a;
+
+  font-size: 0.88rem;
+  font-weight: 850;
+
+  white-space: nowrap;
+}
+
+.progress-student-chips {
+  flex: 1 1 320px;
+}
+
+.progress-add-student {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
+
+  max-width: 520px;
+}
+
+.progress-add-student input {
+  min-width: 0;
+  flex: 1 1 auto;
+
+  min-height: 42px;
+  padding: 8px 13px;
+
+  border: 1.5px solid #cbd9e6;
+  border-radius: 12px;
+
+  background: var(--white);
+  color: inherit;
+
+  font: inherit;
+}
+
+.progress-add-student input:focus {
+  border-color: #2876bb;
+  outline:
+    3px solid
+    rgba(40, 118, 187, 0.18);
+
+  outline-offset: 1px;
+}
+
+.progress-add-student-button {
+  min-height: 42px;
+  padding: 8px 15px;
+
+  border: 1.5px solid #2876bb;
+  border-radius: 999px;
+
+  background: #2876bb;
+  color: var(--white);
+
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 850;
+
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.progress-add-student-button:hover {
+  background: #21679f;
+}
+
+.progress-add-student-button:focus-visible {
+  outline:
+    3px solid
+    rgba(40, 118, 187, 0.24);
+
+  outline-offset: 2px;
+}
+
+.tracker-student-summary {
+  margin-top: 18px;
+  padding: 18px;
+
+  border: 1px solid #d5e2ee;
+  border-radius: 18px;
+
+  background: var(--white);
+}
+
+.progress-student-summary-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+.progress-student-summary-label {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--muted);
+
+  font-size: 0.76rem;
+  font-weight: 750;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tracker-student-summary h3 {
+  margin: 0 0 5px;
+
+  color: #203e5a;
+
+  font-size: 1.28rem;
+}
+
+.tracker-student-summary
+#studentSummaryText {
+  margin: 0;
+
+  color: var(--muted);
+}
+
+.progress-student-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.progress-student-action {
+  min-height: 36px;
+  padding: 6px 11px;
+
+  border: 1px solid #cbd9e6;
+  border-radius: 999px;
+
+  background: #f8fbfd;
+  color: #315b7e;
+
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.progress-student-action:hover {
+  background: #eef5fa;
+}
+
+.progress-student-action-caution {
+  border-color: #e2c982;
+
+  background: #fffaf0;
+  color: #775d19;
+}
+
+.progress-student-action-caution:hover {
+  background: #fff4d9;
+}
+
+.progress-student-action-danger {
+  border-color: #e6b4b4;
+
+  background: #fff7f7;
+  color: #9a3333;
+}
+
+.progress-student-action-danger:hover {
+  background: #ffeded;
+}
+
+.progress-student-action:focus-visible {
+  outline:
+    3px solid
+    rgba(40, 118, 187, 0.22);
+
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .progress-student-picker {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .progress-student-chips {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .progress-add-student {
+    flex-direction: column;
+    max-width: none;
+  }
+
+  .progress-add-student-button {
+    align-self: flex-start;
+  }
+
+  .progress-student-summary-heading {
+    flex-direction: column;
+  }
+
+  .progress-student-actions {
+    justify-content: flex-start;
+  }
+}
+
+
 /* ========================================
    PROGRAM PROGRESS REPORTING
    ======================================== */
