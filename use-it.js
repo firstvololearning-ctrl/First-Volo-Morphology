@@ -340,8 +340,8 @@ function renderUseItActivity() {
 
   if (eligibleWords.length < 1) {
     showStartMessage(
-      `Not enough Use It words match the selected Grade Band and Vocabulary level for this pattern yet.`,
-      "Choose another Grade Band, Vocabulary level, or word-building pattern."
+      `Not enough Use It words match the selected Practice Flight and Vocabulary level for this pattern yet.`,
+      "Choose another Practice Flight, Vocabulary level, or word-building pattern."
     );
 
     return;

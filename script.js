@@ -5476,7 +5476,7 @@ const wordBuilderPathSteps = [
   {
     mode: "build",
     icon: "🏗️",
-    label: "Build"
+    label: "Build Words"
   },
   {
     mode: "use",
