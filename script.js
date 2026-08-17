@@ -5415,7 +5415,14 @@ const studyChoiceButtons = [
 ];
 const gradeBandSelect = document.getElementById("gradeBandSelect");
 const vocabLevelSelect = document.getElementById("vocabLevelSelect");
-const studyAvailability = document.getElementById("studyAvailability");
+const studyAvailability =
+  document.getElementById("studyAvailability");
+
+const currentPracticeSummary =
+  document.getElementById("currentPracticeSummary");
+
+const currentPracticeSummaryValue =
+  document.getElementById("currentPracticeSummaryValue");
 
 const activityButtons = [
   ...document.querySelectorAll(".activity-button")
@@ -5947,6 +5954,47 @@ function getStudyModeLabel() {
   };
 
   return labels[studyMode] || "word parts";
+}
+
+
+function getCurrentPracticeStudyLabel() {
+  const labels = {
+    prefixes: "Prefixes",
+    roots: "Roots",
+    suffixes: "Suffixes",
+    "prefix-root": "Prefixes + Roots",
+    "root-suffix": "Roots + Suffixes",
+    "prefix-root-suffix":
+      "Prefixes + Roots + Suffixes"
+  };
+
+  return labels[studyMode] || "";
+}
+
+function updateCurrentPracticeSummary() {
+  if (
+    !currentPracticeSummary ||
+    !currentPracticeSummaryValue
+  ) {
+    return;
+  }
+
+  const studyLabel =
+    getCurrentPracticeStudyLabel();
+
+  if (!studyLabel) {
+    currentPracticeSummary.hidden = true;
+    currentPracticeSummaryValue.textContent = "";
+    return;
+  }
+
+  currentPracticeSummaryValue.textContent = [
+    studyLabel,
+    getGradeBandLabel(),
+    getVocabularyLevelLabel()
+  ].join(" · ");
+
+  currentPracticeSummary.hidden = false;
 }
 
 
@@ -10112,6 +10160,7 @@ studySelect.addEventListener("change", () => {
     messages[studyMode] || "";
 
   renderCurrentActivity();
+  updateCurrentPracticeSummary();
 });
 
 activityButtons.forEach((button) => {
@@ -10177,12 +10226,14 @@ gradeBandSelect.addEventListener("change", () => {
   gradeBand = gradeBandSelect.value;
 
   renderCurrentActivity();
+  updateCurrentPracticeSummary();
 });
 
 vocabLevelSelect.addEventListener("change", () => {
   vocabLevel = vocabLevelSelect.value;
 
   renderCurrentActivity();
+  updateCurrentPracticeSummary();
 });
 
 
