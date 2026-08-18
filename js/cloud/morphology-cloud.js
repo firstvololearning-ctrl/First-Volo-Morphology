@@ -90,16 +90,16 @@
 
     if (currentUser) {
       cloudButton.textContent =
-        "☁️ Cloud Backup ✓";
+        "☁️ Saved Across Devices ✓";
 
       cloudButton.title =
-        "Morphology cloud backup is on";
+        "First Volo cloud saving is on";
     } else {
       cloudButton.textContent =
-        "☁️ Cloud Backup";
+        "☁️ Save Across Devices";
 
       cloudButton.title =
-        "Sign in to back up progress online";
+        "Optional sign-in for saving across devices";
     }
 
     const signInForm =
@@ -135,11 +135,11 @@
     if (currentUser) {
       cloudMessage.textContent =
         currentUser.email
-          ? `Signed in as ${currentUser.email}. Local progress will also be backed up online.`
-          : "Signed in. Local progress will also be backed up online.";
+          ? `Signed in as ${currentUser.email}. Your local Morphology data can now sync across devices.`
+          : "Signed in. Your local Morphology data can now sync across devices.";
     } else {
       cloudMessage.textContent =
-        "Progress still saves locally exactly as before. Sign in to also keep a cloud backup.";
+        "Sign in if you want your learners and Morphology progress to be available on another device. Local saving continues whether or not you sign in.";
     }
 
     if (signOutButton) {
@@ -2082,7 +2082,7 @@
       <div class="fv-cloud-card">
 
         <div class="fv-cloud-heading">
-          <h2>☁️ First Volo Cloud Backup</h2>
+          <h2>☁️ Save Across Devices</h2>
 
           <button
             type="button"
@@ -2097,6 +2097,12 @@
           id="morphologyCloudMessage"
           class="fv-cloud-message"
         ></p>
+
+        <p>
+          Use an adult email to receive a secure
+          sign-in link. Learners do not need email
+          accounts or passwords.
+        </p>
 
         <form
           id="morphologyCloudForm"
@@ -2118,7 +2124,7 @@
             class="header-link"
             type="submit"
           >
-            Email me a sign-in link
+            Send sign-in link
           </button>
         </form>
 
@@ -2145,15 +2151,16 @@
         </div>
 
         <p class="fv-cloud-note">
-          Local browser saving remains active.
-          Cloud-only Morphology learners can be
-          restored to this device. For learners
-          already on this device, activity sessions,
-          Volo Goals, earned Volo Tokens, Clear
-          Progress, Rename, and Morphology Delete
-          sync safely across devices. Deleting here
-          does not delete the shared First Volo
-          learner profile used by other products.
+          <strong>Local saving always remains active.</strong>
+          When you sign in, learner profiles and
+          Morphology progress are also saved to your
+          First Volo Cloud account so they can sync
+          across your devices. Signing out does not
+          erase data already saved in this browser.
+          Deleting a learner from Morphology removes
+          that learner's Morphology data but does not
+          delete the shared First Volo learner profile
+          used by other First Volo products.
         </p>
 
       </div>
