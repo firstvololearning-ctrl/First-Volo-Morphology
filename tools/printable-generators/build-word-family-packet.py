@@ -175,6 +175,7 @@ def validate_config(cfg, repo_root: Path):
     return {
         "family": family,
         "flight": flight,
+        "layout": str(getattr(cfg, "LAYOUT", "root-family")).strip(),
         "prefixes": prefixes,
         "roots": roots,
         "root_section_label": str(
@@ -482,35 +483,76 @@ def draw_mats_page(c, cfg):
     c.setFont("Helvetica", 9.2)
     c.drawString(20, H - 101, cfg["mat_note"])
 
-    mat_h = 105
-    mat_row(
-        c,
-        cfg.get("mat_a_title", "MAT A - one prefix"),
-        346,
-        mat_h,
-        [
-            ("prefix", cfg.get("mat_a_prefix_label", "PREFIX")),
-            ("root", "ROOT"),
-            ("suffix", "SUFFIX"),
-        ],
-        W,
-    )
-    mat_row(
-        c,
-        "MAT B - two prefixes",
-        190,
-        94,
-        [("prefix", "PREFIX"), ("prefix", "PREFIX"), ("root", "ROOT"), ("suffix", "SUFFIX")],
-        W,
-    )
-    mat_row(
-        c,
-        "MAT C - extension builds",
-        44,
-        87,
-        [("prefix", "PREFIX"), ("root", "ROOT"), ("extension", "EXTENSION SUFFIX")],
-        W,
-    )
+    if cfg.get("layout") == "base-word":
+        base_label = cfg.get("root_section_label", "BASE WORD")
+
+        mat_row(
+            c,
+            "MAT A - add a prefix",
+            346,
+            105,
+            [
+                ("prefix", "PREFIX"),
+                ("root", base_label),
+            ],
+            W,
+        )
+
+        mat_row(
+            c,
+            "MAT B - add a suffix",
+            190,
+            94,
+            [
+                ("root", base_label),
+                ("suffix", "SUFFIX"),
+            ],
+            W,
+        )
+
+        mat_row(
+            c,
+            "MAT C - add a prefix and suffix",
+            44,
+            87,
+            [
+                ("prefix", "PREFIX"),
+                ("root", base_label),
+                ("suffix", "SUFFIX"),
+            ],
+            W,
+        )
+
+    else:
+        mat_h = 105
+        mat_row(
+            c,
+            cfg.get("mat_a_title", "MAT A - one prefix"),
+            346,
+            mat_h,
+            [
+                ("prefix", cfg.get("mat_a_prefix_label", "PREFIX")),
+                ("root", "ROOT"),
+                ("suffix", "SUFFIX"),
+            ],
+            W,
+        )
+        mat_row(
+            c,
+            "MAT B - two prefixes",
+            190,
+            94,
+            [("prefix", "PREFIX"), ("prefix", "PREFIX"), ("root", "ROOT"), ("suffix", "SUFFIX")],
+            W,
+        )
+        mat_row(
+            c,
+            "MAT C - extension builds",
+            44,
+            87,
+            [("prefix", "PREFIX"), ("root", "ROOT"), ("extension", "EXTENSION SUFFIX")],
+            W,
+        )
 
     footer(c, cfg["family"], cfg["flight"], W)
     c.showPage()
@@ -532,15 +574,15 @@ def clue_box(c, x: float, y: float, w: float, h: float, border, label: str, text
 
     # Smaller type for the compact sentence/context boxes so wrapped text
     # remains fully inside the border. Never let text collide with the box.
-    if h <= 44:
-        body_size = 7.2
-        leading = 8.0
-        y_top = y + h - 31
+    if h <= 50:
+        body_size = 10.2
+        leading = 11.5
+        y_top = y + h - 30
         max_lines = 2
     else:
-        body_size = 7.8
-        leading = 9.0
-        y_top = y + h - 34
+        body_size = 10.2
+        leading = 11.5
+        y_top = y + h - 32
         max_lines = 3
 
     c.setFillColor(black)
@@ -591,7 +633,7 @@ def draw_clues_page(c, cfg):
     c.setFont("Helvetica", 7.6)
     c.drawString(24, 364, f'Build the {cfg["family"]}-family word that best completes each sentence.')
 
-    cbox_h = 42
+    cbox_h = 48
     cstart_y = 311
     cg = 5
     letters = "ABCDEFGH"
