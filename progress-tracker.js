@@ -334,6 +334,15 @@ clearStudentProgressButton.addEventListener("click", () => {
 
   student.sessions = [];
   student.voloTokens = {};
+
+  /*
+    Record this intentional reset so an
+    older cloud copy cannot restore the
+    cleared sessions or Tokens.
+  */
+  student.progressClearedAt =
+    new Date().toISOString();
+
   saveProgressData();
   renderStudentRoster();
 });

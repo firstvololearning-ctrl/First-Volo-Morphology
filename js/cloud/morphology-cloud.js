@@ -266,6 +266,10 @@
 
               voloGoalsUpdatedAt:
                 student.voloGoalsUpdatedAt ||
+                null,
+
+              progressClearedAt:
+                student.progressClearedAt ||
                 null
             },
 
@@ -844,6 +848,137 @@
   }
 
 
+  function newestProgressClear(
+    localClearAt,
+    cloudClearAt
+  ) {
+    const localTime =
+      parseCloudTime(
+        localClearAt
+      );
+
+    const cloudTime =
+      parseCloudTime(
+        cloudClearAt
+      );
+
+    if (
+      localTime === null &&
+      cloudTime === null
+    ) {
+      return null;
+    }
+
+    if (
+      cloudTime !== null &&
+      (
+        localTime === null ||
+        cloudTime > localTime
+      )
+    ) {
+      return cloudClearAt;
+    }
+
+    return (
+      localClearAt ||
+      cloudClearAt ||
+      null
+    );
+  }
+
+
+  function filterSessionsAfterClear(
+    sessions,
+    clearAt
+  ) {
+    const list =
+      Array.isArray(sessions)
+        ? sessions
+        : [];
+
+    const clearTime =
+      parseCloudTime(
+        clearAt
+      );
+
+    if (clearTime === null) {
+      return list;
+    }
+
+    return list.filter(
+      session => {
+        /*
+          startedAt is the stable origin
+          of a session.
+
+          A legacy session without a usable
+          timestamp is treated as old when
+          an explicit Clear Progress exists.
+        */
+        const sessionTime =
+          parseCloudTime(
+            session?.startedAt ||
+            session?.completedAt
+          );
+
+        return (
+          sessionTime !== null &&
+          sessionTime > clearTime
+        );
+      }
+    );
+  }
+
+
+  function filterTokensAfterClear(
+    tokens,
+    clearAt
+  ) {
+    const store =
+      validTokenStore(
+        tokens
+      );
+
+    const clearTime =
+      parseCloudTime(
+        clearAt
+      );
+
+    if (clearTime === null) {
+      return store;
+    }
+
+    const filtered = {};
+
+    for (
+      const [
+        setId,
+        token
+      ]
+      of Object.entries(store)
+    ) {
+      const earnedTime =
+        parseCloudTime(
+          token?.earnedAt
+        );
+
+      /*
+        Only a Token earned after the clear
+        belongs to the new progress history.
+      */
+      if (
+        earnedTime !== null &&
+        earnedTime > clearTime
+      ) {
+        filtered[setId] =
+          token;
+      }
+    }
+
+    return filtered;
+  }
+
+
   async function restoreAndMergeLearners() {
     if (!currentUser) {
       return {
@@ -859,13 +994,14 @@
       Restore learners that do not exist
       on this device.
 
-      Step 2A + 2B:
+      Step 2A + 2B + 2C:
       When the learner ID already exists,
       merge activity sessions, Volo Goals,
-      and earned Volo Tokens.
+      earned Volo Tokens, and intentional
+      Clear Progress resets.
 
-      Rename, Clear Progress, and Delete
-      are intentionally not merged here yet.
+      Rename and Delete are intentionally
+      not merged here yet.
     */
 
     const {
@@ -1002,28 +1138,64 @@
         );
 
       /*
-        STEP 2A + 2B:
+        STEP 2A + 2B + 2C:
         Same learner exists locally and
         in Supabase.
 
         - merge sessions by session ID
-        - preserve every earned Volo Token
+        - preserve earned Volo Tokens
         - use newest intentional Goal state
+        - honor newest Clear Progress cutoff
 
-        Rename, Clear Progress, and Delete
-        are intentionally not handled yet.
+        Rename and Delete are intentionally
+        not handled yet.
       */
       if (localStudent) {
         let learnerChanged = false;
 
+        const localClearAt =
+          localStudent.progressClearedAt ||
+          null;
+
+        const cloudClearAt =
+          cloudStudent.progressClearedAt ||
+          null;
+
+        const newestClearAt =
+          newestProgressClear(
+            localClearAt,
+            cloudClearAt
+          );
+
+        const originalLocalSessions =
+          Array.isArray(
+            localStudent.sessions
+          )
+            ? localStudent.sessions
+            : [];
+
         const sessionMerge =
           mergeMorphologySessions(
-            localStudent.sessions,
-            cloudStudent.sessions
+            filterSessionsAfterClear(
+              localStudent.sessions,
+              newestClearAt
+            ),
+            filterSessionsAfterClear(
+              cloudStudent.sessions,
+              newestClearAt
+            )
+          );
+
+        const sessionsChanged =
+          JSON.stringify(
+            sessionMerge.sessions
+          ) !==
+          JSON.stringify(
+            originalLocalSessions
           );
 
         if (
-          sessionMerge.changed
+          sessionsChanged
         ) {
           localStudent.sessions =
             sessionMerge.sessions;
@@ -1039,17 +1211,47 @@
               .updatedFromCloud;
         }
 
+        const originalLocalTokens =
+          validTokenStore(
+            localStudent.voloTokens
+          );
+
         const tokenMerge =
           mergeVoloTokens(
-            localStudent.voloTokens,
-            cloudStudent.voloTokens
+            filterTokensAfterClear(
+              localStudent.voloTokens,
+              newestClearAt
+            ),
+            filterTokensAfterClear(
+              cloudStudent.voloTokens,
+              newestClearAt
+            )
+          );
+
+        const tokensChanged =
+          JSON.stringify(
+            tokenMerge.tokens
+          ) !==
+          JSON.stringify(
+            originalLocalTokens
           );
 
         if (
-          tokenMerge.changed
+          tokensChanged
         ) {
           localStudent.voloTokens =
             tokenMerge.tokens;
+
+          learnerChanged = true;
+        }
+
+        if (
+          newestClearAt &&
+          localStudent.progressClearedAt !==
+            newestClearAt
+        ) {
+          localStudent.progressClearedAt =
+            newestClearAt;
 
           learnerChanged = true;
         }
@@ -1122,6 +1324,10 @@
           ? cloudStudent.voloTokens
           : {};
 
+      const progressClearedAt =
+        cloudStudent.progressClearedAt ||
+        null;
+
       const restoredStudent = {
         id:
           studentId,
@@ -1134,13 +1340,16 @@
           new Date().toISOString(),
 
         sessions:
-          Array.isArray(
-            cloudStudent.sessions
-          )
-            ? cloudStudent.sessions
-            : [],
+          filterSessionsAfterClear(
+            cloudStudent.sessions,
+            progressClearedAt
+          ),
 
-        voloTokens,
+        voloTokens:
+          filterTokensAfterClear(
+            voloTokens,
+            progressClearedAt
+          ),
 
         voloGoals:
           Array.isArray(
@@ -1151,7 +1360,9 @@
 
         voloGoalsUpdatedAt:
           cloudStudent.voloGoalsUpdatedAt ||
-          null
+          null,
+
+        progressClearedAt
       };
 
       /*
@@ -1517,9 +1728,9 @@
           Cloud-only Morphology learners can be
           restored to this device. For learners
           already on this device, activity sessions,
-          Volo Goals, and earned Volo Tokens sync
-          safely across devices. Rename, Clear
-          Progress, and Delete are not synced yet.
+          Volo Goals, earned Volo Tokens, and Clear
+          Progress sync safely across devices.
+          Rename and Delete are not synced yet.
         </p>
 
       </div>
