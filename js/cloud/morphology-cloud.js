@@ -288,21 +288,300 @@
     return true;
   }
 
-  async function restoreCloudOnlyLearners() {
+  function getSessionKey(
+    session
+  ) {
+    if (
+      session &&
+      typeof session ===
+        "object" &&
+      session.id
+    ) {
+      return `id:${session.id}`;
+    }
+
+    /*
+      Very old/legacy sessions should normally
+      have IDs too. If one does not, use its
+      exact saved content as a stable fallback
+      so an identical legacy session is not
+      duplicated on every sync.
+    */
+    try {
+      return `legacy:${JSON.stringify(session)}`;
+    } catch {
+      return null;
+    }
+  }
+
+
+  function getSessionResponseCount(
+    session
+  ) {
+    return Array.isArray(
+      session?.responses
+    )
+      ? session.responses.length
+      : 0;
+  }
+
+
+  function chooseRicherSession(
+    localSession,
+    cloudSession
+  ) {
+    if (!localSession) {
+      return cloudSession;
+    }
+
+    if (!cloudSession) {
+      return localSession;
+    }
+
+    const localComplete =
+      Boolean(
+        localSession.completedAt
+      );
+
+    const cloudComplete =
+      Boolean(
+        cloudSession.completedAt
+      );
+
+    /*
+      A completed copy of the same session
+      is safer than an older in-progress copy.
+    */
+    if (
+      localComplete !==
+      cloudComplete
+    ) {
+      return cloudComplete
+        ? cloudSession
+        : localSession;
+    }
+
+    const localResponses =
+      getSessionResponseCount(
+        localSession
+      );
+
+    const cloudResponses =
+      getSessionResponseCount(
+        cloudSession
+      );
+
+    /*
+      If both are at the same completion state,
+      keep whichever contains more recorded
+      responses.
+    */
+    if (
+      localResponses !==
+      cloudResponses
+    ) {
+      return cloudResponses >
+        localResponses
+        ? cloudSession
+        : localSession;
+    }
+
+    /*
+      Fill missing metadata from the other
+      copy while keeping the local version as
+      the stable tie-breaker.
+
+      This avoids a session bouncing back and
+      forth between two equally complete copies.
+    */
+    return {
+      ...cloudSession,
+      ...localSession,
+
+      responses:
+        Array.isArray(
+          localSession.responses
+        )
+          ? localSession.responses
+          : (
+              Array.isArray(
+                cloudSession.responses
+              )
+                ? cloudSession.responses
+                : []
+            )
+    };
+  }
+
+
+  function mergeMorphologySessions(
+    localSessions,
+    cloudSessions
+  ) {
+    const local =
+      Array.isArray(
+        localSessions
+      )
+        ? localSessions
+        : [];
+
+    const cloud =
+      Array.isArray(
+        cloudSessions
+      )
+        ? cloudSessions
+        : [];
+
+    const merged = [];
+    const indexByKey =
+      new Map();
+
+    let addedFromCloud = 0;
+    let updatedFromCloud = 0;
+
+    function addInitialSession(
+      session
+    ) {
+      const key =
+        getSessionKey(
+          session
+        );
+
+      if (
+        !key ||
+        !indexByKey.has(key)
+      ) {
+        if (key) {
+          indexByKey.set(
+            key,
+            merged.length
+          );
+        }
+
+        merged.push(
+          session
+        );
+
+        return;
+      }
+
+      /*
+        Also clean up an accidental duplicate
+        already present on the local device.
+      */
+      const index =
+        indexByKey.get(key);
+
+      merged[index] =
+        chooseRicherSession(
+          merged[index],
+          session
+        );
+    }
+
+    local.forEach(
+      addInitialSession
+    );
+
+    for (
+      const cloudSession
+      of cloud
+    ) {
+      const key =
+        getSessionKey(
+          cloudSession
+        );
+
+      if (
+        !key ||
+        !indexByKey.has(key)
+      ) {
+        if (key) {
+          indexByKey.set(
+            key,
+            merged.length
+          );
+        }
+
+        merged.push(
+          cloudSession
+        );
+
+        addedFromCloud += 1;
+
+        continue;
+      }
+
+      const index =
+        indexByKey.get(key);
+
+      const existing =
+        merged[index];
+
+      const preferred =
+        chooseRicherSession(
+          existing,
+          cloudSession
+        );
+
+      if (
+        JSON.stringify(
+          preferred
+        ) !==
+        JSON.stringify(
+          existing
+        )
+      ) {
+        merged[index] =
+          preferred;
+
+        updatedFromCloud += 1;
+      }
+    }
+
+    const changed =
+      JSON.stringify(
+        merged
+      ) !==
+      JSON.stringify(
+        local
+      );
+
+    return {
+      sessions:
+        merged,
+
+      changed,
+
+      addedFromCloud,
+
+      updatedFromCloud
+    };
+  }
+
+
+  async function restoreAndMergeLearners() {
     if (!currentUser) {
       return {
-        restored: 0
+        restored: 0,
+        mergedLearners: 0,
+        sessionsAdded: 0,
+        sessionsUpdated: 0
       };
     }
 
     /*
-      Step 1 restore rule:
+      Step 1:
+      Restore learners that do not exist
+      on this device.
 
-      Only restore a learner when that learner ID
-      does NOT already exist on this device.
+      Step 2A:
+      When the learner ID already exists,
+      merge ONLY activity sessions.
 
-      Existing local learners are left completely
-      untouched until the later merge/conflict step.
+      Names, Volo Goals, Volo Tokens,
+      clear-progress behavior, and deletion
+      are intentionally not merged here yet.
     */
 
     const {
@@ -328,11 +607,16 @@
     }
 
     if (
-      !Array.isArray(cloudStates) ||
+      !Array.isArray(
+        cloudStates
+      ) ||
       !cloudStates.length
     ) {
       return {
-        restored: 0
+        restored: 0,
+        mergedLearners: 0,
+        sessionsAdded: 0,
+        sessionsUpdated: 0
       };
     }
 
@@ -367,22 +651,32 @@
     const progress =
       readLocalProgress();
 
-    const localIds =
-      new Set(
+    const localStudentById =
+      new Map(
         progress.students
-          .map(
+          .filter(
             student =>
               student?.id
           )
-          .filter(Boolean)
+          .map(
+            student => [
+              student.id,
+              student
+            ]
+          )
       );
 
     let restored = 0;
+    let mergedLearners = 0;
+    let sessionsAdded = 0;
+    let sessionsUpdated = 0;
 
     for (
       const learner
       of (
-        Array.isArray(cloudLearners)
+        Array.isArray(
+          cloudLearners
+        )
           ? cloudLearners
           : []
       )
@@ -390,16 +684,7 @@
       const studentId =
         learner.local_profile_id;
 
-      /*
-        Matching is by the original student ID.
-
-        If this ID already exists locally,
-        Step 1 does NOTHING to it.
-      */
-      if (
-        !studentId ||
-        localIds.has(studentId)
-      ) {
+      if (!studentId) {
         continue;
       }
 
@@ -409,12 +694,11 @@
         );
 
       /*
-        learner_profiles is shared across
+        learner_profiles is shared among
         First Volo products.
 
-        Only restore this learner into Morphology
-        when a Morphology scored-progress state
-        actually exists.
+        Only use this learner here when
+        Morphology scored-progress data exists.
       */
       if (
         !state ||
@@ -428,6 +712,50 @@
       const cloudStudent =
         state.data;
 
+      const localStudent =
+        localStudentById.get(
+          studentId
+        );
+
+      /*
+        STEP 2A:
+        Same learner exists locally and
+        in Supabase.
+
+        Merge sessions by session.id only.
+      */
+      if (localStudent) {
+        const sessionMerge =
+          mergeMorphologySessions(
+            localStudent.sessions,
+            cloudStudent.sessions
+          );
+
+        if (
+          sessionMerge.changed
+        ) {
+          localStudent.sessions =
+            sessionMerge.sessions;
+
+          mergedLearners += 1;
+
+          sessionsAdded +=
+            sessionMerge
+              .addedFromCloud;
+
+          sessionsUpdated +=
+            sessionMerge
+              .updatedFromCloud;
+        }
+
+        continue;
+      }
+
+      /*
+        STEP 1:
+        Learner exists in Morphology cloud
+        data but not on this device.
+      */
       const name =
         String(
           cloudStudent.name ||
@@ -446,7 +774,7 @@
           ? cloudStudent.voloTokens
           : {};
 
-      progress.students.push({
+      const restoredStudent = {
         id:
           studentId,
 
@@ -472,16 +800,24 @@
           )
             ? cloudStudent.voloGoals
             : []
-      });
+      };
 
-      localIds.add(
-        studentId
+      progress.students.push(
+        restoredStudent
+      );
+
+      localStudentById.set(
+        studentId,
+        restoredStudent
       );
 
       restored += 1;
     }
 
-    if (restored > 0) {
+    if (
+      restored > 0 ||
+      mergedLearners > 0
+    ) {
       localStorage.setItem(
         LOCAL_PROGRESS_KEY,
         JSON.stringify(
@@ -491,7 +827,10 @@
     }
 
     return {
-      restored
+      restored,
+      mergedLearners,
+      sessionsAdded,
+      sessionsUpdated
     };
   }
 
@@ -511,6 +850,15 @@
     );
 
     try {
+      /*
+        Always pull and combine remote sessions
+        before writing this device's record back.
+
+        This prevents a stale device from simply
+        replacing cloud-only session history.
+      */
+      await restoreAndMergeLearners();
+
       const progress =
         readLocalProgress();
 
@@ -802,11 +1150,12 @@
 
         <p class="fv-cloud-note">
           Local browser saving remains active.
-          When you sign in, Morphology learners
-          saved in your First Volo account can
-          be restored to this device. Existing
-          local learner records are not merged
-          or overwritten yet.
+          Cloud-only Morphology learners can be
+          restored to this device. For learners
+          already on this device, saved activity
+          sessions are combined by session ID.
+          Names, Goals, Tokens, clear-progress,
+          and deletion are not merged yet.
         </p>
 
       </div>
@@ -967,8 +1316,16 @@
   window.FirstVoloMorphologyCloud = {
     queueSync,
     syncNow,
+    /*
+      Keep the Step 1 alias for compatibility,
+      while exposing the more accurate Step 2A
+      method name too.
+    */
     restoreCloudOnly:
-      restoreCloudOnlyLearners,
+      restoreAndMergeLearners,
+
+    restoreAndMerge:
+      restoreAndMergeLearners,
     getUser() {
       return currentUser;
     }
@@ -992,13 +1349,17 @@
           async () => {
             try {
               const result =
-                await restoreCloudOnlyLearners();
+                await restoreAndMergeLearners();
+
+              const changedLearners =
+                result.restored +
+                result.mergedLearners;
 
               if (
-                result.restored > 0
+                changedLearners > 0
               ) {
                 updateUI(
-                  `Restored ${result.restored} Morphology learner${result.restored === 1 ? "" : "s"} from the cloud. Reloading…`
+                  `Cloud sync updated ${changedLearners} Morphology learner${changedLearners === 1 ? "" : "s"}. Reloading…`
                 );
 
                 /*
