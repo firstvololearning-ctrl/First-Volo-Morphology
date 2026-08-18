@@ -77,30 +77,44 @@
   <main class="progress-content">
 
     <section class="student-tracker" id="studentTracker">
-  <h2>📊 Student Progress</h2>
-  <p>Create or select a student to track performance within First Volo Morphology on this device.</p>
-  <div class="tracker-local-note">🔒 Progress data is stored locally in this browser and is not sent to First Volo Learning. Educators may enter a student name, initials, ID, or other code in accordance with school or district policies.</div>
+  <h2>📊 Learner Progress</h2>
+  <p>Create or select a learner to track performance within First Volo Morphology.</p>
+
+  <div class="tracker-local-note">
+    🔒 Progress is stored locally in this browser.
+    If you choose <strong>Save Across Devices</strong>
+    and sign in, learner and Morphology progress data
+    are also saved to your First Volo Cloud account.
+  </div>
   <p class="progress-evidence-legend"><strong>How to read the evidence:</strong> <strong>Direct</strong> = the word part itself was tested. <strong>Application</strong> = the word part was used while analyzing, building, or using a word. <strong>Independent</strong> = a Build word was completed correctly on the first check.</p>
   <div class="tracker-controls">
 
     <div class="progress-student-picker">
       <span class="progress-student-picker-label">
-        Current student
+        Current learner
       </span>
 
       <div
         class="student-chip-list progress-student-chips"
         id="progressStudentChips"
-        aria-label="Choose current student"
+        aria-label="Choose current learner"
       ></div>
 
       <select
         id="studentSelect"
-        aria-label="Current student"
+        aria-label="Current learner"
         hidden
       >
-        <option value="">Select a student</option>
+        <option value="">Select a learner</option>
       </select>
+    </div>
+
+    <div class="tracker-local-note">
+      <strong>Learner name or code</strong><br>
+      Use initials or a non-identifying code unless storing
+      learner names is permitted by your school, district,
+      practice, organization, and applicable privacy
+      requirements.
     </div>
 
     <div class="progress-add-student">
@@ -108,8 +122,8 @@
         id="studentName"
         type="text"
         maxlength="80"
-        placeholder="Student name or code"
-        aria-label="Student name or code"
+        placeholder="Initials or learner code"
+        aria-label="Learner name or code"
       >
 
       <button
@@ -117,7 +131,7 @@
         class="progress-add-student-button"
         type="button"
       >
-        ＋ Add Student
+        ＋ Add Learner
       </button>
     </div>
 
@@ -131,7 +145,7 @@
     <div class="progress-student-summary-heading">
       <div>
         <span class="progress-student-summary-label">
-          Selected student
+          Selected learner
         </span>
 
         <h3 id="studentSummaryName"></h3>
@@ -163,7 +177,7 @@
           class="progress-student-action progress-student-action-danger"
           type="button"
         >
-          Delete Student
+          Delete Learner
         </button>
       </div>
     </div>
