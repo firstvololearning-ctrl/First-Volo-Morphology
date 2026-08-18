@@ -242,6 +242,10 @@
               name:
                 student.name,
 
+              nameUpdatedAt:
+                student.nameUpdatedAt ||
+                null,
+
               createdAt:
                 student.createdAt ||
                 null,
@@ -603,6 +607,129 @@
     return Number.isFinite(parsed)
       ? parsed
       : null;
+  }
+
+
+  function normalizeLearnerName(
+    value
+  ) {
+    return String(
+      value || ""
+    ).trim();
+  }
+
+
+  function mergeLearnerName(
+    localStudent,
+    cloudStudent
+  ) {
+    const localName =
+      normalizeLearnerName(
+        localStudent?.name
+      );
+
+    const cloudName =
+      normalizeLearnerName(
+        cloudStudent?.name
+      );
+
+    const localTime =
+      parseCloudTime(
+        localStudent
+          ?.nameUpdatedAt
+      );
+
+    const cloudTime =
+      parseCloudTime(
+        cloudStudent
+          ?.nameUpdatedAt
+      );
+
+    /*
+      Once a Rename timestamp exists,
+      the newest intentional rename wins.
+    */
+    if (
+      localTime !== null ||
+      cloudTime !== null
+    ) {
+      if (
+        cloudTime !== null &&
+        (
+          localTime === null ||
+          cloudTime > localTime
+        )
+      ) {
+        return {
+          name:
+            cloudName ||
+            localName ||
+            "Learner",
+
+          updatedAt:
+            cloudStudent
+              .nameUpdatedAt,
+
+          changed:
+            (
+              cloudName &&
+              cloudName !== localName
+            ) ||
+            localStudent
+              .nameUpdatedAt !==
+              cloudStudent
+                .nameUpdatedAt
+        };
+      }
+
+      return {
+        name:
+          localName ||
+          cloudName ||
+          "Learner",
+
+        updatedAt:
+          localStudent
+            .nameUpdatedAt ||
+          null,
+
+        changed: false
+      };
+    }
+
+    /*
+      Legacy records have no Rename timestamp.
+
+      Keep the local name unless it is missing;
+      the first intentional rename creates the
+      timestamp used from then on.
+    */
+    if (
+      !localName &&
+      cloudName
+    ) {
+      return {
+        name:
+          cloudName,
+
+        updatedAt:
+          null,
+
+        changed: true
+      };
+    }
+
+    return {
+      name:
+        localName ||
+        cloudName ||
+        "Learner",
+
+      updatedAt:
+        null,
+
+      changed: false
+    };
   }
 
 
@@ -994,14 +1121,13 @@
       Restore learners that do not exist
       on this device.
 
-      Step 2A + 2B + 2C:
+      Step 2A + 2B + 2C + 2D:
       When the learner ID already exists,
       merge activity sessions, Volo Goals,
-      earned Volo Tokens, and intentional
-      Clear Progress resets.
+      earned Volo Tokens, intentional
+      Clear Progress resets, and Rename.
 
-      Rename and Delete are intentionally
-      not merged here yet.
+      Delete is intentionally not merged yet.
     */
 
     const {
@@ -1138,7 +1264,7 @@
         );
 
       /*
-        STEP 2A + 2B + 2C:
+        STEP 2A + 2B + 2C + 2D:
         Same learner exists locally and
         in Supabase.
 
@@ -1146,12 +1272,30 @@
         - preserve earned Volo Tokens
         - use newest intentional Goal state
         - honor newest Clear Progress cutoff
+        - use newest intentional Rename
 
-        Rename and Delete are intentionally
-        not handled yet.
+        Delete is intentionally not handled yet.
       */
       if (localStudent) {
         let learnerChanged = false;
+
+        const nameMerge =
+          mergeLearnerName(
+            localStudent,
+            cloudStudent
+          );
+
+        if (
+          nameMerge.changed
+        ) {
+          localStudent.name =
+            nameMerge.name;
+
+          localStudent.nameUpdatedAt =
+            nameMerge.updatedAt;
+
+          learnerChanged = true;
+        }
 
         const localClearAt =
           localStudent.progressClearedAt ||
@@ -1333,6 +1477,10 @@
           studentId,
 
         name,
+
+        nameUpdatedAt:
+          cloudStudent.nameUpdatedAt ||
+          null,
 
         createdAt:
           cloudStudent.createdAt ||
@@ -1728,9 +1876,9 @@
           Cloud-only Morphology learners can be
           restored to this device. For learners
           already on this device, activity sessions,
-          Volo Goals, earned Volo Tokens, and Clear
-          Progress sync safely across devices.
-          Rename and Delete are not synced yet.
+          Volo Goals, earned Volo Tokens, Clear
+          Progress, and Rename sync safely across
+          devices. Delete is not synced yet.
         </p>
 
       </div>

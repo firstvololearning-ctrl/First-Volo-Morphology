@@ -279,6 +279,7 @@ addStudentButton.addEventListener("click", () => {
     id: makeStudentId(),
     name,
     createdAt: new Date().toISOString(),
+    nameUpdatedAt: new Date().toISOString(),
     sessions: [],
     voloTokens: {}
   };
@@ -318,6 +319,15 @@ renameStudentButton.addEventListener("click", () => {
   if (!updatedName || !updatedName.trim()) return;
 
   student.name = updatedName.trim();
+
+  /*
+    Record when this learner was intentionally
+    renamed so the newest rename can win
+    across devices.
+  */
+  student.nameUpdatedAt =
+    new Date().toISOString();
+
   saveProgressData();
   renderStudentRoster();
 });
