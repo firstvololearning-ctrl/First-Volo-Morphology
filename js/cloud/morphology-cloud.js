@@ -262,7 +262,11 @@
                   student.voloGoals
                 )
                   ? student.voloGoals
-                  : []
+                  : [],
+
+              voloGoalsUpdatedAt:
+                student.voloGoalsUpdatedAt ||
+                null
             },
 
             client_updated_at:
@@ -560,6 +564,286 @@
   }
 
 
+  const VOLO_GOAL_LEVELS = [
+    "Foundation",
+    "Expansion",
+    "Advanced"
+  ];
+
+
+  function normalizeVoloGoals(
+    goals
+  ) {
+    const selected =
+      new Set(
+        Array.isArray(goals)
+          ? goals
+          : []
+      );
+
+    return VOLO_GOAL_LEVELS.filter(
+      level =>
+        selected.has(level)
+    );
+  }
+
+
+  function parseCloudTime(
+    value
+  ) {
+    const parsed =
+      Date.parse(
+        value || ""
+      );
+
+    return Number.isFinite(parsed)
+      ? parsed
+      : null;
+  }
+
+
+  function mergeVoloGoals(
+    localStudent,
+    cloudStudent
+  ) {
+    const localGoals =
+      normalizeVoloGoals(
+        localStudent?.voloGoals
+      );
+
+    const cloudGoals =
+      normalizeVoloGoals(
+        cloudStudent?.voloGoals
+      );
+
+    const localTime =
+      parseCloudTime(
+        localStudent
+          ?.voloGoalsUpdatedAt
+      );
+
+    const cloudTime =
+      parseCloudTime(
+        cloudStudent
+          ?.voloGoalsUpdatedAt
+      );
+
+    /*
+      Once timestamps exist, the newest
+      intentional Goal selection wins.
+
+      This supports both checking AND
+      unchecking a Goal.
+    */
+    if (
+      localTime !== null ||
+      cloudTime !== null
+    ) {
+      if (
+        cloudTime !== null &&
+        (
+          localTime === null ||
+          cloudTime > localTime
+        )
+      ) {
+        return {
+          goals:
+            cloudGoals,
+
+          updatedAt:
+            cloudStudent
+              .voloGoalsUpdatedAt,
+
+          changed:
+            JSON.stringify(
+              localGoals
+            ) !==
+              JSON.stringify(
+                cloudGoals
+              ) ||
+            localStudent
+              .voloGoalsUpdatedAt !==
+              cloudStudent
+                .voloGoalsUpdatedAt
+        };
+      }
+
+      return {
+        goals:
+          localGoals,
+
+        updatedAt:
+          localStudent
+            .voloGoalsUpdatedAt ||
+          null,
+
+        changed: false
+      };
+    }
+
+    /*
+      Older saved records have no Goal
+      timestamp yet.
+
+      Until one device makes an intentional
+      Goal change, preserve all selected Goals
+      rather than silently removing one.
+    */
+    const union =
+      VOLO_GOAL_LEVELS.filter(
+        level =>
+          localGoals.includes(level) ||
+          cloudGoals.includes(level)
+      );
+
+    return {
+      goals:
+        union,
+
+      updatedAt:
+        null,
+
+      changed:
+        JSON.stringify(
+          union
+        ) !==
+        JSON.stringify(
+          localGoals
+        )
+    };
+  }
+
+
+  function validTokenStore(
+    value
+  ) {
+    return (
+      value &&
+      typeof value ===
+        "object" &&
+      !Array.isArray(value)
+    )
+      ? value
+      : {};
+  }
+
+
+  function chooseEarnedToken(
+    localToken,
+    cloudToken
+  ) {
+    if (!localToken) {
+      return cloudToken;
+    }
+
+    if (!cloudToken) {
+      return localToken;
+    }
+
+    if (
+      typeof localToken !==
+        "object" ||
+      typeof cloudToken !==
+        "object"
+    ) {
+      return localToken;
+    }
+
+    const localEarned =
+      parseCloudTime(
+        localToken.earnedAt
+      );
+
+    const cloudEarned =
+      parseCloudTime(
+        cloudToken.earnedAt
+      );
+
+    let earnedAt =
+      localToken.earnedAt ||
+      cloudToken.earnedAt ||
+      null;
+
+    /*
+      If both devices know the Token was
+      earned, preserve the earliest known
+      earning time.
+    */
+    if (
+      localEarned !== null &&
+      cloudEarned !== null
+    ) {
+      earnedAt =
+        localEarned <=
+        cloudEarned
+          ? localToken.earnedAt
+          : cloudToken.earnedAt;
+    }
+
+    return {
+      ...cloudToken,
+      ...localToken,
+      earnedAt
+    };
+  }
+
+
+  function mergeVoloTokens(
+    localTokens,
+    cloudTokens
+  ) {
+    const local =
+      validTokenStore(
+        localTokens
+      );
+
+    const cloud =
+      validTokenStore(
+        cloudTokens
+      );
+
+    const merged = {
+      ...local
+    };
+
+    /*
+      Tokens are sticky evidence.
+
+      If either device has already earned
+      a Token, keep it.
+
+      Clear Progress will later receive its
+      own explicit cloud behavior.
+    */
+    for (
+      const [
+        setId,
+        cloudToken
+      ]
+      of Object.entries(cloud)
+    ) {
+      merged[setId] =
+        chooseEarnedToken(
+          local[setId],
+          cloudToken
+        );
+    }
+
+    return {
+      tokens:
+        merged,
+
+      changed:
+        JSON.stringify(
+          merged
+        ) !==
+        JSON.stringify(
+          local
+        )
+    };
+  }
+
+
   async function restoreAndMergeLearners() {
     if (!currentUser) {
       return {
@@ -575,12 +859,12 @@
       Restore learners that do not exist
       on this device.
 
-      Step 2A:
+      Step 2A + 2B:
       When the learner ID already exists,
-      merge ONLY activity sessions.
+      merge activity sessions, Volo Goals,
+      and earned Volo Tokens.
 
-      Names, Volo Goals, Volo Tokens,
-      clear-progress behavior, and deletion
+      Rename, Clear Progress, and Delete
       are intentionally not merged here yet.
     */
 
@@ -718,13 +1002,20 @@
         );
 
       /*
-        STEP 2A:
+        STEP 2A + 2B:
         Same learner exists locally and
         in Supabase.
 
-        Merge sessions by session.id only.
+        - merge sessions by session ID
+        - preserve every earned Volo Token
+        - use newest intentional Goal state
+
+        Rename, Clear Progress, and Delete
+        are intentionally not handled yet.
       */
       if (localStudent) {
+        let learnerChanged = false;
+
         const sessionMerge =
           mergeMorphologySessions(
             localStudent.sessions,
@@ -737,7 +1028,7 @@
           localStudent.sessions =
             sessionMerge.sessions;
 
-          mergedLearners += 1;
+          learnerChanged = true;
 
           sessionsAdded +=
             sessionMerge
@@ -746,6 +1037,63 @@
           sessionsUpdated +=
             sessionMerge
               .updatedFromCloud;
+        }
+
+        const tokenMerge =
+          mergeVoloTokens(
+            localStudent.voloTokens,
+            cloudStudent.voloTokens
+          );
+
+        if (
+          tokenMerge.changed
+        ) {
+          localStudent.voloTokens =
+            tokenMerge.tokens;
+
+          learnerChanged = true;
+        }
+
+        const goalMerge =
+          mergeVoloGoals(
+            localStudent,
+            cloudStudent
+          );
+
+        if (
+          goalMerge.changed
+        ) {
+          localStudent.voloGoals =
+            goalMerge.goals;
+
+          localStudent.voloGoalsUpdatedAt =
+            goalMerge.updatedAt;
+
+          learnerChanged = true;
+        }
+
+        /*
+          Sessions from both devices may,
+          together, satisfy a Token rule.
+
+          Re-evaluate the combined evidence.
+        */
+        const tokenUpdate =
+          window.FirstVoloTokens
+            ?.updateEarnedTokens?.({
+              students: [
+                localStudent
+              ]
+            });
+
+        if (
+          tokenUpdate?.changed
+        ) {
+          learnerChanged = true;
+        }
+
+        if (learnerChanged) {
+          mergedLearners += 1;
         }
 
         continue;
@@ -799,8 +1147,24 @@
             cloudStudent.voloGoals
           )
             ? cloudStudent.voloGoals
-            : []
+            : [],
+
+        voloGoalsUpdatedAt:
+          cloudStudent.voloGoalsUpdatedAt ||
+          null
       };
+
+      /*
+        A restored learner may already have
+        enough saved evidence for additional
+        sticky Tokens under the current rules.
+      */
+      window.FirstVoloTokens
+        ?.updateEarnedTokens?.({
+          students: [
+            restoredStudent
+          ]
+        });
 
       progress.students.push(
         restoredStudent
@@ -1152,10 +1516,10 @@
           Local browser saving remains active.
           Cloud-only Morphology learners can be
           restored to this device. For learners
-          already on this device, saved activity
-          sessions are combined by session ID.
-          Names, Goals, Tokens, clear-progress,
-          and deletion are not merged yet.
+          already on this device, activity sessions,
+          Volo Goals, and earned Volo Tokens sync
+          safely across devices. Rename, Clear
+          Progress, and Delete are not synced yet.
         </p>
 
       </div>
