@@ -4750,3 +4750,7 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.printable-activity-grid-single {
+  grid-template-columns: 1fr;
+}
