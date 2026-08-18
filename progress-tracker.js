@@ -210,7 +210,7 @@ function renderStudentRoster() {
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent = "Select a student";
+  placeholder.textContent = "Select a learner";
   studentSelect.append(placeholder);
 
   progressData.students
@@ -312,7 +312,7 @@ renameStudentButton.addEventListener("click", () => {
   if (!student) return;
 
   const updatedName = window.prompt(
-    "Rename student:",
+    "Rename learner:",
     student.name
   );
 
@@ -337,7 +337,7 @@ clearStudentProgressButton.addEventListener("click", () => {
   if (!student) return;
 
   const confirmed = window.confirm(
-    `Clear all saved program progress for ${student.name}? The student profile will be kept.`
+    `Clear all saved program progress for ${student.name}? The learner profile will be kept.`
   );
 
   if (!confirmed) return;
@@ -628,7 +628,7 @@ function renderVoloTokenProgress(
 
   intro.textContent =
     "Tokens recognize evidence across a set of word parts. " +
-    "Once earned, a Token stays earned unless student progress is cleared.";
+    "Once earned, a Token stays earned unless learner progress is cleared.";
 
   section.append(intro);
 
