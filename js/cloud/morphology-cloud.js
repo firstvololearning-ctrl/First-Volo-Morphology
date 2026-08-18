@@ -288,6 +288,214 @@
     return true;
   }
 
+  async function restoreCloudOnlyLearners() {
+    if (!currentUser) {
+      return {
+        restored: 0
+      };
+    }
+
+    /*
+      Step 1 restore rule:
+
+      Only restore a learner when that learner ID
+      does NOT already exist on this device.
+
+      Existing local learners are left completely
+      untouched until the later merge/conflict step.
+    */
+
+    const {
+      data: cloudStates,
+      error: stateError
+    } =
+      await client
+        .from("learning_state")
+        .select(
+          "learner_profile_id, data"
+        )
+        .eq(
+          "product_key",
+          PRODUCT_KEY
+        )
+        .eq(
+          "store_key",
+          STORE_KEY
+        );
+
+    if (stateError) {
+      throw stateError;
+    }
+
+    if (
+      !Array.isArray(cloudStates) ||
+      !cloudStates.length
+    ) {
+      return {
+        restored: 0
+      };
+    }
+
+    const {
+      data: cloudLearners,
+      error: learnerError
+    } =
+      await client
+        .from("learner_profiles")
+        .select(
+          "id, local_profile_id, display_name, created_at"
+        )
+        .eq(
+          "owner_user_id",
+          currentUser.id
+        );
+
+    if (learnerError) {
+      throw learnerError;
+    }
+
+    const stateByLearnerId =
+      new Map(
+        cloudStates.map(
+          state => [
+            state.learner_profile_id,
+            state
+          ]
+        )
+      );
+
+    const progress =
+      readLocalProgress();
+
+    const localIds =
+      new Set(
+        progress.students
+          .map(
+            student =>
+              student?.id
+          )
+          .filter(Boolean)
+      );
+
+    let restored = 0;
+
+    for (
+      const learner
+      of (
+        Array.isArray(cloudLearners)
+          ? cloudLearners
+          : []
+      )
+    ) {
+      const studentId =
+        learner.local_profile_id;
+
+      /*
+        Matching is by the original student ID.
+
+        If this ID already exists locally,
+        Step 1 does NOTHING to it.
+      */
+      if (
+        !studentId ||
+        localIds.has(studentId)
+      ) {
+        continue;
+      }
+
+      const state =
+        stateByLearnerId.get(
+          learner.id
+        );
+
+      /*
+        learner_profiles is shared across
+        First Volo products.
+
+        Only restore this learner into Morphology
+        when a Morphology scored-progress state
+        actually exists.
+      */
+      if (
+        !state ||
+        !state.data ||
+        typeof state.data !==
+          "object"
+      ) {
+        continue;
+      }
+
+      const cloudStudent =
+        state.data;
+
+      const name =
+        String(
+          cloudStudent.name ||
+          learner.display_name ||
+          "Learner"
+        ).trim() ||
+        "Learner";
+
+      const voloTokens =
+        cloudStudent.voloTokens &&
+        typeof cloudStudent.voloTokens ===
+          "object" &&
+        !Array.isArray(
+          cloudStudent.voloTokens
+        )
+          ? cloudStudent.voloTokens
+          : {};
+
+      progress.students.push({
+        id:
+          studentId,
+
+        name,
+
+        createdAt:
+          cloudStudent.createdAt ||
+          learner.created_at ||
+          new Date().toISOString(),
+
+        sessions:
+          Array.isArray(
+            cloudStudent.sessions
+          )
+            ? cloudStudent.sessions
+            : [],
+
+        voloTokens,
+
+        voloGoals:
+          Array.isArray(
+            cloudStudent.voloGoals
+          )
+            ? cloudStudent.voloGoals
+            : []
+      });
+
+      localIds.add(
+        studentId
+      );
+
+      restored += 1;
+    }
+
+    if (restored > 0) {
+      localStorage.setItem(
+        LOCAL_PROGRESS_KEY,
+        JSON.stringify(
+          progress
+        )
+      );
+    }
+
+    return {
+      restored
+    };
+  }
+
+
   async function syncNow() {
     if (
       !currentUser ||
@@ -594,9 +802,11 @@
 
         <p class="fv-cloud-note">
           Local browser saving remains active.
-          This first cloud version only creates
-          an online backup. It does not replace
-          or overwrite local Morphology progress.
+          When you sign in, Morphology learners
+          saved in your First Volo account can
+          be restored to this device. Existing
+          local learner records are not merged
+          or overwritten yet.
         </p>
 
       </div>
@@ -757,6 +967,8 @@
   window.FirstVoloMorphologyCloud = {
     queueSync,
     syncNow,
+    restoreCloudOnly:
+      restoreCloudOnlyLearners,
     getUser() {
       return currentUser;
     }
@@ -777,7 +989,52 @@
         )
       ) {
         setTimeout(
-          syncNow,
+          async () => {
+            try {
+              const result =
+                await restoreCloudOnlyLearners();
+
+              if (
+                result.restored > 0
+              ) {
+                updateUI(
+                  `Restored ${result.restored} Morphology learner${result.restored === 1 ? "" : "s"} from the cloud. Reloading…`
+                );
+
+                /*
+                  Reload once so activity-progress.js
+                  and progress-tracker.js read the newly
+                  restored localStorage record normally.
+
+                  On the reload, the IDs now exist locally,
+                  so they will NOT be restored a second time.
+                */
+                setTimeout(
+                  () => {
+                    window.location.reload();
+                  },
+                  300
+                );
+
+                return;
+              }
+
+              /*
+                Nothing cloud-only needed restoring.
+                Continue the existing backup behavior.
+              */
+              syncNow();
+            } catch (error) {
+              console.warn(
+                "Morphology cloud restore failed.",
+                error
+              );
+
+              updateUI(
+                "Cloud restore could not complete. Existing local progress was not changed."
+              );
+            }
+          },
           0
         );
       }
