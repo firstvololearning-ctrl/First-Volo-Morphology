@@ -173,16 +173,16 @@ const FORMS = {
       },
       {
         id: "pre-13",
-        challenge: "Build It",
+        challenge: "Break It Apart",
         type: "choice",
-        prompt: "Which word-part split correctly builds transport?",
-        choices: ["trans-port", "inter-port", "trans-spect", "re-port"],
+        prompt: "Which word-part split correctly shows the meaningful parts in transport?",
+        choices: ["trans-port", "tran-sport", "tra-nsport", "transp-ort"],
         answer: "trans-port",
-        skill: "build",
+        skill: "analysis",
         reportGroup: "practiced",
         trainedStatus: "practiced",
-        support: "given a field of 4 word-part combinations",
-        ccss: "L.4.4b / L.5.4b supporting application"
+        support: "given a field of 4 possible word-part splits",
+        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
       },
       {
         id: "pre-14",
