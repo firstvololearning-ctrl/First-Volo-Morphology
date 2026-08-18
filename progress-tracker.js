@@ -362,14 +362,38 @@ deleteStudentButton.addEventListener("click", () => {
   if (!student) return;
 
   const confirmed = window.confirm(
-    `Delete ${student.name} and all saved progress for this student?`
+    `Delete ${student.name} from First Volo Morphology and remove all saved Morphology progress for this learner? Other First Volo products are not affected.`
   );
 
   if (!confirmed) return;
 
-  progressData.students = progressData.students.filter(
-    (item) => item.id !== student.id
-  );
+  if (
+    !progressData.deletedMorphologyLearners ||
+    typeof progressData.deletedMorphologyLearners !==
+      "object" ||
+    Array.isArray(
+      progressData.deletedMorphologyLearners
+    )
+  ) {
+    progressData.deletedMorphologyLearners = {};
+  }
+
+  /*
+    Keep a product-specific deletion marker.
+
+    The learner is removed from Morphology,
+    but the shared First Volo learner profile
+    remains available to other products.
+  */
+  progressData.deletedMorphologyLearners[
+    student.id
+  ] = new Date().toISOString();
+
+  progressData.students =
+    progressData.students.filter(
+      (item) =>
+        item.id !== student.id
+    );
 
   progressData.activeStudentId = null;
 

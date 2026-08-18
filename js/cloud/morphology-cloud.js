@@ -1106,11 +1106,189 @@
   }
 
 
+  function validDeletionMap(
+    value
+  ) {
+    return (
+      value &&
+      typeof value ===
+        "object" &&
+      !Array.isArray(value)
+    )
+      ? value
+      : {};
+  }
+
+
+  function newestMorphologyDeletion(
+    localDeletedAt,
+    cloudDeletedAt
+  ) {
+    const localTime =
+      parseCloudTime(
+        localDeletedAt
+      );
+
+    const cloudTime =
+      parseCloudTime(
+        cloudDeletedAt
+      );
+
+    if (
+      localTime === null &&
+      cloudTime === null
+    ) {
+      return null;
+    }
+
+    if (
+      cloudTime !== null &&
+      (
+        localTime === null ||
+        cloudTime > localTime
+      )
+    ) {
+      return cloudDeletedAt;
+    }
+
+    return (
+      localDeletedAt ||
+      cloudDeletedAt ||
+      null
+    );
+  }
+
+
+  async function syncLocalDeletionTombstones(
+    progress
+  ) {
+    if (!currentUser) {
+      return 0;
+    }
+
+    const deletions =
+      validDeletionMap(
+        progress
+          ?.deletedMorphologyLearners
+      );
+
+    let synced = 0;
+
+    for (
+      const [
+        studentId,
+        deletedAt
+      ]
+      of Object.entries(deletions)
+    ) {
+      if (
+        !studentId ||
+        parseCloudTime(
+          deletedAt
+        ) === null
+      ) {
+        continue;
+      }
+
+      /*
+        Find the existing shared learner
+        profile. Do NOT delete it and do
+        not create a new profile solely
+        because Morphology was deleted.
+      */
+      const {
+        data: learners,
+        error: learnerError
+      } =
+        await client
+          .from("learner_profiles")
+          .select("id")
+          .eq(
+            "owner_user_id",
+            currentUser.id
+          )
+          .eq(
+            "local_profile_id",
+            studentId
+          )
+          .limit(1);
+
+      if (learnerError) {
+        throw learnerError;
+      }
+
+      const learner =
+        Array.isArray(learners)
+          ? learners[0]
+          : null;
+
+      if (!learner?.id) {
+        continue;
+      }
+
+      const now =
+        new Date().toISOString();
+
+      /*
+        Replace only this product's
+        learning_state with a tombstone.
+
+        learner_profiles stays intact for
+        Primo Volo and other First Volo
+        products.
+      */
+      const {
+        error: stateError
+      } =
+        await client
+          .from("learning_state")
+          .upsert(
+            {
+              learner_profile_id:
+                learner.id,
+
+              product_key:
+                PRODUCT_KEY,
+
+              store_key:
+                STORE_KEY,
+
+              data: {
+                id:
+                  studentId,
+
+                deletedAt
+              },
+
+              client_updated_at:
+                now,
+
+              updated_at:
+                now
+            },
+            {
+              onConflict:
+                "learner_profile_id,product_key,store_key"
+            }
+          );
+
+      if (stateError) {
+        throw stateError;
+      }
+
+      synced += 1;
+    }
+
+    return synced;
+  }
+
+
   async function restoreAndMergeLearners() {
     if (!currentUser) {
       return {
         restored: 0,
         mergedLearners: 0,
+        deletedLearners: 0,
         sessionsAdded: 0,
         sessionsUpdated: 0
       };
@@ -1121,13 +1299,11 @@
       Restore learners that do not exist
       on this device.
 
-      Step 2A + 2B + 2C + 2D:
-      When the learner ID already exists,
-      merge activity sessions, Volo Goals,
-      earned Volo Tokens, intentional
-      Clear Progress resets, and Rename.
-
-      Delete is intentionally not merged yet.
+      Step 2A through 2E:
+      Restore and safely synchronize Morphology
+      sessions, Volo Goals, earned Volo Tokens,
+      Clear Progress, Rename, and Morphology-
+      specific Delete tombstones.
     */
 
     const {
@@ -1161,6 +1337,7 @@
       return {
         restored: 0,
         mergedLearners: 0,
+        deletedLearners: 0,
         sessionsAdded: 0,
         sessionsUpdated: 0
       };
@@ -1197,6 +1374,17 @@
     const progress =
       readLocalProgress();
 
+    if (
+      !progress.deletedMorphologyLearners ||
+      typeof progress.deletedMorphologyLearners !==
+        "object" ||
+      Array.isArray(
+        progress.deletedMorphologyLearners
+      )
+    ) {
+      progress.deletedMorphologyLearners = {};
+    }
+
     const localStudentById =
       new Map(
         progress.students
@@ -1214,6 +1402,7 @@
 
     let restored = 0;
     let mergedLearners = 0;
+    let deletedLearners = 0;
     let sessionsAdded = 0;
     let sessionsUpdated = 0;
 
@@ -1263,8 +1452,79 @@
           studentId
         );
 
+      const localDeletedAt =
+        progress
+          .deletedMorphologyLearners[
+            studentId
+          ] ||
+        null;
+
+      const cloudDeletedAt =
+        cloudStudent.deletedAt ||
+        null;
+
+      const newestDeletedAt =
+        newestMorphologyDeletion(
+          localDeletedAt,
+          cloudDeletedAt
+        );
+
       /*
-        STEP 2A + 2B + 2C + 2D:
+        STEP 2E:
+        A Morphology deletion wins over
+        older saved Morphology state.
+
+        The shared learner_profiles row is
+        intentionally left untouched.
+      */
+      if (newestDeletedAt) {
+        let deletionChanged = false;
+
+        if (
+          progress
+            .deletedMorphologyLearners[
+              studentId
+            ] !== newestDeletedAt
+        ) {
+          progress
+            .deletedMorphologyLearners[
+              studentId
+            ] = newestDeletedAt;
+
+          deletionChanged = true;
+        }
+
+        if (localStudent) {
+          progress.students =
+            progress.students.filter(
+              student =>
+                student.id !== studentId
+            );
+
+          localStudentById.delete(
+            studentId
+          );
+
+          if (
+            progress.activeStudentId ===
+            studentId
+          ) {
+            progress.activeStudentId =
+              null;
+          }
+
+          deletionChanged = true;
+        }
+
+        if (deletionChanged) {
+          deletedLearners += 1;
+        }
+
+        continue;
+      }
+
+      /*
+        STEP 2A + 2B + 2C + 2D + 2E:
         Same learner exists locally and
         in Supabase.
 
@@ -1539,7 +1799,8 @@
 
     if (
       restored > 0 ||
-      mergedLearners > 0
+      mergedLearners > 0 ||
+      deletedLearners > 0
     ) {
       localStorage.setItem(
         LOCAL_PROGRESS_KEY,
@@ -1552,6 +1813,7 @@
     return {
       restored,
       mergedLearners,
+      deletedLearners,
       sessionsAdded,
       sessionsUpdated
     };
@@ -1574,11 +1836,22 @@
 
     try {
       /*
-        Always pull and combine remote sessions
-        before writing this device's record back.
+        Push Morphology Delete tombstones FIRST.
 
-        This prevents a stale device from simply
-        replacing cloud-only session history.
+        Otherwise the normal restore pass could
+        bring back a learner that was just
+        intentionally deleted on this device.
+      */
+      const beforeRestoreProgress =
+        readLocalProgress();
+
+      await syncLocalDeletionTombstones(
+        beforeRestoreProgress
+      );
+
+      /*
+        Then pull and combine the remaining
+        Morphology state normally.
       */
       await restoreAndMergeLearners();
 
@@ -1877,8 +2150,10 @@
           restored to this device. For learners
           already on this device, activity sessions,
           Volo Goals, earned Volo Tokens, Clear
-          Progress, and Rename sync safely across
-          devices. Delete is not synced yet.
+          Progress, Rename, and Morphology Delete
+          sync safely across devices. Deleting here
+          does not delete the shared First Volo
+          learner profile used by other products.
         </p>
 
       </div>
@@ -2076,7 +2351,8 @@
 
               const changedLearners =
                 result.restored +
-                result.mergedLearners;
+                result.mergedLearners +
+                result.deletedLearners;
 
               if (
                 changedLearners > 0
