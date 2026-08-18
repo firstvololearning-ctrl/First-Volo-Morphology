@@ -12,10 +12,20 @@
   section.id = "homeVoloGoals";
   section.className = "home-volo-goals";
 
-  studentBar.insertAdjacentElement(
-    "afterend",
-    section
-  );
+  const activitySelector =
+    document.querySelector(".activity-selector-section");
+
+  if (activitySelector) {
+    activitySelector.insertAdjacentElement(
+      "afterend",
+      section
+    );
+  } else {
+    studentBar.insertAdjacentElement(
+      "afterend",
+      section
+    );
+  }
 
   function getStudent() {
     return (

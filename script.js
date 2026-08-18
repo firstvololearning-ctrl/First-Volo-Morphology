@@ -138,7 +138,7 @@ function getVocabularyLevelLabel() {
     all: "All Vocabulary",
     familiar: "Familiar",
     academic: "Academic",
-    challenge: "Challenge"
+    challenge: "Stretch Words"
   };
 
   return labels[vocabLevel] || "All Vocabulary";
@@ -6024,6 +6024,180 @@ function getCurrentStudyItems() {
   );
 }
 
+
+/* ========================================
+   FLIGHT-DEPENDENT SETUP CONTROLS
+   ======================================== */
+
+function getAvailableMorphemeTypesForSelectedFlight() {
+  const available = {
+    prefix: false,
+    root: false,
+    suffix: false
+  };
+
+  const groups = {
+    prefix: prefixes,
+    root: roots,
+    suffix: suffixes
+  };
+
+  Object.entries(groups).forEach(
+    ([type, items]) => {
+      available[type] = items.some(
+        isMorphemeEligibleForSelectedGrade
+      );
+    }
+  );
+
+  return available;
+}
+
+function studyModeIsAvailableForSelectedFlight(mode) {
+  if (gradeBand === "all") {
+    return true;
+  }
+
+  const available =
+    getAvailableMorphemeTypesForSelectedFlight();
+
+  const requirements = {
+    prefixes: ["prefix"],
+    roots: ["root"],
+    suffixes: ["suffix"],
+    "prefix-root": ["prefix", "root"],
+    "root-suffix": ["root", "suffix"],
+    "prefix-root-suffix": [
+      "prefix",
+      "root",
+      "suffix"
+    ]
+  };
+
+  const required = requirements[mode] || [];
+
+  return (
+    required.length > 0 &&
+    required.every((type) => available[type])
+  );
+}
+
+function updateStudyChoiceAvailability() {
+  let selectedStudyBecameUnavailable = false;
+
+  studyChoiceButtons.forEach((button) => {
+    const mode = button.dataset.studyMode;
+
+    const isAvailable =
+      studyModeIsAvailableForSelectedFlight(mode);
+
+    const small = button.querySelector("small");
+
+    if (
+      small &&
+      !button.dataset.availableLabel
+    ) {
+      button.dataset.availableLabel =
+        small.textContent.trim();
+    }
+
+    button.disabled = !isAvailable;
+
+    button.classList.toggle(
+      "is-unavailable",
+      !isAvailable
+    );
+
+    button.setAttribute(
+      "aria-disabled",
+      String(!isAvailable)
+    );
+
+    button.title = isAvailable
+      ? ""
+      : `Not available in ${getGradeBandLabel()}.`;
+
+    if (small) {
+      small.textContent = isAvailable
+        ? button.dataset.availableLabel
+        : "Not in this flight";
+    }
+
+    if (
+      !isAvailable &&
+      button.dataset.studyMode === studyMode
+    ) {
+      selectedStudyBecameUnavailable = true;
+    }
+  });
+
+  if (selectedStudyBecameUnavailable) {
+    studyMode = "";
+    studySelect.value = "";
+
+    studyChoiceButtons.forEach((button) => {
+      button.classList.remove("active");
+      button.setAttribute(
+        "aria-pressed",
+        "false"
+      );
+    });
+
+    studyAvailability.textContent =
+      "Choose an available option for this Practice Flight.";
+  }
+}
+
+function vocabularyLevelExistsInSelectedFlight(level) {
+  if (level === "all") {
+    return true;
+  }
+
+  if (gradeBand === "all") {
+    return WORD_INVENTORY.some(
+      (entry) => entry.vocabLevel === level
+    );
+  }
+
+  return WORD_INVENTORY.some(
+    (entry) =>
+      entry.practiceBand === gradeBand &&
+      entry.vocabLevel === level
+  );
+}
+
+function updateVocabularyLevelAvailability() {
+  let selectedVocabularyBecameUnavailable = false;
+
+  [...vocabLevelSelect.options].forEach(
+    (option) => {
+      const isAvailable =
+        vocabularyLevelExistsInSelectedFlight(
+          option.value
+        );
+
+      option.disabled = !isAvailable;
+
+      if (
+        !isAvailable &&
+        option.value === vocabLevel
+      ) {
+        selectedVocabularyBecameUnavailable = true;
+      }
+    }
+  );
+
+  if (selectedVocabularyBecameUnavailable) {
+    vocabLevel = "all";
+    vocabLevelSelect.value = "all";
+  }
+}
+
+function updateFlightDependentControls() {
+  updateStudyChoiceAvailability();
+  updateVocabularyLevelAvailability();
+}
+
 function getTypeClass(type) {
   if (type === "prefix") {
     return "prefix";
@@ -10107,6 +10281,10 @@ function checkBuiltWord() {
 
 studyChoiceButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    if (button.disabled) {
+      return;
+    }
+
     const selectedMode =
       button.dataset.studyMode;
 
@@ -10210,6 +10388,7 @@ window.addEventListener(
 );
 
 renderWordBuilderPath();
+updateFlightDependentControls();
 
 
 learnExploreButton?.addEventListener("click", () => {
@@ -10225,6 +10404,7 @@ learnSortButton?.addEventListener("click", () => {
 gradeBandSelect.addEventListener("change", () => {
   gradeBand = gradeBandSelect.value;
 
+  updateFlightDependentControls();
   renderCurrentActivity();
   updateCurrentPracticeSummary();
 });
