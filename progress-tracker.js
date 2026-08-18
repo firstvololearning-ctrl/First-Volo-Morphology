@@ -1012,13 +1012,34 @@ function renderStudentProgressDetails(student) {
   const directWordParts = new Map();
   const applicationWordParts = new Map();
 
+  const directSkills = new Set([
+    "find",
+    "hunt",
+    "meaning",
+    "morpheme"
+  ]);
+
+  const applicationSkills = new Set([
+    "break",
+    "infer",
+    "build",
+    "use",
+    "change"
+  ]);
+
   sessions.forEach((session) => {
     const responses = Array.isArray(session.responses)
       ? session.responses
       : [];
 
     responses.forEach((response) => {
-      if (response.primaryTarget) {
+      const skill =
+        response.skill || "activity";
+
+      if (
+        response.primaryTarget &&
+        directSkills.has(skill)
+      ) {
         const type =
           response.targetType || "word part";
 
@@ -1043,9 +1064,6 @@ function renderStudentProgressDetails(student) {
           entry.correct += 1;
         }
 
-        const skill =
-          response.skill || "activity";
-
         if (!entry.skills[skill]) {
           entry.skills[skill] = {
             attempts: 0,
@@ -1060,14 +1078,19 @@ function renderStudentProgressDetails(student) {
         }
       }
 
-      const supportingTargets =
-        Array.isArray(response.supportingTargets)
-          ? [...new Set(
-              response.supportingTargets.filter(Boolean)
-            )]
+      const applicationTargets =
+        applicationSkills.has(skill)
+          ? [...new Set([
+              response.primaryTarget,
+              ...(
+                Array.isArray(response.supportingTargets)
+                  ? response.supportingTargets
+                  : []
+              )
+            ].filter(Boolean))]
           : [];
 
-      supportingTargets.forEach((target) => {
+      applicationTargets.forEach((target) => {
         if (!applicationWordParts.has(target)) {
           applicationWordParts.set(target, {
             label: target,
@@ -1080,9 +1103,6 @@ function renderStudentProgressDetails(student) {
           applicationWordParts.get(target);
 
         entry.opportunities += 1;
-
-        const skill =
-          response.skill || "activity";
 
         if (!entry.skills[skill]) {
           entry.skills[skill] = {
