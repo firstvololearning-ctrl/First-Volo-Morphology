@@ -110,3 +110,81 @@ RECORD_NOTE = (
     "Record each word you build. Word sum = show the parts you joined. "
     "Literal meaning = what the parts suggest; definition = what the whole word means."
 )
+
+
+# Roll & Build
+ROLL_PREFIXES = [
+    {
+        "label": "pre-",
+        "meaning": "before",
+        "image": "images/prefixes/pre.png",
+    },
+    {
+        "label": "re-",
+        "meaning": "again; back",
+        "image": "images/prefixes/re.png",
+    },
+    {
+        "label": "over-",
+        "meaning": "too much; above",
+        "image": "images/prefixes/over.png",
+    },
+    {
+        "label": "under-",
+        "meaning": "too little; below",
+        "image": "images/prefixes/under.png",
+    },
+    {
+        "label": "pre-",
+        "meaning": "before",
+        "image": "images/prefixes/pre.png",
+    },
+    {
+        "label": "re-",
+        "meaning": "again; back",
+        "image": "images/prefixes/re.png",
+    },
+]
+
+ROLL_SUFFIXES = [
+    {
+        "label": "-ed",
+        "meaning": "already happened; past",
+        "image": "images/suffixes/ed.png",
+    },
+    {
+        "label": "-ing",
+        "meaning": "action happening now",
+        "image": "images/suffixes/ing.png",
+    },
+    {
+        "label": "-er",
+        "meaning": "person or thing that",
+        "image": "images/suffixes/er-agent.png",
+    },
+    {
+        "label": "-s",
+        "meaning": "present-tense verb; or more than one",
+        "image": "images/suffixes/s.png",
+    },
+    {
+        "label": "-ed",
+        "meaning": "already happened; past",
+        "image": "images/suffixes/ed.png",
+    },
+    {
+        "label": "-ing",
+        "meaning": "action happening now",
+        "image": "images/suffixes/ing.png",
+    },
+]
+
+ROLL_BASE = {
+    "label": "COOK",
+    "image": "images/base-words/cook.png",
+}
+
+ROLL_NOTE = (
+    "Use two regular dice. Roll once for a prefix and once for a suffix. "
+    "Some high-use word parts appear twice."
+)
