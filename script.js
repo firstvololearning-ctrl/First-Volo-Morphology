@@ -961,7 +961,7 @@ const suffixes = [
     type: "suffix",
     label: "-ance",
     speech: "ance",
-    meaning: "state, quality, or act",
+    meaning: "an action, or a state or quality someone or something has",
     image: "images/suffixes/ance.png",
     examples: ["performance", "importance", "acceptance"]
   },
@@ -970,7 +970,7 @@ const suffixes = [
     type: "suffix",
     label: "-ence",
     speech: "ence",
-    meaning: "state, quality, or act",
+    meaning: "an action, or a state or quality someone or something has",
     image: "images/suffixes/ence.png",
     examples: ["existence", "persistence", "dependence"]
   },
@@ -988,7 +988,7 @@ const suffixes = [
     type: "suffix",
     label: "-ity",
     speech: "ity",
-    meaning: "state or condition",
+    meaning: "a state or quality someone or something has",
     image: "images/suffixes/ity.png",
     examples: ["activity", "clarity", "security"]
   },
@@ -997,7 +997,7 @@ const suffixes = [
     type: "suffix",
     label: "-ive",
     speech: "ive",
-    meaning: "having a quality; tending to",
+    meaning: "describes what someone or something is like or tends to do",
     image: "images/suffixes/ive.png",
     examples: ["active", "creative", "sensitive"]
   },
@@ -1033,7 +1033,7 @@ const suffixes = [
     type: "suffix",
     label: "-ness",
     speech: "ness",
-    meaning: "state or quality",
+    meaning: "a state or quality someone or something has",
     image: "images/suffixes/ness.png",
     examples: ["kindness", "darkness", "happiness"]
   },
@@ -1115,7 +1115,7 @@ const suffixes = [
     type: "suffix",
     label: "-ion, -tion, -sion",
     speech: "ion, tion, or sion",
-    meaning: "act or process",
+    meaning: "an action, process, or result",
     image: "images/suffixes/ion.png",
     examples: ["construction", "action", "decision"]
   },
@@ -1142,7 +1142,7 @@ const suffixes = [
     type: "suffix",
     label: "-ment",
     speech: "ment",
-    meaning: "act, result, or state",
+    meaning: "an action, process, result, or state",
     image: "images/suffixes/ment.png",
     examples: ["movement", "development", "enjoyment"]
   },
@@ -1151,7 +1151,7 @@ const suffixes = [
   type: "suffix",
   label: "-ous",
   speech: "us",
-  meaning: "having the quality of",
+  meaning: "having a quality",
   image: "images/suffixes/ous.png",
   examples: ["joyous", "dangerous", "famous"]
 },
@@ -1160,7 +1160,7 @@ const suffixes = [
     type: "suffix",
     label: "-ant, -ent",
     speech: "ant or ent",
-    meaning: "one who; having or being",
+    meaning: "a person or thing that does something; describes a quality",
     image: "images/suffixes/ant-ent.png",
     examples: ["assistant", "dependent", "resistant"]
   },
@@ -1186,12 +1186,12 @@ const suffixFunctionInfo = {
 
   "ance": {
     role: "Forms a noun",
-    function: "Helps name an action, state, or quality."
+    function: "Helps make a noun that names an action, or a state or quality someone or something has."
   },
 
   "ence": {
     role: "Forms a noun",
-    function: "Helps name an action, state, or quality."
+    function: "Helps make a noun that names an action, or a state or quality someone or something has."
   },
 
   "ic": {
@@ -1201,12 +1201,12 @@ const suffixFunctionInfo = {
 
   "ity": {
     role: "Forms a noun",
-    function: "Helps name a state, condition, or quality."
+    function: "Helps make a word that names a state or quality someone or something has."
   },
 
   "ive": {
     role: "Often forms an adjective",
-    function: "Helps make a word that describes a quality or tendency."
+    function: "Helps make a describing word that tells what someone or something is like or tends to do."
   },
 
   "ist": {
@@ -1226,7 +1226,7 @@ const suffixFunctionInfo = {
 
   "ness": {
     role: "Forms a noun",
-    function: "Helps name a state or quality."
+    function: "Helps make a word that names a state or quality someone or something has."
   },
 
   "ology": {
@@ -1251,7 +1251,7 @@ const suffixFunctionInfo = {
 
   "ion": {
     role: "Forms a noun",
-    function: "Helps name an action, process, state, or result."
+    function: "Helps make a word that names an action, process, or result."
   },
 
   "less": {
@@ -1266,12 +1266,17 @@ const suffixFunctionInfo = {
 
   "ment": {
     role: "Forms a noun",
-    function: "Helps name an action, result, process, or state."
+    function: "Helps make a noun that names an action, process, result, or state."
   },
 
   "ous": {
     role: "Forms an adjective",
-    function: "Helps make a describing word meaning having a quality."
+    function: "Helps make a describing word that shows a quality someone or something has."
+  },
+
+  "ant-ent": {
+    role: "Can form a noun or adjective",
+    function: "Can name a person or thing that does something, or make a describing word that shows a quality."
   }
 };
 /* ========================================
@@ -1321,14 +1326,14 @@ const suffixVariants = [
     id: "ant",
     type: "suffix",
     label: "-ant",
-    meaning: "one who; having or being",
+    meaning: "a person or thing that does something; describes a quality",
     image: "images/suffixes/ant.png"
   },
   {
     id: "ent",
     type: "suffix",
     label: "-ent",
-    meaning: "one who; having or being",
+    meaning: "a person or thing that does something; describes a quality",
     image: "images/suffixes/ent.png"
   },
 
@@ -1623,7 +1628,7 @@ const rootFindQuestions = [
     answer: "sequ",
     choices: ["sequ", "spect", "struct", "tract"],
     itemId: "sequ",
-    base: "-ence = state, quality, or act",
+    base: "-ence = an action, or a state or quality someone or something has",
     literal: "things that follow",
     definition: "a set of things arranged in a particular order"
   },
@@ -1689,7 +1694,7 @@ const rootFindQuestions = [
   choices: ["act", "form", "spect", "struct"],
   itemId: "act",
   image: "images/roots/act.png",
-  base: "in- = not; -ive = having a quality or tendency",
+  base: "in- = not; -ive = describes what someone or something is like or tends to do",
   literal: "not acting or active",
   definition: "not active or not taking part"
 },
@@ -1773,7 +1778,7 @@ const rootFindQuestions = [
   choices: ["mot/mov", "tract", "fer", "sequ"],
   itemId: "mot",
   image: "images/roots/mot.png",
-  base: "-ion = act or process",
+  base: "-ion = an action, process, or result",
   literal: "act or process of moving",
   definition: "movement or the act of moving"
 },
@@ -1883,7 +1888,7 @@ const rootFindQuestions = [
     ],
     "itemId": "struct",
     "image": "images/roots/struct.png",
-    "base": "con- = together; -ion = act or process",
+    "base": "con- = together; -ion = an action, process, or result",
     "literal": "process of building together",
     "definition": "the process of building or putting something together"
   },
@@ -1902,7 +1907,7 @@ const rootFindQuestions = [
     ],
     "itemId": "tract",
     "image": "images/roots/tract.png",
-    "base": "dis- = apart or away; -ion = act or process",
+    "base": "dis- = apart or away; -ion = an action, process, or result",
     "literal": "a pulling away",
     "definition": "something that draws attention away from what a person is doing"
   },
@@ -3661,17 +3666,17 @@ const inferQuestions = [
     type: "suffix",
     itemId: "ity",
     knownLabel: "-ity",
-    knownMeaning: "state or condition",
+    knownMeaning: "a state or quality someone or something has",
     word: "activity",
-    correct: "something that is done; an action or task",
+    correct: "being active or doing things",
     choices: [
-      "something that is done; an action or task",
-      "a person who watches an action",
-      "the opposite of taking action",
-      "a place where actions are stored"
+      "being active or doing things",
+      "a person who does something",
+      "able to be active",
+      "without being active"
     ],
-    literal: "state or condition of acting",
-    definition: "something that is done as an action or task",
+    literal: "a state or quality of being active",
+    definition: "being active or doing things",
     image: "images/suffixes/ity.png"
   },
 
@@ -4980,7 +4985,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "help someone learn",
     suffixId: "er-agent",
     suffix: "-er",
-    suffixMeaning: "one who",
+    suffixMeaning: "a person or thing that does something",
     literal: "one who teaches",
     definition: "a person who teaches"
   },
@@ -4991,7 +4996,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "look at carefully",
     suffixId: "or-agent",
     suffix: "-or",
-    suffixMeaning: "one who",
+    suffixMeaning: "a person or thing that does something",
     literal: "one who inspects",
     definition: "a person whose job is to inspect things"
   },
@@ -5057,7 +5062,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "change position",
     suffixId: "ment",
     suffix: "-ment",
-    suffixMeaning: "act, result, or state",
+    suffixMeaning: "an action, process, result, or state",
     literal: "act or result of moving",
     definition: "the act or process of changing position"
   },
@@ -5068,7 +5073,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "possibility of harm",
     suffixId: "ous",
     suffix: "-ous",
-    suffixMeaning: "having the quality of",
+    suffixMeaning: "having a quality",
     literal: "having the quality of danger",
     definition: "likely to cause harm or injury"
   },
@@ -5079,7 +5084,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "caring or helpful",
     suffixId: "ness",
     suffix: "-ness",
-    suffixMeaning: "state or quality",
+    suffixMeaning: "a state or quality someone or something has",
     literal: "state or quality of being kind",
     definition: "the quality of being kind"
   },
@@ -5112,7 +5117,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "do; take action",
     suffixId: "ive",
     suffix: "-ive",
-    suffixMeaning: "having a quality; tending to",
+    suffixMeaning: "describes what someone or something is like or tends to do",
     literal: "tending to act",
     definition: "doing things or being involved in activity"
   },
@@ -5123,7 +5128,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "creative work",
     suffixId: "ist",
     suffix: "-ist",
-    suffixMeaning: "person who does or studies",
+    suffixMeaning: "a person who does or studies",
     literal: "person who does art",
     definition: "a person who creates art"
   },
@@ -5156,7 +5161,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "carry out or present",
     suffixId: "ance",
     suffix: "-ance",
-    suffixMeaning: "state, quality, or act",
+    suffixMeaning: "an action, or a state or quality someone or something has",
     literal: "act or result of performing",
     definition: "the act of performing or carrying something out"
   },
@@ -5167,7 +5172,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "be or be present",
     suffixId: "ence",
     suffix: "-ence",
-    suffixMeaning: "state, quality, or act",
+    suffixMeaning: "an action, or a state or quality someone or something has",
     literal: "state of existing",
     definition: "the state of being real or present"
   },
@@ -5256,7 +5261,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "follow",
     suffixId: "ence",
     suffix: "-ence",
-    suffixMeaning: "state, quality, or act",
+    suffixMeaning: "an action, or a state or quality someone or something has",
     literal: "things that follow",
     definition: "a set of things arranged in a particular order"
   },
@@ -5267,7 +5272,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "rely on",
     suffixId: "ence",
     suffix: "-ence",
-    suffixMeaning: "state, quality, or act",
+    suffixMeaning: "an action, or a state or quality someone or something has",
     literal: "state of depending",
     definition: "the state of relying on someone or something"
   },
@@ -5278,7 +5283,7 @@ const rootSuffixBuildWords = [
     baseMeaning: "continue despite difficulty",
     suffixId: "ence",
     suffix: "-ence",
-    suffixMeaning: "state, quality, or act",
+    suffixMeaning: "an action, or a state or quality someone or something has",
     literal: "state of persisting",
     definition: "the quality of continuing even when something is difficult"
   }
@@ -5299,7 +5304,7 @@ const prefixRootSuffixBuildWords = [
     baseMeaning: "throw",
     suffixId: "ion",
     suffix: "-ion",
-    suffixMeaning: "act or process",
+    suffixMeaning: "an action, process, or result",
     literal: "act or result of throwing forward",
     definition: "the act or result of projecting something forward"
   },
@@ -5313,7 +5318,7 @@ const prefixRootSuffixBuildWords = [
     baseMeaning: "do; act",
     suffixId: "ive",
     suffix: "-ive",
-    suffixMeaning: "having a quality; tending to",
+    suffixMeaning: "describes what someone or something is like or tends to do",
     literal: "not tending to act",
     definition: "not active or not taking part"
   },
@@ -5327,7 +5332,7 @@ const prefixRootSuffixBuildWords = [
     baseMeaning: "look; watch",
     suffixId: "or-agent",
     suffix: "-or",
-    suffixMeaning: "one who",
+    suffixMeaning: "a person or thing that does something",
     literal: "one who looks into",
     definition: "a person whose job is to examine things carefully"
   },
@@ -5355,7 +5360,7 @@ const prefixRootSuffixBuildWords = [
     baseMeaning: "come",
     suffixId: "ion",
     suffix: "-ion",
-    suffixMeaning: "act or process",
+    suffixMeaning: "an action, process, or result",
     literal: "coming together",
     definition: "a meeting or gathering of people"
   },
@@ -5398,7 +5403,7 @@ const prefixRootSuffixBuildWords = [
     baseMeaning: "pull; draw",
     suffixId: "ion",
     suffix: "-ion",
-    suffixMeaning: "act or process",
+    suffixMeaning: "an action, process, or result",
     literal: "act or process of pulling out",
     definition: "the act or process of pulling or taking something out"
   },
@@ -6275,7 +6280,7 @@ function showStartMessage(title, message) {
     meaning: {
       title: "Meaning",
       subtitle:
-        "Choose the meaning carried by the word part."
+        "Choose what the word part means."
     },
 
     morpheme: {
@@ -8134,7 +8139,11 @@ function createMorphemeQuestions(items) {
       uniqueBy(
         items.filter((other) =>
           other.id !== item.id &&
-          normalizeMeaning(other.meaning) !== itemMeaning
+          normalizeMeaning(other.meaning) !== itemMeaning &&
+          !meaningsAreTooSimilar(
+            item.meaning,
+            other.meaning
+          )
         ),
         (other) => normalizeMeaning(other.meaning)
       )
@@ -8552,8 +8561,18 @@ function renderMeaningQuestion(question) {
   panels.meaning.hidden = false;
 
   workspaceTitle.textContent = "Meaning";
+
+  const meaningType =
+    question.item?.type === "prefix"
+      ? "prefix"
+      : question.item?.type === "root"
+        ? "root"
+        : question.item?.type === "suffix"
+          ? "suffix"
+          : "word part";
+
   workspaceSubtitle.textContent =
-    "Choose the meaning carried by the word part.";
+    `What does this ${meaningType} mean?`;
 
   meaningFeedback.hidden = true;
   meaningChoices.innerHTML = "";
