@@ -187,7 +187,7 @@
     "migration-modal-eyebrow";
 
   eyebrow.textContent =
-    "Volo Token Journey";
+    "Volo’s Migration Journey";
 
   const title =
     document.createElement("h2");
@@ -527,7 +527,7 @@
 
         <span>
           <b aria-hidden="true">★</b>
-          Winter Home unlocks after transfer
+          Winter Home unlocks after the Migration Challenge
         </span>
       `;
 
@@ -564,7 +564,7 @@
         "Volo reached the Coast.";
 
       text.textContent =
-        "All Volo Tokens for this Flight are earned. Complete the Transfer Challenge to reach Winter Home.";
+        `Complete the final Migration Challenge to show what you know about the word parts you learned in ${progress.flight.label}. Complete the challenge successfully to help Volo reach Winter Home.`;
     } else if (
       progress.earnedTokens === 0
     ) {
@@ -587,6 +587,51 @@
       strong,
       text
     );
+
+    /*
+      Once every Volo Token in this Flight
+      is earned, the Transfer Challenge is
+      the final step before Winter Home.
+    */
+    const transferTestMode =
+      new URLSearchParams(
+        window.location.search
+      ).get("transferTest") === "1";
+
+    if (
+      (
+        progress.tokensComplete ||
+        transferTestMode
+      ) &&
+      !progress.transferPassed
+    ) {
+      const transferButton =
+        document.createElement("button");
+
+      transferButton.type =
+        "button";
+
+      transferButton.className =
+        "transfer-challenge-launch-button";
+
+      transferButton.textContent =
+        "🧠 Start Migration Challenge";
+
+      transferButton.addEventListener(
+        "click",
+        () => {
+          window.FirstVoloTransferChallengeUI
+            ?.open?.(
+              getStudent(),
+              gradeBandSelect.value
+            );
+        }
+      );
+
+      box.append(
+        transferButton
+      );
+    }
 
     return box;
   }
@@ -656,7 +701,7 @@
       return;
     }
 
-    const progress =
+    let progress =
       window.FirstVoloMigration
         .getProgress(
           student,
@@ -665,6 +710,79 @@
 
     if (!progress) {
       return;
+    }
+
+    /*
+      TEST MODE ONLY
+
+      The real migration engine remains untouched.
+
+      ?transferTest=1 visually simulates:
+        all Flight tokens earned -> Coast
+        Migration Challenge passed -> Winter Home
+
+      No Volo Tokens are written or awarded here.
+    */
+    const transferTestMode =
+      new URLSearchParams(
+        window.location.search
+      ).get("transferTest") === "1";
+
+    if (transferTestMode) {
+      const destinationIndex =
+        progress.stops.length - 1;
+
+      const coastIndex =
+        destinationIndex - 1;
+
+      const simulatedJourneyComplete =
+        Boolean(
+          progress.transferPassed
+        );
+
+      const simulatedStopIndex =
+        simulatedJourneyComplete
+          ? destinationIndex
+          : coastIndex;
+
+      progress = {
+        ...progress,
+
+        earnedTokens:
+          progress.totalTokens,
+
+        tokenRatio: 1,
+
+        tokensComplete: true,
+        transferUnlocked: true,
+
+        journeyComplete:
+          simulatedJourneyComplete,
+
+        postTestReady:
+          simulatedJourneyComplete,
+
+        badgeEarned:
+          simulatedJourneyComplete,
+
+        routePosition:
+          simulatedStopIndex,
+
+        currentStopIndex:
+          simulatedStopIndex,
+
+        currentStop:
+          progress.stops[
+            simulatedStopIndex
+          ],
+
+        nextStop:
+          simulatedJourneyComplete
+            ? null
+            : progress.stops[
+                destinationIndex
+              ]
+      };
     }
 
     const summary =

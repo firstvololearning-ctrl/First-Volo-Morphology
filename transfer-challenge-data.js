@@ -710,7 +710,7 @@
           items: [
             {
               id: "C-A-01",
-              word: "credible",
+              word: "credence",
               type: "choice",
               skill: "context-inference",
 
@@ -719,17 +719,17 @@
               ],
 
               prompt:
-                "The article cited several reliable sources, so the information seemed credible. What does credible most likely mean?",
+                "After the scientist repeated the experiment and got the same result, other researchers gave more credence to the claim. What does credence most likely mean?",
 
               choices: [
-                "able to be believed",
-                "able to be heard",
-                "likely to be moved",
-                "likely to be rejected"
+                "belief or acceptance that something is true",
+                "a reason to repeat something",
+                "a way to measure a result",
+                "doubt that something happened"
               ],
 
               answer:
-                "able to be believed"
+                "belief or acceptance that something is true"
             },
 
             {
