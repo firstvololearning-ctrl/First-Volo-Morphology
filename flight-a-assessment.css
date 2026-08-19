@@ -261,3 +261,131 @@ button { cursor: pointer; }
     width: 100%;
   }
 }
+
+
+/* PAPER ADMINISTRATION TOOLS */
+.setup-actions {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.paper-entry-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.98);
+  box-shadow: var(--shadow);
+  padding: 30px;
+}
+
+.paper-entry-card h1 {
+  margin: 0;
+  color: var(--navy);
+}
+
+.paper-entry-meta {
+  margin: 8px 0 0;
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.paper-entry-note {
+  margin: 16px 0 22px;
+  padding: 13px 15px;
+  border-radius: 13px;
+  background: var(--blue-soft);
+  color: var(--text);
+}
+
+.paper-entry-items {
+  display: grid;
+  gap: 13px;
+}
+
+.paper-entry-item {
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: #fbfdff;
+}
+
+.paper-entry-item-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--navy);
+}
+
+.paper-entry-item-head span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  font-weight: 900;
+}
+
+.paper-entry-prompt {
+  margin: 9px 0 12px;
+  font-weight: 750;
+}
+
+.paper-answer-key {
+  margin: 0 0 10px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: var(--green-soft);
+  color: #315f2e;
+}
+
+.paper-entry-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 9px;
+  font-weight: 800;
+}
+
+.paper-entry-field small {
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.paper-entry-field select,
+.paper-entry-field textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 2px solid #c9d7e6;
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+}
+
+.paper-entry-field textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.paper-score-field,
+.paper-rubric-field {
+  max-width: 360px;
+}
+
+.paper-rubric-reference {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.paper-entry-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .paper-entry-card { padding: 20px; }
+  .paper-entry-actions { flex-direction: column; }
+  .paper-entry-actions button { width: 100%; }
+}

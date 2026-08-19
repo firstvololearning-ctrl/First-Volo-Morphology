@@ -4964,3 +4964,13 @@ a:focus-visible {
     margin-left: 0;
   }
 }
+
+/* Progress Monitoring: unavailable assessment state */
+.probe-button-disabled {
+  display: block;
+  opacity: .58;
+  cursor: default;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: none;
+}

@@ -322,15 +322,14 @@ const FORMS = {
       {
         id: "post-07",
         challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in destructive.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["de-", "struct", "-ive", "spect", "rupt", "-ion"],
-        answer: ["de-", "struct", "-ive"],
+        type: "choice",
+        prompt: "Which word-part split correctly shows all the meaningful parts in construction?",
+        choices: ["con-struct-ion", "cons-truction", "construc-tion", "construct-ion"],
+        answer: "con-struct-ion",
         skill: "analysis",
         reportGroup: "practiced",
         trainedStatus: "practiced",
-        support: "given a field of 6 word-part choices",
+        support: "given a field of 4 possible word-part splits",
         ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
       },
       {
@@ -350,12 +349,12 @@ const FORMS = {
         challenge: "Build It",
         type: "choice",
         prompt: "Which word-part split correctly builds transform?",
-        choices: ["trans-form", "inter-form", "trans-port", "re-form"],
+        choices: ["trans-form", "tran-sform", "transf-orm", "tra-nsform"],
         answer: "trans-form",
         skill: "build",
         reportGroup: "practiced",
         trainedStatus: "practiced",
-        support: "given a field of 4 word-part combinations",
+        support: "given a field of 4 possible word-part splits",
         ccss: "L.4.4b / L.5.4b supporting application"
       },
       {
@@ -462,6 +461,7 @@ const FORMS = {
 };
 
 const setupScreen = document.getElementById("setupScreen");
+const paperEntryScreen = document.getElementById("paperEntryScreen");
 const studentScreen = document.getElementById("studentScreen");
 const completeScreen = document.getElementById("completeScreen");
 const reportScreen = document.getElementById("reportScreen");
@@ -469,6 +469,12 @@ const formSelect = document.getElementById("formSelect");
 const studentSelect = document.getElementById("studentSelect");
 const studentCode = document.getElementById("studentCode");
 const startButton = document.getElementById("startButton");
+const printStudentFormButton = document.getElementById("printStudentFormButton");
+const paperEntryButton = document.getElementById("paperEntryButton");
+const paperEntryItems = document.getElementById("paperEntryItems");
+const paperEntryMeta = document.getElementById("paperEntryMeta");
+const cancelPaperEntryButton = document.getElementById("cancelPaperEntryButton");
+const savePaperEntryButton = document.getElementById("savePaperEntryButton");
 const savedAssessments = document.getElementById("savedAssessments");
 const itemCount = document.getElementById("itemCount");
 const routeStops = document.getElementById("routeStops");
@@ -524,7 +530,7 @@ function makeId(prefix) {
 }
 
 function showOnly(screen) {
-  [setupScreen, studentScreen, completeScreen, reportScreen].forEach((item) => {
+  [setupScreen, paperEntryScreen, studentScreen, completeScreen, reportScreen].forEach((item) => {
     item.hidden = item !== screen;
   });
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -568,38 +574,75 @@ function saveCurrentSession() {
 function renderSavedAssessments() {
   const data = getAssessmentData();
   const sessions = data.sessions
-    .filter((session) => session.completedAt)
     .slice()
-    .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+    .sort((a, b) => String(b.completedAt || b.startedAt || "").localeCompare(String(a.completedAt || a.startedAt || "")));
 
   savedAssessments.innerHTML = "";
   if (!sessions.length) {
     const empty = document.createElement("p");
     empty.className = "empty-note";
-    empty.textContent = "No completed Flight B assessments saved on this browser yet.";
+    empty.textContent = "No saved Flight B assessments on this browser yet.";
     savedAssessments.append(empty);
     return;
   }
 
-  sessions.slice(0, 12).forEach((session) => {
+  sessions.slice(0, 20).forEach((session) => {
     const row = document.createElement("div");
     row.className = "saved-row";
+
     const copy = document.createElement("div");
     const strong = document.createElement("strong");
     strong.textContent = `${session.studentCode} · ${FORMS[session.form]?.label || session.form}`;
+
     const small = document.createElement("small");
-    small.textContent = `Completed ${new Date(session.completedAt).toLocaleDateString()}`;
+    const isComplete = Boolean(session.completedAt);
+
+    if (isComplete) {
+      small.textContent = `Completed ${new Date(session.completedAt).toLocaleDateString()} · ${session.source === "paper" ? "Paper entry" : "Digital"}`;
+    } else {
+      const total = formItems(session.form).length;
+      const saved = Array.isArray(session.responses) ? session.responses.length : 0;
+      small.textContent = `In progress · ${saved}/${total} responses saved`;
+    }
+
     copy.append(strong, document.createElement("br"), small);
+
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = "Open report";
-    button.addEventListener("click", () => openSavedReport(session.id));
+    button.textContent = isComplete ? "Open report" : "Resume";
+    button.addEventListener("click", () => {
+      if (isComplete) openSavedReport(session.id);
+      else resumeSavedAssessment(session.id);
+    });
+
     row.append(copy, button);
     savedAssessments.append(row);
   });
 }
 
-function openSavedReport(sessionId) {
+function resumeSavedAssessment(sessionId) {
+  const data = getAssessmentData();
+  const session = data.sessions.find((item) => item.id === sessionId);
+
+  if (!session || session.completedAt) return;
+
+  currentSession = session;
+  currentFormKey = session.form;
+  currentItems = formItems(currentFormKey);
+  currentIndex = Math.min(
+    Array.isArray(session.responses) ? session.responses.length : 0,
+    currentItems.length
+  );
+
+  if (currentIndex >= currentItems.length) {
+    finishAssessment();
+    return;
+  }
+
+  buildRouteStops();
+  renderQuestion();
+  showOnly(studentScreen);
+}function openSavedReport(sessionId) {
   const data = getAssessmentData();
   const session = data.sessions.find((item) => item.id === sessionId);
   if (!session) return;
@@ -767,6 +810,255 @@ function scoreItem(item, response) {
   return response === item.answer;
 }
 
+function requireStudentCodeForEducatorAction() {
+  const code = sanitizeCode(studentCode.value);
+  if (!code) {
+    studentCode.focus();
+    studentCode.setCustomValidity("Enter an anonymous Student Code first.");
+    studentCode.reportValidity();
+    return null;
+  }
+  studentCode.setCustomValidity("");
+  return code;
+}
+
+function printableAnswer(answer) {
+  return Array.isArray(answer) ? answer.join(" + ") : String(answer || "");
+}
+
+function printStudentForm() {
+  const formKey = formSelect.value;
+  const items = formItems(formKey);
+  const code = sanitizeCode(studentCode.value);
+  const formLabel = FORMS[formKey]?.label || formKey;
+  const hasMulti = items.some((item) => item.type === "multi");
+  const studentDirections = hasMulti
+    ? "Complete each item. For items with circles, choose one answer. For items with boxes, choose all meaningful word parts that apply. Complete the sentence frames where provided."
+    : "Complete each item. For items with circles, choose one answer. Complete the sentence frames where provided.";
+
+  const itemMarkup = items.map((item, index) => {
+    let responseMarkup = "";
+    if (item.type === "choice" || item.type === "multi") {
+      const symbol = item.type === "multi" ? "☐" : "○";
+      responseMarkup = `<div class="choices">${getDisplayedChoices(item).map((choice) =>
+        `<div class="choice">${symbol} ${escapeHtml(choice)}</div>`
+      ).join("")}</div>`;
+    } else if (item.type === "text" && item.responseFrame) {
+      responseMarkup = `<div class="frames">${item.responseFrame.map((line) =>
+        `<p>${escapeHtml(line.lead)} <span class="blank"></span>, ${escapeHtml(line.middle)} <span class="blank long"></span>.</p>`
+      ).join("")}</div>`;
+    } else {
+      responseMarkup = '<div class="write-lines"><span></span><span></span><span></span></div>';
+    }
+
+    return `
+      <section class="student-item">
+        <div class="item-head"><strong>${index + 1}. ${escapeHtml(item.challenge)}</strong></div>
+        <div class="prompt">${escapeHtml(item.prompt)}</div>
+        ${item.help ? `<div class="help">${escapeHtml(item.help)}</div>` : ""}
+        ${responseMarkup}
+      </section>
+    `;
+  }).join("");
+
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) {
+    alert("Please allow pop-ups for this site so the printable assessment can open.");
+    return;
+  }
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flight B ${escapeHtml(formLabel)} Student Form</title>
+<style>
+  @page { size: letter; margin: .55in; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #1f2f42; font: 11.5pt/1.35 Arial, sans-serif; }
+  header { border-bottom: 3px solid #173b66; padding-bottom: 12px; margin-bottom: 14px; }
+  h1 { margin: 0; color: #173b66; font-size: 24pt; }
+  .sub { margin-top: 5px; font-weight: 700; }
+  .meta { display: flex; gap: 22px; margin-top: 12px; font-weight: 700; }
+  .directions { margin: 12px 0 16px; padding: 9px 11px; background: #f1f6fb; border-radius: 8px; }
+  .student-item { break-inside: avoid; border-top: 1px solid #cdd8e5; padding: 11px 0 12px; }
+  .item-head { color: #173b66; margin-bottom: 4px; }
+  .prompt { font-weight: 700; }
+  .help { margin-top: 3px; color: #58697b; font-size: 10pt; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; margin-top: 8px; }
+  .choice { padding: 3px 0; }
+  .frames p { margin: 11px 0; }
+  .blank { display: inline-block; width: 110px; border-bottom: 1.5px solid #26384b; height: 18px; vertical-align: bottom; }
+  .blank.long { width: 180px; }
+  .write-lines span { display: block; border-bottom: 1px solid #8b99a8; height: 28px; }
+  footer { margin-top: 18px; padding-top: 8px; border-top: 2px solid #173b66; font-size: 9pt; color: #58697b; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Flight B Check-In</h1>
+  <div class="sub">${escapeHtml(formLabel)}</div>
+  <div class="meta">
+    <span>Student Code: ${escapeHtml(code || "________________")}</span>
+    <span>Date: __________________</span>
+  </div>
+</header>
+<div class="directions">${escapeHtml(studentDirections)}</div>
+${itemMarkup}
+<footer>First Volo Morphology · Student assessment form</footer>
+<script>window.addEventListener("load", () => setTimeout(() => window.print(), 150));<\/script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
+function openPaperEntry() {
+  const code = requireStudentCodeForEducatorAction();
+  if (!code) return;
+
+  currentFormKey = formSelect.value;
+  currentItems = formItems(currentFormKey);
+  paperEntryMeta.textContent = `${code} · ${FORMS[currentFormKey]?.label || currentFormKey}`;
+  paperEntryItems.innerHTML = "";
+
+  currentItems.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "paper-entry-item";
+
+    const answerText = printableAnswer(item.answer);
+    let controls = "";
+
+    if (item.type === "text") {
+      controls = `
+        <label class="paper-entry-field">
+          <span>Student response <small>(optional transcription)</small></span>
+          <textarea data-paper-response="${item.id}" placeholder="Type the student's paper response here if you want it saved in the report."></textarea>
+        </label>
+        <label class="paper-entry-field paper-rubric-field">
+          <span>Rubric score</span>
+          <select data-paper-rubric="${item.id}">
+            <option value="">Select 0–2</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </label>
+        <p class="paper-rubric-reference"><strong>Rubric:</strong> ${escapeHtml(item.rubricReference || "")}</p>
+      `;
+    } else {
+      controls = `
+        <div class="paper-answer-key"><strong>Correct answer:</strong> ${escapeHtml(answerText)}</div>
+        <label class="paper-entry-field paper-score-field">
+          <span>Score this paper item</span>
+          <select data-paper-score="${item.id}">
+            <option value="">Select…</option>
+            <option value="correct">Correct</option>
+            <option value="incorrect">Incorrect</option>
+          </select>
+        </label>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="paper-entry-item-head">
+        <span>${index + 1}</span>
+        <strong>${escapeHtml(item.challenge)}</strong>
+      </div>
+      <p class="paper-entry-prompt">${escapeHtml(item.prompt)}</p>
+      ${controls}
+    `;
+    paperEntryItems.append(card);
+  });
+
+  showOnly(paperEntryScreen);
+}
+
+function savePaperResults() {
+  const code = sanitizeCode(studentCode.value);
+  const objectiveItems = currentItems.filter((item) => item.type !== "text");
+  const textItems = currentItems.filter((item) => item.type === "text");
+
+  const missingObjective = objectiveItems.find((item) => {
+    const select = paperEntryItems.querySelector(`[data-paper-score="${item.id}"]`);
+    return !select || !select.value;
+  });
+
+  if (missingObjective) {
+    const select = paperEntryItems.querySelector(`[data-paper-score="${missingObjective.id}"]`);
+    if (select) select.focus();
+    alert("Score every objective item as Correct or Incorrect before saving.");
+    return;
+  }
+
+  const missingRubric = textItems.find((item) => {
+    const select = paperEntryItems.querySelector(`[data-paper-rubric="${item.id}"]`);
+    return !select || select.value === "";
+  });
+
+  if (missingRubric) {
+    const select = paperEntryItems.querySelector(`[data-paper-rubric="${missingRubric.id}"]`);
+    if (select) select.focus();
+    alert("Enter a 0–2 rubric score for each structured reasoning item before saving.");
+    return;
+  }
+
+  const now = new Date().toISOString();
+  const responses = currentItems.map((item) => {
+    if (item.type === "text") {
+      const textarea = paperEntryItems.querySelector(`[data-paper-response="${item.id}"]`);
+      return {
+        itemId: item.id,
+        response: textarea?.value.trim() || "Paper response not transcribed.",
+        correct: null,
+        skill: item.skill,
+        reportGroup: item.reportGroup,
+        trainedStatus: item.trainedStatus || null,
+        support: item.support,
+        ccss: item.ccss,
+        answeredAt: now
+      };
+    }
+
+    const select = paperEntryItems.querySelector(`[data-paper-score="${item.id}"]`);
+    const correct = select?.value === "correct";
+    return {
+      itemId: item.id,
+      response: correct ? "Paper response — scored correct" : "Paper response — scored incorrect",
+      correct,
+      skill: item.skill,
+      reportGroup: item.reportGroup,
+      trainedStatus: item.trainedStatus || null,
+      support: item.support,
+      ccss: item.ccss,
+      answeredAt: now
+    };
+  });
+
+  const rubricScores = {};
+  textItems.forEach((item) => {
+    const select = paperEntryItems.querySelector(`[data-paper-rubric="${item.id}"]`);
+    rubricScores[item.id] = Number(select.value);
+  });
+
+  currentSession = {
+    id: makeId("flight-b-assessment"),
+    assessmentId: "flight-b-pre-post-v1",
+    flight: "B",
+    form: currentFormKey,
+    studentCode: code,
+    linkedStudentId: studentSelect.value || null,
+    source: "paper",
+    startedAt: now,
+    completedAt: now,
+    responses,
+    rubricScores
+  };
+
+  saveCurrentSession();
+  renderReport();
+  showOnly(reportScreen);
+}
+
 function startAssessment() {
   const code = sanitizeCode(studentCode.value);
   if (!code) {
@@ -785,6 +1077,7 @@ function startAssessment() {
     assessmentId: "flight-b-pre-post-v1",
     flight: "B",
     form: currentFormKey,
+    source: "digital",
     studentCode: code,
     linkedStudentId: studentSelect.value || null,
     startedAt: new Date().toISOString(),
@@ -1055,9 +1348,15 @@ function renderItemDetail() {
   const container = document.getElementById("itemDetail");
   const rows = currentItems.map((item, index) => {
     const response = responseFor(item.id);
-    let status = "Structured response";
+    let status = "Pending";
     let statusClass = "status-rubric";
-    if (typeof response?.correct === "boolean") {
+
+    if (item.type === "text") {
+      const rubricScore = currentSession.rubricScores?.[item.id];
+      status = Number.isFinite(Number(rubricScore))
+        ? `${rubricScore}/2`
+        : "Pending";
+    } else if (typeof response?.correct === "boolean") {
       status = response.correct ? "Correct" : "Incorrect";
       statusClass = response.correct ? "status-correct" : "status-incorrect";
     }
@@ -1095,6 +1394,14 @@ function renderReport() {
   renderItemDetail();
 }
 
+printStudentFormButton.addEventListener("click", printStudentForm);
+paperEntryButton.addEventListener("click", openPaperEntry);
+cancelPaperEntryButton.addEventListener("click", () => {
+  currentItems = [];
+  currentFormKey = null;
+  showOnly(setupScreen);
+});
+savePaperEntryButton.addEventListener("click", savePaperResults);
 startButton.addEventListener("click", startAssessment);
 continueButton.addEventListener("click", recordCurrentResponse);
 educatorReportButton.addEventListener("click", () => {
@@ -1109,7 +1416,23 @@ backToSetupButton.addEventListener("click", () => {
   renderSavedAssessments();
   showOnly(setupScreen);
 });
-printButton.addEventListener("click", () => window.print());
+printButton.addEventListener("click", () => {
+  if (!currentSession) return;
+
+  const formLabel =
+    FORMS[currentSession.form]?.label || currentSession.form;
+
+  const oldTitle = document.title;
+
+  document.title =
+    `Flight B ${formLabel} Assessment Report`;
+
+  window.print();
+
+  setTimeout(() => {
+    document.title = oldTitle;
+  }, 500);
+});
 studentCode.addEventListener("input", () => studentCode.setCustomValidity(""));
 
 populateStudentProfiles();

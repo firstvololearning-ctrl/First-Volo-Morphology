@@ -69,6 +69,8 @@
 
       <div class="setup-actions">
         <button id="startButton" class="primary-button" type="button">Ready for Takeoff ✈️</button>
+        <button id="printStudentFormButton" class="secondary-button" type="button">🖨️ Print Student Form</button>
+        <button id="paperEntryButton" class="secondary-button" type="button">✍️ Enter Paper Results</button>
       </div>
 
       <section class="saved-section" aria-labelledby="savedHeading">
@@ -80,6 +82,20 @@
         </div>
         <div id="savedAssessments" class="saved-list"></div>
       </section>
+    </section>
+
+    <section id="paperEntryScreen" class="screen paper-entry-screen" hidden>
+      <article class="paper-entry-card">
+        <p class="eyebrow">Educator entry</p>
+        <h1>Enter Paper Results · Flight B</h1>
+        <p id="paperEntryMeta" class="paper-entry-meta"></p>
+        <p class="paper-entry-note">Score each objective item from the student's paper. For the two structured reasoning items, you may transcribe the response and enter the 0–2 rubric score. Saving creates the same kind of assessment record as a digital administration, so Pre/Post comparison works with the same Student Code.</p>
+        <div id="paperEntryItems" class="paper-entry-items"></div>
+        <div class="paper-entry-actions">
+          <button id="cancelPaperEntryButton" class="secondary-button" type="button">← Back</button>
+          <button id="savePaperEntryButton" class="primary-button" type="button">Save Paper Results</button>
+        </div>
+      </article>
     </section>
 
     <section id="studentScreen" class="screen student-screen" hidden>
