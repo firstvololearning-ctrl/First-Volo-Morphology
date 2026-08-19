@@ -257,6 +257,13 @@
                   ? student.sessions
                   : [],
 
+              paperPractice:
+                Array.isArray(
+                  student.paperPractice
+                )
+                  ? student.paperPractice
+                  : [],
+
               voloTokens:
                 student.voloTokens ||
                 {},
@@ -569,6 +576,195 @@
 
       updatedFromCloud
     };
+  }
+
+
+  function getPaperPracticeKey(
+    entry
+  ) {
+    if (
+      entry &&
+      typeof entry === "object" &&
+      entry.id
+    ) {
+      return `id:${entry.id}`;
+    }
+
+    if (
+      entry?.resourceId &&
+      entry?.practicedAt
+    ) {
+      return (
+        `legacy:${entry.resourceId}:` +
+        `${entry.practicedAt}`
+      );
+    }
+
+    return null;
+  }
+
+
+  function chooseNewestPaperPracticeEntry(
+    localEntry,
+    cloudEntry
+  ) {
+    if (!localEntry) {
+      return cloudEntry;
+    }
+
+    if (!cloudEntry) {
+      return localEntry;
+    }
+
+    const localTime =
+      parseCloudTime(
+        localEntry.updatedAt ||
+        localEntry.practicedAt
+      );
+
+    const cloudTime =
+      parseCloudTime(
+        cloudEntry.updatedAt ||
+        cloudEntry.practicedAt
+      );
+
+    if (
+      cloudTime !== null &&
+      (
+        localTime === null ||
+        cloudTime > localTime
+      )
+    ) {
+      return cloudEntry;
+    }
+
+    return localEntry;
+  }
+
+
+  function mergePaperPracticeLogs(
+    localLogs,
+    cloudLogs
+  ) {
+    const local =
+      Array.isArray(localLogs)
+        ? localLogs
+        : [];
+
+    const cloud =
+      Array.isArray(cloudLogs)
+        ? cloudLogs
+        : [];
+
+    const mergedByKey =
+      new Map();
+
+    for (
+      const entry
+      of local
+    ) {
+      const key =
+        getPaperPracticeKey(
+          entry
+        );
+
+      if (!key) {
+        continue;
+      }
+
+      mergedByKey.set(
+        key,
+        entry
+      );
+    }
+
+    for (
+      const entry
+      of cloud
+    ) {
+      const key =
+        getPaperPracticeKey(
+          entry
+        );
+
+      if (!key) {
+        continue;
+      }
+
+      mergedByKey.set(
+        key,
+        chooseNewestPaperPracticeEntry(
+          mergedByKey.get(key),
+          entry
+        )
+      );
+    }
+
+    const merged =
+      Array.from(
+        mergedByKey.values()
+      );
+
+    merged.sort(
+      (a, b) =>
+        String(
+          a?.practicedAt || ""
+        ).localeCompare(
+          String(
+            b?.practicedAt || ""
+          )
+        )
+    );
+
+    return {
+      logs:
+        merged,
+
+      changed:
+        JSON.stringify(
+          merged
+        ) !==
+        JSON.stringify(
+          local
+        )
+    };
+  }
+
+
+  function filterPaperPracticeAfterClear(
+    logs,
+    clearAt
+  ) {
+    const list =
+      Array.isArray(logs)
+        ? logs
+        : [];
+
+    const clearTime =
+      parseCloudTime(
+        clearAt
+      );
+
+    if (
+      clearTime === null
+    ) {
+      return list;
+    }
+
+    return list.filter(
+      entry => {
+        const practiceTime =
+          parseCloudTime(
+            entry?.practicedAt
+          );
+
+        return (
+          practiceTime !== null &&
+          practiceTime >
+            clearTime
+        );
+      }
+    );
   }
 
 
@@ -1301,8 +1497,8 @@
 
       Step 2A through 2E:
       Restore and safely synchronize Morphology
-      sessions, Volo Goals, earned Volo Tokens,
-      Clear Progress, Rename, and Morphology-
+      sessions, paper/hands-on practice, Volo Goals,
+      earned Volo Tokens, Clear Progress, Rename, and Morphology-
       specific Delete tombstones.
     */
 
@@ -1615,6 +1811,39 @@
               .updatedFromCloud;
         }
 
+        const originalLocalPaperPractice =
+          Array.isArray(
+            localStudent.paperPractice
+          )
+            ? localStudent.paperPractice
+            : [];
+
+        const paperPracticeMerge =
+          mergePaperPracticeLogs(
+            filterPaperPracticeAfterClear(
+              localStudent.paperPractice,
+              newestClearAt
+            ),
+            filterPaperPracticeAfterClear(
+              cloudStudent.paperPractice,
+              newestClearAt
+            )
+          );
+
+        if (
+          JSON.stringify(
+            paperPracticeMerge.logs
+          ) !==
+          JSON.stringify(
+            originalLocalPaperPractice
+          )
+        ) {
+          localStudent.paperPractice =
+            paperPracticeMerge.logs;
+
+          learnerChanged = true;
+        }
+
         const originalLocalTokens =
           validTokenStore(
             localStudent.voloTokens
@@ -1750,6 +1979,12 @@
         sessions:
           filterSessionsAfterClear(
             cloudStudent.sessions,
+            progressClearedAt
+          ),
+
+        paperPractice:
+          filterPaperPracticeAfterClear(
+            cloudStudent.paperPractice,
             progressClearedAt
           ),
 

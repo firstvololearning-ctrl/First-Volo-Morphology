@@ -49,6 +49,44 @@ const renameStudentButton = document.getElementById("renameStudentButton");
 const clearStudentProgressButton = document.getElementById("clearStudentProgressButton");
 const deleteStudentButton = document.getElementById("deleteStudentButton");
 
+const FV_PAPER_PRACTICE_RESOURCES = [
+  {
+    id: "view-build-discover",
+    flight: "Flight A",
+    label: "VIEW · Build & Discover"
+  },
+  {
+    id: "cook-build-discover",
+    flight: "Flight A",
+    label: "COOK · Build & Discover"
+  },
+  {
+    id: "cook-roll-build",
+    flight: "Flight A",
+    label: "COOK · Roll & Build"
+  },
+  {
+    id: "struct-build-discover",
+    flight: "Flight B",
+    label: "STRUCT Family · Build & Discover"
+  },
+  {
+    id: "port-build-discover",
+    flight: "Flight B",
+    label: "PORT Family · Build & Discover"
+  },
+  {
+    id: "port-roll-build",
+    flight: "Flight B",
+    label: "PORT Family · Roll & Build"
+  },
+  {
+    id: "tract-build-discover",
+    flight: "Flight B",
+    label: "TRACT Family · Build & Discover"
+  }
+];
+
 function saveProgressData() {
   localStorage.setItem(
     FV_PROGRESS_KEY,
@@ -72,6 +110,75 @@ function getActiveStudent() {
   return progressData.students.find(
     (student) => student.id === progressData.activeStudentId
   ) || null;
+}
+
+function makePaperPracticeLogId() {
+  if (
+    window.crypto &&
+    typeof window.crypto.randomUUID === "function"
+  ) {
+    return window.crypto.randomUUID();
+  }
+
+  return `paper-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function getPaperPracticeLogs(student) {
+  return Array.isArray(student?.paperPractice)
+    ? student.paperPractice
+    : [];
+}
+
+function formatPaperPracticeDate(value) {
+  const date = new Date(value || "");
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleString(
+    [],
+    {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    }
+  );
+}
+
+function getPaperPracticeInputValue(value) {
+  const date =
+    value instanceof Date
+      ? value
+      : new Date(value || Date.now());
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const pad = (number) =>
+    String(number).padStart(2, "0");
+
+  return (
+    `${date.getFullYear()}-` +
+    `${pad(date.getMonth() + 1)}-` +
+    `${pad(date.getDate())}T` +
+    `${pad(date.getHours())}:` +
+    `${pad(date.getMinutes())}`
+  );
+}
+
+function getPaperPracticeISO(value) {
+  const date =
+    new Date(value || "");
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date.toISOString();
 }
 
 function getProgressStudentInitial(name) {
@@ -256,13 +363,33 @@ const inProgressCount = sessions.filter(
     session.responses.length > 0
 ).length;
 
+const paperPracticeCount =
+  getPaperPracticeLogs(student).length;
+
+const summaryParts = [];
+
+if (completedCount > 0) {
+  summaryParts.push(
+    `${completedCount} completed ${completedCount === 1 ? "session" : "sessions"}`
+  );
+}
+
+if (inProgressCount > 0) {
+  summaryParts.push(
+    `${inProgressCount} in progress`
+  );
+}
+
+if (paperPracticeCount > 0) {
+  summaryParts.push(
+    `${paperPracticeCount} paper/hands-on practice ${paperPracticeCount === 1 ? "log" : "logs"}`
+  );
+}
+
 studentSummaryText.textContent =
-  completedCount === 0 && inProgressCount === 0
-    ? "No saved progress yet."
-    : `${completedCount} completed ${completedCount === 1 ? "session" : "sessions"}` +
-      (inProgressCount > 0
-        ? ` · ${inProgressCount} in progress`
-        : "");
+  summaryParts.length
+    ? summaryParts.join(" · ")
+    : "No saved progress yet.";
 
 renderStudentProgressDetails(student);
 }
@@ -281,6 +408,7 @@ addStudentButton.addEventListener("click", () => {
     createdAt: new Date().toISOString(),
     nameUpdatedAt: new Date().toISOString(),
     sessions: [],
+    paperPractice: [],
     voloTokens: {}
   };
 
@@ -343,6 +471,7 @@ clearStudentProgressButton.addEventListener("click", () => {
   if (!confirmed) return;
 
   student.sessions = [];
+  student.paperPractice = [];
   student.voloTokens = {};
 
   /*
@@ -911,6 +1040,358 @@ function renderVoloTokenProgress(
 }
 
 
+function renderPaperPracticeProgress(
+  student,
+  container
+) {
+  const logs =
+    getPaperPracticeLogs(student);
+
+  const section =
+    document.createElement("section");
+
+  section.className =
+    "paper-practice-progress";
+
+  const heading =
+    document.createElement("h4");
+
+  heading.textContent =
+    "🖨️ Paper & Hands-On Practice";
+
+  section.append(heading);
+
+  const intro =
+    document.createElement("p");
+
+  intro.className =
+    "paper-practice-intro";
+
+  intro.textContent =
+    "Log educator-guided printable and hands-on practice here. Choose the date and time for each practice session. These logs record practice/exposure only and do not affect accuracy, assessment scores, or Volo Tokens.";
+
+  section.append(intro);
+
+  const grid =
+    document.createElement("div");
+
+  grid.className =
+    "paper-practice-grid";
+
+  FV_PAPER_PRACTICE_RESOURCES.forEach(
+    (resource) => {
+      const resourceLogs =
+        logs
+          .filter(
+            (entry) =>
+              entry?.resourceId ===
+              resource.id
+          )
+          .slice()
+          .sort(
+            (a, b) =>
+              String(
+                b.practicedAt || ""
+              ).localeCompare(
+                String(
+                  a.practicedAt || ""
+                )
+              )
+          );
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "paper-practice-card";
+
+      const flight =
+        document.createElement("span");
+
+      flight.className =
+        "paper-practice-flight";
+
+      flight.textContent =
+        resource.flight;
+
+      const title =
+        document.createElement("strong");
+
+      title.className =
+        "paper-practice-title";
+
+      title.textContent =
+        resource.label;
+
+      const status =
+        document.createElement("span");
+
+      status.className =
+        "paper-practice-status";
+
+      if (resourceLogs.length) {
+        const lastDate =
+          formatPaperPracticeDate(
+            resourceLogs[0]
+              .practicedAt
+          );
+
+        status.textContent =
+          `✓ Practiced ${resourceLogs.length} ` +
+          `${resourceLogs.length === 1 ? "time" : "times"}` +
+          (
+            lastDate
+              ? ` · Last: ${lastDate}`
+              : ""
+          );
+      } else {
+        status.textContent =
+          "Not logged yet";
+      }
+
+      const logControls =
+        document.createElement("div");
+
+      logControls.className =
+        "paper-practice-log-controls";
+
+      const dateLabel =
+        document.createElement("label");
+
+      dateLabel.className =
+        "paper-practice-date-label";
+
+      dateLabel.textContent =
+        "Date & time";
+
+      const dateInput =
+        document.createElement("input");
+
+      dateInput.type =
+        "datetime-local";
+
+      dateInput.className =
+        "paper-practice-date-input";
+
+      dateInput.value =
+        getPaperPracticeInputValue(
+          new Date()
+        );
+
+      dateLabel.append(
+        dateInput
+      );
+
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+
+      button.className =
+        "paper-practice-log-button";
+
+      button.textContent =
+        resourceLogs.length
+          ? "＋ Log again"
+          : "＋ Log practice";
+
+      button.addEventListener(
+        "click",
+        () => {
+          const practicedAt =
+            getPaperPracticeISO(
+              dateInput.value
+            );
+
+          if (!practicedAt) {
+            dateInput.focus();
+            return;
+          }
+
+          if (
+            !Array.isArray(
+              student.paperPractice
+            )
+          ) {
+            student.paperPractice = [];
+          }
+
+          const now =
+            new Date()
+              .toISOString();
+
+          student.paperPractice.push({
+            id:
+              makePaperPracticeLogId(),
+
+            resourceId:
+              resource.id,
+
+            practicedAt,
+
+            updatedAt:
+              now
+          });
+
+          saveProgressData();
+          renderStudentSummary();
+        }
+      );
+
+      logControls.append(
+        dateLabel,
+        button
+      );
+
+      card.append(
+        flight,
+        title,
+        status,
+        logControls
+      );
+
+      if (
+        resourceLogs.length
+      ) {
+        const history =
+          document.createElement(
+            "details"
+          );
+
+        history.className =
+          "paper-practice-history";
+
+        const summary =
+          document.createElement(
+            "summary"
+          );
+
+        summary.textContent =
+          `Edit history (${resourceLogs.length})`;
+
+        history.append(
+          summary
+        );
+
+        const historyList =
+          document.createElement(
+            "div"
+          );
+
+        historyList.className =
+          "paper-practice-history-list";
+
+        resourceLogs.forEach(
+          (entry, index) => {
+            const row =
+              document.createElement(
+                "div"
+              );
+
+            row.className =
+              "paper-practice-history-row";
+
+            const rowLabel =
+              document.createElement(
+                "label"
+              );
+
+            rowLabel.className =
+              "paper-practice-history-label";
+
+            rowLabel.textContent =
+              `Practice ${resourceLogs.length - index}`;
+
+            const editInput =
+              document.createElement(
+                "input"
+              );
+
+            editInput.type =
+              "datetime-local";
+
+            editInput.className =
+              "paper-practice-date-input";
+
+            editInput.value =
+              getPaperPracticeInputValue(
+                entry.practicedAt
+              );
+
+            rowLabel.append(
+              editInput
+            );
+
+            const saveButton =
+              document.createElement(
+                "button"
+              );
+
+            saveButton.type =
+              "button";
+
+            saveButton.className =
+              "paper-practice-edit-button";
+
+            saveButton.textContent =
+              "Save date/time";
+
+            saveButton.addEventListener(
+              "click",
+              () => {
+                const practicedAt =
+                  getPaperPracticeISO(
+                    editInput.value
+                  );
+
+                if (!practicedAt) {
+                  editInput.focus();
+                  return;
+                }
+
+                entry.practicedAt =
+                  practicedAt;
+
+                entry.updatedAt =
+                  new Date()
+                    .toISOString();
+
+                saveProgressData();
+                renderStudentSummary();
+              }
+            );
+
+            row.append(
+              rowLabel,
+              saveButton
+            );
+
+            historyList.append(
+              row
+            );
+          }
+        );
+
+        history.append(
+          historyList
+        );
+
+        card.append(
+          history
+        );
+      }
+
+      grid.append(
+        card
+      );
+    }
+  );
+
+  section.append(grid);
+  container.append(section);
+}
+
+
 function renderStudentProgressDetails(student) {
   let details =
     document.getElementById("studentProgressDetails");
@@ -930,6 +1411,11 @@ function renderStudentProgressDetails(student) {
     : [];
 
   renderVoloTokenProgress(
+    student,
+    details
+  );
+
+  renderPaperPracticeProgress(
     student,
     details
   );
