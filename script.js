@@ -58,7 +58,24 @@ function getWordPracticeBand(word) {
   return getWordMetadata(word)?.practiceBand || null;
 }
 
+function isReservedTransferWord(word) {
+  return Boolean(
+    window.FirstVoloTransferChallenge
+      ?.isReservedWord?.(word)
+  );
+}
+
+
 function isWordEligibleForSelectedGrade(word) {
+  /*
+    Transfer Challenge words stay out of
+    ordinary instruction/practice so they
+    remain available for independent transfer.
+  */
+  if (isReservedTransferWord(word)) {
+    return false;
+  }
+
   if (gradeBand === "all") {
     return true;
   }
@@ -84,13 +101,33 @@ function filterWordsBySelectedFilters(items) {
 }
 
 function isWordHuntEligibleForSelectedGrade(question) {
+  const questionWords =
+    Array.isArray(question?.words)
+      ? question.words
+      : [];
+
+  /*
+    Reject the whole Word Hunt question if a
+    reserved transfer word appears anywhere,
+    including as a distractor.
+  */
+  if (
+    questionWords.some(
+      (item) =>
+        isReservedTransferWord(item?.word)
+    )
+  ) {
+    return false;
+  }
+
   if (gradeBand === "all") {
     return true;
   }
 
-  const correctWords = question.words
-    .filter((item) => item.correct)
-    .map((item) => item.word);
+  const correctWords =
+    questionWords
+      .filter((item) => item.correct)
+      .map((item) => item.word);
 
   return (
     correctWords.length > 0 &&
@@ -145,7 +182,15 @@ function getVocabularyLevelLabel() {
 }
 
 function getLearnExamplesForSelectedVocabulary(item) {
-  const examples = item?.examples || [];
+  /*
+    Do not expose reserved Transfer Challenge
+    words on Learn cards either.
+  */
+  const examples =
+    (item?.examples || []).filter(
+      (word) =>
+        !isReservedTransferWord(word)
+    );
 
   if (vocabLevel === "all") {
     return examples;

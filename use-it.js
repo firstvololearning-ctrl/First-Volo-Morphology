@@ -197,6 +197,14 @@ function getUseItEligibleWords() {
     window.FIRST_VOLO_WORD_INVENTORY || [];
 
   return activeWords.filter((item) => {
+    if (
+      isReservedTransferWord(
+        item.word
+      )
+    ) {
+      return false;
+    }
+
     const inventoryItem = inventory.find(
       (entry) => entry.word === item.word
     );
@@ -276,6 +284,14 @@ function makeUseItChoices(
         return false;
       }
 
+      if (
+        isReservedTransferWord(
+          item.word
+        )
+      ) {
+        return false;
+      }
+
       const inventoryItem =
         inventory.find(
           (entry) => entry.word === item.word
@@ -315,6 +331,7 @@ function makeUseItChoices(
         getActiveBuildWords().filter(
           (item) =>
             item.word !== correctItem.word &&
+            !isReservedTransferWord(item.word) &&
             !distractors.includes(item.word)
         )
       );

@@ -419,6 +419,16 @@ function getChangeItEligibleQuestions() {
   }
 
   return changeItQuestions.filter((item) => {
+    const containsReservedTransferWord =
+      (item.choices || []).some(
+        (word) =>
+          isReservedTransferWord(word)
+      );
+
+    if (containsReservedTransferWord) {
+      return false;
+    }
+
     const matchesGrade =
       gradeBand === "all" ||
       item.practiceBand === gradeBand;
