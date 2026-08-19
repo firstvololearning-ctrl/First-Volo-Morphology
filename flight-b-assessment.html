@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight B Check-In | First Volo Morphology</title>
+  <link rel="stylesheet" href="flight-b-assessment.css">
+</head>
+<body>
+  <header class="assessment-header no-print">
+    <a class="brand" href="index.html" aria-label="Back to First Volo Morphology">
+      <img src="images/logo/logo.png" alt="First Volo Learning logo">
+      <span>
+        <strong>First Volo Morphology</strong>
+        <small>Flight B · Word Families</small>
+      </span>
+    </a>
+    <a class="back-link" href="progress-monitoring.html">← Progress Monitoring</a>
+  </header>
+
+  <main class="assessment-shell">
+    <section id="setupScreen" class="screen setup-screen">
+      <div class="setup-hero">
+        <div>
+          <p class="eyebrow">Educator setup</p>
+          <h1>Flight B Check-In</h1>
+          <p>Set up the assessment, then hand the device to the student. Student-facing screens do not show scores or correctness feedback.</p>
+        </div>
+        <img src="images/volo-flying.png" alt="Volo flying" class="setup-volo">
+      </div>
+
+      <div class="setup-grid">
+        <label class="field-card">
+          <span class="field-number">1</span>
+          <span class="field-copy">
+            <strong>Assessment form</strong>
+            <small>Use different forms for pre and post.</small>
+          </span>
+          <select id="formSelect">
+            <option value="pre">Pre · Form A</option>
+            <option value="post">Post · Form B</option>
+          </select>
+        </label>
+
+        <label class="field-card">
+          <span class="field-number">2</span>
+          <span class="field-copy">
+            <strong>Link local student profile</strong>
+            <small>Choose the same profile used during First Volo practice so assessment and app progress can be compared.</small>
+          </span>
+          <select id="studentSelect">
+            <option value="">Not linked to an app profile</option>
+          </select>
+        </label>
+
+        <label class="field-card">
+          <span class="field-number">3</span>
+          <span class="field-copy">
+            <strong>Anonymous Student Code</strong>
+            <small>This code—not the student's name—appears on printable/shareable reports.</small>
+          </span>
+          <input id="studentCode" type="text" maxlength="32" autocomplete="off" placeholder="Example: FV-B-014">
+        </label>
+      </div>
+
+      <div class="privacy-note">
+        <strong>Shareable-report privacy:</strong> printed reports include the Student Code, assessment results, and optional linked app-progress summary. They do not print the student's local profile name.
+      </div>
+
+      <div class="setup-actions">
+        <button id="startButton" class="primary-button" type="button">Ready for Takeoff ✈️</button>
+        <button id="printStudentFormButton" class="secondary-button" type="button">🖨️ Print Student Form</button>
+        <button id="paperEntryButton" class="secondary-button" type="button">✍️ Enter Paper Results</button>
+      </div>
+
+      <section class="saved-section" aria-labelledby="savedHeading">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">This browser</p>
+            <h2 id="savedHeading">Saved Flight B Assessments</h2>
+          </div>
+        </div>
+        <div id="savedAssessments" class="saved-list"></div>
+      </section>
+    </section>
+
+    <section id="paperEntryScreen" class="screen paper-entry-screen" hidden>
+      <article class="paper-entry-card">
+        <p class="eyebrow">Educator entry</p>
+        <h1>Enter Paper Results · Flight B</h1>
+        <p id="paperEntryMeta" class="paper-entry-meta"></p>
+        <p class="paper-entry-note">Score each objective item from the student's paper. For the two structured reasoning items, you may transcribe the response and enter the 0–2 rubric score. Saving creates the same kind of assessment record as a digital administration, so Pre/Post comparison works with the same Student Code.</p>
+        <div id="paperEntryItems" class="paper-entry-items"></div>
+        <div class="paper-entry-actions">
+          <button id="cancelPaperEntryButton" class="secondary-button" type="button">← Back</button>
+          <button id="savePaperEntryButton" class="primary-button" type="button">Save Paper Results</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="studentScreen" class="screen student-screen" hidden>
+      <div class="flight-topbar">
+        <div>
+          <p class="eyebrow">Flight B</p>
+          <h1>Word-Part Challenge</h1>
+        </div>
+        <div id="itemCount" class="item-count" aria-live="polite">1 of 16</div>
+      </div>
+
+      <div class="flight-path" aria-hidden="true">
+        <div class="flight-line"><span id="flightFill"></span></div>
+        <div id="routeStops" class="route-stops"></div>
+        <img id="flightVolo" src="images/volo-flying.png" alt="" class="flight-volo">
+      </div>
+
+      <article class="challenge-card">
+        <div id="challengeLabel" class="challenge-label">Quick Match</div>
+        <h2 id="questionPrompt"></h2>
+        <p id="questionHelp" class="question-help"></p>
+        <div id="responseArea" class="response-area"></div>
+        <div id="savedMessage" class="saved-message" aria-live="polite"></div>
+        <button id="continueButton" class="primary-button continue-button" type="button" disabled>Save & Continue</button>
+      </article>
+    </section>
+
+    <section id="completeScreen" class="screen complete-screen" hidden>
+      <div class="completion-card">
+        <img src="images/volo-flying.png" alt="Volo flying" class="completion-volo">
+        <p class="eyebrow">Flight B</p>
+        <h1>Flight complete!</h1>
+        <p>You finished every challenge. Nice work staying with it.</p>
+        <div class="completion-badge">✈️ Flight Complete</div>
+        <p class="handoff-note">Please hand the device back to your educator.</p>
+        <button id="educatorReportButton" class="secondary-button" type="button">Educator Report</button>
+      </div>
+    </section>
+
+    <section id="reportScreen" class="screen report-screen" hidden>
+      <div class="report-toolbar no-print">
+        <button id="backToSetupButton" class="secondary-button" type="button">← Assessment Home</button>
+        <div class="toolbar-actions">
+          <button id="printButton" class="primary-button" type="button">Print / Save PDF</button>
+        </div>
+      </div>
+
+      <article id="printReport" class="print-report">
+        <header class="report-header">
+          <div>
+            <p class="eyebrow">First Volo Morphology</p>
+            <h1>Flight B Assessment Report</h1>
+            <p class="report-subtitle">Grades 4–5 morphology · CCSS L.4.4b / L.5.4b primary alignment</p>
+          </div>
+          <img src="images/logo/logo.png" alt="First Volo Learning logo" class="report-logo">
+        </header>
+
+        <div class="report-meta">
+          <div><span>Student Code</span><strong id="reportCode">—</strong></div>
+          <div><span>Form</span><strong id="reportForm">—</strong></div>
+          <div><span>Date</span><strong id="reportDate">—</strong></div>
+        </div>
+
+        <section class="report-section">
+          <h2>Assessment Summary</h2>
+          <div id="scoreCards" class="score-cards"></div>
+          <div id="growthSummary" class="growth-summary"></div>
+        </section>
+
+        <section class="report-section">
+          <h2>Educator-Ready Skill Statements</h2>
+          <div id="skillStatements" class="skill-statements"></div>
+        </section>
+
+        <section class="report-section constructed-section">
+          <h2>Constructed Morphological Reasoning</h2>
+          <p class="report-note no-print">Score each structured fill-in response using the 0–2 rubric. Score morphology/meaning, not spelling or sentence mechanics.</p>
+          <div id="constructedResponses"></div>
+        </section>
+
+        <section class="report-section">
+          <h2>Linked First Volo Practice</h2>
+          <div id="appProgressSummary"></div>
+        </section>
+
+        <section class="report-section">
+          <h2>Item Detail</h2>
+          <div id="itemDetail"></div>
+        </section>
+
+        <footer class="report-footer">
+          <p><strong>Shareable report:</strong> Student Code only. No student name is printed.</p>
+          <p>This is an informal instructional assessment and should be interpreted with other classroom, intervention, and assessment information.</p>
+        </footer>
+      </article>
+    </section>
+  </main>
+
+  <script src="flight-b-assessment.js"></script>
+</body>
+</html>
