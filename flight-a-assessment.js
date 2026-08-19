@@ -417,9 +417,9 @@ const FORMS = {
         id: "post-15",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "What does un- usually mean?",
-        choices: ["not or opposite of", "again", "before", "full of"],
-        answer: "not or opposite of",
+        prompt: "Which prefix usually means not or opposite of?",
+        choices: ["un-", "re-", "pre-", "mis-"],
+        answer: "un-",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
@@ -555,6 +555,7 @@ function saveCurrentSession() {
 function renderSavedAssessments() {
   const data = getAssessmentData();
   const sessions = data.sessions
+    .filter((session) => session.flight === "A")
     .slice()
     .sort((a, b) => String(b.completedAt || b.startedAt || "").localeCompare(String(a.completedAt || a.startedAt || "")));
 
@@ -1125,7 +1126,12 @@ function scoreGroup(group) {
 
 function latestCompleted(code, form) {
   return getAssessmentData().sessions
-    .filter((session) => session.completedAt && session.studentCode === code && session.form === form)
+    .filter((session) =>
+      session.completedAt &&
+      session.flight === "A" &&
+      session.studentCode === code &&
+      session.form === form
+    )
     .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)))[0] || null;
 }
 
@@ -1251,6 +1257,7 @@ function renderConstructedResponses() {
       saveCurrentSession();
       renderScoreCards();
       renderSkillStatements();
+      renderItemDetail();
       document.getElementById(`rubric-print-${item.id}`).textContent = select.value === "" ? "Pending" : `${select.value}/2`;
     });
   });

@@ -8,223 +8,169 @@ const FORMS = {
     label: "Pre · Form A",
     items: [
       {
-        id: "pre-01",
-        challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in interrupt.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["inter-", "trans-", "rupt", "spect", "-ion", "-ive"],
-        answer: ["inter-", "rupt"],
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 6 word-part choices",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
+        id: "pre-01", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in abduct?",
+        choices: ["ab-duct", "a-bduct", "abd-uct", "abdu-ct"], answer: "ab-duct",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced",
+        support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "pre-02",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "What does spect mean?",
-        choices: ["look or watch", "carry", "break or burst", "build"],
-        answer: "look or watch",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "pre-02", challenge: "Quick Match", type: "choice",
+        prompt: "What does duct/duce mean?", choices: ["lead", "throw", "hear", "pull or draw"], answer: "lead",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "pre-03",
         challenge: "Mystery Word",
         type: "choice",
-        prompt: "Which meaning best fits transportable?",
-        help: "Use the word parts as clues.",
+        prompt: "After moving the poster, Maya had to reposition the title. What does reposition most likely mean?",
+        help: "Use the word parts and the sentence as clues.",
         choices: [
-          "able to be carried from place to place",
-          "able to be watched from place to place",
-          "able to be broken into smaller pieces",
-          "able to be built again"
+          "put or place it again",
+          "send it out",
+          "pull it away",
+          "hear it again"
         ],
-        answer: "able to be carried from place to place",
+        answer: "put or place it again",
         skill: "inference",
         reportGroup: "transfer",
         trainedStatus: "transfer",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+
+      {
+        id: "pre-04", challenge: "Quick Match", type: "choice",
+        prompt: "What does chron mean?", choices: ["time", "book", "skin", "turn"], answer: "time",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "pre-04",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "What does struct mean?",
-        choices: ["build", "life", "say", "move"],
-        answer: "build",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
-      },
-      {
-        id: "pre-05",
-        challenge: "Word Connection",
-        type: "text",
-        prompt: "Complete the sentence frames to explain how the prefix affects the meaning of each word.",
-        help: "Complete all four blanks.",
+        id: "pre-05", challenge: "Word Connection", type: "text",
+        prompt: "Complete the sentence frames to explain how the prefix affects each word built on mit.", help: "Complete all four blanks.",
         responseFrame: [
-          { lead: "In the word inspect, the prefix in- means", middle: "so inspect is about" },
-          { lead: "In the word inactive, the prefix in- means", middle: "so inactive is about" }
+          { lead: "In the word transmit, the prefix trans- means", middle: "so transmit is about" },
+          { lead: "In the word emit, the prefix e- means", middle: "so emit is about" }
         ],
-        skill: "flexibleMeaning",
-        reportGroup: "constructed",
-        trainedStatus: "practiced",
-        support: "independently in a structured fill-in response",
-        ccss: "L.4.4 / L.5.4; L.4.4b / L.5.4b",
-        rubricTitle: "Multiple meanings of in-/im-",
-        rubricReference: "2 = distinguishes both meanings: inspect uses in- as in/into; inactive uses in- as not. 1 = accurately explains one meaning or shows a partial distinction. 0 = does not distinguish the meanings."
+        skill: "prefixRootReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
+        ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Same root, different prefixes",
+        rubricReference: "2 = explains both prefix effects and links them to mit = send: transmit uses trans- as across/through and emit uses e- as out/from. 1 = accurately explains one word or gives a partial comparison. 0 = does not show meaningful morphological reasoning."
       },
       {
-        id: "pre-06",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "What does -ive usually tell you?",
-        choices: ["describes a quality or tendency", "names an action or process", "names a person who does something", "means not"],
-        answer: "describes a quality or tendency",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "pre-06", challenge: "Quick Match", type: "choice",
+        prompt: "What does ject mean?", choices: ["throw", "lead", "hold", "believe or trust"], answer: "throw",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "pre-07",
-        challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in inspection.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["in-", "inter-", "spect", "struct", "-ion", "-ive"],
-        answer: ["in-", "spect", "-ion"],
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 6 word-part choices",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
+        id: "pre-07", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in retrospective?",
+        choices: ["retro-spect-ive", "ret-rospective", "retros-pective", "retrosp-ective"], answer: "retro-spect-ive",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced", support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "pre-08",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "What does trans- mean?",
-        choices: ["across or through", "between or among", "under", "again"],
-        answer: "across or through",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "pre-08", challenge: "Quick Match", type: "choice",
+        prompt: "What can -ance and -ence name?",
+        choices: ["a state, quality, or act", "one who or something having a quality", "an action happening now", "something that can be done"], answer: "a state, quality, or act",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "pre-09",
         challenge: "Figure It Out",
         type: "choice",
-        prompt: "Workers had to reconstruct the damaged wall. What does reconstruct most likely mean?",
-        choices: ["build again", "look again", "carry across", "break into pieces"],
-        answer: "build again",
+        prompt: "The announcement was audible from the back of the room. What does audible most likely mean?",
+        help: "Use the word parts and the sentence as clues.",
+        choices: [
+          "able to be heard",
+          "able to be seen",
+          "able to be moved",
+          "able to be believed"
+        ],
+        answer: "able to be heard",
         skill: "inference",
         reportGroup: "practiced",
         trainedStatus: "practiced",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
         id: "pre-10",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "What does port mean?",
-        choices: ["carry", "look or watch", "break or burst", "build"],
-        answer: "carry",
+        prompt: "What does fer mean?",
+        choices: ["carry or bear", "hold", "turn", "follow"],
+        answer: "carry or bear",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
         id: "pre-11",
-        challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in interruption.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["inter-", "trans-", "rupt", "spect", "-ion", "-ive"],
-        answer: ["inter-", "rupt", "-ion"],
-        skill: "analysis",
+        challenge: "Mystery Word",
+        type: "choice",
+        prompt: "The telescope has a retractable handle. Which meaning best fits retractable?",
+        help: "Use the word parts and the sentence as clues.",
+        choices: [
+          "able to be pulled back",
+          "able to be thrown forward",
+          "able to be sent out",
+          "able to be heard again"
+        ],
+        answer: "able to be pulled back",
+        skill: "inference",
         reportGroup: "transfer",
         trainedStatus: "transfer",
-        support: "given a field of 6 word-part choices",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
-      },
-      {
-        id: "pre-12",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "What does -ion / -tion / -sion usually mean?",
-        choices: ["names an action or process", "describes a quality or tendency", "names a person who does something", "means not"],
-        answer: "names an action or process",
-        skill: "meaning",
-        reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+
+      {
+        id: "pre-12", challenge: "Quick Match", type: "choice",
+        prompt: "What does retro- mean?", choices: ["backward or back", "toward", "away or from", "together"], answer: "backward or back",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "pre-13",
-        challenge: "Break It Apart",
-        type: "choice",
-        prompt: "Which word-part split correctly shows the meaningful parts in transport?",
-        choices: ["trans-port", "tran-sport", "tra-nsport", "transp-ort"],
-        answer: "trans-port",
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 4 possible word-part splits",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
+        id: "pre-13", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in eject?", choices: ["e-ject", "ej-ect", "eje-ct", "e-j-ect"], answer: "e-ject",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced", support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "pre-14",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "What does rupt mean?",
-        choices: ["break or burst", "carry", "write or record", "heat"],
-        answer: "break or burst",
+        prompt: "What does cred mean?",
+        choices: ["believe or trust", "hold", "send", "turn"],
+        answer: "believe or trust",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
         id: "pre-15",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "What does inter- mean?",
-        choices: ["between or among", "across or through", "before", "against"],
-        answer: "between or among",
+        prompt: "What does ten mean?",
+        choices: ["hold", "send", "turn", "pull or draw"],
+        answer: "hold",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
-        id: "pre-16",
-        challenge: "Word Connection",
-        type: "text",
-        prompt: "Complete the sentence frames to explain how the suffix affects the meaning of each word.",
-        help: "Complete all four blanks.",
+        id: "pre-16", challenge: "Word Connection", type: "text",
+        prompt: "Complete the sentence frames to explain how the ending changes the related words.", help: "Complete all four blanks.",
         responseFrame: [
-          { lead: "In the word inspector, the suffix -or helps show", middle: "so inspector is about" },
-          { lead: "In the word inspected, the suffix -ed helps show", middle: "so inspected is about" }
+          { lead: "In the word assistance, the suffix -ance helps show", middle: "so assistance is about" },
+          { lead: "In the word assistant, the suffix -ant helps show", middle: "so assistant is about" }
         ],
-        skill: "suffixReasoning",
-        reportGroup: "constructed",
-        trainedStatus: "near-transfer",
-        support: "independently in a structured fill-in response",
-        ccss: "Morphological word analysis; L.4.4b / L.5.4b supporting application",
-        rubricTitle: "Same base, different suffixes",
-        rubricReference: "2 = explains both endings: inspector uses -or for a person/one who inspects; inspected uses -ed to show a completed/past action or that something was examined. 1 = accurately explains one ending or gives a partial contrast. 0 = does not explain the suffix contrast."
+        skill: "suffixReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
+        ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Related words, different suffixes",
+        rubricReference: "2 = explains both suffix functions: -ance helps form assistance, naming the act or help of assisting; -ant helps form assistant, naming a person who assists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
       }
     ]
   },
@@ -233,228 +179,165 @@ const FORMS = {
     label: "Post · Form B",
     items: [
       {
-        id: "post-01",
-        challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in disrupt.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["dis-", "inter-", "rupt", "struct", "-ion", "-ive"],
-        answer: ["dis-", "rupt"],
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 6 word-part choices",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
+        id: "post-01", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in produce?", choices: ["pro-duce", "prod-uce", "produc-e", "p-roduce"], answer: "pro-duce",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced", support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "post-02",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "Which word part means build?",
-        choices: ["struct", "spect", "port", "rupt"],
-        answer: "struct",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "post-02", challenge: "Quick Match", type: "choice",
+        prompt: "Which root means lead?", choices: ["duct/duce", "ject", "aud", "tract"], answer: "duct/duce",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "post-03",
         challenge: "Mystery Word",
         type: "choice",
-        prompt: "Which meaning best fits exportable?",
-        help: "Use the word parts as clues.",
+        prompt: "The engineers tested the ejectable seat during the safety trial. Which meaning best fits ejectable?",
+        help: "Use the word parts and the sentence as clues.",
         choices: [
-          "able to be carried or sent out of a place",
-          "able to be carried into a place",
-          "able to be watched from outside",
-          "able to be built again"
+          "able to be thrown out",
+          "able to be pulled back",
+          "able to be sent across",
+          "able to be heard"
         ],
-        answer: "able to be carried or sent out of a place",
+        answer: "able to be thrown out",
         skill: "inference",
         reportGroup: "transfer",
         trainedStatus: "transfer",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+
+      {
+        id: "post-04", challenge: "Quick Match", type: "choice",
+        prompt: "Which root means time?", choices: ["chron", "terr", "voc", "vert"], answer: "chron",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "post-04",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "Which word part means between or among?",
-        choices: ["inter-", "trans-", "re-", "anti-"],
-        answer: "inter-",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
-      },
-      {
-        id: "post-05",
-        challenge: "Word Connection",
-        type: "text",
-        prompt: "Complete the sentence frames to explain how the prefix affects the meaning of each word.",
-        help: "Complete all four blanks.",
+        id: "post-05", challenge: "Word Connection", type: "text",
+        prompt: "Complete the sentence frames to explain how the prefix affects each word built on ject.", help: "Complete all four blanks.",
         responseFrame: [
-          { lead: "In the word import, the prefix im- means", middle: "so import is about" },
-          { lead: "In the word impossible, the prefix im- means", middle: "so impossible is about" }
+          { lead: "In the word eject, the prefix e- means", middle: "so eject is about" },
+          { lead: "In the word reject, the prefix re- means", middle: "so reject is about" }
         ],
-        skill: "flexibleMeaning",
-        reportGroup: "constructed",
-        trainedStatus: "practiced",
-        support: "independently in a structured fill-in response",
-        ccss: "L.4.4 / L.5.4; L.4.4b / L.5.4b",
-        rubricTitle: "Multiple meanings of in-/im-",
-        rubricReference: "2 = distinguishes both meanings: import uses im-/in- as in/into; impossible uses im- as not. 1 = accurately explains one meaning or shows a partial distinction. 0 = does not distinguish the meanings."
+        skill: "prefixRootReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
+        ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Same root, different prefixes",
+        rubricReference: "2 = explains both prefix effects and links them to ject = throw: eject uses e- as out/from and reject uses re- as back/again, with accurate whole-word connections. 1 = accurately explains one word or gives a partial comparison. 0 = does not show meaningful morphological reasoning."
       },
       {
-        id: "post-06",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "Which word part means look or watch?",
-        choices: ["spect", "struct", "port", "rupt"],
-        answer: "spect",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "post-06", challenge: "Quick Match", type: "choice",
+        prompt: "Which root means throw?", choices: ["ject", "duct/duce", "tract", "chron"], answer: "ject",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "post-07",
-        challenge: "Break It Apart",
-        type: "choice",
-        prompt: "Which word-part split correctly shows all the meaningful parts in construction?",
-        choices: ["con-struct-ion", "cons-truct-ion", "const-ruct-ion", "con-stru-ction"],
-        answer: "con-struct-ion",
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 4 possible word-part splits",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
+        id: "post-07", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in chronology?", choices: ["chron-ology", "chro-nology", "chrono-l-ogy", "chronol-ogy"], answer: "chron-ology",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced", support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
-        id: "post-08",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "Which word part means carry?",
-        choices: ["port", "spect", "struct", "rupt"],
-        answer: "port",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        id: "post-08", challenge: "Quick Match", type: "choice",
+        prompt: "Which endings can name a state, quality, or act?", choices: ["-ance / -ence", "-ant / -ent", "-able / -ible", "-ed"], answer: "-ance / -ence",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "post-09",
-        challenge: "Break It Apart",
-        type: "choice",
-        prompt: "Which word-part split correctly shows the meaningful parts in transform?",
-        choices: ["trans-form", "tran-sform", "transf-orm", "tra-nsform"],
-        answer: "trans-form",
-        skill: "analysis",
-        reportGroup: "practiced",
-        trainedStatus: "practiced",
-        support: "given a field of 4 possible word-part splits",
-        ccss: "L.4.4b / L.5.4b supporting application"
-      },
-      {
-        id: "post-10",
-        challenge: "Break It Apart",
-        type: "multi",
-        prompt: "Tap all the meaningful word parts you can find in disruption.",
-        help: "Choose every word part that belongs in the word.",
-        choices: ["dis-", "rupt", "-ion", "inter-", "spect", "-ive"],
-        answer: ["dis-", "rupt", "-ion"],
-        skill: "analysis",
-        reportGroup: "transfer",
-        trainedStatus: "transfer",
-        support: "given a field of 6 word-part choices",
-        ccss: "RF.4.3a / RF.5.3a supporting; L.4.4b / L.5.4b"
-      },
-      {
-        id: "post-11",
-        challenge: "Quick Match",
-        type: "choice",
-        prompt: "Which word part means across or through?",
-        choices: ["trans-", "inter-", "circum-", "sub-"],
-        answer: "trans-",
-        skill: "meaning",
-        reportGroup: "knowledge",
-        support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
-      },
-      {
-        id: "post-12",
         challenge: "Figure It Out",
         type: "choice",
-        prompt: "A spectator is most likely...",
-        help: "Use spect as a clue.",
+        prompt: "The strong current propelled the boat toward shore. What does propelled most likely mean?",
+        help: "Use the word parts and the sentence as clues.",
         choices: [
-          "a person who watches an event",
-          "a person who carries supplies",
-          "a person who builds structures",
-          "a person who breaks things apart"
+          "pushed or drove it forward",
+          "held it in one place",
+          "pulled it backward",
+          "made it easier to hear"
         ],
-        answer: "a person who watches an event",
+        answer: "pushed or drove it forward",
         skill: "inference",
         reportGroup: "practiced",
         trainedStatus: "practiced",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
-        id: "post-13",
+        id: "post-10",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "Which ending can describe a quality or tendency?",
-        choices: ["-ive", "-ion", "-ist", "-ology"],
-        answer: "-ive",
+        prompt: "Which root means carry or bear?",
+        choices: ["fer", "ten", "vert", "sequ"],
+        answer: "fer",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+
+      {
+        id: "post-11",
+        challenge: "Mystery Word",
+        type: "choice",
+        prompt: "The speaker's last words were inaudible from the back row. What does inaudible most likely mean?",
+        help: "Use the word parts and the sentence as clues.",
+        choices: [
+          "not able to be heard",
+          "able to be heard again",
+          "not able to be believed",
+          "able to be pulled away"
+        ],
+        answer: "not able to be heard",
+        skill: "inference",
+        reportGroup: "transfer",
+        trainedStatus: "transfer",
+        support: "given a field of 4 choices",
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+
+      {
+        id: "post-12", challenge: "Quick Match", type: "choice",
+        prompt: "Which prefix means backward or back?", choices: ["retro-", "ab-", "ad-", "trans-"], answer: "retro-",
+        skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
+      },
+      {
+        id: "post-13", challenge: "Break It Apart", type: "choice",
+        prompt: "Which word-part split correctly shows the meaningful parts in extraction?", choices: ["ex-tract-ion", "ext-ract-ion", "ex-tra-ction", "e-xtract-ion"], answer: "ex-tract-ion",
+        skill: "analysis", reportGroup: "practiced", trainedStatus: "practiced", support: "given a field of 4 possible word-part splits", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
         id: "post-14",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "Which word part means break or burst?",
-        choices: ["rupt", "port", "struct", "spect"],
-        answer: "rupt",
+        prompt: "What does sequ mean?",
+        choices: ["follow", "turn", "hear", "pull or draw"],
+        answer: "follow",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
         id: "post-15",
         challenge: "Quick Match",
         type: "choice",
-        prompt: "Which ending can name an action or process?",
-        choices: ["-ion / -tion / -sion", "-ive", "-ist", "-ous"],
-        answer: "-ion / -tion / -sion",
+        prompt: "Which root means hold?",
+        choices: ["ten", "mit", "vert", "tract"],
+        answer: "ten",
         skill: "meaning",
         reportGroup: "knowledge",
         support: "given a field of 4 choices",
-        ccss: "L.4.4b / L.5.4b"
+        ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
+
       {
-        id: "post-16",
-        challenge: "Word Connection",
-        type: "text",
-        prompt: "Complete the sentence frames to explain how the suffix affects the meaning of each word.",
-        help: "Complete all four blanks.",
+        id: "post-16", challenge: "Word Connection", type: "text",
+        prompt: "Complete the sentence frames to explain how the ending changes the related words.", help: "Complete all four blanks.",
         responseFrame: [
-          { lead: "In the word importer, the suffix -er helps show", middle: "so importer is about" },
-          { lead: "In the word imported, the suffix -ed helps show", middle: "so imported is about" }
+          { lead: "In the word resistance, the suffix -ance helps show", middle: "so resistance is about" },
+          { lead: "In the word resistant, the suffix -ant helps show", middle: "so resistant describes" }
         ],
-        skill: "suffixReasoning",
-        reportGroup: "constructed",
-        trainedStatus: "near-transfer",
-        support: "independently in a structured fill-in response",
-        ccss: "Morphological word analysis; L.4.4b / L.5.4b supporting application",
-        rubricTitle: "Same base, different suffixes",
-        rubricReference: "2 = explains both endings: importer uses -er for a person/thing that imports; imported uses -ed to show a completed/past action or that something was brought in. 1 = accurately explains one ending or gives a partial contrast. 0 = does not explain the suffix contrast."
+        skill: "suffixReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
+        ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Related words, different suffixes",
+        rubricReference: "2 = explains both suffix functions: -ance helps form resistance, naming the act or state of resisting; -ant helps form resistant, describing someone or something that resists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
       }
     ]
   }
@@ -574,7 +457,7 @@ function saveCurrentSession() {
 function renderSavedAssessments() {
   const data = getAssessmentData();
   const sessions = data.sessions
-    .filter((session) => session.flight === "B")
+    .filter((session) => session.flight === "C")
     .slice()
     .sort((a, b) => String(b.completedAt || b.startedAt || "").localeCompare(String(a.completedAt || a.startedAt || "")));
 
@@ -582,7 +465,7 @@ function renderSavedAssessments() {
   if (!sessions.length) {
     const empty = document.createElement("p");
     empty.className = "empty-note";
-    empty.textContent = "No saved Flight B assessments on this browser yet.";
+    empty.textContent = "No saved Flight C assessments on this browser yet.";
     savedAssessments.append(empty);
     return;
   }
@@ -872,7 +755,7 @@ function printStudentForm() {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Flight B ${escapeHtml(formLabel)} Student Form</title>
+<title>Flight C ${escapeHtml(formLabel)} Student Form</title>
 <style>
   @page { size: letter; margin: .55in; }
   * { box-sizing: border-box; }
@@ -897,7 +780,7 @@ function printStudentForm() {
 </head>
 <body>
 <header>
-  <h1>Flight B Check-In</h1>
+  <h1>Flight C Check-In</h1>
   <div class="sub">${escapeHtml(formLabel)}</div>
   <div class="meta">
     <span>Student Code: ${escapeHtml(code || "________________")}</span>
@@ -1042,9 +925,9 @@ function savePaperResults() {
   });
 
   currentSession = {
-    id: makeId("flight-b-assessment"),
-    assessmentId: "flight-b-pre-post-v1",
-    flight: "B",
+    id: makeId("flight-c-assessment"),
+    assessmentId: "flight-c-pre-post-v1",
+    flight: "C",
     form: currentFormKey,
     studentCode: code,
     linkedStudentId: studentSelect.value || null,
@@ -1074,9 +957,9 @@ function startAssessment() {
   currentItems = formItems(currentFormKey);
   currentIndex = 0;
   currentSession = {
-    id: makeId("flight-b-assessment"),
-    assessmentId: "flight-b-pre-post-v1",
-    flight: "B",
+    id: makeId("flight-c-assessment"),
+    assessmentId: "flight-c-pre-post-v1",
+    flight: "C",
     form: currentFormKey,
     source: "digital",
     studentCode: code,
@@ -1147,7 +1030,7 @@ function latestCompleted(code, form) {
   return getAssessmentData().sessions
     .filter((session) =>
       session.completedAt &&
-      session.flight === "B" &&
+      session.flight === "C" &&
       session.studentCode === code &&
       session.form === form
     )
@@ -1218,23 +1101,24 @@ function renderSkillStatements() {
   const inferenceCorrect = inferenceResponses.filter((response) => response.correct).length;
 
   const statements = [
-    `The student demonstrated the ability to match targeted prefixes, roots, and suffixes with their meanings with <strong>${knowledge.pct}% accuracy</strong> given a field of 4 choices.`,
+    `The student demonstrated the ability to match targeted classical prefixes, roots, and suffixes with their meanings with <strong>${knowledge.pct}% accuracy</strong> given a field of 4 choices.`,
     `The student demonstrated the ability to apply targeted morphology to practiced instructional words with <strong>${practiced.pct}% accuracy</strong> across the scored selected-response tasks.`,
-    `The student demonstrated the ability to apply taught word-part knowledge to new word-family or transfer items with <strong>${transfer.pct}% accuracy</strong> across the scored selected-response tasks.`,
-    `The student demonstrated the ability to analyze morphologically complex words into meaningful word parts with <strong>${percent(analysisCorrect, analysisResponses.length)}% accuracy</strong> across selected-response word-part analysis tasks.`,
-    `The student demonstrated the ability to use word parts as clues to whole-word meaning with <strong>${percent(inferenceCorrect, inferenceResponses.length)}% accuracy</strong> given a field of 4 choices.`
+    `The student demonstrated the ability to apply taught word-part knowledge to new words with <strong>${transfer.pct}% accuracy</strong> across the scored selected-response tasks.`,
+    `The student demonstrated the ability to identify meaningful word-part boundaries in morphologically complex words with <strong>${percent(analysisCorrect, analysisResponses.length)}% accuracy</strong> given a field of 4 possible word-part splits.`,
+    `The student demonstrated the ability to use classical word parts as clues to whole-word meaning with <strong>${percent(inferenceCorrect, inferenceResponses.length)}% accuracy</strong> given a field of 4 choices.`
   ];
 
   const textItems = currentItems.filter((item) => item.type === "text");
-  const flexible = textItems.find((item) => item.skill === "flexibleMeaning");
+  const prefixRoot = textItems.find((item) => item.skill === "prefixRootReasoning");
   const suffix = textItems.find((item) => item.skill === "suffixReasoning");
-  if (flexible) {
-    const value = currentSession.rubricScores?.[flexible.id];
-    statements.push(`The student demonstrated the ability to distinguish between the “not” and “in/into” meanings of in-/im- across words, earning <strong>${Number.isFinite(Number(value)) ? `${value}/2 rubric points` : "a pending rubric score"}</strong> independently in a structured fill-in response.`);
+
+  if (prefixRoot) {
+    const value = currentSession.rubricScores?.[prefixRoot.id];
+    statements.push(`The student demonstrated the ability to explain how different prefixes combine with a shared classical root to affect whole-word meaning, earning <strong>${Number.isFinite(Number(value)) ? `${value}/2 rubric points` : "a pending rubric score"}</strong> independently in a structured fill-in response.`);
   }
   if (suffix) {
     const value = currentSession.rubricScores?.[suffix.id];
-    statements.push(`The student demonstrated the ability to explain how suffixes change the meaning or grammatical form of a shared base word, earning <strong>${Number.isFinite(Number(value)) ? `${value}/2 rubric points` : "a pending rubric score"}</strong> independently in a structured fill-in response.`);
+    statements.push(`The student demonstrated the ability to explain how related derivational suffixes change meaning or grammatical role within a word family, earning <strong>${Number.isFinite(Number(value)) ? `${value}/2 rubric points` : "a pending rubric score"}</strong> independently in a structured fill-in response.`);
   }
 
   container.innerHTML = statements.map((statement) => `<p class="skill-statement">${statement}</p>`).join("");
@@ -1319,10 +1203,10 @@ function renderAppProgressSummary() {
     return;
   }
 
-  const sessions = (student.sessions || []).filter((session) => session.gradeBand === "4-5");
+  const sessions = (student.sessions || []).filter((session) => session.gradeBand === "6-8");
   const responses = sessions.flatMap((session) => Array.isArray(session.responses) ? session.responses : []);
   if (!responses.length) {
-    container.innerHTML = '<div class="app-summary-box">No linked Flight B app-practice responses are saved yet.</div>';
+    container.innerHTML = '<div class="app-summary-box">No linked Flight C app-practice responses are saved yet.</div>';
     return;
   }
 
@@ -1344,7 +1228,7 @@ function renderAppProgressSummary() {
 
   container.innerHTML = `
     <div class="app-summary-box">
-      <strong>${sessions.length} linked Flight B app ${sessions.length === 1 ? "session" : "sessions"}</strong><br>
+      <strong>${sessions.length} linked Flight C app ${sessions.length === 1 ? "session" : "sessions"}</strong><br>
       ${correct}/${scored.length} scored practice responses correct · <strong>${percent(correct, scored.length)}%</strong>
       <div class="app-skill-grid">${skillCards}</div>
     </div>
@@ -1432,7 +1316,7 @@ printButton.addEventListener("click", () => {
   const oldTitle = document.title;
 
   document.title =
-    `Flight B ${formLabel} Assessment Report`;
+    `Flight C ${formLabel} Assessment Report`;
 
   window.print();
 
