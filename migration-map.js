@@ -41,43 +41,43 @@
   const POSITIONS =
     Object.freeze({
       "home-tree": {
-        x: 8,
-        y: 66
+        x: 13,
+        y: 62
       },
 
       "meadow": {
-        x: 23,
-        y: 34
+        x: 27,
+        y: 48
       },
 
       "river": {
-        x: 38,
-        y: 64
+        x: 40,
+        y: 60
       },
 
       "forest": {
-        x: 52,
-        y: 30
+        x: 53,
+        y: 44
       },
 
       "mountains": {
-        x: 64,
-        y: 60
+        x: 65,
+        y: 56
       },
 
       "village": {
         x: 76,
-        y: 33
+        y: 42
       },
 
       "coast": {
-        x: 87,
-        y: 62
+        x: 86,
+        y: 55
       },
 
       "destination": {
-        x: 94,
-        y: 24
+        x: 90,
+        y: 39
       }
     });
 
@@ -251,6 +251,315 @@
 
   let returnFocus = null;
 
+  function makeMapSketch() {
+    const ns =
+      "http://www.w3.org/2000/svg";
+
+    const svg =
+      document.createElementNS(
+        ns,
+        "svg"
+      );
+
+    svg.classList.add(
+      "migration-map-sketch"
+    );
+
+    svg.setAttribute(
+      "viewBox",
+      "0 0 100 100"
+    );
+
+    svg.setAttribute(
+      "preserveAspectRatio",
+      "none"
+    );
+
+    svg.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    svg.innerHTML = `
+
+      <!-- ==========================================
+           LARGE LAND CONTOURS
+           These make the board read as one region.
+           ========================================== -->
+
+      <g class="geo-contours">
+        <path d="
+          M3 31
+          C13 25 22 24 31 28
+          C42 33 50 31 59 26
+          C68 21 78 20 87 24
+          C93 27 97 28 99 28
+        " />
+
+        <path d="
+          M3 39
+          C13 34 23 33 32 37
+          C42 42 51 39 60 34
+          C69 29 78 29 87 33
+          C93 36 97 36 99 36
+        " />
+
+        <path d="
+          M3 73
+          C14 67 25 67 35 72
+          C45 77 55 76 64 71
+          C74 66 84 66 94 71
+          C96 72 98 73 99 73
+        " />
+
+        <path d="
+          M4 82
+          C15 76 26 76 37 81
+          C48 86 59 84 69 79
+          C79 74 89 75 99 80
+        " />
+      </g>
+
+
+      <!-- ==========================================
+           SUMMER HOME + MEADOW COUNTRY
+           Soft rolling open land.
+           ========================================== -->
+
+      <g class="geo-meadow">
+        <path d="
+          M5 51
+          C10 46 15 44 20 47
+          C25 50 30 50 35 46
+        " />
+
+        <path d="
+          M6 56
+          C12 51 17 50 22 53
+          C27 56 32 55 37 51
+        " />
+
+        <path d="M17 38 C21 35 25 35 29 38" />
+        <path d="M16 42 C21 39 26 39 31 42" />
+        <path d="M16 46 C21 43 27 43 32 46" />
+
+        <path d="
+          M9 66
+          C14 63 18 63 23 65
+          C27 67 31 67 35 64
+        " />
+      </g>
+
+
+      <!-- ==========================================
+           RIVER BASIN
+           One recognisable winding water system.
+           ========================================== -->
+
+      <g class="geo-river">
+        <path d="
+          M37 19
+          C34 27 39 32 36 39
+          C33 46 38 51 36 58
+          C34 65 38 70 43 75
+          C46 78 48 81 49 85
+        " />
+
+        <path d="
+          M40 19
+          C37 27 42 32 39 39
+          C36 46 41 51 39 58
+          C37 65 41 69 46 74
+          C49 77 51 80 52 84
+        " />
+
+        <path d="
+          M24 57
+          C29 54 33 54 38 58
+        " />
+
+        <path d="
+          M39 47
+          C44 44 48 45 52 49
+        " />
+      </g>
+
+
+      <!-- ==========================================
+           FOREST REGION
+           Irregular woodland edges, not icons.
+           ========================================== -->
+
+      <g class="geo-forest">
+        <path d="
+          M39 23
+          C41 18 45 16 48 18
+          C50 14 55 14 57 18
+          C61 16 65 19 64 23
+          C67 26 64 30 60 30
+          C58 34 53 34 50 31
+          C46 34 41 31 42 27
+          C39 27 38 25 39 23
+        " />
+
+        <path d="
+          M42 28
+          C46 26 50 26 54 28
+          C58 30 61 29 64 27
+        " />
+
+        <path d="
+          M43 32
+          C47 30 51 30 55 32
+          C58 34 61 33 63 31
+        " />
+
+        <path d="M46 22 L46 28" />
+        <path d="M51 20 L51 28" />
+        <path d="M56 21 L56 29" />
+        <path d="M60 23 L60 29" />
+      </g>
+
+
+      <!-- ==========================================
+           MOUNTAIN COUNTRY
+           Long ridgelines instead of triangles.
+           ========================================== -->
+
+      <g class="geo-mountains">
+        <path d="
+          M51 47
+          C55 42 58 36 61 31
+          C64 35 66 40 69 43
+          C72 39 75 33 78 30
+          C81 34 84 40 88 44
+        " />
+
+        <path d="
+          M49 52
+          C54 48 58 46 62 48
+          C66 51 70 50 74 46
+          C78 43 82 44 87 49
+        " />
+
+        <path d="
+          M54 57
+          C59 53 63 53 67 56
+          C71 59 76 58 80 54
+        " />
+
+        <path d="M60 34 C62 37 64 37 66 35" />
+        <path d="M76 33 C78 36 80 36 82 34" />
+      </g>
+
+
+      <!-- ==========================================
+           VILLAGE / FARMLAND
+           Parcels and gentle cultivated curves.
+           ========================================== -->
+
+      <g class="geo-fields">
+        <path d="
+          M68 48
+          C72 45 76 45 80 48
+          C84 51 88 50 92 47
+        " />
+
+        <path d="M69 53 C74 50 79 50 84 53" />
+        <path d="M69 57 C74 54 79 54 84 57" />
+        <path d="M69 61 C74 58 79 58 84 61" />
+        <path d="M69 65 C74 62 79 62 84 65" />
+
+        <path d="M73 51 C74 56 74 61 73 66" />
+        <path d="M79 50 C80 56 80 61 79 66" />
+
+        <path d="
+          M84 42
+          C87 39 90 39 93 42
+          C95 44 97 44 99 42
+        " />
+      </g>
+
+
+      <!-- ==========================================
+           COASTAL REGION
+           Land edge flows toward Winter Home.
+           ========================================== -->
+
+      <g class="geo-coast">
+        <path d="
+          M75 68
+          C79 65 82 67 85 70
+          C88 72 91 69 93 66
+          C95 63 97 64 99 65
+        " />
+
+        <path d="
+          M77 73
+          C81 70 84 72 87 75
+          C90 77 93 74 95 72
+          C97 70 98 70 99 71
+        " />
+
+        <path d="
+          M79 78
+          C83 75 86 77 89 79
+          C92 81 95 79 99 76
+        " />
+
+        <path d="M82 83 C86 81 90 83 94 82" />
+        <path d="M87 87 C90 85 94 87 98 86" />
+      </g>
+
+
+      <!-- ==========================================
+           WINTER HOME / TROPICAL END REGION
+           A small island/coast hint.
+           ========================================== -->
+
+      <g class="geo-destination">
+        <path d="
+          M87 25
+          C90 21 94 20 97 23
+          C99 25 99 29 97 31
+          C94 34 89 33 87 30
+          C86 28 86 27 87 25
+        " />
+
+        <path d="M92 26 C92 22 93 18 94 15" />
+        <path d="M94 15 C91 13 89 15 88 17" />
+        <path d="M94 15 C97 13 99 14 99 17" />
+      </g>
+
+
+      <!-- ==========================================
+           SMALL SUPPORTING DETAILS
+           ========================================== -->
+
+      <g class="geo-birds">
+        <path d="M27 18 C28 17 29 17 30 18 C31 17 32 17 33 18" />
+        <path d="M68 15 C69 14 70 14 71 15 C72 14 73 14 74 15" />
+      </g>
+
+      <g class="geo-compass">
+        <circle class="compass-ring" cx="8" cy="12" r="4.4" />
+        <circle class="compass-center" cx="8" cy="12" r=".7" />
+
+        <path class="compass-main"
+          d="M8 6.5 L9.2 10.8 L13.5 12 L9.2 13.2 L8 17.5 L6.8 13.2 L2.5 12 L6.8 10.8 Z" />
+
+        <path class="compass-diagonal"
+          d="M4.3 8.3 L7.2 11.2 L11.7 8.3 L8.8 11.2 L11.7 15.7 L8.8 12.8 L4.3 15.7 L7.2 12.8 Z" />
+
+        <text class="compass-n" x="8" y="5.2" text-anchor="middle">N</text>
+      </g>
+    `;
+
+    return svg;
+  }
+
+
+
   function makeRoute(
     progress
   ) {
@@ -284,14 +593,14 @@
 
     const pathData =
       [
-        "M 8 66",
-        "C 12 51, 17 38, 23 34",
-        "S 32 52, 38 64",
-        "S 48 40, 52 30",
-        "S 60 47, 64 60",
-        "S 72 43, 76 33",
-        "S 84 49, 87 62",
-        "S 92 39, 94 24"
+        "M 13 62",
+        "C 18 59, 23 50, 27 48",
+        "C 32 47, 36 56, 40 60",
+        "C 45 59, 49 48, 53 44",
+        "C 57 43, 62 52, 65 56",
+        "C 69 55, 73 46, 76 42",
+        "C 80 41, 83 50, 86 55",
+        "C 89 53, 90 45, 90 39"
       ].join(" ");
 
     const base =
@@ -303,11 +612,6 @@
     base.setAttribute(
       "d",
       pathData
-    );
-
-    base.setAttribute(
-      "pathLength",
-      "1"
     );
 
     base.classList.add(
@@ -347,11 +651,19 @@
         )
       );
 
-    traveled.style.strokeDasharray =
-      `${ratio} ${Math.max(
-        0.0001,
-        1 - ratio
-      )}`;
+    if (ratio <= 0) {
+      traveled.style.display =
+        "none";
+    } else if (ratio >= 1) {
+      traveled.style.strokeDasharray =
+        "1 0";
+    } else {
+      traveled.style.strokeDasharray =
+        `${ratio} ${Math.max(
+          0.0001,
+          1 - ratio
+        )}`;
+    }
 
     svg.append(
       base,
@@ -824,6 +1136,7 @@
       "migration-connected-map";
 
     map.append(
+      makeMapSketch(),
       makeRoute(progress)
     );
 
