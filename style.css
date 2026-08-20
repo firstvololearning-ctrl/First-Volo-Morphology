@@ -4974,3 +4974,74 @@ a:focus-visible {
   text-decoration: none;
   box-shadow: none;
 }
+
+/* === PROGRAM PROGRESS MAJOR COLLAPSIBLES === */
+
+.progress-major-collapse {
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid #dce6f0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.progress-major-collapse-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 18px;
+  cursor: pointer;
+  list-style: none;
+  color: #244b78;
+}
+
+.progress-major-collapse-summary::-webkit-details-marker {
+  display: none;
+}
+
+.progress-major-collapse-title {
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.progress-major-collapse-indicator::before {
+  content: "+";
+  color: #52708f;
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.progress-major-collapse[open]
+  > .progress-major-collapse-summary
+  .progress-major-collapse-indicator::before {
+  content: "−";
+}
+
+.progress-major-collapse[open]
+  > .progress-major-collapse-summary {
+  border-bottom: 1px solid #e4ebf2;
+  background: #f9fbfd;
+}
+
+.progress-major-collapse-body {
+  padding: 18px;
+}
+
+.progress-major-collapse
+  .volo-token-progress-heading {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .progress-major-collapse-summary {
+    padding: 13px 14px;
+  }
+
+  .progress-major-collapse-body {
+    padding: 14px;
+  }
+}
+
+/* === END PROGRAM PROGRESS MAJOR COLLAPSIBLES === */
