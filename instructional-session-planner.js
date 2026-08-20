@@ -592,9 +592,65 @@
     };
   }
 
+  function chooseApplyRecipe({
+    guidance,
+    sessionMaterial
+  } = {}) {
+    const recipes =
+      asArray(
+        sessionMaterial
+          ?.recipes
+      );
+
+    if (!recipes.length) {
+      return null;
+    }
+
+    const lastWord =
+      String(
+        guidance
+          ?.lastWork
+          ?.word || ""
+      )
+        .trim()
+        .toLowerCase();
+
+    /*
+      Prefer a different safe target word when
+      the session bank contains one. If this target
+      has only one configured recipe, Apply may use
+      the same word but changes the response demand
+      from supported building to contextual production.
+    */
+    const fresh =
+      recipes.filter(
+        recipe =>
+          String(
+            recipe?.word || ""
+          )
+            .trim()
+            .toLowerCase() !==
+          lastWord
+      );
+
+    const pool =
+      fresh.length
+        ? fresh
+        : recipes;
+
+    return (
+      pool[
+        pool.length - 1
+      ] ||
+      null
+    );
+  }
+
+
   function buildApply({
     guidance,
-    duration
+    duration,
+    sessionMaterial = null
   }) {
     const target =
       guidance?.nextWork
@@ -602,6 +658,77 @@
       guidance?.lastWork
         ?.target ||
       null;
+
+    const recipe =
+      chooseApplyRecipe({
+        guidance,
+        sessionMaterial
+      });
+
+    if (!recipe) {
+      return {
+        minutes:
+          duration.applyMinutes,
+
+        target,
+
+        targetPhrase:
+          formatTarget(target),
+
+        productive:
+          true,
+
+        educatorDoes:
+          `Use ${formatTarget(target)} in a productive task. Ask the student to produce, use, and explain a related word rather than complete another recognition-only item.`,
+
+        studentDoes:
+          "Produces or explains a related word and states what the known morphology contributes.",
+
+        item:
+          null,
+
+        materialStatus:
+          "productive-application-item-pending",
+
+        protectionRule:
+          "Do not select a formal assessment target, Migration Challenge reserved word, or Check Transfer reserved word."
+      };
+    }
+
+    const targetLabel =
+      target?.label ||
+      "the target word part";
+
+    const contextPrompt =
+      recipe.contextPrompt ||
+      null;
+
+    const wordPrompt =
+      recipe.wordPrompt ||
+      null;
+
+    const prompt =
+      contextPrompt
+        ? (
+            "Complete the sentence by building the word that fits: " +
+            contextPrompt
+          )
+        : (
+            wordPrompt
+              ? (
+                  wordPrompt +
+                  " Do not show the answer before the student's attempt."
+                )
+              : (
+                  `Build a related word containing ${targetLabel}.`
+                )
+          );
+
+    const followUpPrompt =
+      (
+        `Now say or write a new sentence using ${recipe.word}. ` +
+        `Explain what ${targetLabel} contributes to the word.`
+      );
 
     return {
       minutes:
@@ -616,19 +743,54 @@
         true,
 
       educatorDoes:
-        `Use ${formatTarget(target)} in a productive task: the student should build, explain, or use a related word rather than complete another recognition-only item.`,
+        (
+          "Present the Apply prompt without showing the answer. " +
+          "Let the student produce or build the word from context. " +
+          "After the word is correct, ask for an original sentence " +
+          "and an explanation of what the target contributes."
+        ),
 
       studentDoes:
-        "Produces or explains a related word and states what the known morphology contributes.",
+        (
+          `Produces ${recipe.word} from meaning or context, ` +
+          "uses it in a new sentence, and explains the target's contribution."
+        ),
 
-      item:
-        null,
+      item: {
+        word:
+          recipe.word,
+
+        parts:
+          asArray(
+            recipe.parts
+          ).slice(),
+
+        family:
+          sessionMaterial
+            ?.family ||
+          null,
+
+        contextPrompt,
+
+        wordPrompt,
+
+        prompt,
+
+        followUpPrompt,
+
+        source:
+          "protection-aware-session-recipe"
+      },
 
       materialStatus:
-        "protected-ordinary-application-resolver-pending",
+        "ready-productive-application",
 
       protectionRule:
-        "Do not select a formal assessment target, Migration Challenge reserved word, or future Check Transfer reserved word."
+        (
+          "Apply uses an ordinary protection-aware practice word. " +
+          "It does not use formal assessment, Migration Challenge, " +
+          "or Check Transfer reserved words."
+        )
     };
   }
 
@@ -963,6 +1125,18 @@
 
     plan.sessionMaterial =
       sessionMaterial;
+
+    /*
+      Resolve Apply only after the protection-aware
+      session material has been selected.
+    */
+    plan.apply =
+      buildApply({
+        guidance:
+          plannerGuidance,
+        duration,
+        sessionMaterial
+      });
 
     plan.materialsManifest =
       buildMaterialsManifest(

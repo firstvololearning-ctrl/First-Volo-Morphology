@@ -881,7 +881,8 @@
 
 
   function makeTasks(
-    material
+    material,
+    applyPlan = null
   ) {
     const recipes =
       material
@@ -892,59 +893,42 @@
       return [];
     }
 
-    if (
-      recipes.length === 1
-    ) {
-      return [
-        {
-          stage:
-            "Teach / Practice",
+    const applyItem =
+      applyPlan
+        ?.item ||
+      null;
 
-          recipe:
-            recipes[0],
+    const applyWord =
+      String(
+        applyItem?.word || ""
+      )
+        .trim()
+        .toLowerCase();
 
-          prompt:
-            recipes[0]
-              .wordPrompt ||
-            recipes[0]
-              .contextPrompt ||
-            (
-              `Build ${recipes[0].word} ` +
-              "and explain the word parts."
-            )
-        },
-
-        {
-          stage:
-            "Apply",
-
-          recipe:
-            recipes[0],
-
-          prompt:
-            recipes[0]
-              .contextPrompt ||
-            (
-              `Use ${recipes[0].word} in a meaningful sentence. ` +
-              "Explain what the target contributes."
-            )
-        }
-      ];
-    }
-
-    const practice =
-      recipes.slice(
-        0,
-        -1
+    let practiceRecipes =
+      recipes.filter(
+        recipe =>
+          recipes.length === 1 ||
+          String(
+            recipe?.word || ""
+          )
+            .trim()
+            .toLowerCase() !==
+          applyWord
       );
 
-    const apply =
-      recipes[
-        recipes.length - 1
-      ];
+    if (
+      !practiceRecipes.length
+    ) {
+      practiceRecipes =
+        recipes.slice(
+          0,
+          1
+        );
+    }
 
-    return [
-      ...practice.map(
+    const tasks =
+      practiceRecipes.map(
         recipe => ({
           stage:
             "Teach / Practice",
@@ -953,30 +937,35 @@
 
           prompt:
             recipe.wordPrompt ||
-            recipe.contextPrompt ||
             (
               `Build ${recipe.word} and explain the word parts.`
-            )
-        })
-      ),
+            ),
 
-      {
+          followUp:
+            null
+        })
+      );
+
+    if (applyItem) {
+      tasks.push({
         stage:
           "Apply",
 
         recipe:
-          apply,
+          applyItem,
 
         prompt:
-          apply.contextPrompt ||
-          apply.wordPrompt ||
-          (
-            `Build ${apply.word} from context and explain what the target contributes.`
-          )
-      }
-    ];
-  }
+          applyItem.prompt,
 
+        followUp:
+          applyItem
+            .followUpPrompt ||
+          null
+      });
+    }
+
+    return tasks;
+  }
 
   function slotById(slotId) {
     return (
@@ -1663,7 +1652,15 @@
         "session-build-feedback is-correct";
 
       feedback.textContent =
-        `✓ Yes — ${task.recipe.word}.`;
+        (
+          `✓ Yes — ${task.recipe.word}.` +
+          (
+            task.stage === "Apply" &&
+            task.followUp
+              ? ` ${task.followUp}`
+              : ""
+          )
+        );
 
       /*
         Pronounce the completed word only AFTER
@@ -2037,17 +2034,35 @@
             ${esc(applyTask.prompt)}
           </p>
 
-          <p>
+          ${
+            applyTask.followUp
+              ? `
+                <p>
+                  <strong>
+                    Then:
+                  </strong>
+                  ${esc(applyTask.followUp)}
+                </p>
+              `
+              : ""
+          }
+
+          <p class="print-small-note">
             <strong>
-              Student explains:
+              Educator key:
             </strong>
-            What does the target contribute to the word?
+            ${esc(
+              applyTask
+                ?.recipe
+                ?.word ||
+              ""
+            )}
           </p>
         `
         : `
           <p>
-            Build, explain, or use a related word
-            productively.
+            No protection-aware Apply item is
+            configured for this target yet.
           </p>
         `;
 
@@ -2185,6 +2200,17 @@
                 <p>
                   ${esc(task.prompt)}
                 </p>
+
+                ${
+                  task.followUp
+                    ? `
+                      <p>
+                        <strong>Then:</strong>
+                        ${esc(task.followUp)}
+                      </p>
+                    `
+                    : ""
+                }
               </div>
 
             </div>
@@ -2220,7 +2246,10 @@
 
     state.tasks =
       makeTasks(
-        state.material
+        state.material,
+        state.plan
+          ?.apply ||
+        null
       );
 
     state.taskIndex =
