@@ -56,6 +56,7 @@
       teacher-facing / connected-text metadata.
     */
     struct: "root",
+    tract: "root",
     aud: "root",
     sequ: "root",
     terr: "root",
