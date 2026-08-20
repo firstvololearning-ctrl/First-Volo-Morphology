@@ -192,6 +192,23 @@
 
       difficulties:
         ["connect", "infer", "context", "retrieval"]
+    },
+
+
+    change: {
+      label: "Change It",
+
+      purpose:
+        "Select the appropriate form from a morphological word family using word-part meaning and sentence context.",
+
+      educator:
+        "Allow the student to examine the sentence and word-family forms first; do not provide the grammatical or morphological clue before the student's attempt.",
+
+      student:
+        "Selects the word-family form whose morphology and sentence role fit the context and connects the relevant word part to its meaning or function.",
+
+      difficulties:
+        ["meaning", "connect", "context", "retrieval"]
     }
 
   };
