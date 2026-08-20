@@ -224,6 +224,25 @@
       return null;
     }
 
+    const resolver =
+      window
+        .FirstVoloInstructionalTargetResolver;
+
+    if (resolver?.resolve) {
+      return (
+        resolver.resolve({
+          response,
+          activity:
+            response.skill ||
+            null,
+          word:
+            response.word ||
+            null
+        }).primary ||
+        null
+      );
+    }
+
     const meta =
       getMorphemeById(
         response.primaryTargetId
@@ -784,6 +803,49 @@
           minutes
       });
 
+    const targetResolver =
+      window
+        .FirstVoloInstructionalTargetResolver;
+
+    const targetResolution =
+      targetResolver
+        ?.resolveFromGuidance?.(
+          guidance
+        ) || null;
+
+    const resolvedPrimary =
+      targetResolution
+        ?.primary ||
+      guidance?.nextWork
+        ?.target ||
+      guidance?.lastWork
+        ?.target ||
+      null;
+
+    const plannerGuidance = {
+      ...guidance,
+
+      lastWork:
+        guidance?.lastWork
+          ? {
+              ...guidance.lastWork,
+              target:
+                guidance.lastWork
+                  .target ||
+                resolvedPrimary
+            }
+          : null,
+
+      nextWork:
+        guidance?.nextWork
+          ? {
+              ...guidance.nextWork,
+              target:
+                resolvedPrimary
+            }
+          : guidance?.nextWork
+    };
+
     const retrieve = {
       minutes:
         duration.retrieveMinutes,
@@ -791,7 +853,8 @@
       items:
         buildRetrieveItems({
           student,
-          guidance,
+          guidance:
+            plannerGuidance,
           duration
         }),
 
@@ -801,19 +864,22 @@
 
     const teachPractice =
       buildTeachPractice({
-        guidance,
+        guidance:
+          plannerGuidance,
         duration
       });
 
     const apply =
       buildApply({
-        guidance,
+        guidance:
+          plannerGuidance,
         duration
       });
 
     const transfer =
       buildTransfer({
-        guidance,
+        guidance:
+          plannerGuidance,
         duration
       });
 
@@ -842,6 +908,8 @@
       instructionalDecision:
         guidance
           .instructionalDecision,
+
+      targetResolution,
 
       retrieve,
 
