@@ -236,6 +236,11 @@
         "instructionalGuidanceContent"
       );
 
+    const wrap =
+      document.getElementById(
+        "instructionalGuidanceWrap"
+      );
+
     if (!panel || !content) {
       return;
     }
@@ -250,6 +255,11 @@
 
     if (!student || !engine) {
       panel.hidden = true;
+
+      if (wrap) {
+        wrap.hidden = true;
+      }
+
       content.innerHTML = "";
       return;
     }
@@ -507,6 +517,10 @@
     `;
 
     panel.hidden = false;
+
+    if (wrap) {
+      wrap.hidden = false;
+    }
   }
 
 

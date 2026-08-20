@@ -13,7 +13,7 @@
     Program Progress | First Volo Morphology
   </title>
 
-  <link rel="stylesheet" href="style.css?v=20260820-compact2">
+  <link rel="stylesheet" href="style.css?v=20260820-collapse2">
 </head>
 
 
@@ -192,14 +192,33 @@
 </section>
 
 
-<section
-  class="instructional-guidance-panel"
-  id="instructionalGuidancePanel"
-  aria-labelledby="instructionalGuidanceTitle"
+<details
+  class="progress-major-collapse progress-guide-collapse"
+  id="instructionalGuidanceWrap"
+  open
   hidden
 >
-  <div id="instructionalGuidanceContent"></div>
-</section>
+  <summary class="progress-major-collapse-summary">
+    <span class="progress-major-collapse-title">
+      🧭 Next Session Guide
+    </span>
+    <span
+      class="progress-major-collapse-indicator"
+      aria-hidden="true"
+    ></span>
+  </summary>
+
+  <div class="progress-major-collapse-body progress-guide-collapse-body">
+    <section
+      class="instructional-guidance-panel"
+      id="instructionalGuidancePanel"
+      aria-labelledby="instructionalGuidanceTitle"
+      hidden
+    >
+      <div id="instructionalGuidanceContent"></div>
+    </section>
+  </div>
+</details>
 
 
 </main>
@@ -221,8 +240,8 @@
   <script src="volo-tokens.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
   <script src="js/cloud/morphology-cloud.js"></script>
-  <script src="progress-tracker.js"></script>
-  <script src="instructional-guidance-ui.js?v=20260820-compact2"></script>
+  <script src="progress-tracker.js?v=20260820-collapse2"></script>
+  <script src="instructional-guidance-ui.js?v=20260820-collapse2"></script>
 
 </body>
 

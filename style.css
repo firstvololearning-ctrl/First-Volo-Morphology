@@ -5721,3 +5721,102 @@ a:focus-visible {
 }
 
 /* === END DYNAMIC NEXT SESSION GUIDE === */
+
+/* === PROGRAM PROGRESS MAJOR COLLAPSIBLES === */
+
+.progress-major-collapse {
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid #dce6f0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.progress-major-collapse-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 18px;
+  cursor: pointer;
+  list-style: none;
+  color: #244b78;
+}
+
+.progress-major-collapse-summary::-webkit-details-marker {
+  display: none;
+}
+
+.progress-major-collapse-title {
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.progress-major-collapse-indicator::before {
+  content: "+";
+  color: #52708f;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.progress-major-collapse[open]
+  > .progress-major-collapse-summary
+  .progress-major-collapse-indicator::before {
+  content: "−";
+}
+
+.progress-major-collapse[open]
+  > .progress-major-collapse-summary {
+  border-bottom: 1px solid #e4ebf2;
+  background: #f9fbfd;
+}
+
+.progress-major-collapse-body {
+  padding: 18px;
+}
+
+.progress-major-collapse
+  .volo-token-progress-heading,
+.progress-major-collapse
+  .paper-practice-progress > h4 {
+  display: none;
+}
+
+.progress-guide-collapse {
+  scroll-margin-top: 20px;
+}
+
+.progress-guide-collapse-body {
+  padding: 0;
+}
+
+.progress-guide-collapse
+  .instructional-guidance-panel {
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.progress-guide-collapse
+  .teacher-guide-eyebrow,
+.progress-guide-collapse
+  .teacher-guide-heading h2 {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .progress-major-collapse-summary {
+    padding: 13px 14px;
+  }
+
+  .progress-major-collapse-body {
+    padding: 14px;
+  }
+
+  .progress-guide-collapse-body {
+    padding: 0;
+  }
+}
+
+/* === END PROGRAM PROGRESS MAJOR COLLAPSIBLES === */

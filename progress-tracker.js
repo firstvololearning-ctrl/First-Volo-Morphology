@@ -650,6 +650,99 @@ function getProgressGradeBandLabel(gradeBand) {
 }
 
 
+
+function createProgressMajorCollapse(title, open = false) {
+  const wrapper = document.createElement("details");
+  wrapper.className = "progress-major-collapse";
+  wrapper.open = open;
+
+  const summary = document.createElement("summary");
+  summary.className = "progress-major-collapse-summary";
+
+  const titleElement = document.createElement("span");
+  titleElement.className = "progress-major-collapse-title";
+  titleElement.textContent = title;
+
+  const indicator = document.createElement("span");
+  indicator.className = "progress-major-collapse-indicator";
+  indicator.setAttribute("aria-hidden", "true");
+
+  summary.append(titleElement, indicator);
+
+  const body = document.createElement("div");
+  body.className = "progress-major-collapse-body";
+
+  wrapper.append(summary, body);
+
+  return { wrapper, body };
+}
+
+function applyProgressMajorCollapsibles(details) {
+  if (!details) return;
+
+  [
+    [":scope > .volo-token-progress", "🪙 Volo Tokens"],
+    [":scope > .paper-practice-progress", "🖨️ Paper & Hands-On Practice"]
+  ].forEach(([selector, title]) => {
+    const section = details.querySelector(selector);
+
+    if (!section || section.closest(".progress-major-collapse")) {
+      return;
+    }
+
+    const collapse = createProgressMajorCollapse(title, false);
+
+    details.insertBefore(collapse.wrapper, section);
+    collapse.body.append(section);
+  });
+
+  const titles = new Set([
+    "Recent Sessions",
+    "Direct Word-Part Performance",
+    "Application & Word-Structure Evidence",
+    "Standards Practiced"
+  ]);
+
+  let node = details.firstElementChild;
+
+  while (node) {
+    const next = node.nextElementSibling;
+
+    if (
+      node.tagName === "H4" &&
+      titles.has(String(node.textContent || "").trim())
+    ) {
+      const title = String(node.textContent || "").trim();
+      const collapse = createProgressMajorCollapse(title, false);
+
+      details.insertBefore(collapse.wrapper, node);
+
+      let contentNode = node.nextElementSibling;
+      node.remove();
+
+      while (contentNode) {
+        const after = contentNode.nextElementSibling;
+
+        if (
+          contentNode.tagName === "H4" &&
+          titles.has(String(contentNode.textContent || "").trim())
+        ) {
+          break;
+        }
+
+        collapse.body.append(contentNode);
+        contentNode = after;
+      }
+
+      node = collapse.wrapper.nextElementSibling;
+      continue;
+    }
+
+    node = next;
+  }
+}
+
+
 /* ========================================
    VOLO TOKEN PROGRESS DISPLAY
    ======================================== */
@@ -1938,6 +2031,8 @@ function renderStudentProgressDetails(student) {
       details.append(allGradeNote);
     }
   }
+
+  applyProgressMajorCollapsibles(details);
 
 }
 
