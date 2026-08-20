@@ -293,6 +293,11 @@
           <p>
             Built from ${esc(student.name)}'s most recent saved work.
           </p>
+
+          <p>
+            Use the digital Session Materials together during instruction,
+            or print the same learner-specific materials for hands-on practice.
+          </p>
         </div>
 
         <div class="teacher-guide-heading-actions">
@@ -301,7 +306,7 @@
             class="teacher-guide-material-link"
             href="session-materials.html?studentId=${encodeURIComponent(student.id)}&minutes=15"
           >
-            🧩 Open Session Materials
+            🧩 Open Teacher-Led Session
           </a>
 
           <a
@@ -349,7 +354,7 @@
 
         <section class="teacher-guide-row teacher-guide-today">
           <span class="teacher-guide-label">
-            Today, before online work
+            Today, begin together
           </span>
 
           <p>
@@ -371,7 +376,7 @@
 
         <section class="teacher-guide-row teacher-guide-next">
           <span class="teacher-guide-label">
-            Next online activity
+            Teacher-led digital activity
           </span>
 
           <p>
@@ -429,7 +434,7 @@
       <details class="teacher-guide-details">
         <summary>
           <span>
-            <strong>Online / access help</strong>
+            <strong>Digital / access help</strong>
             <small>
               Help with access without solving the morphology work
             </small>

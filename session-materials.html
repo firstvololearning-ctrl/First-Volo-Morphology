@@ -20,7 +20,7 @@
 
   <link
     rel="stylesheet"
-    href="session-materials.css?v=20260820-session2"
+    href="session-materials.css?v=20260820-teacher1"
   >
 </head>
 
@@ -34,12 +34,14 @@
       </span>
 
       <h1>
-        Session Materials
+        Teacher-Led Session Materials
       </h1>
 
       <p>
-        Interactive and print materials from the same
-        learner-specific instructional plan.
+        Use the interactive materials together during instruction,
+        or print the same learner-specific materials for hands-on
+        practice. The digital materials on this page are designed
+        for educator-guided use.
       </p>
     </div>
 
@@ -174,6 +176,19 @@
       </section>
 
 
+      <section class="session-teacher-led-note">
+        <strong>
+          👩‍🏫 Teacher-led digital instruction
+        </strong>
+
+        <p>
+          Present the digital tasks with the student. Let the student
+          attempt the morphology work first, then use the guidance below
+          to decide whether and how to support.
+        </p>
+      </section>
+
+
       <section class="session-plan-strip">
 
         <div>
@@ -275,6 +290,54 @@
         id="sessionReadyContent"
         hidden
       >
+
+        <section class="session-instruction-card">
+
+          <span class="session-eyebrow">
+            Teacher-led instruction
+          </span>
+
+          <h2>
+            How to guide this session
+          </h2>
+
+          <div class="session-role-grid">
+
+            <div class="session-role-box">
+              <h3>
+                Educator does
+              </h3>
+
+              <p id="sessionEducatorDoes"></p>
+            </div>
+
+            <div class="session-role-box">
+              <h3>
+                Student does
+              </h3>
+
+              <p id="sessionStudentDoes"></p>
+            </div>
+
+          </div>
+
+          <div class="session-ifthen-guidance">
+
+            <h3>
+              If the student…
+            </h3>
+
+            <p class="session-ifthen-note">
+              Begin with the independent attempt. Open a support
+              condition only if that barrier appears.
+            </p>
+
+            <div id="sessionConditionalGuidance"></div>
+
+          </div>
+
+        </section>
+
 
         <section class="session-retrieve-card">
 
@@ -513,7 +576,7 @@
       <section
         class="print-session-packet"
         id="printSessionPacket"
-        aria-label="Printable therapist session materials"
+        aria-label="Printable educator session materials"
       >
 
 
@@ -548,6 +611,27 @@
             <h2 id="printTargetLabel"></h2>
 
             <p id="printTargetMeaning"></p>
+
+          </section>
+
+
+          <section class="print-session-roles">
+
+            <div>
+              <strong>
+                Educator does
+              </strong>
+
+              <p id="printEducatorDoes"></p>
+            </div>
+
+            <div>
+              <strong>
+                Student does
+              </strong>
+
+              <p id="printStudentDoes"></p>
+            </div>
 
           </section>
 
@@ -626,7 +710,7 @@
           <section class="print-word-part-key">
 
             <h3>
-              Therapist word-part key
+              Educator word-part key
             </h3>
 
             <div id="printWordPartKey"></div>
@@ -766,6 +850,10 @@
   ></script>
 
   <script
+    src="instructional-session-guidance.js?v=20260820-teacher1"
+  ></script>
+
+  <script
     src="instructional-material-families.js?v=20260820-material2"
   ></script>
 
@@ -794,7 +882,7 @@
   ></script>
 
   <script
-    src="session-materials-ui.js?v=20260820-session6"
+    src="session-materials-ui.js?v=20260820-teacher1"
   ></script>
 
 </body>

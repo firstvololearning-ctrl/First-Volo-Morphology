@@ -397,6 +397,314 @@
   }
 
 
+  function latestInstructionalResponse() {
+    return (
+      state.plan
+        ?.lastWork
+        ?.latestResponse ||
+      null
+    );
+  }
+
+
+  function buildDynamicSessionGuidance() {
+    const engine =
+      window
+        .FirstVoloDynamicSessionGuidance;
+
+    const activity =
+      state.plan
+        ?.teachPractice
+        ?.activity ||
+      state.plan
+        ?.nextWork
+        ?.activity ||
+      state.plan
+        ?.lastWork
+        ?.activity ||
+      "learn";
+
+    const target =
+      state.plan
+        ?.targetResolution
+        ?.primary ||
+      state.plan
+        ?.teachPractice
+        ?.target ||
+      state.plan
+        ?.nextWork
+        ?.target ||
+      state.plan
+        ?.lastWork
+        ?.target ||
+      null;
+
+    if (!engine?.build) {
+      return {
+        activity,
+        target,
+
+        educatorDoes:
+          state.plan
+            ?.teachPractice
+            ?.educatorDoes ||
+          "Allow an independent attempt before adding support.",
+
+        studentDoes:
+          state.plan
+            ?.teachPractice
+            ?.studentDoes ||
+          "Completes the morphology task as independently as possible.",
+
+        conditionals: []
+      };
+    }
+
+    return engine.build({
+      activity,
+      target,
+      lastResponse:
+        latestInstructionalResponse()
+    });
+  }
+
+
+  function renderDynamicSessionGuidance() {
+    const guidance =
+      buildDynamicSessionGuidance();
+
+    const response =
+      latestInstructionalResponse();
+
+    const engine =
+      window
+        .FirstVoloDynamicSessionGuidance;
+
+    const priorDifficulty =
+      engine
+        ?.normalizeDifficulty
+        ? (
+            engine.normalizeDifficulty(
+              response?.difficultyType
+            )
+          )
+        : (
+            response?.difficultyType ||
+            null
+          );
+
+    byId(
+      "sessionEducatorDoes"
+    ).textContent =
+      guidance.educatorDoes ||
+      "Allow an independent attempt before adding support.";
+
+    byId(
+      "sessionStudentDoes"
+    ).textContent =
+      guidance.studentDoes ||
+      "Completes the morphology task as independently as possible.";
+
+    byId(
+      "printEducatorDoes"
+    ).textContent =
+      guidance.educatorDoes ||
+      "";
+
+    byId(
+      "printStudentDoes"
+    ).textContent =
+      guidance.studentDoes ||
+      "";
+
+    const conditions =
+      Array.isArray(
+        guidance.conditionals
+      )
+        ? guidance.conditionals
+        : [];
+
+    const container =
+      byId(
+        "sessionConditionalGuidance"
+      );
+
+    if (!conditions.length) {
+      container.innerHTML = `
+        <div class="session-ifthen-empty">
+          Begin without added support. If a barrier appears,
+          identify the barrier before selecting a scaffold.
+        </div>
+      `;
+    } else {
+      container.innerHTML =
+        conditions
+          .map(
+            item => {
+              const isCurrent =
+                item.difficulty ===
+                priorDifficulty;
+
+              const open =
+                isCurrent ||
+                item.difficulty ===
+                  "fade";
+
+              return `
+                <details
+                  class="session-ifthen-item${
+                    isCurrent
+                      ? " is-current"
+                      : ""
+                  }"
+                  ${open ? "open" : ""}
+                >
+                  <summary>
+                    <span>
+                      If the student
+                      ${esc(item.ifStudent)}…
+                    </span>
+
+                    ${
+                      isCurrent
+                        ? `
+                          <strong class="session-current-barrier-badge">
+                            Based on latest work
+                          </strong>
+                        `
+                        : ""
+                    }
+                  </summary>
+
+                  <div class="session-ifthen-body">
+                    <strong>
+                      Educator:
+                    </strong>
+
+                    <ul>
+                      ${(item.educator || [])
+                        .map(
+                          step => `
+                            <li>
+                              ${esc(step)}
+                            </li>
+                          `
+                        )
+                        .join("")}
+                    </ul>
+                  </div>
+                </details>
+              `;
+            }
+          )
+          .join("");
+    }
+
+    const preferredForPrint = [];
+
+    const addPrintCondition = item => {
+      if (
+        item &&
+        !preferredForPrint.some(
+          existing =>
+            existing.difficulty ===
+            item.difficulty
+        )
+      ) {
+        preferredForPrint.push(
+          item
+        );
+      }
+    };
+
+    addPrintCondition(
+      conditions.find(
+        item =>
+          item.difficulty ===
+            "fade"
+      )
+    );
+
+    addPrintCondition(
+      conditions.find(
+        item =>
+          item.difficulty ===
+            priorDifficulty
+      )
+    );
+
+    if (
+      !priorDifficulty ||
+      priorDifficulty ===
+        "independent"
+    ) {
+      addPrintCondition(
+        conditions.find(
+          item =>
+            ![
+              "directions",
+              "decoding",
+              "fade"
+            ].includes(
+              item.difficulty
+            )
+        )
+      );
+    }
+
+    addPrintCondition(
+      conditions.find(
+        item =>
+          item.difficulty ===
+            "directions"
+      )
+    );
+
+    addPrintCondition(
+      conditions.find(
+        item =>
+          item.difficulty ===
+            "decoding"
+      )
+    );
+
+    const printConditions =
+      preferredForPrint
+        .slice(
+          0,
+          4
+        );
+
+    byId(
+      "printSupportList"
+    ).innerHTML =
+      printConditions.length
+        ? printConditions
+            .map(
+              item => `
+                <li>
+                  <strong>
+                    If the student
+                    ${esc(item.ifStudent)}:
+                  </strong>
+
+                  ${(item.educator || [])
+                    .map(esc)
+                    .join(" ")}
+                </li>
+              `
+            )
+            .join("")
+        : `
+            <li>
+              Begin without added support.
+              Identify the barrier before adding
+              a scaffold.
+            </li>
+          `;
+  }
+
+
   function allFamilies() {
     return (
       window
@@ -1931,6 +2239,7 @@
     renderTask();
     renderTransfer();
     renderPrint();
+    renderDynamicSessionGuidance();
 
     const excluded =
       state.material
