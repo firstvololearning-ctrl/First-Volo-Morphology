@@ -124,6 +124,46 @@
   }
 
 
+  function sessionGradeBand() {
+    return (
+      state.plan
+        ?.lastWork
+        ?.gradeBand ||
+      state.student
+        ?.sessions
+        ?.slice()
+        ?.reverse()
+        ?.find(
+          session =>
+            session?.gradeBand
+        )
+        ?.gradeBand ||
+      null
+    );
+  }
+
+
+  function speakText(text) {
+    const audio =
+      window
+        .FirstVoloInstructionalAudio;
+
+    if (
+      !audio?.available?.()
+    ) {
+      return false;
+    }
+
+    return audio.speak(
+      text,
+      {
+        gradeBand:
+          sessionGradeBand()
+      }
+    );
+  }
+
+
   function queryMinutes() {
     const value =
       Number(
@@ -1317,6 +1357,14 @@
       feedback.textContent =
         `✓ Yes — ${task.recipe.word}.`;
 
+      /*
+        Pronounce the completed word only AFTER
+        the student has built it correctly.
+      */
+      speakText(
+        task.recipe.word
+      );
+
       return;
     }
 
@@ -2234,6 +2282,61 @@
         }
       }
     );
+
+    byId(
+      "readRetrieveButton"
+    ).addEventListener(
+      "click",
+      () => {
+        const prompts =
+          state.plan
+            ?.retrieve
+            ?.items
+            ?.map(
+              item =>
+                item.prompt
+            )
+            .filter(Boolean) ||
+          [];
+
+        speakText(
+          prompts.join(
+            ". Next. "
+          )
+        );
+      }
+    );
+
+
+    byId(
+      "readTaskPromptButton"
+    ).addEventListener(
+      "click",
+      () => {
+        const task =
+          state.tasks[
+            state.taskIndex
+          ];
+
+        speakText(
+          task?.prompt ||
+          ""
+        );
+      }
+    );
+
+
+    byId(
+      "readDirectionsButton"
+    ).addEventListener(
+      "click",
+      () => {
+        speakText(
+          "Drag a tile to the mat, or click a tile to place it in its matching slot. Click a placed tile to remove it. Then check your build."
+        );
+      }
+    );
+
 
     byId(
       "sessionPrintButton"

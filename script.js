@@ -872,7 +872,7 @@ const roots = [
   id: "mot",
   type: "root",
   label: "mot/mov",
-  speech: "mot or move",
+  speech: "moat or move",
   meaning: "move",
   image: "images/roots/mot-mov.png",
   examples: ["motion", "movement", "remove"]
@@ -5578,6 +5578,8 @@ const checkHuntButton = document.getElementById("checkHuntButton");
 const huntFeedback = document.getElementById("huntFeedback");
 
 const meaningMorpheme = document.getElementById("meaningMorpheme");
+const meaningQuestionAudioButton =
+  document.getElementById("meaningQuestionAudioButton");
 const meaningChoices = document.getElementById("meaningChoices");
 const meaningFeedback = document.getElementById("meaningFeedback");
 
@@ -8255,6 +8257,199 @@ function recordCoreProgressResponse(details) {
 }
 
 /* ========================================
+   STUDENT ACCESS AUDIO
+   ======================================== */
+
+function fvAccessSpeak(text) {
+  const audio =
+    window.FirstVoloInstructionalAudio;
+
+  if (
+    audio?.available?.()
+  ) {
+    audio.speak(
+      text,
+      {
+        gradeBand
+      }
+    );
+
+    return;
+  }
+
+  speak(text);
+}
+
+
+function fvAccessMorphemeSpeech(label) {
+  const normalized =
+    normalizeMorphemeForMatch(
+      label
+    );
+
+  const items = [
+    ...prefixes,
+    ...roots,
+    ...suffixes,
+    ...suffixVariants
+  ];
+
+  const item =
+    items.find(
+      candidate =>
+        normalizeMorphemeForMatch(
+          candidate.label
+        ) === normalized
+    );
+
+  return (
+    item?.speech ||
+    item?.label ||
+    label
+  );
+}
+
+
+function fvAddChoiceSpeaker(
+  answerButton,
+  speechText,
+  ariaLabel
+) {
+  if (
+    answerButton.querySelector(
+      ".fv-access-choice-speaker"
+    )
+  ) {
+    return;
+  }
+
+  answerButton.classList.add(
+    "fv-access-choice-parent"
+  );
+
+  const speaker =
+    document.createElement(
+      "span"
+    );
+
+  speaker.className =
+    "fv-access-choice-speaker";
+
+  speaker.setAttribute(
+    "role",
+    "button"
+  );
+
+  speaker.setAttribute(
+    "tabindex",
+    "0"
+  );
+
+  speaker.setAttribute(
+    "aria-label",
+    ariaLabel
+  );
+
+  speaker.addEventListener(
+    "pointerdown",
+    event => {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  );
+
+  speaker.addEventListener(
+    "click",
+    event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      fvAccessSpeak(
+        speechText
+      );
+    }
+  );
+
+  speaker.addEventListener(
+    "keydown",
+    event => {
+      if (
+        event.key !== "Enter" &&
+        event.key !== " "
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      fvAccessSpeak(
+        speechText
+      );
+    }
+  );
+
+  answerButton.append(
+    speaker
+  );
+}
+
+
+function fvAddDisplaySpeaker(
+  element,
+  speechText,
+  ariaLabel
+) {
+  const old =
+    element.parentElement
+      ?.querySelector(
+        `.fv-access-display-speaker[data-for="${element.id}"]`
+      );
+
+  old?.remove();
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+  button.type =
+    "button";
+
+  button.className =
+    "fv-access-display-speaker";
+
+  button.dataset.for =
+    element.id;
+
+  button.textContent =
+    "🔊 Hear";
+
+  button.setAttribute(
+    "aria-label",
+    ariaLabel
+  );
+
+  button.addEventListener(
+    "click",
+    event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      fvAccessSpeak(
+        speechText
+      );
+    }
+  );
+
+  element.insertAdjacentElement(
+    "afterend",
+    button
+  );
+}
+
+
+/* ========================================
    FIND ACTIVITY
    ======================================== */
 
@@ -8266,6 +8461,7 @@ function renderFindQuestion(question) {
     "Identify the target word part in the whole word.";
 
   findWord.textContent = question.word;
+
   findFeedback.hidden = true;
   findChoices.innerHTML = "";
 
@@ -8277,6 +8473,19 @@ function renderFindQuestion(question) {
     button.className =
       `morpheme-tile ${typeClass}-tile`;
     button.textContent = choice;
+
+    if (
+      normalizeMorphemeForMatch(choice) !==
+      "struct"
+    ) {
+      fvAddChoiceSpeaker(
+        button,
+        fvAccessMorphemeSpeech(
+          choice
+        ),
+        `Hear ${choice}`
+      );
+    }
 
     button.addEventListener("click", () => {
       answerFindQuestion(button, choice, question);
@@ -8363,6 +8572,21 @@ function renderHuntQuestion(question) {
   huntWordChoices.innerHTML = "";
 
   huntMorpheme.textContent = question.label;
+
+  if (
+    normalizeMorphemeForMatch(
+      question.label
+    ) !== "struct"
+  ) {
+    fvAddDisplaySpeaker(
+      huntMorpheme,
+      fvAccessMorphemeSpeech(
+        question.label
+      ),
+      `Hear ${question.label}`
+    );
+  }
+
   styleMorphemeDisplay(huntMorpheme, question.type);
 
   huntSelectionCount.textContent = "0 selected";
@@ -8375,6 +8599,7 @@ function renderHuntQuestion(question) {
     button.type = "button";
     button.className = "hunt-word-button";
     button.textContent = wordItem.word;
+
     button.dataset.word = wordItem.word;
 
     button.addEventListener("click", () => {
@@ -8602,6 +8827,31 @@ function renderHuntFeedback(
    CHOOSE THE MEANING
    ======================================== */
 
+function speakStudentAccessText(text) {
+  const audio =
+    window.FirstVoloInstructionalAudio;
+
+  if (
+    audio?.available?.()
+  ) {
+    audio.speak(
+      text,
+      {
+        gradeBand
+      }
+    );
+
+    return;
+  }
+
+  /*
+    Existing site speech remains the fallback
+    if the shared instructional layer is unavailable.
+  */
+  speak(text);
+}
+
+
 function renderMeaningQuestion(question) {
   panels.meaning.hidden = false;
 
@@ -8625,12 +8875,42 @@ function renderMeaningQuestion(question) {
   meaningMorpheme.textContent = question.item.label;
   styleMorphemeDisplay(meaningMorpheme, question.item.type);
 
+  const spokenTarget =
+    question.item.speech ||
+    question.item.label;
+
+  if (meaningQuestionAudioButton) {
+    meaningQuestionAudioButton.hidden = false;
+
+    meaningQuestionAudioButton.setAttribute(
+      "aria-label",
+      `Hear the question about ${question.item.label}`
+    );
+
+    meaningQuestionAudioButton.onclick = () => {
+      speakStudentAccessText(
+        `What does ${spokenTarget} mean?`
+      );
+    };
+  }
+
   shuffle(question.choices).forEach((choice) => {
-    const button = document.createElement("button");
+    const row =
+      document.createElement("div");
+
+    const button =
+      document.createElement("button");
+
+    const audioButton =
+      document.createElement("button");
+
+    row.className =
+      "answer-audio-choice";
 
     button.type = "button";
     button.className = "answer-button";
     button.textContent = choice;
+    button.dataset.choice = choice;
 
     button.addEventListener("click", () => {
       answerMeaningQuestion(
@@ -8640,7 +8920,41 @@ function renderMeaningQuestion(question) {
       );
     });
 
-    meaningChoices.append(button);
+    audioButton.type = "button";
+    audioButton.className =
+      "choice-audio-button";
+
+    audioButton.textContent =
+      "🔊";
+
+    audioButton.setAttribute(
+      "aria-label",
+      `Hear answer choice: ${choice}`
+    );
+
+    audioButton.title =
+      `Hear: ${choice}`;
+
+    audioButton.addEventListener(
+      "click",
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        speakStudentAccessText(
+          choice
+        );
+      }
+    );
+
+    row.append(
+      button,
+      audioButton
+    );
+
+    meaningChoices.append(
+      row
+    );
   });
 }
 
@@ -8668,13 +8982,18 @@ function answerMeaningQuestion(button, choice, question) {
     correctAnswer: question.correct
   });
 
-  [...meaningChoices.children].forEach((choiceButton) => {
-    choiceButton.disabled = true;
+  meaningChoices
+    .querySelectorAll(".answer-button")
+    .forEach((choiceButton) => {
+      choiceButton.disabled = true;
 
-    if (choiceButton.textContent === question.correct) {
-      choiceButton.classList.add("correct");
-    }
-  });
+      if (
+        choiceButton.dataset.choice ===
+        question.correct
+      ) {
+        choiceButton.classList.add("correct");
+      }
+    });
 
   if (!isCorrect) {
     button.classList.add("incorrect");
@@ -8706,6 +9025,12 @@ function renderMorphemeQuestion(question) {
 
   morphemeMeaning.textContent = question.item.meaning;
 
+  fvAddDisplaySpeaker(
+    morphemeMeaning,
+    question.item.meaning,
+    `Hear meaning: ${question.item.meaning}`
+  );
+
   question.choices.forEach((choiceItem) => {
     const button = document.createElement("button");
     const typeClass = getTypeClass(choiceItem.type);
@@ -8714,6 +9039,21 @@ function renderMorphemeQuestion(question) {
     button.className =
       `morpheme-tile ${typeClass}-tile`;
     button.textContent = choiceItem.label;
+
+    if (
+      normalizeMorphemeForMatch(
+        choiceItem.label
+      ) !== "struct"
+    ) {
+      fvAddChoiceSpeaker(
+        button,
+        choiceItem.speech ||
+          fvAccessMorphemeSpeech(
+            choiceItem.label
+          ),
+        `Hear ${choiceItem.label}`
+      );
+    }
 
     button.addEventListener("click", () => {
       answerMorphemeQuestion(

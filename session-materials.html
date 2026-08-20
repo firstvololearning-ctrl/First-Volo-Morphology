@@ -291,6 +291,16 @@
             respond before adding support.
           </p>
 
+          <div class="session-audio-actions">
+            <button
+              class="session-secondary-button session-audio-button"
+              id="readRetrieveButton"
+              type="button"
+            >
+              🔊 Read Retrieve prompts
+            </button>
+          </div>
+
           <ol id="retrievePromptList"></ol>
 
           <div class="session-retrieve-support">
@@ -368,14 +378,36 @@
               id="taskPrompt"
             ></p>
 
+            <div class="session-audio-actions">
+              <button
+                class="session-secondary-button session-audio-button"
+                id="readTaskPromptButton"
+                type="button"
+              >
+                🔊 Read prompt
+              </button>
+            </div>
+
           </div>
 
 
-          <p class="session-interaction-help">
-            Drag a tile to the mat, or click a tile to place
-            it in its matching slot. Click a placed tile to
-            remove it. Enter and Space also work.
-          </p>
+          <div class="session-interaction-help-row">
+
+            <p class="session-interaction-help">
+              Drag a tile to the mat, or click a tile to place
+              it in its matching slot. Click a placed tile to
+              remove it. Enter and Space also work.
+            </p>
+
+            <button
+              class="session-secondary-button session-audio-button"
+              id="readDirectionsButton"
+              type="button"
+            >
+              🔊 Read directions
+            </button>
+
+          </div>
 
 
           <div
@@ -758,7 +790,11 @@
   ></script>
 
   <script
-    src="session-materials-ui.js?v=20260820-session5"
+    src="instructional-audio.js?v=20260820-audio1"
+  ></script>
+
+  <script
+    src="session-materials-ui.js?v=20260820-session6"
   ></script>
 
 </body>

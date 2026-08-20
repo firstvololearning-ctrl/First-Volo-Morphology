@@ -839,3 +839,42 @@
     line-height: 1.25;
   }
 }
+
+.session-audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.session-audio-button {
+  white-space: nowrap;
+}
+
+.session-interaction-help-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 16px 0 9px;
+}
+
+.session-interaction-help-row .session-interaction-help {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .session-interaction-help-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media print {
+  .session-audio-actions,
+  .session-audio-button,
+  .session-interaction-help-row .session-audio-button {
+    display: none !important;
+  }
+}
