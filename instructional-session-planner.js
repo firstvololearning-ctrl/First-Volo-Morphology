@@ -932,10 +932,87 @@
         "Ordinary Apply, Session Guide Check Transfer, formal assessment targets, and Migration Challenge reserved words remain separate pools."
     };
 
+    const materialSpec =
+      window
+        .FirstVoloInstructionalMaterials
+        ?.buildWordBuildingSpec?.({
+          targetResolution,
+
+          familyId:
+            targetResolution
+              ?.familyId ||
+            null
+        }) ||
+      null;
+
+    const sessionMaterial =
+      window
+        .FirstVoloInstructionalMaterialResolver
+        ?.resolve?.({
+          targetResolution,
+
+          sessionMinutes:
+            minutes,
+
+          materialSpec
+        }) ||
+      null;
+
+    plan.materialSpec =
+      materialSpec;
+
+    plan.sessionMaterial =
+      sessionMaterial;
+
     plan.materialsManifest =
       buildMaterialsManifest(
         plan
       );
+
+    if (sessionMaterial) {
+      plan.materialsManifest.unshift({
+        section:
+          "shared-session-material",
+
+        family:
+          sessionMaterial.family,
+
+        digital:
+          Boolean(
+            sessionMaterial
+              .digital
+              ?.enabled
+          ),
+
+        print:
+          Boolean(
+            sessionMaterial
+              .print
+              ?.enabled
+          ),
+
+        cards:
+          sessionMaterial
+            .tiles
+            .length,
+
+        recipes:
+          sessionMaterial
+            .recipes
+            .length,
+
+        protectedWordsExcluded:
+          sessionMaterial
+            .protection
+            .excludedRecipes
+            .length,
+
+        status:
+          sessionMaterial.ready
+            ? "ready"
+            : "needs-resolution"
+      });
+    }
 
     plan.recording =
       buildRecordingFields();

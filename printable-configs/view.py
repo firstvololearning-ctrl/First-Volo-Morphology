@@ -105,3 +105,36 @@ RECORD_NOTE = (
     "Record each word you build. Word sum = show the parts you joined. "
     "Literal meaning = what the parts suggest; definition = what the whole word means."
 )
+
+SESSION_RECIPES = [
+    {
+        "word": "views",
+        "parts": ["view", "-s"],
+        "word_prompt_index": 2,
+        "context_prompt_index": 2,
+    },
+    {
+        "word": "viewed",
+        "parts": ["view", "-ed"],
+        "word_prompt_index": 3,
+        "context_prompt_index": 3,
+    },
+    {
+        "word": "viewing",
+        "parts": ["view", "-ing"],
+        "word_prompt_index": 4,
+        "context_prompt_index": 4,
+    },
+    {
+        "word": "viewer",
+        "parts": ["view", "-er"],
+        "word_prompt_index": 5,
+        "context_prompt_index": 5,
+    },
+    {
+        "word": "viewable",
+        "parts": ["view", "-able"],
+        "word_prompt_index": 6,
+        "context_prompt_index": 6,
+    },
+]

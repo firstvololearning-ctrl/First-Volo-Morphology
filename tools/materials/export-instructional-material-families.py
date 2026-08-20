@@ -118,6 +118,67 @@ def family_record(module, source_path):
         "extension"
     )
 
+    session_recipes = []
+
+    word_prompts = list(
+        getattr(
+            module,
+            "WORD_LEVEL_CLUES",
+            []
+        )
+    )
+
+    context_prompts = list(
+        getattr(
+            module,
+            "CONTEXT_CLUES",
+            []
+        )
+    )
+
+    for recipe in list(
+        getattr(
+            module,
+            "SESSION_RECIPES",
+            []
+        )
+    ):
+        item = {
+            "word": recipe["word"],
+            "parts": list(
+                recipe.get(
+                    "parts",
+                    []
+                )
+            ),
+        }
+
+        word_index = recipe.get(
+            "word_prompt_index"
+        )
+
+        context_index = recipe.get(
+            "context_prompt_index"
+        )
+
+        if word_index is not None:
+            item["wordPrompt"] = (
+                word_prompts[
+                    word_index
+                ]
+            )
+
+        if context_index is not None:
+            item["contextPrompt"] = (
+                context_prompts[
+                    context_index
+                ]
+            )
+
+        session_recipes.append(
+            item
+        )
+
     return {
         "family": family,
         "flight": getattr(
@@ -142,6 +203,9 @@ def family_record(module, source_path):
             "suffixes": suffixes,
             "extensions": extensions,
         },
+
+        "sessionRecipes":
+            session_recipes,
 
         "prompts": {
             "wordLevel": list(

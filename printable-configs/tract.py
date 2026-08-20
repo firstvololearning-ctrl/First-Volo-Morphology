@@ -150,3 +150,48 @@ RECORD_NOTE = (
     "Record each word you build. Literal meaning = what the word parts suggest; "
     "definition = what the whole word means."
 )
+
+SESSION_RECIPES = [
+    {
+        "word": "attract",
+        "parts": ["ad- -> at-", "tract"],
+        "word_prompt_index": 0,
+        "context_prompt_index": 0,
+    },
+    {
+        "word": "distract",
+        "parts": ["dis-", "tract"],
+        "word_prompt_index": 1,
+        "context_prompt_index": 1,
+    },
+    {
+        "word": "extract",
+        "parts": ["ex-", "tract"],
+        "word_prompt_index": 2,
+        "context_prompt_index": 2,
+    },
+    {
+        "word": "retract",
+        "parts": ["re-", "tract"],
+        "word_prompt_index": 3,
+        "context_prompt_index": 3,
+    },
+    {
+        "word": "tractor",
+        "parts": ["tract", "-or"],
+        "word_prompt_index": 4,
+        "context_prompt_index": 4,
+    },
+    {
+        "word": "distraction",
+        "parts": ["dis-", "tract", "-ion"],
+        "word_prompt_index": 5,
+        "context_prompt_index": 5,
+    },
+    {
+        "word": "extraction",
+        "parts": ["ex-", "tract", "-ion"],
+        "word_prompt_index": 6,
+        "context_prompt_index": 6,
+    },
+]

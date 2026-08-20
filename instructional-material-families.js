@@ -86,6 +86,69 @@ window.FirstVoloInstructionalMaterialFamilies = {
         ],
         "extensions": []
       },
+      "sessionRecipes": [
+        {
+          "word": "precook",
+          "parts": [
+            "pre-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something before.",
+          "contextPrompt": "The recipe says to ______ the crust before adding the filling."
+        },
+        {
+          "word": "recook",
+          "parts": [
+            "re-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something again.",
+          "contextPrompt": "The chicken was still raw, so we had to ______ it."
+        },
+        {
+          "word": "undercook",
+          "parts": [
+            "under-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something too little."
+        },
+        {
+          "word": "cooked",
+          "parts": [
+            "cook",
+            "-ed"
+          ],
+          "wordPrompt": "Build a word that means cooked in the past.",
+          "contextPrompt": "Yesterday, Dad ______ dinner for everyone."
+        },
+        {
+          "word": "cooking",
+          "parts": [
+            "cook",
+            "-ing"
+          ],
+          "wordPrompt": "Build a word that means cooking right now.",
+          "contextPrompt": "We are ______ pasta right now."
+        },
+        {
+          "word": "cooker",
+          "parts": [
+            "cook",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person or thing that cooks.",
+          "contextPrompt": "The slow ______ keeps the soup warm all day."
+        },
+        {
+          "word": "cooks",
+          "parts": [
+            "cook",
+            "-s"
+          ],
+          "contextPrompt": "She ______ dinner every Friday."
+        }
+      ],
       "prompts": {
         "wordLevel": [
           "Build a word that means to cook something before.",
@@ -241,6 +304,44 @@ window.FirstVoloInstructionalMaterialFamilies = {
           }
         ]
       },
+      "sessionRecipes": [
+        {
+          "word": "teleport",
+          "parts": [
+            "tele",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to carry something far away instantly.",
+          "contextPrompt": "In the science-fiction movie, the robot can ______ to the space station."
+        },
+        {
+          "word": "porter",
+          "parts": [
+            "port",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person who carries luggage or supplies.",
+          "contextPrompt": "The hotel ______ carried our bags upstairs."
+        },
+        {
+          "word": "report",
+          "parts": [
+            "re-",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to tell or carry information back.",
+          "contextPrompt": "After the experiment, each team will ______ its results to the class."
+        },
+        {
+          "word": "support",
+          "parts": [
+            "sub- -> sup-",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to hold up from below.",
+          "contextPrompt": "Strong beams ______ the balcony from below."
+        }
+      ],
       "prompts": {
         "wordLevel": [
           "Build a word that means to carry something into a place.",
@@ -399,6 +500,73 @@ window.FirstVoloInstructionalMaterialFamilies = {
           }
         ]
       },
+      "sessionRecipes": [
+        {
+          "word": "attract",
+          "parts": [
+            "ad- -> at-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull or draw something toward.",
+          "contextPrompt": "Bright colors can ______ attention from across the room."
+        },
+        {
+          "word": "distract",
+          "parts": [
+            "dis-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull attention away.",
+          "contextPrompt": "A loud conversation can ______ a student from reading."
+        },
+        {
+          "word": "extract",
+          "parts": [
+            "ex-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull something out.",
+          "contextPrompt": "The dentist may need to ______ a badly damaged tooth."
+        },
+        {
+          "word": "retract",
+          "parts": [
+            "re-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull something back.",
+          "contextPrompt": "Press the button to ______ the awning back into its case."
+        },
+        {
+          "word": "tractor",
+          "parts": [
+            "tract",
+            "-or"
+          ],
+          "wordPrompt": "Build a word for a machine that pulls farm equipment.",
+          "contextPrompt": "The farm ______ pulled a heavy trailer across the field."
+        },
+        {
+          "word": "distraction",
+          "parts": [
+            "dis-",
+            "tract",
+            "-ion"
+          ],
+          "wordPrompt": "Build a noun that means the act of pulling attention away.",
+          "contextPrompt": "The funny side conversation caused a major ______ during the lesson."
+        },
+        {
+          "word": "extraction",
+          "parts": [
+            "ex-",
+            "tract",
+            "-ion"
+          ],
+          "wordPrompt": "Build a noun that means the act of pulling something out.",
+          "contextPrompt": "The lab report described the ______ of oil from the seeds."
+        }
+      ],
       "prompts": {
         "wordLevel": [
           "Build a word that means to pull or draw something toward.",
@@ -513,6 +681,53 @@ window.FirstVoloInstructionalMaterialFamilies = {
         ],
         "extensions": []
       },
+      "sessionRecipes": [
+        {
+          "word": "views",
+          "parts": [
+            "view",
+            "-s"
+          ],
+          "wordPrompt": "Build a word that means more than one view.",
+          "contextPrompt": "The lookout has several beautiful ______ of the mountains."
+        },
+        {
+          "word": "viewed",
+          "parts": [
+            "view",
+            "-ed"
+          ],
+          "wordPrompt": "Build a word that means looked at in the past.",
+          "contextPrompt": "Yesterday we ______ the exhibit at the museum."
+        },
+        {
+          "word": "viewing",
+          "parts": [
+            "view",
+            "-ing"
+          ],
+          "wordPrompt": "Build a word that means looking at something now.",
+          "contextPrompt": "We are ______ the video together right now."
+        },
+        {
+          "word": "viewer",
+          "parts": [
+            "view",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person who views something.",
+          "contextPrompt": "Each ______ watched the short clip carefully."
+        },
+        {
+          "word": "viewable",
+          "parts": [
+            "view",
+            "-able"
+          ],
+          "wordPrompt": "Build a word that means able to be viewed.",
+          "contextPrompt": "The document is ______ on the class website."
+        }
+      ],
       "prompts": {
         "wordLevel": [
           "Build a word that means to view something before.",
