@@ -5464,3 +5464,260 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+/* === DYNAMIC NEXT SESSION GUIDE === */
+
+#instructionalGuidancePanel {
+  scroll-margin-top: 22px;
+}
+
+.instructional-guidance-panel {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid #dce7f1;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow:
+    0 12px 30px
+    rgba(39, 75, 132, .07);
+}
+
+.teacher-guide-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.teacher-guide-eyebrow,
+.teacher-guide-label {
+  display: block;
+  color: #62768c;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.teacher-guide-heading h2 {
+  margin: 3px 0 2px;
+  color: #263b54;
+}
+
+.teacher-guide-heading p {
+  margin: 0;
+  color: #718196;
+}
+
+.teacher-guide-back-link {
+  flex: 0 0 auto;
+  color: #3d668d;
+  font-size: .82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.teacher-guide-core {
+  overflow: hidden;
+  border: 1px solid #e0e8f0;
+  border-radius: 16px;
+}
+
+.teacher-guide-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  padding: 13px 15px;
+  background: #ffffff;
+}
+
+.teacher-guide-row + .teacher-guide-row {
+  border-top: 1px solid #e7edf3;
+}
+
+.teacher-guide-row p {
+  margin: 0;
+  color: #40566d;
+  line-height: 1.48;
+}
+
+.teacher-guide-today {
+  background: #f3f8fd;
+}
+
+.teacher-guide-next {
+  background: #f8fbfe;
+}
+
+.teacher-guide-observation {
+  background: #fffaf0;
+}
+
+.teacher-guide-details {
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.teacher-guide-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  color: #304b67;
+}
+
+.teacher-guide-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.teacher-guide-details > summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: #55718d;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.teacher-guide-details[open] > summary::after {
+  content: "−";
+}
+
+.teacher-guide-details > summary strong,
+.teacher-guide-details > summary small {
+  display: block;
+}
+
+.teacher-guide-details > summary small {
+  margin-top: 2px;
+  color: #75869a;
+  font-size: .76rem;
+}
+
+.teacher-guide-details-body {
+  padding: 0 14px 14px;
+  border-top: 1px solid #edf1f5;
+}
+
+.teacher-current-barrier {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 13px 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: #fff6dc;
+  color: #66521c;
+}
+
+.teacher-current-barrier span {
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.teacher-support-none {
+  margin-top: 13px;
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: #f5f8fb;
+  color: #566a80;
+  line-height: 1.45;
+}
+
+.teacher-support-none strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.teacher-support-ladder {
+  margin: 13px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: support;
+}
+
+.teacher-support-ladder li {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 10px;
+  padding: 10px 11px;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+  background: #fbfcfe;
+  color: #42586f;
+}
+
+.teacher-support-ladder li + li {
+  margin-top: 7px;
+}
+
+.teacher-support-level {
+  color: #47739a;
+  font-size: .73rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.teacher-fade-rule {
+  margin-top: 12px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: #eef8f1;
+}
+
+.teacher-fade-rule p {
+  margin: 3px 0 0;
+  color: #456453;
+  line-height: 1.45;
+}
+
+.teacher-access-rule {
+  margin-top: 13px;
+}
+
+.teacher-access-rule ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  color: #465c72;
+}
+
+.teacher-access-rule li + li {
+  margin-top: 6px;
+}
+
+.teacher-guide-details-body > p {
+  color: #4d6278;
+  line-height: 1.5;
+}
+
+.teacher-guide-boundary {
+  margin-top: 13px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: #f4f7fa;
+}
+
+@media (max-width: 760px) {
+  .teacher-guide-heading {
+    flex-direction: column;
+  }
+
+  .teacher-guide-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .teacher-support-ladder li {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+}
+
+/* === END DYNAMIC NEXT SESSION GUIDE === */

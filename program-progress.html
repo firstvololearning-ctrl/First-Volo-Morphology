@@ -13,7 +13,7 @@
     Program Progress | First Volo Morphology
   </title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260820-compact2">
 </head>
 
 
@@ -61,6 +61,13 @@
 
 
     <div class="header-actions">
+      <a
+        class="header-link"
+        href="#instructionalGuidancePanel"
+      >
+        🧭 Next Session Guide
+      </a>
+
 
       <a
         class="header-link"
@@ -185,6 +192,16 @@
 </section>
 
 
+<section
+  class="instructional-guidance-panel"
+  id="instructionalGuidancePanel"
+  aria-labelledby="instructionalGuidanceTitle"
+  hidden
+>
+  <div id="instructionalGuidanceContent"></div>
+</section>
+
+
 </main>
 
 
@@ -198,11 +215,14 @@
   </footer>
 
   <script src="word-inventory.js"></script>
+  <script src="instructional-rules.js?v=20260820-compact2"></script>
+  <script src="instructional-guidance.js?v=20260820-compact2"></script>
   <script src="token-sets.js"></script>
   <script src="volo-tokens.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
   <script src="js/cloud/morphology-cloud.js"></script>
   <script src="progress-tracker.js"></script>
+  <script src="instructional-guidance-ui.js?v=20260820-compact2"></script>
 
 </body>
 
