@@ -1,0 +1,841 @@
+:root {
+  --session-ink: #24313d;
+  --session-muted: #667480;
+  --session-border: #d7dfe5;
+  --session-soft: #f5f7f9;
+  --session-panel: #ffffff;
+}
+
+.session-materials-page {
+  margin: 0;
+  background: #f3f5f7;
+  color: var(--session-ink);
+}
+
+.session-materials-header,
+.session-materials-main {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.session-materials-header {
+  padding: 28px 24px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.session-materials-header h1 {
+  margin: 4px 0 8px;
+}
+
+.session-materials-header p {
+  margin: 0;
+  max-width: 720px;
+}
+
+.session-materials-main {
+  padding: 0 24px 70px;
+}
+
+.session-eyebrow {
+  display: block;
+  color: var(--session-muted);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.session-back-link {
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.session-demo-tools {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border: 1px dashed #aebac4;
+  border-radius: 12px;
+  background: white;
+}
+
+.session-demo-tools a {
+  margin-left: 10px;
+  font-weight: 800;
+}
+
+.session-toolbar,
+.session-empty-state,
+.session-warning,
+.session-family-choice,
+.session-material-unavailable,
+.session-retrieve-card,
+.session-digital-card,
+.session-transfer-card,
+.session-protection-note {
+  background: var(--session-panel);
+  border: 1px solid var(--session-border);
+  border-radius: 18px;
+}
+
+.session-toolbar {
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+
+.session-toolbar-summary h2 {
+  margin: 4px 0;
+}
+
+.session-target-line {
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+.session-last-work {
+  margin: 5px 0 0;
+  color: var(--session-muted);
+  font-size: 0.9rem;
+}
+
+.session-toolbar-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: flex-end;
+}
+
+.session-duration-picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.session-duration-picker legend {
+  margin-bottom: 6px;
+  color: var(--session-muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.session-duration-picker button,
+.session-primary-button,
+.session-secondary-button {
+  appearance: none;
+  border: 1px solid #bcc7cf;
+  border-radius: 999px;
+  background: white;
+  color: var(--session-ink);
+  padding: 9px 13px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.session-duration-picker button.is-active,
+.session-primary-button {
+  background: var(--session-ink);
+  border-color: var(--session-ink);
+  color: white;
+}
+
+.session-secondary-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.session-plan-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.session-plan-strip > div {
+  padding: 12px 14px;
+  background: white;
+  border: 1px solid var(--session-border);
+  border-radius: 13px;
+}
+
+.session-plan-strip strong,
+.session-plan-strip span {
+  display: block;
+}
+
+.session-plan-strip span {
+  margin-top: 4px;
+  color: var(--session-muted);
+  font-size: 0.88rem;
+}
+
+.session-warning,
+.session-family-choice,
+.session-material-unavailable {
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.session-warning {
+  border-style: dashed;
+}
+
+.session-family-choice h2,
+.session-material-unavailable h2 {
+  margin: 5px 0 8px;
+}
+
+.session-family-choice p,
+.session-material-unavailable p {
+  margin-bottom: 12px;
+}
+
+.session-family-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.session-retrieve-card,
+.session-digital-card,
+.session-transfer-card,
+.session-protection-note {
+  margin-top: 16px;
+  padding: 22px;
+}
+
+.session-retrieve-card h2,
+.session-transfer-card h2 {
+  margin: 4px 0 8px;
+}
+
+.session-step-note {
+  color: var(--session-muted);
+}
+
+.session-retrieve-card li {
+  margin: 8px 0;
+  line-height: 1.45;
+}
+
+.session-retrieve-support {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px dashed #bdc8d0;
+  border-radius: 12px;
+  background: var(--session-soft);
+}
+
+.session-retrieve-support strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.session-retrieve-support ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.session-retrieve-support li {
+  margin: 5px 0;
+}
+
+.session-section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.session-section-heading h2 {
+  margin: 4px 0 0;
+}
+
+.session-material-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.session-current-task {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--session-soft);
+  border: 1px solid var(--session-border);
+}
+
+.session-current-task-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--session-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.session-task-prompt {
+  margin: 12px 0 0;
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+.session-interaction-help {
+  margin: 16px 0 9px;
+  color: var(--session-muted);
+  font-size: 0.88rem;
+}
+
+.interactive-build-mat {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+  gap: 12px;
+}
+
+.interactive-build-slot {
+  min-height: 150px;
+  padding: 11px;
+  border: 2px dashed #acb8c2;
+  border-radius: 17px;
+  background: white;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.interactive-build-slot.has-tile {
+  border-style: solid;
+  background: #fbfcfd;
+}
+
+.interactive-build-slot.is-drag-over {
+  outline: 3px solid rgba(36, 49, 61, 0.2);
+}
+
+.interactive-slot-heading {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.interactive-empty-hint,
+.interactive-remove-hint {
+  color: var(--session-muted);
+  font-size: 0.8rem;
+}
+
+.interactive-slot-card {
+  display: block;
+}
+
+.interactive-remove-hint {
+  display: block;
+  margin-top: 8px;
+}
+
+.interactive-word-sum {
+  margin-top: 12px;
+  padding: 11px 14px;
+  border-radius: 11px;
+  background: var(--session-soft);
+  font-weight: 850;
+}
+
+.session-check-row {
+  margin-top: 13px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.session-build-feedback {
+  font-weight: 800;
+}
+
+.session-build-feedback.is-correct {
+  color: #26723a;
+}
+
+.session-build-feedback.is-retry {
+  color: #8b5720;
+}
+
+.interactive-tile-area {
+  margin-top: 20px;
+}
+
+.interactive-tile-area h3 {
+  margin-bottom: 10px;
+}
+
+.interactive-tile-bank {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(145px, 1fr)
+    );
+  gap: 10px;
+}
+
+.interactive-material-tile {
+  min-height: 132px;
+  padding: 9px;
+  border: 1px solid #c8d1d8;
+  border-radius: 13px;
+  background: white;
+  color: inherit;
+  font: inherit;
+  cursor: grab;
+}
+
+.interactive-material-tile.is-selected {
+  border-color: var(--session-ink);
+  outline: 3px solid rgba(36, 49, 61, 0.2);
+}
+
+.interactive-material-tile.is-used {
+  opacity: 0.55;
+}
+
+.interactive-material-tile img,
+.interactive-slot-card img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: 78px;
+  object-fit: contain;
+  margin: 0 auto 7px;
+}
+
+.material-tile-label {
+  display: block;
+  text-align: center;
+  font-weight: 850;
+}
+
+.material-tile-meaning {
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+  color: var(--session-muted);
+  font-size: 0.76rem;
+  line-height: 1.2;
+}
+
+.session-task-navigation {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.session-transfer-card p {
+  line-height: 1.45;
+}
+
+.session-protection-note {
+  font-size: 0.88rem;
+}
+
+.session-protection-note p {
+  margin: 5px 0 0;
+  color: var(--session-muted);
+}
+
+.print-session-packet {
+  display: none;
+}
+
+.teacher-guide-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.teacher-guide-material-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #c5cfd7;
+  border-radius: 999px;
+  background: white;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+
+  .session-materials-header,
+  .session-toolbar {
+    display: block;
+  }
+
+  .session-back-link {
+    display: inline-block;
+    margin-top: 16px;
+  }
+
+  .session-toolbar-actions {
+    margin-top: 18px;
+    justify-content: flex-start;
+  }
+
+  .session-plan-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .session-section-heading {
+    display: block;
+  }
+
+  .session-material-controls {
+    margin-top: 12px;
+  }
+}
+
+
+@media print {
+
+  @page {
+    size: Letter portrait;
+    margin: 0.35in;
+  }
+
+  @page session-landscape {
+    size: Letter landscape;
+    margin: 0.35in;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .session-materials-header,
+  .session-demo-tools,
+  .session-toolbar,
+  .session-plan-strip,
+  .session-warning,
+  .session-family-choice,
+  .session-material-unavailable,
+  .session-retrieve-card,
+  .session-digital-card,
+  .session-transfer-card,
+  .session-protection-note,
+  .session-empty-state {
+    display: none !important;
+  }
+
+  .session-materials-main {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-session-packet {
+    display: block;
+  }
+
+  .print-page {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 10in;
+    color: #111;
+    font-family:
+      Arial,
+      Helvetica,
+      sans-serif;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .print-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .print-mat-page {
+    page: session-landscape;
+    min-height: 7.6in;
+  }
+
+  .print-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 0.1in;
+    margin-bottom: 0.15in;
+    border-bottom: 2px solid #111;
+  }
+
+  .print-page-header span {
+    font-size: 8pt;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .print-page-header h1 {
+    margin: 0.03in 0 0;
+    font-size: 18pt;
+  }
+
+  .print-meta {
+    text-align: right;
+  }
+
+  .print-meta strong,
+  .print-meta span {
+    display: block;
+  }
+
+  .print-meta strong {
+    font-size: 10pt;
+  }
+
+  .print-meta span {
+    margin-top: 0.03in;
+    font-size: 8pt;
+  }
+
+  .print-target-box,
+  .print-step,
+  .print-support-box,
+  .print-word-part-key {
+    margin-bottom: 0.12in;
+    padding: 0.11in;
+    border: 1px solid #777;
+    border-radius: 0.08in;
+    break-inside: avoid;
+  }
+
+  .print-target-box > span {
+    font-size: 7.5pt;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .print-target-box h2 {
+    margin: 0.03in 0;
+    font-size: 13pt;
+  }
+
+  .print-target-box p,
+  .print-step p,
+  .print-step li,
+  .print-support-box p,
+  .print-support-box li {
+    font-size: 8.5pt;
+    line-height: 1.25;
+  }
+
+  .print-step h3,
+  .print-support-box h3,
+  .print-word-part-key h3 {
+    margin: 0 0 0.05in;
+    font-size: 10pt;
+  }
+
+  .print-step ol,
+  .print-support-box ol {
+    margin: 0;
+    padding-left: 0.2in;
+  }
+
+  .print-retrieve-support {
+    margin-top: 0.08in;
+    padding-top: 0.08in;
+    border-top: 1px dashed #777;
+    font-size: 8pt;
+  }
+
+  .print-retrieve-support strong {
+    display: block;
+    margin-bottom: 0.04in;
+  }
+
+  .print-retrieve-support ul {
+    margin: 0;
+    padding-left: 0.2in;
+  }
+
+  .print-retrieve-support li {
+    margin: 0.02in 0;
+    font-size: 8pt;
+    line-height: 1.2;
+  }
+
+  .print-word-part-key > div {
+    display: grid;
+    grid-template-columns:
+      repeat(2, 1fr);
+    gap: 0.05in 0.16in;
+  }
+
+  .print-word-part-key > div > div {
+    display: flex;
+    gap: 0.08in;
+    font-size: 8pt;
+  }
+
+  .print-word-part-key strong {
+    min-width: 0.65in;
+  }
+
+  .print-mat-directions {
+    margin: 0 0 0.18in;
+    font-size: 10pt;
+  }
+
+  .print-build-mat {
+    display: grid;
+    grid-template-columns:
+      repeat(
+        auto-fit,
+        minmax(2.3in, 1fr)
+      );
+    gap: 0.15in;
+  }
+
+  .print-build-slot {
+    box-sizing: border-box;
+    height: 1.65in;
+    border: 2px solid #111;
+    border-radius: 0.1in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .print-build-slot strong {
+    margin-bottom: 0.16in;
+    font-size: 10pt;
+  }
+
+  .print-build-slot span {
+    font-size: 8pt;
+  }
+
+  .print-response-lines {
+    margin-top: 0.25in;
+    display: grid;
+    gap: 0.16in;
+  }
+
+  .print-response-lines > div {
+    display: grid;
+    grid-template-columns: 1.75in 1fr;
+    gap: 0.12in;
+    align-items: end;
+  }
+
+  .print-response-lines strong {
+    font-size: 9pt;
+  }
+
+  .print-response-lines span {
+    min-height: 0.25in;
+    border-bottom: 1px solid #222;
+  }
+
+  .print-subheading {
+    margin: 0 0 0.05in;
+    font-size: 11pt;
+  }
+
+  .print-small-note {
+    margin: 0 0 0.1in;
+    font-size: 7.5pt;
+  }
+
+  .print-card-grid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, 2.22in);
+    gap: 0.11in;
+    justify-content: center;
+  }
+
+  .print-material-card {
+    box-sizing: border-box;
+    width: 2.22in;
+    height: 1.08in;
+    padding: 0.06in;
+    border: 1px dashed #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    break-inside: avoid;
+    overflow: hidden;
+  }
+
+  .print-material-card img {
+    max-width: 100%;
+    width: auto;
+    height: 0.68in;
+    object-fit: contain;
+    margin-bottom: 0.04in;
+  }
+
+  .print-material-card strong {
+    font-size: 10pt;
+  }
+
+  .print-prompt-section {
+    margin-top: 0.18in;
+  }
+
+  .print-prompt-card {
+    display: grid;
+    grid-template-columns: 0.3in 1fr;
+    gap: 0.1in;
+    margin-bottom: 0.08in;
+    padding: 0.08in;
+    border: 1px solid #777;
+    border-radius: 0.07in;
+    break-inside: avoid;
+  }
+
+  .print-prompt-number {
+    box-sizing: border-box;
+    width: 0.26in;
+    height: 0.26in;
+    border: 1px solid #111;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 8pt;
+    font-weight: 800;
+  }
+
+  .print-prompt-card strong {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+  }
+
+  .print-prompt-card p {
+    margin: 0.02in 0 0;
+    font-size: 9.5pt;
+    line-height: 1.25;
+  }
+}

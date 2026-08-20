@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Session Materials · First Volo Morphology
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=20260820-session1"
+  >
+
+  <link
+    rel="stylesheet"
+    href="session-materials.css?v=20260820-session2"
+  >
+</head>
+
+<body class="session-materials-page">
+
+  <header class="session-materials-header">
+
+    <div>
+      <span class="session-eyebrow">
+        First Volo Morphology
+      </span>
+
+      <h1>
+        Session Materials
+      </h1>
+
+      <p>
+        Interactive and print materials from the same
+        learner-specific instructional plan.
+      </p>
+    </div>
+
+    <a
+      class="session-back-link"
+      href="program-progress.html#instructionalGuidanceWrap"
+    >
+      ← Program Progress
+    </a>
+
+  </header>
+
+
+  <main class="session-materials-main">
+
+    <nav
+      class="session-demo-tools"
+      id="sessionDemoTools"
+      hidden
+      aria-label="Local material preview families"
+    >
+      <strong>
+        Local preview:
+      </strong>
+
+      <a href="?demo=COOK&minutes=15">
+        COOK
+      </a>
+
+      <a href="?demo=VIEW&minutes=15">
+        VIEW
+      </a>
+
+      <a href="?demo=PORT&minutes=15">
+        PORT
+      </a>
+
+      <a href="?demo=TRACT&minutes=15">
+        TRACT
+      </a>
+    </nav>
+
+
+    <section
+      class="session-empty-state"
+      id="sessionEmptyState"
+      hidden
+    >
+      <h2>
+        No learner selected
+      </h2>
+
+      <p>
+        Return to Program Progress and select a learner
+        with saved work.
+      </p>
+    </section>
+
+
+    <div
+      id="sessionMaterialsApp"
+      hidden
+    >
+
+      <section class="session-toolbar">
+
+        <div class="session-toolbar-summary">
+
+          <span class="session-eyebrow">
+            Next session
+          </span>
+
+          <h2 id="sessionLearnerName">
+            Learner
+          </h2>
+
+          <p
+            class="session-target-line"
+            id="sessionTargetLine"
+          ></p>
+
+          <p
+            class="session-last-work"
+            id="sessionLastWork"
+          ></p>
+
+        </div>
+
+
+        <div class="session-toolbar-actions">
+
+          <fieldset class="session-duration-picker">
+
+            <legend>
+              Session length
+            </legend>
+
+            <button
+              type="button"
+              data-session-minutes="10"
+            >
+              10 min
+            </button>
+
+            <button
+              type="button"
+              data-session-minutes="15"
+            >
+              15 min
+            </button>
+
+            <button
+              type="button"
+              data-session-minutes="30"
+            >
+              30 min
+            </button>
+
+          </fieldset>
+
+
+          <button
+            class="session-primary-button"
+            id="sessionPrintButton"
+            type="button"
+          >
+            🖨️ Print Session Materials
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section class="session-plan-strip">
+
+        <div>
+          <strong>
+            1. Retrieve
+          </strong>
+
+          <span id="retrieveTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            2. Teach / Practice
+          </strong>
+
+          <span id="teachTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            3. Apply
+          </strong>
+
+          <span id="applyTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            4. Check Transfer
+          </strong>
+
+          <span id="transferTime"></span>
+        </div>
+
+      </section>
+
+
+      <section
+        class="session-warning"
+        id="sessionTargetWarning"
+        hidden
+      ></section>
+
+
+      <section
+        class="session-family-choice"
+        id="sessionFamilyChoice"
+        hidden
+      >
+
+        <span class="session-eyebrow">
+          Material context needed
+        </span>
+
+        <h2>
+          Choose the word family for this session
+        </h2>
+
+        <p>
+          The instructional target is known, but it can
+          occur in more than one reusable material family.
+          Choose the family you intend to use rather than
+          having First Volo guess.
+        </p>
+
+        <div
+          class="session-family-buttons"
+          id="sessionFamilyButtons"
+        ></div>
+
+      </section>
+
+
+      <section
+        class="session-material-unavailable"
+        id="sessionMaterialUnavailable"
+        hidden
+      >
+
+        <span class="session-eyebrow">
+          Target resolved · material not yet configured
+        </span>
+
+        <h2>
+          This target does not yet have a reusable
+          session-material family.
+        </h2>
+
+        <p>
+          The target above is still the instructional
+          target. First Volo will not substitute a different
+          family or invent materials for it.
+        </p>
+
+      </section>
+
+
+      <div
+        id="sessionReadyContent"
+        hidden
+      >
+
+        <section class="session-retrieve-card">
+
+          <span class="session-eyebrow">
+            Step 1
+          </span>
+
+          <h2>
+            Retrieve
+          </h2>
+
+          <p class="session-step-note">
+            Begin without reteaching. Let the student
+            respond before adding support.
+          </p>
+
+          <ol id="retrievePromptList"></ol>
+
+          <div class="session-retrieve-support">
+
+            <strong>
+              If the student cannot remember anything about
+              <span id="retrieveSupportTarget"></span>:
+            </strong>
+
+            <ul id="retrieveSupportList"></ul>
+
+          </div>
+
+        </section>
+
+
+        <section class="session-digital-card">
+
+          <div class="session-section-heading">
+
+            <div>
+              <span class="session-eyebrow">
+                Interactive material
+              </span>
+
+              <h2 id="digitalMaterialTitle">
+                Word Building
+              </h2>
+            </div>
+
+            <div class="session-material-controls">
+
+              <button
+                class="session-secondary-button"
+                id="toggleMeaningsButton"
+                type="button"
+                aria-pressed="false"
+              >
+                Show meanings
+              </button>
+
+              <button
+                class="session-secondary-button"
+                id="clearMatButton"
+                type="button"
+              >
+                Clear mat
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="session-current-task">
+
+            <div class="session-current-task-heading">
+
+              <span
+                class="session-task-stage"
+                id="taskStage"
+              >
+                Teach / Practice
+              </span>
+
+              <span
+                class="session-task-count"
+                id="taskCount"
+              ></span>
+
+            </div>
+
+            <p
+              class="session-task-prompt"
+              id="taskPrompt"
+            ></p>
+
+          </div>
+
+
+          <p class="session-interaction-help">
+            Drag a tile to the mat, or click a tile to place
+            it in its matching slot. Click a placed tile to
+            remove it. Enter and Space also work.
+          </p>
+
+
+          <div
+            class="interactive-build-mat"
+            id="interactiveBuildMat"
+            aria-label="Interactive word-building mat"
+          ></div>
+
+
+          <div
+            class="interactive-word-sum"
+            id="interactiveWordSum"
+            aria-live="polite"
+          >
+            Word sum:
+          </div>
+
+
+          <div class="session-check-row">
+
+            <button
+              class="session-primary-button"
+              id="checkBuildButton"
+              type="button"
+            >
+              Check Build
+            </button>
+
+            <div
+              class="session-build-feedback"
+              id="buildFeedback"
+              aria-live="polite"
+            ></div>
+
+          </div>
+
+
+          <section class="interactive-tile-area">
+
+            <h3>
+              Word-part tiles
+            </h3>
+
+            <div
+              class="interactive-tile-bank"
+              id="interactiveTileBank"
+            ></div>
+
+          </section>
+
+
+          <div class="session-task-navigation">
+
+            <button
+              class="session-secondary-button"
+              id="previousTaskButton"
+              type="button"
+            >
+              ← Previous
+            </button>
+
+            <button
+              class="session-secondary-button"
+              id="nextTaskButton"
+              type="button"
+            >
+              Next →
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <section class="session-transfer-card">
+
+          <span class="session-eyebrow">
+            Step 4
+          </span>
+
+          <h2>
+            Check Transfer
+          </h2>
+
+          <div id="sessionTransferContent"></div>
+
+        </section>
+
+
+        <section class="session-protection-note">
+
+          <strong>
+            Material protection
+          </strong>
+
+          <p id="sessionProtectionText"></p>
+
+        </section>
+
+      </div>
+
+
+      <section
+        class="print-session-packet"
+        id="printSessionPacket"
+        aria-label="Printable therapist session materials"
+      >
+
+
+        <article class="print-page print-guide-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1>
+                Session Guide
+              </h1>
+            </div>
+
+            <div class="print-meta">
+              <strong id="printLearnerName"></strong>
+              <span id="printSessionMinutes"></span>
+            </div>
+
+          </header>
+
+
+          <section class="print-target-box">
+
+            <span>
+              Instructional target
+            </span>
+
+            <h2 id="printTargetLabel"></h2>
+
+            <p id="printTargetMeaning"></p>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              1. Retrieve
+            </h3>
+
+            <ol id="printRetrieveList"></ol>
+
+            <div class="print-retrieve-support">
+
+              <strong>
+                If the student cannot remember anything about
+                <span id="printRetrieveSupportTarget"></span>:
+              </strong>
+
+              <ul id="printRetrieveSupportList"></ul>
+
+            </div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              2. Teach / Practice
+            </h3>
+
+            <div id="printPracticeList"></div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              3. Apply
+            </h3>
+
+            <div id="printApplyPrompt"></div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              4. Check Transfer
+            </h3>
+
+            <div id="printTransferPrompt"></div>
+
+          </section>
+
+
+          <section class="print-support-box">
+
+            <h3>
+              If support is needed
+            </h3>
+
+            <p>
+              Attempt → identify barrier → least support →
+              another attempt → fade.
+            </p>
+
+            <ol id="printSupportList"></ol>
+
+          </section>
+
+
+          <section class="print-word-part-key">
+
+            <h3>
+              Therapist word-part key
+            </h3>
+
+            <div id="printWordPartKey"></div>
+
+          </section>
+
+        </article>
+
+
+        <article class="print-page print-mat-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1 id="printMatTitle">
+                Word Building Mat
+              </h1>
+            </div>
+
+          </header>
+
+          <p class="print-mat-directions">
+            Place the cards in the matching slots. Read the
+            word sum. Explain what the meaningful parts
+            contribute.
+          </p>
+
+          <div
+            class="print-build-mat"
+            id="printBuildMat"
+          ></div>
+
+
+          <div class="print-response-lines">
+
+            <div>
+              <strong>
+                Word sum
+              </strong>
+              <span></span>
+            </div>
+
+            <div>
+              <strong>
+                What do the parts suggest?
+              </strong>
+              <span></span>
+            </div>
+
+            <div>
+              <strong>
+                What does the whole word mean?
+              </strong>
+              <span></span>
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <article class="print-page print-cards-prompts-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1>
+                Session Cards & Prompts
+              </h1>
+            </div>
+
+          </header>
+
+
+          <section>
+
+            <h2 class="print-subheading">
+              Cut-apart word-part cards
+            </h2>
+
+            <p class="print-small-note">
+              Student cards intentionally omit meanings.
+              Add a meaning cue only if the student needs
+              that level of support.
+            </p>
+
+            <div
+              class="print-card-grid"
+              id="printCardGrid"
+            ></div>
+
+          </section>
+
+
+          <section class="print-prompt-section">
+
+            <h2 class="print-subheading">
+              Practice & Apply prompts
+            </h2>
+
+            <div
+              class="print-prompt-list"
+              id="printPromptList"
+            ></div>
+
+          </section>
+
+        </article>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script src="word-inventory.js"></script>
+
+  <script
+    src="linguistic-role-registry.js?v=20260820-role1"
+  ></script>
+
+  <script
+    src="instructional-rules.js?v=20260820-rules1"
+  ></script>
+
+  <script
+    src="instructional-guidance.js?v=20260820-compact2"
+  ></script>
+
+  <script
+    src="instructional-material-families.js?v=20260820-material2"
+  ></script>
+
+  <script
+    src="instructional-material-spec.js?v=20260820-material1"
+  ></script>
+
+  <script
+    src="instructional-protection-registry.js?v=20260820-protect1"
+  ></script>
+
+  <script
+    src="instructional-material-resolver.js?v=20260820-material2"
+  ></script>
+
+  <script
+    src="instructional-target-resolver.js?v=20260820-target2"
+  ></script>
+
+  <script
+    src="instructional-session-planner.js?v=20260820-planner2"
+  ></script>
+
+  <script
+    src="session-materials-ui.js?v=20260820-session5"
+  ></script>
+
+</body>
+
+</html>

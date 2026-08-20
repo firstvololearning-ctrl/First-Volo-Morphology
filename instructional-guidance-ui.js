@@ -295,12 +295,23 @@
           </p>
         </div>
 
-        <a
-          class="teacher-guide-back-link"
-          href="#studentTracker"
-        >
-          ↑ Learner progress
-        </a>
+        <div class="teacher-guide-heading-actions">
+
+          <a
+            class="teacher-guide-material-link"
+            href="session-materials.html?studentId=${encodeURIComponent(student.id)}&minutes=15"
+          >
+            🧩 Open Session Materials
+          </a>
+
+          <a
+            class="teacher-guide-back-link"
+            href="#studentTracker"
+          >
+            ↑ Learner progress
+          </a>
+
+        </div>
       </div>
 
 

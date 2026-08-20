@@ -272,6 +272,28 @@
     };
   }
 
+  function asInstructionalTarget(
+    target
+  ) {
+    if (!target) {
+      return null;
+    }
+
+    /*
+      COOK / VIEW and any future base-word material centers
+      are instructional materials, not morphology targets.
+    */
+    if (
+      target.role ===
+      "base word"
+    ) {
+      return null;
+    }
+
+    return target;
+  }
+
+
   function explicitTargetRecord(
     target,
     familyId = null
@@ -283,16 +305,16 @@
     if (
       typeof target === "string"
     ) {
-      return makeTarget({
+      return asInstructionalTarget(makeTarget({
         label: target,
         familyId,
         source:
           "explicit-next-session-target",
         explicit: true
-      });
+      }));
     }
 
-    return makeTarget({
+    return asInstructionalTarget(makeTarget({
       id:
         target.id ||
         target.targetId ||
@@ -328,7 +350,7 @@
         "explicit-next-session-target",
 
       explicit: true
-    });
+    }));
   }
 
   function savedPrimaryTarget(
@@ -342,7 +364,7 @@
       return null;
     }
 
-    return makeTarget({
+    return asInstructionalTarget(makeTarget({
       id:
         response.primaryTargetId ||
         null,
@@ -368,7 +390,7 @@
         "saved-primary-target",
 
       explicit: true
-    });
+    }));
   }
 
   function savedSupportingTargets(
@@ -432,7 +454,11 @@
           explicit: true
         });
 
-      if (target) {
+      if (
+        target &&
+        target.role !==
+          "base word"
+      ) {
         results.push(target);
       }
     }
@@ -515,7 +541,12 @@
               true
           });
         })
-        .filter(Boolean),
+        .filter(
+          target =>
+            target &&
+            target.role !==
+              "base word"
+        ),
 
       (target) =>
         target.id ||
