@@ -936,10 +936,28 @@
           recipe,
 
           prompt:
+            recipe.activityPrompt ||
             recipe.wordPrompt ||
             (
-              `Build ${recipe.word} and explain the word parts.`
+              `Work with ${recipe.word} and explain what the target contributes.`
             ),
+
+          mode:
+            recipe.mode ||
+            material
+              ?.displayMode ||
+            (
+              material
+                ?.family
+                ? "build"
+                : "prompt"
+            ),
+
+          answer:
+            recipe.educatorKey ||
+            recipe.answer ||
+            recipe.word ||
+            null,
 
           followUp:
             null
@@ -956,6 +974,17 @@
 
         prompt:
           applyItem.prompt,
+
+        mode:
+          applyItem.mode ||
+          material
+            ?.displayMode ||
+          "prompt",
+
+        answer:
+          applyItem.answer ||
+          applyItem.word ||
+          null,
 
         followUp:
           applyItem
@@ -1681,6 +1710,127 @@
   }
 
 
+  function ensurePromptEducatorKey() {
+    let key =
+      byId(
+        "sessionPromptEducatorKey"
+      );
+
+    if (key) {
+      return key;
+    }
+
+    const currentTask =
+      document.querySelector(
+        ".session-current-task"
+      );
+
+    if (!currentTask) {
+      return null;
+    }
+
+    key =
+      document.createElement(
+        "details"
+      );
+
+    key.id =
+      "sessionPromptEducatorKey";
+
+    key.className =
+      "session-prompt-educator-key";
+
+    key.innerHTML = `
+      <summary>
+        Educator key
+      </summary>
+      <div data-educator-key-content></div>
+    `;
+
+    currentTask.append(
+      key
+    );
+
+    return key;
+  }
+
+
+  function setTaskDisplayMode(task) {
+    const buildMode =
+      task?.mode === "build";
+
+    const ids = [
+      "interactiveBuildMat",
+      "interactiveWordSum",
+      "checkBuildButton",
+      "toggleMeaningsButton",
+      "clearMatButton"
+    ];
+
+    ids.forEach(id => {
+      const element =
+        byId(id);
+
+      if (element) {
+        element.hidden =
+          !buildMode;
+      }
+    });
+
+    [
+      ".session-interaction-help-row",
+      ".session-check-row",
+      ".interactive-tile-area"
+    ].forEach(selector => {
+      const element =
+        document.querySelector(
+          selector
+        );
+
+      if (element) {
+        element.hidden =
+          !buildMode;
+      }
+    });
+
+    const key =
+      ensurePromptEducatorKey();
+
+    if (key) {
+      key.hidden =
+        buildMode;
+
+      const content =
+        key.querySelector(
+          "[data-educator-key-content]"
+        );
+
+      if (content) {
+        content.textContent =
+          task?.answer ||
+          "Open response; use the target and master inventory metadata to judge the response.";
+      }
+    }
+
+    byId(
+      "digitalMaterialTitle"
+    ).textContent =
+      buildMode
+        ? (
+            state.material
+              ?.family
+              ? `${state.material.family} Word Building`
+              : "Word Building"
+          )
+        : (
+            state.plan
+              ?.teachPractice
+              ?.activityLabel ||
+            "Teacher-Led Practice"
+          );
+  }
+
+
   function renderTask() {
     const task =
       state.tasks[
@@ -1708,6 +1858,10 @@
     ).textContent =
       task?.prompt ||
       "";
+
+    setTaskDisplayMode(
+      task
+    );
 
     byId(
       "previousTaskButton"
@@ -2013,6 +2167,16 @@
               task => `
                 <li>
                   ${esc(task.prompt)}
+                  ${
+                    task.answer
+                      ? `
+                        <div class="print-small-note">
+                          <strong>Educator key:</strong>
+                          ${esc(task.answer)}
+                        </div>
+                      `
+                      : ""
+                  }
                 </li>
               `
             ).join("")}
@@ -2125,32 +2289,89 @@
               `${state.material.family} ` +
               "Word Building Mat"
             )
-          : "Word Building Mat"
+          : (
+              state.material
+                ?.displayMode === "build"
+                ? "Word Building Mat"
+                : (
+                    state.plan
+                      ?.teachPractice
+                      ?.activityLabel ||
+                    "Teacher-Led Practice"
+                  )
+            )
       );
+
+    const printPromptMode =
+      state.material
+        ?.displayMode !== "build";
+
+    const printDirections =
+      document.querySelector(
+        ".print-mat-directions"
+      );
+
+    if (printDirections) {
+      printDirections.textContent =
+        printPromptMode
+          ? "Present each prompt without revealing the educator key. Add the least support only after the student's first attempt."
+          : "Place the cards in the matching slots. Read the word sum. Explain what the meaningful parts contribute.";
+    }
+
+    const printResponseLines =
+      document.querySelector(
+        ".print-response-lines"
+      );
+
+    if (printResponseLines) {
+      printResponseLines.hidden =
+        printPromptMode;
+    }
 
     byId(
       "printBuildMat"
     ).innerHTML =
-      (
-        state.material
-          ?.slots || []
-      )
-        .map(
-          slot => `
-            <div class="print-build-slot">
+      printPromptMode
+        ? state.tasks
+            .map(
+              task => `
+                <div class="print-build-slot">
+                  <strong>${esc(task.stage)}</strong>
+                  <span>${esc(task.prompt)}</span>
+                  ${
+                    task.answer
+                      ? `
+                        <span class="print-small-note">
+                          <strong>Educator key:</strong>
+                          ${esc(task.answer)}
+                        </span>
+                      `
+                      : ""
+                  }
+                </div>
+              `
+            )
+            .join("")
+        : (
+            state.material
+              ?.slots || []
+          )
+            .map(
+              slot => `
+                <div class="print-build-slot">
 
-              <strong>
-                ${esc(slot.label)}
-              </strong>
+                  <strong>
+                    ${esc(slot.label)}
+                  </strong>
 
-              <span>
-                Place card here
-              </span>
+                  <span>
+                    Place card here
+                  </span>
 
-            </div>
-          `
-        )
-        .join("");
+                </div>
+              `
+            )
+            .join("");
 
     byId(
       "printCardGrid"
@@ -2239,7 +2460,12 @@
             `${state.material.family} ` +
             "Word Building"
           )
-        : "Word Building";
+        : (
+            state.plan
+              ?.teachPractice
+              ?.activityLabel ||
+            "Teacher-Led Practice"
+          );
 
     state.digitalTiles =
       safeDigitalTiles();

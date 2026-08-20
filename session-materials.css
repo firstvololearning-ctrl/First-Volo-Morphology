@@ -1071,3 +1071,23 @@
     line-height: 1.23;
   }
 }
+
+
+/* Program-wide teacher-led prompt mode */
+.session-prompt-educator-key {
+  margin-top: 14px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.session-prompt-educator-key summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.session-prompt-educator-key [data-educator-key-content] {
+  margin-top: 8px;
+  line-height: 1.45;
+}

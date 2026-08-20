@@ -707,22 +707,29 @@
       recipe.wordPrompt ||
       null;
 
+    const customApplyPrompt =
+      recipe.applyPrompt ||
+      null;
+
     const prompt =
-      contextPrompt
-        ? (
-            "Complete the sentence by building the word that fits: " +
-            contextPrompt
-          )
-        : (
-            wordPrompt
-              ? (
-                  wordPrompt +
-                  " Do not show the answer before the student's attempt."
-                )
-              : (
-                  `Build a related word containing ${targetLabel}.`
-                )
-          );
+      customApplyPrompt ||
+      (
+        contextPrompt
+          ? (
+              "Complete the sentence by building the word that fits: " +
+              contextPrompt
+            )
+          : (
+              wordPrompt
+                ? (
+                    wordPrompt +
+                    " Do not show the answer before the student's attempt."
+                  )
+                : (
+                    `Build a related word containing ${targetLabel}.`
+                  )
+            )
+      );
 
     const followUpPrompt =
       (
@@ -779,7 +786,19 @@
         followUpPrompt,
 
         source:
-          "protection-aware-session-recipe"
+          recipe.source ||
+          "protection-aware-session-recipe",
+
+        mode:
+          recipe.mode ||
+          sessionMaterial
+            ?.displayMode ||
+          "prompt",
+
+        answer:
+          recipe.educatorKey ||
+          recipe.answer ||
+          recipe.word
       },
 
       materialStatus:
@@ -1116,7 +1135,28 @@
           sessionMinutes:
             minutes,
 
-          materialSpec
+          materialSpec,
+
+          activity:
+            teachPractice
+              ?.activity ||
+            "learn",
+
+          gradeBand:
+            plannerGuidance
+              ?.lastWork
+              ?.gradeBand ||
+            student
+              ?.gradeBand ||
+            null,
+
+          vocabLevel:
+            plannerGuidance
+              ?.lastWork
+              ?.vocabLevel ||
+            student
+              ?.vocabLevel ||
+            null
         }) ||
       null;
 

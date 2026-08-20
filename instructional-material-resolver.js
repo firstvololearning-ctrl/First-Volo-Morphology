@@ -83,7 +83,24 @@
     if (
       asArray(
         registry.connectedTextTransfer
-      ).includes(wanted)
+      ).map(normalize).includes(wanted)
+    ) {
+      return "check-transfer";
+    }
+
+    const checkTransfer =
+      window.FirstVoloCheckTransfer;
+
+    if (
+      checkTransfer
+        ?.isReservedWord
+        ? checkTransfer.isReservedWord(word)
+        : asArray(
+            checkTransfer
+              ?.getReservedWords?.()
+          )
+            .map(normalize)
+            .includes(wanted)
     ) {
       return "check-transfer";
     }
@@ -167,7 +184,10 @@
   function resolve({
     targetResolution = null,
     sessionMinutes = 15,
-    materialSpec = null
+    materialSpec = null,
+    activity = "learn",
+    gradeBand = null,
+    vocabLevel = null
   } = {}) {
     const materials =
       window
@@ -204,11 +224,40 @@
         ?.primary ||
       null;
 
-    const allRecipes =
+    const familyRecipes =
       asArray(
         family
           ?.sessionRecipes
       );
+
+    const inventoryRecipes =
+      !family &&
+      window
+        .FirstVoloSessionItemBank
+        ?.buildItems
+        ? window
+            .FirstVoloSessionItemBank
+            .buildItems({
+              targetResolution,
+              activity,
+              gradeBand,
+              vocabLevel,
+              limit:
+                Math.max(
+                  recipeLimit(
+                    sessionMinutes
+                  ) + 2,
+                  5
+                )
+            })
+        : [];
+
+    const allRecipes =
+      familyRecipes.length
+        ? familyRecipes
+        : asArray(
+            inventoryRecipes
+          );
 
     const protectionReport =
       allRecipes
@@ -342,10 +391,22 @@
 
     return {
       version:
-        "session-material-resolver-v1",
+        "session-material-resolver-v2-program-wide",
 
       family:
         spec.family,
+
+      activity,
+
+      source:
+        familyRecipes.length
+          ? "custom-material-family"
+          : "master-word-inventory",
+
+      displayMode:
+        familyRecipes.length
+          ? "build"
+          : "prompt",
 
       targetResolution,
 
@@ -409,7 +470,7 @@
         missingParts,
 
         rule:
-          "Only explicit session recipes may become ordinary instructional materials. Protected whole words are rejected before rendering."
+          "Ordinary teacher-led materials come from an approved custom family recipe or the master word inventory. Protected whole words are rejected before rendering."
       },
 
       needsPrimarySelection:
