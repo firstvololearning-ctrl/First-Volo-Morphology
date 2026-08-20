@@ -8017,6 +8017,10 @@ function createMeaningQuestions(items) {
           !(
             (item.id === "location-in-family" && other.id === "negative-in-family") ||
             (item.id === "negative-in-family" && other.id === "location-in-family")
+          ) &&
+          !(
+            ["scop", "vis", "spect"].includes(item.id) &&
+            ["scop", "vis", "spect"].includes(other.id)
           )
         ),
         (other) => normalizeMeaning(other.meaning)
