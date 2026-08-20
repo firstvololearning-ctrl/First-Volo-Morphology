@@ -243,9 +243,9 @@
   const scaffoldLadders = {
 
     meaning: [
-      "Offer two meaning choices.",
-
       "Provide the established visual meaning cue.",
+
+      "If still needed, offer two meaning choices.",
 
       "Model one different example, then immediately give a similar new item."
     ],
