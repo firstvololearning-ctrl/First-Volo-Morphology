@@ -486,8 +486,27 @@
 
   function getExactRole({
     linguisticRole = null,
-    targetType = null
+    targetType = null,
+    primaryTargetId = null,
+    primaryTarget = null,
+    familyId = null
   } = {}) {
+    const resolver =
+      window.FirstVoloLinguisticRoles
+        ?.resolveRole;
+
+    if (resolver) {
+      return resolver({
+        linguisticRole,
+        targetId:
+          primaryTargetId,
+        targetLabel:
+          primaryTarget,
+        familyId,
+        targetType
+      });
+    }
+
     if (linguisticRole) {
       return linguisticRole;
     }
@@ -500,11 +519,6 @@
       return "suffix";
     }
 
-    /*
-      Deliberately do not turn `root` into the teacher-facing word "root".
-      The app's blue Roots category also contains bases / combining forms.
-      The exact term must come from item/family metadata.
-    */
     return "word part";
   }
 
