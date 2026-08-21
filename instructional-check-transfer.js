@@ -196,7 +196,7 @@
     "en-em": Object.freeze({
       targetIds: Object.freeze(["en-em"]),
       targetLabels: Object.freeze(["en-, em-"]),
-      gradeBands: Object.freeze(["4-5", "6-8"]),
+      gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-en-em-01",
@@ -348,7 +348,7 @@
     "fore": Object.freeze({
       targetIds: Object.freeze(["fore"]),
       targetLabels: Object.freeze(["fore-"]),
-      gradeBands: Object.freeze(["4-5", "6-8"]),
+      gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-fore-01",
@@ -576,7 +576,7 @@
     "pro": Object.freeze({
       targetIds: Object.freeze(["pro"]),
       targetLabels: Object.freeze(["pro-"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-pro-01",
@@ -614,7 +614,7 @@
     "circum": Object.freeze({
       targetIds: Object.freeze(["circum"]),
       targetLabels: Object.freeze(["circum-"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-circum-01",
@@ -1127,7 +1127,7 @@
     "form": Object.freeze({
       targetIds: Object.freeze(["form"]),
       targetLabels: Object.freeze(["form"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-form-01",
@@ -1165,7 +1165,7 @@
     "mot": Object.freeze({
       targetIds: Object.freeze(["mot"]),
       targetLabels: Object.freeze(["mot/mov"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-mot-01",
@@ -1222,7 +1222,7 @@
     "tele": Object.freeze({
       targetIds: Object.freeze(["tele"]),
       targetLabels: Object.freeze(["tele"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-tele-01",
@@ -1241,7 +1241,7 @@
     "auto": Object.freeze({
       targetIds: Object.freeze(["auto"]),
       targetLabels: Object.freeze(["auto"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-auto-01",
@@ -1317,7 +1317,7 @@
     "scop": Object.freeze({
       targetIds: Object.freeze(["scop"]),
       targetLabels: Object.freeze(["scop/scope"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-scop-01",
@@ -1355,7 +1355,7 @@
     "therm": Object.freeze({
       targetIds: Object.freeze(["therm"]),
       targetLabels: Object.freeze(["therm"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-therm-01",
@@ -1602,7 +1602,7 @@
     "ology": Object.freeze({
       targetIds: Object.freeze(["ology"]),
       targetLabels: Object.freeze(["-ology"]),
-      gradeBands: Object.freeze(["6-8"]),
+      gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-ology-01",
@@ -1754,7 +1754,7 @@
     "ion": Object.freeze({
       targetIds: Object.freeze(["ion"]),
       targetLabels: Object.freeze(["-ion, -tion, -sion"]),
-      gradeBands: Object.freeze(["4-5", "6-8"]),
+      gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-ion-01",
@@ -1811,7 +1811,7 @@
     "ment": Object.freeze({
       targetIds: Object.freeze(["ment"]),
       targetLabels: Object.freeze(["-ment"]),
-      gradeBands: Object.freeze(["4-5", "6-8"]),
+      gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
         Object.freeze({
           id: "ct-ment-01",
