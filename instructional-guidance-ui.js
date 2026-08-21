@@ -107,11 +107,73 @@
   }
 
 
+
+  function applicableNextActivity(
+    guidance
+  ) {
+    const planner =
+      window
+        .FirstVoloInstructionalSessionPlanner;
+
+    const requested =
+      guidance
+        ?.nextWork
+        ?.activity ||
+      planner
+        ?.nextActivityFrom?.(
+          guidance
+            ?.lastWork
+            ?.activity
+        ) ||
+      null;
+
+    const target =
+      guidance
+        ?.nextWork
+        ?.target ||
+      guidance
+        ?.lastWork
+        ?.target ||
+      null;
+
+    const resolved =
+      planner
+        ?.resolveApplicableActivity?.({
+          requestedActivity:
+            requested,
+          lastActivity:
+            guidance
+              ?.lastWork
+              ?.activity ||
+            null,
+          target
+        });
+
+    return (
+      resolved
+        ?.activity ||
+      requested
+    );
+  }
+
+
   function studentWillText(guidance) {
+    const activity =
+      applicableNextActivity(
+        guidance
+      );
+
+    const profile =
+      window
+        .FirstVoloInstructionalSessionPlanner
+        ?.TEACH_PRACTICE_TASKS
+        ?.[activity];
+
     const next =
       guidance.sequence?.[1];
 
     return (
+      profile?.student ||
       next?.studentDoes ||
       "Completes the selected morphology work as independently as possible."
     );
@@ -126,12 +188,21 @@
       return "Choose the next activity.";
     }
 
+    const activity =
+      applicableNextActivity(
+        guidance
+      );
+
     const label =
       window.FirstVoloInstructionalGuidance
         ?.ACTIVITY_LABELS?.[
-          next.activity
+          activity
         ] ||
-      next.activity ||
+      window.FirstVoloInstructionalSessionPlanner
+        ?.ACTIVITY_LABELS?.[
+          activity
+        ] ||
+      activity ||
       "Next activity";
 
     const target =
@@ -354,7 +425,7 @@
 
         <section class="teacher-guide-row teacher-guide-today">
           <span class="teacher-guide-label">
-            Today, begin together
+            Start with
           </span>
 
           <p>
@@ -387,149 +458,10 @@
       </div>
 
 
-      <details
-        class="teacher-guide-details teacher-guide-ifthen"
-        ${decision?.scaffoldSteps?.length ? "open" : ""}
-      >
-        <summary>
-          <span>
-            <strong>If you see this…</strong>
-            <small>
-              Conditional support · least to most
-            </small>
-          </span>
-        </summary>
-
-        <div class="teacher-guide-details-body">
-
-          ${
-            difficulty &&
-            decision?.difficulty !==
-              "independent"
-              ? `
-                <div class="teacher-current-barrier">
-                  <span>Current barrier</span>
-                  <strong>${esc(difficulty)}</strong>
-                </div>
-              `
-              : ""
-          }
-
-          ${supportRows(guidance)}
-
-          <div class="teacher-fade-rule">
-            <span class="teacher-guide-label">
-              Fade support when…
-            </span>
-
-            <p>
-              ${esc(fade)}
-            </p>
-          </div>
-
-        </div>
-      </details>
-
-
-      <details class="teacher-guide-details">
-        <summary>
-          <span>
-            <strong>Digital / access help</strong>
-            <small>
-              Help with access without solving the morphology work
-            </small>
-          </span>
-        </summary>
-
-        <div class="teacher-guide-details-body">
-          ${accessSupportRows()}
-
-          <p class="teacher-guide-boundary">
-            <strong>Boundary:</strong>
-            ${esc(
-              window.FirstVoloInstructionalRules
-                ?.onlineBoundary || ""
-            )}
-          </p>
-        </div>
-      </details>
-
-
-      <details class="teacher-guide-details">
-        <summary>
-          <span>
-            <strong>Check Transfer</strong>
-            <small>
-              Protected transfer guidance
-            </small>
-          </span>
-        </summary>
-
-        <div class="teacher-guide-details-body">
-          <p>
-            ${
-              esc(
-                guidance.sequence?.[3]
-                  ?.educatorDoes || ""
-              )
-            }
-          </p>
-
-          <p>
-            <strong>Student does:</strong>
-            ${
-              esc(
-                guidance.sequence?.[3]
-                  ?.studentDoes || ""
-              )
-            }
-          </p>
-
-          <p class="teacher-guide-boundary">
-            <strong>If the student does not know where to begin:</strong>
-            Ask, “What part do you recognize?” before adding a stronger
-            morphology scaffold.
-          </p>
-        </div>
-      </details>
-
-
-      <details class="teacher-guide-details">
-        <summary>
-          <span>
-            <strong>How support decisions work</strong>
-            <small>
-              Reference
-            </small>
-          </span>
-        </summary>
-
-        <div class="teacher-guide-details-body">
-          <p>
-            <strong>Sequence:</strong>
-            ${
-              esc(
-                window.FirstVoloInstructionalRules
-                  ?.supportOrder || ""
-              )
-            }
-          </p>
-
-          <p>
-            The guide distinguishes access barriers from morphology
-            difficulties and preserves the student's first independent
-            attempt. Support does not replace the original performance
-            record.
-          </p>
-
-          <p>
-            Exact linguistic terminology should come from the specific
-            word/family metadata. If that information is not available,
-            the guide uses the neutral term <strong>word part</strong>
-            rather than guessing.
-          </p>
-        </div>
-      </details>
+      <div class="teacher-guide-session-note">
+        Support options, access help, and Check Transfer guidance are included
+        inside the teacher-led session for easy access during instruction.
+      </div>
     `;
 
     panel.hidden = false;

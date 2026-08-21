@@ -535,6 +535,124 @@
     );
   }
 
+
+  function activityApplicability(
+    target,
+    activity
+  ) {
+    const bank =
+      window
+        .FirstVoloSessionItemBank;
+
+    if (
+      !activity ||
+      !bank?.activityApplicability
+    ) {
+      return {
+        applicable: true,
+        reason: null
+      };
+    }
+
+    return (
+      bank.activityApplicability(
+        target,
+        activity
+      ) || {
+        applicable: true,
+        reason: null
+      }
+    );
+  }
+
+  function resolveApplicableActivity({
+    requestedActivity = null,
+    lastActivity = null,
+    target = null
+  } = {}) {
+    let startActivity =
+      requestedActivity ||
+      nextActivityFrom(
+        lastActivity
+      ) ||
+      null;
+
+    if (!startActivity) {
+      return {
+        activity: null,
+        requestedActivity: null,
+        adjusted: false,
+        skippedActivities: []
+      };
+    }
+
+    let index =
+      ACTIVITY_SEQUENCE.indexOf(
+        startActivity
+      );
+
+    if (index < 0) {
+      return {
+        activity: startActivity,
+        requestedActivity:
+          startActivity,
+        adjusted: false,
+        skippedActivities: []
+      };
+    }
+
+    const skippedActivities = [];
+
+    for (
+      let i = index;
+      i < ACTIVITY_SEQUENCE.length;
+      i += 1
+    ) {
+      const candidate =
+        ACTIVITY_SEQUENCE[i];
+
+      const applicability =
+        activityApplicability(
+          target,
+          candidate
+        );
+
+      if (
+        applicability
+          ?.applicable !== false
+      ) {
+        return {
+          activity:
+            candidate,
+          requestedActivity:
+            startActivity,
+          adjusted:
+            candidate !==
+            startActivity,
+          skippedActivities
+        };
+      }
+
+      skippedActivities.push({
+        activity:
+          candidate,
+        reason:
+          applicability
+            ?.reason ||
+          "This activity is intentionally not applicable for the selected target."
+      });
+    }
+
+    return {
+      activity: null,
+      requestedActivity:
+        startActivity,
+      adjusted: true,
+      skippedActivities
+    };
+  }
+
+
   function buildTeachPractice({
     guidance,
     duration
@@ -711,6 +829,49 @@
       recipe.applyPrompt ||
       null;
 
+    const applyWord =
+      recipe.applyKind ===
+        "open-new-item"
+        ? null
+        : (
+            recipe.applyWord ||
+            recipe.word ||
+            null
+          );
+
+    const applyParts =
+      asArray(
+        recipe.applyParts
+      ).length
+        ? asArray(
+            recipe.applyParts
+          ).slice()
+        : (
+            applyWord &&
+            String(
+              applyWord
+            )
+              .trim()
+              .toLowerCase() ===
+            String(
+              recipe.word
+            )
+              .trim()
+              .toLowerCase()
+              ? asArray(
+                  recipe.parts
+                ).slice()
+              : []
+          );
+
+    const applyMode =
+      recipe.applyMode ||
+      (
+        applyParts.length > 1
+          ? "build"
+          : "prompt"
+      );
+
     const prompt =
       customApplyPrompt ||
       (
@@ -732,10 +893,12 @@
       );
 
     const followUpPrompt =
-      (
-        `Now say or write a new sentence using ${recipe.word}. ` +
-        `Explain what ${targetLabel} contributes to the word.`
-      );
+      customApplyPrompt
+        ? null
+        : (
+            `Now say or write a new sentence using ${applyWord}. ` +
+            `Explain what ${targetLabel} contributes to the word.`
+          );
 
     return {
       minutes:
@@ -758,19 +921,22 @@
         ),
 
       studentDoes:
-        (
-          `Produces ${recipe.word} from meaning or context, ` +
-          "uses it in a new sentence, and explains the target's contribution."
-        ),
+        applyWord
+          ? (
+              `Produces ${applyWord} from the Apply cue, ` +
+              "uses it in a new sentence, and explains the target's contribution."
+            )
+          : (
+              "Produces a new real word with the target, uses it in a new sentence, " +
+              "and explains the target's contribution."
+            ),
 
       item: {
         word:
-          recipe.word,
+          applyWord,
 
         parts:
-          asArray(
-            recipe.parts
-          ).slice(),
+          applyParts,
 
         family:
           sessionMaterial
@@ -790,12 +956,10 @@
           "protection-aware-session-recipe",
 
         mode:
-          recipe.mode ||
-          sessionMaterial
-            ?.displayMode ||
-          "prompt",
+          applyMode,
 
         answer:
+          recipe.applyEducatorKey ||
           recipe.educatorKey ||
           recipe.answer ||
           recipe.word
@@ -1027,6 +1191,58 @@
           : guidance?.nextWork
     };
 
+
+    const requestedNextActivity =
+      plannerGuidance
+        ?.nextWork
+        ?.activity ||
+      nextActivityFrom(
+        plannerGuidance
+          ?.lastWork
+          ?.activity
+      );
+
+    const applicabilityResolution =
+      resolveApplicableActivity({
+        requestedActivity:
+          requestedNextActivity,
+        lastActivity:
+          plannerGuidance
+            ?.lastWork
+            ?.activity ||
+          null,
+        target:
+          resolvedPrimary
+      });
+
+    if (
+      applicabilityResolution
+        .activity
+    ) {
+      plannerGuidance.nextWork = {
+        ...(
+          plannerGuidance
+            .nextWork ||
+          {}
+        ),
+        activity:
+          applicabilityResolution
+            .activity,
+        target:
+          resolvedPrimary,
+        requestedActivity:
+          applicabilityResolution
+            .requestedActivity,
+        activityAdjusted:
+          applicabilityResolution
+            .adjusted,
+        skippedActivities:
+          applicabilityResolution
+            .skippedActivities
+      };
+    }
+
+
     const retrieve = {
       minutes:
         duration.retrieveMinutes,
@@ -1084,7 +1300,7 @@
         guidance.lastWork,
 
       nextWork:
-        guidance.nextWork,
+        plannerGuidance.nextWork,
 
       instructionalDecision:
         guidance
@@ -1263,6 +1479,8 @@
     recentResponses,
     buildRetrieveItems,
     nextActivityFrom,
+    activityApplicability,
+    resolveApplicableActivity,
     buildTeachPractice,
     buildApply,
     buildTransfer,

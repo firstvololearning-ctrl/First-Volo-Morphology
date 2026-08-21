@@ -59,6 +59,22 @@ function getWordPracticeBand(word) {
 }
 
 function isReservedTransferWord(word) {
+  const central =
+    window
+      .FirstVoloInstructionalProtection;
+
+  if (
+    central?.isProtected
+  ) {
+    return central.isProtected(
+      word
+    );
+  }
+
+  /*
+    Compatibility fallback for older pages.
+    The hardened registry should normally be loaded.
+  */
   return Boolean(
     window.FirstVoloTransferChallenge
       ?.isReservedWord?.(word)

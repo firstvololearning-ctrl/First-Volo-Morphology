@@ -65,6 +65,20 @@
       protectedRegistry();
 
     if (
+      typeof registry
+        .protectionReason ===
+      "function"
+    ) {
+      return (
+        registry
+          .protectionReason(
+            wanted
+          ) ||
+        null
+      );
+    }
+
+    if (
       asArray(
         registry.formalPrePost
       ).includes(wanted)
@@ -145,6 +159,21 @@
       return true;
     }
 
+    /*
+      Program-wide inventory recipes carry the exact canonical target ID.
+      Prefer that stable identity before comparing visible surface forms.
+      This keeps allomorphs such as derm -> derma and script -> scrib/script
+      attached to the correct target without weakening family-recipe matching.
+    */
+    if (
+      recipe?.targetId &&
+      target?.id &&
+      String(recipe.targetId) ===
+        String(target.id)
+    ) {
+      return true;
+    }
+
     return asArray(
       recipe.parts
     ).some(
@@ -178,6 +207,132 @@
     }
 
     return 3;
+  }
+
+
+  function uniqueTiles(tiles) {
+    const seen =
+      new Set();
+
+    const output = [];
+
+    for (const tile of asArray(tiles)) {
+      const key =
+        normalize(
+          tile?.label
+        );
+
+      if (
+        !key ||
+        seen.has(key)
+      ) {
+        continue;
+      }
+
+      seen.add(key);
+
+      output.push({
+        ...tile
+      });
+    }
+
+    return output;
+  }
+
+
+  function inventoryBuildTiles(
+    recipes
+  ) {
+    return uniqueTiles(
+      asArray(recipes)
+        .flatMap(recipe => [
+          ...asArray(
+            recipe?.buildTiles
+          ),
+          ...asArray(
+            recipe?.applyBuildTiles
+          )
+        ])
+    );
+  }
+
+
+  function inventoryBuildSlots(
+    recipes
+  ) {
+    const slotSets =
+      asArray(recipes)
+        .flatMap(recipe => [
+          asArray(
+            recipe?.buildSlots
+          ),
+          asArray(
+            recipe?.applyBuildSlots
+          )
+        ])
+        .filter(
+          slots =>
+            slots.length
+        );
+
+    const maxLength =
+      slotSets.reduce(
+        (max, slots) =>
+          Math.max(
+            max,
+            slots.length
+          ),
+        0
+      );
+
+    if (!maxLength) {
+      return [];
+    }
+
+    const accepted = [
+      "prefix",
+      "suffix",
+      "root",
+      "Greek combining form",
+      "base word",
+      "word part"
+    ];
+
+    return Array.from(
+      {
+        length:
+          maxLength
+      },
+      (_, index) => {
+        const labels = [
+          ...new Set(
+            slotSets
+              .map(
+                slots =>
+                  slots[index]
+                    ?.label
+              )
+              .filter(Boolean)
+          )
+        ];
+
+        return {
+          id:
+            `part-${index + 1}`,
+
+          label:
+            labels.length === 1
+              ? labels[0]
+              : `WORD PART ${index + 1}`,
+
+          accepts:
+            accepted.slice(),
+
+          required:
+            true
+        };
+      }
+    );
   }
 
 
@@ -307,15 +462,23 @@
           )
         );
 
+    const inventoryBuildMode =
+      (
+        !familyRecipes.length &&
+        activity === "build"
+      );
+
     const requiredParts = [
       ...new Set(
         selectedRecipes
-          .flatMap(
-            recipe =>
-              asArray(
-                recipe.parts
-              )
-          )
+          .flatMap(recipe => [
+            ...asArray(
+              recipe.parts
+            ),
+            ...asArray(
+              recipe.applyParts
+            )
+          ])
           .map(
             part =>
               String(part)
@@ -324,19 +487,32 @@
     ];
 
     const selectedTiles =
-      asArray(
-        spec.tiles
-      )
-        .filter(
-          tile =>
-            requiredParts.some(
-              part =>
-                tileMatchesPart(
-                  tile,
-                  part
-                )
+      inventoryBuildMode
+        ? inventoryBuildTiles(
+            selectedRecipes
+          )
+        : (
+            asArray(
+              spec.tiles
             )
-        );
+              .filter(
+                tile =>
+                  requiredParts.some(
+                    part =>
+                      tileMatchesPart(
+                        tile,
+                        part
+                      )
+                  )
+              )
+          );
+
+    const resolvedSlots =
+      inventoryBuildMode
+        ? inventoryBuildSlots(
+            selectedRecipes
+          )
+        : spec.slots;
 
     const missingParts =
       requiredParts
@@ -404,7 +580,10 @@
           : "master-word-inventory",
 
       displayMode:
-        familyRecipes.length
+        (
+          familyRecipes.length ||
+          activity === "build"
+        )
           ? "build"
           : "prompt",
 
@@ -419,7 +598,7 @@
         ) || 15,
 
       slots:
-        spec.slots,
+        resolvedSlots,
 
       tiles:
         selectedTiles,

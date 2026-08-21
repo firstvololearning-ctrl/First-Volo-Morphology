@@ -1,7 +1,8 @@
 "use strict";
 
-window.FirstVoloInstructionalProtection = {
-  "version": "instructional-protection-v1",
+(function initializeFirstVoloInstructionalProtection() {
+  const registry = {
+  "version": "instructional-protection-v2-global-hardening",
   "formalPrePost": [
     "abduct",
     "assistance",
@@ -85,6 +86,268 @@ window.FirstVoloInstructionalProtection = {
     "unfair",
     "visible"
   ],
-  "connectedTextTransfer": [],
+  "connectedTextTransfer": [
+    "abscond",
+    "absorbent",
+    "abstain",
+    "actionable",
+    "adjustable",
+    "adjustment",
+    "advent",
+    "antiviral",
+    "antiwar",
+    "approach",
+    "aquatic",
+    "aqueduct",
+    "arthroscope",
+    "attach",
+    "audition",
+    "auditory",
+    "autoimmune",
+    "autopilot",
+    "avoidance",
+    "barometer",
+    "bibliometrics",
+    "bibliotherapy",
+    "bioluminescent",
+    "biosphere",
+    "brighter",
+    "brightest",
+    "brightness",
+    "cautiously",
+    "chronograph",
+    "chronometer",
+    "circumpolar",
+    "circumstellar",
+    "coherence",
+    "colorful",
+    "compress",
+    "computable",
+    "convene",
+    "converge",
+    "converted",
+    "cookbook",
+    "cookware",
+    "credential",
+    "credibility",
+    "criminology",
+    "deconstruct",
+    "deformable",
+    "dehydrate",
+    "deposition",
+    "dermatitis",
+    "dermatological",
+    "devalue",
+    "dictate",
+    "dictation",
+    "digitize",
+    "disassemble",
+    "disruptive",
+    "distrust",
+    "diverting",
+    "drifting",
+    "ductwork",
+    "electrify",
+    "embolden",
+    "emergence",
+    "emission",
+    "enactment",
+    "encase",
+    "endoscope",
+    "evaporation",
+    "excavator",
+    "exhale",
+    "expansion",
+    "expel",
+    "flexibility",
+    "forewarn",
+    "foreword",
+    "formative",
+    "geocentric",
+    "geologist",
+    "geosphere",
+    "glaciers",
+    "glimmered",
+    "hazardous",
+    "impatient",
+    "implant",
+    "incomplete",
+    "inject",
+    "injector",
+    "inscription",
+    "interconnect",
+    "intermix",
+    "invocation",
+    "juxtaposition",
+    "lanterns",
+    "locomotive",
+    "measurement",
+    "meteorology",
+    "microclimate",
+    "microplastic",
+    "midair",
+    "midsummer",
+    "miscalculate",
+    "mispronounce",
+    "motility",
+    "motionless",
+    "narrower",
+    "narrowest",
+    "nonrenewable",
+    "nonslip",
+    "observant",
+    "odometer",
+    "odorless",
+    "orbital",
+    "overfill",
+    "overwater",
+    "pendulous",
+    "persuasive",
+    "phonetic",
+    "phonology",
+    "photographic",
+    "porous",
+    "portability",
+    "portage",
+    "prepack",
+    "prewrite",
+    "proceeding",
+    "projectile",
+    "propeller",
+    "protective",
+    "protrude",
+    "readiness",
+    "recheck",
+    "recomputation",
+    "reliance",
+    "repaint",
+    "repellent",
+    "resourceful",
+    "retentive",
+    "retraction",
+    "retrograde",
+    "retroreflective",
+    "ruptured",
+    "seismograph",
+    "semiconscious",
+    "semitransparent",
+    "sequel",
+    "sequential",
+    "shimmering",
+    "solidify",
+    "spectacle",
+    "spectate",
+    "stability",
+    "steadily",
+    "sterilize",
+    "structural",
+    "subfloor",
+    "subzero",
+    "superheat",
+    "superimpose",
+    "suspension",
+    "teleconference",
+    "telemetry",
+    "tenacity",
+    "terrarium",
+    "terrestrial",
+    "thermodynamic",
+    "thermoregulation",
+    "tidal",
+    "traction",
+    "transcontinental",
+    "transcription",
+    "transferable",
+    "transferral",
+    "translator",
+    "transmitter",
+    "transpacific",
+    "underfill",
+    "underpay",
+    "unfasten",
+    "untangle",
+    "validity",
+    "valuation",
+    "viewfinder",
+    "viewpoint",
+    "violinist",
+    "visibility",
+    "visualization",
+    "vocation",
+    "volcanic",
+    "washable",
+    "whispered"
+  ],
   "principle": "Formal assessment targets, Migration Challenge words, and Session Guide Check Transfer words remain separate from ordinary instructional materials."
 };
+
+  function normalize(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[‐‑‒–—−]/g, "-");
+  }
+
+  function protectionReason(word) {
+    const wanted =
+      normalize(word);
+
+    if (!wanted) {
+      return null;
+    }
+
+    if (
+      registry.formalPrePost
+        .includes(wanted)
+    ) {
+      return "formal-pre-post";
+    }
+
+    if (
+      registry.migrationChallenge
+        .includes(wanted)
+    ) {
+      return "migration-challenge";
+    }
+
+    if (
+      registry.connectedTextTransfer
+        .includes(wanted)
+    ) {
+      return "check-transfer";
+    }
+
+    return null;
+  }
+
+  function isProtected(word) {
+    return Boolean(
+      protectionReason(word)
+    );
+  }
+
+  function allProtectedWords() {
+    return [
+      ...new Set([
+        ...registry.formalPrePost,
+        ...registry.migrationChallenge,
+        ...registry.connectedTextTransfer
+      ])
+    ];
+  }
+
+  registry.normalize =
+    normalize;
+
+  registry.protectionReason =
+    protectionReason;
+
+  registry.isProtected =
+    isProtected;
+
+  registry.allProtectedWords =
+    allProtectedWords;
+
+  window.FirstVoloInstructionalProtection =
+    registry;
+})();

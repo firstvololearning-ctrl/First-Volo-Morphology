@@ -1367,7 +1367,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
   }
 ];
 
-window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v7-morpheme-metadata";
+window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v10-protection-clean-build";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
   {
@@ -2858,7 +2858,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "low",
     "literal": "having a building-together quality",
-    "definition": "helpful and intended to improve or build something",
+    "definition": "useful and intended to improve or build something",
     "recommendedActivityUse": "Learn / Find / Meaning / Figure It Out; Build with explicit con- + struct + -ive segmentation",
     "reviewCaution": "Modern constructive often means helpful or improving, a figurative extension of struct = build; teach the semantic bridge explicitly.",
     "evidence": {
@@ -3802,7 +3802,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
-    "definition": "an interruption that breaks normal activity",
+    "definition": "a break in normal activity",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
       "wviVerification": "Not bulk-verified",
@@ -4895,6 +4895,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "importance",
+    "segmentation": null,
     "status": "current",
     "morphemes": [
       "-ance"
@@ -4907,8 +4908,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
-    "reviewCaution": "Suffix -ance is usable; do not use port = carry to infer the modern meaning.",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "reviewCaution": "Do not use as a simple Build Words item. Importance is not a clean transparent base + -ance construction for this activity.",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1144,
@@ -6324,6 +6325,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "pendant",
+    "segmentation": "pend + -ant",
     "status": "current",
     "morphemes": [
       "pend/pens"
@@ -7105,6 +7107,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "propel",
+    "segmentation": "pro- + pel",
     "status": "current",
     "morphemes": [
       "pel"
@@ -7409,6 +7412,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "repel",
+    "segmentation": "re- + pel",
     "status": "current",
     "morphemes": [
       "pel"
@@ -7783,6 +7787,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "scripted",
+    "segmentation": "script + -ed",
     "status": "current",
     "morphemes": [
       "scrib/script"
@@ -8464,6 +8469,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "telegraph",
+    "segmentation": "tele + graph",
     "status": "current",
     "morphemes": [
       "tele"
@@ -8506,6 +8512,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "telescope",
+    "segmentation": "tele + scope",
     "status": "current",
     "morphemes": [
       "scop/scope",
@@ -8549,6 +8556,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "tenable",
+    "segmentation": "ten + -able",
     "status": "current",
     "morphemes": [
       "ten"
@@ -8741,6 +8749,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "transfer",
+    "segmentation": "trans- + fer",
     "status": "current",
     "morphemes": [
       "fer",
@@ -9632,5 +9641,101 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "nweaMatch": "No match",
       "curriculumEvidence": "Vocabulary.com Grade 6 phon family"
     }
+  },
+  {
+    "word": "endless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "end + -less",
+    "literal": "without end",
+    "definition": "having no end; continuing for a very long time",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "harmless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "harm + -less",
+    "literal": "without harm",
+    "definition": "not likely to hurt or cause damage",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "painless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "pain + -less",
+    "literal": "without pain",
+    "definition": "not causing or involving pain",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "cloudless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "cloud + -less",
+    "literal": "without clouds",
+    "definition": "having no clouds",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "useless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "use + -less",
+    "literal": "without use",
+    "definition": "not useful for a purpose",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "sleepless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "sleep + -less",
+    "literal": "without sleep",
+    "definition": "without sleep; unable to sleep",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
   }
 ];
