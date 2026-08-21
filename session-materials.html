@@ -454,6 +454,46 @@
           </div>
 
 
+
+          <div
+            class="session-current-task"
+            id="sessionPromptResponse"
+            hidden
+          >
+            <label
+              for="sessionPromptResponseInput"
+              id="sessionPromptResponseLabel"
+            >
+              Student response
+            </label>
+
+            <input
+              id="sessionPromptResponseInput"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Example: move + -ment"
+              style="display:block;width:100%;box-sizing:border-box;margin-top:10px;padding:12px 14px;font:inherit;border:1px solid currentColor;border-radius:12px;"
+            >
+
+            <div class="session-check-row">
+              <button
+                class="session-primary-button"
+                id="checkPromptResponseButton"
+                type="button"
+              >
+                Check Break Apart
+              </button>
+
+              <div
+                class="session-build-feedback"
+                id="promptResponseFeedback"
+                aria-live="polite"
+              ></div>
+            </div>
+          </div>
+
+
           <div class="session-interaction-help-row">
 
             <p class="session-interaction-help">
@@ -736,7 +776,8 @@
 
           </header>
 
-          <p class="print-mat-directions">
+          <p class="print-mat-directions"
+            id="printMatDirections">
             Place the cards in the matching slots. Read the
             word sum. Explain what the meaningful parts
             contribute.
@@ -866,11 +907,11 @@
   ></script>
 
   <script
-    src="instructional-session-item-bank.js?v=20260820-protect5"
+    src="instructional-session-item-bank.js?v=20260821-sessionux1"
   ></script>
 
   <script
-    src="instructional-material-resolver.js?v=20260820-material5"
+    src="instructional-material-resolver.js?v=20260821-activity3"
   ></script>
 
   <script
@@ -878,7 +919,7 @@
   ></script>
 
   <script
-    src="instructional-session-planner.js?v=20260820-route2"
+    src="instructional-session-planner.js?v=20260821-activity3"
   ></script>
 
   <script
@@ -890,11 +931,11 @@
   ></script>
 
   <script
-    src="session-materials-ui.js?v=20260820-apply2"
+    src="session-materials-ui.js?v=20260821-sessionux1"
   ></script>
 
   <script
-    src="check-transfer-ui.js?v=20260820-transfer1"
+    src="check-transfer-ui.js?v=20260821-transferux2"
   ></script>
 
 </body>

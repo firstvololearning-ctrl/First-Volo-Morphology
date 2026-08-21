@@ -874,9 +874,57 @@
           sessionMinutes:
             state.minutes,
 
+          activity:
+            state.plan
+              ?.teachPractice
+              ?.activity ||
+            state.plan
+              ?.nextWork
+              ?.activity ||
+            "learn",
+
           materialSpec
         }) ||
       null;
+  }
+
+
+  const ACTIVITY_LABELS = Object.freeze({
+    learn: "Learn",
+    find: "Find",
+    hunt: "Word Hunt",
+    meaning: "Meaning",
+    morpheme: "Word Part",
+    break: "Break It Apart",
+    infer: "Figure It Out",
+    build: "Build Words",
+    use: "Use It",
+    change: "Change It"
+  });
+
+
+  function currentActivity() {
+    return (
+      state.material
+        ?.activity ||
+      state.plan
+        ?.teachPractice
+        ?.activity ||
+      state.plan
+        ?.nextWork
+        ?.activity ||
+      "learn"
+    );
+  }
+
+
+  function currentActivityLabel() {
+    return (
+      ACTIVITY_LABELS[
+        currentActivity()
+      ] ||
+      "Instructional Activity"
+    );
   }
 
 
@@ -892,6 +940,10 @@
     if (!recipes.length) {
       return [];
     }
+
+    const activity =
+      material?.activity ||
+      currentActivity();
 
     const applyItem =
       applyPlan
@@ -939,25 +991,10 @@
             recipe.activityPrompt ||
             recipe.wordPrompt ||
             (
-              `Work with ${recipe.word} and explain what the target contributes.`
+              activity === "build"
+                ? `Build ${recipe.word} and explain the word parts.`
+                : `Complete the ${currentActivityLabel()} task with ${recipe.word}.`
             ),
-
-          mode:
-            recipe.mode ||
-            material
-              ?.displayMode ||
-            (
-              material
-                ?.family
-                ? "build"
-                : "prompt"
-            ),
-
-          answer:
-            recipe.educatorKey ||
-            recipe.answer ||
-            recipe.word ||
-            null,
 
           followUp:
             null
@@ -974,17 +1011,6 @@
 
         prompt:
           applyItem.prompt,
-
-        mode:
-          applyItem.mode ||
-          material
-            ?.displayMode ||
-          "prompt",
-
-        answer:
-          applyItem.answer ||
-          applyItem.word ||
-          null,
 
         followUp:
           applyItem
@@ -1808,7 +1834,7 @@
       if (content) {
         content.textContent =
           task?.answer ||
-          "Open response; use the target and master inventory metadata to judge the response.";
+          "Open response. Use the educator key for this item to review the student response.";
       }
     }
 
@@ -1875,6 +1901,1324 @@
       state.tasks.length - 1;
 
     clearMat();
+    renderActivitySurface();
+  }
+
+
+  function segmentationParts(value) {
+    return String(
+      value || ""
+    )
+      .split(
+        /\s*(?:\+|\/|\||·)\s*/
+      )
+      .map(
+        part =>
+          normalize(part)
+      )
+      .filter(Boolean);
+  }
+
+
+  function sameSegmentation(
+    actual,
+    expected
+  ) {
+    const a =
+      segmentationParts(
+        actual
+      );
+
+    const b =
+      segmentationParts(
+        expected
+      );
+
+    return (
+      a.length > 1 &&
+      a.length === b.length &&
+      a.every(
+        (part, index) =>
+          part === b[index]
+      )
+    );
+  }
+
+
+  function checkPromptResponse() {
+    const feedback =
+      byId(
+        "promptResponseFeedback"
+      );
+
+    if (
+      currentActivity() !==
+        "break"
+    ) {
+      feedback.textContent =
+        "";
+
+      return;
+    }
+
+    const task =
+      state.tasks[
+        state.taskIndex
+      ];
+
+    const response =
+      byId(
+        "sessionPromptResponseInput"
+      ).value;
+
+    const expected =
+      task
+        ?.recipe
+        ?.segmentation ||
+      null;
+
+    if (!response.trim()) {
+      feedback.className =
+        "session-build-feedback is-retry";
+
+      feedback.textContent =
+        "Enter the word parts first.";
+
+      return;
+    }
+
+    if (!expected) {
+      feedback.className =
+        "session-build-feedback";
+
+      feedback.textContent =
+        "Response recorded for educator review. Use the educator key; do not force boundaries that are not approved.";
+
+      return;
+    }
+
+    if (
+      sameSegmentation(
+        response,
+        expected
+      )
+    ) {
+      feedback.className =
+        "session-build-feedback is-correct";
+
+      feedback.textContent =
+        "✓ Yes — those are the approved meaningful parts.";
+
+      return;
+    }
+
+    feedback.className =
+      "session-build-feedback is-retry";
+
+    feedback.textContent =
+      "Not yet. Look again for meaningful word-part boundaries and try once more before adding support.";
+  }
+
+
+
+  const ACTIVITY_RESPONSE_CONFIG =
+    Object.freeze({
+      learn: Object.freeze({
+        label:
+          "Explain the target meaning or what it contributes.",
+        placeholder:
+          "Student explanation…",
+        button:
+          "Review explanation"
+      }),
+
+      find: Object.freeze({
+        label:
+          "Write the word part the student found.",
+        placeholder:
+          "Target word part…",
+        button:
+          "Review Find response"
+      }),
+
+      hunt: Object.freeze({
+        label:
+          "List the words the student identified as containing the target.",
+        placeholder:
+          "Words containing the target…",
+        button:
+          "Review Word Hunt response"
+      }),
+
+      meaning: Object.freeze({
+        label:
+          "Write the meaning the student gave.",
+        placeholder:
+          "Target meaning…",
+        button:
+          "Review meaning"
+      }),
+
+      morpheme: Object.freeze({
+        label:
+          "Write the word part the student retrieved.",
+        placeholder:
+          "Word part…",
+        button:
+          "Review Word Part response"
+      }),
+
+      infer: Object.freeze({
+        label:
+          "Write the inferred whole-word meaning and the morphology used.",
+        placeholder:
+          "Inferred meaning and reasoning…",
+        button:
+          "Review inference"
+      }),
+
+      use: Object.freeze({
+        label:
+          "Write the student's sentence or contextual response.",
+        placeholder:
+          "Student sentence / response…",
+        button:
+          "Review Use It response"
+      }),
+
+      change: Object.freeze({
+        label:
+          "Write the selected related form and explain the morphological change.",
+        placeholder:
+          "Related form + explanation…",
+        button:
+          "Review Change It response"
+      })
+    });
+
+
+  function ensureTeacherSessionUxStyles() {
+    if (
+      document.getElementById(
+        "teacherSessionUxStyles"
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      document.createElement(
+        "style"
+      );
+
+    style.id =
+      "teacherSessionUxStyles";
+
+    style.textContent = `
+      .today-session-overview {
+        background: #fff;
+        border: 1px solid #d9e4ee;
+        border-radius: 18px;
+        margin: 0 0 16px;
+        padding: 18px 20px;
+      }
+
+      .today-session-overview h2 {
+        margin: 0 0 8px;
+      }
+
+      .today-session-overview ol {
+        margin: 12px 0 0;
+        padding-left: 1.35rem;
+      }
+
+      .today-session-overview li {
+        margin: 7px 0;
+      }
+
+      .session-activity-response {
+        background: #f7f9fb;
+        border: 1px solid #dce5ec;
+        border-radius: 14px;
+        margin-top: 14px;
+        padding: 14px;
+      }
+
+      .session-activity-response label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .session-activity-response textarea,
+      .session-activity-response input {
+        box-sizing: border-box;
+        font: inherit;
+        min-height: 48px;
+        padding: 10px 12px;
+        width: 100%;
+      }
+
+      .session-activity-response textarea {
+        min-height: 86px;
+        resize: vertical;
+      }
+
+      .boundary-word {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 1.35rem;
+        font-weight: 700;
+        gap: 0;
+        margin: 4px 0 12px;
+      }
+
+      .boundary-letter {
+        display: inline-block;
+        padding: 4px 1px;
+      }
+
+      .boundary-toggle {
+        background: transparent;
+        border: 0;
+        border-left: 2px solid transparent;
+        border-radius: 0;
+        cursor: pointer;
+        height: 34px;
+        margin: 0 2px;
+        padding: 0 4px;
+        width: 10px;
+      }
+
+      .boundary-toggle:hover,
+      .boundary-toggle:focus {
+        border-left-color: #2876bb;
+        outline: none;
+      }
+
+      .boundary-toggle.is-marked {
+        border-left-color: #1c5d94;
+      }
+
+      .session-guidance-after-attempt {
+        margin-top: 16px;
+      }
+
+      .session-support-details {
+        border-top: 1px solid #dce5ec;
+        margin-top: 14px;
+        padding-top: 8px;
+      }
+
+      .session-support-details > summary {
+        cursor: pointer;
+        font-weight: 800;
+        padding: 8px 0;
+      }
+
+      .print-response-item {
+        border: 1px solid #d9e1e8;
+        border-radius: 12px;
+        margin: 0 0 14px;
+        padding: 14px;
+      }
+
+      .print-response-lines {
+        line-height: 2;
+        margin-top: 12px;
+        white-space: pre-line;
+      }
+    `;
+
+    document.head.appendChild(
+      style
+    );
+  }
+
+
+  function taskWord(task) {
+    return (
+      task?.recipe?.word ||
+      task?.word ||
+      ""
+    );
+  }
+
+
+  function directBoundaryData(task) {
+    const word =
+      String(
+        taskWord(task) ||
+        ""
+      ).trim();
+
+    const segmentation =
+      String(
+        task
+          ?.recipe
+          ?.segmentation ||
+        ""
+      ).trim();
+
+    if (
+      !word ||
+      !segmentation
+    ) {
+      return null;
+    }
+
+    const parts =
+      segmentation
+        .split(
+          /\s*\+\s*/
+        )
+        .map(
+          part =>
+            part
+              .replace(
+                /^-+|-+$/g,
+                ""
+              )
+              .trim()
+        )
+        .filter(Boolean);
+
+    const joined =
+      parts
+        .join("")
+        .toLowerCase();
+
+    if (
+      joined !==
+      word.toLowerCase()
+    ) {
+      return null;
+    }
+
+    let cursor = 0;
+    const boundaries = [];
+
+    for (
+      let index = 0;
+      index <
+        parts.length - 1;
+      index += 1
+    ) {
+      cursor +=
+        parts[index].length;
+
+      boundaries.push(
+        cursor
+      );
+    }
+
+    return {
+      word,
+      boundaries
+    };
+  }
+
+
+  function ensureActivityResponseSurface() {
+    let area =
+      document.getElementById(
+        "sessionActivityResponse"
+      );
+
+    if (area) {
+      return area;
+    }
+
+    area =
+      document.createElement(
+        "div"
+      );
+
+    area.id =
+      "sessionActivityResponse";
+
+    area.className =
+      "session-activity-response";
+
+    const taskCard =
+      document.getElementById(
+        "sessionPromptResponse"
+      );
+
+    if (taskCard) {
+      taskCard.insertAdjacentElement(
+        "afterend",
+        area
+      );
+    } else {
+      const material =
+        document.getElementById(
+          "digitalMaterialTitle"
+        )
+          ?.closest(
+            "section"
+          );
+
+      material?.appendChild(
+        area
+      );
+    }
+
+    return area;
+  }
+
+
+  function reviewGenericActivityResponse() {
+    const feedback =
+      document.getElementById(
+        "sessionActivityResponseFeedback"
+      );
+
+    if (!feedback) {
+      return;
+    }
+
+    const input =
+      document.getElementById(
+        "sessionActivityResponseInput"
+      );
+
+    if (
+      !String(
+        input?.value ||
+        ""
+      ).trim()
+    ) {
+      feedback.textContent =
+        "Enter the student's response first.";
+
+      return;
+    }
+
+    feedback.textContent =
+      "Response ready for educator review. Open the educator key above to compare.";
+  }
+
+
+  function renderGenericActivityResponse() {
+    const activity =
+      currentActivity();
+
+    const config =
+      ACTIVITY_RESPONSE_CONFIG[
+        activity
+      ] || null;
+
+    const area =
+      ensureActivityResponseSurface();
+
+    if (!config) {
+      area.hidden =
+        true;
+
+      area.innerHTML =
+        "";
+
+      return;
+    }
+
+    area.hidden =
+      false;
+
+    const multiline =
+      [
+        "learn",
+        "hunt",
+        "infer",
+        "use",
+        "change"
+      ].includes(
+        activity
+      );
+
+    area.innerHTML = `
+      <label
+        for="sessionActivityResponseInput"
+      >
+        ${esc(config.label)}
+      </label>
+
+      ${
+        multiline
+          ? `
+            <textarea
+              id="sessionActivityResponseInput"
+              placeholder="${esc(config.placeholder)}"
+            ></textarea>
+          `
+          : `
+            <input
+              id="sessionActivityResponseInput"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="${esc(config.placeholder)}"
+            >
+          `
+      }
+
+      <div class="session-check-row">
+        <button
+          class="session-primary-button"
+          id="reviewActivityResponseButton"
+          type="button"
+        >
+          ${esc(config.button)}
+        </button>
+
+        <div
+          class="session-build-feedback"
+          id="sessionActivityResponseFeedback"
+          aria-live="polite"
+        ></div>
+      </div>
+    `;
+
+    document
+      .getElementById(
+        "reviewActivityResponseButton"
+      )
+      ?.addEventListener(
+        "click",
+        reviewGenericActivityResponse
+      );
+  }
+
+
+  function renderBreakBoundarySelector() {
+    const responseArea =
+      document.getElementById(
+        "sessionPromptResponse"
+      );
+
+    if (!responseArea) {
+      return;
+    }
+
+    let boundaryWrap =
+      document.getElementById(
+        "sessionBoundaryWord"
+      );
+
+    if (!boundaryWrap) {
+      boundaryWrap =
+        document.createElement(
+          "div"
+        );
+
+      boundaryWrap.id =
+        "sessionBoundaryWord";
+
+      boundaryWrap.className =
+        "boundary-word";
+
+      responseArea.insertBefore(
+        boundaryWrap,
+        responseArea.firstChild
+      );
+    }
+
+    const task =
+      state.tasks[
+        state.taskIndex
+      ];
+
+    const data =
+      directBoundaryData(
+        task
+      );
+
+    boundaryWrap.innerHTML =
+      "";
+
+    if (!data) {
+      const word =
+        taskWord(task);
+
+      if (word) {
+        boundaryWrap.innerHTML = `
+          <span>
+            ${esc(word)}
+          </span>
+        `;
+      }
+
+      return;
+    }
+
+    const marked =
+      new Set();
+
+    const syncInput =
+      () => {
+        const pieces = [];
+        let start = 0;
+
+        const positions =
+          [
+            ...marked
+          ]
+            .sort(
+              (a, b) =>
+                a - b
+            );
+
+        for (
+          const position
+          of positions
+        ) {
+          pieces.push(
+            data.word.slice(
+              start,
+              position
+            )
+          );
+
+          start =
+            position;
+        }
+
+        pieces.push(
+          data.word.slice(
+            start
+          )
+        );
+
+        const input =
+          document.getElementById(
+            "sessionPromptResponseInput"
+          );
+
+        if (input) {
+          input.value =
+            pieces.join(
+              " + "
+            );
+        }
+      };
+
+    for (
+      let index = 0;
+      index < data.word.length;
+      index += 1
+    ) {
+      const letter =
+        document.createElement(
+          "span"
+        );
+
+      letter.className =
+        "boundary-letter";
+
+      letter.textContent =
+        data.word[index];
+
+      boundaryWrap.appendChild(
+        letter
+      );
+
+      const position =
+        index + 1;
+
+      if (
+        position <
+        data.word.length
+      ) {
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        button.type =
+          "button";
+
+        button.className =
+          "boundary-toggle";
+
+        button.setAttribute(
+          "aria-label",
+          `Mark a boundary after ${data.word.slice(0, position)}`
+        );
+
+        button.addEventListener(
+          "click",
+          () => {
+            if (
+              marked.has(
+                position
+              )
+            ) {
+              marked.delete(
+                position
+              );
+
+              button.classList.remove(
+                "is-marked"
+              );
+            } else {
+              marked.add(
+                position
+              );
+
+              button.classList.add(
+                "is-marked"
+              );
+            }
+
+            syncInput();
+          }
+        );
+
+        boundaryWrap.appendChild(
+          button
+        );
+      }
+    }
+  }
+
+
+  function sessionOverviewLine(
+    label,
+    detail
+  ) {
+    return `
+      <li>
+        <strong>
+          ${esc(label)}
+        </strong>
+        — ${esc(detail)}
+      </li>
+    `;
+  }
+
+
+  function renderTodaySessionOverview() {
+    ensureTeacherSessionUxStyles();
+
+    const retrieveCount =
+      state.plan
+        ?.retrieve
+        ?.items
+        ?.length ||
+      state.plan
+        ?.retrieve
+        ?.prompts
+        ?.length ||
+      0;
+
+    const practiceTasks =
+      state.tasks.filter(
+        task =>
+          task.stage ===
+          "Teach / Practice"
+      );
+
+    const practiceWords =
+      practiceTasks
+        .map(
+          task =>
+            taskWord(task)
+        )
+        .filter(Boolean);
+
+    const applyTask =
+      state.tasks.find(
+        task =>
+          task.stage ===
+          "Apply"
+      );
+
+    const applyDetail =
+      taskWord(applyTask)
+        ? (
+            `1 fresh ${currentActivityLabel()} item: ${taskWord(applyTask)}`
+          )
+        : (
+            `1 fresh ${currentActivityLabel()} response`
+          );
+
+    const transferCount =
+      state.plan
+        ?.transfer
+        ?.items
+        ?.length ||
+      0;
+
+    const transferDetail =
+      transferCount
+        ? (
+            `${transferCount} unfamiliar transfer ${transferCount === 1 ? "item" : "items"}; do not preview the word before Step 4`
+          )
+        : "No transfer check is available for this target today; skip Step 4";
+
+    const practiceDetail =
+      practiceWords.length
+        ? (
+            `${practiceWords.length} ${currentActivityLabel()} ${practiceWords.length === 1 ? "item" : "items"}: ${practiceWords.join(", ")}`
+          )
+        : (
+            `${currentActivityLabel()} practice`
+          );
+
+    let overview =
+      document.getElementById(
+        "todaySessionOverview"
+      );
+
+    if (!overview) {
+      overview =
+        document.createElement(
+          "section"
+        );
+
+      overview.id =
+        "todaySessionOverview";
+
+      overview.className =
+        "today-session-overview";
+
+      const retrieveHeading =
+        [
+          ...document.querySelectorAll(
+            "h2"
+          )
+        ].find(
+          heading =>
+            heading
+              .textContent
+              .trim() ===
+            "Retrieve"
+        );
+
+      const retrieveSection =
+        retrieveHeading
+          ?.closest(
+            "section"
+          );
+
+      if (retrieveSection) {
+        retrieveSection.insertAdjacentElement(
+          "beforebegin",
+          overview
+        );
+      }
+    }
+
+    if (!overview) {
+      return;
+    }
+
+    overview.innerHTML = `
+      <div class="session-kicker">
+        TODAY'S SESSION
+      </div>
+
+      <h2>
+        What you will do
+      </h2>
+
+      <p>
+        Begin each new demand with the student's independent attempt. Open support only if a barrier appears.
+      </p>
+
+      <ol>
+        ${sessionOverviewLine(
+          "Retrieve",
+          `${retrieveCount || "Quick"} retrieval ${retrieveCount === 1 ? "prompt" : "prompts"}`
+        )}
+
+        ${sessionOverviewLine(
+          currentActivityLabel(),
+          practiceDetail
+        )}
+
+        ${sessionOverviewLine(
+          "Apply",
+          applyDetail
+        )}
+
+        ${sessionOverviewLine(
+          "Check Transfer",
+          transferDetail
+        )}
+      </ol>
+    `;
+  }
+
+
+  function reorderGuidanceAfterAttempt() {
+    const guideHeading =
+      [
+        ...document.querySelectorAll(
+          "h2"
+        )
+      ].find(
+        heading =>
+          heading
+            .textContent
+            .includes(
+              "How to guide this session"
+            )
+      );
+
+    const guide =
+      guideHeading
+        ?.closest(
+          "section"
+        );
+
+    const material =
+      document.getElementById(
+        "digitalMaterialTitle"
+      )
+        ?.closest(
+          "section"
+        );
+
+    if (
+      !guide ||
+      !material
+    ) {
+      return;
+    }
+
+    guide.classList.add(
+      "session-guidance-after-attempt"
+    );
+
+    material.insertAdjacentElement(
+      "afterend",
+      guide
+    );
+
+    const supportHeading =
+      [
+        ...guide.querySelectorAll(
+          "h3, h4"
+        )
+      ].find(
+        heading =>
+          heading
+            .textContent
+            .replace(
+              /\s+/g,
+              " "
+            )
+            .trim()
+            .startsWith(
+              "If the student"
+            )
+      );
+
+    if (
+      !supportHeading ||
+      supportHeading.closest(
+        ".session-support-details"
+      )
+    ) {
+      return;
+    }
+
+    const details =
+      document.createElement(
+        "details"
+      );
+
+    details.className =
+      "session-support-details";
+
+    const summary =
+      document.createElement(
+        "summary"
+      );
+
+    summary.textContent =
+      "Support if needed after the independent attempt";
+
+    details.appendChild(
+      summary
+    );
+
+    const nodes = [];
+    let current =
+      supportHeading;
+
+    while (current) {
+      nodes.push(
+        current
+      );
+
+      current =
+        current.nextElementSibling;
+    }
+
+    guide.appendChild(
+      details
+    );
+
+    for (
+      const node
+      of nodes
+    ) {
+      details.appendChild(
+        node
+      );
+    }
+  }
+  function renderActivitySurface() {
+    ensureTeacherSessionUxStyles();
+
+    const activity =
+      currentActivity();
+
+    const isBuild =
+      activity === "build";
+
+    const isBreak =
+      activity === "break";
+
+    const helpRow =
+      document.querySelector(
+        ".session-interaction-help-row"
+      );
+
+    const buildCheckRow =
+      byId(
+        "checkBuildButton"
+      )?.closest(
+        ".session-check-row"
+      );
+
+    const tileArea =
+      byId(
+        "interactiveTileBank"
+      )?.closest(
+        ".interactive-tile-area"
+      );
+
+    if (helpRow) {
+      helpRow.hidden =
+        !isBuild;
+    }
+
+    byId(
+      "interactiveBuildMat"
+    ).hidden =
+      !isBuild;
+
+    byId(
+      "interactiveWordSum"
+    ).hidden =
+      !isBuild;
+
+    if (buildCheckRow) {
+      buildCheckRow.hidden =
+        !isBuild;
+    }
+
+    if (tileArea) {
+      tileArea.hidden =
+        !isBuild;
+    }
+
+    byId(
+      "toggleMeaningsButton"
+    ).hidden =
+      !isBuild;
+
+    byId(
+      "clearMatButton"
+    ).hidden =
+      !isBuild;
+
+    const breakArea =
+      byId(
+        "sessionPromptResponse"
+      );
+
+    breakArea.hidden =
+      !isBreak;
+
+    if (isBreak) {
+      byId(
+        "sessionPromptResponseLabel"
+      ).textContent =
+        "Mark or write the meaningful parts. Use + or / between parts.";
+
+      const input =
+        byId(
+          "sessionPromptResponseInput"
+        );
+
+      input.value =
+        "";
+
+      byId(
+        "promptResponseFeedback"
+      ).textContent =
+        "";
+
+      const button =
+        byId(
+          "checkPromptResponseButton"
+        );
+
+      button.hidden =
+        false;
+
+      if (
+        button.dataset.bound !==
+          "true"
+      ) {
+        button.addEventListener(
+          "click",
+          checkPromptResponse
+        );
+
+        button.dataset.bound =
+          "true";
+      }
+
+      renderBreakBoundarySelector();
+    }
+
+    renderGenericActivityResponse();
+  }
+  function configurePrintActivityMaterial() {
+    const activity =
+      currentActivity();
+
+    const matPage =
+      document.querySelector(
+        ".print-mat-page"
+      );
+
+    const cardsSection =
+      byId(
+        "printCardGrid"
+      )?.closest(
+        "section"
+      );
+
+    const directions =
+      byId(
+        "printMatDirections"
+      );
+
+    if (matPage) {
+      matPage.hidden =
+        false;
+    }
+
+    if (
+      activity === "build"
+    ) {
+      if (cardsSection) {
+        cardsSection.hidden =
+          false;
+      }
+
+      byId(
+        "printMatTitle"
+      ).textContent =
+        state.material
+          ?.family
+          ? (
+              `${state.material.family} Word Building Mat`
+            )
+          : "Word Building Mat";
+
+      if (directions) {
+        directions.textContent =
+          "Place the cards in the matching slots. Read the word sum. Explain what the meaningful parts contribute.";
+      }
+
+      return;
+    }
+
+    if (cardsSection) {
+      cardsSection.hidden =
+        true;
+    }
+
+    const printDirections = {
+      learn:
+        "Explain the target meaning or contribution for each item.",
+      find:
+        "Locate the target in each intact word. Circle, underline, or mark the target.",
+      hunt:
+        "Identify which words contain the target. Circle the words and explain what the target contributes.",
+      meaning:
+        "Write the meaning carried by the target.",
+      morpheme:
+        "Write the word part that matches the given meaning.",
+      break:
+        "Start with each whole word. Mark the meaningful boundaries yourself. Do not pre-mark the parts.",
+      infer:
+        "Use known morphology first. Write a likely whole-word meaning and explain the clue.",
+      use:
+        "Complete the contextual language task and explain the morphological clue.",
+      change:
+        "Write the related form that fits and explain what changed morphologically."
+    };
+
+    byId(
+      "printMatTitle"
+    ).textContent =
+      `${currentActivityLabel()} Response`;
+
+    if (directions) {
+      directions.textContent =
+        printDirections[
+          activity
+        ] ||
+        "Complete each activity response.";
+    }
+
+    byId(
+      "printBuildMat"
+    ).innerHTML =
+      state.tasks
+        .map(
+          task => {
+            const word =
+              taskWord(task);
+
+            const prompt =
+              task.prompt ||
+              "";
+
+            return `
+              <div class="print-response-item">
+                <strong>
+                  ${esc(task.stage)}
+                  ${
+                    word
+                      ? ` · ${esc(word)}`
+                      : ""
+                  }
+                </strong>
+
+                <p>
+                  ${esc(prompt)}
+                </p>
+
+                <div class="print-response-lines">
+                  __________________________________________
+                  __________________________________________
+                  __________________________________________
+                </div>
+              </div>
+            `;
+          }
+        )
+        .join("");
   }
 
 
@@ -2038,73 +3382,100 @@
       );
     }
   }
-
-
   function renderTransfer() {
     const transfer =
       state.plan
-        ?.transfer;
+        ?.transfer ||
+      null;
 
-    const content =
+    const target =
+      transfer
+        ?.target ||
+      state.plan
+        ?.teachPractice
+        ?.target ||
+      state.plan
+        ?.nextWork
+        ?.target ||
+      null;
+
+    const items =
+      Array.isArray(
+        transfer?.items
+      )
+        ? transfer.items
+        : [];
+
+    const screen =
       byId(
         "sessionTransferContent"
       );
 
-    const printContent =
-      byId(
-        "printTransferPrompt"
-      );
+    if (!screen) {
+      return;
+    }
 
-    if (
-      Array.isArray(
-        transfer?.items
-      ) &&
-      transfer.items.length
-    ) {
-      const html =
-        transfer.items
-          .map(
-            item => `
-              <p>
-                ${esc(
-                  item.prompt ||
-                  item.word ||
-                  ""
-                )}
-              </p>
-            `
-          )
-          .join("");
+    if (!items.length) {
+      screen.innerHTML = `
+        <div class="session-transfer-unavailable">
+          <strong>
+            Transfer check not available for this target today.
+          </strong>
 
-      content.innerHTML =
-        html;
-
-      printContent.innerHTML =
-        html;
+          <p>
+            Skip Step 4 and end the session after Apply.
+          </p>
+        </div>
+      `;
 
       return;
     }
 
-    const pending = `
+    screen.innerHTML = `
       <p>
-        <strong>
-          Protected Check Transfer item not yet
-          populated for this target.
-        </strong>
+        Present the unfamiliar word without identifying the word part first. Record the student's first attempt before adding support.
       </p>
 
+      <details>
+        <summary>
+          Open the transfer item when ready
+        </summary>
+
+        ${items
+          .map(
+            (item, index) => `
+              <div class="session-transfer-item">
+                <strong>
+                  Transfer item ${index + 1}
+                </strong>
+
+                <p>
+                  ${esc(item.word || "")}
+                </p>
+
+                ${
+                  item.sentence
+                    ? `
+                      <p>
+                        ${esc(item.sentence)}
+                      </p>
+                    `
+                    : ""
+                }
+
+                <p>
+                  Ask: What part do you recognize? What do you think the whole word means?
+                </p>
+              </div>
+            `
+          )
+          .join("")}
+      </details>
+
       <p>
-        Do not substitute a Migration Challenge word
-        or an ordinary practice word. The protected
-        Session Guide transfer pool remains separate.
+        Record separately whether the student recognized the known word part and whether the student inferred the unfamiliar whole-word meaning.
       </p>
     `;
-
-    content.innerHTML =
-      pending;
-
-    printContent.innerHTML =
-      pending;
   }
 
 
@@ -2438,6 +3809,8 @@
           `
         )
         .join("");
+
+    configurePrintActivityMaterial();
   }
 
 
@@ -2455,17 +3828,16 @@
     byId(
       "digitalMaterialTitle"
     ).textContent =
-      state.material.family
+      (
+        currentActivity() ===
+          "build" &&
+        state.material.family
+      )
         ? (
             `${state.material.family} ` +
-            "Word Building"
+            currentActivityLabel()
           )
-        : (
-            state.plan
-              ?.teachPractice
-              ?.activityLabel ||
-            "Teacher-Led Practice"
-          );
+        : currentActivityLabel();
 
     state.digitalTiles =
       safeDigitalTiles();
@@ -2494,6 +3866,8 @@
     renderTask();
     renderTransfer();
     renderPrint();
+    renderTodaySessionOverview();
+    reorderGuidanceAfterAttempt();
     renderDynamicSessionGuidance();
 
     const excluded =

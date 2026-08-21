@@ -1558,6 +1558,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "adjoin",
+    segmentation: "ad- + join",
     "status": "current",
     "morphemes": [
       "a-",
@@ -1623,6 +1624,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "antifreeze",
+    segmentation: "anti- + freeze",
     "status": "current",
     "morphemes": [
       "anti-"
@@ -1990,6 +1992,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "beautify",
+    segmentation: "beauty + -ify",
     "status": "current",
     "morphemes": [
       "-ify"
@@ -3996,6 +3999,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "encircle",
+    segmentation: "en- + circle",
     "status": "current",
     "morphemes": [
       "en-",
@@ -4440,6 +4444,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "foretell",
+    segmentation: "fore- + tell",
     "status": "current",
     "morphemes": [
       "fore-"
@@ -4556,6 +4561,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "geology",
+    segmentation: "geo + -ology",
     "status": "current",
     "morphemes": [
       "-ology",
@@ -4674,6 +4680,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "happiness",
+    segmentation: "happy + -ness",
     "status": "current",
     "morphemes": [
       "-ness"
@@ -4976,6 +4983,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inbound",
+    segmentation: "in- + bound",
     "status": "current",
     "morphemes": [
       "in-",
@@ -5818,6 +5826,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "midday",
+    segmentation: "mid- + day",
     "status": "current",
     "morphemes": [
       "mid-"
@@ -6282,6 +6291,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "overuse",
+    segmentation: "over- + use",
     "status": "current",
     "morphemes": [
       "over-"
@@ -7477,6 +7487,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "resistant",
+    segmentation: "resist + -ant",
     "status": "current",
     "morphemes": [
       "-ant",
@@ -7875,6 +7886,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "semifinal",
+    segmentation: "semi- + final",
     "status": "current",
     "morphemes": [
       "semi-"
@@ -8986,6 +8998,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "undercook",
+    segmentation: "under- + cook",
     "status": "current",
     "morphemes": [
       "under-"
@@ -9066,6 +9079,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "unhappy",
+    segmentation: "un- + happy",
     "status": "current",
     "morphemes": [
       "un-"
@@ -9089,6 +9103,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "untie",
+    segmentation: "un- + tie",
     "status": "current",
     "morphemes": [
       "un-"
@@ -9417,6 +9432,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "writer",
+    segmentation: "write + -er",
     "status": "current",
     "morphemes": [
       "-er",

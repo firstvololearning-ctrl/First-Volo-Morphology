@@ -379,14 +379,26 @@
         ?.primary ||
       null;
 
+    /*
+      Custom family sessionRecipes are word-building recipes.
+      Use them for Build Words only. Every other activity resolves
+      through the activity-specific master item bank so a COOK/PORT/
+      TRACT/VIEW family can never turn Find, Meaning, Break It Apart,
+      etc. into a Build task simply because a custom family exists.
+    */
     const familyRecipes =
-      asArray(
-        family
-          ?.sessionRecipes
-      );
+      (
+        family &&
+        activity === "build"
+      )
+        ? asArray(
+            family
+              ?.sessionRecipes
+          )
+        : [];
 
     const inventoryRecipes =
-      !family &&
+      !familyRecipes.length &&
       window
         .FirstVoloSessionItemBank
         ?.buildItems

@@ -55,6 +55,44 @@
   });
 
   function activityApplicability(target, activity) {
+
+    /* FIRST_VOLO_BREAK_NOT_APPLICABLE_V1
+
+       Break It Apart requires a defensible full morphological segmentation.
+
+       These targets retain other appropriate activities but do not force
+
+       opaque or instructionally misleading boundaries. */
+
+    const breakNotApplicable =
+
+      new Set(["ab", "aud", "chron", "pos", "val"]);
+
+
+    if (
+
+      activity === "break" &&
+
+      breakNotApplicable.has(
+
+        target?.id
+
+      )
+
+    ) {
+
+      return {
+
+        applicable: false,
+
+        reason:
+
+          "Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target."
+
+      };
+
+    }
+
     const targetId = target?.id || null;
     const reason =
       ACTIVITY_APPLICABILITY_OVERRIDES[targetId]?.[activity] || null;
@@ -213,6 +251,17 @@
 
   function activityEligible(entry, activity, target, meta) {
     if (!entry?.word) return false;
+
+
+    if (
+      activity === "break" &&
+      !String(
+        entry?.segmentation ||
+        ""
+      ).trim()
+    ) {
+      return false;
+    }
 
     const use = useText(entry);
     const caution = cautionText(entry);
@@ -775,7 +824,7 @@
       case "break":
         return entry.segmentation
           ? `${entry.word}: ${entry.segmentation}`
-          : `${entry.word}: known target ${label}. The master inventory does not supply an approved full segmentation here; do not force additional boundaries.`;
+          : `${entry.word}: use a different Break It Apart item with an approved word-part analysis.`;
 
       case "infer":
         return `${entry.word}: ${exampleAnswer(entry) || "Use the inventory meaning and the known morphology; accept a reasonable inference."}`;
@@ -808,49 +857,325 @@
     }
   }
 
-  function applyDetails(target, meta, practiceEntry, applyEntry) {
+  function applyDetails(
+    activity,
+    target,
+    meta,
+    practiceEntry,
+    applyEntry
+  ) {
     const label =
       target?.label ||
       meta?.label ||
       "the target word part";
 
-    if (
-      applyEntry &&
-      applyEntry.word &&
-      normalize(applyEntry.word) !==
-        normalize(practiceEntry?.word)
-    ) {
-      const build =
-        buildPromptDetails(
-          target,
-          meta,
-          applyEntry
-        );
+    const meaning =
+      target?.meaning ||
+      meta?.meaning ||
+      null;
 
-      if (build.kind !== "open-production") {
-        return {
-          kind: "specific-new-item",
-          word: applyEntry.word,
-          prompt:
-            `${build.prompt} Then use the word in a new sentence.`,
-          educatorKey:
-            `Expected Apply word: ${applyEntry.word}` +
-            `${applyEntry.segmentation ? ` (${applyEntry.segmentation})` : ""}.`
-        };
+    const hasDistinctItem =
+      Boolean(
+        applyEntry &&
+        applyEntry.word &&
+        normalize(applyEntry.word) !==
+          normalize(practiceEntry?.word)
+      );
+
+    if (
+      hasDistinctItem &&
+      (
+        activity !== "break" ||
+        Boolean(
+          applyEntry
+            ?.segmentation
+        )
+      )
+    ) {
+      const word =
+        applyEntry.word;
+
+      switch (activity) {
+        case "learn":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `Use a different example, ${word}. Explain what ${label} means and what it contributes to the whole word.`,
+            educatorKey:
+              `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "find":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `Find ${label} in ${word}. Do not highlight or separate it before the student's first attempt. Then point to where the target appears.`,
+            educatorKey:
+              `${word} contains ${label}.`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "meaning":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `In ${word}, explain what ${label} means and what it contributes to the whole word.`,
+            educatorKey:
+              `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "morpheme":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              meaning
+                ? (
+                    `The known meaning is “${meaning}.” Name the word part that carries that meaning, then find it in ${word}.`
+                  )
+                : (
+                    `Name the target word part, then find it in ${word}.`
+                  ),
+            educatorKey:
+              `Expected word part: ${label}.`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "break":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `Break ${word} into meaningful parts. Do not pre-mark the boundaries. Then explain what ${label} contributes.`,
+            educatorKey:
+              applyEntry.segmentation
+                ? `${word}: ${applyEntry.segmentation}`
+                : (
+                    `${word}: use a different Break It Apart item with an approved word-part analysis.`
+                  ),
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "infer":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `Use ${label} and any other meaningful parts you recognize to infer what ${word} probably means. Explain the morphology first; add context only if needed.`,
+            educatorKey:
+              `${word}: ${exampleAnswer(applyEntry) || "Accept a reasonable morphology-based inference supported by the known target."}`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "build": {
+          const build =
+            buildPromptDetails(
+              target,
+              meta,
+              applyEntry
+            );
+
+          if (
+            build.kind !==
+              "open-production"
+          ) {
+            return {
+              kind:
+                "specific-new-item",
+              word,
+              prompt:
+                `${build.prompt} Then use the word in a new sentence.`,
+              educatorKey:
+                `Expected Apply word: ${word}` +
+                `${applyEntry.segmentation ? ` (${applyEntry.segmentation})` : ""}.`,
+              segmentation:
+                applyEntry.segmentation ||
+                null
+            };
+          }
+
+          break;
+        }
+
+        case "use":
+          return {
+            kind:
+              "specific-new-item",
+            word,
+            prompt:
+              `Use ${word} in a new sentence that shows its meaning. Then explain what ${label} contributes.`,
+            educatorKey:
+              `Target word: ${word}. Verify an appropriate sentence and a correct explanation of ${label}.`,
+            segmentation:
+              applyEntry.segmentation ||
+              null
+          };
+
+        case "change":
+          return {
+            kind:
+              "open-new-item",
+            word:
+              null,
+            prompt:
+              `Starting from ${word}, give a related form from the same word family. Use the new form in a sentence and explain what changed morphologically.`,
+            educatorKey:
+              `Open response. Verify a legitimate related form of ${word}, appropriate sentence use, and an accurate explanation of the morphological change.`,
+            segmentation:
+              null
+          };
+
+        default:
+          break;
       }
     }
 
-    return {
-      kind: "open-new-item",
-      word: null,
-      prompt:
-        `Produce another real word containing ${label} that was not used in Teach / Practice. ` +
-        `Use it in a new sentence and explain what ${label} contributes.`,
-      educatorKey:
-        `Open response. Verify that the new word genuinely contains ${label}, ` +
-        `was not the Teach / Practice word, and that the student can explain the contribution of ${label}.`
-    };
+    switch (activity) {
+      case "find":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Name a different real word containing ${label} that was not used in Teach / Practice. Point to where ${label} appears in the whole word.`,
+          educatorKey:
+            `Open response. Verify that the new word genuinely contains ${label} and that the student locates the target correctly.`,
+          segmentation:
+            null
+        };
+
+      case "break":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Use a different real word containing ${label} that was not used in Teach / Practice. Write the whole word first, then break it into meaningful parts without pre-marked boundaries. Explain what ${label} contributes.`,
+          educatorKey:
+            `Open response. Verify a real new word containing ${label}, defensible morphological boundaries, and an accurate explanation of the target's contribution.`,
+          segmentation:
+            null
+        };
+
+      case "infer":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Have the educator supply a new ordinary word containing ${label} that was not used in Teach / Practice. Infer the whole-word meaning from morphology first; add context only if needed.`,
+          educatorKey:
+            `Open response. Verify that the student used a different appropriate word containing ${label} and made a morphology-based inference.`,
+          segmentation:
+            null
+        };
+
+      case "morpheme":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            meaning
+              ? (
+                  `Give another real word containing a word part that means “${meaning}.” Name the word part and explain its contribution.`
+                )
+              : (
+                  `Give another real word containing ${label}. Name the target word part and explain its contribution.`
+                ),
+          educatorKey:
+            `Open response. Expected target word part: ${label}.`,
+          segmentation:
+            null
+        };
+
+      case "learn":
+      case "meaning":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Give another real word containing ${label} that was not used in Teach / Practice. Explain what ${label} means and what it contributes to that word.`,
+          educatorKey:
+            `Open response. Verify a real new word containing ${label} and an accurate meaning/contribution explanation.`,
+          segmentation:
+            null
+        };
+
+      case "use":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Give another real word containing ${label} that was not used in Teach / Practice. Use it in a new sentence that shows its meaning and explain what ${label} contributes.`,
+          educatorKey:
+            `Open response. Verify the new word, sentence meaning, and the contribution of ${label}.`,
+          segmentation:
+            null
+        };
+
+      case "change":
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Give a related form from a word family containing ${label}. Use the form in a sentence and explain what changed morphologically.`,
+          educatorKey:
+            `Open response. Verify a legitimate related form, appropriate sentence use, and an accurate explanation of the morphological change.`,
+          segmentation:
+            null
+        };
+
+      case "build":
+      default:
+        return {
+          kind:
+            "open-new-item",
+          word:
+            null,
+          prompt:
+            `Build another real word containing ${label} that was not used in Teach / Practice. Use it in a new sentence and explain what ${label} contributes.`,
+          educatorKey:
+            `Open response. Verify that the new word genuinely contains ${label}, was not the Teach / Practice word, and that the student can explain the contribution of ${label}.`,
+          segmentation:
+            null
+        };
+    }
   }
+
 
   function makeRecipe(
     activity,
@@ -908,6 +1233,7 @@
 
     const apply =
       applyDetails(
+        activity,
         target,
         meta,
         entry,
@@ -988,6 +1314,10 @@
 
       applyKind:
         apply.kind,
+
+      applySegmentation:
+        apply.segmentation ||
+        null,
 
       applyParts:
         applyInteraction
@@ -1279,7 +1609,7 @@
   }
 
   window.FirstVoloSessionItemBank = {
-    version: "teacher-session-item-bank-v5-clean-builds",
+    version: "teacher-session-item-bank-v6-activity-specific-apply",
     buildItems,
     auditTarget,
     activityApplicability,

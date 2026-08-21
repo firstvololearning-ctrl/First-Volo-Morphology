@@ -84,63 +84,175 @@ function addFailure(
     `${target.id} (${target.label}) · ${activity} · ${recipe?.word || "no word"}: ${message}`
   );
 }
-
 function validOpenPrompt(
   recipe,
-  target
+  target,
+  activity
 ) {
   const prompt =
-    norm(
-      recipe.applyPrompt
+    String(
+      recipe.applyPrompt ||
+      ""
+    )
+      .toLowerCase();
+
+  const educatorKey =
+    String(
+      recipe.applyEducatorKey ||
+      ""
+    )
+      .toLowerCase();
+
+  const hasAny =
+    (...needles) =>
+      needles.some(
+        needle =>
+          prompt.includes(
+            needle
+          )
+      );
+
+  const hasNewItemLanguage =
+    hasAny(
+      "another",
+      "different",
+      "new word",
+      "new ordinary word",
+      "not used in teach / practice",
+      "not in the word hunt list"
     );
 
-  const key =
-    norm(
-      recipe.applyEducatorKey
-    );
-
-  const asksForNewWord =
-    prompt.includes(
-      "another real word"
-    ) ||
-    prompt.includes(
-      "a new word"
-    ) ||
-    prompt.includes(
-      "new word"
-    );
-
-  const asksForUse =
-    prompt.includes(
-      "sentence"
-    ) ||
-    prompt.includes(
-      "use it"
-    );
-
-  const asksForExplanation =
-    prompt.includes(
-      "explain"
-    ) ||
-    prompt.includes(
-      "contributes"
-    );
-
-  const openKey =
-    key.includes(
+  const hasOpenVerification =
+    educatorKey.includes(
       "open response"
-    ) ||
-    key.includes(
-      "verify that"
+    ) &&
+    educatorKey.includes(
+      "verify"
     );
 
-  return (
-    asksForNewWord &&
-    asksForUse &&
-    asksForExplanation &&
-    openKey &&
-    !recipe.applyWord
-  );
+  if (!hasOpenVerification) {
+    return false;
+  }
+
+  switch (activity) {
+    case "learn":
+    case "meaning":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "explain",
+          "means",
+          "contributes"
+        )
+      );
+
+    case "find":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "point to",
+          "find",
+          "locate",
+          "where"
+        )
+      );
+
+    case "hunt":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "sentence",
+          "word hunt"
+        ) &&
+        hasAny(
+          "explain",
+          "contributes"
+        )
+      );
+
+    case "morpheme":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "name the word part",
+          "word part"
+        ) &&
+        hasAny(
+          "explain",
+          "contribution",
+          "contributes"
+        )
+      );
+
+    case "break":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "break",
+          "meaningful parts",
+          "boundaries"
+        ) &&
+        hasAny(
+          "explain",
+          "contributes"
+        )
+      );
+
+    case "infer":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "infer",
+          "morphology",
+          "whole-word meaning"
+        )
+      );
+
+    case "build":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "build"
+        ) &&
+        hasAny(
+          "sentence"
+        ) &&
+        hasAny(
+          "explain",
+          "contributes"
+        )
+      );
+
+    case "use":
+      return (
+        hasNewItemLanguage &&
+        hasAny(
+          "sentence"
+        ) &&
+        hasAny(
+          "explain",
+          "contributes"
+        )
+      );
+
+    case "change":
+      return (
+        hasAny(
+          "related form",
+          "word family"
+        ) &&
+        hasAny(
+          "sentence"
+        ) &&
+        hasAny(
+          "changed morphologically",
+          "explain what changed"
+        )
+      );
+
+    default:
+      return false;
+  }
 }
 
 for (const target of targets) {
@@ -281,6 +393,8 @@ for (const target of targets) {
 
         if (
           recipe.applyWord &&
+          activity !==
+            "morpheme" &&
           !norm(
             recipe.applyEducatorKey
           ).includes(
@@ -305,7 +419,8 @@ for (const target of targets) {
         if (
           validOpenPrompt(
             recipe,
-            target
+            target,
+            activity
           )
         ) {
           validConstrainedOpenResponses += 1;
@@ -314,7 +429,7 @@ for (const target of targets) {
             target,
             activity,
             recipe,
-            "Open Apply is weak or unconstrained. It must require a genuinely new word, sentence use, explanation, and an open-response verification key."
+            "Open Apply does not satisfy the activity-specific response requirements or lacks an open-response verification key."
           );
         }
       } else {

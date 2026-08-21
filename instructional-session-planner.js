@@ -938,6 +938,10 @@
         parts:
           applyParts,
 
+        segmentation:
+          recipe.applySegmentation ||
+          null,
+
         family:
           sessionMaterial
             ?.family ||

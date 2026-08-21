@@ -269,8 +269,6 @@
       style
     );
   }
-
-
   function unavailableMessage(
     transfer
   ) {
@@ -283,18 +281,8 @@
       "protected-check-transfer-pool-exhausted"
     ) {
       return (
-        "No unused protected Check Transfer word remains for this exact target for this learner. " +
-        "Do not substitute a formal assessment word, Migration Challenge word, ordinary practice word, or a word for a different morpheme."
-      );
-    }
-
-    if (
-      status ===
-      "protected-check-transfer-no-grade-eligible-item"
-    ) {
-      return (
-        "No protected Check Transfer item is configured for this exact target at the learner's current grade band. " +
-        "Do not substitute a word from another protected or instructional pool."
+        "No new transfer check is available for this target today. " +
+        "Skip Step 4 and end the session after Apply."
       );
     }
 
@@ -303,13 +291,14 @@
       "protected-check-transfer-target-unresolved"
     ) {
       return (
-        "The exact Check Transfer target is unresolved. First Volo will not guess a morpheme or substitute another word."
+        "A transfer check is not available for this session. " +
+        "Skip Step 4 and end the session after Apply."
       );
     }
 
     return (
-      "No protected Check Transfer item is configured for this exact target yet. " +
-      "Do not substitute a formal assessment word, Migration Challenge word, ordinary practice word, or a word for a different morpheme."
+      "No transfer check is available for this target today. " +
+      "Skip Step 4 and end the session after Apply."
     );
   }
 
@@ -761,7 +750,7 @@
       screen.innerHTML = `
         <div class="protected-transfer-unavailable">
           <strong>
-            Check Transfer is protected and fail-closed.
+            Check Transfer
           </strong>
           <p>${esc(message)}</p>
         </div>
@@ -770,7 +759,7 @@
       print.innerHTML = `
         <p>
           <strong>
-            No protected Check Transfer item available.
+            Transfer check not available.
           </strong>
           ${esc(message)}
         </p>
