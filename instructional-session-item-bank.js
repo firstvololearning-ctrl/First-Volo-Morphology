@@ -356,7 +356,7 @@
     });
   }
 
-  function candidatesFor({
+  function legacyCandidatesFor({
     target,
     activity,
     gradeBand,
@@ -374,6 +374,49 @@
 
     return sortCandidates(candidates, gradeBand, vocabLevel);
   }
+
+  function candidatesFor({
+    target,
+    activity,
+    gradeBand,
+    vocabLevel
+  }) {
+    const selector =
+      window
+        .FirstVoloInstructionalWordSelector;
+
+    if (
+      !selector
+        ?.selectCandidates
+    ) {
+      return legacyCandidatesFor({
+        target,
+        activity,
+        gradeBand,
+        vocabLevel
+      });
+    }
+
+    return selector
+      .selectCandidates({
+        target,
+        targetMeta:
+          targetMeta(target),
+        objective:
+          activity,
+        stage:
+          "guided",
+        gradeBand,
+        vocabularyLevel:
+          vocabLevel,
+        isProtected
+      })
+      .map(
+        selection =>
+          selection.item
+      );
+  }
+
 
   function exampleAnswer(entry) {
     return (
@@ -874,12 +917,53 @@
       meta?.meaning ||
       null;
 
+    const selector =
+      window
+        .FirstVoloInstructionalWordSelector;
+
+    if (
+      applyEntry &&
+      selector
+        ?.evaluateCandidate
+    ) {
+      const applyEligibility =
+        selector
+          .evaluateCandidate({
+            item:
+              applyEntry,
+            target,
+            targetMeta:
+              meta,
+            objective:
+              activity,
+            stage:
+              "apply",
+            isProtected
+          });
+
+      if (
+        !applyEligibility
+          ?.eligible
+      ) {
+        applyEntry =
+          null;
+      }
+    }
+
+
     const hasDistinctItem =
       Boolean(
         applyEntry &&
         applyEntry.word &&
         normalize(applyEntry.word) !==
-          normalize(practiceEntry?.word)
+          normalize(practiceEntry?.word) &&
+        !(
+          selector?.sameFreshnessFamily &&
+          selector.sameFreshnessFamily(
+            practiceEntry,
+            applyEntry
+          )
+        )
       );
 
     if (
@@ -1658,7 +1742,18 @@
               candidates.find(
                 candidate =>
                   normalize(candidate.word) !==
-                  normalize(entry.word)
+                    normalize(entry.word) &&
+                  !(
+                    window
+                      .FirstVoloInstructionalWordSelector
+                      ?.sameFreshnessFamily &&
+                    window
+                      .FirstVoloInstructionalWordSelector
+                      .sameFreshnessFamily(
+                        entry,
+                        candidate
+                      )
+                  )
               ) ||
               null
             );

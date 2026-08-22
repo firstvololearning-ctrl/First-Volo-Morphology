@@ -150,7 +150,7 @@
         Object.freeze({
           id: "ct-re-02",
           word: "recheck",
-          sentence: "Before submitting the answer, Luis stopped to recheck his calculation.",
+          sentence: "Before turning in the answer, Luis stopped to recheck his work.",
           expectedMeaning: "check again"
         }),
       ])
@@ -182,13 +182,13 @@
         Object.freeze({
           id: "ct-dis-01",
           word: "disassemble",
-          sentence: "We had to disassemble the shelf and take its pieces apart before moving it.",
+          sentence: "We had to disassemble the shelf before moving it to the other room.",
           expectedMeaning: "take apart"
         }),
         Object.freeze({
           id: "ct-dis-02",
           word: "distrust",
-          sentence: "After the website gave false information twice, Nia began to distrust it.",
+          sentence: "After the website was wrong twice, Nia began to distrust it.",
           expectedMeaning: "not trust"
         }),
       ])
@@ -245,7 +245,7 @@
         Object.freeze({
           id: "ct-location-in-family-02",
           word: "implant",
-          sentence: "The scientist will implant the tiny sensor inside the device.",
+          sentence: "The doctor used a tiny implant during the procedure.",
           expectedMeaning: "put or place into or inside"
         }),
       ])
@@ -258,7 +258,7 @@
         Object.freeze({
           id: "ct-over-01",
           word: "overfill",
-          sentence: "Do not overfill the cup, or the water may spill over the top.",
+          sentence: "Maya stopped pouring so she would not overfill the cup.",
           expectedMeaning: "fill too much"
         }),
         Object.freeze({
@@ -296,13 +296,13 @@
         Object.freeze({
           id: "ct-sub-01",
           word: "subfloor",
-          sentence: "Workers repaired the subfloor underneath the visible wood flooring.",
+          sentence: "Workers repaired the subfloor before installing the wood boards.",
           expectedMeaning: "a floor or layer underneath another floor"
         }),
         Object.freeze({
           id: "ct-sub-02",
           word: "subzero",
-          sentence: "The explorers wore special clothing because the temperature was subzero.",
+          sentence: "The hikers wore extra layers during the subzero morning.",
           expectedMeaning: "below zero"
         }),
       ])
@@ -315,7 +315,7 @@
         Object.freeze({
           id: "ct-pre-01",
           word: "prewrite",
-          sentence: "Before drafting the essay, Maya took a few minutes to prewrite her main ideas.",
+          sentence: "Maya used a prewrite page for her essay.",
           expectedMeaning: "write or plan before the main writing"
         }),
         Object.freeze({
@@ -334,7 +334,7 @@
         Object.freeze({
           id: "ct-inter-01",
           word: "interconnect",
-          sentence: "The new bridges interconnect the three buildings so people can move between them.",
+          sentence: "New walkways interconnect the three school buildings.",
           expectedMeaning: "connect between or among"
         }),
         Object.freeze({
@@ -353,7 +353,7 @@
         Object.freeze({
           id: "ct-fore-01",
           word: "foreword",
-          sentence: "The author wrote a short foreword before the first chapter of the book.",
+          sentence: "Maya read the foreword on the first pages of the book.",
           expectedMeaning: "a section placed before the main text"
         }),
         Object.freeze({
@@ -372,7 +372,7 @@
         Object.freeze({
           id: "ct-de-01",
           word: "dehydrate",
-          sentence: "The machine can dehydrate fruit by removing much of its water.",
+          sentence: "The fruit became lighter after the machine dehydrated it.",
           expectedMeaning: "remove water or moisture from"
         }),
         Object.freeze({
@@ -391,13 +391,13 @@
         Object.freeze({
           id: "ct-trans-01",
           word: "transcontinental",
-          sentence: "The transcontinental railroad connected places across the continent.",
+          sentence: "The family took a transcontinental train trip from New York to California.",
           expectedMeaning: "across a continent"
         }),
         Object.freeze({
           id: "ct-trans-02",
           word: "transpacific",
-          sentence: "The transpacific flight traveled from California across the Pacific to Japan.",
+          sentence: "The plane began a transpacific flight from California to Japan.",
           expectedMeaning: "across the Pacific Ocean"
         }),
       ])
@@ -410,13 +410,13 @@
         Object.freeze({
           id: "ct-super-01",
           word: "superimpose",
-          sentence: "The designer will superimpose one image over another so both can be seen.",
+          sentence: "The designer used software to superimpose two images.",
           expectedMeaning: "place one thing over another"
         }),
         Object.freeze({
           id: "ct-super-02",
           word: "superheat",
-          sentence: "The experiment can superheat the liquid above its usual boiling temperature.",
+          sentence: "The class watched the teacher superheat the liquid in a safe container.",
           expectedMeaning: "heat beyond the usual level"
         }),
       ])
@@ -435,7 +435,7 @@
         Object.freeze({
           id: "ct-semi-02",
           word: "semiconscious",
-          sentence: "After waking from the procedure, he was semiconscious and only partly alert.",
+          sentence: "After waking from the procedure, he was semiconscious and answered only a few questions.",
           expectedMeaning: "partly conscious"
         }),
       ])
@@ -448,7 +448,7 @@
         Object.freeze({
           id: "ct-anti-01",
           word: "antiviral",
-          sentence: "The researchers tested an antiviral medicine designed to work against viruses.",
+          sentence: "The doctor prescribed an antiviral medicine during the illness.",
           expectedMeaning: "against viruses"
         }),
         Object.freeze({
@@ -505,13 +505,13 @@
         Object.freeze({
           id: "ct-ab-01",
           word: "abstain",
-          sentence: "During the vote, one member chose to abstain and hold back from choosing either side.",
+          sentence: "During the vote, one member chose to abstain.",
           expectedMeaning: "hold oneself away from an action"
         }),
         Object.freeze({
           id: "ct-ab-02",
           word: "abscond",
-          sentence: "The story's thief tried to abscond from the city and get away before anyone noticed.",
+          sentence: "In the story, the thief tried to abscond before the police arrived.",
           expectedMeaning: "go away or escape"
         }),
       ])
@@ -524,13 +524,13 @@
         Object.freeze({
           id: "ct-a-ad-01",
           word: "attach",
-          sentence: "Please attach the name tag to the folder so it stays joined to it.",
+          sentence: "Please attach the name tag to the folder.",
           expectedMeaning: "join or fasten to"
         }),
         Object.freeze({
           id: "ct-a-ad-02",
           word: "approach",
-          sentence: "As the hikers approach the cabin, they move closer toward it.",
+          sentence: "As the hikers approach the cabin, they can see the porch more clearly.",
           expectedMeaning: "move toward"
         }),
       ])
@@ -543,13 +543,13 @@
         Object.freeze({
           id: "ct-con-com-01",
           word: "compress",
-          sentence: "The machine will compress the foam by pressing its parts together.",
+          sentence: "The machine will compress the foam so it fits in the box.",
           expectedMeaning: "press together"
         }),
         Object.freeze({
           id: "ct-con-com-02",
           word: "converge",
-          sentence: "The two paths converge near the river, where they come together.",
+          sentence: "The two paths converge near the river.",
           expectedMeaning: "come together"
         }),
       ])
@@ -581,13 +581,13 @@
         Object.freeze({
           id: "ct-pro-01",
           word: "protrude",
-          sentence: "A small branch began to protrude forward from the side of the hedge.",
+          sentence: "A branch began to protrude from the side of the hedge.",
           expectedMeaning: "stick or extend forward"
         }),
         Object.freeze({
           id: "ct-pro-02",
           word: "proceeding",
-          sentence: "After the signal changed, the train was proceeding forward along the track.",
+          sentence: "After the signal changed, the train was proceeding along the track.",
           expectedMeaning: "moving forward"
         }),
       ])
@@ -600,13 +600,13 @@
         Object.freeze({
           id: "ct-retro-01",
           word: "retrograde",
-          sentence: "The diagram shows retrograde motion, in which the object appears to move backward.",
+          sentence: "The diagram showed retrograde motion during part of the orbit.",
           expectedMeaning: "moving backward"
         }),
         Object.freeze({
           id: "ct-retro-02",
           word: "retroreflective",
-          sentence: "The vest uses retroreflective strips that send light back toward its source.",
+          sentence: "The runner wore a vest with retroreflective strips at night.",
           expectedMeaning: "reflecting light back"
         }),
       ])
@@ -619,13 +619,13 @@
         Object.freeze({
           id: "ct-circum-01",
           word: "circumpolar",
-          sentence: "Some stars are called circumpolar because they appear to circle around the pole.",
+          sentence: "The class used a star map to find circumpolar stars near the North Star.",
           expectedMeaning: "around a pole"
         }),
         Object.freeze({
           id: "ct-circum-02",
           word: "circumstellar",
-          sentence: "The telescope detected a circumstellar disk of dust surrounding the star.",
+          sentence: "The telescope detected a circumstellar disk near a distant star.",
           expectedMeaning: "around a star"
         }),
       ])
@@ -638,13 +638,13 @@
         Object.freeze({
           id: "ct-bio-01",
           word: "biosphere",
-          sentence: "Scientists study the biosphere, the parts of Earth where living things exist.",
+          sentence: "The class discussed how pollution affects the biosphere.",
           expectedMeaning: "the region of life or living things"
         }),
         Object.freeze({
           id: "ct-bio-02",
           word: "bioluminescent",
-          sentence: "The bioluminescent organism makes light through a process in its living body.",
+          sentence: "The divers saw a bioluminescent jellyfish in the dark water.",
           expectedMeaning: "producing light through a living organism"
         }),
       ])
@@ -657,13 +657,13 @@
         Object.freeze({
           id: "ct-chron-01",
           word: "chronometer",
-          sentence: "The sailor used a chronometer, a very accurate device for measuring time.",
+          sentence: "The sailor checked a chronometer before recording the ship's position.",
           expectedMeaning: "a device that measures time"
         }),
         Object.freeze({
           id: "ct-chron-02",
           word: "chronograph",
-          sentence: "The athlete used a chronograph to record exactly how much time the race took.",
+          sentence: "The athlete checked a chronograph after the race.",
           expectedMeaning: "an instrument that records time"
         }),
       ])
@@ -676,13 +676,13 @@
         Object.freeze({
           id: "ct-duct-01",
           word: "aqueduct",
-          sentence: "The ancient aqueduct led water from distant hills into the city.",
+          sentence: "The old aqueduct stretched from the hills to the city.",
           expectedMeaning: "a structure that leads or carries water"
         }),
         Object.freeze({
           id: "ct-duct-02",
           word: "ductwork",
-          sentence: "The building's ductwork leads heated air through passages to each room.",
+          sentence: "Workers repaired the ductwork above the ceiling.",
           expectedMeaning: "a system of passages that leads air"
         }),
       ])
@@ -695,13 +695,13 @@
         Object.freeze({
           id: "ct-fer-01",
           word: "transferable",
-          sentence: "The ticket is transferable, so it can be carried over from one person's name to another.",
+          sentence: "The ticket is transferable if another person needs to use it.",
           expectedMeaning: "able to be transferred or carried from one to another"
         }),
         Object.freeze({
           id: "ct-fer-02",
           word: "transferral",
-          sentence: "The transferral of the records moved them from one office to another.",
+          sentence: "The transferral of the records took place between two offices.",
           expectedMeaning: "the act of transferring or carrying from one place to another"
         }),
       ])
@@ -714,13 +714,13 @@
         Object.freeze({
           id: "ct-ject-01",
           word: "projectile",
-          sentence: "The launcher sent a small foam projectile forward through the air.",
+          sentence: "The small foam projectile landed on the floor after it left the launcher.",
           expectedMeaning: "an object that is thrown or sent forward"
         }),
         Object.freeze({
           id: "ct-ject-02",
           word: "injector",
-          sentence: "The injector is a device that sends a measured amount of liquid into the chamber.",
+          sentence: "The injector sat beside the tube before the liquid test began.",
           expectedMeaning: "a device that sends something into"
         }),
       ])
@@ -733,13 +733,13 @@
         Object.freeze({
           id: "ct-mit-01",
           word: "transmitter",
-          sentence: "A radio transmitter sends signals across a distance.",
+          sentence: "The radio transmitter sat on top of the tower.",
           expectedMeaning: "a device that sends"
         }),
         Object.freeze({
           id: "ct-mit-02",
           word: "emission",
-          sentence: "The sensor measured the emission of light being sent out by the lamp.",
+          sentence: "The sensor measured the lamp's emission during the test.",
           expectedMeaning: "something sent out"
         }),
       ])
@@ -752,13 +752,13 @@
         Object.freeze({
           id: "ct-pel-01",
           word: "propeller",
-          sentence: "The boat's propeller pushes water backward and drives the boat forward.",
+          sentence: "The boat's propeller spun faster as it left the dock.",
           expectedMeaning: "a device that pushes or drives"
         }),
         Object.freeze({
           id: "ct-pel-02",
           word: "repellent",
-          sentence: "The spray acts as a repellent by driving insects away.",
+          sentence: "The campers used a repellent before walking into the woods.",
           expectedMeaning: "something that drives away"
         }),
       ])
@@ -771,13 +771,13 @@
         Object.freeze({
           id: "ct-pend-01",
           word: "pendulous",
-          sentence: "The pendulous branches hung downward toward the ground.",
+          sentence: "The tree had long pendulous branches.",
           expectedMeaning: "hanging downward"
         }),
         Object.freeze({
           id: "ct-pend-02",
           word: "suspension",
-          sentence: "The bridge's suspension cables hang and hold the roadway from above.",
+          sentence: "Workers checked the bridge's suspension cables.",
           expectedMeaning: "a system or state of hanging and holding"
         }),
       ])
@@ -790,13 +790,13 @@
         Object.freeze({
           id: "ct-port-01",
           word: "portage",
-          sentence: "The canoeists made a portage, carrying their boats over land between two lakes.",
+          sentence: "The canoeists began a portage between two lakes.",
           expectedMeaning: "the act of carrying over land"
         }),
         Object.freeze({
           id: "ct-port-02",
           word: "portability",
-          sentence: "The laptop's portability makes it easy to carry from place to place.",
+          sentence: "The laptop's portability was useful during the trip.",
           expectedMeaning: "the quality of being easy to carry"
         }),
       ])
@@ -809,13 +809,13 @@
         Object.freeze({
           id: "ct-pos-01",
           word: "juxtaposition",
-          sentence: "The artist used juxtaposition by placing the old photograph beside the new one.",
+          sentence: "The artist used juxtaposition in a display of old and new photographs.",
           expectedMeaning: "the act of placing things side by side"
         }),
         Object.freeze({
           id: "ct-pos-02",
           word: "deposition",
-          sentence: "The river's deposition of sand left material placed along the bank.",
+          sentence: "The river's deposition changed the shape of the bank.",
           expectedMeaning: "the placing down of material"
         }),
       ])
@@ -828,13 +828,13 @@
         Object.freeze({
           id: "ct-put-01",
           word: "computable",
-          sentence: "The quantity is computable because it can be calculated by thinking through the values.",
+          sentence: "The answer is computable with the information in the table.",
           expectedMeaning: "able to be calculated"
         }),
         Object.freeze({
           id: "ct-put-02",
           word: "recomputation",
-          sentence: "A recomputation of the total meant calculating the numbers again.",
+          sentence: "A recomputation of the total gave a different answer.",
           expectedMeaning: "the act of calculating again"
         }),
       ])
@@ -847,13 +847,13 @@
         Object.freeze({
           id: "ct-rupt-01",
           word: "ruptured",
-          sentence: "The pipe ruptured when it broke open under too much pressure.",
+          sentence: "The pipe ruptured during the storm.",
           expectedMeaning: "broke open"
         }),
         Object.freeze({
           id: "ct-rupt-02",
           word: "disruptive",
-          sentence: "The disruptive noise broke the class's concentration again and again.",
+          sentence: "The disruptive noise made it hard for the class to work.",
           expectedMeaning: "causing an interruption or break"
         }),
       ])
@@ -866,7 +866,7 @@
         Object.freeze({
           id: "ct-scrib-01",
           word: "inscription",
-          sentence: "The inscription on the monument was writing carved into the stone.",
+          sentence: "The inscription was carved into the stone.",
           expectedMeaning: "writing placed on or in something"
         }),
         Object.freeze({
@@ -885,13 +885,13 @@
         Object.freeze({
           id: "ct-sequ-01",
           word: "sequel",
-          sentence: "The second book is a sequel because it follows the story from the first book.",
+          sentence: "Maya borrowed the sequel after finishing the first book.",
           expectedMeaning: "something that follows"
         }),
         Object.freeze({
           id: "ct-sequ-02",
           word: "sequential",
-          sentence: "The directions are sequential, so each step follows the one before it.",
+          sentence: "The teacher numbered the sequential steps from 1 to 6.",
           expectedMeaning: "following in order"
         }),
       ])
@@ -904,13 +904,13 @@
         Object.freeze({
           id: "ct-spect-01",
           word: "spectate",
-          sentence: "Families gathered beside the field to spectate and watch the race.",
+          sentence: "Families gathered beside the field to spectate during the race.",
           expectedMeaning: "watch"
         }),
         Object.freeze({
           id: "ct-spect-02",
           word: "spectacle",
-          sentence: "The fireworks created a bright spectacle that everyone stopped to look at.",
+          sentence: "The fireworks created a bright spectacle over the park.",
           expectedMeaning: "something striking to look at"
         }),
       ])
@@ -923,13 +923,13 @@
         Object.freeze({
           id: "ct-struct-01",
           word: "structural",
-          sentence: "Engineers checked the structural beams that help build and support the bridge.",
+          sentence: "Workers checked the structural beams under the bridge.",
           expectedMeaning: "related to the structure or build of something"
         }),
         Object.freeze({
           id: "ct-struct-02",
           word: "deconstruct",
-          sentence: "The class will deconstruct the model by taking apart how it was built.",
+          sentence: "The class will deconstruct the model during science.",
           expectedMeaning: "take apart something that was built"
         }),
       ])
@@ -942,13 +942,13 @@
         Object.freeze({
           id: "ct-ten-01",
           word: "tenacity",
-          sentence: "Her tenacity helped her hold on to the difficult goal even when progress was slow.",
+          sentence: "Her tenacity helped her keep working when the task was difficult.",
           expectedMeaning: "the quality of holding on firmly"
         }),
         Object.freeze({
           id: "ct-ten-02",
           word: "retentive",
-          sentence: "The material is highly retentive, so it can hold water for a long time.",
+          sentence: "The soil stayed moist because it was retentive.",
           expectedMeaning: "able to hold or retain"
         }),
       ])
@@ -961,13 +961,13 @@
         Object.freeze({
           id: "ct-tract-01",
           word: "traction",
-          sentence: "The rough tires gave the bicycle better traction by gripping and pulling against the ground.",
+          sentence: "The rough tires gave the bicycle better traction on the wet road.",
           expectedMeaning: "grip or pulling force"
         }),
         Object.freeze({
           id: "ct-tract-02",
           word: "retraction",
-          sentence: "The turtle's retraction of its head pulled the head back into its shell.",
+          sentence: "The turtle's retraction of its head happened when it heard a loud sound.",
           expectedMeaning: "the act of pulling back"
         }),
       ])
@@ -980,7 +980,7 @@
         Object.freeze({
           id: "ct-val-01",
           word: "valuation",
-          sentence: "The expert's valuation estimated how much the painting was worth.",
+          sentence: "The expert completed a valuation before the painting was sold.",
           expectedMeaning: "an estimate of worth or value"
         }),
         Object.freeze({
@@ -999,13 +999,13 @@
         Object.freeze({
           id: "ct-ven-01",
           word: "advent",
-          sentence: "The advent of spring means the season has come or arrived.",
+          sentence: "People noticed longer days near the advent of spring.",
           expectedMeaning: "the coming or arrival of something"
         }),
         Object.freeze({
           id: "ct-ven-02",
           word: "convene",
-          sentence: "The committee will convene at noon, when all members come together.",
+          sentence: "The committee will convene in the library at noon.",
           expectedMeaning: "come together"
         }),
       ])
@@ -1018,13 +1018,13 @@
         Object.freeze({
           id: "ct-vert-01",
           word: "converted",
-          sentence: "The old factory was converted into apartments, turning it into a new kind of space.",
+          sentence: "The old factory was converted into apartments last year.",
           expectedMeaning: "turned or changed into another form"
         }),
         Object.freeze({
           id: "ct-vert-02",
           word: "diverting",
-          sentence: "Workers are diverting traffic by turning cars away from the closed road.",
+          sentence: "Workers are diverting traffic near the closed road.",
           expectedMeaning: "turning away"
         }),
       ])
@@ -1037,13 +1037,13 @@
         Object.freeze({
           id: "ct-voc-01",
           word: "vocation",
-          sentence: "She described teaching as her vocation, the work she felt called to do.",
+          sentence: "Teaching became her vocation after she finished college.",
           expectedMeaning: "a calling or type of work one feels called to"
         }),
         Object.freeze({
           id: "ct-voc-02",
           word: "invocation",
-          sentence: "The ceremony began with an invocation that called on the group to remember its purpose.",
+          sentence: "The ceremony began with an invocation led by the principal.",
           expectedMeaning: "a calling upon or appeal"
         }),
       ])
@@ -1056,13 +1056,13 @@
         Object.freeze({
           id: "ct-act-01",
           word: "enactment",
-          sentence: "The enactment of the new rule put the plan into action.",
+          sentence: "The enactment of the new rule happened on Monday.",
           expectedMeaning: "the act of putting something into action"
         }),
         Object.freeze({
           id: "ct-act-02",
           word: "actionable",
-          sentence: "The team wanted actionable advice that they could act on immediately.",
+          sentence: "The team wanted actionable advice before making a decision.",
           expectedMeaning: "able to be acted on"
         }),
       ])
@@ -1081,7 +1081,7 @@
         Object.freeze({
           id: "ct-aud-02",
           word: "auditory",
-          sentence: "The lesson included an auditory clue that students had to hear rather than see.",
+          sentence: "The lesson included an auditory clue along with a picture.",
           expectedMeaning: "related to hearing"
         }),
       ])
@@ -1100,7 +1100,7 @@
         Object.freeze({
           id: "ct-cred-02",
           word: "credential",
-          sentence: "The badge served as a credential showing that the visitor could be trusted to enter.",
+          sentence: "The visitor showed a credential at the front desk.",
           expectedMeaning: "evidence that helps establish trust or qualification"
         }),
       ])
@@ -1113,13 +1113,13 @@
         Object.freeze({
           id: "ct-dict-01",
           word: "dictate",
-          sentence: "The teacher will dictate the sentence by saying it aloud for students to write.",
+          sentence: "The teacher will dictate the sentence while students write.",
           expectedMeaning: "say or tell aloud"
         }),
         Object.freeze({
           id: "ct-dict-02",
           word: "dictation",
-          sentence: "The class completed a dictation by writing the words the teacher said aloud.",
+          sentence: "During dictation, the students listened and wrote in their notebooks.",
           expectedMeaning: "spoken words that are said for someone to write"
         }),
       ])
@@ -1132,13 +1132,13 @@
         Object.freeze({
           id: "ct-form-01",
           word: "formative",
-          sentence: "The early sketch was formative because it helped shape the final design.",
+          sentence: "The early sketch was formative for the final design.",
           expectedMeaning: "helping shape or form something"
         }),
         Object.freeze({
           id: "ct-form-02",
           word: "deformable",
-          sentence: "The soft material is deformable, so its shape can be changed by pressure.",
+          sentence: "The engineer tested the deformable material by pressing it.",
           expectedMeaning: "able to have its shape changed"
         }),
       ])
@@ -1151,13 +1151,13 @@
         Object.freeze({
           id: "ct-graph-01",
           word: "seismograph",
-          sentence: "A seismograph records the shaking produced by an earthquake.",
+          sentence: "The seismograph was running when the ground shook.",
           expectedMeaning: "an instrument that records earthquake motion"
         }),
         Object.freeze({
           id: "ct-graph-02",
           word: "photographic",
-          sentence: "The photographic record preserved visual images of the event.",
+          sentence: "The museum displayed a photographic poster from the event.",
           expectedMeaning: "related to recording with photographs"
         }),
       ])
@@ -1170,13 +1170,13 @@
         Object.freeze({
           id: "ct-mot-01",
           word: "locomotive",
-          sentence: "The locomotive provides the power that moves the train along the track.",
+          sentence: "The conductor inspected the locomotive before the train left the station.",
           expectedMeaning: "a machine that moves a train"
         }),
         Object.freeze({
           id: "ct-mot-02",
           word: "motility",
-          sentence: "Scientists measured the cells' motility, or ability to move on their own.",
+          sentence: "The scientist watched the cells' motility under a microscope.",
           expectedMeaning: "ability to move"
         }),
       ])
@@ -1208,13 +1208,13 @@
         Object.freeze({
           id: "ct-micro-01",
           word: "microplastic",
-          sentence: "A microplastic is a very small piece of plastic that can be difficult to see.",
+          sentence: "The class found a microplastic in a sample of ocean water.",
           expectedMeaning: "a very small piece of plastic"
         }),
         Object.freeze({
           id: "ct-micro-02",
           word: "microclimate",
-          sentence: "The shaded garden has a microclimate, a small local area with slightly different weather.",
+          sentence: "The shaded garden had a microclimate that was cooler than the sunny yard.",
           expectedMeaning: "the climate of a small local area"
         }),
       ])
@@ -1233,7 +1233,7 @@
         Object.freeze({
           id: "ct-tele-02",
           word: "telemetry",
-          sentence: "The spacecraft used telemetry to send measurements from far away back to Earth.",
+          sentence: "The spacecraft used telemetry during the mission.",
           expectedMeaning: "measurement or data sent from far away"
         }),
       ])
@@ -1246,13 +1246,13 @@
         Object.freeze({
           id: "ct-auto-01",
           word: "autopilot",
-          sentence: "The aircraft's autopilot can guide parts of the flight by itself.",
+          sentence: "The aircraft used autopilot during part of the flight.",
           expectedMeaning: "a system that controls itself automatically"
         }),
         Object.freeze({
           id: "ct-auto-02",
           word: "autoimmune",
-          sentence: "In an autoimmune condition, the body's own defense system reacts against itself.",
+          sentence: "The doctor discussed an autoimmune condition with the family.",
           expectedMeaning: "involving the body's system acting against itself"
         }),
       ])
@@ -1265,13 +1265,13 @@
         Object.freeze({
           id: "ct-biblio-01",
           word: "bibliotherapy",
-          sentence: "Bibliotherapy uses books and reading as part of helping people reflect or cope.",
+          sentence: "The counselor suggested bibliotherapy during a weekly group.",
           expectedMeaning: "the use of books as a form of support or therapy"
         }),
         Object.freeze({
           id: "ct-biblio-02",
           word: "bibliometrics",
-          sentence: "Bibliometrics uses measurements to study patterns in books and other publications.",
+          sentence: "The librarian used bibliometrics during a research project.",
           expectedMeaning: "measurement and study of books or publications"
         }),
       ])
@@ -1284,13 +1284,13 @@
         Object.freeze({
           id: "ct-derma-01",
           word: "dermatitis",
-          sentence: "The doctor explained that dermatitis is inflammation of the skin.",
+          sentence: "The doctor examined the dermatitis on Maya's arm.",
           expectedMeaning: "a condition involving inflamed skin"
         }),
         Object.freeze({
           id: "ct-derma-02",
           word: "dermatological",
-          sentence: "The clinic provides dermatological care for conditions related to the skin.",
+          sentence: "She made a dermatological appointment at the clinic.",
           expectedMeaning: "related to the skin"
         }),
       ])
@@ -1303,13 +1303,13 @@
         Object.freeze({
           id: "ct-phon-01",
           word: "phonetic",
-          sentence: "The dictionary gives a phonetic spelling to show how the word sounds.",
+          sentence: "The teacher wrote a phonetic spelling beside the new word.",
           expectedMeaning: "related to speech sounds"
         }),
         Object.freeze({
           id: "ct-phon-02",
           word: "phonology",
-          sentence: "Phonology is the study of how sounds are organized in a language.",
+          sentence: "The class compared phonology in English and Spanish during a language lesson.",
           expectedMeaning: "the study or system of language sounds"
         }),
       ])
@@ -1322,7 +1322,7 @@
         Object.freeze({
           id: "ct-scop-01",
           word: "endoscope",
-          sentence: "A doctor can use an endoscope to look inside part of the body.",
+          sentence: "The doctor prepared an endoscope before the procedure.",
           expectedMeaning: "an instrument used to look inside"
         }),
         Object.freeze({
@@ -1341,13 +1341,13 @@
         Object.freeze({
           id: "ct-metr-01",
           word: "barometer",
-          sentence: "A barometer measures air pressure.",
+          sentence: "The class checked the barometer before going outside.",
           expectedMeaning: "an instrument that measures air pressure"
         }),
         Object.freeze({
           id: "ct-metr-02",
           word: "odometer",
-          sentence: "The odometer measures how far a vehicle has traveled.",
+          sentence: "The driver checked the odometer before starting the trip.",
           expectedMeaning: "an instrument that measures distance traveled"
         }),
       ])
@@ -1360,13 +1360,13 @@
         Object.freeze({
           id: "ct-therm-01",
           word: "thermoregulation",
-          sentence: "Sweating is part of thermoregulation, the body's control of heat and temperature.",
+          sentence: "The coach talked about thermoregulation during practice on a hot day.",
           expectedMeaning: "regulation of heat or temperature"
         }),
         Object.freeze({
           id: "ct-therm-02",
           word: "thermodynamic",
-          sentence: "The class studied thermodynamic changes involving heat and energy.",
+          sentence: "The class observed a thermodynamic change during the lab.",
           expectedMeaning: "related to heat and energy"
         }),
       ])
@@ -1379,13 +1379,13 @@
         Object.freeze({
           id: "ct-geo-01",
           word: "geosphere",
-          sentence: "The geosphere includes the solid earth, such as rocks, soil, and landforms.",
+          sentence: "The class labeled the geosphere on a science diagram.",
           expectedMeaning: "the solid earth"
         }),
         Object.freeze({
           id: "ct-geo-02",
           word: "geocentric",
-          sentence: "A geocentric model places Earth at the center.",
+          sentence: "The class drew a geocentric model during science.",
           expectedMeaning: "centered on Earth"
         }),
       ])
@@ -1398,13 +1398,13 @@
         Object.freeze({
           id: "ct-terr-01",
           word: "terrestrial",
-          sentence: "The rover is designed for terrestrial travel on land rather than in water.",
+          sentence: "The rover was designed for terrestrial travel instead of ocean travel.",
           expectedMeaning: "related to land or Earth"
         }),
         Object.freeze({
           id: "ct-terr-02",
           word: "terrarium",
-          sentence: "The class built a terrarium containing soil, plants, and other land materials.",
+          sentence: "The class placed a terrarium near the window.",
           expectedMeaning: "a container for land plants or animals"
         }),
       ])
@@ -1417,7 +1417,7 @@
         Object.freeze({
           id: "ct-al-01",
           word: "tidal",
-          sentence: "Scientists measured tidal changes related to the rise and fall of the tides.",
+          sentence: "The class recorded tidal changes at the beach.",
           expectedMeaning: "related to tides"
         }),
         Object.freeze({
@@ -1455,13 +1455,13 @@
         Object.freeze({
           id: "ct-ence-01",
           word: "emergence",
-          sentence: "The butterfly's emergence from the chrysalis was the process of coming out.",
+          sentence: "The butterfly's emergence happened while the class was watching.",
           expectedMeaning: "the act or process of emerging"
         }),
         Object.freeze({
           id: "ct-ence-02",
           word: "coherence",
-          sentence: "The paragraph had coherence because its ideas connected in a clear, unified way.",
+          sentence: "The paragraph's coherence made it easy to read from beginning to end.",
           expectedMeaning: "the quality of holding together clearly"
         }),
       ])
@@ -1474,13 +1474,13 @@
         Object.freeze({
           id: "ct-ic-01",
           word: "aquatic",
-          sentence: "The aquarium contains aquatic plants that are related to life in water.",
+          sentence: "The aquarium has several aquatic plants.",
           expectedMeaning: "related to water"
         }),
         Object.freeze({
           id: "ct-ic-02",
           word: "volcanic",
-          sentence: "The island contains volcanic rock formed by activity from a volcano.",
+          sentence: "The island contains volcanic rock near the mountain.",
           expectedMeaning: "related to a volcano"
         }),
       ])
@@ -1531,13 +1531,13 @@
         Object.freeze({
           id: "ct-ist-01",
           word: "geologist",
-          sentence: "A geologist studies rocks, Earth materials, and Earth's history.",
+          sentence: "The geologist collected rocks near the hill.",
           expectedMeaning: "a person who studies geology"
         }),
         Object.freeze({
           id: "ct-ist-02",
           word: "violinist",
-          sentence: "The violinist is a person who plays the violin.",
+          sentence: "The violinist walked onto the stage before the concert.",
           expectedMeaning: "a person who plays the violin"
         }),
       ])
@@ -1550,13 +1550,13 @@
         Object.freeze({
           id: "ct-ize-01",
           word: "sterilize",
-          sentence: "The lab will sterilize the tools to make them free of harmful microbes.",
+          sentence: "The lab will sterilize the tools before the experiment.",
           expectedMeaning: "make sterile"
         }),
         Object.freeze({
           id: "ct-ize-02",
           word: "digitize",
-          sentence: "The library will digitize the old photographs by making digital copies.",
+          sentence: "The library will digitize the old photographs this summer.",
           expectedMeaning: "make digital"
         }),
       ])
@@ -1569,7 +1569,7 @@
         Object.freeze({
           id: "ct-ify-01",
           word: "solidify",
-          sentence: "Cooling caused the melted wax to solidify and become solid.",
+          sentence: "The mixture began to solidify after it was left on the table.",
           expectedMeaning: "make or become solid"
         }),
         Object.freeze({
@@ -1594,7 +1594,7 @@
         Object.freeze({
           id: "ct-ness-02",
           word: "readiness",
-          sentence: "The team's readiness showed that they were ready to begin.",
+          sentence: "The team's readiness impressed the coach before the game.",
           expectedMeaning: "the state of being ready"
         }),
       ])
@@ -1607,13 +1607,13 @@
         Object.freeze({
           id: "ct-ology-01",
           word: "meteorology",
-          sentence: "Meteorology is the study of weather and the atmosphere.",
+          sentence: "Ana chose meteorology for her project about weather.",
           expectedMeaning: "the study of weather"
         }),
         Object.freeze({
           id: "ct-ology-02",
           word: "criminology",
-          sentence: "Criminology is the study of crime and patterns related to it.",
+          sentence: "Jamal chose criminology for his project about crime.",
           expectedMeaning: "the study of crime"
         }),
       ])
@@ -1632,7 +1632,7 @@
         Object.freeze({
           id: "ct-able-ible-02",
           word: "washable",
-          sentence: "The paint is washable, so it can be washed off with water.",
+          sentence: "The teacher chose washable paint for art class.",
           expectedMeaning: "able to be washed"
         }),
       ])
@@ -1664,13 +1664,13 @@
         Object.freeze({
           id: "ct-er-or-01",
           word: "translator",
-          sentence: "The translator is a person who changes words from one language into another.",
+          sentence: "The translator listened during a meeting with English and Spanish speakers.",
           expectedMeaning: "a person who translates"
         }),
         Object.freeze({
           id: "ct-er-or-02",
           word: "excavator",
-          sentence: "An excavator is a machine that digs and removes earth.",
+          sentence: "The excavator worked beside a deep hole near the road.",
           expectedMeaning: "a thing that excavates or digs"
         }),
       ])
@@ -1702,13 +1702,13 @@
         Object.freeze({
           id: "ct-est-01",
           word: "narrowest",
-          sentence: "Of the three paths, this is the narrowest.",
+          sentence: "Three paths led to the lake; Maya chose the narrowest.",
           expectedMeaning: "the most narrow"
         }),
         Object.freeze({
           id: "ct-est-02",
           word: "brightest",
-          sentence: "Venus was the brightest object in that part of the night sky.",
+          sentence: "Several stars were visible, but Venus looked brightest.",
           expectedMeaning: "the most bright"
         }),
       ])
@@ -1721,13 +1721,13 @@
         Object.freeze({
           id: "ct-ful-01",
           word: "resourceful",
-          sentence: "The resourceful student found several useful ways to solve the problem.",
+          sentence: "The resourceful student was chosen to help with the class project.",
           expectedMeaning: "full of resourcefulness or useful ideas"
         }),
         Object.freeze({
           id: "ct-ful-02",
           word: "colorful",
-          sentence: "The mural was colorful because it was full of many bright colors.",
+          sentence: "The colorful mural covered the wall.",
           expectedMeaning: "full of color"
         }),
       ])
@@ -1759,13 +1759,13 @@
         Object.freeze({
           id: "ct-ion-01",
           word: "evaporation",
-          sentence: "Evaporation is the process in which liquid water changes into water vapor.",
+          sentence: "The class watched evaporation during the water experiment.",
           expectedMeaning: "an action or process"
         }),
         Object.freeze({
           id: "ct-ion-02",
           word: "expansion",
-          sentence: "The expansion of the balloon was the result of it growing larger.",
+          sentence: "The balloon's expansion surprised the class.",
           expectedMeaning: "an action, process, or result"
         }),
       ])
@@ -1778,13 +1778,13 @@
         Object.freeze({
           id: "ct-less-01",
           word: "motionless",
-          sentence: "The rabbit stayed motionless and did not move at all.",
+          sentence: "The rabbit stayed motionless while the dog walked past.",
           expectedMeaning: "without motion"
         }),
         Object.freeze({
           id: "ct-less-02",
           word: "odorless",
-          sentence: "The gas is odorless, meaning it has no smell.",
+          sentence: "The cleaner was odorless even after the bottle was opened.",
           expectedMeaning: "without odor"
         }),
       ])
@@ -1816,13 +1816,13 @@
         Object.freeze({
           id: "ct-ment-01",
           word: "adjustment",
-          sentence: "A small adjustment changed the position of the mirror.",
+          sentence: "After a small adjustment, the mirror pointed toward the window.",
           expectedMeaning: "the act or result of adjusting"
         }),
         Object.freeze({
           id: "ct-ment-02",
           word: "measurement",
-          sentence: "The measurement recorded the result of measuring the table.",
+          sentence: "The student wrote the measurement beside a drawing of the table.",
           expectedMeaning: "the result or process of measuring"
         }),
       ])
@@ -1835,13 +1835,13 @@
         Object.freeze({
           id: "ct-ous-01",
           word: "porous",
-          sentence: "The porous rock has many tiny holes and has the quality of letting water pass through.",
+          sentence: "Water moved slowly through the porous rock.",
           expectedMeaning: "having many pores or holes"
         }),
         Object.freeze({
           id: "ct-ous-02",
           word: "hazardous",
-          sentence: "The sign warned that the chemical was hazardous and had a dangerous quality.",
+          sentence: "Students wore gloves while handling the hazardous material.",
           expectedMeaning: "having a dangerous quality"
         }),
       ])
@@ -1860,7 +1860,7 @@
         Object.freeze({
           id: "ct-ant-ent-02",
           word: "absorbent",
-          sentence: "The absorbent towel has the quality of soaking up a lot of water.",
+          sentence: "The absorbent towel was kept beside the sink.",
           expectedMeaning: "having the quality of absorbing"
         }),
       ])
@@ -1892,13 +1892,13 @@
         Object.freeze({
           id: "ct-cook-01",
           word: "cookware",
-          sentence: "The store sells cookware, including pots and pans used for cooking food.",
+          sentence: "Maya put the cookware in the kitchen cabinet.",
           expectedMeaning: "tools or equipment used for cooking"
         }),
         Object.freeze({
           id: "ct-cook-02",
           word: "cookbook",
-          sentence: "The cookbook contains recipes and directions for cooking many dishes.",
+          sentence: "Maya opened the cookbook to choose a recipe.",
           expectedMeaning: "a book about cooking"
         }),
       ])
@@ -1917,7 +1917,7 @@
         Object.freeze({
           id: "ct-view-02",
           word: "viewfinder",
-          sentence: "The photographer looked through the viewfinder to see what would appear in the picture.",
+          sentence: "Maya checked the viewfinder before taking the picture.",
           expectedMeaning: "a part of a camera used to view the scene"
         }),
       ])

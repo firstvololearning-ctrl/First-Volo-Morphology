@@ -2148,66 +2148,7 @@
         ""
       );
   }
-
-
-  function readyExpectedBoundaries(task) {
-    const word =
-      readyCleanPart(
-        readyWord(task)
-      );
-
-    const parts =
-      Array.isArray(
-        task?.recipe?.parts
-      )
-        ? task.recipe.parts
-            .map(
-              readyCleanPart
-            )
-            .filter(Boolean)
-        : [];
-
-    if (
-      parts.length < 2 ||
-      parts.join("") !== word
-    ) {
-      return [];
-    }
-
-    let total = 0;
-
-    return parts
-      .slice(
-        0,
-        -1
-      )
-      .map(
-        part => {
-          total +=
-            part.length;
-
-          return total;
-        }
-      );
-  }
-
-
-  function readyExpectedWordSum(task) {
-    const parts =
-      Array.isArray(
-        task?.recipe?.parts
-      )
-        ? task.recipe.parts
-            .filter(Boolean)
-        : [];
-
-    return parts.length
-      ? parts.join(" + ")
-      : "";
-  }
-
-
-  function readyMaterialTilePool() {
+function readyMaterialTilePool() {
     const values = [
       ...(state.material
         ?.tiles || []),
@@ -2256,99 +2197,7 @@
       }
     );
   }
-
-
-  function readySupportTile() {
-    const target =
-      readyTargetLabel();
-
-    return (
-      readyMaterialTilePool()
-        .find(
-          tile =>
-            labelsMatch(
-              tile?.label,
-              target
-            )
-        ) ||
-      null
-    );
-  }
-
-
-  function readyTileMarkup(
-    tile,
-    {
-      includeMeaning = true
-    } = {}
-  ) {
-    if (!tile) {
-      const label =
-        readyTargetLabel();
-
-      return `
-        <div class="ready-support-fallback">
-          <strong>
-            ${esc(label)}
-          </strong>
-
-          ${
-            includeMeaning &&
-            readyTargetMeaning()
-              ? `
-                <span>
-                  ${esc(
-                    readyTargetMeaning()
-                  )}
-                </span>
-              `
-              : ""
-          }
-        </div>
-      `;
-    }
-
-    const image =
-      tile.image
-        ? `
-          <img
-            class="ready-support-tile-image"
-            src="${esc(tile.image)}"
-            alt=""
-          >
-        `
-        : "";
-
-    return `
-      <div class="ready-support-tile-card">
-        ${image}
-
-        <strong>
-          ${esc(tile.label)}
-        </strong>
-
-        ${
-          includeMeaning &&
-          (
-            tile.meaning ||
-            readyTargetMeaning()
-          )
-            ? `
-              <span>
-                ${esc(
-                  tile.meaning ||
-                  readyTargetMeaning()
-                )}
-              </span>
-            `
-            : ""
-        }
-      </div>
-    `;
-  }
-
-
-  function ensureReadyMaterialContainer() {
+function ensureReadyMaterialContainer() {
     let container =
       byId(
         "readyStudentMaterial"
@@ -2399,33 +2248,6 @@
 
     return container;
   }
-
-
-  function readySupportDetailsMarkup() {
-    return `
-      <details class="ready-support-panel">
-        <summary>
-          Support if needed after the independent attempt
-        </summary>
-
-        <div class="ready-support-panel-body">
-          <p>
-            Show this only after the student has attempted
-            the same demand independently.
-          </p>
-
-          ${readyTileMarkup(
-            readySupportTile(),
-            {
-              includeMeaning: true
-            }
-          )}
-        </div>
-      </details>
-    `;
-  }
-
-
   function readyEducatorKeyMarkup(task) {
     const wordSum =
       readyExpectedWordSum(
@@ -2626,197 +2448,6 @@
       }
     );
   }
-
-
-  function renderReadyBreak(
-    container,
-    task
-  ) {
-    const word =
-      readyWord(task);
-
-    const letters =
-      readyWordLetters(
-        word
-      );
-
-    const expected =
-      readyExpectedBoundaries(
-        task
-      );
-
-    container.innerHTML = `
-      <div class="ready-material-heading">
-        <span>
-          Ready-to-use student material
-        </span>
-
-        <h3>
-          Break It Apart
-        </h3>
-
-        <p>
-          Look at the whole word. Click between letters
-          to mark the meaningful word-part boundaries.
-        </p>
-      </div>
-
-      <div
-        class="ready-break-word"
-        id="readyBreakWord"
-        aria-label="${esc(word)}"
-      >
-        ${letters
-          .map(
-            (letter, index) => `
-              <span class="ready-break-letter">
-                ${esc(letter)}
-              </span>
-
-              ${
-                index <
-                letters.length - 1
-                  ? `
-                    <button
-                      type="button"
-                      class="ready-boundary-button"
-                      data-ready-boundary="${
-                        index + 1
-                      }"
-                      aria-label="Place a boundary after ${esc(letter)}"
-                      aria-pressed="false"
-                    >
-                      <span></span>
-                    </button>
-                  `
-                  : ""
-              }
-            `
-          )
-          .join("")}
-      </div>
-
-      <div class="ready-check-row">
-        <button
-          type="button"
-          class="session-primary-button"
-          id="readyCheckBreak"
-        >
-          Check Break Apart
-        </button>
-
-        <span
-          id="readyBreakFeedback"
-          aria-live="polite"
-        ></span>
-      </div>
-
-      ${readyEducatorKeyMarkup(task)}
-      ${readySupportDetailsMarkup()}
-    `;
-
-    const chosen =
-      new Set();
-
-    container
-      .querySelectorAll(
-        "[data-ready-boundary]"
-      )
-      .forEach(
-        button => {
-          button.addEventListener(
-            "click",
-            () => {
-              const boundary =
-                Number(
-                  button.dataset
-                    .readyBoundary
-                );
-
-              if (
-                chosen.has(
-                  boundary
-                )
-              ) {
-                chosen.delete(
-                  boundary
-                );
-              } else {
-                chosen.add(
-                  boundary
-                );
-              }
-
-              const active =
-                chosen.has(
-                  boundary
-                );
-
-              button.classList
-                .toggle(
-                  "is-active",
-                  active
-                );
-
-              button.setAttribute(
-                "aria-pressed",
-                String(active)
-              );
-            }
-          );
-        }
-      );
-
-    byId(
-      "readyCheckBreak"
-    )?.addEventListener(
-      "click",
-      () => {
-        const feedback =
-          byId(
-            "readyBreakFeedback"
-          );
-
-        if (!chosen.size) {
-          feedback.textContent =
-            "Place the boundary line or lines first.";
-
-          return;
-        }
-
-        if (!expected.length) {
-          feedback.textContent =
-            "Compare the student's boundaries with the educator key.";
-
-          return;
-        }
-
-        const actual =
-          [
-            ...chosen
-          ].sort(
-            (a, b) =>
-              a - b
-          );
-
-        const correct =
-          actual.length ===
-            expected.length &&
-          actual.every(
-            (value, index) =>
-              value ===
-              expected[index]
-          );
-
-        feedback.textContent =
-          correct
-            ? "✓ Yes — those boundaries match the meaningful parts."
-            : "Not yet. Keep the whole word intact and reconsider the meaningful parts.";
-      }
-    );
-  }
-
-
   function renderReadyHunt(
     container,
     task
@@ -4083,95 +3714,59 @@
         !build;
     }
   }
-
-
-  function renderReadyStudentMaterial(
-    task
-  ) {
-    const container =
-      ensureReadyMaterialContainer();
-
-    if (!container) {
-      return;
-    }
-
-    const activity =
-      readyActivity(
-        task
-      );
-
-    readyToggleLegacyBuildChrome(
-      activity
-    );
-
-    const title =
-      byId(
-        "digitalMaterialTitle"
-      );
-
-    if (title) {
-      title.textContent =
-        READY_ACTIVITY_LABELS[
-          activity
-        ] ||
-        "Student Material";
-    }
-
-    if (activity === "build") {
-      container.innerHTML = `
-        <div class="ready-material-heading ready-build-heading">
-          <span>
-            Ready-to-use student material
-          </span>
-
-          <h3>
-            Build Words
-          </h3>
-
-          <p>
-            Use the actual First Volo word-part tiles and mat below.
-            Begin without showing meanings; open support only if needed.
-          </p>
-        </div>
-      `;
-
-      return;
-    }
-
-    const renderers = {
-      learn: renderReadyLearn,
-      find: renderReadyFind,
-      hunt: renderReadyHunt,
-      meaning: renderReadyMeaning,
-      morpheme: renderReadyMorpheme,
-      break: renderReadyBreak,
-      infer: renderReadyInfer,
-      use: renderReadyUse,
-      change: renderReadyChange
-    };
-
-    (
-      renderers[
-        activity
-      ] ||
-      (
-        (node, item) =>
-          renderReadyGeneric(
-            node,
-            item,
-            activity
-          )
-      )
-    )(
-      container,
-      task
-    );
-  }
-
-
   function readyPrintableTaskMarkup(
     task
   ) {
+    const selectorDemand =
+      task
+        ?.recipe
+        ?._readySelectorDemand ||
+      null;
+
+    if (
+      readyActivity(
+        task
+      ) ===
+        "break" &&
+      selectorDemand &&
+      selectorDemand !==
+        "full-segmentation"
+    ) {
+      return `
+        <section class="print-ready-task">
+          <div class="print-ready-task-heading">
+            <span>
+              ${
+                selectorDemand ===
+                  "form-change"
+                  ? "Part A · Form change"
+                  : "Part A · Guided target connection"
+              }
+            </span>
+
+            <h2>
+              ${esc(
+                readyWord(task)
+              )}
+            </h2>
+          </div>
+
+          <p>
+            ${esc(
+              task?.prompt ||
+              ""
+            )}
+          </p>
+
+          <div class="print-ready-response-lines">
+            <div></div>
+            <div></div>
+          </div>
+        </section>
+      `;
+    }
+
+
     const activity =
       readyActivity(
         task
@@ -4614,162 +4209,6 @@
   }
 
 
-  function renderReadyPrintable() {
-    const materialPage =
-      ensureReadyPrintPage(
-        "printReadyStudentMaterials",
-        "Student Activity Materials",
-        "print-ready-material-page"
-      );
-
-    const supportPage =
-      ensureReadyPrintPage(
-        "printReadyEducatorSupport",
-        "Educator Support Visual",
-        "print-ready-support-page"
-      );
-
-    const materialBody =
-      materialPage
-        ?.querySelector(
-          "[data-ready-page-body]"
-        );
-
-    if (materialBody) {
-      materialBody.innerHTML =
-        (state.tasks || [])
-          .map(
-            readyPrintableTaskMarkup
-          )
-          .join("");
-    }
-
-    const supportBody =
-      supportPage
-        ?.querySelector(
-          "[data-ready-page-body]"
-        );
-
-    if (supportBody) {
-      const breakKeys =
-        (state.tasks || [])
-          .map(
-            task => ({
-              activity:
-                readyActivity(
-                  task
-                ),
-              word:
-                readyWord(task),
-              key:
-                readyExpectedWordSum(
-                  task
-                )
-            })
-          )
-          .filter(
-            item =>
-              item.activity ===
-                "break" &&
-              item.key
-          );
-
-      supportBody.innerHTML = `
-        <div class="print-ready-support-warning">
-          <strong>
-            Educator support — do not show before the independent attempt.
-          </strong>
-
-          <p>
-            Use the least amount of support needed, retry the same demand,
-            then fade the support.
-          </p>
-        </div>
-
-        <div class="print-ready-support-tile">
-          ${readyTileMarkup(
-            readySupportTile(),
-            {
-              includeMeaning: true
-            }
-          )}
-        </div>
-
-        ${
-          breakKeys.length
-            ? `
-              <section class="print-ready-key-section">
-                <h2>
-                  Break It Apart educator key
-                </h2>
-
-                ${breakKeys
-                  .map(
-                    item => `
-                      <p>
-                        <strong>
-                          ${esc(item.word)}:
-                        </strong>
-
-                        ${esc(item.key)}
-                      </p>
-                    `
-                  )
-                  .join("")}
-              </section>
-            `
-            : ""
-        }
-      `;
-    }
-
-    const retrieveSupport =
-      document.querySelector(
-        ".session-retrieve-support"
-      );
-
-    if (
-      retrieveSupport &&
-      !retrieveSupport.querySelector(
-        ".ready-retrieve-visual-support"
-      )
-    ) {
-      const wrap =
-        document.createElement(
-          "details"
-        );
-
-      wrap.className =
-        "ready-retrieve-visual-support ready-support-panel";
-
-      wrap.innerHTML = `
-        <summary>
-          Open the actual visual cue if needed
-        </summary>
-
-        <div class="ready-support-panel-body">
-          <p>
-            Show only after the student's independent retrieval attempt.
-          </p>
-
-          ${readyTileMarkup(
-            readySupportTile(),
-            {
-              includeMeaning: true
-            }
-          )}
-        </div>
-      `;
-
-      retrieveSupport.append(
-        wrap
-      );
-    }
-  }
-
-
-
-
   /* FIRST_VOLO_TEACHER_SESSION_REBUILD_V3 */
 
   function readyNorm(value) {
@@ -5132,113 +4571,91 @@
   }
 
 
-  function readyBreakItemIsFair(item) {
-    const word =
-      readyLettersOnly(
-        item?.word
-      );
+  function readyBreakItemIsFair(
+    item,
+    stage = "apply"
+  ) {
+    const result =
+      readyWordSelector()
+        ?.evaluateCandidate?.({
+          item,
+          target:
+            readyTarget(),
+          objective:
+            "break",
+          stage,
+          gradeBand:
+            readyCurrentBand(),
+          vocabularyLevel:
+            readyCurrentVocabLevel(),
+          flight:
+            readyCurrentFlight(),
+          isProtected:
+            readyProtectedWord
+        });
 
-    const segmentation =
-      item?.segmentation ||
-      (
-        Array.isArray(
-          item?.parts
-        )
-          ? item.parts.join(" + ")
-          : ""
-      );
-
-    const parts =
-      readySegmentationParts(
-        segmentation
-      );
-
-    const cleanParts =
-      parts
-        .map(
-          readyLettersOnly
-        )
-        .filter(Boolean);
-
-    if (
-      !word ||
-      cleanParts.length < 2 ||
-      cleanParts.join("") !== word
-    ) {
-      return false;
-    }
-
-    const targetIds =
-      readyTargetIds();
-
-    const targetIsAWholePart =
-      cleanParts.some(
-        part =>
-          targetIds.includes(part)
-      );
-
-    if (!targetIsAWholePart) {
-      return false;
-    }
-
-    if (
-      !readyV7BreakOtherMorphemesWereEncountered(
-        parts
-      )
-    ) {
-      return false;
-    }
-
-    const caution =
-      String(
-        item?.reviewCaution ||
-        item?.caution ||
-        ""
-      )
-        .toLowerCase();
-
-    if (
-      /opaque|false morph|do not break|avoid break|not a clean segmentation/.test(
-        caution
-      )
-    ) {
-      return false;
-    }
-
-    if (
-      String(
-        item?.transparency ||
-        ""
-      )
-        .toLowerCase() ===
-      "low"
-    ) {
-      return false;
-    }
-
-    return true;
+    return Boolean(
+      result
+        ?.eligible &&
+      result
+        ?.demand ===
+        "full-segmentation"
+    );
   }
 
 
-  function readyBreakTaskIsFair(task) {
-    return readyBreakItemIsFair({
-      word:
-        readyWord(task),
-      segmentation:
-        task?.recipe
-          ?.segmentation ||
-        readyExpectedWordSum(
-          task
-        ),
-      parts:
-        readyTaskParts(task),
-      reviewCaution:
-        task?.recipe
-          ?.reviewCaution,
-      transparency:
-        task?.recipe
-          ?.transparency
-    });
+  function readyBreakTaskIsFair(
+    task
+  ) {
+    return readyBreakItemIsFair(
+      {
+        word:
+          readyWord(task),
+        segmentation:
+          task?.recipe
+            ?.segmentation ||
+          readyExpectedWordSum(
+            task
+          ),
+        morphemes:
+          task?.recipe
+            ?.morphemes ||
+          readyTaskParts(
+            task
+          ),
+        definition:
+          task?.recipe
+            ?.definition ||
+          task?.definition ||
+          "",
+        literal:
+          task?.recipe
+            ?.literal ||
+          "",
+        reviewCaution:
+          task?.recipe
+            ?.reviewCaution,
+        transparency:
+          task?.recipe
+            ?.transparency,
+        practiceBand:
+          task?.recipe
+            ?.practiceBand ||
+          readyCurrentBand(),
+        accessibilityBand:
+          task?.recipe
+            ?.accessibilityBand ||
+          readyCurrentBand(),
+        vocabLevel:
+          task?.recipe
+            ?.vocabLevel ||
+          readyCurrentVocabLevel()
+      },
+      task?.stage ===
+        "Apply"
+        ? "apply"
+        : "guided"
+    );
   }
 
 
@@ -5393,6 +4810,32 @@
         targetIds.includes(part)
     );
   }
+    /* FIRST_VOLO_SYSTEM_WIDE_WORD_SELECTOR_V1
+     Thin UI adapter. Candidate eligibility/ranking belongs to
+     instructional-word-selector.js.
+  */
+  function readyWordSelector() {
+    return (
+      window
+        .FirstVoloInstructionalWordSelector ||
+      null
+    );
+  }
+
+
+  function readyCurrentVocabLevel() {
+    return (
+      state.plan
+        ?.vocabLevel ||
+      state.plan
+        ?.lastWork
+        ?.vocabLevel ||
+      state.plan
+        ?.teachPractice
+        ?.vocabLevel ||
+      null
+    );
+  }
 
 
   function readyCandidateScore(item) {
@@ -5451,45 +4894,101 @@
   }
 
 
+  /* FIRST_VOLO_ACTIVITY_AWARE_TEACHER_CANDIDATES_V1
+     Teacher-led supplemental candidates live only in Session Materials.
+     They do not add words to the regular student online activity bank.
+
+     The registry is activity-aware: a word may be useful for one demand
+     without being eligible for another.
+  */
+
+
+  function readyBreakTargetSurfaceForms() {
+    const forms =
+      new Set(
+        readyTargetIds()
+      );
+
+    const targetId =
+      readyLettersOnly(
+        readyTarget()?.id ||
+        ""
+      );
+
+    if (targetId === "mot") {
+      forms.add("mot");
+      forms.add("mov");
+      forms.add("move");
+    }
+
+    return forms;
+  }
+
+
+  function readyActivityCandidateIsFair(
+    item,
+    activity,
+    stage = "guided"
+  ) {
+    return Boolean(
+      readyWordSelector()
+        ?.evaluateCandidate?.({
+          item,
+          target:
+            readyTarget(),
+          objective:
+            activity,
+          stage,
+          gradeBand:
+            readyCurrentBand(),
+          vocabularyLevel:
+            readyCurrentVocabLevel(),
+          flight:
+            readyCurrentFlight(),
+          isProtected:
+            readyProtectedWord
+        })
+        ?.eligible
+    );
+  }
+
+
   function readyInventoryCandidates(
     activity
   ) {
-    const items =
-      readyWordInventory()
-        .filter(
-          item =>
-            item &&
-            String(
-              item.status ||
-              "current"
-            )
-              .toLowerCase() !==
-              "excluded" &&
-            item.word &&
-            !readyProtectedWord(
-              item.word
-            ) &&
-            readyBandAllows(item) &&
-            readyFlightAllows(item) &&
-            readyInventoryMatchesTarget(
-              item
-            )
-        );
+    const selector =
+      readyWordSelector();
 
-    const filtered =
-      activity === "break" ||
-      activity === "build"
-        ? items.filter(
-            readyBreakItemIsFair
-          )
-        : items;
+    if (
+      !selector
+        ?.selectCandidates
+    ) {
+      return [];
+    }
 
-    return filtered
-      .slice()
-      .sort(
-        (a, b) =>
-          readyCandidateScore(b) -
-          readyCandidateScore(a)
+    return selector
+      .selectCandidates({
+        target:
+          readyTarget(),
+        objective:
+          activity,
+        stage:
+          "guided",
+        gradeBand:
+          readyCurrentBand(),
+        vocabularyLevel:
+          readyCurrentVocabLevel(),
+        flight:
+          readyCurrentFlight(),
+        isProtected:
+          readyProtectedWord
+      })
+      .map(
+        selection => ({
+          ...selection.item,
+          _readySelectorSelection:
+            selection
+        })
       );
   }
 
@@ -5565,19 +5064,10 @@
         );
 
       if (
-        candidate &&
-        !readyProtectedWord(
-          candidate.word
-        ) &&
-        readyInventoryMatchesTarget(
-          candidate
-        ) &&
-        (
-          activity !== "break" &&
-          activity !== "build" ||
-          readyBreakItemIsFair(
-            candidate
-          )
+        readyActivityCandidateIsFair(
+          candidate,
+          activity,
+          "guided"
         )
       ) {
         values.push(
@@ -5609,19 +5099,10 @@
           );
 
         if (
-          candidate &&
-          !readyProtectedWord(
-            candidate.word
-          ) &&
-          readyInventoryMatchesTarget(
-            candidate
-          ) &&
-          (
-            activity !== "break" &&
-            activity !== "build" ||
-            readyBreakItemIsFair(
-              candidate
-            )
+          readyActivityCandidateIsFair(
+            candidate,
+            activity,
+            "guided"
           )
         ) {
           values.push(
@@ -5649,7 +5130,6 @@
         }
 
         seen.add(key);
-
         return true;
       }
     );
@@ -5702,6 +5182,449 @@
   }
 
 
+    /* FIRST_VOLO_SELECTOR_DRIVEN_BREAK_PLAN_V1
+     Break word selection, fallback, and duration all consume the same
+     system-wide objective-aware selector.
+  */
+  function readyBreakPlanForDuration(
+    minutes
+  ) {
+    const selector =
+      readyWordSelector();
+
+    const policy =
+      readyV13DurationPolicy[
+        Number(minutes)
+      ];
+
+    if (
+      !selector
+        ?.buildBreakPlan ||
+      !policy
+    ) {
+      return {
+        complete:
+          false,
+        partA:
+          [],
+        apply:
+          null,
+        reason:
+          "Selector or duration policy is unavailable."
+      };
+    }
+
+    return selector
+      .buildBreakPlan({
+        target:
+          readyTarget(),
+        gradeBand:
+          readyCurrentBand(),
+        vocabularyLevel:
+          readyCurrentVocabLevel(),
+        flight:
+          readyCurrentFlight(),
+        candidates:
+          readyAllPracticeCandidates(
+            "break"
+          ),
+        isProtected:
+          readyProtectedWord,
+        partACount:
+          policy
+            ?.partAItems ||
+          1
+      });
+  }
+  function readyBreakSelectionPrompt(
+    selection,
+    stage
+  ) {
+    const item =
+      selection?.item ||
+      {};
+
+    const word =
+      item?.word ||
+      "";
+
+    const meaning =
+      item?.definition ||
+      item?.literal ||
+      "";
+
+    const formation =
+      selection?.wordFormation ||
+      null;
+
+    if (
+      selection?.demand ===
+        "form-change"
+    ) {
+      return (
+        `${word} comes from ${formation?.baseForm || "the base word"}` +
+        `${formation?.suffix ? ` + ${formation.suffix}` : ""}. ` +
+        `What happens to the final e when the new word is formed?`
+      );
+    }
+
+    if (
+      selection?.demand ===
+        "target-recognition"
+    ) {
+      return (
+        (
+          meaning
+            ? (
+                `${word} means ${meaning}. `
+              )
+            : ""
+        ) +
+        `Which visible part or form in ${word} connects to the idea ${readyTargetMeaning()}?`
+      );
+    }
+
+    if (
+      stage ===
+      "Apply"
+    ) {
+      return (
+        `Break ${word} into meaningful parts. ` +
+        `Begin independently with the whole word.`
+      );
+    }
+
+    const formQuestion =
+      formation?.spellingChange ===
+        "keep-final-e"
+        ? (
+            ` After you mark the parts, look at the base ${formation.baseForm}. ` +
+            `Does its final e stay or drop in this word?`
+          )
+        : "";
+
+    return (
+      `Break ${word} into meaningful parts. ` +
+      `Start with the whole word. If another part is unfamiliar, ` +
+      `the educator may explain that non-target part after the first attempt.` +
+      formQuestion
+    );
+  }
+  function readyBreakSelectionKey(
+    selection
+  ) {
+    const formation =
+      selection?.wordFormation ||
+      null;
+
+    if (
+      selection?.demand ===
+        "form-change"
+    ) {
+      return (
+        `${formation?.wordSum || "Use the approved word sum."}` +
+        `${formation?.teachingNote ? ` ${formation.teachingNote}` : ""}`
+      );
+    }
+
+    if (
+      selection?.demand ===
+        "target-recognition"
+    ) {
+      return (
+        `Expected visible target form: ${selection?.expectedTargetForm || readyTargetLabel()}. ` +
+        `Do not score this teaching move as a full segmentation.`
+      );
+    }
+
+    const parts =
+      selection?.segmentation?.parts ||
+      [];
+
+    return (
+      (
+        parts.length
+          ? parts.join(
+              " + "
+            )
+          : (
+              `Verify a linguistically accurate segmentation containing ${readyTargetLabel()}.`
+            )
+      ) +
+      (
+        formation?.teachingNote
+          ? ` ${formation.teachingNote}`
+          : ""
+      )
+    );
+  }
+
+
+  function readyTaskFromBreakSelection(
+    selection,
+    stage
+  ) {
+    const task =
+      readyTaskFromCandidate(
+        selection.item,
+        stage
+      );
+
+    const prompt =
+      readyBreakSelectionPrompt(
+        selection,
+        stage
+      );
+
+    const educatorKey =
+      readyBreakSelectionKey(
+        selection
+      );
+
+    return {
+      ...task,
+      prompt,
+      wordPrompt:
+        prompt,
+      answer:
+        educatorKey,
+      recipe: {
+        ...(task?.recipe || {}),
+        word:
+          selection
+            ?.item
+            ?.word ||
+          task?.recipe
+            ?.word ||
+          "",
+        educatorKey,
+        _readySelectorDemand:
+          selection
+            ?.demand ||
+          null,
+        _readySelectorAllowedSupport:
+          Array.isArray(
+            selection
+              ?.allowedSupport
+          )
+            ? selection
+                .allowedSupport
+                .slice()
+            : [],
+        _readySelectorWhyEligible:
+          selection
+            ?.whyEligible ||
+          "",
+        _readySelectorExpectedTargetForm:
+          selection
+            ?.expectedTargetForm ||
+          null,
+        _readySelectorWordFormation:
+          selection
+            ?.wordFormation ||
+          null,
+        _readySelectorFreshnessFamily:
+          selection
+            ?.freshnessFamily ||
+          null,
+        _readySelectorScored:
+          selection
+            ?.demand ===
+          "full-segmentation"
+      }
+    };
+  }
+
+
+  function readyBreakUnscoredFallback(
+    task
+  ) {
+    const choices =
+      readyWordSelector()
+        ?.selectCandidates?.({
+          target:
+            readyTarget(),
+          objective:
+            "break",
+          stage:
+            "guided",
+          gradeBand:
+            readyCurrentBand(),
+          vocabularyLevel:
+            readyCurrentVocabLevel(),
+          flight:
+            readyCurrentFlight(),
+          candidates:
+            readyAllPracticeCandidates(
+              "break"
+            ),
+          isProtected:
+            readyProtectedWord
+        }) ||
+      [];
+
+    const selection =
+      choices.find(
+        item =>
+          item.demand ===
+          "target-recognition"
+      ) ||
+      choices[0] ||
+      null;
+
+    if (!selection) {
+      return null;
+    }
+
+    return {
+      selection,
+      word:
+        selection.word,
+      prompt:
+        readyBreakSelectionPrompt(
+          selection,
+          "Teach / Practice"
+        ),
+      expected:
+        selection
+          .expectedTargetForm ||
+        readyTargetLabel()
+    };
+  }
+
+
+  function readyBreakUnavailablePrompt(
+    task
+  ) {
+    const fallback =
+      readyBreakUnscoredFallback(
+        task
+      );
+
+    return (
+      fallback
+        ? (
+            "Unscored target connection — " +
+            fallback.prompt
+          )
+        : (
+            "No complete scored Break It Apart sequence is available today. " +
+            "Do not force an unsuitable word or segmentation."
+          )
+    );
+  }
+
+
+  function readyBreakUnavailableMarkup(
+    task
+  ) {
+    const fallback =
+      readyBreakUnscoredFallback(
+        task
+      );
+
+    if (!fallback) {
+      return `
+        <div class="ready-material-heading">
+          <span>
+            Break It Apart
+          </span>
+
+          <h3>
+            No complete scored sequence is available yet
+          </h3>
+
+          <p>
+            Do not force an unsuitable word or segmentation.
+            Continue with another appropriate activity.
+          </p>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="ready-material-heading">
+        <span>
+          Break It Apart · unscored target connection
+        </span>
+
+        <h3>
+          ${esc(
+            fallback.word
+          )}
+        </h3>
+
+        <p>
+          ${esc(
+            fallback.prompt
+          )}
+        </p>
+      </div>
+
+      <details class="ready-support-panel">
+        <summary>
+          Educator key
+        </summary>
+
+        <div class="ready-support-panel-body">
+          <p>
+            Expected target form:
+            <strong>
+              ${esc(
+                fallback.expected
+              )}
+            </strong>
+          </p>
+
+          <p>
+            Use this only as an unscored target connection.
+            It does not count as independent Break It Apart performance.
+          </p>
+        </div>
+      </details>
+    `;
+  }
+
+
+  function readySelectorBreakSupportMarkup(
+    task
+  ) {
+    const supports =
+      Array.isArray(
+        task
+          ?.recipe
+          ?._readySelectorAllowedSupport
+      )
+        ? task
+            .recipe
+            ._readySelectorAllowedSupport
+        : [];
+
+    if (!supports.length) {
+      return "";
+    }
+
+    return `
+      <details class="ready-support-panel">
+        <summary>
+          If support is needed
+        </summary>
+
+        <div class="ready-support-panel-body">
+          <ul>
+            ${supports
+              .map(
+                item =>
+                  `<li>${esc(item)}</li>`
+              )
+              .join("")}
+          </ul>
+        </div>
+      </details>
+    `;
+  }
+
+
   function readyPrepareEffectiveTasks() {
     if (
       !Array.isArray(
@@ -5717,14 +5640,21 @@
         state.tasks[0]
       );
 
-    if (activity !== "break") {
+    if (
+      activity !==
+      "break"
+    ) {
       return;
     }
+
+    const minutes =
+      readyV13DurationMinutes();
 
     const signature =
       [
         readyTargetLabel(),
         activity,
+        minutes || "",
         ...state.tasks.map(
           task =>
             `${task?.stage || ""}:${readyWord(task)}`
@@ -5732,134 +5662,92 @@
       ].join("|");
 
     if (
-      state._readyBreakPreparedSignature ===
+      state
+        ._readyBreakPreparedSignature ===
       signature
     ) {
       return;
     }
 
-    const safeOriginalWords =
-      new Set(
-        state.tasks
-          .filter(
-            task =>
-              readyBreakTaskIsFair(
-                task
-              )
-          )
-          .map(
-            task =>
-              readyLettersOnly(
-                readyWord(task)
-              )
-          )
+    const plan =
+      readyBreakPlanForDuration(
+        minutes
       );
 
-    const candidates =
-      readyAllPracticeCandidates(
-        "break"
-      );
-
-    const used =
-      new Set();
-
-    state.tasks =
-      state.tasks.map(
-        task => {
-          if (
-            readyActivity(task) !==
-            "break"
-          ) {
-            return task;
-          }
-
-          const word =
-            readyLettersOnly(
-              readyWord(task)
-            );
-
-          if (
-            readyBreakTaskIsFair(
-              task
-            ) &&
-            !used.has(word)
-          ) {
-            used.add(word);
-
-            return task;
-          }
-
-          const replacement =
-            candidates.find(
-              item => {
-                const candidateWord =
-                  readyLettersOnly(
-                    item.word
-                  );
-
-                return (
-                  candidateWord &&
-                  !used.has(
-                    candidateWord
-                  ) &&
-                  !safeOriginalWords.has(
-                    candidateWord
-                  )
-                );
-              }
-            ) ||
-            candidates.find(
-              item => {
-                const candidateWord =
-                  readyLettersOnly(
-                    item.word
-                  );
-
-                return (
-                  candidateWord &&
-                  !used.has(
-                    candidateWord
-                  )
-                );
-              }
-            ) ||
-            null;
-
-          if (!replacement) {
-            return {
-              ...task,
-              recipe: {
-                ...(task.recipe || {}),
-                _readyBreakUnavailable:
-                  true
-              }
-            };
-          }
-
-          used.add(
-            readyLettersOnly(
-              replacement.word
+    if (
+      plan
+        ?.complete
+    ) {
+      state.tasks = [
+        ...plan.partA.map(
+          selection =>
+            readyTaskFromBreakSelection(
+              selection,
+              "Teach / Practice"
             )
-          );
+        ),
+        readyTaskFromBreakSelection(
+          plan.apply,
+          "Apply"
+        )
+      ];
+    } else {
+      const base =
+        state.tasks.find(
+          task =>
+            task?.stage ===
+            "Teach / Practice"
+        ) ||
+        state.tasks[0];
 
-          return readyTaskFromCandidate(
-            replacement,
-            task.stage
-          );
+      const fallback =
+        readyBreakUnscoredFallback(
+          base
+        );
+
+      state.tasks = [
+        {
+          ...base,
+          prompt:
+            readyBreakUnavailablePrompt(
+              base
+            ),
+          recipe: {
+            ...(base
+              ?.recipe ||
+              {}),
+            word:
+              fallback?.word ||
+              base
+                ?.recipe
+                ?.word ||
+              "",
+            _readyBreakUnavailable:
+              true,
+            _readySelectorDemand:
+              fallback
+                ?.selection
+                ?.demand ||
+              "target-recognition",
+            _readySelectorScored:
+              false
+          }
         }
-      );
+      ];
+    }
 
-    state._readyBreakPreparedSignature =
+    state
+      ._readyBreakPreparedSignature =
       [
         readyTargetLabel(),
         activity,
+        minutes || "",
         ...state.tasks.map(
           task =>
             `${task?.stage || ""}:${readyWord(task)}`
         )
       ].join("|");
   }
-
 
   function readyEnsureStepFlow() {
     const digital =
@@ -6445,8 +6333,6 @@
       task
     );
   }
-
-
   function renderReadyBreak(
     container,
     task
@@ -6455,26 +6341,58 @@
       task?.recipe
         ?._readyBreakUnavailable
     ) {
+      container.innerHTML =
+        readyBreakUnavailableMarkup(
+          task
+        );
+
+      return;
+    }
+
+    const selectorDemand =
+      task?.recipe
+        ?._readySelectorDemand ||
+      "full-segmentation";
+
+    if (
+      selectorDemand !==
+        "full-segmentation"
+    ) {
       container.innerHTML = `
         <div class="ready-material-heading">
           <span>
-            Step ${
+            ${
               task?.stage === "Apply"
-                ? "3 · Apply"
-                : "2 · Teach / Practice"
+                ? "Step 3 · Apply material"
+                : "Step 2 · Teach / Practice material"
             }
           </span>
 
           <h3>
-            Break It Apart
+            ${
+              selectorDemand ===
+                "form-change"
+                ? "Break It Apart · Form Change"
+                : "Break It Apart · Target Connection"
+            }
           </h3>
 
           <p>
-            No fair whole-word boundary item is available for this target at this level
-            without requiring an untaught spelling or word-part boundary.
-            Do not score a forced segmentation.
+            ${esc(
+              task?.prompt ||
+              ""
+            )}
           </p>
         </div>
+
+        <div class="ready-break-guided-word">
+          ${esc(
+            readyWord(task)
+          )}
+        </div>
+
+        ${readyEducatorKeyMarkup(task)}
+        ${readySelectorBreakSupportMarkup(task)}
       `;
 
       return;
@@ -6564,7 +6482,7 @@
       </div>
 
       ${readyEducatorKeyMarkup(task)}
-      ${readySupportDetailsMarkup()}
+      ${readySelectorBreakSupportMarkup(task)}
     `;
 
     const chosen =
@@ -8524,7 +8442,7 @@
     const minimumPracticeItems =
       activity === "morpheme"
         ? 2
-        : 5;
+        : 1;
 
     if (
       items.length <
@@ -8537,7 +8455,7 @@
           </strong>
 
           <p>
-            There are currently fewer than five appropriate additional words
+            There are currently no appropriate additional words
             for this exact activity at the learner's current level.
             Use Part A and Part B today rather than repeating or forcing unsuitable words.
           </p>
@@ -8733,7 +8651,7 @@
     const minimumPracticeItems =
       activity === "morpheme"
         ? 2
-        : 5;
+        : 1;
 
     if (
       items.length <
@@ -9933,9 +9851,165 @@
   }
 
 
+  /* FIRST_VOLO_INFER_BUILD_DEMAND_SUPPORT_V1_1
+     Figure It Out and Build Words need support selected from the actual
+     cognitive barrier, not a generic visual-cue sequence.
+
+     Locked pattern:
+       independent attempt -> identify barrier -> least relevant support
+       -> retry the same demand -> fade
+     Modeling is the exception: model with a DIFFERENT item, then return
+     control to the student.
+  */
+
+  function readyInferBuildDemandSupportMarkup(
+    activity,
+    {
+      practice = false
+    } = {}
+  ) {
+    const target =
+      readyTargetLabel();
+
+    const meaning =
+      readyTargetMeaning();
+
+    const panelClass =
+      practice
+        ? "ready-practice-support"
+        : "ready-support-panel";
+
+    if (
+      activity ===
+      "infer"
+    ) {
+      return `
+        <details class="${panelClass}">
+          <summary>
+            Support if needed after the independent attempt
+          </summary>
+
+          <div class="ready-support-panel-body">
+            <p class="ready-support-sequence">
+              Identify the barrier first. Do not automatically reveal the target meaning
+              or replace morphology reasoning with context guessing.
+            </p>
+
+            <div class="ready-demand-support-list">
+              <p>
+                <strong>If the student does not recognize or remember ${esc(target)}:</strong>
+                ask what familiar word part they recognize. If meaning access is the barrier,
+                use the established meaning cue or two meaning choices only as needed.
+                Then retry the same inference.
+              </p>
+
+              <p>
+                <strong>If the student recognizes ${esc(target)} but cannot combine the word parts:</strong>
+                ${
+                  meaning
+                    ? `keep ${esc(target)} = ${esc(meaning)} established and`
+                    : `keep the known target established and`
+                }
+                give the meaning of another meaningful part without giving the whole-word answer.
+                Ask the student to put the ideas together, then retry the same inference.
+              </p>
+
+              <p>
+                <strong>If the student is guessing from context alone:</strong>
+                ask, “What does the word part tell you first?”
+                Have morphology form the hypothesis; use context only to confirm or refine it.
+              </p>
+
+              <p>
+                <strong>If the inference is plausible but unsupported:</strong>
+                ask which word-part clue supports the proposed meaning.
+                If needed, offer two plausible whole-word meanings only after the morphology reasoning attempt.
+              </p>
+
+              <p>
+                <strong>If the student is still blocked:</strong>
+                model the reasoning with a different word, then give the student another attempt.
+                Do not count the modeled example as independent evidence.
+              </p>
+            </div>
+          </div>
+        </details>
+      `;
+    }
+
+    if (
+      activity ===
+      "build"
+    ) {
+      return `
+        <details class="${panelClass}">
+          <summary>
+            Support if needed after the independent attempt
+          </summary>
+
+          <div class="ready-support-panel-body">
+            <p class="ready-support-sequence">
+              Identify what went wrong in the build before cueing.
+              Keep the intended meaning visible and change only the support needed for that barrier.
+            </p>
+
+            <div class="ready-demand-support-list">
+              <p>
+                <strong>If the student chooses the wrong word part:</strong>
+                ask which available part carries the needed meaning.
+                ${
+                  meaning
+                    ? `For the current target, the relevant meaning is ${esc(meaning)}.`
+                    : `Do not select the part for the student.`
+                }
+                Then retry the same build.
+              </p>
+
+              <p>
+                <strong>If the student has the right parts but puts them in the wrong place:</strong>
+                ask which part is acting as the prefix, root/base, or suffix and where that role belongs.
+                Then retry the same build without arranging the pieces for the student.
+              </p>
+
+              <p>
+                <strong>If the student leaves out the target:</strong>
+                ask, “Which part carries the meaning we still need?”
+                Return to the same build.
+              </p>
+
+              <p>
+                <strong>If the student builds the word but cannot explain it:</strong>
+                ask what each part contributes to the whole-word meaning.
+                The explanation support should not change whether the first build was independent.
+              </p>
+
+              <p>
+                <strong>If the student is still blocked:</strong>
+                model how to complete a different build using parts not in this item,
+                then return to the current demand for another attempt.
+              </p>
+            </div>
+          </div>
+        </details>
+      `;
+    }
+
+    return "";
+  }
+
+
   function readyV7ActivitySupportMarkup(
     activity
   ) {
+    const demandSpecific =
+      readyInferBuildDemandSupportMarkup(
+        activity
+      );
+
+    if (demandSpecific) {
+      return demandSpecific;
+    }
+
     const meaning =
       readySupportTile()
         ?.meaning ||
@@ -10031,6 +10105,19 @@
   function readyV7PracticeSupportMarkup(
     activity
   ) {
+    const demandSpecific =
+      readyInferBuildDemandSupportMarkup(
+        activity,
+        {
+          practice:
+            true
+        }
+      );
+
+    if (demandSpecific) {
+      return demandSpecific;
+    }
+
     if (
       activity ===
       "morpheme"
@@ -10165,79 +10252,6 @@
     );
 
     return values;
-  }
-
-
-  function readyV7BreakOtherMorphemesWereEncountered(
-    parts
-  ) {
-    const targetIds =
-      new Set(
-        readyTargetIds()
-      );
-
-    const encountered =
-      readyV7LearnerEncounteredTargetIds();
-
-    const cleanParts =
-      parts
-        .map(
-          readyLettersOnly
-        )
-        .filter(Boolean);
-
-    for (
-      const part
-      of cleanParts
-    ) {
-      if (
-        targetIds.has(
-          part
-        )
-      ) {
-        continue;
-      }
-
-      const meta =
-        readyMorphemeMetaFor(
-          part
-        );
-
-      if (!meta) {
-        continue;
-      }
-
-      const metaIds =
-        [
-          meta?.id,
-          meta?.label
-        ]
-          .flatMap(
-            value =>
-              variants(
-                value ||
-                ""
-              )
-          )
-          .map(
-            readyLettersOnly
-          )
-          .filter(Boolean);
-
-      const known =
-        metaIds.some(
-          value =>
-            encountered.has(
-              value
-            )
-        );
-
-      if (!known) {
-        return false;
-      }
-    }
-
-    return true;
   }
 
 
@@ -11035,12 +11049,12 @@
       const requiredCount =
         activity === "morpheme"
           ? 2
-          : 5;
+          : 1;
 
       note.textContent =
         activity === "morpheme"
           ? "Targeted Word Part practice appears here when two appropriate opportunities are available."
-          : "Additional practice appears here when five appropriate items are available for this target and activity.";
+          : "Additional practice appears here when at least one appropriate item is available for this target and activity.";
 
       const paragraph =
         unavailable.querySelector(
@@ -15182,10 +15196,23 @@
         "sessionPromptResponse"
       );
 
-    breakArea.hidden =
-      !isBreak;
+    const breakUsesBoundaryResponse =
+      isBreak &&
+      (
+        state.tasks?.[
+          state.taskIndex
+        ]?.recipe
+          ?._readySelectorDemand ||
+        "full-segmentation"
+      ) ===
+        "full-segmentation";
 
-    if (isBreak) {
+    breakArea.hidden =
+      !breakUsesBoundaryResponse;
+
+    if (
+      breakUsesBoundaryResponse
+    ) {
       byId(
         "sessionPromptResponseLabel"
       ).textContent =
@@ -15234,6 +15261,20 @@
       currentActivity() ===
       "morpheme";
 
+    const activeTask =
+      state.tasks?.[
+        state.taskIndex
+      ] ||
+      null;
+
+    const breakUnavailable =
+      currentActivity() ===
+        "break" &&
+      Boolean(
+        activeTask?.recipe
+          ?._readyBreakUnavailable
+      );
+
     const legacyTaskPrompt =
       byId(
         "taskPrompt"
@@ -15253,7 +15294,8 @@
 
     if (legacyActivityResponse) {
       legacyActivityResponse.hidden =
-        isWordPart;
+        isWordPart ||
+        breakUnavailable;
     }
   }
   function configurePrintActivityMaterial() {
@@ -16171,6 +16213,8 @@
         null
       );
 
+    readyPrepareEffectiveTasks();
+
     state.taskIndex =
       Math.min(
         state.taskIndex,
@@ -16239,6 +16283,278 @@
   }
 
 
+  /* FIRST_VOLO_DYNAMIC_BREAK_SESSION_LENGTH_AVAILABILITY_V1
+     Longer Break sessions are offered only when enough DISTINCT,
+     learner-ready Break words exist for the required Part A items
+     plus one fresh Part B / Apply item.
+
+     10 minutes remains the minimum route because the existing
+     unscored fallback may be the instructionally correct outcome
+     when no scored full segmentation is ready.
+  */
+  function readyDurationAvailability(
+    minutes
+  ) {
+    const value =
+      Number(minutes);
+
+    if (
+      ![10, 15, 30]
+        .includes(value)
+    ) {
+      return {
+        available:
+          false,
+        reason:
+          "Unsupported session length."
+      };
+    }
+
+    if (
+      currentActivity() !==
+      "break"
+    ) {
+      return {
+        available:
+          true,
+        reason:
+          ""
+      };
+    }
+
+    const plan =
+      readyBreakPlanForDuration(
+        value
+      );
+
+    return {
+      available:
+        Boolean(
+          plan
+            ?.complete
+        ),
+      reason:
+        plan?.complete
+          ? ""
+          : (
+              plan?.reason ||
+              "A complete scored sequence is not available for this duration."
+            ),
+      plan
+    };
+  }
+
+
+  function readyLongestAvailableDuration(
+    requestedMinutes
+  ) {
+    const requested =
+      Number(
+        requestedMinutes
+      );
+
+    return (
+      [30, 15, 10]
+        .filter(
+          minutes =>
+            minutes <=
+            requested
+        )
+        .find(
+          minutes =>
+            readyDurationAvailability(
+              minutes
+            ).available
+        ) ||
+      null
+    );
+  }
+
+
+  function readyNormalizeUnavailableDuration() {
+    if (
+      currentActivity() !==
+      "break"
+    ) {
+      return false;
+    }
+
+    const current =
+      Number(
+        state.minutes
+      );
+
+    if (
+      readyDurationAvailability(
+        current
+      ).available
+    ) {
+      return false;
+    }
+
+    const availableNext =
+      readyLongestAvailableDuration(
+        current
+      );
+
+    /*
+      If no scored duration is currently buildable, retain the short
+      internal 10-minute shell only so an unscored connection can render.
+      Its duration button remains unavailable.
+    */
+    const next =
+      availableNext ||
+      10;
+
+    if (
+      next ===
+      current
+    ) {
+      return false;
+    }
+
+    state.minutes =
+      next;
+
+    const url =
+      new URL(
+        window.location.href
+      );
+
+    url.searchParams.set(
+      "minutes",
+      String(next)
+    );
+
+    window.history
+      .replaceState(
+        {},
+        "",
+        url
+      );
+
+    return true;
+  }
+
+
+  function readyRenderDurationAvailabilityNote() {
+    const existing =
+      document.getElementById(
+        "sessionDurationAvailabilityNote"
+      );
+
+    const buttons =
+      [
+        ...document.querySelectorAll(
+          "[data-session-minutes]"
+        )
+      ];
+
+    const host =
+      buttons[0]
+        ?.parentElement;
+
+    if (
+      currentActivity() !==
+        "break" ||
+      !host
+    ) {
+      if (existing) {
+        existing.hidden =
+          true;
+      }
+
+      return;
+    }
+
+    const records =
+      [10, 15, 30]
+        .map(
+          minutes => ({
+            minutes,
+            ...readyDurationAvailability(
+              minutes
+            )
+          })
+        );
+
+    const unavailable =
+      records.filter(
+        record =>
+          !record.available
+      );
+
+    if (!unavailable.length) {
+      if (existing) {
+        existing.hidden =
+          true;
+      }
+
+      return;
+    }
+
+    const note =
+      existing ||
+      document.createElement(
+        "div"
+      );
+
+    if (!existing) {
+      note.id =
+        "sessionDurationAvailabilityNote";
+
+      note.className =
+        "session-duration-availability-note";
+
+      note.setAttribute(
+        "role",
+        "status"
+      );
+
+      host
+        .insertAdjacentElement(
+          "afterend",
+          note
+        );
+    }
+
+    note.hidden =
+      false;
+
+    const available =
+      records.filter(
+        record =>
+          record.available
+      );
+
+    if (!available.length) {
+      note.innerHTML = `
+        <strong>
+          No complete scored Break It Apart session is available yet.
+        </strong>
+        Use the short unscored target connection today,
+        or continue with another appropriate activity.
+      `;
+
+      return;
+    }
+
+    note.innerHTML = `
+      <strong>
+        Available:
+        ${available
+          .map(
+            record =>
+              `${record.minutes} min`
+          )
+          .join(" · ")}
+      </strong>
+      Longer options stay unavailable only when the selector cannot build
+      a complete varied Part A + fresh Part B sequence.
+    `;
+  }
+
+
   function renderDurationButtons() {
     document
       .querySelectorAll(
@@ -16246,24 +16562,75 @@
       )
       .forEach(
         button => {
-          const active =
+          const minutes =
             Number(
-              button.dataset
+              button
+                .dataset
                 .sessionMinutes
-            ) ===
-            state.minutes;
+            );
 
-          button.classList.toggle(
-            "is-active",
-            active
-          );
+          const availability =
+            readyDurationAvailability(
+              minutes
+            );
+
+          const active =
+            availability
+              .available &&
+            minutes ===
+              state.minutes;
+
+          button
+            .classList
+            .toggle(
+              "is-active",
+              active
+            );
+
+          button
+            .classList
+            .toggle(
+              "is-unavailable",
+              !availability
+                .available
+            );
+
+          button.disabled =
+            !availability
+              .available;
 
           button.setAttribute(
             "aria-pressed",
             String(active)
           );
+
+          button.setAttribute(
+            "aria-disabled",
+            String(
+              !availability
+                .available
+            )
+          );
+
+          if (
+            availability
+              .available
+          ) {
+            button
+              .removeAttribute(
+                "title"
+              );
+          } else {
+            button.setAttribute(
+              "title",
+              availability
+                .reason
+            );
+          }
         }
       );
+
+    readyRenderDurationAvailabilityNote();
   }
 
 
@@ -16414,6 +16781,15 @@
       false;
 
     rebuildMaterial();
+
+    if (
+      readyNormalizeUnavailableDuration()
+    ) {
+      rebuildPlan();
+
+      return;
+    }
+
     render();
   }
 
@@ -16425,6 +16801,16 @@
       ![10, 15, 30]
         .includes(minutes)
     ) {
+      return;
+    }
+
+    if (
+      !readyDurationAvailability(
+        minutes
+      ).available
+    ) {
+      renderDurationButtons();
+
       return;
     }
 

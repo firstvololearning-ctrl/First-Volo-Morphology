@@ -1143,6 +1143,130 @@
     nextWork = null,
     sessionMinutes = 15
   } = {}) {
+
+    /* FIRST_VOLO_QA_SESSION_OVERRIDE_V1
+       DEV-ONLY browser preview.
+       Enabled only by:
+         ?qaPreview=1&qaTarget=mot&qaActivity=break
+
+       This changes only the in-memory nextWork used for this plan build.
+       It does NOT save learner progress or rewrite the learner's next target.
+    */
+    const qaParams =
+      (
+        typeof window !== "undefined" &&
+        window.location
+      )
+        ? new URLSearchParams(
+            window.location.search
+          )
+        : null;
+
+    const qaPreview =
+      qaParams?.get(
+        "qaPreview"
+      ) ===
+      "1";
+
+    const qaTarget =
+      String(
+        qaParams?.get(
+          "qaTarget"
+        ) ||
+        ""
+      )
+        .trim()
+        .toLowerCase();
+
+    const qaActivity =
+      String(
+        qaParams?.get(
+          "qaActivity"
+        ) ||
+        ""
+      )
+        .trim()
+        .toLowerCase();
+
+    if (
+      qaPreview &&
+      qaTarget === "mot" &&
+      qaActivity === "break"
+    ) {
+      const originalNextWork =
+        (
+          nextWork &&
+          typeof nextWork ===
+            "object"
+        )
+          ? nextWork
+          : {};
+
+      const originalTarget =
+        (
+          originalNextWork?.target &&
+          typeof originalNextWork.target ===
+            "object"
+        )
+          ? originalNextWork.target
+          : {};
+
+      const qaTargetObject = {
+        ...originalTarget,
+        id: "mot",
+        targetId: "mot",
+        morphemeId: "mot",
+        label: "mot/mov",
+        name: "mot/mov",
+        meaning: "move",
+        type: "root",
+        role: "root"
+      };
+
+      nextWork = {
+        ...originalNextWork,
+
+        target:
+          qaTargetObject,
+
+        targetId:
+          "mot",
+
+        morphemeId:
+          "mot",
+
+        targetKey:
+          "mot",
+
+        targetLabel:
+          "mot/mov",
+
+        targetMeaning:
+          "move",
+
+        activity:
+          "break",
+
+        activityId:
+          "break",
+
+        activityKey:
+          "break",
+
+        nextActivity:
+          "break",
+
+        nextActivityId:
+          "break",
+
+        nextMode:
+          "break",
+
+        mode:
+          "break"
+      };
+    }
+
     const guidanceApi =
       window
         .FirstVoloInstructionalGuidance;

@@ -6068,7 +6068,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "act or process of moving",
     "definition": "movement or the act of moving",
-    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Break It Apart / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1848,
