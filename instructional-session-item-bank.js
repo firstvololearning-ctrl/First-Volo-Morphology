@@ -771,7 +771,7 @@
         return `What does ${label} mean? Begin without choices or a visual cue. Use ${word} only as an example after the response.`;
 
       case "morpheme":
-        return `Which word part means “${meaning}”? After the student retrieves it, connect it to ${word}.`;
+        return `Which word part means “${meaning}”?`;
 
       case "break":
         return `Break ${word} into meaningful parts. Do not pre-mark the boundaries.`;

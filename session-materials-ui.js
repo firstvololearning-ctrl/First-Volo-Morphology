@@ -9174,23 +9174,10 @@
       );
 
     if (count) {
-      const word =
-        readyWord(
-          task
-        );
-
       count.textContent =
-        word
-          ? (
-              isApply
-                ? `Fresh example: ${word}`
-                : `Practice example: ${word}`
-            )
-          : (
-              isApply
-                ? "Apply"
-                : "Practice"
-            );
+        isApply
+          ? "Fresh item"
+          : "Practice item";
     }
 
     if (
