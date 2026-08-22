@@ -13038,15 +13038,7 @@
     ensureTeacherSessionUxStyles();
 
     const retrieveCount =
-      state.plan
-        ?.retrieve
-        ?.items
-        ?.length ||
-      state.plan
-        ?.retrieve
-        ?.prompts
-        ?.length ||
-      0;
+      1;
 
     const practiceTasks =
       state.tasks.filter(
@@ -13054,14 +13046,6 @@
           task.stage ===
           "Teach / Practice"
       );
-
-    const practiceWords =
-      practiceTasks
-        .map(
-          task =>
-            taskWord(task)
-        )
-        .filter(Boolean);
 
     const applyTask =
       state.tasks.find(
@@ -13071,13 +13055,9 @@
       );
 
     const applyDetail =
-      taskWord(applyTask)
-        ? (
-            `1 fresh ${currentActivityLabel()} item: ${taskWord(applyTask)}`
-          )
-        : (
-            `1 fresh ${currentActivityLabel()} response`
-          );
+      applyTask
+        ? `1 fresh ${currentActivityLabel()} item; do not preview the word`
+        : `No fresh ${currentActivityLabel()} application item is available today`;
 
     const transferCount =
       state.plan
@@ -13094,13 +13074,7 @@
         : "No transfer check is available for this target today; skip Step 4";
 
     const practiceDetail =
-      practiceWords.length
-        ? (
-            `${practiceWords.length} ${currentActivityLabel()} ${practiceWords.length === 1 ? "item" : "items"}: ${practiceWords.join(", ")}`
-          )
-        : (
-            `${currentActivityLabel()} practice`
-          );
+      `${practiceTasks.length} ${currentActivityLabel()} ${practiceTasks.length === 1 ? "practice item" : "practice items"}`;
 
     let overview =
       document.getElementById(
