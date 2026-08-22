@@ -95,6 +95,20 @@
     const decision =
       guidance.instructionalDecision;
 
+    if (
+      decision &&
+      !decision.independent &&
+      (
+        decision.difficulty === "meaning" ||
+        decision.difficulty === "retrieval"
+      )
+    ) {
+      return (
+        "Check retrieval first. If the student cannot recall the target, " +
+        "briefly review it, then retry the same retrieval demand."
+      );
+    }
+
     if (decision?.transition) {
       return decision.transition;
     }

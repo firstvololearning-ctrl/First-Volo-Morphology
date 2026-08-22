@@ -1512,7 +1512,7 @@
         Object.freeze({
           id: "ct-ive-01",
           word: "protective",
-          sentence: "The helmet is protective because it helps protect the rider.",
+          sentence: "The protective cover kept the tablet safe when it fell.",
           expectedMeaning: "having the quality or purpose of protecting"
         }),
         Object.freeze({
@@ -1588,7 +1588,7 @@
         Object.freeze({
           id: "ct-ness-01",
           word: "brightness",
-          sentence: "The brightness of the lamp describes how bright it is.",
+          sentence: "The room's brightness made it easy to read the tiny print.",
           expectedMeaning: "the state or quality of being bright"
         }),
         Object.freeze({
@@ -1873,7 +1873,7 @@
         Object.freeze({
           id: "ct-s-es-01",
           word: "lanterns",
-          sentence: "Several lanterns hung from the ceiling, so there was more than one lantern.",
+          sentence: "Lanterns glowed along both sides of the path after sunset.",
           expectedMeaning: "more than one lantern"
         }),
         Object.freeze({
