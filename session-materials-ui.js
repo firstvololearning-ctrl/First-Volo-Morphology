@@ -14268,9 +14268,15 @@
     byId(
       "sessionTargetLine"
     ).textContent =
-      targetPhrase(
-        primary
-      );
+      primary?.label
+        ? [
+            primary.role ||
+              "word part",
+            primary.label
+          ]
+            .filter(Boolean)
+            .join(" ")
+        : "Target";
 
     const last =
       state.plan
