@@ -938,6 +938,7 @@
               null
           };
 
+        /* FIRST_VOLO_WORD_PART_PARTB_TEACHER_DIRECTIONS_V4L3 */
         case "morpheme":
           return {
             kind:
@@ -946,10 +947,10 @@
             prompt:
               meaning
                 ? (
-                    `The known meaning is “${meaning}.” Name the word part that carries that meaning, then find it in ${word}.`
+                    `Present the meaning without naming the word part: “${meaning}.” Ask the student to name the word part. After the student responds, present ${word} and ask them to find the word part in the word. Do not show or say ${word} before the student responds.`
                   )
                 : (
-                    `Name the target word part, then find it in ${word}.`
+                    `Ask the student to name the target word part. After the student responds, present ${word} and ask them to find the word part in the word. Do not show or say ${word} before the student responds.`
                   ),
             educatorKey:
               `Expected word part: ${label}.`,

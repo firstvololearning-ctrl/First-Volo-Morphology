@@ -271,6 +271,8 @@
       style
     );
   }
+  /* FIRST_VOLO_NO_TRANSFER_STEP5_ROUTE_V4M */
+
   function unavailableMessage(
     transfer
   ) {
@@ -284,7 +286,7 @@
     ) {
       return (
         "No new transfer check is available for this target today. " +
-        "Skip Step 4 and end the session after Apply."
+        "Skip Step 4. If additional practice is helpful, continue to Step 5; otherwise end the session."
       );
     }
 
@@ -294,13 +296,13 @@
     ) {
       return (
         "A transfer check is not available for this session. " +
-        "Skip Step 4 and end the session after Apply."
+        "Skip Step 4. If additional practice is helpful, continue to Step 5; otherwise end the session."
       );
     }
 
     return (
       "No transfer check is available for this target today. " +
-      "Skip Step 4 and end the session after Apply."
+      "Skip Step 4. If additional practice is helpful, continue to Step 5; otherwise end the session."
     );
   }
 
@@ -770,9 +772,6 @@
 
       print.innerHTML = `
         <p>
-          <strong>
-            Transfer check not available.
-          </strong>
           ${esc(message)}
         </p>
       `;

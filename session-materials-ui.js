@@ -6116,8 +6116,7 @@
       );
 
     if (
-      activity === "meaning" ||
-      activity === "morpheme"
+      activity === "meaning"
     ) {
       return Array.from(
         {
@@ -6407,13 +6406,25 @@
           data-practice-activity="choice"
           data-practice-answer="${esc(correct)}"
         >
-          <h3>
-            ${number}. What does ${esc(readyTargetLabel())} mean${
-              word
-                ? ` in ${esc(word)}`
-                : ""
-            }?
-          </h3>
+          ${
+            (() => {
+              const variant =
+                readyV12MeaningPrompt(
+                  index,
+                  readyV12TargetCore()
+                );
+
+              return `
+                <div class="ready-v12-practice-move">
+                  Practice move · ${esc(variant.move)}
+                </div>
+
+                <h3>
+                  ${number}. ${esc(variant.prompt)}
+                </h3>
+              `;
+            })()
+          }
 
           <div class="ready-choice-grid">
             ${choices
@@ -6448,49 +6459,94 @@
         target?.label ||
         readyTargetLabel();
 
-      const distractors =
-        readyMorphemeDistractors(3)
-          .map(
-            item =>
-              item.label
-          )
-          .filter(Boolean);
+      if (index === 0) {
+        const distractors =
+          readyMorphemeDistractors(3)
+            .map(
+              item =>
+                item.label
+            )
+            .filter(Boolean);
 
-      const choices =
-        readyShuffle([
-          correct,
-          ...distractors
-        ])
-          .filter(Boolean)
-          .slice(0, 4);
+        const choices =
+          readyShuffle([
+            correct,
+            ...distractors
+          ])
+            .filter(Boolean)
+            .slice(0, 4);
+
+        return `
+          <section
+            class="ready-practice-question"
+            data-practice-question="${index}"
+            data-practice-activity="choice"
+            data-practice-answer="${esc(correct)}"
+          >
+            <h3>
+              ${number}. Which word part matches this meaning?
+            </h3>
+
+            <p class="ready-practice-cue">
+              ${esc(readyTargetMeaning())}
+            </p>
+
+            <div class="ready-choice-grid">
+              ${choices
+                .map(
+                  choice => `
+                    <button
+                      type="button"
+                      class="ready-choice-button"
+                      data-practice-choice="${esc(choice)}"
+                      aria-pressed="false"
+                    >
+                      ${esc(choice)}
+                    </button>
+                  `
+                )
+                .join("")}
+            </div>
+
+            <p
+              class="ready-practice-feedback"
+              aria-live="polite"
+            ></p>
+
+            <button
+              type="button"
+              class="session-secondary-button"
+              data-practice-continue-recall
+              hidden
+            >
+              Continue to independent recall →
+            </button>
+          </section>
+        `;
+      }
 
       return `
         <section
           class="ready-practice-question"
           data-practice-question="${index}"
-          data-practice-activity="choice"
+          data-practice-activity="text"
           data-practice-answer="${esc(correct)}"
+          data-practice-recall="true"
+          hidden
         >
           <h3>
-            ${number}. Which word part means “${esc(readyTargetMeaning())}”?
+            ${number}. Without looking back, what word part matches that meaning?
           </h3>
 
-          <div class="ready-choice-grid">
-            ${choices
-              .map(
-                choice => `
-                  <button
-                    type="button"
-                    class="ready-choice-button"
-                    data-practice-choice="${esc(choice)}"
-                    aria-pressed="false"
-                  >
-                    ${esc(choice)}
-                  </button>
-                `
-              )
-              .join("")}
-          </div>
+          <label class="ready-response-label">
+            Word part
+            <input
+              type="text"
+              class="ready-response-input"
+              data-practice-text
+              autocomplete="off"
+            >
+          </label>
 
           <p
             class="ready-practice-feedback"
@@ -6824,6 +6880,23 @@
               );
           }
 
+          if (kind === "text") {
+            const input =
+              question.querySelector(
+                "[data-practice-text]"
+              );
+
+            input?.addEventListener(
+              "input",
+              () => {
+                question.dataset
+                  .practiceSelected =
+                    input.value ||
+                    "";
+              }
+            );
+          }
+
           if (kind === "choice") {
             question
               .querySelectorAll(
@@ -6857,11 +6930,65 @@
                           button.dataset
                             .practiceChoice ||
                           "";
+
+                      const continueRecall =
+                        question.querySelector(
+                          "[data-practice-continue-recall]"
+                        );
+
+                      if (continueRecall) {
+                        continueRecall.hidden =
+                          false;
+                      }
                     }
                   );
                 }
               );
           }
+
+          question
+            .querySelector(
+              "[data-practice-continue-recall]"
+            )
+            ?.addEventListener(
+              "click",
+              () => {
+                const recall =
+                  container.querySelector(
+                    "[data-practice-recall='true']"
+                  );
+
+                if (!recall) {
+                  return;
+                }
+
+                question.dataset
+                  .practiceSequentialComplete =
+                    "true";
+
+                question.hidden =
+                  true;
+
+                recall.hidden =
+                  false;
+
+                const check =
+                  byId(
+                    "readyCheckPracticeSet"
+                  );
+
+                if (check) {
+                  check.hidden =
+                    false;
+                }
+
+                recall
+                  .querySelector(
+                    "[data-practice-text]"
+                  )
+                  ?.focus();
+              }
+            );
 
           if (kind === "hunt") {
             const button =
@@ -7003,7 +7130,8 @@
           [
             ...container
               .querySelectorAll(
-                ".ready-practice-question:not([hidden])"
+                ".ready-practice-question:not([hidden]), " +
+                ".ready-practice-question[data-practice-sequential-complete='true']"
               )
           ];
 
@@ -7099,6 +7227,22 @@
                 ) ===
                 expected.join(",");
             } else if (
+              kind === "text"
+            ) {
+              scorable += 1;
+
+              result =
+                readyLettersOnly(
+                  question.dataset
+                    .practiceSelected ||
+                  ""
+                ) ===
+                readyLettersOnly(
+                  question.dataset
+                    .practiceAnswer ||
+                  ""
+                );
+            } else if (
               kind === "choice"
             ) {
               scorable += 1;
@@ -7192,6 +7336,77 @@
               ? `${correct}/${scorable} correct on the items checked.`
               : "Complete or educator-score the visible items first.";
         }
+
+        if (
+          currentActivity() ===
+            "morpheme" &&
+          scorable >= 2 &&
+          correct === scorable
+        ) {
+          const actions =
+            byId(
+              "readyCheckPracticeSet"
+            )
+              ?.closest(
+                ".ready-practice-actions"
+              );
+
+          if (
+            actions &&
+            !container.querySelector(
+              "[data-word-part-teacher-follow-up]"
+            )
+          ) {
+            const applicationWords =
+              readyV12ApplicationWords();
+
+            const applicationWord =
+              applicationWords[0] ||
+              "";
+
+            const target =
+              readyV12TargetCore();
+
+            if (
+              applicationWord &&
+              target
+            ) {
+              const note =
+                document.createElement(
+                  "div"
+                );
+
+              note.className =
+                "ready-v12-after-response ready-teacher-follow-up";
+
+              note.dataset
+                .wordPartTeacherFollowUp =
+                  "true";
+
+              note.innerHTML = `
+                <strong>
+                  Teacher follow-up (optional):
+                </strong>
+                The two Word Part responses are complete.
+                If additional application is helpful, ask the student to locate
+                <strong>
+                  ${esc(target)}
+                </strong>
+                in
+                <strong>
+                  ${esc(applicationWord)}
+                </strong>.
+                Use this only after independent recall so the whole word does not cue the answer.
+                This follow-up is not part of the scored Practice Set.
+              `;
+
+              actions.insertAdjacentElement(
+                "afterend",
+                note
+              );
+            }
+          }
+        }
       }
     );
 
@@ -7219,6 +7434,116 @@
   }
 
 
+  /* FIRST_VOLO_WORD_PART_OPTIONAL_NAV_LABEL_V4P */
+
+  /* FIRST_VOLO_WORD_PART_FINAL_COPY_POLISH_V4O */
+
+  /* FIRST_VOLO_WORD_PART_STEP5_PRINT_SAFETY_V4N */
+
+  function readyV14Step5Items(
+    activity,
+    ordinaryItems
+  ) {
+    if (
+      activity !==
+      "morpheme"
+    ) {
+      return ordinaryItems;
+    }
+
+    /*
+     * Word Part Step 5 is recognition + independent recall of the
+     * already-taught target. These two opportunities do not consume
+     * additional whole-word inventory.
+     */
+    return [
+      {
+        word:
+          readyTargetLabel(),
+        step5Mode:
+          "recognition"
+      },
+      {
+        word:
+          readyTargetLabel(),
+        step5Mode:
+          "recall"
+      }
+    ];
+  }
+
+
+  function readyV14StudentPrintPrompt(
+    task,
+    {
+      includeMeaning =
+        true
+    } = {}
+  ) {
+    const activity =
+      readyActivity(task);
+
+    const isApply =
+      task?.stage ===
+      "Apply";
+
+    if (
+      activity ===
+        "morpheme" &&
+      isApply
+    ) {
+      const meaning =
+        readyTargetMeaning();
+
+      const firstSentence =
+        meaning &&
+        includeMeaning
+          ? `Which word part matches this meaning: “${meaning}”?`
+          : "Which word part matches this meaning?";
+
+      return (
+        `${firstSentence} ` +
+        "After you respond, your teacher will give you a new word. " +
+        "Find the word part in that word."
+      );
+    }
+
+    return task?.prompt || "";
+  }
+
+
+  function readyV14StudentPrintableTask(
+    task
+  ) {
+    if (
+      readyActivity(task) !==
+        "morpheme" ||
+      task?.stage !==
+        "Apply"
+    ) {
+      return task;
+    }
+
+    return {
+      ...task,
+      word: null,
+      prompt:
+        readyV14StudentPrintPrompt(
+          task,
+          {
+            includeMeaning:
+              false
+          }
+        ),
+      recipe: {
+        ...(task?.recipe || {}),
+        word: null,
+        applyWord: null
+      }
+    };
+  }
+
+
   function readyRenderPracticeSet() {
     readyEnsureStepFlow();
 
@@ -7237,8 +7562,50 @@
         null
       );
 
-    const items =
+    const ordinaryItems =
       readyPracticeSetItems();
+
+    const items =
+      readyV14Step5Items(
+        activity,
+        ordinaryItems
+      );
+
+    const minutes =
+      readyV13DurationMinutes();
+
+    const policy =
+      readyV13DurationPolicy[
+        minutes
+      ] ||
+      readyV13DurationPolicy[
+        15
+      ];
+
+    const activityStep5Limit =
+      activity === "morpheme"
+        ? 2
+        : policy.step5Limit;
+
+    const allowedItems =
+      items.slice(
+        0,
+        activityStep5Limit
+      );
+
+    const allowMore =
+      activity !== "morpheme" &&
+      policy.step5Limit >
+      5;
+
+    const introText =
+      activity === "morpheme"
+        ? "Use these two targeted Word Part opportunities only if additional practice is helpful."
+        : minutes === 10
+          ? "Optional extension. Use up to five items only if time remains or additional practice is indicated."
+          : minutes === 15
+            ? "Optional practice. Use up to five items if time remains or additional practice is indicated."
+            : "Complete the first five items. Continue with up to five additional items as appropriate.";
 
     const signature =
       [
@@ -7246,7 +7613,8 @@
         activity,
         readyCurrentBand(),
         readyCurrentFlight(),
-        ...items.map(
+        minutes,
+        ...allowedItems.map(
           item =>
             item.word
         )
@@ -7264,7 +7632,15 @@
       .practiceSignature =
         signature;
 
-    if (items.length < 5) {
+    const minimumPracticeItems =
+      activity === "morpheme"
+        ? 2
+        : 5;
+
+    if (
+      items.length <
+      minimumPracticeItems
+    ) {
       container.innerHTML = `
         <div class="ready-practice-unavailable">
           <strong>
@@ -7298,12 +7674,12 @@
         </strong>
 
         <span>
-          Use the first five items, or continue through all ten.
+          ${esc(introText)}
         </span>
       </div>
 
       <div class="ready-practice-question-list">
-        ${items
+        ${allowedItems
           .map(
             (item, index) => {
               const markup =
@@ -7328,7 +7704,8 @@
 
       <div class="ready-practice-actions">
         ${
-          items.length > 5
+          allowMore &&
+          allowedItems.length > 5
             ? `
               <button
                 type="button"
@@ -7338,7 +7715,7 @@
                 Continue for ${
                   Math.min(
                     5,
-                    items.length - 5
+                    allowedItems.length - 5
                   )
                 } more
               </button>
@@ -7350,6 +7727,11 @@
           type="button"
           class="session-primary-button"
           id="readyCheckPracticeSet"
+          ${
+            activity === "morpheme"
+              ? "hidden"
+              : ""
+          }
         >
           Check Practice Set
         </button>
@@ -7369,6 +7751,41 @@
       container
     );
 
+    if (
+      activity === "meaning" ||
+      activity === "morpheme"
+    ) {
+      const applicationWords =
+        readyV12ApplicationWords();
+
+      const target =
+        readyV12TargetCore();
+
+      [
+        ...container.querySelectorAll(
+          ".ready-practice-question h3"
+        )
+      ].forEach(
+        (
+          node,
+          index
+        ) => {
+          readyV12WireApplication(
+            node,
+            applicationWords[
+              index %
+              Math.max(
+                applicationWords.length,
+                1
+              )
+            ] ||
+            "",
+            target
+          );
+        }
+      );
+    }
+
     readyV7PolishPracticeSetCopy();
   }
 
@@ -7380,10 +7797,55 @@
         null
       );
 
-    const items =
+    const ordinaryItems =
       readyPracticeSetItems();
 
-    if (items.length < 5) {
+    const items =
+      readyV14Step5Items(
+        activity,
+        ordinaryItems
+      );
+
+    const minutes =
+      readyV13DurationMinutes();
+
+    const policy =
+      readyV13DurationPolicy[
+        minutes
+      ] ||
+      readyV13DurationPolicy[
+        15
+      ];
+
+    const activityStep5Limit =
+      activity === "morpheme"
+        ? 2
+        : policy.step5Limit;
+
+    const allowedItems =
+      items.slice(
+        0,
+        activityStep5Limit
+      );
+
+    const printIntro =
+      activity === "morpheme"
+        ? "Two targeted Word Part opportunities: recognition first, then independent recall."
+        : minutes === 10
+          ? "Optional extension: use up to five items only if time remains or additional practice is indicated."
+          : minutes === 15
+            ? "Optional practice: use up to five items if time remains or additional practice is indicated."
+            : "Complete the first five items; continue with up to five additional items as appropriate.";
+
+    const minimumPracticeItems =
+      activity === "morpheme"
+        ? 2
+        : 5;
+
+    if (
+      items.length <
+      minimumPracticeItems
+    ) {
       return `
         <section class="print-ready-task">
           <div class="print-ready-task-heading">
@@ -7397,22 +7859,25 @@
           </div>
 
           <p>
-            This target does not yet have five appropriate additional items
-            for this activity at the learner's current level.
-            Use the available session activities rather than repeating or forcing unsuitable items.
+            ${
+              activity === "morpheme"
+                ? (
+                    "This Word Part practice set requires two targeted opportunities. " +
+                    "Use recognition followed by independent recall."
+                  )
+                : (
+                    "This target does not yet have five appropriate additional items " +
+                    "for this activity at the learner's current level. " +
+                    "Use the available session activities rather than repeating or forcing unsuitable items."
+                  )
+            }
           </p>
         </section>
       `;
     }
 
-    const firstTen =
-      items.slice(
-        0,
-        10
-      );
-
     const rows =
-      firstTen
+      allowedItems
         .map(
           (item, index) => {
             if (activity === "break") {
@@ -7449,10 +7914,16 @@
             }
 
             if (activity === "meaning") {
+              const variant =
+                readyV12MeaningPrompt(
+                  index,
+                  readyV12TargetCore()
+                );
+
               return `
                 <div class="print-ready-practice-item">
                   <strong>
-                    ${index + 1}. What does ${esc(readyTargetLabel())} mean?
+                    ${index + 1}. ${esc(variant.prompt)}
                   </strong>
 
                   <div class="print-ready-lines"></div>
@@ -7461,10 +7932,15 @@
             }
 
             if (activity === "morpheme") {
+              const prompt =
+                index === 0
+                  ? `Which word part matches this meaning: ${readyTargetMeaning()}`
+                  : "Cover Item 1. Then write the word part from memory.";
+
               return `
                 <div class="print-ready-practice-item">
                   <strong>
-                    ${index + 1}. Which word part means “${esc(readyTargetMeaning())}”?
+                    ${index + 1}. ${esc(prompt)}
                   </strong>
 
                   <div class="print-ready-lines"></div>
@@ -7509,7 +7985,12 @@
           </span>
 
           <h2>
-            Practice Set · ${
+            ${
+              activity === "morpheme" ||
+              minutes !== 30
+                ? "Optional Practice Set"
+                : "Practice Set"
+            } · ${
               esc(
                 READY_ACTIVITY_LABELS[
                   activity
@@ -7520,7 +8001,7 @@
           </h2>
 
           <p>
-            Use the first five items, or continue through all ten.
+            ${esc(printIntro)}
           </p>
         </div>
 
@@ -7581,7 +8062,9 @@
                     </section>
                   `
                 : readyPrintableTaskMarkup(
-                    task
+                    readyV14StudentPrintableTask(
+                      task
+                    )
                   )
           )
           .join("") +
@@ -9432,6 +9915,52 @@
           "Not available";
       }
     }
+
+    const step5 =
+      strip.querySelector(
+        "[data-ready-step-five]"
+      );
+
+    if (step5) {
+      const strong =
+        step5.querySelector(
+          "strong"
+        );
+
+      const time =
+        step5.querySelector(
+          "span"
+        );
+
+      const minutes =
+        readyV13DurationMinutes();
+
+      const step5Activity =
+        readyActivity(
+          state.tasks?.[0] ||
+          null
+        );
+
+      if (strong) {
+        strong.textContent =
+          step5Activity ===
+            "morpheme" ||
+          minutes !== 30
+            ? "5. Optional Practice Set"
+            : "5. Practice Set";
+      }
+
+      if (time) {
+        time.textContent =
+          step5Activity ===
+            "morpheme"
+            ? "2 targeted items"
+            : minutes === 30
+              ? "5–10 items"
+              : "Up to 5 items";
+      }
+    }
+
   }
 
 
@@ -9459,14 +9988,50 @@
       return;
     }
 
+    const practiceActivity =
+      readyActivity(
+        state.tasks?.[0] ||
+        null
+      );
+
+    const practiceMinutes =
+      readyV13DurationMinutes();
+
+    const practiceHeading =
+      card.querySelector(
+        "h2"
+      );
+
+    if (practiceHeading) {
+      practiceHeading.textContent =
+        practiceActivity ===
+          "morpheme" ||
+        practiceMinutes !== 30
+          ? "Optional Practice Set"
+          : "Practice Set";
+    }
+
     const unavailable =
       container.querySelector(
         ".ready-practice-unavailable"
       );
 
     if (unavailable) {
+      const activity =
+        readyActivity(
+          state.tasks?.[0] ||
+          null
+        );
+
+      const requiredCount =
+        activity === "morpheme"
+          ? 2
+          : 5;
+
       note.textContent =
-        "Additional practice appears here when five appropriate items are available for this target and activity.";
+        activity === "morpheme"
+          ? "Targeted Word Part practice appears here when two appropriate opportunities are available."
+          : "Additional practice appears here when five appropriate items are available for this target and activity.";
 
       const paragraph =
         unavailable.querySelector(
@@ -9475,14 +10040,33 @@
 
       if (paragraph) {
         paragraph.textContent =
-          "There are currently fewer than five appropriate additional items for this target and activity at the learner's current level. Use the available session activities today.";
+          `There are currently fewer than ${requiredCount} appropriate additional ${
+            activity === "morpheme"
+              ? "Word Part opportunities"
+              : "items"
+          } for this target and activity at the learner's current level. Use the available session activities today.`;
       }
 
       return;
     }
 
+    const minutes =
+      readyV13DurationMinutes();
+
+    const activity =
+      readyActivity(
+        state.tasks?.[0] ||
+        null
+      );
+
     note.textContent =
-      "Five additional practice items for this target and activity. Continue for five more when appropriate.";
+      activity === "morpheme"
+        ? "Two targeted Word Part opportunities: recognition first, then independent recall."
+        : minutes === 10
+          ? "Optional extension. Use up to five items only if time remains or additional practice is indicated."
+          : minutes === 15
+            ? "Optional practice. Use up to five items if time remains or additional practice is indicated."
+            : "Complete the first five items. Continue with up to five more as appropriate.";
   }
 
 
@@ -10099,13 +10683,18 @@
       },
       {
         label:
-          minutes === 30
-            ? "Practice Set"
-            : "Optional Practice Set",
+          currentActivity() ===
+            "morpheme"
+            ? "Optional Practice Set"
+            : minutes === 30
+              ? "Practice Set"
+              : "Optional Practice Set",
         detail:
-          minutes === 30
-            ? "first 5 items, with up to 5 more as appropriate"
-            : "up to 5 items if time remains or additional practice is indicated"
+          currentActivity() === "morpheme"
+            ? "2 targeted Word Part opportunities if additional practice is helpful"
+            : minutes === 30
+              ? "first 5 items, with up to 5 more as appropriate"
+              : "up to 5 items if time remains or additional practice is indicated"
       }
     ];
 
@@ -11464,19 +12053,33 @@
       return;
     }
 
+    const sequentialWordPart =
+      currentActivity() ===
+        "morpheme" &&
+      Boolean(
+        card.closest(
+          "#sessionPracticeSetCard"
+        )
+      );
+
+    if (sequentialWordPart) {
+      return;
+    }
+
     const strip =
       document.createElement(
         "div"
       );
 
     strip.className =
-      "ready-v12-after-response";
+      "ready-v12-after-response ready-teacher-follow-up";
 
     strip.innerHTML = `
       <strong>
-        Apply after your answer:
+        Teacher follow-up (optional):
       </strong>
-      Find
+      After the independent response is complete, you may connect the target to a whole-word example.
+      If useful, ask the student to locate
       <strong>
         ${esc(target)}
       </strong>
@@ -11484,6 +12087,7 @@
       <strong>
         ${esc(word)}
       </strong>.
+      This follow-up is for guided application and is not part of the scored response.
     `;
 
     card.appendChild(
@@ -12229,6 +12833,16 @@
 
 
 
+  /* FIRST_VOLO_TEACHER_FACING_APPLICATION_FOLLOWUP_V4K */
+
+  /* FIRST_VOLO_WORD_PART_SEQUENTIAL_RECALL_V4J */
+
+  /* FIRST_VOLO_WORD_PART_STEP5_FRESH_LOAD_V4I3 */
+
+  /* FIRST_VOLO_WORD_PART_TARGETED_STEP5_V4H */
+
+  /* FIRST_VOLO_DIRECT_STEP5_RENDER_V4G */
+
   /* FIRST_VOLO_EVENT_DRIVEN_STEP_SEQUENCE_V4D */
 
   /* FIRST_VOLO_PERSISTENT_STEP_PRESENTATION_V4E */
@@ -12368,7 +12982,11 @@
     next.textContent =
       readySequenceHasTransfer()
         ? "Continue to Check Transfer →"
-        : "Continue to Practice Set →";
+        : (
+              currentActivity() === "morpheme"
+                ? "Continue to Optional Practice Set →"
+                : "Continue to Practice Set →"
+            );
   }
 
 
@@ -13726,12 +14344,20 @@
       state.tasks
         .map(
           task => {
+            const studentTask =
+              readyV14StudentPrintableTask(
+                task
+              );
+
             const word =
-              taskWord(task);
+              taskWord(
+                studentTask
+              );
 
             const prompt =
-              task.prompt ||
-              "";
+              readyV14StudentPrintPrompt(
+                task
+              );
 
             return `
               <div class="print-response-item">
