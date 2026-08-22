@@ -3050,7 +3050,7 @@
   }
 
 
-  function renderReadyMorpheme(
+  function renderReadyMorphemeLegacy(
     container,
     task
   ) {
@@ -3118,6 +3118,515 @@
     `;
   }
 
+
+  /* FIRST_VOLO_RICH_WORD_PART_UI_V1 */
+
+  function readyWordPartInstructionEngine() {
+    return (
+      window
+        .FirstVoloWordPartInstruction ||
+      null
+    );
+  }
+
+
+  function readyWordPartPartATasks() {
+    return (
+      state.tasks || []
+    ).filter(
+      item =>
+        readyActivity(
+          item
+        ) ===
+          "morpheme" &&
+        item?.stage !==
+          "Apply"
+    );
+  }
+
+
+  function readyWordPartSpecFor(
+    task
+  ) {
+    if (
+      readyActivity(task) !==
+        "morpheme" ||
+      task?.stage ===
+        "Apply"
+    ) {
+      return null;
+    }
+
+    const engine =
+      readyWordPartInstructionEngine();
+
+    if (
+      !engine
+        ?.buildPartASpec
+    ) {
+      return null;
+    }
+
+    const tasks =
+      readyWordPartPartATasks();
+
+    const index =
+      tasks.indexOf(task);
+
+    return (
+      engine.buildPartASpec({
+        target:
+          readyTarget(),
+        task,
+        index:
+          index >= 0
+            ? index
+            : 0,
+        total:
+          Math.max(
+            1,
+            tasks.length
+          ),
+        allTasks:
+          tasks
+      }) ||
+      null
+    );
+  }
+
+
+  function readyWordPartResponseMarkup(
+    spec
+  ) {
+    if (
+      spec?.responseType ===
+        "choice" &&
+      Array.isArray(
+        spec?.choices
+      ) &&
+      spec.choices.length
+    ) {
+      return `
+        <div
+          class="ready-choice-grid"
+          data-rich-word-part-choices
+        >
+          ${spec.choices
+            .map(
+              choice => `
+                <button
+                  type="button"
+                  class="ready-choice-button"
+                  data-rich-word-part-choice="${esc(choice)}"
+                  aria-pressed="false"
+                >
+                  ${esc(choice)}
+                </button>
+              `
+            )
+            .join("")}
+        </div>
+      `;
+    }
+
+    return `
+      <label class="ready-response-label">
+        ${esc(
+          spec?.responseLabel ||
+          "What do you notice?"
+        )}
+
+        <textarea
+          class="ready-response-textarea"
+          rows="2"
+          data-rich-word-part-response
+        ></textarea>
+      </label>
+    `;
+  }
+
+
+  function readyWordPartExplanationMarkup(
+    spec
+  ) {
+    const lines =
+      Array.isArray(
+        spec?.explanation
+      )
+        ? spec.explanation
+            .filter(Boolean)
+        : [];
+
+    if (!lines.length) {
+      return "";
+    }
+
+    return `
+      <details class="ready-support-panel ready-word-part-explanation">
+        <summary>
+          Educator: show explanation after the student's attempt
+        </summary>
+
+        <div class="ready-support-panel-body">
+          ${lines
+            .map(
+              line => `
+                <p>
+                  ${esc(line)}
+                </p>
+              `
+            )
+            .join("")}
+        </div>
+      </details>
+    `;
+  }
+
+
+  /* FIRST_VOLO_WORD_PART_DEMAND_SUPPORT_UI_V1 */
+
+  function readyWordPartSupportMarkup(
+    spec
+  ) {
+    const lines =
+      Array.isArray(
+        spec?.support
+      )
+        ? spec.support
+            .filter(Boolean)
+        : [];
+
+    if (!lines.length) {
+      return "";
+    }
+
+    return `
+      <details class="ready-support-panel ready-word-part-demand-support">
+        <summary>
+          Support for this ${esc(spec?.moveLabel || "Word Part")} demand if needed
+        </summary>
+
+        <div class="ready-support-panel-body">
+          <p>
+            Independent attempt first. Use the least support that matches
+            this demand, retry the same question, then fade.
+          </p>
+
+          <ol>
+            ${lines
+              .map(
+                line => `
+                  <li>
+                    ${esc(line)}
+                  </li>
+                `
+              )
+              .join("")}
+          </ol>
+        </div>
+      </details>
+    `;
+  }
+
+
+  function readyWordPartStep5AnchorTask() {
+    const tasks =
+      readyWordPartPartATasks();
+
+    if (!tasks.length) {
+      return null;
+    }
+
+    const target =
+      readyTargetMorphemeMeta();
+
+    const targetId =
+      target?.id ||
+      readyTarget()?.id ||
+      "";
+
+    if (
+      targetId === "ive" ||
+      readyLettersOnly(
+        readyTargetLabel()
+      ) === "ive"
+    ) {
+      const active =
+        tasks.find(
+          task =>
+            readyLettersOnly(
+              readyWord(task)
+            ) === "active"
+        );
+
+      if (active) {
+        return active;
+      }
+    }
+
+    return (
+      tasks.find(
+        task =>
+          Boolean(
+            readyWord(task)
+          )
+      ) ||
+      tasks[0] ||
+      null
+    );
+  }
+
+
+  function readyWordPartStep5Distractors(
+    count = 3
+  ) {
+    const target =
+      readyTargetMorphemeMeta();
+
+    const targetMeaning =
+      String(
+        target?.meaning ||
+        readyTargetMeaning() ||
+        ""
+      )
+        .trim()
+        .toLowerCase();
+
+    return readyMorphemeDistractors(
+      Math.max(
+        12,
+        Number(count) || 3
+      )
+    )
+      .filter(
+        item => {
+          const itemMeaning =
+            String(
+              item?.meaning ||
+              ""
+            )
+              .trim()
+              .toLowerCase();
+
+          return (
+            !targetMeaning ||
+            !itemMeaning ||
+            itemMeaning !==
+              targetMeaning
+          );
+        }
+      )
+      .slice(
+        0,
+        Math.max(
+          0,
+          Number(count) || 3
+        )
+      );
+  }
+
+
+  function readyWordPartStep5SupportMarkup(
+    spec
+  ) {
+    const lines =
+      Array.isArray(
+        spec?.support
+      )
+        ? spec.support
+            .filter(Boolean)
+        : [];
+
+    if (!lines.length) {
+      return "";
+    }
+
+    const label =
+      spec?.demand ===
+        "recall"
+        ? "Support for independent recall if needed"
+        : "Support for recognition if needed";
+
+    return `
+      <details class="ready-support-panel ready-word-part-step5-support">
+        <summary>
+          ${esc(label)}
+        </summary>
+
+        <div class="ready-support-panel-body">
+          <ol>
+            ${lines
+              .map(
+                line => `
+                  <li>
+                    ${esc(line)}
+                  </li>
+                `
+              )
+              .join("")}
+          </ol>
+        </div>
+      </details>
+    `;
+  }
+
+
+  function renderReadyMorpheme(
+    container,
+    task
+  ) {
+    if (
+      task?.stage ===
+        "Apply"
+    ) {
+      renderReadyMorphemeLegacy(
+        container,
+        task
+      );
+
+      return;
+    }
+
+    const spec =
+      readyWordPartSpecFor(
+        task
+      );
+
+    if (!spec) {
+      renderReadyMorphemeLegacy(
+        container,
+        task
+      );
+
+      return;
+    }
+
+    const patternWords =
+      Array.isArray(
+        spec.patternWords
+      )
+        ? spec.patternWords
+            .filter(Boolean)
+        : [];
+
+    container.innerHTML = `
+      <div class="ready-material-heading">
+        <span>
+          Ready-to-use student material
+        </span>
+
+        <h3>
+          Word Part
+        </h3>
+
+        <p class="ready-word-part-move">
+          <strong>
+            ${esc(spec.moveLabel)}
+            ${
+              spec.word &&
+              spec.move !==
+                "pattern"
+                ? ` · ${esc(spec.word)}`
+                : ""
+            }
+          </strong>
+        </p>
+      </div>
+
+      ${
+        spec.context
+          ? `
+            <div class="ready-context-card ready-word-part-context">
+              ${esc(spec.context)}
+            </div>
+          `
+          : ""
+      }
+
+      ${
+        spec.structure
+          ? `
+            <div class="ready-big-meaning ready-word-part-structure">
+              ${esc(spec.structure)}
+            </div>
+          `
+          : ""
+      }
+
+      ${
+        patternWords.length
+          ? `
+            <div class="ready-practice-cue ready-word-part-pattern">
+              <strong>
+                ${patternWords
+                  .map(esc)
+                  .join(" · ")}
+              </strong>
+            </div>
+          `
+          : ""
+      }
+
+      <p class="ready-practice-cue ready-word-part-question">
+        <strong>
+          ${esc(spec.prompt)}
+        </strong>
+      </p>
+
+      ${readyWordPartResponseMarkup(
+        spec
+      )}
+
+      ${readyWordPartExplanationMarkup(
+        spec
+      )}
+
+      ${readyWordPartSupportMarkup(
+        spec
+      )}
+    `;
+
+    container
+      .querySelectorAll(
+        "[data-rich-word-part-choice]"
+      )
+      .forEach(
+        button => {
+          button.addEventListener(
+            "click",
+            () => {
+              container
+                .querySelectorAll(
+                  "[data-rich-word-part-choice]"
+                )
+                .forEach(
+                  other => {
+                    other.setAttribute(
+                      "aria-pressed",
+                      "false"
+                    );
+
+                    other.classList
+                      .remove(
+                        "is-selected"
+                      );
+                  }
+                );
+
+              button.setAttribute(
+                "aria-pressed",
+                "true"
+              );
+
+              button.classList
+                .add(
+                  "is-selected"
+                );
+            }
+          );
+        }
+      );
+  }
 
   function renderReadyInfer(
     container,
@@ -3666,6 +4175,86 @@
     }
 
     if (activity === "morpheme") {
+      const spec =
+        task?.stage !==
+          "Apply"
+          ? readyWordPartSpecFor(
+              task
+            )
+          : null;
+
+      if (spec) {
+        const patternWords =
+          Array.isArray(
+            spec.patternWords
+          )
+            ? spec.patternWords
+                .filter(Boolean)
+            : [];
+
+        return `
+          <section class="print-ready-task">
+            <div class="print-ready-task-heading">
+              <span>
+                ${esc(
+                  task?.stage ||
+                  "Teach / Practice"
+                )}
+              </span>
+
+              <h2>
+                ${esc(spec.moveLabel)}
+                ${
+                  spec.word &&
+                  spec.move !==
+                    "pattern"
+                    ? ` · ${esc(spec.word)}`
+                    : ""
+                }
+              </h2>
+            </div>
+
+            ${
+              spec.context
+                ? `
+                  <p class="print-ready-context">
+                    ${esc(spec.context)}
+                  </p>
+                `
+                : ""
+            }
+
+            ${
+              spec.structure
+                ? `
+                  <div class="print-ready-word">
+                    ${esc(spec.structure)}
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              patternWords.length
+                ? `
+                  <p class="print-ready-practice-word">
+                    ${patternWords
+                      .map(esc)
+                      .join(" · ")}
+                  </p>
+                `
+                : ""
+            }
+
+            <p>
+              ${esc(spec.prompt)}
+            </p>
+
+            <div class="print-ready-lines"></div>
+          </section>
+        `;
+      }
+
       return `
         <section class="print-ready-task">
           ${heading}
@@ -6459,9 +7048,37 @@
         target?.label ||
         readyTargetLabel();
 
+      const engine =
+        readyWordPartInstructionEngine();
+
+      const anchorTask =
+        readyWordPartStep5AnchorTask();
+
+      const recognitionSpec =
+        engine
+          ?.buildStep5Recognition
+          ?.({
+            target:
+              readyTarget(),
+            task:
+              anchorTask
+          }) ||
+        null;
+
+      const recallSpec =
+        engine
+          ?.buildStep5Recall
+          ?.({
+            target:
+              readyTarget(),
+            task:
+              anchorTask
+          }) ||
+        null;
+
       if (index === 0) {
         const distractors =
-          readyMorphemeDistractors(3)
+          readyWordPartStep5Distractors(3)
             .map(
               item =>
                 item.label
@@ -6476,6 +7093,16 @@
             .filter(Boolean)
             .slice(0, 4);
 
+        const prompt =
+          recognitionSpec
+            ?.prompt ||
+          "Which word part matches this meaning?";
+
+        const cue =
+          recognitionSpec
+            ?.cue ||
+          readyTargetMeaning();
+
         return `
           <section
             class="ready-practice-question"
@@ -6484,11 +7111,11 @@
             data-practice-answer="${esc(correct)}"
           >
             <h3>
-              ${number}. Which word part matches this meaning?
+              ${number}. ${esc(prompt)}
             </h3>
 
             <p class="ready-practice-cue">
-              ${esc(readyTargetMeaning())}
+              ${esc(cue)}
             </p>
 
             <div class="ready-choice-grid">
@@ -6513,6 +7140,10 @@
               aria-live="polite"
             ></p>
 
+            ${readyWordPartStep5SupportMarkup(
+              recognitionSpec
+            )}
+
             <button
               type="button"
               class="session-secondary-button"
@@ -6525,6 +7156,16 @@
         `;
       }
 
+      const recallPrompt =
+        recallSpec
+          ?.prompt ||
+        "Without looking back, what word part matches that meaning?";
+
+      const recallCue =
+        recallSpec
+          ?.cue ||
+        readyTargetMeaning();
+
       return `
         <section
           class="ready-practice-question"
@@ -6535,8 +7176,12 @@
           hidden
         >
           <h3>
-            ${number}. Without looking back, what word part matches that meaning?
+            ${number}. ${esc(recallPrompt)}
           </h3>
+
+          <p class="ready-practice-cue">
+            ${esc(recallCue)}
+          </p>
 
           <label class="ready-response-label">
             Word part
@@ -6552,6 +7197,10 @@
             class="ready-practice-feedback"
             aria-live="polite"
           ></p>
+
+          ${readyWordPartStep5SupportMarkup(
+            recallSpec
+          )}
         </section>
       `;
     }
@@ -7340,6 +7989,93 @@
         if (
           currentActivity() ===
             "morpheme" &&
+          scorable >= 2
+        ) {
+          const actions =
+            byId(
+              "readyCheckPracticeSet"
+            )
+              ?.closest(
+                ".ready-practice-actions"
+              );
+
+          const engine =
+            readyWordPartInstructionEngine();
+
+          const challenge =
+            engine
+              ?.buildSillyChallenge
+              ?.({
+                target:
+                  readyTarget()
+              }) ||
+            null;
+
+          if (
+            actions &&
+            challenge &&
+            !container.querySelector(
+              "[data-word-part-silly-challenge]"
+            )
+          ) {
+            const node =
+              document.createElement(
+                "section"
+              );
+
+            node.className =
+              "ready-v12-after-response ready-word-part-silly-challenge";
+
+            node.dataset
+              .wordPartSillyChallenge =
+                "true";
+
+            node.innerHTML = `
+              <strong>
+                Optional · ${esc(
+                  challenge.title ||
+                  "Make a Silly Word"
+                )}
+              </strong>
+
+              <p>
+                ${esc(challenge.prompt)}
+              </p>
+
+              <label class="ready-response-label">
+                Your pretend word and what it means
+                <textarea
+                  class="ready-response-textarea"
+                  rows="2"
+                ></textarea>
+              </label>
+
+              <details class="ready-support-panel">
+                <summary>
+                  Need a silly-word starter?
+                </summary>
+
+                <div class="ready-support-panel-body">
+                  <p>
+                    ${esc(challenge.starter)}
+                  </p>
+                </div>
+              </details>
+
+              <p class="session-ifthen-note">
+                This challenge is optional and is not scored.
+              </p>
+            `;
+
+            actions.insertAdjacentElement(
+              "afterend",
+              node
+            );
+          }
+        }
+        if (
+          currentActivity() ===
+            "morpheme" &&
           scorable >= 2 &&
           correct === scorable
         ) {
@@ -7742,9 +8478,13 @@
         ></strong>
       </div>
 
-      ${readyV7PracticeSupportMarkup(
-        activity
-      )}
+      ${
+        activity === "morpheme"
+          ? ""
+          : readyV7PracticeSupportMarkup(
+              activity
+            )
+      }
     `;
 
     readyBindPracticeQuestions(
@@ -7932,16 +8672,117 @@
             }
 
             if (activity === "morpheme") {
+              const engine =
+                readyWordPartInstructionEngine();
+
+              const anchorTask =
+                readyWordPartStep5AnchorTask();
+
+              const recognitionSpec =
+                engine
+                  ?.buildStep5Recognition
+                  ?.({
+                    target:
+                      readyTarget(),
+                    task:
+                      anchorTask
+                  }) ||
+                null;
+
+              const recallSpec =
+                engine
+                  ?.buildStep5Recall
+                  ?.({
+                    target:
+                      readyTarget(),
+                    task:
+                      anchorTask
+                  }) ||
+                null;
+
+              const legacyRecallPrompt =
+                "Cover Item 1. Then write the word part from memory.";
+
+              if (index === 0) {
+                const target =
+                  readyTargetMorphemeMeta();
+
+                const correct =
+                  target?.label ||
+                  readyTargetLabel();
+
+                const distractors =
+                  readyWordPartStep5Distractors(3)
+                    .map(
+                      item =>
+                        item.label
+                    )
+                    .filter(Boolean);
+
+                const choices =
+                  readyShuffle([
+                    correct,
+                    ...distractors
+                  ])
+                    .filter(Boolean)
+                    .slice(0, 4);
+
+                const prompt =
+                  recognitionSpec
+                    ?.prompt ||
+                  "Which word part matches this meaning?";
+
+                const cue =
+                  recognitionSpec
+                    ?.cue ||
+                  readyTargetMeaning();
+
+                return `
+                  <div class="print-ready-practice-item">
+                    <strong>
+                      ${index + 1}. ${esc(prompt)}
+                    </strong>
+
+                    <p>
+                      ${esc(cue)}
+                    </p>
+
+                    <div class="print-ready-word-grid">
+                      ${choices
+                        .map(
+                          choice => `
+                            <span>
+                              ${esc(choice)}
+                            </span>
+                          `
+                        )
+                        .join("")}
+                    </div>
+                  </div>
+                `;
+              }
+
               const prompt =
-                index === 0
-                  ? `Which word part matches this meaning: ${readyTargetMeaning()}`
-                  : "Cover Item 1. Then write the word part from memory.";
+                recallSpec
+                  ?.prompt
+                  ? (
+                      `Cover Item 1. ${recallSpec.prompt}`
+                    )
+                  : legacyRecallPrompt;
 
               return `
                 <div class="print-ready-practice-item">
                   <strong>
                     ${index + 1}. ${esc(prompt)}
                   </strong>
+
+                  <p>
+                    ${esc(
+                      recallSpec
+                        ?.cue ||
+                      readyTargetMeaning()
+                    )}
+                  </p>
 
                   <div class="print-ready-lines"></div>
                 </div>
@@ -9249,8 +10090,22 @@
   function readyV7TeacherDirections(
     task
   ) {
+    const wordPartSpec =
+      (
+        readyActivity(task) ===
+          "morpheme" &&
+        task?.stage !==
+          "Apply"
+      )
+        ? readyWordPartSpecFor(
+            task
+          )
+        : null;
+
     const prompt =
       String(
+        wordPartSpec
+          ?.teacherDirection ||
         task?.prompt ||
         ""
       )

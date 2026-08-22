@@ -1527,7 +1527,7 @@
     }
 
     const meta = targetMeta(target);
-    const candidates =
+    let candidates =
       candidatesFor({
         target,
         activity,
@@ -1544,6 +1544,82 @@
         )
       );
 
+    /* FIRST_VOLO_IVE_WORD_PART_SEQUENCE_V1
+       Curated Word Part recognition sequence:
+       - creative is the first meaningful Notice example
+       - sensitive stays in the selected recipe pool only so it can be
+         reserved as the fresh Apply word and removed from Part A
+       - active is the transparent act + -ive Connect example
+       - constructive supports comparison
+       - destructive is available for the 30-minute pattern set
+
+       This ordering deliberately works with the duration resolver:
+       10 min selects 2 recipes -> 1 Part A + sensitive Apply
+       15 min selects 3 recipes -> 2 Part A + sensitive Apply
+       30 min selects 5 recipes -> 4 Part A + sensitive Apply
+    */
+    const targetId =
+      target?.id ||
+      meta?.id ||
+      null;
+
+    if (
+      activity === "morpheme" &&
+      targetId === "ive"
+    ) {
+      const preferredOrder = [
+        "creative",
+        "sensitive",
+        "active",
+        "constructive",
+        "destructive"
+      ];
+
+      const rank =
+        new Map(
+          preferredOrder.map(
+            (word, index) => [
+              word,
+              index
+            ]
+          )
+        );
+
+      candidates =
+        candidates
+          .slice()
+          .sort(
+            (a, b) => {
+              const aWord =
+                normalize(a?.word);
+              const bWord =
+                normalize(b?.word);
+
+              const aRank =
+                rank.has(aWord)
+                  ? rank.get(aWord)
+                  : preferredOrder.length;
+
+              const bRank =
+                rank.has(bWord)
+                  ? rank.get(bWord)
+                  : preferredOrder.length;
+
+              if (aRank !== bRank) {
+                return aRank - bRank;
+              }
+
+              return String(
+                a?.word || ""
+              ).localeCompare(
+                String(
+                  b?.word || ""
+                )
+              );
+            }
+          );
+    }
+
     const selected =
       candidates.slice(
         0,
@@ -1551,21 +1627,66 @@
       );
 
     return selected.map((entry, index) => {
-      const applyEntry =
-        candidates.find(
-          candidate =>
-            normalize(candidate.word) !==
-            normalize(entry.word)
-        ) || null;
+      const preferredApplyEntry =
+        (
+          activity === "morpheme" &&
+          targetId === "ive"
+        )
+          ? (
+              candidates.find(
+                candidate =>
+                  normalize(
+                    candidate?.word
+                  ) === "sensitive"
+              ) ||
+              null
+            )
+          : null;
 
-      return makeRecipe(
-        activity,
-        target,
-        meta,
-        entry,
-        index,
-        applyEntry
-      );
+      const applyEntry =
+        (
+          preferredApplyEntry &&
+          normalize(
+            preferredApplyEntry.word
+          ) !==
+          normalize(
+            entry.word
+          )
+        )
+          ? preferredApplyEntry
+          : (
+              candidates.find(
+                candidate =>
+                  normalize(candidate.word) !==
+                  normalize(entry.word)
+              ) ||
+              null
+            );
+
+      const recipe =
+        makeRecipe(
+          activity,
+          target,
+          meta,
+          entry,
+          index,
+          applyEntry
+        );
+
+      if (
+        activity === "morpheme" &&
+        targetId === "ive" &&
+        normalize(
+          recipe?.applyWord
+        ) === "sensitive"
+      ) {
+        return {
+          ...recipe,
+          applyPriority: 100
+        };
+      }
+
+      return recipe;
     });
   }
 

@@ -756,9 +756,28 @@
         ? fresh
         : recipes;
 
+    /* FIRST_VOLO_APPLY_PRIORITY_V1
+       A recipe may explicitly reserve a safer or instructionally stronger
+       Apply item. Honor that preference without changing behavior for
+       ordinary recipes that do not declare a priority.
+    */
+    const prioritized =
+      pool.filter(
+        recipe =>
+          Number(
+            recipe?.applyPriority ||
+            0
+          ) > 0
+      );
+
+    const chosenPool =
+      prioritized.length
+        ? prioritized
+        : pool;
+
     return (
-      pool[
-        pool.length - 1
+      chosenPool[
+        chosenPool.length - 1
       ] ||
       null
     );
