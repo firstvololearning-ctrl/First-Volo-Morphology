@@ -12172,6 +12172,8 @@
 
 
 
+
+
   function renderTask() {
     readyPrepareEffectiveTasks();
 
@@ -13386,6 +13388,32 @@
     }
 
     renderGenericActivityResponse();
+
+    const isWordPart =
+      currentActivity() ===
+      "morpheme";
+
+    const legacyTaskPrompt =
+      byId(
+        "taskPrompt"
+      )?.closest(
+        ".session-current-task"
+      );
+
+    if (legacyTaskPrompt) {
+      legacyTaskPrompt.hidden =
+        isWordPart;
+    }
+
+    const legacyActivityResponse =
+      byId(
+        "sessionActivityResponse"
+      );
+
+    if (legacyActivityResponse) {
+      legacyActivityResponse.hidden =
+        isWordPart;
+    }
   }
   function configurePrintActivityMaterial() {
     const activity =
