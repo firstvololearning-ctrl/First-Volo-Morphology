@@ -1,5 +1,7 @@
 "use strict";
 
+/* FIRST_VOLO_SEQUENCE_CLEANUP_V4F */
+
 /*
   First Volo Morphology — Check Transfer recording UI
 
@@ -306,7 +308,8 @@
   function itemScreenHTML(
     item,
     index,
-    target
+    target,
+    totalItems
   ) {
     const number =
       index + 1;
@@ -325,7 +328,11 @@
         data-check-transfer-item="${esc(item.id)}"
       >
         <h3>
-          Transfer word ${number}
+          ${
+            totalItems === 1
+              ? "Transfer word"
+              : `Transfer word ${number}`
+          }
         </h3>
 
         <p class="protected-transfer-context">
@@ -706,6 +713,11 @@
     setSaveMessage(
       "Saved separately from practice accuracy. These transfer words are now marked used for this learner."
     );
+
+    window
+      .FirstVoloTeacherSessionFlow
+      ?.revealPracticeSet
+      ?.();
   }
 
 
@@ -807,7 +819,8 @@
           itemScreenHTML(
             item,
             index,
-            current.target
+            current.target,
+            items.length
           )
       ).join("")}
 

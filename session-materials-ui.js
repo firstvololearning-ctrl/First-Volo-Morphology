@@ -9769,8 +9769,39 @@
     }
 
     if (inactiveMount) {
-      inactiveMount.innerHTML =
-        "";
+      if (isApply) {
+        const completedCount =
+          state.tasks
+            ?.filter(
+              item =>
+                item?.stage !==
+                "Apply"
+            )
+            .length ||
+          0;
+
+        inactiveMount.hidden =
+          false;
+
+        inactiveMount.innerHTML = `
+          <div class="session-step-placeholder ready-completed-step">
+            <strong>
+              Part A: Practice complete
+            </strong>
+
+            <span>
+              ${completedCount} ${
+                completedCount === 1
+                  ? "practice item completed"
+                  : "practice items completed"
+              }.
+            </span>
+          </div>
+        `;
+      } else {
+        inactiveMount.innerHTML =
+          "";
+      }
     }
   }
 
@@ -9950,6 +9981,9 @@
     task
   ) {
     const section =
+      byId(
+        "todaySessionOverview"
+      ) ||
       readyV9TeacherPlanSection();
 
     if (!section) {
@@ -9966,18 +10000,33 @@
         "Teacher Session Plan"
       );
 
-    if (heading) {
+    if (
+      heading &&
+      readyV9NormalizedText(
+        heading.textContent
+      ) !==
+        "Teacher Session Plan"
+    ) {
       heading.textContent =
         "Teacher Session Plan";
     }
 
     const activity =
       readyActivityDisplayName(
-        task
+        task ||
+        state.tasks?.[0] ||
+        {}
       );
 
-    const target =
-      readyTargetLabel();
+    const practiceCount =
+      state.tasks
+        ?.filter(
+          item =>
+            item?.stage !==
+            "Apply"
+        )
+        .length ||
+      0;
 
     const partB =
       state.tasks
@@ -9995,83 +10044,152 @@
           ?._readyBreakUnavailable
       );
 
-    const desired = [
-      `Retrieve — target: ${target}`,
-      `${activity} · Part A: Practice`,
-      partBUnavailable
-        ? `${activity} · Part B: Apply — not available for this target today`
-        : `${activity} · Part B: Apply`,
-      "Check Transfer — 1 unfamiliar transfer item",
-      "Optional Practice Set"
+    const transferCount =
+      state.plan
+        ?.transfer
+        ?.items
+        ?.length ||
+      0;
+
+    const minutes =
+      Number.parseInt(
+        state.minutes ||
+        state.sessionMinutes ||
+        15,
+        10
+      ) ||
+      15;
+
+    const rows = [
+      {
+        label:
+          "Retrieve",
+        detail:
+          "1 retrieval prompt"
+      },
+      {
+        label:
+          `${activity} · Part A`,
+        detail:
+          `${practiceCount} ${
+            practiceCount === 1
+              ? "practice item"
+              : "practice items"
+          }`
+      },
+      {
+        label:
+          `${activity} · Part B`,
+        detail:
+          partBUnavailable
+            ? "No fresh application item is available today"
+            : "1 fresh application item; do not preview the word"
+      },
+      {
+        label:
+          "Check Transfer",
+        detail:
+          transferCount
+            ? `${transferCount} unfamiliar transfer ${
+                transferCount === 1
+                  ? "item"
+                  : "items"
+              }; do not preview the word before Step 4`
+            : "No transfer check is available today; skip Step 4"
+      },
+      {
+        label:
+          minutes === 30
+            ? "Practice Set"
+            : "Optional Practice Set",
+        detail:
+          minutes === 30
+            ? "first 5 items, with up to 5 more as appropriate"
+            : "up to 5 items if time remains or additional practice is indicated"
+      }
     ];
+
+    let list =
+      section.querySelector(
+        "ol"
+      );
+
+    if (!list) {
+      list =
+        document.createElement(
+          "ol"
+        );
+
+      section.appendChild(
+        list
+      );
+    }
 
     const existing =
       [
-        ...section.querySelectorAll(
-          "li, p"
-        )
+        ...list.children
       ].filter(
         node =>
-          /^[1-5]\.\s*/.test(
-            readyV9NormalizedText(
-              node.textContent
-            )
-          )
+          node.tagName ===
+          "LI"
       );
 
-    if (!existing.length) {
-      return;
-    }
-
-    desired.forEach(
+    rows.forEach(
       (
-        text,
+        row,
         index
       ) => {
-        let node =
+        let item =
           existing[index];
 
-        if (!node) {
-          const template =
-            existing[
-              existing.length - 1
-            ];
-
-          node =
-            template.cloneNode(
-              false
+        if (!item) {
+          item =
+            document.createElement(
+              "li"
             );
 
-          template.parentElement
-            ?.appendChild(
-              node
-            );
+          list.appendChild(
+            item
+          );
 
           existing.push(
-            node
+            item
           );
         }
 
-        node.innerHTML = `
-          <strong>
-            ${index + 1}. ${esc(text)}
-          </strong>
-        `;
+        item.hidden =
+          false;
+
+        const desiredText =
+          `${row.label} — ${row.detail}`;
+
+        if (
+          readyV9NormalizedText(
+            item.textContent
+          ) !==
+          desiredText
+        ) {
+          item.innerHTML = `
+            <strong>
+              ${esc(row.label)}
+            </strong>
+            — ${esc(row.detail)}
+          `;
+        }
       }
     );
 
-    for (
-      let index =
-        desired.length;
-      index <
-        existing.length;
-      index += 1
-    ) {
-      existing[index].hidden =
-        true;
-    }
+    existing
+      .slice(
+        rows.length
+      )
+      .forEach(
+        item => {
+          item.hidden =
+            true;
+        }
+      );
   }
-
 
   function readyV9TargetOnlyRetrieve() {
     const card =
@@ -10384,7 +10502,11 @@
 
     if (isApply) {
       step2.hidden =
-        true;
+        false;
+      step2.classList.add(
+        "ready-completed-step-card"
+      );
+
       step3.hidden =
         false;
 
@@ -10405,6 +10527,9 @@
 
     step2.hidden =
       false;
+    step2.classList.remove(
+      "ready-completed-step-card"
+    );
 
     if (unavailable) {
       step3.hidden =
@@ -11911,85 +12036,13 @@
 
 
   function readyV13RewriteTeacherPlan() {
-    const minutes =
-      readyV13DurationMinutes();
-
-    const policy =
-      readyV13DurationPolicy[
-        minutes
-      ];
-
-    if (!policy) {
-      return;
-    }
-
-    const target =
-      readyV13Text(
-        readyTargetLabel()
-      );
-
-    const activity =
-      readyActivityDisplayName(
-        state.tasks?.[0] ||
-        {}
-      );
-
-    readyV13TeacherPlanSections()
-      .forEach(
-        section => {
-          const rows =
-            [
-              ...section.querySelectorAll(
-                "li, p"
-              )
-            ]
-              .filter(
-                node =>
-                  /^[1-5]\.\s*/.test(
-                    readyV13Text(
-                      node.textContent
-                    )
-                  )
-              );
-
-          if (
-            rows.length <
-            4
-          ) {
-            return;
-          }
-
-          const plan = [
-            `1. Retrieve — target: ${target}`,
-            `2. ${activity} · Part A: Practice — ${policy.partAItems} ${
-              policy.partAItems === 1
-                ? "item"
-                : "items"
-            }`,
-            `3. ${activity} · Part B: Apply`,
-            `4. Check Transfer — ${policy.transferItems} unfamiliar transfer ${
-              policy.transferItems === 1
-                ? "item"
-                : "items"
-            }`,
-            `5. ${policy.step5Plan}`
-          ];
-
-          plan.forEach(
-            (
-              text,
-              index
-            ) => {
-              if (
-                rows[index]
-              ) {
-                rows[index].textContent =
-                  text;
-              }
-            }
-          );
-        }
-      );
+    readyV9RenderTeacherPlan(
+      state.tasks?.[
+        state.taskIndex
+      ] ||
+      state.tasks?.[0] ||
+      {}
+    );
   }
 
   function readyV13Step5Intro() {
@@ -12174,6 +12227,165 @@
 
 
 
+
+
+  /* FIRST_VOLO_EVENT_DRIVEN_STEP_SEQUENCE_V4D */
+
+  /* FIRST_VOLO_PERSISTENT_STEP_PRESENTATION_V4E */
+
+  /* FIRST_VOLO_SEQUENCE_CLEANUP_V4F */
+
+  function readySequenceTransferCard() {
+    return document.querySelector(
+      ".session-transfer-card"
+    );
+  }
+
+
+  function readySequencePracticeCard() {
+    return byId(
+      "sessionPracticeSetCard"
+    );
+  }
+
+
+  function readySequenceHasTransfer() {
+    return Boolean(
+      state.plan
+        ?.transfer
+        ?.items
+        ?.length
+    );
+  }
+
+
+  function readyResetFutureStepVisibility() {
+    const transferCard =
+      readySequenceTransferCard();
+
+    const practiceCard =
+      readySequencePracticeCard();
+
+    if (transferCard) {
+      transferCard.hidden =
+        true;
+    }
+
+    if (practiceCard) {
+      practiceCard.hidden =
+        true;
+    }
+  }
+
+
+  function readyRevealPracticeSet() {
+    const transferCard =
+      readySequenceTransferCard();
+
+    const practiceCard =
+      readySequencePracticeCard();
+
+    if (transferCard) {
+      transferCard.hidden =
+        false;
+      transferCard.classList.add(
+        "ready-completed-step-card"
+      );
+    }
+
+    if (practiceCard) {
+      practiceCard.hidden =
+        false;
+
+      practiceCard
+        .scrollIntoView?.({
+          behavior: "smooth",
+          block: "start"
+        });
+    }
+  }
+
+
+  function readyRevealCheckTransfer() {
+    if (
+      !readySequenceHasTransfer()
+    ) {
+      readyRevealPracticeSet();
+      return;
+    }
+
+    const transferCard =
+      readySequenceTransferCard();
+
+    const practiceCard =
+      readySequencePracticeCard();
+
+    if (practiceCard) {
+      practiceCard.hidden =
+        true;
+    }
+
+    if (transferCard) {
+      transferCard.hidden =
+        false;
+
+      transferCard
+        .scrollIntoView?.({
+          behavior: "smooth",
+          block: "start"
+        });
+    }
+  }
+
+
+  function readyConfigureSequenceNextButton() {
+    const next =
+      byId(
+        "nextTaskButton"
+      );
+
+    if (
+      !next ||
+      !state.tasks?.length
+    ) {
+      return;
+    }
+
+    const atLastTask =
+      state.taskIndex >=
+      state.tasks.length - 1;
+
+    if (!atLastTask) {
+      return;
+    }
+
+    next.hidden =
+      false;
+
+    next.disabled =
+      false;
+
+    next.textContent =
+      readySequenceHasTransfer()
+        ? "Continue to Check Transfer →"
+        : "Continue to Practice Set →";
+  }
+
+
+  window.FirstVoloTeacherSessionFlow = {
+    ...(
+      window.FirstVoloTeacherSessionFlow ||
+      {}
+    ),
+    revealCheckTransfer:
+      readyRevealCheckTransfer,
+    revealPracticeSet:
+      readyRevealPracticeSet,
+    resetFutureSteps:
+      readyResetFutureStepVisibility
+  };
+
+
   function renderTask() {
     readyPrepareEffectiveTasks();
 
@@ -12227,6 +12439,8 @@
 
     clearMat();
     renderActivitySurface();
+
+    readyConfigureSequenceNextButton();
   }
 
 
@@ -14195,6 +14409,8 @@
     reorderGuidanceAfterAttempt();
     renderDynamicSessionGuidance();
 
+    readyResetFutureStepVisibility();
+
     const excluded =
       state.material
         ?.protection
@@ -14548,7 +14764,10 @@
             1;
 
           renderTask();
+          return;
         }
+
+        readyRevealCheckTransfer();
       }
     );
 
