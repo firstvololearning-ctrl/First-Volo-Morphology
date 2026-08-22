@@ -3471,6 +3471,155 @@
   }
 
 
+  /* FIRST_VOLO_WORD_PART_FAMILY_CONTRAST_UI_V1 */
+
+  function readyWordPartFamilyContrastEngine() {
+    return window.FirstVoloWordPartFamilyContrast || null;
+  }
+
+
+  function readyWordPartFamilyContrastSpec() {
+    const engine = readyWordPartFamilyContrastEngine();
+
+    if (!engine?.select) {
+      return null;
+    }
+
+    const words = readyWordPartPartATasks()
+      .map(task => readyWord(task))
+      .filter(Boolean);
+
+    return engine.select({
+      target: readyTarget(),
+      words,
+      minutes: readyV13DurationMinutes()
+    });
+  }
+
+
+  function readyWordPartFamilyChoiceMarkup(choice, familyId) {
+    return `
+      <label class="ready-choice-button ready-family-choice">
+        <input
+          type="radio"
+          name="ready-family-${esc(familyId)}"
+          value="${esc(choice.word)}"
+        >
+        <span>${esc(choice.word)}</span>
+      </label>
+    `;
+  }
+
+
+  function readyWordPartFamilyContrastMarkup(task, spec) {
+    if (spec?.move !== "pattern") {
+      return "";
+    }
+
+    const family = readyWordPartFamilyContrastSpec();
+
+    if (!family) {
+      return "";
+    }
+
+    return `
+      <details class="ready-word-part-family-contrast">
+        <summary>Optional · Compare the family</summary>
+
+        <div class="ready-family-contrast-body">
+          <span class="session-eyebrow">Time permitting · unscored</span>
+
+          <h3>${esc(family.title)}</h3>
+
+          <p>
+            These words belong to the same word family, but their
+            different endings help them do different jobs.
+          </p>
+
+          <p class="ready-family-question">
+            <strong>${esc(family.prompt)}</strong>
+          </p>
+
+          <div class="ready-choice-grid ready-family-choice-grid">
+            ${family.choices
+              .map(choice => readyWordPartFamilyChoiceMarkup(choice, family.id))
+              .join("")}
+          </div>
+
+          <label class="ready-response-label">
+            ${esc(family.followUp)}
+            <textarea class="ready-response-textarea" rows="2"></textarea>
+          </label>
+
+          <details class="ready-support-panel">
+            <summary>Support if needed after the independent attempt</summary>
+            <div class="ready-support-panel-body">
+              <ol>
+                ${family.support
+                  .map(line => `<li>${esc(line)}</li>`)
+                  .join("")}
+              </ol>
+            </div>
+          </details>
+
+          <details class="ready-educator-key">
+            <summary>
+              Educator: show the family jobs after the student's choice
+            </summary>
+
+            ${family.explanation
+              .map(line => `<p>${esc(line)}</p>`)
+              .join("")}
+
+            <ul>
+              ${family.choices
+                .map(
+                  choice => `
+                    <li>
+                      <strong>${esc(choice.word)} (${esc(choice.suffix)})</strong>
+                      — ${esc(choice.job)}
+                    </li>
+                  `
+                )
+                .join("")}
+            </ul>
+          </details>
+        </div>
+      </details>
+    `;
+  }
+
+
+  function readyPrintableFamilyContrastMarkup() {
+    const family = readyWordPartFamilyContrastSpec();
+
+    if (!family) {
+      return "";
+    }
+
+    return `
+      <section class="print-ready-task print-ready-family-contrast">
+        <div class="print-ready-task-heading">
+          <span>Optional · Time permitting · Unscored</span>
+          <h2>Compare the family</h2>
+          <p>${esc(family.title)}</p>
+        </div>
+
+        <p><strong>${esc(family.prompt)}</strong></p>
+
+        <div class="print-ready-word-grid">
+          ${family.choices
+            .map(choice => `<span>○ ${esc(choice.word)}</span>`)
+            .join("")}
+        </div>
+
+        <p>${esc(family.followUp)}</p>
+        <div class="print-ready-lines"></div>
+      </section>
+    `;
+  }
+
+
   function renderReadyMorpheme(
     container,
     task
@@ -3582,6 +3731,10 @@
       )}
 
       ${readyWordPartSupportMarkup(
+        spec
+      )}
+      ${readyWordPartFamilyContrastMarkup(
+        task,
         spec
       )}
     `;
@@ -8909,6 +9062,7 @@
                   )
           )
           .join("") +
+        readyPrintableFamilyContrastMarkup() +
         readyPrintablePracticeMarkup();
     }
 
@@ -15169,7 +15323,7 @@
       meaning:
         "Write the meaning carried by the target.",
       morpheme:
-        "Write the word part that matches the given meaning.",
+        "Respond to each Word Part prompt. Use the word, base/root, and meaning information shown for that item.",
       break:
         "Start with each whole word. Mark the meaningful boundaries yourself. Do not pre-mark the parts.",
       infer:
@@ -15193,6 +15347,7 @@
         "Complete each activity response.";
     }
 
+    /* FIRST_VOLO_CONFIGURE_PRINT_RICH_WORD_PART_V1 */
     byId(
       "printBuildMat"
     ).innerHTML =
@@ -15204,25 +15359,61 @@
                 task
               );
 
-            const word =
+            const taskActivity =
+              readyActivity(
+                task
+              );
+
+            const wordPartSpec =
+              (
+                taskActivity ===
+                  "morpheme" &&
+                task?.stage !==
+                  "Apply"
+              )
+                ? readyWordPartSpecFor(
+                    task
+                  )
+                : null;
+
+            const fallbackWord =
               taskWord(
                 studentTask
               );
 
+            const label =
+              wordPartSpec
+                ? (
+                    `${wordPartSpec.moveLabel}${
+                      wordPartSpec.word &&
+                      wordPartSpec.move !==
+                        "pattern"
+                        ? ` · ${wordPartSpec.word}`
+                        : ""
+                    }`
+                  )
+                : (
+                    `${studentTask?.stage || task?.stage || ""}${
+                      fallbackWord
+                        ? ` · ${fallbackWord}`
+                        : ""
+                    }`
+                  );
+
             const prompt =
+              wordPartSpec
+                ?.prompt ||
               readyV14StudentPrintPrompt(
                 task
-              );
+              ) ||
+              studentTask
+                ?.prompt ||
+              "";
 
             return `
               <div class="print-response-item">
                 <strong>
-                  ${esc(task.stage)}
-                  ${
-                    word
-                      ? ` · ${esc(word)}`
-                      : ""
-                  }
+                  ${esc(label)}
                 </strong>
 
                 <p>
@@ -15555,21 +15746,61 @@
         ? `
           <ol>
             ${practiceTasks.map(
-              task => `
-                <li>
-                  ${esc(task.prompt)}
-                  ${
-                    task.answer
-                      ? `
-                        <div class="print-small-note">
-                          <strong>Educator key:</strong>
-                          ${esc(task.answer)}
-                        </div>
-                      `
-                      : ""
-                  }
-                </li>
-              `
+              task => {
+                const wordPartSpec =
+                  readyActivity(task) ===
+                    "morpheme"
+                    ? readyWordPartSpecFor(
+                        task
+                      )
+                    : null;
+
+                const label =
+                  wordPartSpec
+                    ? (
+                        `${wordPartSpec.moveLabel}${
+                          wordPartSpec.word &&
+                          wordPartSpec.move !==
+                            "pattern"
+                            ? ` · ${wordPartSpec.word}`
+                            : ""
+                        }`
+                      )
+                    : "";
+
+                const prompt =
+                  wordPartSpec
+                    ?.prompt ||
+                  task.prompt ||
+                  "";
+
+                return `
+                  <li>
+                    ${
+                      label
+                        ? `
+                          <strong>
+                            ${esc(label)}
+                          </strong>
+                          <br>
+                        `
+                        : ""
+                    }
+                    ${esc(prompt)}
+                    ${
+                      !wordPartSpec &&
+                      task.answer
+                        ? `
+                          <div class="print-small-note">
+                            <strong>Educator key:</strong>
+                            ${esc(task.answer)}
+                          </div>
+                        `
+                        : ""
+                    }
+                  </li>
+                `;
+              }
             ).join("")}
           </ol>
         `
@@ -15719,28 +15950,98 @@
         printPromptMode;
     }
 
+    /* FIRST_VOLO_RICH_WORD_PART_RESPONSE_PRINT_V1 */
     byId(
       "printBuildMat"
     ).innerHTML =
       printPromptMode
         ? state.tasks
             .map(
-              task => `
-                <div class="print-build-slot">
-                  <strong>${esc(task.stage)}</strong>
-                  <span>${esc(task.prompt)}</span>
-                  ${
-                    task.answer
-                      ? `
-                        <span class="print-small-note">
-                          <strong>Educator key:</strong>
-                          ${esc(task.answer)}
-                        </span>
-                      `
-                      : ""
-                  }
-                </div>
-              `
+              task => {
+                const studentTask =
+                  readyV14StudentPrintableTask(
+                    task
+                  );
+
+                const taskActivity =
+                  readyActivity(
+                    task
+                  );
+
+                const wordPartSpec =
+                  (
+                    taskActivity ===
+                      "morpheme" &&
+                    task?.stage !==
+                      "Apply"
+                  )
+                    ? readyWordPartSpecFor(
+                        task
+                      )
+                    : null;
+
+                const label =
+                  wordPartSpec
+                    ? (
+                        `${wordPartSpec.moveLabel}${
+                          wordPartSpec.word &&
+                          wordPartSpec.move !==
+                            "pattern"
+                            ? ` · ${wordPartSpec.word}`
+                            : ""
+                        }`
+                      )
+                    : (
+                        studentTask
+                          ?.stage ||
+                        task?.stage ||
+                        ""
+                      );
+
+                const prompt =
+                  wordPartSpec
+                    ?.prompt ||
+                  readyV14StudentPrintPrompt(
+                    task
+                  ) ||
+                  studentTask
+                    ?.prompt ||
+                  "";
+
+                const safeAnswer =
+                  taskActivity ===
+                    "morpheme"
+                    ? ""
+                    : (
+                        studentTask
+                          ?.answer ||
+                        task?.answer ||
+                        ""
+                      );
+
+                return `
+                  <div class="print-build-slot">
+                    <strong>
+                      ${esc(label)}
+                    </strong>
+
+                    <span>
+                      ${esc(prompt)}
+                    </span>
+
+                    ${
+                      safeAnswer
+                        ? `
+                          <span class="print-small-note">
+                            <strong>Educator key:</strong>
+                            ${esc(safeAnswer)}
+                          </span>
+                        `
+                        : ""
+                    }
+                  </div>
+                `;
+              }
             )
             .join("")
         : (
