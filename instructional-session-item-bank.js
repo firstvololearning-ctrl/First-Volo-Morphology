@@ -511,14 +511,6 @@
         String(rawContext || "")
       );
 
-    const cloze =
-      explicitCloze ||
-      (
-        contextHasBlank
-          ? rawContext
-          : null
-      );
-
     const sentence =
       rawContext
         ? String(rawContext)
@@ -527,6 +519,41 @@
               entry.word
             )
         : null;
+
+    const escapedWord =
+      String(entry.word || "")
+        .replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        );
+
+    const wordPattern =
+      escapedWord
+        ? new RegExp(
+            `\\b${escapedWord}\\b`,
+            "i"
+          )
+        : null;
+
+    const generatedContextCloze =
+      !explicitCloze &&
+      !contextHasBlank &&
+      sentence &&
+      wordPattern?.test(sentence)
+        ? String(sentence)
+            .replace(
+              wordPattern,
+              "____"
+            )
+        : null;
+
+    const cloze =
+      explicitCloze ||
+      (
+        contextHasBlank
+          ? rawContext
+          : generatedContextCloze
+      );
 
     return {
       sentence,
@@ -1055,6 +1082,66 @@
     };
   }
 
+  /* FIRST_VOLO_EDUCATOR_RESPONSE_FRAMES_V1
+     These are access supports for response formulation, not default prompts.
+     They appear only in educator guidance and are offered after the student's
+     independent attempt when expression, retrieval, or sentence formulation
+     is incidental to the morphology target.
+  */
+  function fallbackResponseFrame(
+    activity,
+    target,
+    meta,
+    entry
+  ) {
+    const label =
+      target?.label ||
+      meta?.label ||
+      "the target word part";
+
+    const meaning =
+      target?.meaning ||
+      meta?.meaning ||
+      "the target meaning";
+
+    const word =
+      entry?.word ||
+      "the word";
+
+    switch (activity) {
+      case "learn":
+        return `${label} contributes ___. That helps explain ${word} because ___.`;
+
+      case "find":
+        return `I found ${label} in ${word}. ${label} contributes ___.`;
+
+      case "meaning":
+        return `${label} means ___. In ${word}, that meaning helps show ___.`;
+
+      case "morpheme":
+        return `The word part that means “${meaning}” is ___.`;
+
+      case "break":
+        return `The meaningful parts in ${word} are ___. ${label} contributes ___.`;
+
+      case "infer":
+        return `I think ${word} means ___ because ${label} contributes ___.`;
+
+      case "build":
+        return `I built ___ using ${label} and ___. ${label} contributes ___.`;
+
+      case "use":
+        return `My sentence with ${word}: ___. I used ${word} because ___. ${label} contributes ___.`;
+
+      case "change":
+        return `I chose ___ because the sentence needs ___. ${label} shows or adds ___.`;
+
+      default:
+        return null;
+    }
+  }
+
+
   function educatorPromptSteps(
     activity,
     target,
@@ -1140,6 +1227,24 @@
           "after-target-response"
         );
       }
+    };
+
+    const responseFrame =
+      fallbackResponseFrame(
+        activity,
+        target,
+        meta,
+        entry
+      );
+
+    const addResponseFrame = () => {
+      if (!responseFrame) return;
+
+      add(
+        "If expression is the barrier, offer",
+        `“${responseFrame}”`,
+        "after-first-attempt-only-if-expression-is-barrier"
+      );
     };
 
     const retryText = (() => {
@@ -1228,6 +1333,7 @@
           `How does ${label} help explain the meaning of ${entry.word}?`,
           "target-demand"
         );
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1245,6 +1351,7 @@
           `What does ${label} contribute to the meaning of ${entry.word}?`,
           "after-location"
         );
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1259,6 +1366,7 @@
           `How does the meaning of ${label} show up in ${entry.word}?`,
           "after-target-response"
         );
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1277,6 +1385,7 @@
           `Which part of ${entry.word} carries the meaning “${meaning || "the target meaning"}”?`,
           "target-demand"
         );
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1290,6 +1399,7 @@
         if (supportText) {
           add("If needed, say", `${supportText}.`, "after-first-attempt");
         }
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1306,6 +1416,7 @@
         if (supportText) {
           add("If needed, say", `${supportText}.`, "after-first-attempt");
         }
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1319,6 +1430,7 @@
         if (supportText) {
           add("If needed, say", `${supportText}.`, "when-non-target-piece-blocks-build");
         }
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1349,6 +1461,7 @@
         if (supportText) {
           add("If needed, say", `${supportText}.`, "after-first-attempt");
         }
+        addResponseFrame();
         addLiteralBridge();
         addRetry();
         break;
@@ -1362,6 +1475,7 @@
         }
         if (change) {
           add("Ask", change.prompt, "target-demand");
+          addResponseFrame();
           add(
             "Expected",
             `${change.expectedWord}${change.expectedMeaning ? ` — ${change.expectedMeaning}` : ""}.`,
@@ -2828,7 +2942,7 @@
         activityPrompt,
         wordPrompt: activityPrompt,
         applyPrompt:
-          `Name a new word containing ${label} that was not in the Word Hunt list. Use it in a sentence and explain what ${label} contributes. If word retrieval is the only barrier, the educator may give a context sentence, cloze, or sentence starter that points to a valid example without answering the morphology decision.`,
+          `Name a new word containing ${label} that was not in the Word Hunt list. Use it in a sentence and explain what ${label} contributes. If word retrieval or expression is the only barrier after the first attempt, the educator may give a context sentence, cloze, or sentence starter that points to a valid example without answering the morphology decision. Response frame: “My new word is ___. I know it contains ${label} because ___. In my sentence, ___.”`,
         applyEducatorKey:
           `Open response. Verify that the new word genuinely contains ${label}, was not in the Word Hunt list, and that the student explains what ${label} contributes. A cloze/context clue is access support only when word retrieval would otherwise compete with the target recognition/generalization demand.`,
         applyWord: null,
