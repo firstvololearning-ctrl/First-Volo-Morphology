@@ -97,6 +97,100 @@
     );
   }
 
+  function nonTargetSupports(item) {
+    return asArray(
+      item?.nonTargetSupports
+    )
+      .map(
+        support => ({
+          part:
+            String(
+              support?.part ||
+              ""
+            ).trim(),
+          meaning:
+            String(
+              support?.meaning ||
+              support?.function ||
+              ""
+            ).trim(),
+          role:
+            String(
+              support?.role ||
+              "word part"
+            ).trim(),
+          timing:
+            support?.timing ||
+            "after-independent-attempt",
+          purpose:
+            String(
+              support?.purpose ||
+              ""
+            ).trim()
+        })
+      )
+      .filter(
+        support =>
+          support.part &&
+          support.meaning
+      );
+  }
+
+  function nonTargetSupportPreservesTarget(
+    item,
+    target,
+    meta = null
+  ) {
+    const targetSet =
+      new Set(
+        targetForms(
+          target,
+          meta
+        )
+      );
+
+    return nonTargetSupports(
+      item
+    ).every(
+      support =>
+        !variants(
+          support.part
+        )
+          .map(cleanSurface)
+          .some(
+            form =>
+              form &&
+              targetSet.has(
+                form
+              )
+          )
+    );
+  }
+
+  function nonTargetSupportLine(
+    item
+  ) {
+    const supports =
+      nonTargetSupports(
+        item
+      );
+
+    if (!supports.length) {
+      return null;
+    }
+
+    return (
+      "If needed after the independent attempt, supply only the non-target information: " +
+      supports
+        .map(
+          support =>
+            `${support.part} = ${support.meaning}`
+        )
+        .join("; ") +
+      ". Then retry the same item while keeping the target reasoning as the student's job."
+    );
+  }
+
   function targetForms(
     target,
     meta = null
@@ -509,9 +603,40 @@
 
     const hasPlainMeaning =
       Boolean(
+        item?.studentFriendlyDefinition ||
         item?.definition ||
         item?.literal
       );
+
+    /* FIRST_VOLO_TEACHER_LED_COMPOSITIONAL_ACCESS_V1
+       Teacher-led instruction is not limited to words that already have a
+       stored dictionary-style definition. A validated explicit segmentation
+       can itself provide fair teaching access because the system can show or
+       supply non-target information while preserving the target reasoning.
+
+       Recognition/form-retrieval activities also do not require independent
+       whole-word vocabulary knowledge before the target can be practiced.
+    */
+    const meaningCanBeTaughtFromStructure =
+      Boolean(
+        item?.segmentation ||
+        item?.wordFormation?.wordSum
+      );
+
+    const wholeWordMeaningIsIncidental =
+      [
+        "find",
+        "hunt",
+        "meaning",
+        "morpheme"
+      ].includes(
+        objective
+      );
+
+    const hasTeacherLedAccess =
+      hasPlainMeaning ||
+      meaningCanBeTaughtFromStructure ||
+      wholeWordMeaningIsIncidental;
 
     let category =
       "D";
@@ -527,7 +652,7 @@
       ) {
         category = "B";
       } else if (
-        hasPlainMeaning
+        hasTeacherLedAccess
       ) {
         category = "C";
       }
@@ -543,7 +668,10 @@
         practice,
       vocabRank:
         vocab,
-      hasPlainMeaning
+      hasPlainMeaning,
+      hasTeacherLedAccess,
+      meaningCanBeTaughtFromStructure,
+      wholeWordMeaningIsIncidental
     };
   }
 
@@ -741,14 +869,64 @@
       return true;
     }
 
-    return false;
+    /* FIRST_VOLO_RECOMMENDATION_IS_GUIDANCE_NOT_BOUNDARY_V1
+       recommendedActivityUse ranks/describes a word's best-known uses; it is
+       not the universe of what teacher-led instruction may do. The objective
+       rules above still enforce the real linguistic constraints: Build needs
+       an approved full decomposition, Figure It Out rejects opaque/cautioned
+       words, Break Apply needs full segmentation, protection still applies,
+       and target/non-target support must remain valid.
+
+       Therefore an omitted activity is allowed when the objective-specific
+       linguistic checks already passed. Explicit negative cautions remain
+       authoritative.
+    */
+    const explicitBlockPatterns = {
+      build: /(?:do not|don['’]t|avoid|not for|not a clean).*build|build.*(?:do not|avoid|not for|only if segmentation is clean)/,
+      infer: /(?:do not|don['’]t|avoid|not for).*infer|infer.*(?:do not|avoid|not for)/,
+      break: /(?:do not|don['’]t|avoid|not for).*break|break.*(?:do not|avoid|not for)/
+    };
+
+    const block =
+      explicitBlockPatterns[
+        objective
+      ];
+
+    if (
+      block &&
+      block.test(text)
+    ) {
+      return false;
+    }
+
+    /* High-risk objectives keep the inventory's explicit recommendation as
+       a safety gate. These tasks can accidentally turn a merely historical
+       or lexicalized analysis into student-facing morphology if we overreach.
+       Lower-risk teaching/application activities may use the word when the
+       objective-specific linguistic checks above have already passed. */
+    if (
+      objective === "build" ||
+      objective === "infer"
+    ) {
+      return false;
+    }
+
+    if (objective === "break") {
+      return Boolean(
+        item?.literal ||
+        item?.wordFormation?.wordSum
+      );
+    }
+
+    return true;
   }
   function supportFor({
     objective,
     stage,
     demand,
     segmentation,
-    wordFormation = null
+    wordFormation = null,
+    item = null
   }) {
     if (
       objective === "break" &&
@@ -812,6 +990,17 @@
         )
       ];
 
+      const concreteNonTarget =
+        nonTargetSupportLine(
+          item
+        );
+
+      if (concreteNonTarget) {
+        supports.unshift(
+          concreteNonTarget
+        );
+      }
+
       if (
         wordFormation?.teachingNote
       ) {
@@ -831,15 +1020,30 @@
     if (
       objective === "infer"
     ) {
+      const concreteNonTarget =
+        nonTargetSupportLine(
+          item
+        );
+
       return [
-        "The educator may explicitly supply the meaning or function of unfamiliar non-target material.",
+        "Begin with the student's independent morphology-based inference.",
+        concreteNonTarget ||
+          "If an unfamiliar non-target morpheme blocks the inference, the educator may explicitly supply only that non-target meaning or function after the first attempt.",
         "The student must still use the target morphology to infer the whole word.",
         "Retry the same inference after support."
       ];
     }
 
+    const concreteNonTarget =
+      nonTargetSupportLine(
+        item
+      );
+
     return [
       "Begin with the student's independent attempt.",
+      ...(concreteNonTarget
+        ? [concreteNonTarget]
+        : []),
       "Use the least relevant support only if a barrier appears.",
       "Retry the same demand and fade support."
     ];
@@ -901,6 +1105,7 @@
     }
 
     if (
+      item?.studentFriendlyDefinition ||
       item?.definition ||
       item?.literal
     ) {
@@ -908,9 +1113,40 @@
     }
 
     if (
+      item?.studentFriendlyDefinition
+    ) {
+      score += 5;
+    }
+
+    if (
       item?.segmentation
     ) {
       score += 6;
+    }
+
+    /*
+      Across teacher-led activities, prefer examples whose validated
+      morphology can be explicitly connected to a student-friendly
+      whole-word meaning. This is a ranking preference, not permission
+      to invent a decomposition.
+    */
+    if (
+      item?.literal &&
+      item?.segmentation &&
+      (
+        item?.studentFriendlyDefinition ||
+        item?.definition
+      )
+    ) {
+      score += 12;
+    }
+
+    if (
+      item?.teachingContext ||
+      item?.studentFriendlyContext ||
+      item?.contextSentence
+    ) {
+      score += 3;
     }
 
     if (
@@ -1024,6 +1260,20 @@
         eligible: false,
         reason:
           "Candidate does not contain the requested target."
+      };
+    }
+
+    if (
+      !nonTargetSupportPreservesTarget(
+        item,
+        target,
+        targetMeta
+      )
+    ) {
+      return {
+        eligible: false,
+        reason:
+          "Configured non-target support would reveal the instructional target."
       };
     }
 
@@ -1228,8 +1478,25 @@
           stage,
           demand,
           segmentation,
-          wordFormation
+          wordFormation,
+          item
         }),
+      nonTargetSupports:
+        nonTargetSupports(
+          item
+        ),
+      candidateSource:
+        item?.instructionalSource ||
+        (
+          item?._teacherLedExtension
+            ? "teacher-word-extension"
+            : "shared-word-inventory"
+        ),
+      teacherLedOnly:
+        Boolean(
+          item?.teacherLedOnly ||
+          item?._teacherLedExtension
+        ),
       whyEligible:
         (
           demand ===
@@ -1263,6 +1530,90 @@
 
     return selection;
   }
+
+  function deriveTransparentPrefixSegmentation(
+    item,
+    target
+  ) {
+    if (
+      !item?.word ||
+      item?.segmentation ||
+      target?.type !== "prefix" ||
+      String(
+        item?.transparency ||
+        ""
+      ).toLowerCase() !== "high"
+    ) {
+      return item;
+    }
+
+    const relationship =
+      targetRelationship(
+        item,
+        target,
+        target
+      );
+
+    if (!relationship.matched) {
+      return item;
+    }
+
+    const word =
+      cleanSurface(
+        item.word
+      );
+
+    const prefix =
+      targetForms(
+        target,
+        target
+      )
+        .filter(
+          form =>
+            form &&
+            word.startsWith(
+              form
+            ) &&
+            word.length >
+              form.length + 1
+        )
+        .sort(
+          (a, b) =>
+            b.length -
+            a.length
+        )[0] ||
+      null;
+
+    if (!prefix) {
+      return item;
+    }
+
+    const base =
+      word.slice(
+        prefix.length
+      );
+
+    if (!base) {
+      return item;
+    }
+
+    /* FIRST_VOLO_TRANSPARENT_PREFIX_DERIVED_SEGMENTATION_V1
+       This derivation is allowed only when the master inventory already
+       identifies the target as a morpheme in a HIGH-transparency prefix word.
+       It is not a letter-pattern guess and it never applies to suffixes or
+       roots, where form changes/etymology can make surface stripping unsafe.
+    */
+    return {
+      ...item,
+      segmentation:
+        `${prefix}- + ${base}`,
+      derivedSegmentation:
+        true,
+      segmentationSource:
+        "validated-high-transparency-prefix-surface"
+    };
+  }
+
 
   function sourceCandidates({
     target,
@@ -1299,9 +1650,12 @@
 
       byWord.set(
         key,
-        {
-          ...item
-        }
+        deriveTransparentPrefixSegmentation(
+          {
+            ...item
+          },
+          target
+        )
       );
     }
 
@@ -1318,10 +1672,18 @@
 
       byWord.set(
         key,
-        {
-          ...(byWord.get(key) || {}),
-          ...item
-        }
+        deriveTransparentPrefixSegmentation(
+          {
+            ...(byWord.get(key) || {}),
+            ...item,
+            _teacherLedExtension:
+              true,
+            instructionalSource:
+              item?.instructionalSource ||
+              "teacher-word-extension"
+          },
+          target
+        )
       );
     }
 
@@ -1697,6 +2059,8 @@
       wordFormationInfo,
       freshnessKey,
       sameFreshnessFamily,
+      nonTargetSupports,
+      nonTargetSupportPreservesTarget,
       scoreCandidate,
       evaluateCandidate,
       sourceCandidates,

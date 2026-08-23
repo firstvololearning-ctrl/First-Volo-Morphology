@@ -215,7 +215,81 @@
 
 
   /* =========================================
-     3. ACCESS SUPPORTS
+     3. SYSTEM-WIDE TEACHER-LED MATERIAL RULES
+
+     The online student-practice inventory is a source of candidate words,
+     not a boundary on teacher-led instruction. The instructional objective
+     is chosen first; then the system selects linguistically valid material
+     that preserves the target demand.
+     ========================================= */
+
+  const teacherLedMaterialRules = Object.freeze({
+    objectiveFirst:
+      "Choose the instructional objective first. Then select a linguistically valid word that permits that exact demand; material availability must not silently redefine the task.",
+
+    teacherLedUniverse:
+      "Teacher-led instruction may use validated words outside the online student-practice pool. The shared inventory and the teacher-word extension registry are both legitimate candidate sources.",
+
+    targetKnowledgeBoundary:
+      "When the instructional objective is knowledge or use of one target morpheme, only the target morpheme must be independently known. The student is not required to know every non-target morpheme in the word.",
+
+    nonTargetSupply:
+      "After the student's first attempt, the educator/system may supply the meaning or function of an unfamiliar non-target morpheme when that information is needed to keep the target task fair.",
+
+    preserveTargetReasoning:
+      "Supplying non-target information is valid only when it does not state the target meaning, identify the target for the student, or complete the target reasoning. Retry the same item after support.",
+
+    noFalseDecomposition:
+      "Do not manufacture a student-facing decomposition from opaque, accidental, or merely historical letter structure. Every displayed or supplied word part must be synchronically defensible and instructionally useful for the task.",
+
+    outsidePoolRule:
+      "A word must not be rejected merely because it is absent from the online student-practice pool. It may be used when its target relationship is accurate, its whole-word demand is appropriate for the learner, protection rules are satisfied, and any necessary non-target information can be supplied without solving the target demand.",
+
+    unavailableMaterial:
+      "If the required item cannot be selected, use only an explicitly approved fallback for that activity or mark the component/duration unavailable. Do not silently substitute a different instructional demand."
+  });
+
+
+  /* =========================================
+     4. SYSTEM-WIDE TEACHER-LED TEACHING LOGIC
+
+     These rules govern how a valid word becomes an instructional example.
+     Part A is teaching, not a disguised vocabulary test. The student should
+     be able to see how the target morpheme contributes to the whole word.
+     ========================================= */
+
+  const teacherLedTeachingRules = Object.freeze({
+    teachNotMerelyTest:
+      "Part A should teach the morpheme-to-word relationship. Do not repeatedly ask for a whole-word definition without making the morphological connection visible after the student's attempt.",
+
+    studentFriendlyDefinitions:
+      "Use child- or student-friendly whole-word definitions. A dictionary-style definition may be used as access information, but it is not a substitute for showing how the morphology contributes to the word's meaning.",
+
+    semanticBridge:
+      "When a defensible literal or compositional meaning is available, explicitly bridge from the meaningful parts to that literal idea and then to the modern whole-word meaning. Example pattern: non-target meaning + target meaning -> literal bridge -> student-friendly whole-word meaning.",
+
+    contextWhenHelpful:
+      "Use a meaningful context sentence when it helps the student connect morphology with the whole-word meaning. Context should support the target reasoning rather than replace it with guessing.",
+
+    clozeWhenHelpful:
+      "A cloze sentence or sentence starter may reduce an incidental language-generation burden when that burden competes with the morphology target. Do not use a cloze that gives away the target reasoning.",
+
+    nonTargetInformation:
+      "If an unfamiliar non-target morpheme blocks the intended target demand, provide its validated meaning or function after the student's first attempt. The target morpheme remains the student's reasoning job.",
+
+    accessSequence:
+      "Independent attempt -> identify the barrier -> give the least support that addresses that barrier -> retry the same target demand -> fade support.",
+
+    noOpaqueRescue:
+      "Do not rescue a convenient word by inventing an opaque, accidental, or merely etymological student-facing word part. If the morphological relationship cannot be made accurate and instructionally useful, choose a different word.",
+
+    transferSeparation:
+      "Check Transfer remains a transfer check: present the protected word in context with no morphology cue before the first whole-word inference attempt. Teaching supports, including non-target meanings, may be added only after that first response."
+  });
+
+
+  /* =========================================
+     5. ACCESS SUPPORTS
      These do NOT solve the morphology task.
      ========================================= */
 
@@ -236,7 +310,7 @@
 
 
   /* =========================================
-     4. MORPHOLOGY SCAFFOLD LADDERS
+     5. MORPHOLOGY SCAFFOLD LADDERS
      Always least → more support.
      ========================================= */
 
@@ -307,7 +381,7 @@
 
 
   /* =========================================
-     5. LAST WORK → NEXT WORK TRANSITION LOGIC
+     6. LAST WORK → NEXT WORK TRANSITION LOGIC
      ========================================= */
 
   function transition({
@@ -430,7 +504,7 @@
 
 
   /* =========================================
-     6. RETURN ONLY THE RELEVANT SUPPORT LADDER
+     8. RETURN ONLY THE RELEVANT SUPPORT LADDER
      ========================================= */
 
   function scaffoldPlan(difficulty) {
@@ -479,6 +553,10 @@
     difficulties,
 
     activities,
+
+    teacherLedMaterialRules,
+
+    teacherLedTeachingRules,
 
     accessRules,
 

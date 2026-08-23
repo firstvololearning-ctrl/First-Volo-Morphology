@@ -229,6 +229,55 @@
             ])
           })
 
+        ]),
+
+        /* FIRST_VOLO_TEACHER_LED_OUTSIDE_POOL_SUPPORT_V1
+           Teacher-led words may extend beyond the online practice pool.
+           Non-target information may be supplied after the independent
+           attempt when doing so preserves the target reasoning.
+        */
+        ject: Object.freeze([
+          Object.freeze({
+            word: "interject",
+            segmentation: "inter- + ject",
+            morphemes: Object.freeze([
+              "inter-",
+              "ject"
+            ]),
+            definition: "to put a remark into a conversation while another person is speaking",
+            studentFriendlyDefinition: "to add a comment while someone else is speaking",
+            teachingContext: "Nia interjected a quick question while the group was talking.",
+            literal: "throw between",
+            practiceBand: "6-8",
+            accessibilityBand: "6-8",
+            vocabLevel: "academic",
+            transparency: "medium",
+            teacherLedOnly: true,
+            instructionalSource: "teacher-word-extension",
+            nonTargetSupports: Object.freeze([
+              Object.freeze({
+                part: "inter-",
+                meaning: "between; among",
+                role: "prefix",
+                timing: "after-independent-attempt",
+                purpose:
+                  "If inter- is unfamiliar, supply inter- = between/among after the student's first attempt. Keep ject = throw as the student's target reasoning."
+              })
+            ]),
+            activities: Object.freeze([
+              "learn",
+              "find",
+              "hunt",
+              "meaning",
+              "morpheme",
+              "break",
+              "infer",
+              "build",
+              "use"
+            ]),
+            reviewCaution:
+              "For ject instruction, inter- = between/among may be supplied after the student's first attempt. Do not require independent knowledge of inter- and do not treat the supplied prefix meaning as evidence that ject was known."
+          })
         ])
       });
 

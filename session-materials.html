@@ -110,8 +110,11 @@
 
         <div class="session-toolbar-summary">
 
-          <span class="session-eyebrow">
-            Next session
+          <span
+            class="session-eyebrow"
+            id="sessionModeEyebrow"
+          >
+            Recommended session
           </span>
 
           <h2 id="sessionLearnerName">
@@ -121,6 +124,11 @@
           <p
             class="session-target-line"
             id="sessionTargetLine"
+          ></p>
+
+          <p
+            class="session-last-work"
+            id="sessionSourceLine"
           ></p>
 
           <p
@@ -173,6 +181,101 @@
 
         </div>
 
+      </section>
+
+
+      <section
+        class="session-teacher-led-note"
+        aria-labelledby="sessionSourceChooserHeading"
+      >
+        <h2 id="sessionSourceChooserHeading">
+          Two ways to start a teacher-led session
+        </h2>
+
+        <section
+          id="recommendedSessionChoice"
+          aria-labelledby="recommendedSessionHeading"
+        >
+          <span class="session-eyebrow">
+            Adaptive recommendation
+          </span>
+
+          <h3 id="recommendedSessionHeading">
+            Recommended Session
+          </h3>
+
+          <p>
+            First Volo chooses the next target and activity from the
+            student's recent performance. This remains the student's
+            adaptive recommendation unless new performance is actually saved.
+          </p>
+
+          <button
+            type="button"
+            id="useRecommendedSessionButton"
+          >
+            Use recommended session
+          </button>
+        </section>
+
+        <hr>
+
+        <section
+          id="teacherSelectedSessionChoice"
+          aria-labelledby="teacherSelectedSessionHeading"
+        >
+          <span class="session-eyebrow">
+            Educator choice
+          </span>
+
+          <h3 id="teacherSelectedSessionHeading">
+            Teacher-Selected Session
+          </h3>
+
+          <p>
+            You choose the word part and activity for a specific
+            instructional reason. Opening this session does not rewrite
+            the student's recommended next target. If performance from
+            this session is later saved, record its source as
+            <strong>Teacher selected</strong>.
+          </p>
+
+          <p>
+            <label for="teacherTargetSelect">
+              <strong>Word part</strong>
+            </label>
+            <br>
+            <select id="teacherTargetSelect"></select>
+          </p>
+
+          <p>
+            <label for="teacherActivitySelect">
+              <strong>Activity</strong>
+            </label>
+            <br>
+            <select id="teacherActivitySelect"></select>
+          </p>
+
+          <div
+            id="teacherUnavailableActivities"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <button
+            class="session-primary-button"
+            type="button"
+            id="buildTeacherSelectedSessionButton"
+          >
+            Build teacher-selected session
+          </button>
+
+          <p>
+            After the session is built, First Volo shows only the
+            10-, 15-, or 30-minute lengths that can construct the
+            required session sequence for that target and activity.
+          </p>
+        </section>
       </section>
 
 
@@ -268,19 +371,19 @@
         hidden
       >
 
-        <span class="session-eyebrow">
-          Target resolved · material not yet configured
+        <span
+          class="session-eyebrow"
+          id="sessionMaterialUnavailableEyebrow"
+        >
+          System-generated material unavailable
         </span>
 
-        <h2>
-          This target does not yet have a reusable
-          session-material family.
+        <h2 id="sessionMaterialUnavailableTitle">
+          First Volo could not generate a learner-ready session for this target and activity.
         </h2>
 
-        <p>
-          The target above is still the instructional
-          target. First Volo will not substitute a different
-          family or invent materials for it.
+        <p id="sessionMaterialUnavailableText">
+          First Volo searched the validated teacher-led word universe. It will not invent a word part, use a protected word, mis-segment a word, or silently change the instructional demand merely to fill the session.
         </p>
 
       </section>

@@ -87,8 +87,9 @@
 
         educator: [
           `Ask what ${t} contributes to the word.`,
-          "If needed, provide the meaning of another meaningful part without solving the whole word.",
-          "Ask the student to combine the parts into a possible whole-word meaning."
+          "If needed, provide the validated meaning of another meaningful part without solving the target reasoning.",
+          "Ask the student to combine the parts into a possible whole-word meaning.",
+          "If the modern whole-word meaning hides the morphology, use a student-friendly definition plus a validated literal/compositional bridge to show how the parts connect, then ask the student to explain the target contribution again."
         ]
       },
 
@@ -98,9 +99,9 @@
 
         educator: [
           `Ask what ${t} contributes to the word.`,
-          "Ask what another meaningful part contributes, if known.",
-          "If the whole word is still unclear, add sentence context.",
-          "If needed after that, offer two plausible whole-word meanings."
+          "If an unfamiliar non-target part is the barrier, supply its validated meaning after the first attempt rather than requiring incidental morpheme knowledge.",
+          "Use a meaningful sentence context to confirm or refine the morphology-based hypothesis.",
+          "If the word remains unclear after the morphology attempt, give two plausible student-friendly whole-word meanings or teach the whole-word meaning, then return to the question of how the known morpheme contributes. Do not count that supported response as an independent inference."
         ]
       },
 
@@ -110,7 +111,8 @@
 
         educator: [
           "Ask which word or phrase in the sentence gives useful information.",
-          "Direct attention to the clearest context clue without explaining the answer.",
+          "Direct attention to the clearest context clue without explaining the morphology answer.",
+          "If sentence generation or retrieval is the incidental barrier, use a cloze sentence or sentence starter only when it does not give away the target reasoning.",
           "If needed, offer two plausible choices after the student attempts to combine morphology and context."
         ]
       },

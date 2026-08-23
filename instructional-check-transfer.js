@@ -715,13 +715,35 @@
           id: "ct-ject-01",
           word: "projectile",
           sentence: "The small foam projectile landed on the floor after it left the launcher.",
-          expectedMeaning: "an object that is thrown or sent forward"
+          expectedMeaning: "an object that is thrown or sent forward",
+          nonTargetSupports: Object.freeze([
+            Object.freeze({
+              part: "pro-",
+              meaning: "forward",
+              role: "prefix",
+              timing: "after-independent-attempt"
+            })
+          ])
         }),
         Object.freeze({
           id: "ct-ject-02",
           word: "injector",
           sentence: "The injector sat beside the tube before the liquid test began.",
-          expectedMeaning: "a device that sends something into"
+          expectedMeaning: "a device that sends something into",
+          nonTargetSupports: Object.freeze([
+            Object.freeze({
+              part: "in-",
+              meaning: "in; into",
+              role: "prefix",
+              timing: "after-independent-attempt"
+            }),
+            Object.freeze({
+              part: "-or",
+              meaning: "a person or thing that does something",
+              role: "suffix",
+              timing: "after-independent-attempt"
+            })
+          ])
         }),
       ])
     }),
@@ -2401,6 +2423,14 @@
             sentence: item.sentence,
             expectedMeaning:
               item.expectedMeaning,
+            nonTargetSupports:
+              asArray(
+                item.nonTargetSupports
+              ).map(
+                support => ({
+                  ...support
+                })
+              ),
             prompt:
               `${item.sentence} What do you think “${item.word}” means here?`,
             firstAttemptPrompt:

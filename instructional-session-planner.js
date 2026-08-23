@@ -373,13 +373,45 @@
   function buildRetrieveItems({
     student,
     guidance,
-    duration
+    duration,
+    sessionSource = "recommended",
+    selectedTarget = null
   }) {
     const desired =
       duration.retrieveItemCount;
 
     const results = [];
     const seen = new Set();
+
+    /* FIRST_VOLO_TEACHER_SELECTED_RETRIEVE_TARGET_V1
+       In a Teacher-Selected Session, Retrieve must begin with the exact
+       target the educator selected. Opening a manual session should never
+       degrade into a generic “retrieve the current target” placeholder.
+       Remaining retrieval slots may still use cumulative prior targets.
+    */
+    if (
+      sessionSource === "teacher-selected" &&
+      selectedTarget?.label
+    ) {
+      const item =
+        retrievalPrompt({
+          target: selectedTarget,
+          index: 0
+        });
+
+      if (item) {
+        results.push({
+          ...item,
+          source: "teacher-selected-current-target",
+          previouslyIndependent: null
+        });
+
+        seen.add(
+          selectedTarget.id ||
+          selectedTarget.label
+        );
+      }
+    }
 
     const current =
       guidance?.lastWork
@@ -457,11 +489,14 @@
 
     if (
       results.length === 0 &&
-      guidance?.lastWork
-        ?.target?.label
+      (
+        guidance?.lastWork?.target?.label ||
+        guidance?.nextWork?.target?.label
+      )
     ) {
       const target =
-        guidance.lastWork.target;
+        guidance?.lastWork?.target ||
+        guidance?.nextWork?.target;
 
       results.push({
         type:
@@ -832,6 +867,36 @@
       };
     }
 
+    const activity =
+      recipe?.activity ||
+      guidance?.nextWork?.activity ||
+      guidance?.lastWork?.activity ||
+      null;
+
+    if (
+      recipe?.applyKind ===
+        "unavailable"
+    ) {
+      return {
+        minutes:
+          duration.applyMinutes,
+        target,
+        targetPhrase:
+          formatTarget(target),
+        productive: false,
+        educatorDoes:
+          recipe.applyEducatorKey ||
+          "No valid Apply item is available for this activity and target. Do not silently substitute a different task.",
+        studentDoes:
+          "No Apply item is presented because the required activity-specific material is unavailable.",
+        item: null,
+        materialStatus:
+          "apply-unavailable",
+        protectionRule:
+          "Unavailable Apply material must stay unavailable rather than borrowing a protected or instructionally different word."
+      };
+    }
+
     const targetLabel =
       target?.label ||
       "the target word part";
@@ -932,22 +997,37 @@
         true,
 
       educatorDoes:
-        (
-          "Present the Apply prompt without showing the answer. " +
-          "Let the student produce or build the word from context. " +
-          "After the word is correct, ask for an original sentence " +
-          "and an explanation of what the target contributes."
-        ),
-
-      studentDoes:
-        applyWord
+        activity === "morpheme"
           ? (
-              `Produces ${applyWord} from the Apply cue, ` +
-              "uses it in a new sentence, and explains the target's contribution."
+              "Present the target meaning without showing the fresh word. " +
+              "After the student retrieves the target word part, reveal the system-selected fresh word. " +
+              "Ask the student to find the target and explain what it contributes to the whole-word meaning. " +
+              "After the attempt, supply only the student-friendly whole-word meaning, validated semantic bridge, or non-target information that is actually needed, then retry."
             )
           : (
-              "Produces a new real word with the target, uses it in a new sentence, " +
-              "and explains the target's contribution."
+              "Present the exact Apply demand for this activity with the selected item; do not silently replace it with a different task such as generic word generation. " +
+              "Allow the independent attempt first. If an incidental barrier appears, use only the needed student-friendly definition, validated semantic bridge, context, non-target meaning, or cloze/sentence starter, then retry the same activity demand."
+            ),
+
+      studentDoes:
+        activity === "morpheme"
+          ? (
+              applyWord
+                ? (
+                    `Retrieves ${targetLabel} from its meaning, then finds it in the fresh word ${applyWord} and explains its contribution.`
+                  )
+                : (
+                    `Retrieves ${targetLabel} from its meaning; no fresh Word Part example is available for the second Apply demand.`
+                  )
+            )
+          : (
+              applyWord
+                ? (
+                    `Completes the ${activity || "Apply"} demand with the fresh word ${applyWord} and explains what the known morphology contributes.`
+                  )
+                : (
+                    `Completes the defined ${activity || "Apply"} open-production demand and explains what the known morphology contributes.`
+                  )
             ),
 
       item: {
@@ -960,6 +1040,44 @@
         segmentation:
           recipe.applySegmentation ||
           null,
+
+        definition:
+          recipe.applyDefinition ||
+          null,
+
+        literal:
+          recipe.applyLiteral ||
+          null,
+
+        studentFriendlyDefinition:
+          recipe.applyStudentFriendlyDefinition ||
+          recipe.applyDefinition ||
+          null,
+
+        contextSentence:
+          recipe.applyContextSentence ||
+          null,
+
+        clozeSupport:
+          recipe.applyClozeSupport ||
+          null,
+
+        semanticBridge:
+          recipe.applySemanticBridge ||
+          null,
+
+        teachingSupportRules:
+          recipe.teachingSupportRules ||
+          null,
+
+        nonTargetSupports:
+          asArray(
+            recipe.applyNonTargetSupports
+          ).map(
+            support => ({
+              ...support
+            })
+          ),
 
         family:
           sessionMaterial
@@ -975,8 +1093,14 @@
         followUpPrompt,
 
         source:
+          recipe.applySource ||
           recipe.source ||
           "protection-aware-session-recipe",
+
+        teacherLedOnly:
+          Boolean(
+            recipe.applyTeacherLedOnly
+          ),
 
         mode:
           applyMode,
@@ -1113,6 +1237,13 @@
 
   function buildRecordingFields() {
     return {
+      sessionContext: [
+        "sessionSource",
+        "selectedTargetId",
+        "selectedActivity",
+        "selectedDurationMinutes"
+      ],
+
       performance: [
         "independentCorrect",
         "difficultyType",
@@ -1134,15 +1265,141 @@
       ],
 
       rule:
-        "Adherence is descriptive implementation data and must remain separate from student performance."
+        "Session source is descriptive context. Opening a Teacher-Selected Session must not rewrite the student's adaptive recommendation; record Teacher selected only when that session is actually saved. Adherence remains separate from student performance."
     };
   }
+
+
+  function teacherSelectionTarget(
+    targetId
+  ) {
+    const meta =
+      getMorphemeById(
+        targetId
+      );
+
+    if (!meta) {
+      return null;
+    }
+
+    return {
+      ...meta,
+      id: meta.id,
+      targetId: meta.id,
+      morphemeId: meta.id,
+      targetKey: meta.id,
+      label: meta.label,
+      name: meta.label,
+      meaning: meta.meaning || null,
+      type: meta.type || null,
+      role: meta.type || "word part",
+      source: "teacher-selected-session"
+    };
+  }
+
+
+  function normalizeSessionSelection(
+    selection
+  ) {
+    if (
+      !selection ||
+      selection.source !==
+        "teacher-selected"
+    ) {
+      return {
+        source: "recommended",
+        targetId: null,
+        activity: null,
+        target: null
+      };
+    }
+
+    const target =
+      teacherSelectionTarget(
+        selection.targetId
+      );
+
+    const activity =
+      ACTIVITY_SEQUENCE.includes(
+        selection.activity
+      )
+        ? selection.activity
+        : null;
+
+    if (!target || !activity) {
+      return {
+        source: "recommended",
+        targetId: null,
+        activity: null,
+        target: null
+      };
+    }
+
+    return {
+      source: "teacher-selected",
+      targetId: target.id,
+      activity,
+      target
+    };
+  }
+
 
   function buildPlan({
     student = null,
     nextWork = null,
-    sessionMinutes = 15
+    sessionMinutes = 15,
+    sessionSelection = null
   } = {}) {
+
+    /* FIRST_VOLO_SESSION_SOURCE_MODES_V1
+       Recommended Session and Teacher-Selected Session are separate
+       product functions. A teacher selection overrides only the in-memory
+       nextWork used to build this plan. It never writes progress or replaces
+       the adaptive recommendation merely because the educator opens it.
+    */
+    const normalizedSelection =
+      normalizeSessionSelection(
+        sessionSelection
+      );
+
+    const sessionSource =
+      normalizedSelection.source;
+
+    if (
+      sessionSource ===
+        "teacher-selected"
+    ) {
+      const originalNextWork =
+        (
+          nextWork &&
+          typeof nextWork ===
+            "object"
+        )
+          ? nextWork
+          : {};
+
+      const selectedTarget =
+        normalizedSelection.target;
+
+      nextWork = {
+        ...originalNextWork,
+        target: selectedTarget,
+        targetId: selectedTarget.id,
+        morphemeId: selectedTarget.id,
+        targetKey: selectedTarget.id,
+        targetLabel: selectedTarget.label,
+        targetMeaning: selectedTarget.meaning || null,
+        activity: normalizedSelection.activity,
+        activityId: normalizedSelection.activity,
+        activityKey: normalizedSelection.activity,
+        nextActivity: normalizedSelection.activity,
+        nextActivityId: normalizedSelection.activity,
+        nextMode: normalizedSelection.activity,
+        mode: normalizedSelection.activity,
+        isSuggested: false,
+        sessionSource: "teacher-selected"
+      };
+    }
 
     /* FIRST_VOLO_QA_SESSION_OVERRIDE_V1
        DEV-ONLY browser preview.
@@ -1189,6 +1446,7 @@
         .toLowerCase();
 
     if (
+      sessionSource !== "teacher-selected" &&
       qaPreview &&
       qaTarget === "mot" &&
       qaActivity === "break"
@@ -1349,18 +1607,53 @@
           ?.activity
       );
 
+    const requestedApplicability =
+      activityApplicability(
+        resolvedPrimary,
+        requestedNextActivity
+      );
+
+    /*
+      Adaptive recommendations may advance past an intentionally
+      inapplicable activity. Teacher-selected sessions may not.
+      If the educator asks for Build Words and the target has no clean,
+      instructionally useful build, preserve that choice as unavailable
+      and explain why rather than silently changing the activity.
+    */
     const applicabilityResolution =
-      resolveApplicableActivity({
-        requestedActivity:
-          requestedNextActivity,
-        lastActivity:
-          plannerGuidance
-            ?.lastWork
-            ?.activity ||
-          null,
-        target:
-          resolvedPrimary
-      });
+      sessionSource ===
+        "teacher-selected"
+        ? {
+            activity:
+              requestedNextActivity,
+            requestedActivity:
+              requestedNextActivity,
+            adjusted: false,
+            skippedActivities: [],
+            applicable:
+              requestedApplicability
+                ?.applicable !==
+              false,
+            reason:
+              requestedApplicability
+                ?.reason ||
+              null
+          }
+        : {
+            ...resolveApplicableActivity({
+              requestedActivity:
+                requestedNextActivity,
+              lastActivity:
+                plannerGuidance
+                  ?.lastWork
+                  ?.activity ||
+                null,
+              target:
+                resolvedPrimary
+            }),
+            applicable: true,
+            reason: null
+          };
 
     if (
       applicabilityResolution
@@ -1383,6 +1676,14 @@
         activityAdjusted:
           applicabilityResolution
             .adjusted,
+        activityApplicable:
+          applicabilityResolution
+            .applicable !==
+          false,
+        activityApplicabilityReason:
+          applicabilityResolution
+            .reason ||
+          null,
         skippedActivities:
           applicabilityResolution
             .skippedActivities
@@ -1399,7 +1700,10 @@
           student,
           guidance:
             plannerGuidance,
-          duration
+          duration,
+          sessionSource,
+          selectedTarget:
+            resolvedPrimary
         }),
 
       rule:
@@ -1437,6 +1741,40 @@
 
       sessionMinutes:
         minutes,
+
+      sessionSource,
+
+      sessionSourceLabel:
+        sessionSource ===
+          "teacher-selected"
+          ? "Teacher selected"
+          : "Recommended",
+
+      teacherSelection:
+        sessionSource ===
+          "teacher-selected"
+          ? {
+              targetId:
+                normalizedSelection
+                  .targetId,
+              activity:
+                normalizedSelection
+                  .activity,
+              durationMinutes:
+                minutes
+            }
+          : null,
+
+      activityApplicability: {
+        applicable:
+          applicabilityResolution
+            .applicable !==
+          false,
+        reason:
+          applicabilityResolution
+            .reason ||
+          null
+      },
 
       duration,
 

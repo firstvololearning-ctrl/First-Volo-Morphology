@@ -418,13 +418,591 @@
   }
 
 
-  function exampleAnswer(entry) {
+  function studentFriendlyDefinition(entry) {
     return (
-      entry.definition ||
-      entry.literal ||
+      entry?.studentFriendlyDefinition ||
+      entry?.friendlyDefinition ||
+      entry?.definition ||
       null
     );
   }
+
+
+  function exampleAnswer(entry) {
+    return (
+      studentFriendlyDefinition(entry) ||
+      entry?.literal ||
+      null
+    );
+  }
+
+
+  function familyRecipeForWord(word) {
+    const wanted =
+      normalize(word);
+
+    if (!wanted) {
+      return null;
+    }
+
+    const families =
+      window
+        .FirstVoloInstructionalMaterialFamilies
+        ?.families ||
+      {};
+
+    for (
+      const family of
+      Object.values(families)
+    ) {
+      const recipe =
+        asArray(
+          family?.sessionRecipes
+        ).find(
+          item =>
+            normalize(
+              item?.word
+            ) === wanted
+        );
+
+      if (recipe) {
+        return recipe;
+      }
+    }
+
+    return null;
+  }
+
+
+  function teachingContextDetails(entry) {
+    if (!entry?.word) {
+      return {
+        sentence: null,
+        cloze: null,
+        source: null
+      };
+    }
+
+    const familyRecipe =
+      familyRecipeForWord(
+        entry.word
+      );
+
+    const directContext =
+      entry.studentFriendlyContext ||
+      entry.teachingContext ||
+      entry.contextSentence ||
+      entry.exampleSentence ||
+      entry.sentence ||
+      null;
+
+    const rawContext =
+      directContext ||
+      familyRecipe?.contextPrompt ||
+      null;
+
+    const explicitCloze =
+      entry.clozeSupport ||
+      entry.clozePrompt ||
+      null;
+
+    const contextHasBlank =
+      /_{2,}/.test(
+        String(rawContext || "")
+      );
+
+    const cloze =
+      explicitCloze ||
+      (
+        contextHasBlank
+          ? rawContext
+          : null
+      );
+
+    const sentence =
+      rawContext
+        ? String(rawContext)
+            .replace(
+              /_{2,}/g,
+              entry.word
+            )
+        : null;
+
+    return {
+      sentence,
+      cloze,
+      source:
+        directContext
+          ? "word-entry"
+          : (
+              familyRecipe?.contextPrompt
+                ? "shared-material-family"
+                : null
+            )
+    };
+  }
+
+  function preferredSupportSense(
+    meaning,
+    literal = ""
+  ) {
+    const choices =
+      String(meaning || "")
+        .split(/[;,]/)
+        .map(value => value.trim())
+        .filter(Boolean);
+
+    if (!choices.length) {
+      return "";
+    }
+
+    const literalText =
+      String(literal || "")
+        .toLowerCase();
+
+    return (
+      choices.find(
+        choice =>
+          literalText.includes(
+            choice.toLowerCase()
+          )
+      ) ||
+      choices[0]
+    );
+  }
+
+
+  function nonTargetSupports(
+    entry,
+    target = null
+  ) {
+    if (!entry) {
+      return [];
+    }
+
+    const explicit =
+      asArray(
+        entry.nonTargetSupports
+      )
+        .map(
+          support => ({
+            part:
+              String(
+                support?.part ||
+                ""
+              ).trim(),
+            meaning:
+              String(
+                support?.meaning ||
+                support?.function ||
+                ""
+              ).trim(),
+            role:
+              String(
+                support?.role ||
+                "word part"
+              ).trim(),
+            timing:
+              support?.timing ||
+              "after-independent-attempt",
+            purpose:
+              String(
+                support?.purpose ||
+                ""
+              ).trim(),
+            source:
+              "configured-non-target-support"
+          })
+        )
+        .filter(
+          support =>
+            support.part &&
+            support.meaning
+        );
+
+    /*
+      Generic teacher-led support may also be derived from an EXPLICIT,
+      validated segmentation. This never guesses a morpheme from letters
+      alone and therefore cannot turn an opaque/etymological chunk into a
+      student-facing word part. Only morphemes already in the inventory are
+      eligible, and the instructional target itself is excluded.
+    */
+    const firstSegmentation =
+      String(
+        entry.segmentation ||
+        ""
+      )
+        .split(";")[0]
+        .trim();
+
+    const targetSet =
+      new Set(
+        targetVariants(
+          target,
+          targetMeta(target)
+        )
+      );
+
+    const literal =
+      entry.literal ||
+      "";
+
+    const derived =
+      firstSegmentation
+        ? firstSegmentation
+            .split("+")
+            .map(part => String(part || "").trim())
+            .filter(Boolean)
+            .flatMap(
+              part => {
+                const partForms =
+                  variants(part);
+
+                if (
+                  partForms.some(
+                    form =>
+                      targetSet.has(form)
+                  )
+                ) {
+                  return [];
+                }
+
+                const meta =
+                  morphemeInventory()
+                    .find(
+                      item =>
+                        variants(
+                          item?.label
+                        ).some(
+                          form =>
+                            partForms.includes(
+                              form
+                            )
+                        )
+                    );
+
+                if (!meta?.meaning) {
+                  return [];
+                }
+
+                return [{
+                  part:
+                    meta.label ||
+                    part,
+                  meaning:
+                    preferredSupportSense(
+                      meta.meaning,
+                      literal
+                    ),
+                  role:
+                    meta.type ||
+                    meta.role ||
+                    "word part",
+                  timing:
+                    "after-independent-attempt",
+                  purpose:
+                    "Supply only if this non-target morpheme is the barrier; keep the target reasoning as the student's job.",
+                  source:
+                    "validated-segmentation"
+                }];
+              }
+            )
+        : [];
+
+    const seen =
+      new Set();
+
+    return [
+      ...explicit,
+      ...derived
+    ].filter(
+      support => {
+        const key =
+          variants(
+            support.part
+          )[0] ||
+          normalize(
+            support.part
+          );
+
+        if (
+          !key ||
+          seen.has(key)
+        ) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      }
+    );
+  }
+
+
+  function nonTargetMeaningForPart(
+    entry,
+    part,
+    target = null
+  ) {
+    const wanted =
+      new Set(
+        variants(
+          part
+        )
+      );
+
+    const support =
+      nonTargetSupports(
+        entry,
+        target
+      )
+        .find(
+          item =>
+            variants(
+              item.part
+            )
+              .some(
+                value =>
+                  wanted.has(
+                    value
+                  )
+              )
+        );
+
+    return support?.meaning ||
+      null;
+  }
+
+  function nonTargetSupportKey(
+    entry,
+    target = null
+  ) {
+    const supports =
+      nonTargetSupports(
+        entry,
+        target
+      );
+
+    return supports.length
+      ? (
+          " If needed after the independent attempt, the educator may supply only this non-target information: " +
+          supports
+            .map(
+              support =>
+                `${support.part} = ${support.meaning}`
+            )
+            .join("; ") +
+          ". Then retry the same item; the target reasoning remains the student's job."
+        )
+      : "";
+  }
+
+  function teachingSupportDetails(
+    entry,
+    target = null,
+    meta = null
+  ) {
+    if (!entry?.word) {
+      return null;
+    }
+
+    const label =
+      target?.label ||
+      meta?.label ||
+      "the target word part";
+
+    const targetMeaning =
+      target?.meaning ||
+      meta?.meaning ||
+      null;
+
+    const literal =
+      entry.literal ||
+      null;
+
+    const definition =
+      studentFriendlyDefinition(
+        entry
+      );
+
+    const context =
+      teachingContextDetails(
+        entry
+      );
+
+    const supports =
+      nonTargetSupports(
+        entry,
+        target
+      );
+
+    const targetSense =
+      targetMeaning
+        ? (
+            literal
+              ? preferredSupportSense(
+                  targetMeaning,
+                  literal
+                )
+              : String(
+                  targetMeaning
+                ).trim()
+          )
+        : null;
+
+    const bridgeParts = [];
+
+    for (const support of supports) {
+      bridgeParts.push(
+        `${support.part} = ${support.meaning}`
+      );
+    }
+
+    if (
+      targetSense &&
+      label
+    ) {
+      bridgeParts.push(
+        `${label} = ${targetSense}`
+      );
+    }
+
+    let semanticBridge = null;
+
+    if (literal) {
+      const lead =
+        bridgeParts.length
+          ? `${bridgeParts.join("; ")}. `
+          : "";
+
+      const wholeWord =
+        definition
+          ? ` This helps explain ${entry.word}: ${definition}.`
+          : "";
+
+      semanticBridge =
+        `${lead}Put the meaningful parts together: “${literal}.”${wholeWord}`;
+    }
+
+    /* FIRST_VOLO_SYSTEM_GENERATED_SEMANTIC_BRIDGE_V1
+       A stored literal gloss is helpful but not required. When a word has an
+       explicit validated segmentation, First Volo can generate the teaching
+       bridge from the known target, validated non-target morphemes, and an
+       ordinary lexical base. This is intentionally NOT a guessed etymology:
+       no segmentation -> no generated decomposition.
+    */
+    if (!semanticBridge) {
+      const parts =
+        firstSegmentationParts(
+          entry
+        );
+
+      if (parts.length >= 2) {
+        const targetSet =
+          new Set(
+            targetVariants(
+              target,
+              meta
+            )
+          );
+
+        const descriptions =
+          parts.map(
+            part => {
+              const partForms =
+                variants(part);
+
+              const isTarget =
+                partForms.some(
+                  form =>
+                    targetSet.has(
+                      form
+                    )
+                );
+
+              if (
+                isTarget &&
+                targetSense
+              ) {
+                return `${part} = ${targetSense}`;
+              }
+
+              const supplied =
+                supports.find(
+                  support =>
+                    variants(
+                      support.part
+                    ).some(
+                      form =>
+                        partForms.includes(
+                          form
+                        )
+                    )
+                );
+
+              if (supplied) {
+                return `${part} = ${supplied.meaning}`;
+              }
+
+              const partMeta =
+                morphemeInventory()
+                  .find(
+                    item =>
+                      variants(
+                        item?.label
+                      ).some(
+                        form =>
+                          partForms.includes(
+                            form
+                          )
+                      )
+                  );
+
+              if (partMeta?.meaning) {
+                return (
+                  `${part} = ${preferredSupportSense(partMeta.meaning)}`
+                );
+              }
+
+              return `base word “${part}”`;
+            }
+          );
+
+        semanticBridge =
+          `Use the validated parts: ${descriptions.join("; ")}. ` +
+          `Have the student put the parts together and connect them to the meaning of ${entry.word}.`;
+      }
+    }
+
+    return {
+      word: entry.word,
+      studentFriendlyDefinition:
+        definition,
+      literal,
+      semanticBridge,
+      contextSentence:
+        context.sentence,
+      clozeSupport:
+        context.cloze,
+      contextSource:
+        context.source,
+      nonTargetSupports:
+        supports.map(
+          support => ({
+            ...support
+          })
+        ),
+      rules: {
+        definitionUse:
+          "Use the student-friendly whole-word meaning as access information after the student's attempt; do not stop there when a morphological bridge is available.",
+        contextUse:
+          "Use context when it helps connect the morphology to the whole word; do not let context replace the morphology reasoning.",
+        clozeUse:
+          "Use the cloze only when sentence generation or word retrieval is the incidental barrier and the cloze does not answer the morphology target."
+      }
+    };
+  }
+
 
   function cleanDisplayPart(value) {
     return String(value || "")
@@ -692,7 +1270,11 @@
                   meta?.meaning ||
                   null
                 )
-              : null,
+              : nonTargetMeaningForPart(
+                  entry,
+                  part,
+                  target
+                ),
           role:
             partRole,
           image:
@@ -757,16 +1339,21 @@
       "the target word part";
 
     const definition =
-      entry?.definition ||
+      studentFriendlyDefinition(
+        entry
+      );
+
+    const compositionalGoal =
       entry?.literal ||
+      definition ||
       null;
 
-    if (definition) {
+    if (compositionalGoal) {
       return {
         kind: "semantic-goal",
         prompt:
-          `Build or say a real word containing ${label} that matches this meaning: ` +
-          `“${definition}”. Do not show the answer before the student's attempt.`
+          `Build or say a real word containing ${label} whose meaningful parts give the idea ` +
+          `“${compositionalGoal}”. Explain how the meaningful parts help with the word's meaning.`
       };
     }
 
@@ -794,10 +1381,12 @@
       meta?.meaning ||
       "the target meaning";
 
-    const definition =
-      entry?.definition ||
-      entry?.literal ||
-      null;
+    const teaching =
+      teachingSupportDetails(
+        entry,
+        target,
+        meta
+      );
 
     const word =
       entry?.word ||
@@ -805,22 +1394,38 @@
 
     switch (activity) {
       case "learn":
-        return `What does ${label} mean? After the student responds, use ${word} as a clear example.`;
+        return (
+          `What does ${label} mean? Then look at ${word}. ` +
+          `How does ${label} help explain the meaning of ${word}?`
+        );
 
       case "find":
-        return `Find ${label} in ${word}. Do not mark or separate it before the student's first attempt.`;
+        return (
+          `Find ${label} in ${word}. What does ${label} add to the meaning of the word?`
+        );
 
       case "meaning":
-        return `What does ${label} mean? Begin without choices or a visual cue. Use ${word} only as an example after the response.`;
+        return (
+          `What does ${label} mean? How does that meaning show up in ${word}?`
+        );
 
       case "morpheme":
         return `Which word part means “${meaning}”?`;
 
       case "break":
-        return `Break ${word} into meaningful parts. Do not pre-mark the boundaries.`;
+        return (
+          `Break ${word} into meaningful parts. Then explain what ${label} contributes.`
+        );
 
       case "infer":
-        return `What do you think ${word} means? Start with what ${label} tells you before adding context or another clue.`;
+        return teaching?.contextSentence
+          ? (
+              `${teaching.contextSentence} What do you think ${word} means here? ` +
+              `How does ${label} help you figure it out?`
+            )
+          : (
+              `What do you think ${word} means? How does ${label} help you figure it out?`
+            );
 
       case "build":
         return buildPromptDetails(
@@ -830,17 +1435,138 @@
         ).prompt;
 
       case "use":
-        return definition
-          ? `Give the word containing ${label} that matches this meaning: “${definition}”. Then use it in a new sentence.`
-          : `Use ${word} in a new sentence. Then explain what ${label} contributes.`;
+        return (
+          `Use ${word} in a sentence that makes its meaning clear. ` +
+          `Then explain what ${label} adds to the meaning of the word.`
+        );
 
       case "change":
-        return `Say or write another form from the same word family as ${word}. Compare the forms and explain what changes while keeping attention on ${label}.`;
+        return (
+          `Make another real form from the same word family as ${word}. ` +
+          `Use the new form in a sentence and explain what changed in the word.`
+        );
 
       default:
         return `Work with ${word} and explain what ${label} contributes.`;
     }
   }
+
+
+  function teacherDirectionFor(
+    activity,
+    target,
+    meta,
+    entry
+  ) {
+    const label =
+      target?.label ||
+      meta?.label ||
+      "the target word part";
+
+    const word =
+      entry?.word ||
+      "the word";
+
+    const teaching =
+      teachingSupportDetails(
+        entry,
+        target,
+        meta
+      );
+
+    const bridge =
+      teaching?.semanticBridge ||
+      null;
+
+    const definition =
+      teaching?.studentFriendlyDefinition ||
+      studentFriendlyDefinition(entry) ||
+      null;
+
+    const accessLine =
+      [
+        definition
+          ? `If the whole-word meaning is unfamiliar, give the student-friendly meaning: ${definition}.`
+          : null,
+        bridge
+          ? `When useful, make the morphology-to-meaning connection explicit: ${bridge}`
+          : null
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+    const nonTargetLine =
+      nonTargetSupports(
+        entry,
+        target
+      )
+        .map(
+          support =>
+            `${support.part} = ${support.meaning}`
+        )
+        .join("; ");
+
+    const supportLine =
+      nonTargetLine
+        ? `If a non-target part is the barrier after the first attempt, supply only: ${nonTargetLine}. Keep ${label} as the student's reasoning job.`
+        : "If an incidental barrier appears, use only the least support that preserves the target reasoning, then retry the same demand.";
+
+    switch (activity) {
+      case "learn":
+        return (
+          `Begin with the student's recall of ${label}. Then teach with ${word}: make the connection between the word part and the whole-word meaning visible rather than stopping at a dictionary definition. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "find":
+        return (
+          `Present ${word} unmarked. Let the student locate ${label} first. Then connect the located part to the whole-word meaning. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "meaning":
+        return (
+          `Ask for the meaning of ${label} without choices first. After the response, use ${word} to show how that meaning contributes inside a real word. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "break":
+        return (
+          `Present the whole word without pre-marked boundaries. Let the student attempt the meaningful segmentation first. ` +
+          `${supportLine}`
+        ).trim();
+
+      case "infer":
+        return (
+          `Begin with the student's whole-word inference. Use the context sentence when it helps, but do not let context replace morphology reasoning. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "build":
+        return (
+          `Give the meaning/build goal without revealing the answer. After the build, connect the parts-based meaning to a student-friendly whole-word meaning. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "use":
+        return (
+          `Supply the target word; the student's job is to use it meaningfully, not to generate the vocabulary item. If sentence generation competes with the morphology target, give a meaningful cloze or sentence starter after the first attempt, then retry. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      case "change":
+        return (
+          `Keep the word-family relationship visible. Use a meaningful sentence or context so the student chooses or produces a related form for a reason, then explains the morphological change. ` +
+          `${accessLine} ${supportLine}`
+        ).trim();
+
+      default:
+        return (
+          `Let the student attempt the target demand first. ${accessLine} ${supportLine}`
+        ).trim();
+    }
+  }
+
 
   function educatorKeyFor(activity, target, meta, entry) {
     const label =
@@ -870,7 +1596,13 @@
           : `${entry.word}: use a different Break It Apart item with an approved word-part analysis.`;
 
       case "infer":
-        return `${entry.word}: ${exampleAnswer(entry) || "Use the inventory meaning and the known morphology; accept a reasonable inference."}`;
+        return (
+          `${entry.word}: ${exampleAnswer(entry) || "Use the inventory meaning and the known morphology; accept a reasonable inference."}` +
+          nonTargetSupportKey(
+            entry,
+            target
+          )
+        );
 
       case "build": {
         const details =
@@ -885,7 +1617,9 @@
 
         return (
           `Expected word: ${entry.word}` +
-          `${entry.segmentation ? ` (${entry.segmentation})` : ""}.`
+          `${entry.segmentation ? ` (${entry.segmentation})` : ""}.` +
+          `${entry.literal ? ` Parts-based meaning: ${entry.literal}.` : ""}` +
+          `${studentFriendlyDefinition(entry) ? ` Student-friendly whole-word meaning: ${studentFriendlyDefinition(entry)}.` : ""}`
         );
       }
 
@@ -979,6 +1713,13 @@
       const word =
         applyEntry.word;
 
+      const applyTeaching =
+        teachingSupportDetails(
+          applyEntry,
+          target,
+          meta
+        );
+
       switch (activity) {
         case "learn":
           return {
@@ -986,7 +1727,7 @@
               "specific-new-item",
             word,
             prompt:
-              `Use a different example, ${word}. Explain what ${label} means and what it contributes to the whole word.`,
+              `Look at the new example ${word}. What does ${label} mean, and how does it help explain the meaning of ${word}?`,
             educatorKey:
               `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
             segmentation:
@@ -1000,7 +1741,7 @@
               "specific-new-item",
             word,
             prompt:
-              `Find ${label} in ${word}. Do not highlight or separate it before the student's first attempt. Then point to where the target appears.`,
+              `Find ${label} in ${word}. How does ${label} connect to the meaning of the whole word?`,
             educatorKey:
               `${word} contains ${label}.`,
             segmentation:
@@ -1014,7 +1755,7 @@
               "specific-new-item",
             word,
             prompt:
-              `In ${word}, explain what ${label} means and what it contributes to the whole word.`,
+              `In ${word}, what does ${label} mean? How does that meaning contribute to the whole word?`,
             educatorKey:
               `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
             segmentation:
@@ -1031,13 +1772,17 @@
             prompt:
               meaning
                 ? (
-                    `Present the meaning without naming the word part: “${meaning}.” Ask the student to name the word part. After the student responds, present ${word} and ask them to find the word part in the word. Do not show or say ${word} before the student responds.`
+                    `Present the meaning without naming the word part: “${meaning}.” Ask the student to name the word part. After the student responds, reveal ${word}. Ask the student to find ${label} in ${word} and explain what ${label} contributes to the whole-word meaning. If the whole-word meaning or a non-target morpheme is the barrier, supply only that non-target information and retry the same meaning connection. Do not show or say ${word} before the student retrieves the target.`
                   )
                 : (
-                    `Ask the student to name the target word part. After the student responds, present ${word} and ask them to find the word part in the word. Do not show or say ${word} before the student responds.`
+                    `Ask the student to name the target word part. After the student responds, reveal ${word}. Ask the student to find ${label} in ${word} and explain what it contributes to the whole-word meaning. If a non-target morpheme is the barrier, supply only that non-target information and retry. Do not show or say ${word} before the student retrieves the target.`
                   ),
             educatorKey:
-              `Expected word part: ${label}.`,
+              `Expected word part: ${label}. Fresh word: ${word}. ${label}${meaning ? ` = ${meaning}` : ""}.` +
+              nonTargetSupportKey(
+                applyEntry,
+                target
+              ),
             segmentation:
               applyEntry.segmentation ||
               null
@@ -1049,7 +1794,7 @@
               "specific-new-item",
             word,
             prompt:
-              `Break ${word} into meaningful parts. Do not pre-mark the boundaries. Then explain what ${label} contributes.`,
+              `Break ${word} into meaningful parts. Then explain what ${label} contributes.`,
             educatorKey:
               applyEntry.segmentation
                 ? `${word}: ${applyEntry.segmentation}`
@@ -1067,7 +1812,14 @@
               "specific-new-item",
             word,
             prompt:
-              `Use ${label} and any other meaningful parts you recognize to infer what ${word} probably means. Explain the morphology first; add context only if needed.`,
+              applyTeaching?.contextSentence
+                ? (
+                    `${applyTeaching.contextSentence} What do you think ${word} means here? ` +
+                    `How does ${label} help you figure it out?`
+                  )
+                : (
+                    `What do you think ${word} means? How does ${label} help you figure it out?`
+                  ),
             educatorKey:
               `${word}: ${exampleAnswer(applyEntry) || "Accept a reasonable morphology-based inference supported by the known target."}`,
             segmentation:
@@ -1095,7 +1847,9 @@
                 `${build.prompt} Then use the word in a new sentence.`,
               educatorKey:
                 `Expected Apply word: ${word}` +
-                `${applyEntry.segmentation ? ` (${applyEntry.segmentation})` : ""}.`,
+                `${applyEntry.segmentation ? ` (${applyEntry.segmentation})` : ""}.` +
+                `${applyEntry.literal ? ` Parts-based meaning: ${applyEntry.literal}.` : ""}` +
+                `${studentFriendlyDefinition(applyEntry) ? ` Student-friendly whole-word meaning: ${studentFriendlyDefinition(applyEntry)}.` : ""}`,
               segmentation:
                 applyEntry.segmentation ||
                 null
@@ -1111,7 +1865,7 @@
               "specific-new-item",
             word,
             prompt:
-              `Use ${word} in a new sentence that shows its meaning. Then explain what ${label} contributes.`,
+              `Use ${word} in a new sentence that shows its meaning. Then explain what ${label} adds to the word's meaning.`,
             educatorKey:
               `Target word: ${word}. Verify an appropriate sentence and a correct explanation of ${label}.`,
             segmentation:
@@ -1184,19 +1938,13 @@
       case "morpheme":
         return {
           kind:
-            "open-new-item",
+            "unavailable",
           word:
             null,
           prompt:
-            meaning
-              ? (
-                  `Give another real word containing a word part that means “${meaning}.” Name the word part and explain its contribution.`
-                )
-              : (
-                  `Give another real word containing ${label}. Name the target word part and explain its contribution.`
-                ),
+            "No system-selected fresh Word Part example is available for this target today. Do not substitute an unplanned word.",
           educatorKey:
-            `Open response. Expected target word part: ${label}.`,
+            `No fresh Word Part Apply item is available. Expected target word part remains ${label}.`,
           segmentation:
             null
         };
@@ -1219,13 +1967,13 @@
       case "use":
         return {
           kind:
-            "open-new-item",
+            "unavailable",
           word:
             null,
           prompt:
-            `Give another real word containing ${label} that was not used in Teach / Practice. Use it in a new sentence that shows its meaning and explain what ${label} contributes.`,
+            `No fresh system-selected Use It word is available for this target today.`,
           educatorKey:
-            `Open response. Verify the new word, sentence meaning, and the contribution of ${label}.`,
+            `Use It requires First Volo to supply the target word; do not turn this into a student vocabulary-generation task.`,
           segmentation:
             null
         };
@@ -1292,9 +2040,23 @@
       );
 
     const definition =
-      entry.definition ||
-      entry.literal ||
-      null;
+      studentFriendlyDefinition(
+        entry
+      );
+
+    const teachingSupport =
+      teachingSupportDetails(
+        entry,
+        target,
+        meta
+      );
+
+    const applyTeachingSupport =
+      teachingSupportDetails(
+        applyEntry,
+        target,
+        meta
+      );
 
     const promptDetails =
       activity === "build"
@@ -1385,6 +2147,14 @@
       wordPrompt:
         activityPrompt,
 
+      teacherDirection:
+        teacherDirectionFor(
+          activity,
+          target,
+          meta,
+          entry
+        ),
+
       promptKind:
         promptDetails.kind,
 
@@ -1403,6 +2173,59 @@
       applySegmentation:
         apply.segmentation ||
         null,
+
+      applyDefinition:
+        studentFriendlyDefinition(
+          applyEntry
+        ),
+
+      applyStudentFriendlyDefinition:
+        applyTeachingSupport
+          ?.studentFriendlyDefinition ||
+        null,
+
+      applyContextSentence:
+        applyTeachingSupport
+          ?.contextSentence ||
+        null,
+
+      applyClozeSupport:
+        applyTeachingSupport
+          ?.clozeSupport ||
+        null,
+
+      applySemanticBridge:
+        applyTeachingSupport
+          ?.semanticBridge ||
+        null,
+
+      applyLiteral:
+        applyEntry?.literal ||
+        null,
+
+      applySource:
+        applyEntry?.instructionalSource ||
+        (
+          applyEntry?._teacherLedExtension
+            ? "teacher-word-extension"
+            : (
+                applyEntry
+                  ? "master-word-inventory"
+                  : null
+              )
+        ),
+
+      applyTeacherLedOnly:
+        Boolean(
+          applyEntry?.teacherLedOnly ||
+          applyEntry?._teacherLedExtension
+        ),
+
+      applyNonTargetSupports:
+        nonTargetSupports(
+          applyEntry,
+          target
+        ),
 
       applyParts:
         applyInteraction
@@ -1440,6 +2263,31 @@
 
       definition,
 
+      studentFriendlyDefinition:
+        teachingSupport
+          ?.studentFriendlyDefinition ||
+        null,
+
+      contextSentence:
+        teachingSupport
+          ?.contextSentence ||
+        null,
+
+      clozeSupport:
+        teachingSupport
+          ?.clozeSupport ||
+        null,
+
+      semanticBridge:
+        teachingSupport
+          ?.semanticBridge ||
+        null,
+
+      teachingSupportRules:
+        teachingSupport
+          ?.rules ||
+        null,
+
       segmentation:
         entry.segmentation ||
         null,
@@ -1453,7 +2301,24 @@
           : "prompt",
 
       source:
-        "master-word-inventory",
+        entry?.instructionalSource ||
+        (
+          entry?._teacherLedExtension
+            ? "teacher-word-extension"
+            : "master-word-inventory"
+        ),
+
+      teacherLedOnly:
+        Boolean(
+          entry?.teacherLedOnly ||
+          entry?._teacherLedExtension
+        ),
+
+      nonTargetSupports:
+        nonTargetSupports(
+          entry,
+          target
+        ),
 
       metadata: {
         status:
@@ -1482,7 +2347,21 @@
 
         reviewCaution:
           entry.reviewCaution ||
-          null
+          null,
+
+        instructionalSource:
+          entry?.instructionalSource ||
+          (
+            entry?._teacherLedExtension
+              ? "teacher-word-extension"
+              : "master-word-inventory"
+          ),
+
+        teacherLedOnly:
+          Boolean(
+            entry?.teacherLedOnly ||
+            entry?._teacherLedExtension
+          )
       }
     };
   }
@@ -1564,9 +2443,9 @@
         activityPrompt,
         wordPrompt: activityPrompt,
         applyPrompt:
-          `Name a new word containing ${label} that was not in the Word Hunt list. Use it in a sentence and explain what ${label} contributes.`,
+          `Name a new word containing ${label} that was not in the Word Hunt list. Use it in a sentence and explain what ${label} contributes. If word retrieval is the only barrier, the educator may give a context sentence, cloze, or sentence starter that points to a valid example without answering the morphology decision.`,
         applyEducatorKey:
-          `Open response. Verify that the new word genuinely contains ${label}, was not in the Word Hunt list, and that the student explains what ${label} contributes.`,
+          `Open response. Verify that the new word genuinely contains ${label}, was not in the Word Hunt list, and that the student explains what ${label} contributes. A cloze/context clue is access support only when word retrieval would otherwise compete with the target recognition/generalization demand.`,
         applyWord: null,
         applyKind: "open-new-item",
         answer: `Contains ${label}: ${correct.join(", ")}.`,
@@ -2013,6 +2892,27 @@
       applyBuildSlots:
         [],
 
+      applyDefinition:
+        null,
+
+      applyStudentFriendlyDefinition:
+        null,
+
+      applyLiteral:
+        null,
+
+      applyContextSentence:
+        null,
+
+      applyClozeSupport:
+        null,
+
+      applySemanticBridge:
+        null,
+
+      applyNonTargetSupports:
+        [],
+
       applyPrompt:
         (
           "Give another real word containing the target word part " +
@@ -2209,6 +3109,27 @@
         [],
 
       applyBuildSlots:
+        [],
+
+      applyDefinition:
+        null,
+
+      applyStudentFriendlyDefinition:
+        null,
+
+      applyLiteral:
+        null,
+
+      applyContextSentence:
+        null,
+
+      applyClozeSupport:
+        null,
+
+      applySemanticBridge:
+        null,
+
+      applyNonTargetSupports:
         [],
 
       applyPrompt:

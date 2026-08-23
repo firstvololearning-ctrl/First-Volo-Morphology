@@ -10,7 +10,7 @@
 */
 
 (function initializeFirstVoloWordPartInstruction() {
-  const VERSION = "word-part-rich-instruction-v1";
+  const VERSION = "word-part-rich-instruction-v2";
 
   function asArray(value) {
     return Array.isArray(value) ? value : [];
@@ -169,14 +169,87 @@
       wordEntry(task);
 
     return (
+      task?.recipe?.studentFriendlyDefinition ||
+      task?.studentFriendlyDefinition ||
+      entry?.studentFriendlyDefinition ||
       task?.recipe?.definition ||
-      task?.recipe?.literal ||
       task?.definition ||
-      task?.literal ||
       entry?.definition ||
+      null
+    );
+  }
+
+
+  function wordLiteral(task) {
+    const entry =
+      wordEntry(task);
+
+    return (
+      task?.recipe?.literal ||
+      task?.literal ||
       entry?.literal ||
       null
     );
+  }
+
+
+  function recipeNonTargetSupports(task) {
+    return asArray(
+      task?.recipe?.nonTargetSupports ||
+      task?.nonTargetSupports
+    )
+      .map(
+        support => ({
+          label:
+            String(
+              support?.part ||
+              support?.label ||
+              ""
+            ).trim(),
+          meaning:
+            String(
+              support?.meaning ||
+              support?.function ||
+              ""
+            ).trim()
+        })
+      )
+      .filter(
+        support =>
+          support.label &&
+          support.meaning
+      );
+  }
+
+
+  function preferredMeaningSense(
+    meaning,
+    literal = ""
+  ) {
+    const choices =
+      String(meaning || "")
+        .split(/[;,]/)
+        .map(value => value.trim())
+        .filter(Boolean);
+
+    if (!choices.length) {
+      return "";
+    }
+
+    const literalText =
+      String(literal || "")
+        .toLowerCase();
+
+    const matched =
+      choices.find(
+        choice =>
+          literalText.includes(
+            choice.toLowerCase()
+          )
+      );
+
+    return matched ||
+      choices[0];
   }
 
   function segmentationParts(task) {
@@ -240,6 +313,26 @@
     const targetSet =
       targetForms(target);
 
+    const configured =
+      recipeNonTargetSupports(task)
+        .find(
+          support =>
+            !variants(
+              support.label
+            ).some(
+              value =>
+                targetSet.has(value)
+            )
+        );
+
+    if (configured) {
+      return configured;
+    }
+
+    const literal =
+      wordLiteral(task) ||
+      "";
+
     for (
       const part
       of segmentationParts(task)
@@ -266,12 +359,84 @@
           label:
             meta.label || part,
           meaning:
-            meta.meaning
+            preferredMeaningSense(
+              meta.meaning,
+              literal
+            )
         };
       }
     }
 
     return null;
+  }
+
+
+  function semanticBridge(
+    task,
+    target
+  ) {
+    const word =
+      taskWord(task);
+
+    if (!word) {
+      return null;
+    }
+
+    const definition =
+      wordDefinition(task);
+
+    const literal =
+      wordLiteral(task);
+
+    const support =
+      supportingPart(
+        task,
+        target
+      );
+
+    return {
+      word,
+      definition,
+      literal,
+      support
+    };
+  }
+
+
+  function distinctTaskBridges(
+    allTasks,
+    target
+  ) {
+    const seen =
+      new Set();
+
+    return asArray(allTasks)
+      .map(
+        task =>
+          semanticBridge(
+            task,
+            target
+          )
+      )
+      .filter(Boolean)
+      .filter(
+        bridge => {
+          const key =
+            normalize(
+              bridge.word
+            );
+
+          if (
+            !key ||
+            seen.has(key)
+          ) {
+            return false;
+          }
+
+          seen.add(key);
+          return true;
+        }
+      );
   }
 
   function distinctWords(allTasks) {
@@ -438,9 +603,9 @@
     }
 
     return [
-      "First ask what repeats across the words and what kind of job the words are doing.",
-      "If needed, visually underline or box the common word part across the examples.",
-      "Then retry the Pattern question: what meaning or job stays connected across the words?"
+      "First ask what meaning stays connected across the words.",
+      "If a whole-word meaning or a non-target word part is the barrier, supply only that non-target information and keep the target meaning as the student's focus.",
+      "If needed, visually underline or box the common target word part across the examples, then retry the same Pattern question."
     ];
   }
 
@@ -570,18 +735,40 @@
       segmentationParts(task);
 
     if (move === "notice") {
+      const literal =
+        wordLiteral(task);
+
+      const bridgeContext =
+        definition && support && literal
+          ? (
+              `In this example, ${word} means ${definition}. ` +
+              `${support.label} can mean “${support.meaning}.” ` +
+              `The meaningful parts connect to the more literal idea “${literal}.”`
+            )
+          : definition && support
+            ? (
+                `In this example, ${word} means ${definition}. ` +
+                `${support.label} can mean “${support.meaning}.”`
+              )
+            : definition && literal
+              ? (
+                  `In this example, ${word} means ${definition}. ` +
+                  `The meaningful parts connect to the more literal idea “${literal}.”`
+                )
+              : definition
+                ? (
+                    `In this example, ${word} means ${definition}.`
+                  )
+                : (
+                    `Look closely at the whole word ${word}.`
+                  );
+
       return {
         move: "notice",
         moveLabel: "Notice it",
         word,
         context:
-          definition
-            ? (
-                `In this example, ${word} means ${definition}.`
-              )
-            : (
-                `Look closely at the whole word ${word}.`
-              ),
+          bridgeContext,
         prompt:
           `Which part of ${word} carries the idea “${meaning}”?`,
         responseType: "text",
@@ -597,7 +784,7 @@
           )
         ],
         teacherDirection:
-          "Let the student use the whole word and meaning first. After the attempt, connect the identified form to its meaning and job."
+          "Let the student use the whole-word meaning first. After the attempt, connect the identified form to the target meaning and to the whole-word meaning."
       };
     }
 
@@ -737,22 +924,50 @@
         allTasks
       );
 
+    const patternBridges =
+      distinctTaskBridges(
+        allTasks,
+        target
+      );
+
+    const bridgeExplanations =
+      patternBridges
+        .filter(
+          bridge =>
+            bridge.literal
+        )
+        .map(
+          bridge => {
+            const supportText =
+              bridge.support
+                ? `${bridge.support.label} = ${bridge.support.meaning}; `
+                : "";
+
+            return (
+              `${bridge.word}: ${supportText}${label} = ${meaning} → ` +
+              `“${bridge.literal}.”${bridge.definition ? ` This connects to the whole-word meaning: ${bridge.definition}.` : ""}`
+            );
+          }
+        );
+
     return {
       move: "pattern",
       moveLabel: "Find the pattern",
       word,
       context: null,
       prompt:
-        `What do these words have in common? What meaning or job stays connected to ${label} across the words?`,
+        `What meaning does ${label} contribute across these words?`,
       responseType: "text",
-      responseLabel: "What pattern do you notice?",
+      responseLabel: "Shared meaning",
       structure: null,
       patternWords:
         words.length
           ? words
           : [word].filter(Boolean),
+      patternBridges,
       explanation: [
         `Across these examples, ${label} keeps carrying the idea “${meaning}.”`,
+        ...bridgeExplanations,
         roleJobSentence(
           role,
           label,
@@ -760,7 +975,7 @@
         )
       ],
       teacherDirection:
-        "Ask the student to generalize across examples instead of naming the same word part again."
+        "Give the whole-word meaning and any needed non-target morpheme meaning when those are the barrier. Keep the student's job focused on the meaning contributed by the target across the examples."
     };
   }
 

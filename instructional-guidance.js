@@ -136,12 +136,24 @@
       rule: "If the student does not notice the target word part, show, highlight, or separate it."
     },
     provide_other_part_meaning: {
-      label: "Provide the other meaningful part",
-      rule: "If the student recognizes the target but cannot connect the parts to the whole word, provide the meaning of the other meaningful part without solving the whole word."
+      label: "Provide validated non-target meaning",
+      rule: "After the student's first attempt, if an unfamiliar non-target morpheme blocks the target reasoning, provide its validated meaning or function without supplying the target meaning or solving the whole word."
     },
     sentence_context: {
       label: "Sentence context",
-      rule: "If the student knows the relevant word part but cannot infer the whole-word meaning, provide clear sentence context."
+      rule: "Use a meaningful sentence context when it helps connect morphology to the whole-word meaning. Context should confirm or refine the morphology reasoning rather than replace it with guessing."
+    },
+    student_friendly_whole_word_meaning: {
+      label: "Student-friendly whole-word meaning",
+      rule: "If unfamiliar vocabulary is blocking the morphology lesson, give a child- or student-friendly whole-word meaning after the attempt. Then return to how the target morpheme contributes instead of treating the definition itself as the lesson."
+    },
+    semantic_bridge: {
+      label: "Morphology-to-meaning bridge",
+      rule: "When a validated literal or compositional relationship is available, connect the known target and any supplied non-target meanings to the literal idea, then connect that idea to the modern whole-word meaning."
+    },
+    cloze_or_sentence_starter: {
+      label: "Cloze or sentence starter",
+      rule: "Use a cloze sentence or sentence starter only when sentence generation or word retrieval is an incidental barrier and the support does not answer the morphology target."
     },
     partial_retrieval_cue: {
       label: "Partial verbal or visual cue",

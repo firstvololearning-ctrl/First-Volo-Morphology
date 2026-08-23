@@ -526,18 +526,30 @@
           )
         : spec.slots;
 
+    /* FIRST_VOLO_PROMPT_ACTIVITIES_DO_NOT_REQUIRE_BUILD_TILES_V1
+       Prompt-based teacher-led activities are generated from validated
+       selector recipes. They do not need a prebuilt reusable family tile for
+       every non-target part. Requiring those tiles turned perfectly usable
+       system-generated Learn/Find/Meaning/Word Part/Figure/Use materials into
+       a false “material not configured” state.
+
+       Build Words is different: every displayed part must still have a real,
+       validated tile and a clean decomposition.
+    */
     const missingParts =
-      requiredParts
-        .filter(
-          part =>
-            !selectedTiles.some(
-              tile =>
-                tileMatchesPart(
-                  tile,
-                  part
+      inventoryBuildMode
+        ? requiredParts
+            .filter(
+              part =>
+                !selectedTiles.some(
+                  tile =>
+                    tileMatchesPart(
+                      tile,
+                      part
+                    )
                 )
             )
-        );
+        : [];
 
     const buildPrompts =
       selectedRecipes
@@ -589,7 +601,7 @@
       source:
         familyRecipes.length
           ? "custom-material-family"
-          : "master-word-inventory",
+          : "system-generated-validated-word-universe",
 
       displayMode:
         (
@@ -661,7 +673,7 @@
         missingParts,
 
         rule:
-          "Ordinary teacher-led materials come from an approved custom family recipe or the master word inventory. Protected whole words are rejected before rendering."
+          "Teacher-led materials are generated from the validated word universe (shared inventory plus approved teacher-only extensions) or an approved custom family. The online practice pool is not the boundary. Protected whole words are rejected before rendering, and Build Words still requires every displayed piece to be linguistically validated."
       },
 
       needsPrimarySelection:

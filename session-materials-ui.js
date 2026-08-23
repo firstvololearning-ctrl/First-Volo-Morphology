@@ -51,6 +51,9 @@
     demoFamily: null,
     minutes: 15,
 
+    sessionSource: "recommended",
+    teacherSelection: null,
+
     plan: null,
     material: null,
 
@@ -174,6 +177,50 @@
       .includes(value)
         ? value
         : 15;
+  }
+
+
+  function querySessionSelection() {
+    const params =
+      query();
+
+    if (
+      params.get("sessionSource") !==
+        "teacher-selected"
+    ) {
+      return null;
+    }
+
+    const targetId =
+      String(
+        params.get("teacherTarget") ||
+        ""
+      )
+        .trim();
+
+    const activity =
+      String(
+        params.get("teacherActivity") ||
+        ""
+      )
+        .trim();
+
+    if (
+      !targetId ||
+      !Object.prototype
+        .hasOwnProperty.call(
+          ACTIVITY_LABELS,
+          activity
+        )
+    ) {
+      return null;
+    }
+
+    return {
+      source: "teacher-selected",
+      targetId,
+      activity
+    };
   }
 
 
@@ -928,6 +975,499 @@
   }
 
 
+  function morphemeInventory() {
+    return Array.isArray(
+      window
+        .FIRST_VOLO_MORPHEME_INVENTORY
+    )
+      ? window
+          .FIRST_VOLO_MORPHEME_INVENTORY
+      : [];
+  }
+
+
+  function teacherTargetMeta(
+    targetId
+  ) {
+    return (
+      morphemeInventory()
+        .find(
+          item =>
+            String(item?.id || "") ===
+            String(targetId || "")
+        ) ||
+      null
+    );
+  }
+
+
+  function teacherTargetObject(
+    targetId
+  ) {
+    const meta =
+      teacherTargetMeta(
+        targetId
+      );
+
+    if (!meta) {
+      return null;
+    }
+
+    return {
+      ...meta,
+      id: meta.id,
+      targetId: meta.id,
+      morphemeId: meta.id,
+      label: meta.label,
+      name: meta.label,
+      meaning: meta.meaning || null,
+      type: meta.type || null,
+      role: meta.type || "word part"
+    };
+  }
+
+
+  function activeSessionSelection() {
+    return (
+      state.sessionSource ===
+        "teacher-selected" &&
+      state.teacherSelection
+    )
+      ? {
+          source:
+            "teacher-selected",
+          targetId:
+            state.teacherSelection
+              .targetId,
+          activity:
+            state.teacherSelection
+              .activity
+        }
+      : null;
+  }
+
+
+  function updateSessionSourceUrl() {
+    const url =
+      new URL(
+        window.location.href
+      );
+
+    if (
+      state.sessionSource ===
+        "teacher-selected" &&
+      state.teacherSelection
+    ) {
+      url.searchParams.set(
+        "sessionSource",
+        "teacher-selected"
+      );
+      url.searchParams.set(
+        "teacherTarget",
+        state.teacherSelection
+          .targetId
+      );
+      url.searchParams.set(
+        "teacherActivity",
+        state.teacherSelection
+          .activity
+      );
+    } else {
+      url.searchParams.delete(
+        "sessionSource"
+      );
+      url.searchParams.delete(
+        "teacherTarget"
+      );
+      url.searchParams.delete(
+        "teacherActivity"
+      );
+    }
+
+    window.history
+      .replaceState(
+        {},
+        "",
+        url
+      );
+  }
+
+
+  function teacherActivityApplicability(
+    targetId,
+    activity
+  ) {
+    const target =
+      teacherTargetObject(
+        targetId
+      );
+
+    if (!target) {
+      return {
+        applicable: false,
+        reason:
+          "Choose a valid word part first."
+      };
+    }
+
+    /* FIRST_VOLO_TEACHER_CHOICE_STRUCTURAL_APPLICABILITY_V2
+       Teacher-Selected Session is allowed to ask the system to GENERATE the
+       lesson. Lack of a prebuilt/reusable family is not a reason to disable an
+       activity. Only a genuine instructional non-applicability rule may block
+       the choice here. Material generation happens after the objective is
+       chosen, using the validated word universe and approved supports.
+    */
+    return (
+      window
+        .FirstVoloInstructionalSessionPlanner
+        ?.activityApplicability?.(
+          target,
+          activity
+        ) ||
+      {
+        applicable: true,
+        reason: null
+      }
+    );
+  }
+
+
+  function renderTeacherUnavailableActivities() {
+    const host =
+      byId(
+        "teacherUnavailableActivities"
+      );
+
+    const targetSelect =
+      byId(
+        "teacherTargetSelect"
+      );
+
+    if (!host || !targetSelect) {
+      return;
+    }
+
+    const targetId =
+      targetSelect.value;
+
+    const unavailable =
+      Object.keys(
+        ACTIVITY_LABELS
+      )
+        .map(
+          activity => ({
+            activity,
+            label:
+              ACTIVITY_LABELS[
+                activity
+              ],
+            result:
+              teacherActivityApplicability(
+                targetId,
+                activity
+              )
+          })
+        )
+        .filter(
+          item =>
+            item.result
+              ?.applicable ===
+            false
+        );
+
+    if (!unavailable.length) {
+      host.innerHTML =
+        "";
+      return;
+    }
+
+    if (
+      unavailable.length ===
+      Object.keys(
+        ACTIVITY_LABELS
+      ).length
+    ) {
+      host.innerHTML = `
+        <strong>No teacher-selected activity is instructionally appropriate for this word part.</strong>
+        These choices are blocked by explicit target/activity rules, not by the absence of a prebuilt material family.
+      `;
+      return;
+    }
+
+    host.innerHTML = `
+      <details>
+        <summary>
+          ${unavailable.length} ${unavailable.length === 1 ? "activity is" : "activities are"} unavailable for this word part
+        </summary>
+        <ul>
+          ${unavailable
+            .map(
+              item =>
+                `<li><strong>${esc(item.label)}</strong> — ${esc(item.result.reason || "This activity is not instructionally appropriate for the selected target.")}</li>`
+            )
+            .join("")}
+        </ul>
+      </details>
+    `;
+  }
+
+
+  function updateTeacherActivityOptions() {
+    const targetSelect =
+      byId(
+        "teacherTargetSelect"
+      );
+
+    const activitySelect =
+      byId(
+        "teacherActivitySelect"
+      );
+
+    if (!targetSelect || !activitySelect) {
+      return;
+    }
+
+    const targetId =
+      targetSelect.value;
+
+    let firstAvailable =
+      null;
+
+    [
+      ...activitySelect.options
+    ].forEach(
+      option => {
+        const result =
+          teacherActivityApplicability(
+            targetId,
+            option.value
+          );
+
+        option.disabled =
+          result
+            ?.applicable ===
+          false;
+
+        option.title =
+          option.disabled
+            ? (
+                result.reason ||
+                "This activity is not appropriate for this target."
+              )
+            : "";
+
+        if (
+          !option.disabled &&
+          !firstAvailable
+        ) {
+          firstAvailable =
+            option.value;
+        }
+      }
+    );
+
+    const selected =
+      activitySelect
+        .selectedOptions[0];
+
+    if (
+      selected?.disabled &&
+      firstAvailable
+    ) {
+      activitySelect.value =
+        firstAvailable;
+    }
+
+    const buildButton =
+      byId(
+        "buildTeacherSelectedSessionButton"
+      );
+
+    if (buildButton) {
+      buildButton.disabled =
+        !firstAvailable;
+      buildButton.setAttribute(
+        "aria-disabled",
+        String(
+          !firstAvailable
+        )
+      );
+    }
+
+    renderTeacherUnavailableActivities();
+  }
+
+
+  function populateTeacherSessionControls() {
+    const targetSelect =
+      byId(
+        "teacherTargetSelect"
+      );
+
+    const activitySelect =
+      byId(
+        "teacherActivitySelect"
+      );
+
+    if (!targetSelect || !activitySelect) {
+      return;
+    }
+
+    if (!targetSelect.options.length) {
+      const groupLabels = {
+        prefix: "Prefixes",
+        root: "Roots",
+        suffix: "Suffixes"
+      };
+
+      [
+        "prefix",
+        "root",
+        "suffix"
+      ].forEach(
+        type => {
+          const group =
+            document
+              .createElement(
+                "optgroup"
+              );
+
+          group.label =
+            groupLabels[type];
+
+          morphemeInventory()
+            .filter(
+              item =>
+                item?.type === type
+            )
+            .forEach(
+              item => {
+                const option =
+                  document
+                    .createElement(
+                      "option"
+                    );
+
+                option.value =
+                  item.id;
+
+                option.textContent =
+                  `${item.label} — ${item.meaning || "meaning not listed"}`;
+
+                group
+                  .appendChild(
+                    option
+                  );
+              }
+            );
+
+          targetSelect
+            .appendChild(
+              group
+            );
+        }
+      );
+    }
+
+    if (!activitySelect.options.length) {
+      Object.entries(
+        ACTIVITY_LABELS
+      ).forEach(
+        ([activity, label]) => {
+          const option =
+            document
+              .createElement(
+                "option"
+              );
+
+          option.value =
+            activity;
+          option.textContent =
+            label;
+
+          activitySelect
+            .appendChild(
+              option
+            );
+        }
+      );
+    }
+
+    const primaryId =
+      state.teacherSelection
+        ?.targetId ||
+      state.plan
+        ?.targetResolution
+        ?.primary
+        ?.id ||
+      morphemeInventory()[0]
+        ?.id ||
+      "";
+
+    const activity =
+      state.teacherSelection
+        ?.activity ||
+      currentActivity();
+
+    if (primaryId) {
+      targetSelect.value =
+        primaryId;
+    }
+
+    if (activity) {
+      activitySelect.value =
+        activity;
+    }
+
+    updateTeacherActivityOptions();
+  }
+
+
+  function renderSessionSource() {
+    const eyebrow =
+      byId(
+        "sessionModeEyebrow"
+      );
+
+    const sourceLine =
+      byId(
+        "sessionSourceLine"
+      );
+
+    const recommendedButton =
+      byId(
+        "useRecommendedSessionButton"
+      );
+
+    const teacherSelected =
+      state.sessionSource ===
+        "teacher-selected";
+
+    if (eyebrow) {
+      eyebrow.textContent =
+        teacherSelected
+          ? "Teacher-selected session"
+          : "Recommended session";
+    }
+
+    if (sourceLine) {
+      sourceLine.textContent =
+        teacherSelected
+          ? (
+              "Session source: Teacher selected · Opening this session has not replaced the adaptive recommendation."
+            )
+          : (
+              "Session source: Recommended · First Volo selected this next step from the student's recent work."
+            );
+    }
+
+    if (recommendedButton) {
+      recommendedButton.disabled =
+        !teacherSelected;
+    }
+  }
+
+
   function makeTasks(
     material,
     applyPlan = null
@@ -996,6 +1536,10 @@
                 : `Complete the ${currentActivityLabel()} task with ${recipe.word}.`
             ),
 
+          teacherDirection:
+            recipe.teacherDirection ||
+            null,
+
           followUp:
             null
         })
@@ -1011,6 +1555,11 @@
 
         prompt:
           applyItem.prompt,
+
+        teacherDirection:
+          applyPlan
+            ?.educatorDoes ||
+          null,
 
         followUp:
           applyItem
@@ -2614,6 +3163,11 @@ function ensureReadyMaterialContainer() {
             : ""
         }
       </div>
+
+      ${readyV7ActivitySupportMarkup(
+        "learn",
+        task
+      )}
     `;
   }
 
@@ -2960,6 +3514,56 @@ function ensureReadyMaterialContainer() {
   }
 
 
+  function readyWordPartPatternBridgesMarkup(
+    spec
+  ) {
+    const bridges =
+      Array.isArray(
+        spec?.patternBridges
+      )
+        ? spec.patternBridges
+            .filter(
+              bridge =>
+                bridge?.word
+            )
+        : [];
+
+    if (!bridges.length) {
+      return "";
+    }
+
+    return `
+      <div class="ready-word-part-pattern-bridges">
+        ${bridges
+          .map(
+            bridge => `
+              <div class="ready-context-card ready-word-part-pattern-bridge">
+                <strong>${esc(bridge.word)}</strong>
+                ${
+                  bridge.definition
+                    ? `<span> — ${esc(bridge.definition)}</span>`
+                    : ""
+                }
+                ${
+                  bridge.support?.label &&
+                  bridge.support?.meaning
+                    ? `
+                      <div class="ready-small-note">
+                        ${esc(bridge.support.label)} can mean
+                        <strong>${esc(bridge.support.meaning)}</strong>.
+                      </div>
+                    `
+                    : ""
+                }
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+
   function readyWordPartStep5AnchorTask() {
     const tasks =
       readyWordPartPartATasks();
@@ -3259,10 +3863,119 @@ function ensureReadyMaterialContainer() {
       task?.stage ===
         "Apply"
     ) {
-      renderReadyMorphemeLegacy(
-        container,
-        task
-      );
+      const meaning =
+        readyTargetMeaning() ||
+        task?.recipe?.meaning ||
+        task?.meaning ||
+        "the target meaning";
+
+      const target =
+        readyTargetLabel();
+
+      const word =
+        readyWord(task);
+
+      const definition =
+        task?.recipe?.definition ||
+        task?.definition ||
+        null;
+
+      container.innerHTML = `
+        <div class="ready-material-heading">
+          <span>
+            Ready-to-use student material
+          </span>
+
+          <h3>
+            Word Part
+          </h3>
+
+          <p>
+            First retrieve the word part from its meaning. Do not preview the fresh word.
+          </p>
+        </div>
+
+        <div class="ready-big-meaning">
+          ${esc(meaning)}
+        </div>
+
+        <label class="ready-response-label">
+          Word part
+          <input
+            type="text"
+            class="ready-response-input"
+            autocomplete="off"
+          >
+        </label>
+
+        ${readySupportDetailsMarkup()}
+
+        ${
+          word
+            ? `
+              <details class="ready-support-panel ready-word-part-apply-reveal">
+                <summary>
+                  After the student responds: reveal the fresh word
+                </summary>
+
+                <div class="ready-support-panel-body">
+                  ${readyBigWordMarkup(word)}
+
+                  <p class="ready-practice-cue">
+                    <strong>
+                      Find ${esc(target)} in ${esc(word)}. What does ${esc(target)} contribute to the meaning of the whole word?
+                    </strong>
+                  </p>
+
+                  <label class="ready-response-label">
+                    Meaning connection
+                    <textarea
+                      class="ready-response-textarea"
+                      rows="2"
+                    ></textarea>
+                  </label>
+
+                  <details class="ready-support-panel ready-word-part-fresh-support">
+                    <summary>
+                      Support for the fresh word if needed
+                    </summary>
+
+                    <div class="ready-support-panel-body">
+                      ${
+                        definition
+                          ? `
+                            <p>
+                              If the whole-word meaning is the barrier, you may supply:
+                              <strong>${esc(word)}</strong> means ${esc(definition)}.
+                              Then retry the target-meaning connection.
+                            </p>
+                          `
+                          : ""
+                      }
+
+                      ${readyTaskNonTargetSupportMarkup(task)}
+                      ${readyTaskTeachingAccessMarkup(task, "morpheme")}
+
+                      <p>
+                        Do not give the target meaning or identify the target for the student before retrying.
+                      </p>
+                    </div>
+                  </details>
+                </div>
+              </details>
+            `
+            : `
+              <div class="ready-part-b-unavailable">
+                <strong>
+                  No system-selected fresh Word Part example is available today.
+                </strong>
+                <p>
+                  Do not substitute an unplanned word. Continue to Check Transfer.
+                </p>
+              </div>
+            `
+        }
+      `;
 
       return;
     }
@@ -3347,6 +4060,10 @@ function ensureReadyMaterialContainer() {
           : ""
       }
 
+      ${readyWordPartPatternBridgesMarkup(
+        spec
+      )}
+
       <p class="ready-practice-cue ready-word-part-question">
         <strong>
           ${esc(spec.prompt)}
@@ -3364,6 +4081,7 @@ function ensureReadyMaterialContainer() {
       ${readyWordPartSupportMarkup(
         spec
       )}
+      ${readyTaskTeachingAccessMarkup(task, "morpheme")}
       ${readyWordPartFamilyContrastMarkup(
         task,
         spec
@@ -3994,6 +4712,8 @@ function ensureReadyMaterialContainer() {
                 : ""
             }
 
+            ${readyWordPartPatternBridgesMarkup(spec)}
+
             <p>
               ${esc(spec.prompt)}
             </p>
@@ -4334,8 +5054,12 @@ function ensureReadyMaterialContainer() {
   }
 
 
-  function readySupportTile() {
-    const target =
+  function readyTileForTarget(
+    target
+  ) {
+    const label =
+      target?.label ||
+      target?.target ||
       readyTargetLabel();
 
     const existing =
@@ -4344,13 +5068,36 @@ function ensureReadyMaterialContainer() {
           tile =>
             labelsMatch(
               tile?.label,
-              target
+              label
             )
         ) ||
       null;
 
     const meta =
-      readyTargetMorphemeMeta();
+      [
+        target?.id,
+        target?.label,
+        target?.target,
+        label
+      ]
+        .filter(Boolean)
+        .flatMap(
+          value =>
+            variants(value)
+        )
+        .map(
+          value =>
+            readyMorphemeMetaFor(
+              value
+            )
+        )
+        .find(Boolean) ||
+      null;
+
+    const meaning =
+      target?.meaning ||
+      meta?.meaning ||
+      "";
 
     if (existing) {
       return {
@@ -4358,11 +5105,10 @@ function ensureReadyMaterialContainer() {
         label:
           existing.label ||
           meta?.label ||
-          target,
+          label,
         meaning:
           existing.meaning ||
-          meta?.meaning ||
-          readyTargetMeaning(),
+          meaning,
         image:
           existing.image ||
           meta?.imagePath ||
@@ -4379,17 +5125,79 @@ function ensureReadyMaterialContainer() {
           ),
         label:
           meta.label ||
-          target,
+          label,
         meaning:
-          meta.meaning ||
-          readyTargetMeaning(),
+          meaning,
         image:
           meta.imagePath ||
           ""
       };
     }
 
-    return null;
+    return {
+      label,
+      meaning,
+      image: ""
+    };
+  }
+
+
+  function readySupportTile() {
+    return readyTileForTarget(
+      readyTarget()
+    );
+  }
+
+
+  function readyRetrieveSupportItem() {
+    const items =
+      state.plan
+        ?.retrieve
+        ?.items ||
+      [];
+
+    if (!items.length) {
+      return null;
+    }
+
+    const currentLabel =
+      readyTargetLabel();
+
+    return (
+      items.find(
+        item =>
+          labelsMatch(
+            item?.target?.label,
+            currentLabel
+          )
+      ) ||
+      items[0]
+    );
+  }
+
+
+  function readyRetrieveSupportTarget() {
+    return (
+      readyRetrieveSupportItem()
+        ?.target ||
+      readyTarget()
+    );
+  }
+
+
+  function readyRetrieveSupportMeaning() {
+    return (
+      readyRetrieveSupportTarget()
+        ?.meaning ||
+      ""
+    );
+  }
+
+
+  function readyRetrieveSupportTile() {
+    return readyTileForTarget(
+      readyRetrieveSupportTarget()
+    );
   }
 
 
@@ -4460,6 +5268,180 @@ function ensureReadyMaterialContainer() {
   }
 
 
+  function readyTaskNonTargetSupports(
+    task
+  ) {
+    const recipe =
+      task?.recipe ||
+      task ||
+      null;
+
+    return Array.isArray(
+      recipe?.nonTargetSupports
+    )
+      ? recipe.nonTargetSupports
+          .filter(
+            support =>
+              support?.part &&
+              (
+                support?.meaning ||
+                support?.function
+              )
+          )
+          .map(
+            support => ({
+              part:
+                String(
+                  support.part
+                ).trim(),
+              meaning:
+                String(
+                  support.meaning ||
+                  support.function
+                ).trim(),
+              role:
+                support.role ||
+                "word part"
+            })
+          )
+      : [];
+  }
+
+
+  function readyTaskNonTargetSupportMarkup(
+    task
+  ) {
+    const supports =
+      readyTaskNonTargetSupports(
+        task
+      );
+
+    if (!supports.length) {
+      return "";
+    }
+
+    return `
+      <div class="ready-approved-non-target-support">
+        <p>
+          <strong>Approved non-target information for this item:</strong>
+          ${supports
+            .map(
+              support =>
+                `${esc(support.part)} = ${esc(support.meaning)}`
+            )
+            .join("; ")}
+        </p>
+        <p>
+          Give this only after the student's first attempt and only if the
+          non-target part is the barrier. Then retry the same item. Do not
+          supply the target meaning or complete the target reasoning.
+        </p>
+      </div>
+    `;
+  }
+
+
+  function readyTaskTeachingAccess(
+    task
+  ) {
+    const recipe =
+      task?.recipe ||
+      task ||
+      {};
+
+    return {
+      definition:
+        recipe.studentFriendlyDefinition ||
+        recipe.definition ||
+        null,
+      semanticBridge:
+        recipe.semanticBridge ||
+        null,
+      contextSentence:
+        recipe.contextSentence ||
+        recipe.teachingContext ||
+        null,
+      clozeSupport:
+        recipe.clozeSupport ||
+        null
+    };
+  }
+
+
+  function readyTaskTeachingAccessMarkup(
+    task,
+    activity = null
+  ) {
+    const access =
+      readyTaskTeachingAccess(
+        task
+      );
+
+    if (
+      !access.definition &&
+      !access.semanticBridge &&
+      !access.clozeSupport
+    ) {
+      return "";
+    }
+
+    return `
+      <div class="ready-teaching-access">
+        <p>
+          <strong>Teaching access for this item:</strong>
+          Use only what addresses the barrier, then return to the same target demand.
+        </p>
+
+        ${
+          access.definition
+            ? `
+              <p>
+                <strong>Student-friendly whole-word meaning:</strong>
+                ${esc(access.definition)}
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          access.semanticBridge
+            ? `
+              <p>
+                <strong>Morphology-to-meaning bridge:</strong>
+                ${esc(access.semanticBridge)}
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          access.clozeSupport
+            ? `
+              <p>
+                <strong>Cloze / sentence support if language generation is the barrier:</strong>
+                ${esc(access.clozeSupport)}
+              </p>
+              <p class="ready-small-note">
+                Use the cloze only when it reduces an incidental language burden; it must not answer the morphology target.
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          activity === "infer"
+            ? `
+              <p class="ready-small-note">
+                Context may confirm or refine a morphology-based hypothesis; do not let context guessing replace the word-part reasoning.
+              </p>
+            `
+            : ""
+        }
+      </div>
+    `;
+  }
+
+
   function readySupportDetailsMarkup() {
     const currentTask =
       state.tasks
@@ -4473,7 +5455,8 @@ function ensureReadyMaterialContainer() {
     return readyV7ActivitySupportMarkup(
       readyActivity(
         currentTask
-      )
+      ),
+      currentTask
     );
   }
 
@@ -5039,6 +6022,26 @@ function ensureReadyMaterialContainer() {
         "",
       reviewCaution:
         recipe.reviewCaution ||
+        "",
+      nonTargetSupports:
+        Array.isArray(
+          recipe.nonTargetSupports
+        )
+          ? recipe.nonTargetSupports
+              .map(
+                support => ({
+                  ...support
+                })
+              )
+          : [],
+      teacherLedOnly:
+        Boolean(
+          recipe.teacherLedOnly
+        ),
+      instructionalSource:
+        recipe.source ||
+        recipe?.metadata
+          ?.instructionalSource ||
         ""
     };
   }
@@ -5589,7 +6592,7 @@ function ensureReadyMaterialContainer() {
   function readySelectorBreakSupportMarkup(
     task
   ) {
-    const supports =
+    let supports =
       Array.isArray(
         task
           ?.recipe
@@ -5598,7 +6601,40 @@ function ensureReadyMaterialContainer() {
         ? task
             .recipe
             ._readySelectorAllowedSupport
+            .map(
+              item =>
+                String(item || "")
+                  .trim()
+            )
+            .filter(Boolean)
         : [];
+
+    const demand =
+      task
+        ?.recipe
+        ?._readySelectorDemand ||
+      null;
+
+    const formation =
+      task
+        ?.recipe
+        ?._readySelectorWordFormation ||
+      null;
+
+    if (
+      !supports.length &&
+      demand ===
+        "form-change"
+    ) {
+      supports = [
+        "Begin with the base form and suffix shown in the prompt. Ask the student what changes when the word is formed.",
+        (
+          formation?.teachingNote ||
+          "State the spelling-change rule only after the student's first attempt, then retry the same word formation."
+        ),
+        "Have the student say or write the accurate word sum, then fade the spelling cue on the next opportunity."
+      ];
+    }
 
     if (!supports.length) {
       return "";
@@ -8280,6 +9316,124 @@ function ensureReadyMaterialContainer() {
   }
 
 
+  function readyStep5Copy(
+    activity =
+      readyActivity(
+        state.tasks?.[0] ||
+        null
+      ),
+    minutes =
+      readyV13DurationMinutes(),
+    itemCount = null
+  ) {
+    const policy =
+      readyV13DurationPolicy[
+        Number(minutes)
+      ] ||
+      readyV13DurationPolicy[15];
+
+    const hasExplicitItemCount =
+      itemCount !== null &&
+      itemCount !== undefined &&
+      Number.isFinite(
+        Number(itemCount)
+      );
+
+    const availableCount =
+      hasExplicitItemCount
+        ? Number(itemCount)
+        : (
+            activity === "morpheme"
+              ? 2
+              : Math.min(
+                  readyPracticeSetItems()
+                    .length,
+                  policy.step5Limit
+                )
+          );
+
+    if (activity === "morpheme") {
+      return {
+        heading:
+          "Optional Practice Set",
+        time:
+          "2 targeted items",
+        planDetail:
+          "2 targeted Word Part opportunities if additional practice is helpful",
+        intro:
+          "Two targeted Word Part opportunities: recognition first, then independent recall."
+      };
+    }
+
+    if (availableCount <= 0) {
+      return {
+        heading:
+          "Optional Practice Set",
+        time:
+          "No additional items",
+        planDetail:
+          "no additional appropriate items are available today",
+        intro:
+          "No additional appropriate items are available for this target and activity today."
+      };
+    }
+
+    if (Number(minutes) === 30) {
+      if (availableCount < 5) {
+        return {
+          heading:
+            "Practice Set",
+          time:
+            `${availableCount} available ${availableCount === 1 ? "item" : "items"}`,
+          planDetail:
+            `use all ${availableCount} available ${availableCount === 1 ? "item" : "items"} as appropriate`,
+          intro:
+            `Use all ${availableCount} available ${availableCount === 1 ? "item" : "items"} as appropriate. Do not manufacture or repeat items to reach five.`
+        };
+      }
+
+      const extra =
+        Math.max(
+          0,
+          availableCount - 5
+        );
+
+      return {
+        heading:
+          "Practice Set",
+        time:
+          extra
+            ? `5 + up to ${extra} more`
+            : "5 items",
+        planDetail:
+          extra
+            ? `first 5 items, with up to ${extra} more as appropriate`
+            : "5 available items",
+        intro:
+          extra
+            ? `Complete the first five items. Continue with up to ${extra} additional ${extra === 1 ? "item" : "items"} as appropriate.`
+            : "Complete the five available items as appropriate."
+      };
+    }
+
+    const optionalLabel =
+      Number(minutes) === 10
+        ? "Optional extension"
+        : "Optional practice";
+
+    return {
+      heading:
+        "Optional Practice Set",
+      time:
+        `Up to ${availableCount} ${availableCount === 1 ? "item" : "items"}`,
+      planDetail:
+        `up to ${availableCount} ${availableCount === 1 ? "item" : "items"} if time remains or additional practice is indicated`,
+      intro:
+        `${optionalLabel}. Use up to ${availableCount} ${availableCount === 1 ? "item" : "items"} if time remains or additional practice is indicated.`
+    };
+  }
+
+
   function readyV14StudentPrintPrompt(
     task,
     {
@@ -8310,8 +9464,8 @@ function ensureReadyMaterialContainer() {
 
       return (
         `${firstSentence} ` +
-        "After you respond, your teacher will give you a new word. " +
-        "Find the word part in that word."
+        "After you respond, your teacher will reveal the fresh word selected for this session. " +
+        "Find the word part in that word and explain what it contributes."
       );
     }
 
@@ -8405,14 +9559,15 @@ function ensureReadyMaterialContainer() {
       policy.step5Limit >
       5;
 
+    const step5Copy =
+      readyStep5Copy(
+        activity,
+        minutes,
+        allowedItems.length
+      );
+
     const introText =
-      activity === "morpheme"
-        ? "Use these two targeted Word Part opportunities only if additional practice is helpful."
-        : minutes === 10
-          ? "Optional extension. Use up to five items only if time remains or additional practice is indicated."
-          : minutes === 15
-            ? "Optional practice. Use up to five items if time remains or additional practice is indicated."
-            : "Complete the first five items. Continue with up to five additional items as appropriate.";
+      step5Copy.intro;
 
     const signature =
       [
@@ -8639,14 +9794,15 @@ function ensureReadyMaterialContainer() {
         activityStep5Limit
       );
 
+    const step5Copy =
+      readyStep5Copy(
+        activity,
+        minutes,
+        allowedItems.length
+      );
+
     const printIntro =
-      activity === "morpheme"
-        ? "Two targeted Word Part opportunities: recognition first, then independent recall."
-        : minutes === 10
-          ? "Optional extension: use up to five items only if time remains or additional practice is indicated."
-          : minutes === 15
-            ? "Optional practice: use up to five items if time remains or additional practice is indicated."
-            : "Complete the first five items; continue with up to five additional items as appropriate.";
+      step5Copy.intro;
 
     const minimumPracticeItems =
       activity === "morpheme"
@@ -8898,10 +10054,7 @@ function ensureReadyMaterialContainer() {
 
           <h2>
             ${
-              activity === "morpheme" ||
-              minutes !== 30
-                ? "Optional Practice Set"
-                : "Practice Set"
+              step5Copy.heading
             } · ${
               esc(
                 READY_ACTIVITY_LABELS[
@@ -9014,6 +10167,36 @@ function ensureReadyMaterialContainer() {
               item.key
           );
 
+      const teachingKeys =
+        (state.tasks || [])
+          .map(
+            task => ({
+              stage:
+                task?.stage ||
+                "Practice",
+              activity:
+                readyActivityDisplayName(
+                  task
+                ),
+              word:
+                readyWord(task),
+              teaching:
+                readyTaskTeachingAccessMarkup(
+                  task,
+                  readyActivity(task)
+                ),
+              nonTarget:
+                readyTaskNonTargetSupportMarkup(
+                  task
+                )
+            })
+          )
+          .filter(
+            item =>
+              item.teaching ||
+              item.nonTarget
+          );
+
       supportBody.innerHTML = `
         <div class="print-ready-support-warning">
           <strong>
@@ -9048,6 +10231,38 @@ function ensureReadyMaterialContainer() {
                     readyTargetMeaning()
                   )}
                 </p>
+              </section>
+            `
+            : ""
+        }
+
+        ${
+          teachingKeys.length
+            ? `
+              <section class="print-ready-key-section">
+                <h2>
+                  Instructional teaching bridges
+                </h2>
+
+                <p>
+                  These are educator-only supports. Use them after the student's attempt, choose only what addresses the barrier, then retry the same target demand.
+                </p>
+
+                ${teachingKeys
+                  .map(
+                    item => `
+                      <div class="print-ready-teaching-bridge">
+                        <p>
+                          <strong>
+                            ${esc(item.stage)} · ${esc(item.activity)}${item.word ? ` · ${esc(item.word)}` : ""}
+                          </strong>
+                        </p>
+                        ${item.nonTarget}
+                        ${item.teaching}
+                      </div>
+                    `
+                  )
+                  .join("")}
               </section>
             `
             : ""
@@ -9117,14 +10332,14 @@ function ensureReadyMaterialContainer() {
           </p>
 
           ${readyTileMarkup(
-            readySupportTile(),
+            readyRetrieveSupportTile(),
             {
               includeMeaning: false
             }
           )}
 
           ${
-            readyTargetMeaning()
+            readyRetrieveSupportMeaning()
               ? `
                 <details class="ready-meaning-reveal">
                   <summary>
@@ -9133,7 +10348,7 @@ function ensureReadyMaterialContainer() {
 
                   <p>
                     ${esc(
-                      readyTargetMeaning()
+                      readyRetrieveSupportMeaning()
                     )}
                   </p>
                 </details>
@@ -9865,7 +11080,8 @@ function ensureReadyMaterialContainer() {
   function readyInferBuildDemandSupportMarkup(
     activity,
     {
-      practice = false
+      practice = false,
+      task = null
     } = {}
   ) {
     const target =
@@ -9878,6 +11094,17 @@ function ensureReadyMaterialContainer() {
       practice
         ? "ready-practice-support"
         : "ready-support-panel";
+
+    const approvedNonTarget =
+      readyTaskNonTargetSupportMarkup(
+        task
+      );
+
+    const teachingAccess =
+      readyTaskTeachingAccessMarkup(
+        task,
+        activity
+      );
 
     if (
       activity ===
@@ -9894,6 +11121,9 @@ function ensureReadyMaterialContainer() {
               Identify the barrier first. Do not automatically reveal the target meaning
               or replace morphology reasoning with context guessing.
             </p>
+
+            ${approvedNonTarget}
+            ${teachingAccess}
 
             <div class="ready-demand-support-list">
               <p>
@@ -9953,6 +11183,9 @@ function ensureReadyMaterialContainer() {
               Keep the intended meaning visible and change only the support needed for that barrier.
             </p>
 
+            ${approvedNonTarget}
+            ${teachingAccess}
+
             <div class="ready-demand-support-list">
               <p>
                 <strong>If the student chooses the wrong word part:</strong>
@@ -9999,11 +11232,15 @@ function ensureReadyMaterialContainer() {
 
 
   function readyV7ActivitySupportMarkup(
-    activity
+    activity,
+    task = null
   ) {
     const demandSpecific =
       readyInferBuildDemandSupportMarkup(
-        activity
+        activity,
+        {
+          task
+        }
       );
 
     if (demandSpecific) {
@@ -10014,6 +11251,17 @@ function ensureReadyMaterialContainer() {
       readySupportTile()
         ?.meaning ||
       readyTargetMeaning();
+
+    const approvedNonTarget =
+      readyTaskNonTargetSupportMarkup(
+        task
+      );
+
+    const teachingAccess =
+      readyTaskTeachingAccessMarkup(
+        task,
+        activity
+      );
 
     if (
       activity ===
@@ -10029,6 +11277,9 @@ function ensureReadyMaterialContainer() {
           </summary>
 
           <div class="ready-support-panel-body">
+            ${approvedNonTarget}
+            ${teachingAccess}
+
             ${
               firstCue
                 ? `
@@ -10069,6 +11320,9 @@ function ensureReadyMaterialContainer() {
         </summary>
 
         <div class="ready-support-panel-body">
+          ${approvedNonTarget}
+          ${teachingAccess}
+
           <p class="ready-support-sequence">
             First show the familiar First Volo visual cue.
             Retry the same task before adding another cue.
@@ -10273,6 +11527,9 @@ function ensureReadyMaterialContainer() {
     const prompt =
       String(
         wordPartSpec
+          ?.teacherDirection ||
+        task?.teacherDirection ||
+        task?.recipe
           ?.teacherDirection ||
         task?.prompt ||
         ""
@@ -10964,23 +12221,20 @@ function ensureReadyMaterialContainer() {
           null
         );
 
+      const step5Copy =
+        readyStep5Copy(
+          step5Activity,
+          minutes
+        );
+
       if (strong) {
         strong.textContent =
-          step5Activity ===
-            "morpheme" ||
-          minutes !== 30
-            ? "5. Optional Practice Set"
-            : "5. Practice Set";
+          `5. ${step5Copy.heading}`;
       }
 
       if (time) {
         time.textContent =
-          step5Activity ===
-            "morpheme"
-            ? "2 targeted items"
-            : minutes === 30
-              ? "5–10 items"
-              : "Up to 5 items";
+          step5Copy.time;
       }
     }
 
@@ -11082,14 +12336,14 @@ function ensureReadyMaterialContainer() {
         null
       );
 
+    const step5Copy =
+      readyStep5Copy(
+        activity,
+        minutes
+      );
+
     note.textContent =
-      activity === "morpheme"
-        ? "Two targeted Word Part opportunities: recognition first, then independent recall."
-        : minutes === 10
-          ? "Optional extension. Use up to five items only if time remains or additional practice is indicated."
-          : minutes === 15
-            ? "Optional practice. Use up to five items if time remains or additional practice is indicated."
-            : "Complete the first five items. Continue with up to five more as appropriate.";
+      step5Copy.intro;
   }
 
 
@@ -11706,18 +12960,15 @@ function ensureReadyMaterialContainer() {
       },
       {
         label:
-          currentActivity() ===
-            "morpheme"
-            ? "Optional Practice Set"
-            : minutes === 30
-              ? "Practice Set"
-              : "Optional Practice Set",
+          readyStep5Copy(
+            currentActivity(),
+            minutes
+          ).heading,
         detail:
-          currentActivity() === "morpheme"
-            ? "2 targeted Word Part opportunities if additional practice is helpful"
-            : minutes === 30
-              ? "first 5 items, with up to 5 more as appropriate"
-              : "up to 5 items if time remains or additional practice is indicated"
+          readyStep5Copy(
+            currentActivity(),
+            minutes
+          ).planDetail
       }
     ];
 
@@ -13707,11 +14958,13 @@ function ensureReadyMaterialContainer() {
 
     if (intro) {
       intro.textContent =
-        minutes === 10
-          ? "Optional extension. Use only if time remains or additional practice is indicated. Use up to five items."
-          : minutes === 15
-            ? "Optional practice. Use up to five items if time remains or additional practice is indicated."
-            : "Complete the first five items. Continue with up to five additional items as appropriate.";
+        readyStep5Copy(
+          readyActivity(
+            state.tasks?.[0] ||
+            null
+          ),
+          minutes
+        ).intro;
     }
 
     if (
@@ -14409,6 +15662,46 @@ function ensureReadyMaterialContainer() {
         margin-top: 12px;
         white-space: pre-line;
       }
+
+      .print-mat-page.is-task-response-page .print-build-mat {
+        align-items: stretch;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .print-mat-page.is-task-response-page .print-response-item {
+        break-inside: avoid;
+        box-sizing: border-box;
+        margin: 0;
+        min-width: 0;
+        page-break-inside: avoid;
+      }
+
+      .print-response-instruction {
+        display: block;
+        font-size: 0.9em;
+        margin-top: 8px;
+      }
+
+      .print-task-response-lines {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .print-task-response-line {
+        border-bottom: 1px solid #4f5963;
+        box-sizing: border-box;
+        height: 20px;
+        width: 100%;
+      }
+
+      @media print {
+        .print-mat-page.is-task-response-page .print-build-mat {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+      }
     `;
 
     document.head.appendChild(
@@ -14900,8 +16193,25 @@ function ensureReadyMaterialContainer() {
 
     const applyDetail =
       applyTask
-        ? `1 fresh ${currentActivityLabel()} item; do not preview the word`
-        : `No fresh ${currentActivityLabel()} application item is available today`;
+        ? (
+            currentActivity() === "morpheme"
+              ? (
+                  readyWord(applyTask)
+                    ? "retrieve the target from its meaning, then apply it in 1 fresh system-selected word; do not preview the word"
+                    : "no system-selected fresh Word Part example is available today; do not substitute an unplanned word"
+                )
+              : (
+                  normalize(
+                    state.plan
+                      ?.apply
+                      ?.item
+                      ?.word
+                  )
+                    ? `1 fresh system-selected ${currentActivityLabel()} item; do not preview the word`
+                    : `1 defined open-production ${currentActivityLabel()} Apply demand`
+                )
+          )
+        : `No valid ${currentActivityLabel()} Apply demand is available today`;
 
     const transferCount =
       state.plan
@@ -14976,6 +16286,12 @@ function ensureReadyMaterialContainer() {
       <h2>
         What you will do
       </h2>
+
+      <p>
+        <strong>Session source:</strong>
+        ${state.sessionSource === "teacher-selected" ? "Teacher selected" : "Recommended"}.
+        ${state.sessionSource === "teacher-selected" ? "This educator-selected session does not replace the student's adaptive recommendation merely because it was opened." : "First Volo selected this next step from the student's recent performance."}
+      </p>
 
       <p>
         Begin each new demand with the student's independent attempt. Open support only if a barrier appears.
@@ -15322,6 +16638,11 @@ function ensureReadyMaterialContainer() {
     if (matPage) {
       matPage.hidden =
         false;
+
+      matPage.classList.toggle(
+        "is-task-response-page",
+        activity !== "build"
+      );
     }
 
     if (
@@ -15367,7 +16688,23 @@ function ensureReadyMaterialContainer() {
       morpheme:
         "Respond to each Word Part prompt. Use the word, base/root, and meaning information shown for that item.",
       break:
-        "Start with each whole word. Mark the meaningful boundaries yourself. Do not pre-mark the parts.",
+        (
+          (state.tasks || []).some(
+            task =>
+              (
+                task?.recipe
+                  ?._readySelectorDemand ||
+                "full-segmentation"
+              ) !==
+                "full-segmentation"
+          )
+            ? (
+                "Respond to each item according to its demand. For full segmentation, mark or write the meaningful parts. For form-change items, explain what changes when the word is formed."
+              )
+            : (
+                "Start with each whole word. Mark the meaningful boundaries yourself. Do not pre-mark the parts."
+              )
+        ),
       infer:
         "Use known morphology first. Write a likely whole-word meaning and explain the clue.",
       use:
@@ -15423,6 +16760,27 @@ function ensureReadyMaterialContainer() {
                 studentTask
               );
 
+            const selectorDemand =
+              taskActivity === "break"
+                ? (
+                    task?.recipe
+                      ?._readySelectorDemand ||
+                    "full-segmentation"
+                  )
+                : null;
+
+            const demandLabel =
+              selectorDemand ===
+                "form-change"
+                ? "Form Change"
+                : selectorDemand ===
+                    "target-recognition"
+                  ? "Target Connection"
+                  : selectorDemand ===
+                      "full-segmentation"
+                    ? "Segmentation"
+                    : "";
+
             const label =
               wordPartSpec
                 ? (
@@ -15436,6 +16794,10 @@ function ensureReadyMaterialContainer() {
                   )
                 : (
                     `${studentTask?.stage || task?.stage || ""}${
+                      demandLabel
+                        ? ` · ${demandLabel}`
+                        : ""
+                    }${
                       fallbackWord
                         ? ` · ${fallbackWord}`
                         : ""
@@ -15452,6 +16814,18 @@ function ensureReadyMaterialContainer() {
                 ?.prompt ||
               "";
 
+            const responseInstruction =
+              selectorDemand ===
+                "form-change"
+                ? "Explain what changes. Write the accurate word sum if helpful."
+                : selectorDemand ===
+                    "target-recognition"
+                  ? "Identify the visible target form and explain the connection."
+                  : selectorDemand ===
+                      "full-segmentation"
+                    ? "Mark or write the meaningful parts using + or /."
+                    : "Write the student's response.";
+
             return `
               <div class="print-response-item">
                 <strong>
@@ -15462,10 +16836,14 @@ function ensureReadyMaterialContainer() {
                   ${esc(prompt)}
                 </p>
 
-                <div class="print-response-lines">
-                  __________________________________________
-                  __________________________________________
-                  __________________________________________
+                <span class="print-response-instruction">
+                  ${esc(responseInstruction)}
+                </span>
+
+                <div class="print-task-response-lines">
+                  <div class="print-task-response-line"></div>
+                  <div class="print-task-response-line"></div>
+                  <div class="print-task-response-line"></div>
                 </div>
               </div>
             `;
@@ -15493,10 +16871,7 @@ function ensureReadyMaterialContainer() {
 
   function renderRetrieveSupport() {
     const target =
-      state.plan
-        ?.targetResolution
-        ?.primary ||
-      null;
+      readyRetrieveSupportTarget();
 
     const label =
       target?.label ||
@@ -15635,6 +17010,45 @@ function ensureReadyMaterialContainer() {
       );
     }
   }
+  function readyTransferNonTargetSupportMarkup(
+    item
+  ) {
+    const supports =
+      Array.isArray(
+        item?.nonTargetSupports
+      )
+        ? item.nonTargetSupports
+            .filter(
+              support =>
+                support?.part &&
+                (
+                  support?.meaning ||
+                  support?.function
+                )
+            )
+        : [];
+
+    if (!supports.length) {
+      return "";
+    }
+
+    return `
+      <div class="ready-approved-non-target-support">
+        <strong>
+          If a non-target word part is the barrier, you may supply:
+        </strong>
+        ${supports
+          .map(
+            support =>
+              `${esc(support.part)} = ${esc(support.meaning || support.function)}`
+          )
+          .join("; ")}.
+        Keep the target meaning as the student's job, then retry the whole-word inference.
+      </div>
+    `;
+  }
+
+
   function renderTransfer() {
     const transfer =
       state.plan
@@ -15717,8 +17131,27 @@ function ensureReadyMaterialContainer() {
                 }
 
                 <p>
-                  Ask: What part do you recognize? What do you think the whole word means?
+                  <strong>First attempt:</strong>
+                  What do you think “${esc(item.word || "")}” means here?
                 </p>
+
+                <details class="ready-support-panel ready-transfer-after-attempt">
+                  <summary>
+                    Support after the first attempt
+                  </summary>
+
+                  <div class="ready-support-panel-body">
+                    <p>
+                      First ask: <strong>What part do you recognize?</strong>
+                    </p>
+
+                    ${readyTransferNonTargetSupportMarkup(item)}
+
+                    <p>
+                      Then ask the student to put the known target meaning together with the supplied non-target information and retry the whole-word meaning.
+                    </p>
+                  </div>
+                </details>
               </div>
             `
           )
@@ -15880,6 +17313,13 @@ function ensureReadyMaterialContainer() {
               Educator key:
             </strong>
             ${esc(
+              applyTask?.answer ||
+              applyTask
+                ?.recipe
+                ?.educatorKey ||
+              readyExpectedWordSum(
+                applyTask
+              ) ||
               applyTask
                 ?.recipe
                 ?.word ||
@@ -16188,6 +17628,20 @@ function ensureReadyMaterialContainer() {
     ).hidden =
       true;
 
+    const printButton =
+      byId(
+        "sessionPrintButton"
+      );
+
+    if (printButton) {
+      printButton.disabled =
+        false;
+      printButton.setAttribute(
+        "aria-disabled",
+        "false"
+      );
+    }
+
     byId(
       "digitalMaterialTitle"
     ).textContent =
@@ -16269,29 +17723,315 @@ function ensureReadyMaterialContainer() {
     ).hidden =
       true;
 
+    const printButton =
+      byId(
+        "sessionPrintButton"
+      );
+
+    if (printButton) {
+      printButton.disabled =
+        true;
+      printButton.setAttribute(
+        "aria-disabled",
+        "true"
+      );
+    }
+
     const unavailable =
       byId(
         "sessionMaterialUnavailable"
       );
 
-    const shouldShow =
-      state.familyCandidates
-        .length <= 1;
+    const eyebrow =
+      byId(
+        "sessionMaterialUnavailableEyebrow"
+      );
+
+    const title =
+      byId(
+        "sessionMaterialUnavailableTitle"
+      );
+
+    const text =
+      byId(
+        "sessionMaterialUnavailableText"
+      );
+
+    const primary =
+      state.plan
+        ?.targetResolution
+        ?.primary ||
+      null;
+
+    const activityLabel =
+      currentActivityLabel();
+
+    const targetLabel =
+      primary?.label ||
+      "this target";
+
+    const material =
+      state.material ||
+      state.plan
+        ?.sessionMaterial ||
+      null;
+
+    const noAdaptiveTarget =
+      state.sessionSource ===
+        "recommended" &&
+      !primary?.label;
+
+    if (noAdaptiveTarget) {
+      if (eyebrow) {
+        eyebrow.textContent =
+          "No adaptive recommendation yet";
+      }
+
+      if (title) {
+        title.textContent =
+          "First Volo does not yet have saved instructional work to choose the student's next target.";
+      }
+
+      if (text) {
+        text.textContent =
+          "Use Teacher-Selected Session below to choose a word part and activity, or save instructional performance first. Opening a teacher-selected session will not create or replace the adaptive recommendation.";
+      }
+
+      unavailable.hidden =
+        false;
+      return;
+    }
+
+    const recipeCount =
+      Array.isArray(
+        material?.recipes
+      )
+        ? material.recipes.length
+        : 0;
+
+    const missingParts =
+      Array.isArray(
+        material?.protection
+          ?.missingParts
+      )
+        ? material.protection
+            .missingParts
+        : [];
+
+    if (eyebrow) {
+      eyebrow.textContent =
+        `${activityLabel} · system-generated material unavailable`;
+    }
+
+    if (title) {
+      title.textContent =
+        recipeCount === 0
+          ? `First Volo could not generate a valid ${activityLabel} item set for ${targetLabel}.`
+          : `First Volo could not generate a complete ${activityLabel} session for ${targetLabel}.`;
+    }
+
+    if (text) {
+      text.textContent =
+        missingParts.length
+          ? (
+              `The generated word analysis is missing an approved Build piece for: ${missingParts.join(", ")}. First Volo will not invent or mis-segment a word part to complete the build.`
+            )
+          : (
+              "First Volo searched the validated teacher-led word universe and no safe item set remained after the linguistic, accessibility, freshness, and protection checks. This is a true generation gap, not the absence of a reusable material family."
+            );
+    }
 
     unavailable.hidden =
-      !shouldShow;
+      false;
   }
 
 
-  /* FIRST_VOLO_DYNAMIC_BREAK_SESSION_LENGTH_AVAILABILITY_V1
-     Longer Break sessions are offered only when enough DISTINCT,
-     learner-ready Break words exist for the required Part A items
-     plus one fresh Part B / Apply item.
 
-     10 minutes remains the minimum route because the existing
-     unscored fallback may be the instructionally correct outcome
-     when no scored full segmentation is ready.
+  /* FIRST_VOLO_ACTIVITY_SESSION_LENGTH_AVAILABILITY_V2
+     Session length is part of the instructional promise, not a cosmetic
+     preference. A 10/15/30-minute option is offered only when the active
+     target + activity can construct the required guided Part A sequence
+     and an actual Apply demand for that length.
+
+     Break It Apart keeps its stricter selector-owned complete-plan gate.
+     Other activities are checked against the material actually produced by
+     the planner for that duration. This is shared by Recommended Session
+     and Teacher-Selected Session.
   */
+  function readyCandidatePlanForDuration(
+    minutes
+  ) {
+    const planner =
+      window
+        .FirstVoloInstructionalSessionPlanner;
+
+    if (!planner?.buildPlan) {
+      return null;
+    }
+
+    return planner.buildPlan({
+      student:
+        state.student,
+      sessionMinutes:
+        Number(minutes),
+      sessionSelection:
+        activeSessionSelection()
+    });
+  }
+
+
+  function readyPracticeCountFromPlan(
+    plan
+  ) {
+    const recipes =
+      Array.isArray(
+        plan?.sessionMaterial
+          ?.recipes
+      )
+        ? plan.sessionMaterial
+            .recipes
+        : [];
+
+    if (!recipes.length) {
+      return 0;
+    }
+
+    const applyWord =
+      normalize(
+        plan?.apply
+          ?.item
+          ?.word
+      );
+
+    let practiceRecipes =
+      recipes.filter(
+        recipe =>
+          recipes.length === 1 ||
+          normalize(
+            recipe?.word
+          ) !== applyWord
+      );
+
+    if (!practiceRecipes.length) {
+      practiceRecipes =
+        recipes.slice(0, 1);
+    }
+
+    return practiceRecipes.length;
+  }
+
+
+  function readyNonBreakDurationAvailability(
+    minutes
+  ) {
+    const plan =
+      readyCandidatePlanForDuration(
+        minutes
+      );
+
+    if (!plan) {
+      return {
+        available: false,
+        reason:
+          "The session planner is unavailable."
+      };
+    }
+
+    if (
+      plan.activityApplicability
+        ?.applicable === false
+    ) {
+      return {
+        available: false,
+        reason:
+          plan.activityApplicability
+            .reason ||
+          "This activity is not instructionally appropriate for the selected target.",
+        plan
+      };
+    }
+
+    const material =
+      plan.sessionMaterial;
+
+    if (!material?.ready) {
+      return {
+        available: false,
+        reason:
+          "After searching the validated teacher-led word universe, First Volo could not construct a linguistically valid item set for this target, activity, and length.",
+        plan
+      };
+    }
+
+    const policy =
+      readyV13DurationPolicy[
+        Number(minutes)
+      ];
+
+    const requiredPartA =
+      Number(
+        policy?.partAItems ||
+        1
+      );
+
+    const availablePartA =
+      readyPracticeCountFromPlan(
+        plan
+      );
+
+    if (
+      availablePartA <
+      requiredPartA
+    ) {
+      return {
+        available: false,
+        reason:
+          `This ${ACTIVITY_LABELS[plan?.teachPractice?.activity] || "activity"} session can build ${availablePartA} of ${requiredPartA} required guided Part A ${requiredPartA === 1 ? "item" : "items"} for ${minutes} minutes.`,
+        plan,
+        requiredPartA,
+        availablePartA
+      };
+    }
+
+    const applyItem =
+      plan?.apply?.item ||
+      null;
+
+    if (!applyItem) {
+      return {
+        available: false,
+        reason:
+          `A complete ${minutes}-minute session needs an Apply demand, and no valid Apply item is currently available.`,
+        plan
+      };
+    }
+
+    if (
+      plan?.teachPractice
+        ?.activity ===
+          "morpheme" &&
+      !normalize(
+        applyItem.word
+      )
+    ) {
+      return {
+        available: false,
+        reason:
+          "Word Part Apply requires a fresh system-selected word after target retrieval; that fresh word is not available for this length.",
+        plan
+      };
+    }
+
+    return {
+      available: true,
+      reason: "",
+      plan,
+      requiredPartA,
+      availablePartA
+    };
+  }
+
+
   function readyDurationAvailability(
     minutes
   ) {
@@ -16310,38 +18050,74 @@ function ensureReadyMaterialContainer() {
       };
     }
 
+    state._durationAvailabilityCache =
+      state._durationAvailabilityCache ||
+      {};
+
+    const cacheKey =
+      [
+        state.sessionSource,
+        state.teacherSelection
+          ?.targetId ||
+          state.plan
+            ?.targetResolution
+            ?.primary
+            ?.id ||
+          "",
+        state.teacherSelection
+          ?.activity ||
+          currentActivity(),
+        value
+      ].join("|");
+
     if (
-      currentActivity() !==
-      "break"
+      state._durationAvailabilityCache[
+        cacheKey
+      ]
     ) {
-      return {
-        available:
-          true,
-        reason:
-          ""
-      };
+      return state
+        ._durationAvailabilityCache[
+          cacheKey
+        ];
     }
 
-    const plan =
-      readyBreakPlanForDuration(
-        value
-      );
+    let result;
 
-    return {
-      available:
-        Boolean(
-          plan
-            ?.complete
-        ),
-      reason:
-        plan?.complete
-          ? ""
-          : (
-              plan?.reason ||
-              "A complete scored sequence is not available for this duration."
-            ),
-      plan
-    };
+    if (
+      currentActivity() ===
+      "break"
+    ) {
+      const plan =
+        readyBreakPlanForDuration(
+          value
+        );
+
+      result = {
+        available:
+          Boolean(
+            plan?.complete
+          ),
+        reason:
+          plan?.complete
+            ? ""
+            : (
+                plan?.reason ||
+                "A complete Break It Apart Part A + fresh Apply sequence is not available for this duration."
+              ),
+        plan
+      };
+    } else {
+      result =
+        readyNonBreakDurationAvailability(
+          value
+        );
+    }
+
+    state._durationAvailabilityCache[
+      cacheKey
+    ] = result;
+
+    return result;
   }
 
 
@@ -16366,19 +18142,19 @@ function ensureReadyMaterialContainer() {
               minutes
             ).available
         ) ||
+      [10, 15, 30]
+        .find(
+          minutes =>
+            readyDurationAvailability(
+              minutes
+            ).available
+        ) ||
       null
     );
   }
 
 
   function readyNormalizeUnavailableDuration() {
-    if (
-      currentActivity() !==
-      "break"
-    ) {
-      return false;
-    }
-
     const current =
       Number(
         state.minutes
@@ -16398,9 +18174,9 @@ function ensureReadyMaterialContainer() {
       );
 
     /*
-      If no scored duration is currently buildable, retain the short
-      internal 10-minute shell only so an unscored connection can render.
-      Its duration button remains unavailable.
+      If no duration is buildable, retain the internal 10-minute shell
+      so the page can explain why the selected activity is unavailable.
+      All duration buttons remain disabled.
     */
     const next =
       availableNext ||
@@ -16454,11 +18230,7 @@ function ensureReadyMaterialContainer() {
       buttons[0]
         ?.parentElement;
 
-    if (
-      currentActivity() !==
-        "break" ||
-      !host
-    ) {
+    if (!host) {
       if (existing) {
         existing.hidden =
           true;
@@ -16483,6 +18255,46 @@ function ensureReadyMaterialContainer() {
         record =>
           !record.available
       );
+
+    const noAdaptiveTarget =
+      state.sessionSource ===
+        "recommended" &&
+      !state.plan
+        ?.targetResolution
+        ?.primary
+        ?.label;
+
+    if (noAdaptiveTarget) {
+      const note =
+        existing ||
+        document.createElement(
+          "div"
+        );
+
+      if (!existing) {
+        note.id =
+          "sessionDurationAvailabilityNote";
+        note.className =
+          "session-duration-availability-note";
+        note.setAttribute(
+          "role",
+          "status"
+        );
+        host
+          .insertAdjacentElement(
+            "afterend",
+            note
+          );
+      }
+
+      note.hidden =
+        false;
+      note.innerHTML = `
+        <strong>No adaptive session length is available yet.</strong>
+        First Volo needs a saved instructional target before it can build a Recommended Session. Use Teacher-Selected Session below if you want to choose the target yourself.
+      `;
+      return;
+    }
 
     if (!unavailable.length) {
       if (existing) {
@@ -16530,10 +18342,9 @@ function ensureReadyMaterialContainer() {
     if (!available.length) {
       note.innerHTML = `
         <strong>
-          No complete scored Break It Apart session is available yet.
+          No complete ${esc(currentActivityLabel())} session length can be generated for this target yet.
         </strong>
-        Use the short unscored target connection today,
-        or continue with another appropriate activity.
+        First Volo searched the validated teacher-led word universe and will not offer a 10-, 15-, or 30-minute option unless the required Part A + Apply sequence can be constructed accurately.
       `;
 
       return;
@@ -16549,8 +18360,7 @@ function ensureReadyMaterialContainer() {
           )
           .join(" · ")}
       </strong>
-      Longer options stay unavailable only when the selector cannot build
-      a complete varied Part A + fresh Part B sequence.
+      Other lengths are unavailable because the system-generated ${esc(currentActivityLabel())} Part A + Apply sequence does not yet have enough valid material for that duration.
     `;
   }
 
@@ -16645,6 +18455,8 @@ function ensureReadyMaterialContainer() {
     ).textContent =
       state.student.name;
 
+    renderSessionSource();
+
     byId(
       "sessionTargetLine"
     ).textContent =
@@ -16656,7 +18468,12 @@ function ensureReadyMaterialContainer() {
           ]
             .filter(Boolean)
             .join(" ")
-        : "Target";
+        : (
+            state.sessionSource ===
+              "recommended"
+              ? "No adaptive target yet"
+              : "Target"
+          );
 
     const last =
       state.plan
@@ -16721,6 +18538,23 @@ function ensureReadyMaterialContainer() {
         recorded. The system will not choose one word
         part arbitrarily.
       `;
+    } else if (
+      state.sessionSource ===
+        "recommended" &&
+      !primary?.label
+    ) {
+      warning.hidden =
+        false;
+
+      warning.innerHTML = `
+        <strong>
+          No adaptive recommendation yet.
+        </strong>
+
+        There is no saved instructional target for this student yet.
+        Choose a Teacher-Selected Session below, or save instructional
+        performance first. First Volo will not invent a recommended target.
+      `;
     } else {
       warning.hidden =
         true;
@@ -16729,6 +18563,7 @@ function ensureReadyMaterialContainer() {
         "";
     }
 
+    populateTeacherSessionControls();
     renderFamilyChoice();
 
     if (
@@ -16753,13 +18588,19 @@ function ensureReadyMaterialContainer() {
       );
     }
 
+    state._durationAvailabilityCache =
+      {};
+
     state.plan =
       planner.buildPlan({
         student:
           state.student,
 
         sessionMinutes:
-          state.minutes
+          state.minutes,
+
+        sessionSelection:
+          activeSessionSelection()
       });
 
     state.familyOverride =
@@ -16858,6 +18699,96 @@ function ensureReadyMaterialContainer() {
           );
         }
       );
+
+    byId(
+      "teacherTargetSelect"
+    )?.addEventListener(
+      "change",
+      () => {
+        updateTeacherActivityOptions();
+      }
+    );
+
+    byId(
+      "teacherActivitySelect"
+    )?.addEventListener(
+      "change",
+      () => {
+        renderTeacherUnavailableActivities();
+      }
+    );
+
+    byId(
+      "buildTeacherSelectedSessionButton"
+    )?.addEventListener(
+      "click",
+      () => {
+        const targetId =
+          byId(
+            "teacherTargetSelect"
+          )?.value ||
+          "";
+
+        const activity =
+          byId(
+            "teacherActivitySelect"
+          )?.value ||
+          "";
+
+        const applicability =
+          teacherActivityApplicability(
+            targetId,
+            activity
+          );
+
+        if (
+          applicability
+            ?.applicable ===
+          false
+        ) {
+          const host =
+            byId(
+              "teacherUnavailableActivities"
+            );
+
+          if (host) {
+            host.innerHTML = `
+              <strong>${esc(ACTIVITY_LABELS[activity] || "This activity")} is not appropriate for this target.</strong>
+              ${esc(applicability.reason || "A clean, instructionally useful task is not available.")}
+            `;
+          }
+
+          return;
+        }
+
+        state.sessionSource =
+          "teacher-selected";
+
+        state.teacherSelection = {
+          targetId,
+          activity
+        };
+
+        updateSessionSourceUrl();
+        rebuildPlan();
+      }
+    );
+
+    byId(
+      "useRecommendedSessionButton"
+    )?.addEventListener(
+      "click",
+      () => {
+        state.sessionSource =
+          "recommended";
+
+        state.teacherSelection =
+          null;
+
+        updateSessionSourceUrl();
+        rebuildPlan();
+      }
+    );
 
     byId(
       "toggleMeaningsButton"
@@ -17015,6 +18946,21 @@ function ensureReadyMaterialContainer() {
   function setup() {
     state.minutes =
       queryMinutes();
+
+    const initialSelection =
+      querySessionSelection();
+
+    if (initialSelection) {
+      state.sessionSource =
+        "teacher-selected";
+      state.teacherSelection =
+        {
+          targetId:
+            initialSelection.targetId,
+          activity:
+            initialSelection.activity
+        };
+    }
 
     state.student =
       resolveStudent();
