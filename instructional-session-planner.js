@@ -984,6 +984,22 @@
             `Explain what ${targetLabel} contributes to the word.`
           );
 
+    const generatedEducatorPrompt =
+      asArray(
+        recipe.applyEducatorPrompts
+      )
+        .filter(
+          step =>
+            step?.label &&
+            step?.text &&
+            step.label !== "Expected"
+        )
+        .map(
+          step =>
+            `${step.label}: ${step.text}`
+        )
+        .join(" ");
+
     return {
       minutes:
         duration.applyMinutes,
@@ -997,17 +1013,20 @@
         true,
 
       educatorDoes:
-        activity === "morpheme"
-          ? (
-              "Present the target meaning without showing the fresh word. " +
-              "After the student retrieves the target word part, reveal the system-selected fresh word. " +
-              "Ask the student to find the target and explain what it contributes to the whole-word meaning. " +
-              "After the attempt, supply only the student-friendly whole-word meaning, validated semantic bridge, or non-target information that is actually needed, then retry."
-            )
-          : (
-              "Present the exact Apply demand for this activity with the selected item; do not silently replace it with a different task such as generic word generation. " +
-              "Allow the independent attempt first. If an incidental barrier appears, use only the needed student-friendly definition, validated semantic bridge, context, non-target meaning, or cloze/sentence starter, then retry the same activity demand."
-            ),
+        generatedEducatorPrompt ||
+        (
+          activity === "morpheme"
+            ? (
+                "Present the target meaning without showing the fresh word. " +
+                "After the student retrieves the target word part, reveal the system-selected fresh word. " +
+                "Ask the student to find the target and explain what it contributes to the whole-word meaning. " +
+                "After the attempt, supply only the student-friendly whole-word meaning, validated semantic bridge, or non-target information that is actually needed, then retry."
+              )
+            : (
+                "Present the exact Apply demand for this activity with the selected item; do not silently replace it with a different task such as generic word generation. " +
+                "Use the activity-specific timing for access information, then retry the same demand and fade support."
+              )
+        ),
 
       studentDoes:
         activity === "morpheme"
@@ -1065,6 +1084,15 @@
         semanticBridge:
           recipe.applySemanticBridge ||
           null,
+
+        educatorPrompts:
+          asArray(
+            recipe.applyEducatorPrompts
+          ).map(
+            step => ({
+              ...step
+            })
+          ),
 
         teachingSupportRules:
           recipe.teachingSupportRules ||

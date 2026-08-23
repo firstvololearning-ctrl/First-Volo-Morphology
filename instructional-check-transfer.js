@@ -946,7 +946,17 @@
           id: "ct-struct-01",
           word: "structural",
           sentence: "Workers checked the structural beams under the bridge.",
-          expectedMeaning: "related to the structure or build of something"
+          expectedMeaning: "related to the structure or build of something",
+          literalMeaning: "related to build",
+          studentFriendlyMeaning: "related to the structure or build of something",
+          nonTargetSupports: Object.freeze([
+            Object.freeze({
+              part: "-al",
+              meaning: "related to",
+              role: "suffix",
+              timing: "after-independent-attempt"
+            })
+          ])
         }),
         Object.freeze({
           id: "ct-struct-02",
@@ -1706,13 +1716,17 @@
           id: "ct-er-more-01",
           word: "narrower",
           sentence: "This hallway is narrower than the one downstairs.",
-          expectedMeaning: "more narrow"
+          expectedMeaning: "less wide than something else",
+          literalMeaning: "more narrow",
+          studentFriendlyMeaning: "less wide than something else"
         }),
         Object.freeze({
           id: "ct-er-more-02",
           word: "brighter",
           sentence: "The second bulb is brighter than the first one.",
-          expectedMeaning: "more bright"
+          expectedMeaning: "giving off more light than something else",
+          literalMeaning: "more bright",
+          studentFriendlyMeaning: "giving off more light than something else"
         }),
       ])
     }),
@@ -2423,6 +2437,12 @@
             sentence: item.sentence,
             expectedMeaning:
               item.expectedMeaning,
+            literalMeaning:
+              item.literalMeaning || null,
+            studentFriendlyMeaning:
+              item.studentFriendlyMeaning ||
+              item.expectedMeaning ||
+              null,
             nonTargetSupports:
               asArray(
                 item.nonTargetSupports
@@ -2532,6 +2552,91 @@
   }
 
 
+  function alignTransferTimeToActualItems(plan) {
+    const transfer =
+      plan?.transfer;
+
+    const duration =
+      plan?.duration;
+
+    if (!transfer || !duration) {
+      return;
+    }
+
+    const requested =
+      Number(
+        transfer.requestedItemCount ||
+        0
+      );
+
+    const actual =
+      Array.isArray(transfer.items)
+        ? transfer.items.length
+        : 0;
+
+    const nominalMinutes =
+      Number(
+        duration.transferMinutes ||
+        transfer.minutes ||
+        0
+      );
+
+    const minutesPerItem =
+      requested > 0
+        ? nominalMinutes / requested
+        : 0;
+
+    const actualMinutes =
+      requested > 0
+        ? Math.max(
+            0,
+            Math.round(
+              minutesPerItem * actual
+            )
+          )
+        : 0;
+
+    const freedMinutes =
+      Math.max(
+        0,
+        nominalMinutes - actualMinutes
+      );
+
+    const teachMinutes =
+      Number(
+        duration.teachPracticeMinutes ||
+        plan?.teachPractice?.minutes ||
+        0
+      ) + freedMinutes;
+
+    plan.duration = {
+      ...duration,
+      transferMinutes:
+        actualMinutes,
+      teachPracticeMinutes:
+        teachMinutes
+    };
+
+    plan.transfer = {
+      ...transfer,
+      minutes:
+        actualMinutes,
+      timeAdjustedToActualItems:
+        actual !== requested,
+      minutesReallocatedToTeachPractice:
+        freedMinutes
+    };
+
+    if (plan.teachPractice) {
+      plan.teachPractice = {
+        ...plan.teachPractice,
+        minutes:
+          teachMinutes
+      };
+    }
+  }
+
+
   function updateTransferManifest(
     plan
   ) {
@@ -2591,6 +2696,10 @@
               null,
             plan
           });
+
+        alignTransferTimeToActualItems(
+          plan
+        );
 
         updateTransferManifest(
           plan

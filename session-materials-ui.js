@@ -1110,14 +1110,7 @@
       };
     }
 
-    /* FIRST_VOLO_TEACHER_CHOICE_STRUCTURAL_APPLICABILITY_V2
-       Teacher-Selected Session is allowed to ask the system to GENERATE the
-       lesson. Lack of a prebuilt/reusable family is not a reason to disable an
-       activity. Only a genuine instructional non-applicability rule may block
-       the choice here. Material generation happens after the objective is
-       chosen, using the validated word universe and approved supports.
-    */
-    return (
+    const structural =
       window
         .FirstVoloInstructionalSessionPlanner
         ?.activityApplicability?.(
@@ -1127,8 +1120,67 @@
       {
         applicable: true,
         reason: null
-      }
-    );
+      };
+
+    if (structural?.applicable === false) {
+      return structural;
+    }
+
+    /*
+      Teacher-selected activity choices are revalidated against the actual
+      system-generated teacher-led word universe. This is NOT a prebuilt-family
+      gate: First Volo asks the shared item bank/selector to generate a real
+      10-minute Part A + Apply sequence using the full validated inventory and
+      teacher extensions. Only a genuine generation failure blocks the choice.
+    */
+    const bank =
+      window
+        .FirstVoloSessionItemBank;
+
+    if (!bank?.buildItems) {
+      return structural;
+    }
+
+    const recipes =
+      bank.buildItems({
+        targetResolution: {
+          primary: target,
+          allTargets: [target]
+        },
+        activity,
+        gradeBand:
+          readyCurrentBand() ||
+          target.introBand ||
+          null,
+        vocabLevel:
+          readyCurrentVocabLevel() ||
+          null,
+        limit: 2
+      }) || [];
+
+    const hasGuided =
+      recipes.length > 0;
+
+    const hasApply =
+      recipes.some(
+        recipe =>
+          recipe?.applyKind &&
+          recipe.applyKind !==
+            "unavailable"
+      );
+
+    if (!hasGuided || !hasApply) {
+      return {
+        applicable: false,
+        reason:
+          `First Volo could not generate a valid ${ACTIVITY_LABELS[activity] || activity} Part A + Apply sequence from the validated teacher-led word universe for this target. This is a generation/linguistic-validity limit, not a missing prebuilt-family rule.`
+      };
+    }
+
+    return {
+      applicable: true,
+      reason: null
+    };
   }
 
 
@@ -2316,8 +2368,9 @@
       "session-prompt-educator-key";
 
     key.innerHTML = `
+
       <summary>
-        Educator key
+        What to listen for
       </summary>
       <div data-educator-key-content></div>
     `;
@@ -2372,19 +2425,13 @@
       ensurePromptEducatorKey();
 
     if (key) {
-      key.hidden =
-        buildMode;
-
-      const content =
-        key.querySelector(
-          "[data-educator-key-content]"
-        );
-
-      if (content) {
-        content.textContent =
-          task?.answer ||
-          "Open response. Use the educator key for this item to review the student response.";
-      }
+      /*
+        The legacy generic Educator key sat above the student's response and
+        exposed implementation scaffolding (for example, "Open response. Use
+        the educator key..."). Item-specific review criteria now live with
+        the ready-to-use task, after the response opportunity.
+      */
+      key.hidden = true;
     }
 
     byId(
@@ -2809,8 +2856,9 @@ function ensureReadyMaterialContainer() {
 
     return `
       <details class="ready-educator-key">
+
         <summary>
-          Educator key
+          Answer
         </summary>
 
         <p>
@@ -3181,6 +3229,30 @@ function ensureReadyMaterialContainer() {
         task
       );
 
+    const word =
+      readyWord(
+        task
+      );
+
+    const generatedPrompt =
+      String(
+        task?.prompt ||
+        task?.recipe?.activityPrompt ||
+        task?.recipe?.wordPrompt ||
+        ""
+      ).trim();
+
+    const prompt =
+      generatedPrompt ||
+      (
+        word
+          ? (
+              `What does ${readyTargetLabel()} mean? ` +
+              `How does that meaning contribute to ${word}?`
+            )
+          : `What does ${readyTargetLabel()} mean?`
+      );
+
     container.innerHTML = `
       <div class="ready-material-heading">
         <span>
@@ -3192,13 +3264,21 @@ function ensureReadyMaterialContainer() {
         </h3>
 
         <p>
-          What does this word part mean?
+          ${esc(prompt)}
         </p>
       </div>
 
       <div class="ready-big-target">
         ${esc(readyTargetLabel())}
       </div>
+
+      ${
+        word
+          ? readyBigWordMarkup(
+              word
+            )
+          : ""
+      }
 
       ${
         choices.length
@@ -3221,11 +3301,10 @@ function ensureReadyMaterialContainer() {
           : `
             <label class="ready-response-label">
               Student response
-              <input
-                type="text"
-                class="ready-response-input"
-                autocomplete="off"
-              >
+              <textarea
+                class="ready-response-textarea"
+                rows="2"
+              ></textarea>
             </label>
           `
       }
@@ -4621,9 +4700,36 @@ function ensureReadyMaterialContainer() {
     }
 
     if (activity === "meaning") {
+      const prompt =
+        String(
+          task?.prompt ||
+          task?.recipe?.activityPrompt ||
+          task?.recipe?.wordPrompt ||
+          ""
+        ).trim() ||
+        (
+          word
+            ? (
+                `What does ${readyTargetLabel()} mean? ` +
+                `How does that meaning contribute to ${word}?`
+              )
+            : `What does ${readyTargetLabel()} mean?`
+        );
+
       return `
         <section class="print-ready-task">
-          ${heading}
+          <div class="print-ready-task-heading">
+            <span>
+              ${esc(
+                task?.stage ||
+                "Teach / Practice"
+              )}
+            </span>
+
+            <h2>
+              ${esc(label)}
+            </h2>
+          </div>
 
           <div class="print-ready-target">
             ${esc(
@@ -4631,8 +4737,18 @@ function ensureReadyMaterialContainer() {
             )}
           </div>
 
+          ${
+            word
+              ? `
+                <div class="print-ready-word">
+                  ${esc(word)}
+                </div>
+              `
+              : ""
+          }
+
           <p>
-            What does this word part mean?
+            ${esc(prompt)}
           </p>
 
           <div class="print-ready-lines"></div>
@@ -5311,6 +5427,18 @@ function ensureReadyMaterialContainer() {
   function readyTaskNonTargetSupportMarkup(
     task
   ) {
+    const recipe =
+      task?.recipe ||
+      task ||
+      {};
+
+    if (
+      Array.isArray(recipe.educatorPrompts) &&
+      recipe.educatorPrompts.length
+    ) {
+      return "";
+    }
+
     const supports =
       readyTaskNonTargetSupports(
         task
@@ -5354,6 +5482,10 @@ function ensureReadyMaterialContainer() {
         recipe.studentFriendlyDefinition ||
         recipe.definition ||
         null,
+      literalMeaning:
+        recipe.literalMeaning ||
+        recipe.literal ||
+        null,
       semanticBridge:
         recipe.semanticBridge ||
         null,
@@ -5363,8 +5495,448 @@ function ensureReadyMaterialContainer() {
         null,
       clozeSupport:
         recipe.clozeSupport ||
-        null
+        null,
+      educatorPrompts:
+        Array.isArray(recipe.educatorPrompts)
+          ? recipe.educatorPrompts
+          : []
     };
+  }
+
+
+  function readyEducatorPromptTiming(step) {
+    return String(step?.timing || "")
+      .trim()
+      .toLowerCase();
+  }
+
+
+  function readyEducatorPromptIsPreTask(step) {
+    const timing =
+      readyEducatorPromptTiming(step);
+
+    return [
+      "teaching-setup",
+      "before-context-use",
+      "before-context-use-when-helpful",
+      "before-target-question-when-helpful"
+    ].includes(timing);
+  }
+
+
+  function readyEducatorPromptIsTargetDemand(step) {
+    return readyEducatorPromptTiming(step) === "target-demand";
+  }
+
+
+  function readyEducatorPromptLabel(label) {
+    const value = String(label || "Prompt").trim();
+
+    if (value === "Retry") return "Then";
+    if (value === "Teach/review") return "Review";
+    if (value === "Optional model/context") return "Optional context";
+    if (value === "If sentence generation is the barrier, give") {
+      return "If sentence generation is the barrier";
+    }
+    return value;
+  }
+
+
+  function readyEducatorPromptParagraphs(steps) {
+    return (steps || [])
+      .map(
+        step => `
+          <p>
+            <strong>${esc(readyEducatorPromptLabel(step?.label))}:</strong>
+            ${esc(step?.text || "")}
+          </p>
+        `
+      )
+      .join("");
+  }
+
+
+  function readyTaskPreResponsePrompts(
+    task,
+    activity = null
+  ) {
+    const access =
+      readyTaskTeachingAccess(task);
+
+    const resolvedActivity =
+      activity ||
+      readyActivity(task);
+
+    return access.educatorPrompts
+      .filter(
+        step => {
+          if (readyEducatorPromptIsPreTask(step)) {
+            return true;
+          }
+
+          /*
+            Build Words may provide an unfamiliar NON-TARGET piece meaning as
+            access information while the student is working. That is not a
+            "failed independent attempt" cue because the non-target meaning is
+            not the instructional demand.
+          */
+          if (
+            resolvedActivity === "build" &&
+            readyEducatorPromptTiming(step) ===
+              "when-non-target-piece-blocks-build"
+          ) {
+            return true;
+          }
+
+          return false;
+        }
+      );
+  }
+
+
+  function readyPreResponseAccessMarkup(
+    task,
+    activity = null
+  ) {
+    const resolvedActivity =
+      activity ||
+      readyActivity(task);
+
+    const prompts =
+      readyTaskPreResponsePrompts(
+        task,
+        resolvedActivity
+      );
+
+    if (!prompts.length) {
+      return "";
+    }
+
+    const heading =
+      resolvedActivity === "build"
+        ? "Access information you may give without answering the target"
+        : "Before the student responds";
+
+    return `
+      <div class="ready-pre-response-access">
+        <p>
+          <strong>${esc(heading)}</strong>
+        </p>
+        ${readyEducatorPromptParagraphs(prompts)}
+      </div>
+    `;
+  }
+
+
+  function readyItemReviewItems(task) {
+    const activity =
+      readyActivity(task);
+
+    const recipe =
+      task?.recipe ||
+      task ||
+      {};
+
+    const word =
+      readyWord(task);
+
+    const targetLabel =
+      readyTargetLabel() ||
+      recipe.targetLabel ||
+      "the target word part";
+
+    const targetMeaning =
+      readyTargetMeaning() ||
+      recipe.meaning ||
+      null;
+
+    const definition =
+      recipe.studentFriendlyDefinition ||
+      recipe.definition ||
+      null;
+
+    const literal =
+      recipe.literalMeaning ||
+      recipe.literal ||
+      null;
+
+    const segmentation =
+      recipe.segmentation ||
+      null;
+
+    const items = [];
+    const add = (label, text) => {
+      const clean = String(text || "").trim();
+      if (!clean) return;
+      items.push({ label, text: clean });
+    };
+
+    switch (activity) {
+      case "learn":
+        if (targetMeaning) {
+          add(
+            "Listen for",
+            `The student connects ${targetLabel} with “${targetMeaning}” and explains how that meaning shows up in ${word || "the example word"}.`
+          );
+        }
+        if (definition) {
+          add(
+            "Whole-word meaning",
+            `${word} means ${definition}.`
+          );
+        }
+        break;
+
+      case "find":
+        add(
+          "Answer",
+          `${targetLabel} is the target meaningful part in ${word || "this word"}.`
+        );
+        if (targetMeaning) {
+          add(
+            "Listen for",
+            `The student explains that ${targetLabel} contributes the idea “${targetMeaning}.”`
+          );
+        }
+        break;
+
+      case "hunt":
+        add(
+          "Accept",
+          `Only real words that genuinely contain ${targetLabel} with the target meaning/sense.`
+        );
+        break;
+
+      case "meaning":
+        if (targetMeaning) {
+          add(
+            "Answer",
+            `${targetLabel} = ${targetMeaning}.`
+          );
+        }
+        break;
+
+      case "morpheme":
+        add(
+          "Answer",
+          `${targetLabel}${targetMeaning ? ` carries the idea “${targetMeaning}”` : " is the target word part"}.`
+        );
+        if (definition && word) {
+          add(
+            "Whole-word meaning",
+            `${word} means ${definition}.`
+          );
+        }
+        break;
+
+      case "break":
+        if (segmentation) {
+          add(
+            "Expected analysis",
+            `${word}: ${segmentation}.`
+          );
+        } else {
+          add(
+            "Listen for",
+            `Defensible meaningful parts and a correct explanation of what ${targetLabel} contributes.`
+          );
+        }
+        break;
+
+      case "infer":
+        if (definition) {
+          add(
+            "Expected whole-word meaning",
+            `${word} means ${definition}.`
+          );
+        } else {
+          add(
+            "Accept",
+            `A reasonable context-supported whole-word meaning that uses the known meaning of ${targetLabel}.`
+          );
+        }
+        if (targetMeaning) {
+          add(
+            "Morphology",
+            `${targetLabel} = ${targetMeaning}.`
+          );
+        }
+        break;
+
+      case "build":
+        if (word) {
+          add(
+            "Expected word",
+            `${word}${segmentation ? ` (${segmentation})` : ""}.`
+          );
+        }
+        if (targetMeaning) {
+          add(
+            "Morphology",
+            `${targetLabel} = ${targetMeaning}.`
+          );
+        }
+        break;
+
+      case "use":
+        if (definition && word) {
+          add(
+            "Accept",
+            `Any sentence that clearly shows ${word} means ${definition}.`
+          );
+        } else if (word) {
+          add(
+            "Accept",
+            `Any appropriate sentence that makes the meaning of ${word} clear.`
+          );
+        }
+        if (targetMeaning) {
+          add(
+            "Morphology",
+            `The student explains that ${targetLabel} means ${targetMeaning} and contributes that meaning to ${word || "the word"}.`
+          );
+        }
+        break;
+
+      case "change": {
+        const change =
+          recipe.changeTask ||
+          null;
+
+        if (change?.expectedWord) {
+          add(
+            "Answer",
+            change.expectedWord
+          );
+        } else if (recipe.answer) {
+          add(
+            "Answer",
+            recipe.answer
+          );
+        }
+        if (change?.changeExplanation) {
+          add(
+            "Listen for",
+            change.changeExplanation
+          );
+        } else {
+          add(
+            "Listen for",
+            `The selected form fits the context and the student explains the morphological change.`
+          );
+        }
+        break;
+      }
+
+      default:
+        if (recipe.answer || task?.answer) {
+          add(
+            "Answer",
+            recipe.answer || task.answer
+          );
+        }
+        break;
+    }
+
+    if (literal) {
+      add(
+        "Literal morphology",
+        literal
+      );
+    }
+
+    if (definition && ![
+      "learn",
+      "morpheme",
+      "infer",
+      "use"
+    ].includes(activity)) {
+      add(
+        "Student-friendly meaning",
+        definition
+      );
+    }
+
+    return items;
+  }
+
+
+  function readyItemReviewMarkup(task) {
+    const items =
+      readyItemReviewItems(task);
+
+    if (!items.length) {
+      return "";
+    }
+
+    return `
+      <details class="ready-item-review">
+        <summary>What to listen for</summary>
+        <div class="ready-item-review-body">
+          ${items
+            .map(
+              item => `
+                <p>
+                  <strong>${esc(item.label)}:</strong>
+                  ${esc(item.text)}
+                </p>
+              `
+            )
+            .join("")}
+        </div>
+      </details>
+    `;
+  }
+
+
+  function readyItemReviewPlainText(task) {
+    return readyItemReviewItems(task)
+      .map(
+        item => `${item.label}: ${item.text}`
+      )
+      .join(" ");
+  }
+
+
+  function readyPartAInstructionNote(
+    task,
+    { number = null, total = null } = {}
+  ) {
+    const activity =
+      readyActivity(task);
+
+    const prefix =
+      number && total && total > 1
+        ? `Practice item ${number} of ${total}. `
+        : "";
+
+    const notes = {
+      learn:
+        "Teach with the target meaning and example shown below, then ask the student to explain the connection.",
+      find:
+        "Give the whole-word meaning when it helps the student access the word. The independent work is finding the target and explaining its contribution.",
+      hunt:
+        "Let the student identify words that genuinely contain the target. Add support only if target recognition or word retrieval becomes the barrier.",
+      meaning:
+        "Begin with independent retrieval of the target meaning. Open support only after that attempt.",
+      morpheme:
+        "Give the whole-word context and any listed non-target information before the target question. The student independently identifies the target word part.",
+      break:
+        "Begin with the student's independent morphology analysis. Open support only after that attempt.",
+      infer:
+        "Read the context, then let the student infer the whole-word meaning from morphology. Do not give the whole-word meaning before the first inference attempt.",
+      build:
+        "Present the build goal and tiles. You may give listed non-target piece meanings if they are needed; keep the target meaning as the student's reasoning job.",
+      use:
+        "Give the whole-word meaning shown below before asking for the sentence. The independent work is using the word meaningfully and explaining the target word part.",
+      change:
+        "Give the context and whole-word meaning needed to understand the transformation. The student independently supplies the form the context requires and explains the change."
+    };
+
+    return prefix + (
+      notes[activity] ||
+      "Present the task, preserve the activity's target demand, and add only the access information that does not answer that demand."
+    );
   }
 
 
@@ -5379,24 +5951,78 @@ function ensureReadyMaterialContainer() {
 
     if (
       !access.definition &&
+      !access.literalMeaning &&
       !access.semanticBridge &&
-      !access.clozeSupport
+      !access.clozeSupport &&
+      !access.educatorPrompts.length
     ) {
       return "";
     }
 
+    const preResponsePrompts =
+      readyTaskPreResponsePrompts(
+        task,
+        activity
+      );
+
+    const preResponseSet =
+      new Set(preResponsePrompts);
+
+    const supportPrompts =
+      access.educatorPrompts
+        .filter(
+          step =>
+            !preResponseSet.has(step) &&
+            !readyEducatorPromptIsTargetDemand(step) &&
+            String(step?.label || "").trim() !== "Expected"
+        );
+
+    if (access.educatorPrompts.length) {
+      return `
+        <div class="ready-teaching-access ready-generated-educator-prompts">
+          ${
+            supportPrompts.length
+              ? `
+                <p>
+                  <strong>Teacher support</strong>
+                </p>
+                ${readyEducatorPromptParagraphs(supportPrompts)}
+              `
+              : ""
+          }
+
+          ${
+            access.literalMeaning
+              ? `
+                <p class="ready-teaching-key-line">
+                  <strong>Literal meaning from the parts:</strong>
+                  ${esc(access.literalMeaning)}
+                </p>
+              `
+              : ""
+          }
+
+          ${
+            access.definition
+              ? `
+                <p class="ready-teaching-key-line">
+                  <strong>Student-friendly meaning:</strong>
+                  ${esc(access.definition)}
+                </p>
+              `
+              : ""
+          }
+        </div>
+      `;
+    }
+
     return `
       <div class="ready-teaching-access">
-        <p>
-          <strong>Teaching access for this item:</strong>
-          Use only what addresses the barrier, then return to the same target demand.
-        </p>
-
         ${
           access.definition
             ? `
               <p>
-                <strong>Student-friendly whole-word meaning:</strong>
+                <strong>Student-friendly meaning:</strong>
                 ${esc(access.definition)}
               </p>
             `
@@ -5404,11 +6030,11 @@ function ensureReadyMaterialContainer() {
         }
 
         ${
-          access.semanticBridge
+          access.literalMeaning
             ? `
               <p>
-                <strong>Morphology-to-meaning bridge:</strong>
-                ${esc(access.semanticBridge)}
+                <strong>Literal meaning from the parts:</strong>
+                ${esc(access.literalMeaning)}
               </p>
             `
             : ""
@@ -5418,11 +6044,8 @@ function ensureReadyMaterialContainer() {
           access.clozeSupport
             ? `
               <p>
-                <strong>Cloze / sentence support if language generation is the barrier:</strong>
+                <strong>If sentence generation is the barrier:</strong>
                 ${esc(access.clozeSupport)}
-              </p>
-              <p class="ready-small-note">
-                Use the cloze only when it reduces an incidental language burden; it must not answer the morphology target.
               </p>
             `
             : ""
@@ -5432,7 +6055,7 @@ function ensureReadyMaterialContainer() {
           activity === "infer"
             ? `
               <p class="ready-small-note">
-                Context may confirm or refine a morphology-based hypothesis; do not let context guessing replace the word-part reasoning.
+                Ask the student to use the word part first, then use the sentence to check or refine the idea.
               </p>
             `
             : ""
@@ -6565,8 +7188,9 @@ function ensureReadyMaterialContainer() {
       </div>
 
       <details class="ready-support-panel">
+
         <summary>
-          Educator key
+          Answer
         </summary>
 
         <div class="ready-support-panel-body">
@@ -7688,6 +8312,8 @@ function ensureReadyMaterialContainer() {
           </p>
         </div>
 
+        ${readyPreResponseAccessMarkup(task, "build")}
+        ${readyItemReviewMarkup(task)}
         ${readySupportDetailsMarkup()}
       `;
 
@@ -7732,6 +8358,36 @@ function ensureReadyMaterialContainer() {
       container,
       task
     );
+
+    const reviewMarkup =
+      readyItemReviewMarkup(task);
+
+    if (reviewMarkup) {
+      const wrapper =
+        document.createElement("div");
+
+      wrapper.innerHTML =
+        reviewMarkup;
+
+      const review =
+        wrapper.firstElementChild;
+
+      const support =
+        container.querySelector(
+          ":scope > .ready-support-panel, :scope > .ready-practice-support"
+        );
+
+      if (support) {
+        container.insertBefore(
+          review,
+          support
+        );
+      } else {
+        container.appendChild(
+          review
+        );
+      }
+    }
 
     readyRenderPracticeSet();
   }
@@ -8467,7 +9123,8 @@ function ensureReadyMaterialContainer() {
               ? `
                 <details>
                   <summary>
-                    Educator key after the attempt
+
+                    Review after the attempt
                   </summary>
 
                   <p>
@@ -10200,12 +10857,11 @@ function ensureReadyMaterialContainer() {
       supportBody.innerHTML = `
         <div class="print-ready-support-warning">
           <strong>
-            Educator support — do not show before the independent attempt.
+            Educator support
           </strong>
 
           <p>
-            First use the familiar First Volo visual tile.
-            Reveal the meaning only if the student still needs more support.
+            Use the item-specific prompts below. When a whole-word meaning or non-target word part is incidental to the lesson, First Volo may provide it so the student can focus on the target. Check Transfer still begins with an unsupported whole-word inference attempt.
           </p>
         </div>
 
@@ -10245,7 +10901,7 @@ function ensureReadyMaterialContainer() {
                 </h2>
 
                 <p>
-                  These are educator-only supports. Use them after the student's attempt, choose only what addresses the barrier, then retry the same target demand.
+                  These are educator-only teaching prompts for the actual words in this session.
                 </p>
 
                 ${teachingKeys
@@ -10273,7 +10929,8 @@ function ensureReadyMaterialContainer() {
             ? `
               <section class="print-ready-key-section">
                 <h2>
-                  Break It Apart educator key
+
+                  Break It Apart answers
                 </h2>
 
                 ${breakKeys
@@ -11179,8 +11836,7 @@ function ensureReadyMaterialContainer() {
 
           <div class="ready-support-panel-body">
             <p class="ready-support-sequence">
-              Identify what went wrong in the build before cueing.
-              Keep the intended meaning visible and change only the support needed for that barrier.
+              Watch the student's first build. Give only the help needed for the specific problem, then let the student try the same build again.
             </p>
 
             ${approvedNonTarget}
@@ -11189,7 +11845,7 @@ function ensureReadyMaterialContainer() {
             <div class="ready-demand-support-list">
               <p>
                 <strong>If the student chooses the wrong word part:</strong>
-                ask which available part carries the needed meaning.
+                ask, “Which available part carries the meaning we need?”
                 ${
                   meaning
                     ? `For the current target, the relevant meaning is ${esc(meaning)}.`
@@ -11199,9 +11855,8 @@ function ensureReadyMaterialContainer() {
               </p>
 
               <p>
-                <strong>If the student has the right parts but puts them in the wrong place:</strong>
-                ask which part is acting as the prefix, root/base, or suffix and where that role belongs.
-                Then retry the same build without arranging the pieces for the student.
+                <strong>If the parts are right but the order is not:</strong>
+                ask which part is the prefix, root/base, or suffix and where that kind of part belongs. Then let the student rearrange the build.
               </p>
 
               <p>
@@ -11211,15 +11866,13 @@ function ensureReadyMaterialContainer() {
               </p>
 
               <p>
-                <strong>If the student builds the word but cannot explain it:</strong>
-                ask what each part contributes to the whole-word meaning.
-                The explanation support should not change whether the first build was independent.
+                <strong>If the word is built correctly but the explanation is unclear:</strong>
+                ask, “What does each meaningful part add to the word?”
               </p>
 
               <p>
                 <strong>If the student is still blocked:</strong>
-                model how to complete a different build using parts not in this item,
-                then return to the current demand for another attempt.
+                model one different build, then return to this item and let the student try again.
               </p>
             </div>
           </div>
@@ -11257,7 +11910,7 @@ function ensureReadyMaterialContainer() {
         task
       );
 
-    const teachingAccess =
+    const postCueTeachingAccess =
       readyTaskTeachingAccessMarkup(
         task,
         activity
@@ -11278,7 +11931,6 @@ function ensureReadyMaterialContainer() {
 
           <div class="ready-support-panel-body">
             ${approvedNonTarget}
-            ${teachingAccess}
 
             ${
               firstCue
@@ -11308,6 +11960,22 @@ function ensureReadyMaterialContainer() {
                 }
               )}
             </details>
+
+            ${
+              postCueTeachingAccess
+                ? `
+                  <details class="ready-teaching-after-cues">
+                    <summary>
+                      Add item-specific teaching only if the student is still blocked
+                    </summary>
+
+                    <div class="ready-support-panel-body">
+                      ${postCueTeachingAccess}
+                    </div>
+                  </details>
+                `
+                : ""
+            }
           </div>
         </details>
       `;
@@ -11321,7 +11989,6 @@ function ensureReadyMaterialContainer() {
 
         <div class="ready-support-panel-body">
           ${approvedNonTarget}
-          ${teachingAccess}
 
           <p class="ready-support-sequence">
             First show the familiar First Volo visual cue.
@@ -11346,6 +12013,22 @@ function ensureReadyMaterialContainer() {
                   <p>
                     ${esc(meaning)}
                   </p>
+                </details>
+              `
+              : ""
+          }
+
+          ${
+            postCueTeachingAccess
+              ? `
+                <details class="ready-teaching-after-cues">
+                  <summary>
+                    Add item-specific teaching only if the student is still blocked
+                  </summary>
+
+                  <div class="ready-support-panel-body">
+                    ${postCueTeachingAccess}
+                  </div>
                 </details>
               `
               : ""
@@ -11524,17 +12207,15 @@ function ensureReadyMaterialContainer() {
           )
         : null;
 
-    const prompt =
-      String(
-        wordPartSpec
-          ?.teacherDirection ||
-        task?.teacherDirection ||
-        task?.recipe
-          ?.teacherDirection ||
-        task?.prompt ||
-        ""
-      )
-        .trim();
+    const access =
+      readyTaskTeachingAccess(task);
+
+    const preTaskPrompts =
+      access.educatorPrompts
+        .filter(
+          step =>
+            readyEducatorPromptIsPreTask(step)
+        );
 
     const followUp =
       String(
@@ -11543,6 +12224,37 @@ function ensureReadyMaterialContainer() {
       )
         .trim();
 
+    let body = "";
+
+    if (preTaskPrompts.length) {
+      body =
+        readyEducatorPromptParagraphs(
+          preTaskPrompts
+        );
+    } else if (wordPartSpec?.teacherDirection) {
+      body = `
+        <p>
+          ${esc(wordPartSpec.teacherDirection)}
+        </p>
+      `;
+    } else {
+      const activity =
+        readyActivity(task);
+
+      const naturalFallback =
+        activity === "build"
+          ? "Present the build goal and word-part tiles below. Let the student try the build before opening support."
+          : activity === "infer"
+            ? "Read the context and ask the inference question below. Keep the first attempt focused on the student's morphology reasoning."
+            : "Present the student task below. Open support only if the student needs help with the target demand.";
+
+      body = `
+        <p>
+          ${esc(naturalFallback)}
+        </p>
+      `;
+    }
+
     return `
       <details class="ready-teacher-directions">
         <summary>
@@ -11550,14 +12262,7 @@ function ensureReadyMaterialContainer() {
         </summary>
 
         <div class="ready-teacher-directions-body">
-          <p>
-            ${
-              esc(
-                prompt ||
-                "Present the student activity. Let the student try first, then open support only if needed."
-              )
-            }
-          </p>
+          ${body}
 
           ${
             followUp
@@ -11571,6 +12276,47 @@ function ensureReadyMaterialContainer() {
         </div>
       </details>
     `;
+  }
+
+
+  function readyRenderPreResponseAccess(task) {
+    const taskPrompt =
+      byId("taskPrompt");
+
+    const currentTask =
+      taskPrompt?.closest(
+        ".session-current-task"
+      );
+
+    if (!currentTask || !taskPrompt) {
+      return;
+    }
+
+    currentTask
+      .querySelector(
+        ".ready-pre-response-access"
+      )
+      ?.remove();
+
+    const markup =
+      readyPreResponseAccessMarkup(
+        task,
+        readyActivity(task)
+      );
+
+    if (!markup) {
+      return;
+    }
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.innerHTML = markup;
+
+    currentTask.insertBefore(
+      wrapper.firstElementChild,
+      taskPrompt
+    );
   }
 
 
@@ -11747,14 +12493,24 @@ function ensureReadyMaterialContainer() {
         ".session-step-note"
       );
 
+    const firstPracticeTask =
+      state.tasks
+        ?.find(
+          item =>
+            item?.stage !== "Apply"
+        ) ||
+      task;
+
     if (step2Note) {
       step2Note.textContent =
-        "Try this skill with the first item. Let the student respond before opening support.";
+        readyPartAInstructionNote(
+          firstPracticeTask
+        );
     }
 
     if (step3Note) {
       step3Note.textContent =
-        "Try the same skill with a new example.";
+        "Use the same activity-specific access rules with the fresh example; keep the student's actual target demand independent.";
     }
 
     const step2Guidance =
@@ -13656,11 +14412,13 @@ function ensureReadyMaterialContainer() {
 
     if (
       step2Note &&
-      number &&
-      total > 1
+      number
     ) {
       step2Note.textContent =
-        `Practice item ${number} of ${total}. Let the student respond before opening support.`;
+        readyPartAInstructionNote(
+          task,
+          { number, total }
+        );
     }
 
     if (!next) {
@@ -14757,12 +15515,12 @@ function ensureReadyMaterialContainer() {
 
     readyV13ReplaceTextEverywhere(
       "Begin each new demand with an independent attempt. If a barrier appears, use the least support needed, retry the same demand, then fade support.",
-      "Begin each task with an independent attempt. If the student needs help, provide the least support needed, retry the same task, then reduce support when possible."
+      "Keep the activity's target demand independent. Give legitimate access information at the activity-specific time shown; if the target demand still needs support, use the least help needed, retry, then reduce support when possible."
     );
 
     readyV13ReplaceTextEverywhere(
       "Begin each new demand with the student's independent attempt. Open support only if a barrier appears.",
-      "Begin each task with the student's independent attempt. Provide the least support needed only if help is needed, retry the same task, then reduce support when possible."
+      "Keep the student's target reasoning independent. Give whole-word meaning, context, or non-target information when the activity allows it; if the target demand needs help, add the least support needed, retry, then reduce support when possible."
     );
   }
 
@@ -15314,6 +16072,10 @@ function ensureReadyMaterialContainer() {
       task
     );
 
+    readyRenderPreResponseAccess(
+      task
+    );
+
     byId(
       "previousTaskButton"
     ).disabled =
@@ -15424,8 +16186,9 @@ function ensureReadyMaterialContainer() {
       feedback.className =
         "session-build-feedback";
 
+
       feedback.textContent =
-        "Response recorded for educator review. Use the educator key; do not force boundaries that are not approved.";
+        "Response recorded for educator review. Use only the approved meaningful-part analysis; do not force unvalidated boundaries.";
 
       return;
     }
@@ -15566,6 +16329,34 @@ function ensureReadyMaterialContainer() {
       }
 
       .today-session-overview li {
+        margin: 7px 0;
+      }
+
+      .ready-pre-response-access {
+        background: #f7fbff;
+        border: 1px solid #d6e6f3;
+        border-radius: 14px;
+        margin: 12px 0;
+        padding: 12px 14px;
+      }
+
+      .ready-pre-response-access p {
+        margin: 6px 0;
+      }
+
+      .ready-item-review {
+        border-top: 1px solid #dce5ec;
+        margin-top: 14px;
+        padding-top: 8px;
+      }
+
+      .ready-item-review > summary {
+        cursor: pointer;
+        font-weight: 800;
+        padding: 8px 0;
+      }
+
+      .ready-item-review-body p {
         margin: 7px 0;
       }
 
@@ -15870,7 +16661,7 @@ function ensureReadyMaterialContainer() {
     }
 
     feedback.textContent =
-      "Response ready for educator review. Open the educator key above to compare.";
+      "Response recorded. Use the item-specific review criteria with this task.";
   }
 
 
@@ -16294,7 +17085,7 @@ function ensureReadyMaterialContainer() {
       </p>
 
       <p>
-        Begin each new demand with the student's independent attempt. Open support only if a barrier appears.
+        Keep the student's target reasoning independent. Give legitimate access information at the activity-specific time shown; if the target demand needs help, add the least support needed, retry, then reduce support when possible.
       </p>
 
       <ol>
@@ -16609,9 +17400,12 @@ function ensureReadyMaterialContainer() {
       );
 
     if (legacyActivityResponse) {
-      legacyActivityResponse.hidden =
-        isWordPart ||
-        breakUnavailable;
+      /*
+        Ready-to-use activity surfaces already contain the response fields.
+        Keeping this generic response box created a second response area and
+        the generic "Review ... / open educator key" workflow.
+      */
+      legacyActivityResponse.hidden = true;
     }
   }
   function configurePrintActivityMaterial() {
@@ -17011,7 +17805,8 @@ function ensureReadyMaterialContainer() {
     }
   }
   function readyTransferNonTargetSupportMarkup(
-    item
+    item,
+    target = null
   ) {
     const supports =
       Array.isArray(
@@ -17032,18 +17827,32 @@ function ensureReadyMaterialContainer() {
       return "";
     }
 
+    const targetLabel =
+      target?.label ||
+      "the known target word part";
+
     return `
       <div class="ready-approved-non-target-support">
-        <strong>
-          If a non-target word part is the barrier, you may supply:
-        </strong>
+        <p>
+          <strong>After the protected first whole-word attempt, if the non-target part is the barrier:</strong>
+        </p>
         ${supports
           .map(
-            support =>
-              `${esc(support.part)} = ${esc(support.meaning || support.function)}`
+            support => `
+              <p>
+                <strong>Say:</strong>
+                “${esc(support.part)} means ${esc(support.meaning || support.function)}.”
+              </p>
+            `
           )
-          .join("; ")}.
-        Keep the target meaning as the student's job, then retry the whole-word inference.
+          .join("")}
+        <p>
+          <strong>Ask:</strong>
+          “What does ${esc(targetLabel)} tell you? Put those ideas together. What could ${esc(item?.word || "the word")} mean in this sentence?”
+        </p>
+        <p class="ready-small-note">
+          Do not supply the target meaning before the student does the target reasoning. Retry the whole-word inference after this support.
+        </p>
       </div>
     `;
   }
@@ -17145,10 +17954,40 @@ function ensureReadyMaterialContainer() {
                       First ask: <strong>What part do you recognize?</strong>
                     </p>
 
-                    ${readyTransferNonTargetSupportMarkup(item)}
+                    ${readyTransferNonTargetSupportMarkup(item, target)}
 
                     <p>
                       Then ask the student to put the known target meaning together with the supplied non-target information and retry the whole-word meaning.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="ready-transfer-key">
+                  <summary>
+
+                    Review after the attempt
+                  </summary>
+
+                  <div class="ready-support-panel-body">
+                    <p>
+                      <strong>Known target:</strong>
+                      ${esc(target?.label || "word part")}${target?.meaning ? ` = ${esc(target.meaning)}` : ""}
+                    </p>
+
+                    ${
+                      item.literalMeaning
+                        ? `
+                          <p>
+                            <strong>Literal meaning from the parts:</strong>
+                            ${esc(item.literalMeaning)}
+                          </p>
+                        `
+                        : ""
+                    }
+
+                    <p>
+                      <strong>Student-friendly meaning:</strong>
+                      ${esc(item.studentFriendlyMeaning || item.expectedMeaning || "Use a reasonable context-supported meaning.")}
                     </p>
                   </div>
                 </details>
@@ -17264,11 +18103,11 @@ function ensureReadyMaterialContainer() {
                     ${esc(prompt)}
                     ${
                       !wordPartSpec &&
-                      task.answer
+                      readyItemReviewPlainText(task)
                         ? `
                           <div class="print-small-note">
-                            <strong>Educator key:</strong>
-                            ${esc(task.answer)}
+                            <strong>What to listen for:</strong>
+                            ${esc(readyItemReviewPlainText(task))}
                           </div>
                         `
                         : ""
@@ -17308,24 +18147,18 @@ function ensureReadyMaterialContainer() {
               : ""
           }
 
-          <p class="print-small-note">
-            <strong>
-              Educator key:
-            </strong>
-            ${esc(
-              applyTask?.answer ||
-              applyTask
-                ?.recipe
-                ?.educatorKey ||
-              readyExpectedWordSum(
-                applyTask
-              ) ||
-              applyTask
-                ?.recipe
-                ?.word ||
-              ""
-            )}
-          </p>
+          ${
+            readyItemReviewPlainText(applyTask)
+              ? `
+                <p class="print-small-note">
+                  <strong>
+                    What to listen for:
+                  </strong>
+                  ${esc(readyItemReviewPlainText(applyTask))}
+                </p>
+              `
+              : ""
+          }
         `
         : `
           <p>
@@ -17353,9 +18186,7 @@ function ensureReadyMaterialContainer() {
           ).join("")
         : `
           <li>
-            Begin without added morphology support.
-            Add support only after a specific barrier
-            appears.
+            Follow the activity-specific access timing. Give incidental whole-word, context, or non-target information when allowed; protect the target reasoning and add target support only when needed.
           </li>
         `;
 
@@ -17418,7 +18249,8 @@ function ensureReadyMaterialContainer() {
     if (printDirections) {
       printDirections.textContent =
         printPromptMode
-          ? "Present each prompt without revealing the educator key. Add the least support only after the student's first attempt."
+
+          ? readyPartAInstructionNote(state.tasks?.[0] || null)
           : "Place the cards in the matching slots. Read the word sum. Explain what the meaningful parts contribute.";
     }
 
@@ -17515,7 +18347,8 @@ function ensureReadyMaterialContainer() {
                       safeAnswer
                         ? `
                           <span class="print-small-note">
-                            <strong>Educator key:</strong>
+
+                            <strong>Answer / review:</strong>
                             ${esc(safeAnswer)}
                           </span>
                         `

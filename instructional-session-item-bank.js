@@ -572,6 +572,68 @@
   }
 
 
+  function segmentationPieceValidation(
+    entry,
+    target = null,
+    meta = null
+  ) {
+    const selector =
+      window
+        .FirstVoloInstructionalWordSelector;
+
+    if (
+      selector
+        ?.segmentationPieceValidation
+    ) {
+      return selector
+        .segmentationPieceValidation(
+          entry,
+          target,
+          meta
+        );
+    }
+
+    return {
+      valid:
+        !String(
+          entry?.segmentation ||
+          ""
+        ).trim(),
+      parts: [],
+      unsafeParts: []
+    };
+  }
+
+
+  function instructionalSegmentation(
+    entry,
+    target = null,
+    meta = null
+  ) {
+    if (!entry) {
+      return null;
+    }
+
+    const raw =
+      String(
+        entry.segmentation ||
+        ""
+      ).trim();
+
+    if (!raw) {
+      return null;
+    }
+
+    return segmentationPieceValidation(
+      entry,
+      target,
+      meta
+    ).valid
+      ? raw
+      : null;
+  }
+
+
   function nonTargetSupports(
     entry,
     target = null
@@ -816,9 +878,20 @@
       meta?.meaning ||
       null;
 
+    const safeSegmentation =
+      instructionalSegmentation(
+        entry,
+        target,
+        meta
+      );
+
     const literal =
-      entry.literal ||
-      null;
+      safeSegmentation
+        ? (
+            entry.literal ||
+            null
+          )
+        : null;
 
     const definition =
       studentFriendlyDefinition(
@@ -867,9 +940,49 @@
       );
     }
 
+    const bridgeQuality =
+      String(
+        entry?.semanticBridgeQuality ||
+        ""
+      ).trim().toLowerCase();
+
+    const bridgeCaution =
+      String(
+        entry?.reviewCaution ||
+        ""
+      );
+
+    const bridgeAllowed =
+      bridgeQuality !== "avoid" &&
+      !/avoid|opaque|layered|not fully taught|recognition rather than|historical|etymolog|do not simplify/i.test(
+        bridgeCaution
+      );
+
+    /*
+      Fail closed for literal/compositional teaching bridges. A stored literal
+      gloss is not automatically safe to show merely because the segmentation
+      reconstructs. If the word's own review caution says the relationship is
+      layered, opaque, historical, recognition-only, or otherwise unsuitable
+      as a bridge, suppress the literal gloss itself as well as the composed
+      semanticBridge. This keeps the same gate authoritative for every
+      activity and renderer.
+    */
+    const exposedLiteral =
+      bridgeAllowed
+        ? literal
+        : null;
+
     let semanticBridge = null;
 
-    if (literal) {
+    /*
+      A decomposition may be linguistically accurate without being a useful
+      student-facing explanation of the modern word. First Volo therefore
+      surfaces a compositional bridge only when an explicit literal gloss has
+      been validated and the item is not marked as a poor semantic bridge.
+      It never labels leftover letters as a base or invents a literal gloss
+      from historical pieces merely because segmentation exists.
+    */
+    if (exposedLiteral) {
       const lead =
         bridgeParts.length
           ? `${bridgeParts.join("; ")}. `
@@ -877,109 +990,26 @@
 
       const wholeWord =
         definition
-          ? ` This helps explain ${entry.word}: ${definition}.`
+          ? ` Modern/student-friendly meaning: ${definition}.`
           : "";
 
       semanticBridge =
-        `${lead}Put the meaningful parts together: “${literal}.”${wholeWord}`;
-    }
-
-    /* FIRST_VOLO_SYSTEM_GENERATED_SEMANTIC_BRIDGE_V1
-       A stored literal gloss is helpful but not required. When a word has an
-       explicit validated segmentation, First Volo can generate the teaching
-       bridge from the known target, validated non-target morphemes, and an
-       ordinary lexical base. This is intentionally NOT a guessed etymology:
-       no segmentation -> no generated decomposition.
-    */
-    if (!semanticBridge) {
-      const parts =
-        firstSegmentationParts(
-          entry
-        );
-
-      if (parts.length >= 2) {
-        const targetSet =
-          new Set(
-            targetVariants(
-              target,
-              meta
-            )
-          );
-
-        const descriptions =
-          parts.map(
-            part => {
-              const partForms =
-                variants(part);
-
-              const isTarget =
-                partForms.some(
-                  form =>
-                    targetSet.has(
-                      form
-                    )
-                );
-
-              if (
-                isTarget &&
-                targetSense
-              ) {
-                return `${part} = ${targetSense}`;
-              }
-
-              const supplied =
-                supports.find(
-                  support =>
-                    variants(
-                      support.part
-                    ).some(
-                      form =>
-                        partForms.includes(
-                          form
-                        )
-                    )
-                );
-
-              if (supplied) {
-                return `${part} = ${supplied.meaning}`;
-              }
-
-              const partMeta =
-                morphemeInventory()
-                  .find(
-                    item =>
-                      variants(
-                        item?.label
-                      ).some(
-                        form =>
-                          partForms.includes(
-                            form
-                          )
-                      )
-                  );
-
-              if (partMeta?.meaning) {
-                return (
-                  `${part} = ${preferredSupportSense(partMeta.meaning)}`
-                );
-              }
-
-              return `base word “${part}”`;
-            }
-          );
-
-        semanticBridge =
-          `Use the validated parts: ${descriptions.join("; ")}. ` +
-          `Have the student put the parts together and connect them to the meaning of ${entry.word}.`;
-      }
+        `${lead}Literal meaning: “${exposedLiteral}.”${wholeWord}`;
     }
 
     return {
       word: entry.word,
       studentFriendlyDefinition:
         definition,
-      literal,
+      literal:
+        exposedLiteral,
+      literalMeaning:
+        exposedLiteral,
+      segmentation:
+        safeSegmentation,
       semanticBridge,
+      semanticBridgeQuality:
+        bridgeQuality || null,
       contextSentence:
         context.sentence,
       clozeSupport:
@@ -994,13 +1024,305 @@
         ),
       rules: {
         definitionUse:
-          "Use the student-friendly whole-word meaning as access information after the student's attempt; do not stop there when a morphological bridge is available.",
+          "Use the student-friendly whole-word meaning at the activity-specific access time. In Learn, Word Part, Use It, and context-driven Change It, whole-word meaning may be given before the target response because vocabulary knowledge is incidental. In Meaning, Figure It Out, Break It Apart, and Check Transfer, preserve the independent target demand before revealing information that would answer it.",
         contextUse:
-          "Use context when it helps connect the morphology to the whole word; do not let context replace the morphology reasoning.",
+          "Use context at the activity-specific time. Context may establish access before the target question when it does not answer the morphology reasoning; in Figure It Out and Check Transfer, context supports inference but the whole-word meaning remains withheld for the protected first attempt.",
         clozeUse:
           "Use the cloze only when sentence generation or word retrieval is the incidental barrier and the cloze does not answer the morphology target."
       }
     };
+  }
+
+
+  function changeTaskDetails(entry) {
+    const task = entry?.changeTask;
+
+    if (
+      !task ||
+      typeof task !== "object" ||
+      !String(task.expectedWord || "").trim() ||
+      !String(task.prompt || "").trim()
+    ) {
+      return null;
+    }
+
+    return {
+      expectedWord: String(task.expectedWord).trim(),
+      prompt: String(task.prompt).trim(),
+      contextSentence: String(task.contextSentence || "").trim() || null,
+      expectedMeaning: String(task.expectedMeaning || "").trim() || null,
+      changeExplanation: String(task.changeExplanation || "").trim() || null
+    };
+  }
+
+  function educatorPromptSteps(
+    activity,
+    target,
+    meta,
+    entry,
+    { stage = "guided" } = {}
+  ) {
+    if (!entry?.word) return [];
+
+    const label =
+      target?.label ||
+      meta?.label ||
+      "the target word part";
+
+    const meaning =
+      target?.meaning ||
+      meta?.meaning ||
+      null;
+
+    const teaching =
+      teachingSupportDetails(
+        entry,
+        target,
+        meta
+      ) || {};
+
+    const definition =
+      teaching.studentFriendlyDefinition ||
+      null;
+
+    const context =
+      teaching.contextSentence ||
+      null;
+
+    const cloze =
+      teaching.clozeSupport ||
+      null;
+
+    const literal =
+      teaching.literalMeaning ||
+      null;
+
+    const supports =
+      asArray(
+        teaching.nonTargetSupports
+      );
+
+    const supportText =
+      supports
+        .map(
+          support =>
+            `${support.part} means ${support.meaning}`
+        )
+        .join("; ");
+
+    const steps = [];
+    const add = (labelText, text, timing) => {
+      const clean = String(text || "").trim();
+      if (!clean) return;
+      steps.push({
+        label: labelText,
+        text: clean,
+        timing
+      });
+    };
+
+    const addLiteralBridge = () => {
+      if (!literal) return;
+
+      const segmentation =
+        String(entry?.segmentation || "").trim();
+
+      add(
+        "Teach",
+        `${segmentation ? `${segmentation} gives` : "The meaningful parts give"} the literal idea “${literal}.”`,
+        "after-target-response"
+      );
+
+      if (definition) {
+        add(
+          "Connect",
+          `In everyday English, ${entry.word} means ${definition}.`,
+          "after-target-response"
+        );
+      }
+    };
+
+    const addRetry = () =>
+      add(
+        "Then",
+        "Ask the student to try the original item again. Reduce support if the student can continue with less help.",
+        "after-support"
+      );
+
+    switch (activity) {
+      case "learn":
+        if (context) {
+          add("Say", context, "teaching-setup");
+        } else if (definition) {
+          add("Say", `${entry.word} means ${definition}.`, "teaching-setup");
+        }
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "teaching-setup");
+        }
+        add(
+          "Ask",
+          `How does ${label} help explain the meaning of ${entry.word}?`,
+          "target-demand"
+        );
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "find":
+        if (definition) {
+          add("Say", `${entry.word} means ${definition}.`, "before-target-question-when-helpful");
+        }
+        add("Ask", `Find ${label} in ${entry.word}.`, "target-demand");
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "after-first-attempt");
+        }
+        add(
+          "Ask",
+          `What does ${label} contribute to the meaning of ${entry.word}?`,
+          "after-location"
+        );
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "meaning":
+        add("Ask", `What does ${label} mean?`, "independent-first-attempt");
+        if (definition) {
+          add("Then say", `${entry.word} means ${definition}.`, "after-target-response");
+        }
+        add(
+          "Ask",
+          `How does the meaning of ${label} show up in ${entry.word}?`,
+          "after-target-response"
+        );
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "morpheme":
+        if (context) {
+          add("Say", context, "teaching-setup");
+        } else if (definition) {
+          add("Say", `${entry.word} means ${definition}.`, "teaching-setup");
+        }
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "teaching-setup");
+        }
+        add(
+          "Ask",
+          `Which part of ${entry.word} carries the meaning “${meaning || "the target meaning"}”?`,
+          "target-demand"
+        );
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "break":
+        add(
+          "Ask",
+          `Break ${entry.word} into meaningful parts. Then explain what ${label} contributes.`,
+          "independent-first-attempt"
+        );
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "after-first-attempt");
+        }
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "infer":
+        if (context) {
+          add("Read", context, "context-before-inference");
+        }
+        add(
+          "Ask",
+          `What do you think ${entry.word} means here? How does ${label} help you figure it out?`,
+          "independent-first-attempt"
+        );
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "after-first-attempt");
+        }
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "build":
+        add(
+          "Ask",
+          `Build the word from the meaning/build goal shown. Explain what ${label} contributes.`,
+          "target-demand"
+        );
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "when-non-target-piece-blocks-build");
+        }
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "use":
+        if (definition) {
+          add(
+            "Say",
+            `${entry.word} means ${definition}.`,
+            "before-context-use"
+          );
+        }
+        if (context) {
+          add("Optional model/context", context, "before-context-use-when-helpful");
+        }
+        add(
+          "Ask",
+          `Use ${entry.word} in a sentence that makes that meaning clear. Then explain what ${label} contributes.`,
+          "target-demand"
+        );
+        if (cloze) {
+          add(
+            "If sentence generation is the barrier, give",
+            cloze,
+            "after-first-sentence-attempt"
+          );
+        }
+        if (supportText) {
+          add("If needed, say", `${supportText}.`, "after-first-attempt");
+        }
+        addLiteralBridge();
+        addRetry();
+        break;
+
+      case "change": {
+        const change =
+          changeTaskDetails(entry);
+
+        if (definition) {
+          add("Say", `${entry.word} means ${definition}.`, "teaching-setup");
+        }
+        if (change) {
+          add("Ask", change.prompt, "target-demand");
+          add(
+            "Expected",
+            `${change.expectedWord}${change.expectedMeaning ? ` — ${change.expectedMeaning}` : ""}.`,
+            "educator-key"
+          );
+          if (change.changeExplanation) {
+            add("Teach/review", change.changeExplanation, "after-response");
+          }
+        }
+        addRetry();
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    if (stage === "apply") {
+      return steps.map(step => ({
+        ...step,
+        stage: "apply"
+      }));
+    }
+
+    return steps;
   }
 
 
@@ -1395,8 +1717,7 @@
     switch (activity) {
       case "learn":
         return (
-          `What does ${label} mean? Then look at ${word}. ` +
-          `How does ${label} help explain the meaning of ${word}?`
+          `Look at ${word}. How does ${label} help explain the meaning of ${word}?`
         );
 
       case "find":
@@ -1440,11 +1761,14 @@
           `Then explain what ${label} adds to the meaning of the word.`
         );
 
-      case "change":
-        return (
-          `Make another real form from the same word family as ${word}. ` +
-          `Use the new form in a sentence and explain what changed in the word.`
-        );
+      case "change": {
+        const change =
+          changeTaskDetails(entry);
+
+        return change
+          ? change.prompt
+          : `No validated context-driven Change It task is available for ${word}.`;
+      }
 
       default:
         return `Work with ${word} and explain what ${label} contributes.`;
@@ -1458,113 +1782,33 @@
     meta,
     entry
   ) {
-    const label =
-      target?.label ||
-      meta?.label ||
-      "the target word part";
-
-    const word =
-      entry?.word ||
-      "the word";
-
-    const teaching =
-      teachingSupportDetails(
-        entry,
+    const steps =
+      educatorPromptSteps(
+        activity,
         target,
-        meta
+        meta,
+        entry
       );
 
-    const bridge =
-      teaching?.semanticBridge ||
-      null;
-
-    const definition =
-      teaching?.studentFriendlyDefinition ||
-      studentFriendlyDefinition(entry) ||
-      null;
-
-    const accessLine =
-      [
-        definition
-          ? `If the whole-word meaning is unfamiliar, give the student-friendly meaning: ${definition}.`
-          : null,
-        bridge
-          ? `When useful, make the morphology-to-meaning connection explicit: ${bridge}`
-          : null
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-    const nonTargetLine =
-      nonTargetSupports(
-        entry,
-        target
-      )
-        .map(
-          support =>
-            `${support.part} = ${support.meaning}`
-        )
-        .join("; ");
-
-    const supportLine =
-      nonTargetLine
-        ? `If a non-target part is the barrier after the first attempt, supply only: ${nonTargetLine}. Keep ${label} as the student's reasoning job.`
-        : "If an incidental barrier appears, use only the least support that preserves the target reasoning, then retry the same demand.";
-
-    switch (activity) {
-      case "learn":
-        return (
-          `Begin with the student's recall of ${label}. Then teach with ${word}: make the connection between the word part and the whole-word meaning visible rather than stopping at a dictionary definition. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "find":
-        return (
-          `Present ${word} unmarked. Let the student locate ${label} first. Then connect the located part to the whole-word meaning. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "meaning":
-        return (
-          `Ask for the meaning of ${label} without choices first. After the response, use ${word} to show how that meaning contributes inside a real word. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "break":
-        return (
-          `Present the whole word without pre-marked boundaries. Let the student attempt the meaningful segmentation first. ` +
-          `${supportLine}`
-        ).trim();
-
-      case "infer":
-        return (
-          `Begin with the student's whole-word inference. Use the context sentence when it helps, but do not let context replace morphology reasoning. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "build":
-        return (
-          `Give the meaning/build goal without revealing the answer. After the build, connect the parts-based meaning to a student-friendly whole-word meaning. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "use":
-        return (
-          `Supply the target word; the student's job is to use it meaningfully, not to generate the vocabulary item. If sentence generation competes with the morphology target, give a meaningful cloze or sentence starter after the first attempt, then retry. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      case "change":
-        return (
-          `Keep the word-family relationship visible. Use a meaningful sentence or context so the student chooses or produces a related form for a reason, then explains the morphological change. ` +
-          `${accessLine} ${supportLine}`
-        ).trim();
-
-      default:
-        return (
-          `Let the student attempt the target demand first. ${accessLine} ${supportLine}`
-        ).trim();
+    if (!steps.length) {
+      return "Let the student attempt the target demand first. Use only the least support needed, retry the same demand, then fade support.";
     }
+
+    return steps
+      .filter(step => step.label !== "Expected")
+      .map(
+        step => {
+          const label =
+            step.label === "Teach/review"
+              ? "Review"
+              : step.label === "Retry"
+                ? "Then"
+                : step.label;
+
+          return `${label}: ${step.text}`;
+        }
+      )
+      .join(" ");
   }
 
 
@@ -1590,10 +1834,18 @@
       case "find":
         return `${entry.word} contains ${label}.`;
 
-      case "break":
-        return entry.segmentation
-          ? `${entry.word}: ${entry.segmentation}`
+      case "break": {
+        const segmentation =
+          instructionalSegmentation(
+            entry,
+            target,
+            meta
+          );
+
+        return segmentation
+          ? `${entry.word}: ${segmentation}`
           : `${entry.word}: use a different Break It Apart item with an approved word-part analysis.`;
+      }
 
       case "infer":
         return (
@@ -1615,10 +1867,24 @@
           );
         }
 
+        const segmentation =
+          instructionalSegmentation(
+            entry,
+            target,
+            meta
+          );
+
+        const teaching =
+          teachingSupportDetails(
+            entry,
+            target,
+            meta
+          );
+
         return (
           `Expected word: ${entry.word}` +
-          `${entry.segmentation ? ` (${entry.segmentation})` : ""}.` +
-          `${entry.literal ? ` Parts-based meaning: ${entry.literal}.` : ""}` +
+          `${segmentation ? ` (${segmentation})` : ""}.` +
+          `${teaching?.literalMeaning ? ` Parts-based meaning: ${teaching.literalMeaning}.` : ""}` +
           `${studentFriendlyDefinition(entry) ? ` Student-friendly whole-word meaning: ${studentFriendlyDefinition(entry)}.` : ""}`
         );
       }
@@ -1626,8 +1892,17 @@
       case "use":
         return `Target word: ${entry.word}${exampleAnswer(entry) ? ` — ${exampleAnswer(entry)}` : ""}.`;
 
-      case "change":
-        return `Open response. Accept a legitimate related form; verify that the student can explain the morphological change and the contribution of ${label}.`;
+      case "change": {
+        const change =
+          changeTaskDetails(entry);
+
+        return change
+          ? (
+              `Expected form: ${change.expectedWord}. ` +
+              `${change.changeExplanation || `Verify the morphological change and the contribution of ${label}.`}`
+            )
+          : `No validated context-driven Change It task is available for ${entry.word}.`;
+      }
 
       default:
         return entry.word;
@@ -1720,6 +1995,13 @@
           meta
         );
 
+      const applySegmentation =
+        instructionalSegmentation(
+          applyEntry,
+          target,
+          meta
+        );
+
       switch (activity) {
         case "learn":
           return {
@@ -1731,8 +2013,7 @@
             educatorKey:
               `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         case "find":
@@ -1745,8 +2026,7 @@
             educatorKey:
               `${word} contains ${label}.`,
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         case "meaning":
@@ -1759,8 +2039,7 @@
             educatorKey:
               `${label}${meaning ? ` = ${meaning}` : ""}; Apply example: ${word}.`,
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         /* FIRST_VOLO_WORD_PART_PARTB_TEACHER_DIRECTIONS_V4L3 */
@@ -1784,8 +2063,7 @@
                 target
               ),
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         case "break":
@@ -1796,14 +2074,13 @@
             prompt:
               `Break ${word} into meaningful parts. Then explain what ${label} contributes.`,
             educatorKey:
-              applyEntry.segmentation
-                ? `${word}: ${applyEntry.segmentation}`
+              applySegmentation
+                ? `${word}: ${applySegmentation}`
                 : (
                     `${word}: use a different Break It Apart item with an approved word-part analysis.`
                   ),
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         case "infer":
@@ -1823,8 +2100,7 @@
             educatorKey:
               `${word}: ${exampleAnswer(applyEntry) || "Accept a reasonable morphology-based inference supported by the known target."}`,
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
         case "build": {
@@ -1847,12 +2123,11 @@
                 `${build.prompt} Then use the word in a new sentence.`,
               educatorKey:
                 `Expected Apply word: ${word}` +
-                `${applyEntry.segmentation ? ` (${applyEntry.segmentation})` : ""}.` +
-                `${applyEntry.literal ? ` Parts-based meaning: ${applyEntry.literal}.` : ""}` +
+                `${applySegmentation ? ` (${applySegmentation})` : ""}.` +
+                `${applyTeaching?.literalMeaning ? ` Parts-based meaning: ${applyTeaching.literalMeaning}.` : ""}` +
                 `${studentFriendlyDefinition(applyEntry) ? ` Student-friendly whole-word meaning: ${studentFriendlyDefinition(applyEntry)}.` : ""}`,
               segmentation:
-                applyEntry.segmentation ||
-                null
+                applySegmentation
             };
           }
 
@@ -1869,23 +2144,39 @@
             educatorKey:
               `Target word: ${word}. Verify an appropriate sentence and a correct explanation of ${label}.`,
             segmentation:
-              applyEntry.segmentation ||
-              null
+              applySegmentation
           };
 
-        case "change":
+        case "change": {
+          const change =
+            changeTaskDetails(
+              applyEntry
+            );
+
+          if (change) {
+            return {
+              kind:
+                "specific-new-item",
+              word:
+                change.expectedWord,
+              prompt:
+                change.prompt,
+              educatorKey:
+                `Expected form: ${change.expectedWord}. ${change.changeExplanation || "Verify the context-driven family change."}`,
+              segmentation:
+                applyEntry.segmentation ||
+                null
+            };
+          }
+
           return {
-            kind:
-              "open-new-item",
-            word:
-              null,
-            prompt:
-              `Starting from ${word}, give a related form from the same word family. Use the new form in a sentence and explain what changed morphologically.`,
-            educatorKey:
-              `Open response. Verify a legitimate related form of ${word}, appropriate sentence use, and an accurate explanation of the morphological change.`,
-            segmentation:
-              null
+            kind: "unavailable",
+            word: null,
+            prompt: `No fresh context-driven Change It task is available for this target today.`,
+            educatorKey: `Do not substitute an open-ended family-generation task.`,
+            segmentation: null
           };
+        }
 
         default:
           break;
@@ -1980,16 +2271,11 @@
 
       case "change":
         return {
-          kind:
-            "open-new-item",
-          word:
-            null,
-          prompt:
-            `Give a related form from a word family containing ${label}. Use the form in a sentence and explain what changed morphologically.`,
-          educatorKey:
-            `Open response. Verify a legitimate related form, appropriate sentence use, and an accurate explanation of the morphological change.`,
-          segmentation:
-            null
+          kind: "unavailable",
+          word: null,
+          prompt: `No validated context-driven Change It task is available for this target today.`,
+          educatorKey: `Change It requires a system-generated context that demands a specific related form.`,
+          segmentation: null
         };
 
       case "build":
@@ -2046,6 +2332,13 @@
 
     const teachingSupport =
       teachingSupportDetails(
+        entry,
+        target,
+        meta
+      );
+
+    const safeSegmentation =
+      instructionalSegmentation(
         entry,
         target,
         meta
@@ -2155,6 +2448,23 @@
           entry
         ),
 
+      educatorPrompts:
+        educatorPromptSteps(
+          activity,
+          target,
+          meta,
+          entry
+        ),
+
+      applyEducatorPrompts:
+        educatorPromptSteps(
+          activity,
+          target,
+          meta,
+          applyEntry,
+          { stage: "apply" }
+        ),
+
       promptKind:
         promptDetails.kind,
 
@@ -2200,7 +2510,8 @@
         null,
 
       applyLiteral:
-        applyEntry?.literal ||
+        applyTeachingSupport
+          ?.literalMeaning ||
         null,
 
       applySource:
@@ -2268,6 +2579,11 @@
           ?.studentFriendlyDefinition ||
         null,
 
+      literalMeaning:
+        teachingSupport
+          ?.literalMeaning ||
+        null,
+
       contextSentence:
         teachingSupport
           ?.contextSentence ||
@@ -2289,8 +2605,7 @@
         null,
 
       segmentation:
-        entry.segmentation ||
-        null,
+        safeSegmentation,
 
       mode:
         (
@@ -2319,6 +2634,12 @@
           entry,
           target
         ),
+
+      changeTask:
+        changeTaskDetails(entry),
+
+      applyChangeTask:
+        changeTaskDetails(applyEntry),
 
       metadata: {
         status:
@@ -2463,6 +2784,98 @@
     return items;
   }
 
+
+  function lexicalFamilyKey(entry, target, meta = null) {
+    const explicit =
+      entry?.freshnessFamily ||
+      entry?.lemma ||
+      entry?.lexeme ||
+      entry?.baseForm ||
+      null;
+
+    if (explicit) {
+      return normalize(explicit);
+    }
+
+    const targetSet =
+      new Set(
+        targetVariants(
+          target,
+          meta
+        )
+      );
+
+    const parts =
+      firstSegmentationParts(
+        entry
+      );
+
+    const lexicalAnchor =
+      parts.find(
+        part => {
+          const forms =
+            variants(part);
+
+          if (
+            forms.some(
+              form => targetSet.has(form)
+            )
+          ) {
+            return false;
+          }
+
+          const raw =
+            String(part || "").trim();
+
+          if (
+            raw.startsWith("-") ||
+            raw.endsWith("-")
+          ) {
+            return false;
+          }
+
+          return raw.length > 1;
+        }
+      );
+
+    return normalize(
+      lexicalAnchor ||
+      entry?.word ||
+      ""
+    );
+  }
+
+  function prioritizeLexicalDiversity(
+    candidates,
+    target,
+    meta = null
+  ) {
+    const unique = [];
+    const repeats = [];
+    const seen = new Set();
+
+    for (const entry of candidates) {
+      const key =
+        lexicalFamilyKey(
+          entry,
+          target,
+          meta
+        );
+
+      if (!key || !seen.has(key)) {
+        unique.push(entry);
+        if (key) seen.add(key);
+      } else {
+        repeats.push(entry);
+      }
+    }
+
+    return [
+      ...unique,
+      ...repeats
+    ];
+  }
+
   function buildItems({
     targetResolution = null,
     activity = "learn",
@@ -2496,15 +2909,40 @@
         activity,
         gradeBand,
         vocabLevel
-      }).filter(entry =>
-        activity !== "build" ||
-        Boolean(
-          buildInteractionDetails(
+      }).filter(entry => {
+        if (
+          activity === "build" &&
+          !buildInteractionDetails(
             target,
             targetMeta(target),
             entry
           )
-        )
+        ) {
+          return false;
+        }
+
+        if (activity === "change") {
+          const change =
+            changeTaskDetails(entry);
+
+          if (
+            !change ||
+            isProtected(
+              change.expectedWord
+            )
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+    candidates =
+      prioritizeLexicalDiversity(
+        candidates,
+        target,
+        targetMeta(target)
       );
 
     /* FIRST_VOLO_IVE_WORD_PART_SEQUENCE_V1

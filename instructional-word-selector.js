@@ -390,11 +390,64 @@
       .map(cleanSurface)
       .filter(Boolean);
   }
+  const SENSE_DISAMBIGUATED_TARGET_IDS = new Set([
+    "er-more",
+    "er-or",
+    "negative-in-family",
+    "location-in-family"
+  ]);
+
+  function targetSenseCompatible(item, target, meta = null) {
+    const targetId = String(
+      target?.id ||
+      target?.targetId ||
+      meta?.id ||
+      ""
+    ).trim();
+
+    if (!SENSE_DISAMBIGUATED_TARGET_IDS.has(targetId)) {
+      return true;
+    }
+
+    const explicit = asArray(item?.targetSenseIds)
+      .map(value => String(value || "").trim())
+      .filter(Boolean);
+
+    if (explicit.length) {
+      return explicit.includes(targetId);
+    }
+
+    const extensionTargetId = String(
+      item?._teacherLedExtensionTargetId ||
+      ""
+    ).trim();
+
+    if (extensionTargetId) {
+      return extensionTargetId === targetId;
+    }
+
+    /*
+      Same spelling is not enough for ambiguous morphemes.
+      Untagged -er and in-/im- words are rejected until their sense is
+      explicitly validated, preventing writer from serving comparative -er
+      or impossible from serving locative in-.
+    */
+    return false;
+  }
+
   function targetRelationship(
     item,
     target,
     meta = null
   ) {
+    if (!targetSenseCompatible(item, target, meta)) {
+      return {
+        matched: false,
+        form: null,
+        source: "sense-mismatch"
+      };
+    }
+
     const forms =
       new Set(
         targetForms(
@@ -458,6 +511,143 @@
     };
   }
 
+
+  function segmentationPartDisplaySafe(
+    rawPart,
+    item,
+    target,
+    meta = null
+  ) {
+    const raw =
+      String(rawPart || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[‐‑‒–—−]/g, "-");
+
+    if (!raw) return false;
+
+    const clean =
+      cleanSurface(raw);
+
+    if (!clean) return false;
+
+    if (
+      targetForms(target, meta)
+        .includes(clean)
+    ) {
+      return true;
+    }
+
+    /*
+      A displayed non-target morpheme must be explicitly authored for this
+      word. Merely sharing a spelling with some morpheme elsewhere in the
+      program is not enough to validate the analysis of this item.
+    */
+    if (
+      itemMorphemeForms(item)
+        .includes(clean)
+    ) {
+      return true;
+    }
+
+    const isExplicitSupportedPart =
+      nonTargetSupports(item)
+        .some(
+          support =>
+            variants(
+              support.part
+            )
+              .map(cleanSurface)
+              .includes(clean)
+        );
+
+    if (isExplicitSupportedPart) {
+      return true;
+    }
+
+    /*
+      A free lexical base may be displayed when that exact base is itself an
+      authored word in the shared inventory. This validates true bases such
+      as structure in superstructure without promoting residual strings such
+      as ure, -ical, -ation, or spelling notation into meaningful pieces.
+    */
+    const isKnownWholeWord =
+      asArray(
+        window
+          .FIRST_VOLO_WORD_INVENTORY
+      )
+        .some(
+          entry =>
+            cleanSurface(
+              entry?.word
+            ) === clean
+        );
+
+    if (isKnownWholeWord) {
+      return true;
+    }
+
+    /*
+      High-quality teacher extensions are separately authored and may carry
+      a validated compositional analysis even when a lexical base is not a
+      regular student-practice inventory entry.
+    */
+    if (
+      (
+        item?._teacherLedExtension ||
+        item?.instructionalSource ===
+          "teacher-word-extension"
+      ) &&
+      String(
+        item?.semanticBridgeQuality ||
+        ""
+      )
+        .trim()
+        .toLowerCase() ===
+        "high"
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+
+  function segmentationPieceValidation(
+    item,
+    target,
+    meta = null
+  ) {
+    const parts =
+      segmentationParts(item);
+
+    if (!parts.length) {
+      return {
+        valid: false,
+        parts: [],
+        unsafeParts: []
+      };
+    }
+
+    const unsafeParts =
+      parts.filter(
+        part =>
+          !segmentationPartDisplaySafe(
+            part,
+            item,
+            target,
+            meta
+          )
+      );
+
+    return {
+      valid:
+        unsafeParts.length === 0,
+      parts,
+      unsafeParts
+    };
+  }
+
   function fullSegmentationInfo(
     item,
     target,
@@ -498,14 +688,26 @@
           word
       );
 
+    const pieceValidation =
+      segmentationPieceValidation(
+        item,
+        target,
+        meta
+      );
+
+    const allPartsDisplaySafe =
+      pieceValidation.valid;
+
     return {
       valid:
         reconstructs &&
-        targetIndex >= 0,
+        targetIndex >= 0 &&
+        allPartsDisplaySafe,
       word,
       parts,
       cleanParts,
       targetIndex,
+      allPartsDisplaySafe,
       targetForm:
         targetIndex >= 0
           ? cleanParts[
@@ -537,7 +739,7 @@
     item
   ) {
     return (
-      /opaque|false morph|do not break|avoid break|not a clean segmentation|lexicalized|do not teach.*productive/.test(
+      /opaque|false morph|do not break|avoid break|not a clean segmentation|lexicalized|do not teach.*productive|layered|too complex|do not present as a simple|recognition rather than a simple/.test(
         cautionText(item)
       )
     );
@@ -1149,6 +1351,16 @@
       score += 3;
     }
 
+    if (item?.semanticBridgeQuality === "high") {
+      score += 16;
+    } else if (item?.semanticBridgeQuality === "avoid") {
+      score -= 20;
+    }
+
+    if (objective === "change" && item?.changeTask?.expectedWord) {
+      score += 60;
+    }
+
     if (
       cautionText(item)
     ) {
@@ -1678,6 +1890,8 @@
             ...item,
             _teacherLedExtension:
               true,
+            _teacherLedExtensionTargetId:
+              String(target?.id || target?.targetId || ""),
             instructionalSource:
               item?.instructionalSource ||
               "teacher-word-extension"
@@ -2055,6 +2269,7 @@
       targetForms,
       targetSurfaceInWord,
       targetRelationship,
+      segmentationPieceValidation,
       fullSegmentationInfo,
       wordFormationInfo,
       freshnessKey,

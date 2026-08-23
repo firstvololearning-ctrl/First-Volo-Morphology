@@ -4329,6 +4329,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "faster",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er"
@@ -4821,6 +4824,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "illegal",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4849,6 +4855,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "immerse",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4870,6 +4879,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "import",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "im-",
@@ -4926,6 +4938,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "impossible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4954,6 +4969,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inactive",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-ive",
@@ -4983,6 +5001,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inbound",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     segmentation: "in- + bound",
     "status": "current",
     "morphemes": [
@@ -5005,6 +5026,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "incredible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-able",
@@ -5037,6 +5061,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "insert",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -5059,6 +5086,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspect",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -5087,6 +5117,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspected",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ed",
@@ -5112,6 +5145,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspecting",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ing",
@@ -5137,6 +5173,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspection",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ion",
@@ -5165,6 +5204,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspector",
+    "targetSenseIds": [
+      "er-or",
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -5197,6 +5240,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspects",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-s",
@@ -5244,6 +5290,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "instruction",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ion",
@@ -5273,6 +5322,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "instructive",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ive",
@@ -5540,6 +5592,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "invisible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-able",
@@ -5568,6 +5623,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "irregular",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -7735,7 +7793,6 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "rupt"
     ],
-    "segmentation": "rupt + ure",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -7744,9 +7801,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "high",
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
-    "literal": "a breaking",
     "definition": "a break, tear, or burst",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "reviewCaution": "Contains rupt = break, but the ending is not currently a validated First Volo morpheme. Use rupture for target recognition and meaning connection, not as a full segmentation, literal-parts bridge, or Build item.",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -8072,6 +8129,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "stronger",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er"
@@ -8120,7 +8180,6 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "struct"
     ],
-    "segmentation": "struct + ure",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -8129,9 +8188,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "high",
     "gradeConfidence": "high",
     "vocabConfidence": "high",
-    "literal": "a building or arrangement",
     "definition": "something built or arranged in an organized way",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "reviewCaution": "Contains struct = build, but the ending is not currently a validated First Volo morpheme. Use structure for target recognition and meaning connection, not as a full segmentation, literal-parts bridge, or Build item.",
     "evidence": {
       "ngsl": true,
       "ngslRank": 667,
@@ -8359,7 +8418,15 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
     },
-    "segmentation": "super- + struct + -ure"
+    "segmentation": "super- + structure",
+    "nonTargetSupports": [
+      {
+        "part": "structure",
+        "meaning": "something built or arranged in an organized way",
+        "role": "base word",
+        "timing": "after-independent-attempt"
+      }
+    ]
   },
   {
     "word": "suspend",
@@ -8405,6 +8472,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "taller",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -8453,6 +8523,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "teacher",
+    "targetSenseIds": [
+      "er-or"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -9432,6 +9505,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "writer",
+    "targetSenseIds": [
+      "er-or"
+    ],
     segmentation: "write + -er",
     "status": "current",
     "morphemes": [

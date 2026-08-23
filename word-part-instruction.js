@@ -185,9 +185,20 @@
       wordEntry(task);
 
     return (
+      task?.recipe?.literalMeaning ||
       task?.recipe?.literal ||
+      task?.literalMeaning ||
       task?.literal ||
       entry?.literal ||
+      null
+    );
+  }
+
+
+  function wordTeachingContext(task) {
+    return (
+      task?.recipe?.contextSentence ||
+      task?.contextSentence ||
       null
     );
   }
@@ -738,53 +749,81 @@
       const literal =
         wordLiteral(task);
 
-      const bridgeContext =
-        definition && support && literal
-          ? (
-              `In this example, ${word} means ${definition}. ` +
-              `${support.label} can mean “${support.meaning}.” ` +
-              `The meaningful parts connect to the more literal idea “${literal}.”`
-            )
-          : definition && support
-            ? (
-                `In this example, ${word} means ${definition}. ` +
-                `${support.label} can mean “${support.meaning}.”`
-              )
-            : definition && literal
-              ? (
-                  `In this example, ${word} means ${definition}. ` +
-                  `The meaningful parts connect to the more literal idea “${literal}.”`
-                )
-              : definition
-                ? (
-                    `In this example, ${word} means ${definition}.`
-                  )
-                : (
-                    `Look closely at the whole word ${word}.`
-                  );
+      const teachingContext =
+        wordTeachingContext(task);
+
+      const accessLines = [];
+
+      if (teachingContext) {
+        accessLines.push(teachingContext);
+      } else if (definition) {
+        accessLines.push(
+          `${word} means ${definition}.`
+        );
+      } else {
+        accessLines.push(
+          `Look closely at the whole word ${word}.`
+        );
+      }
+
+      if (support) {
+        accessLines.push(
+          `${support.label} means “${support.meaning}.”`
+        );
+      }
+
+      const explanation = [
+        `${label} carries the target idea “${meaning}” in this word.`,
+        roleJobSentence(
+          role,
+          label,
+          meaning
+        )
+      ];
+
+      if (literal) {
+        explanation.push(
+          `Literal meaning: “${literal}.”`
+        );
+      }
+
+      if (literal && definition) {
+        explanation.push(
+          `That literal meaning helps connect the word parts to the student-friendly meaning: ${definition}.`
+        );
+      }
 
       return {
         move: "notice",
         moveLabel: "Notice it",
         word,
         context:
-          bridgeContext,
+          accessLines.join(" "),
         prompt:
           `Which part of ${word} carries the idea “${meaning}”?`,
         responseType: "text",
         responseLabel: "Word part",
         structure: null,
         patternWords: [],
-        explanation: [
-          `${label} carries the target idea “${meaning}” in this word.`,
-          roleJobSentence(
-            role,
-            label,
-            meaning
-          )
-        ],
+        explanation,
         teacherDirection:
-          "Let the student use the whole-word meaning first. After the attempt, connect the identified form to the target meaning and to the whole-word meaning."
+          [
+            teachingContext
+              ? `Say: ${teachingContext}`
+              : (definition ? `Say: ${word} means ${definition}.` : null),
+            support
+              ? `If needed before the question, say: ${support.label} means ${support.meaning}.`
+              : null,
+            `Ask: Which part of ${word} carries the idea “${meaning}”?`,
+            literal
+              ? `After the student responds, teach: the literal idea is “${literal}.”`
+              : null,
+            literal && definition
+              ? `Connect it to the whole word: ${word} means ${definition}.`
+              : null
+          ]
+            .filter(Boolean)
+            .join(" ")
       };
     }
 
