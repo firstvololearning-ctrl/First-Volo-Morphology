@@ -1173,7 +1173,7 @@
       return {
         applicable: false,
         reason:
-          `First Volo could not generate a valid ${ACTIVITY_LABELS[activity] || activity} Part A + Apply sequence from the validated teacher-led word universe for this target. This is a generation/linguistic-validity limit, not a missing prebuilt-family rule.`
+          `First Volo could not find enough suitable instructional words to build an accurate ${ACTIVITY_LABELS[activity] || activity} Part A + Apply sequence for this target. This is a linguistic-safety or coverage limit, not a missing reusable-material rule.`
       };
     }
 
@@ -15515,7 +15515,7 @@ function ensureReadyMaterialContainer() {
 
     readyV13ReplaceTextEverywhere(
       "Begin each new demand with an independent attempt. If a barrier appears, use the least support needed, retry the same demand, then fade support.",
-      "Keep the activity's target demand independent. Give legitimate access information at the activity-specific time shown; if the target demand still needs support, use the least help needed, retry, then reduce support when possible."
+      "Let the student try the activity's morphology demand first. If decoding, word knowledge, retrieval, or sentence generation gets in the way, give only the access help needed. If the morphology itself is difficult, use the least support shown, retry the same demand, and fade the support after success."
     );
 
     readyV13ReplaceTextEverywhere(
@@ -17085,7 +17085,7 @@ function ensureReadyMaterialContainer() {
       </p>
 
       <p>
-        Keep the student's target reasoning independent. Give legitimate access information at the activity-specific time shown; if the target demand needs help, add the least support needed, retry, then reduce support when possible.
+        Let the student try each new morphology demand first. If decoding, word knowledge, retrieval, or sentence generation gets in the way, give only the access help needed. If the morphology itself is difficult, use the least support shown, retry the same demand, and fade the support after success.
       </p>
 
       <ol>
@@ -18670,7 +18670,7 @@ function ensureReadyMaterialContainer() {
               `The generated word analysis is missing an approved Build piece for: ${missingParts.join(", ")}. First Volo will not invent or mis-segment a word part to complete the build.`
             )
           : (
-              "First Volo searched the validated teacher-led word universe and no safe item set remained after the linguistic, accessibility, freshness, and protection checks. This is a true generation gap, not the absence of a reusable material family."
+              "First Volo could not find enough suitable instructional words after checking linguistic accuracy, accessibility, freshness, and protected-word rules. It will not invent or mis-segment a word part, use a protected word, or change the instructional demand just to fill the session."
             );
     }
 
@@ -18791,7 +18791,7 @@ function ensureReadyMaterialContainer() {
       return {
         available: false,
         reason:
-          "After searching the validated teacher-led word universe, First Volo could not construct a linguistically valid item set for this target, activity, and length.",
+          "First Volo could not find enough suitable instructional words to build an accurate item set for this target, activity, and session length.",
         plan
       };
     }
@@ -19177,7 +19177,7 @@ function ensureReadyMaterialContainer() {
         <strong>
           No complete ${esc(currentActivityLabel())} session length can be generated for this target yet.
         </strong>
-        First Volo searched the validated teacher-led word universe and will not offer a 10-, 15-, or 30-minute option unless the required Part A + Apply sequence can be constructed accurately.
+        First Volo will not offer a 10-, 15-, or 30-minute option unless it can find enough suitable instructional words to build the required Part A + Apply sequence accurately.
       `;
 
       return;
