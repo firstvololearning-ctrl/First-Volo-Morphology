@@ -42,12 +42,53 @@
   }
 
 
+  /* FIRST_VOLO_CHECK_TRANSFER_DISPLAYED_SELECTION_V1
+     Prefer the session Session Materials actually rendered. The protected
+     transfer planner's lastSelection can be overwritten by non-displayed
+     duration/applicability probes.
+  */
   function selection() {
     return (
+      window
+        .FirstVoloDisplayedTeacherSessionSelection ||
       window.FirstVoloCheckTransfer
         ?.lastSelection ||
       null
     );
+  }
+
+
+  /* FIRST_VOLO_CHECK_TRANSFER_AUTHORITATIVE_PARITY_V1
+     check-transfer-ui.js is the final browser/print renderer for Step 4.
+     Use the session-requested count everywhere in this layer so browser,
+     print, recording, and saving all refer to the same protected items.
+  */
+  function transferItemsForSession(
+    transfer
+  ) {
+    const items =
+      Array.isArray(
+        transfer?.items
+      )
+        ? transfer.items
+        : [];
+
+    const requested =
+      Number(
+        transfer?.requestedItemCount
+      );
+
+    if (
+      Number.isFinite(requested) &&
+      requested > 0
+    ) {
+      return items.slice(
+        0,
+        requested
+      );
+    }
+
+    return items;
   }
 
 
@@ -440,8 +481,17 @@
 
   function itemPrintHTML(
     item,
-    index
+    index,
+    target
   ) {
+    const targetLabel =
+      target?.label ||
+      "known morpheme";
+
+    const targetMeaning =
+      target?.meaning ||
+      "";
+
     return `
       <div class="print-transfer-item">
         <p>
@@ -462,6 +512,32 @@
             Whole-word meaning inferred:
             □ Yes &nbsp; □ Not yet
           </div>
+        </div>
+
+        <div class="print-transfer-educator-key">
+          <strong>
+            Educator key - use after the student's first attempt
+          </strong>
+
+          <p>
+            <strong>Known target:</strong>
+            ${esc(targetLabel)}
+            ${targetMeaning ? ` = ${esc(targetMeaning)}` : ""}
+          </p>
+
+          <p>
+            <strong>Expected whole-word meaning:</strong>
+            ${esc(
+              item.studentFriendlyMeaning ||
+              item.expectedMeaning ||
+              "Use a reasonable context-supported meaning."
+            )}
+          </p>
+
+          <p>
+            <strong>If support is needed after the first attempt:</strong>
+            begin with “What part do you recognize?”
+          </p>
         </div>
       </div>
     `;
@@ -485,7 +561,9 @@
 
     for (
       const item
-      of transfer.items || []
+      of transferItemsForSession(
+        transfer
+      )
     ) {
       const recognize =
         selectedRadio(
@@ -749,11 +827,9 @@
     }
 
     const items =
-      Array.isArray(
-        transfer.items
-      )
-        ? transfer.items
-        : [];
+      transferItemsForSession(
+        transfer
+      );
 
     if (!items.length) {
       const message =
@@ -841,9 +917,16 @@
     `;
 
     print.innerHTML =
-      items.map(
-        itemPrintHTML
-      ).join("");
+      items
+        .map(
+          (item, index) =>
+            itemPrintHTML(
+              item,
+              index,
+              current.target
+            )
+        )
+        .join("");
 
     document
       .getElementById(

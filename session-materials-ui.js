@@ -5840,7 +5840,7 @@ function ensureReadyMaterialContainer() {
 
     if (literal) {
       add(
-        "Literal morphology",
+        "Literal meaning from the parts",
         literal
       );
     }
@@ -7623,8 +7623,8 @@ function ensureReadyMaterialContainer() {
     }
 
     const note =
-      document.querySelector(
-        ".session-teacher-led-note p"
+      byId(
+        "sessionTeacherLedInstructionNote"
       );
 
     if (note) {
@@ -12210,12 +12210,20 @@ function ensureReadyMaterialContainer() {
     const access =
       readyTaskTeachingAccess(task);
 
+    const protectFreshWordRetrieval =
+      readyActivity(task) ===
+        "morpheme" &&
+      task?.stage ===
+        "Apply";
+
     const preTaskPrompts =
-      access.educatorPrompts
-        .filter(
-          step =>
-            readyEducatorPromptIsPreTask(step)
-        );
+      protectFreshWordRetrieval
+        ? []
+        : access.educatorPrompts
+            .filter(
+              step =>
+                readyEducatorPromptIsPreTask(step)
+            );
 
     const followUp =
       String(
@@ -12242,11 +12250,14 @@ function ensureReadyMaterialContainer() {
         readyActivity(task);
 
       const naturalFallback =
-        activity === "build"
-          ? "Present the build goal and word-part tiles below. Let the student try the build before opening support."
-          : activity === "infer"
-            ? "Read the context and ask the inference question below. Keep the first attempt focused on the student's morphology reasoning."
-            : "Present the student task below. Open support only if the student needs help with the target demand.";
+        activity === "morpheme" &&
+        task?.stage === "Apply"
+          ? "Present only the meaning below. Ask the student to retrieve the matching word part before revealing the fresh word. If needed, use only the partial cue or familiar visual before the reveal."
+          : activity === "build"
+            ? "Present the build goal and word-part tiles below. Let the student try the build before opening support."
+            : activity === "infer"
+              ? "Read the context and ask the inference question below. Keep the first attempt focused on the student's morphology reasoning."
+              : "Present the student task below. Open support only if the student needs help with the target demand.";
 
       body = `
         <p>
@@ -13662,11 +13673,9 @@ function ensureReadyMaterialContainer() {
       );
 
     const transferCount =
-      state.plan
-        ?.transfer
-        ?.items
-        ?.length ||
-      0;
+      readyTransferItemsForSession(
+        state.plan?.transfer
+      ).length;
 
     const minutes =
       Number.parseInt(
@@ -17005,11 +17014,9 @@ function ensureReadyMaterialContainer() {
         : `No valid ${currentActivityLabel()} Apply demand is available today`;
 
     const transferCount =
-      state.plan
-        ?.transfer
-        ?.items
-        ?.length ||
-      0;
+      readyTransferItemsForSession(
+        state.plan?.transfer
+      ).length;
 
     const transferDetail =
       transferCount
@@ -17858,6 +17865,40 @@ function ensureReadyMaterialContainer() {
   }
 
 
+  /* FIRST_VOLO_TRANSFER_RENDER_PARITY_V1
+     Render only the number of protected transfer items the session requested.
+     This keeps overview, browser, and print views aligned even if a broader
+     item array is present in memory.
+  */
+  function readyTransferItemsForSession(
+    transfer
+  ) {
+    const items =
+      Array.isArray(
+        transfer?.items
+      )
+        ? transfer.items
+        : [];
+
+    const requested =
+      Number(
+        transfer?.requestedItemCount
+      );
+
+    if (
+      Number.isFinite(requested) &&
+      requested > 0
+    ) {
+      return items.slice(
+        0,
+        requested
+      );
+    }
+
+    return items;
+  }
+
+
   function renderTransfer() {
     const transfer =
       state.plan
@@ -17876,11 +17917,9 @@ function ensureReadyMaterialContainer() {
       null;
 
     const items =
-      Array.isArray(
-        transfer?.items
-      )
-        ? transfer.items
-        : [];
+      readyTransferItemsForSession(
+        transfer
+      );
 
     const screen =
       byId(
@@ -18001,6 +18040,8 @@ function ensureReadyMaterialContainer() {
         Record separately whether the student recognized the known word part and whether the student inferred the unfamiliar whole-word meaning.
       </p>
     `;
+
+
   }
 
 
@@ -18450,6 +18491,73 @@ function ensureReadyMaterialContainer() {
   }
 
 
+  /* FIRST_VOLO_DISPLAYED_SESSION_SELECTION_V1
+     Publish the actual session currently displayed on this page.
+     Do not use FirstVoloCheckTransfer.lastSelection as the displayed-session
+     source of truth: planner probes for other durations can update that global.
+  */
+  function readyPublishDisplayedSessionSelection() {
+    const plan =
+      state.plan ||
+      null;
+
+    if (!plan) {
+      window.FirstVoloDisplayedTeacherSessionSelection =
+        null;
+      return;
+    }
+
+    window.FirstVoloDisplayedTeacherSessionSelection = {
+      id:
+        `displayed-session-${plan.generatedAt || Date.now()}`,
+      generatedAt:
+        plan.generatedAt ||
+        new Date()
+          .toISOString(),
+      studentId:
+        state.student?.id ||
+        null,
+      studentName:
+        state.student?.name ||
+        null,
+      sessionMinutes:
+        plan.sessionMinutes ||
+        state.minutes ||
+        null,
+      gradeBand:
+        plan.transfer
+          ?.gradeBand ||
+        plan.lastWork
+          ?.gradeBand ||
+        null,
+      studyMode:
+        plan.lastWork
+          ?.studyMode ||
+        null,
+      vocabLevel:
+        plan.lastWork
+          ?.vocabLevel ||
+        null,
+      target:
+        plan.transfer
+          ?.target ||
+        plan.targetResolution
+          ?.primary ||
+        plan.nextWork
+          ?.target ||
+        null,
+      transfer:
+        plan.transfer ||
+        null,
+      applyWord:
+        plan.apply
+          ?.item
+          ?.word ||
+        null
+    };
+  }
+
+
   function renderReadyMaterial() {
     byId(
       "sessionReadyContent"
@@ -18511,6 +18619,8 @@ function ensureReadyMaterialContainer() {
         )
       );
 
+    readyPublishDisplayedSessionSelection();
+
     renderRetrieve();
     renderInteractiveMat();
     renderTileBank();
@@ -18551,6 +18661,10 @@ function ensureReadyMaterialContainer() {
 
 
   function renderNotReady() {
+    /* Clear the displayed-session source of truth when no session is ready. */
+    window.FirstVoloDisplayedTeacherSessionSelection =
+      null;
+
     byId(
       "sessionReadyContent"
     ).hidden =

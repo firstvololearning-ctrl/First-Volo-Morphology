@@ -1922,3 +1922,35 @@
     display: none !important;
   }
 }
+
+
+/* FIRST_VOLO_PRINT_BRIDGE_KEEP_TOGETHER_V1 */
+@media print {
+  .print-ready-teaching-bridge,
+  .print-transfer-item,
+  .print-transfer-educator-key {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-ready-teaching-bridge {
+    margin-bottom: 0.12in;
+  }
+
+  .print-transfer-educator-key {
+    margin-top: 0.08in;
+    padding: 0.08in;
+    border: 1px solid #777;
+    border-radius: 0.06in;
+  }
+}
+
+
+/* FIRST_VOLO_PRINT_KEY_HEADING_KEEP_WITH_CONTENT_V1 */
+@media print {
+  .print-ready-key-section > h2,
+  .print-ready-key-section > h2 + p {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
