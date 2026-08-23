@@ -2915,7 +2915,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "literal": "coming together",
+    "literal": "a coming together",
+    "semanticBridgeQuality": "high",
     "definition": "a meeting or gathering of people",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -2944,6 +2945,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
     "literal": "turn or change",
+    "reviewCaution": "Avoid a full literal bridge from con- + vert. Use convert to teach vert = turn and connect that root to the whole-word meaning; do not treat the word as transparent evidence for con- = together/with.",
     "definition": "to change something into a different form",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -5417,7 +5419,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "literal": "related to between nations",
+    "literal": "between or among nations",
+    "semanticBridgeQuality": "high",
     "definition": "involving two or more countries",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -7112,6 +7115,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "high",
     "literal": "throw forward",
+    "semanticBridgeQuality": "high",
     "definition": "to extend, send, or show something forward",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "evidence": {
@@ -7447,6 +7451,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
     "literal": "throw back",
+    "semanticBridgeQuality": "high",
     "definition": "to refuse to accept, use, or believe something",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "evidence": {
@@ -8000,6 +8005,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "high",
     "literal": "things that follow",
+    "reviewCaution": "Avoid presenting sequ + -ence as a fully compositional literal bridge. Use sequence to teach sequ = follow and connect that root to the whole-word meaning.",
     "definition": "a set of things arranged in a particular order",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -8874,6 +8880,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
     "literal": "change form",
+    "reviewCaution": "Avoid presenting a full literal bridge from trans + form. Use transform to teach form = shape/form and connect that root to the whole-word meaning.",
     "definition": "to change into a different form",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
     "evidence": {
