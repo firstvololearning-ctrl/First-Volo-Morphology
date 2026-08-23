@@ -76,6 +76,17 @@
     student.voloGoals =
       [...new Set(goals)];
 
+    /*
+      Record when the learner intentionally
+      changes Goal checkboxes.
+
+      This lets cloud sync distinguish a
+      newer check/uncheck from an older copy
+      on another device.
+    */
+    student.voloGoalsUpdatedAt =
+      new Date().toISOString();
+
     window.FirstVoloActivityProgress
       ?.save?.();
 

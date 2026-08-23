@@ -68,8 +68,8 @@ const FORMS = {
       },
       {
         id: "pre-08", challenge: "Quick Match", type: "choice",
-        prompt: "What can -ance and -ence name?",
-        choices: ["a state, quality, or act", "one who or something having a quality", "an action happening now", "something that can be done"], answer: "a state, quality, or act",
+        prompt: "What can -ance and -ence help name?",
+        choices: ["an action, or a state or quality someone or something has", "a person or thing that does something or has a quality", "an action happening now", "something that can be done"], answer: "an action, or a state or quality someone or something has",
         skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
@@ -170,7 +170,7 @@ const FORMS = {
         ],
         skill: "suffixReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
         ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Related words, different suffixes",
-        rubricReference: "2 = explains both suffix functions: -ance helps form assistance, naming the act or help of assisting; -ant helps form assistant, naming a person who assists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
+        rubricReference: "2 = explains both suffix functions: -ance helps form assistance, naming the action or help of assisting; -ant helps form assistant, naming a person who assists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
       }
     ]
   },
@@ -236,7 +236,7 @@ const FORMS = {
       },
       {
         id: "post-08", challenge: "Quick Match", type: "choice",
-        prompt: "Which endings can name a state, quality, or act?", choices: ["-ance / -ence", "-ant / -ent", "-able / -ible", "-ed"], answer: "-ance / -ence",
+        prompt: "Which endings can help name an action, or a state or quality someone or something has?", choices: ["-ance / -ence", "-ant / -ent", "-able / -ible", "-ed"], answer: "-ance / -ence",
         skill: "meaning", reportGroup: "knowledge", support: "given a field of 4 choices", ccss: "L.6.4b / L.7.4b / L.8.4b"
       },
       {
@@ -337,7 +337,7 @@ const FORMS = {
         ],
         skill: "suffixReasoning", reportGroup: "constructed", trainedStatus: "practiced", support: "independently in a structured fill-in response",
         ccss: "L.6.4b / L.7.4b / L.8.4b", rubricTitle: "Related words, different suffixes",
-        rubricReference: "2 = explains both suffix functions: -ance helps form resistance, naming the act or state of resisting; -ant helps form resistant, describing someone or something that resists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
+        rubricReference: "2 = explains both suffix functions: -ance helps form resistance, naming the action or state of resisting; -ant helps form resistant, describing someone or something that resists. 1 = accurately explains one suffix or gives a partial contrast. 0 = does not explain the suffix contrast."
       }
     ]
   }

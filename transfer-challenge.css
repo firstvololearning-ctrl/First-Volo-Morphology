@@ -1,0 +1,500 @@
+/* ========================================
+   FIRST VOLO TRANSFER CHALLENGE
+   ======================================== */
+
+body.transfer-challenge-open {
+  overflow: hidden;
+}
+
+.transfer-challenge-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background:
+    rgba(26, 39, 54, 0.72);
+
+  backdrop-filter:
+    blur(5px);
+}
+
+.transfer-challenge-overlay[hidden] {
+  display: none;
+}
+
+.transfer-challenge-dialog {
+  width: min(760px, 100%);
+  max-height: 92vh;
+
+  overflow: auto;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    rgba(39, 75, 132, 0.16);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 24px 70px
+    rgba(20, 38, 62, 0.28);
+}
+
+.transfer-challenge-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding:
+    24px 26px 20px;
+
+  border-bottom:
+    1px solid #e4e9ef;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      #ffffff 100%
+    );
+}
+
+.transfer-challenge-eyebrow {
+  margin-bottom: 5px;
+
+  color: #54687f;
+
+  font-size: 0.78rem;
+  font-weight: 850;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.transfer-challenge-header h2 {
+  margin: 0;
+
+  color: #24364d;
+
+  font-size:
+    clamp(1.55rem, 4vw, 2.1rem);
+
+  line-height: 1.15;
+}
+
+.transfer-challenge-subtitle {
+  margin:
+    8px 0 0;
+
+  color: #5c6b7c;
+
+  line-height: 1.5;
+}
+
+.transfer-challenge-close {
+  flex: 0 0 auto;
+
+  width: 42px;
+  height: 42px;
+
+  border:
+    1px solid #d5dde6;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  color: #35475b;
+
+  font-size: 1.7rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.transfer-challenge-close:hover,
+.transfer-challenge-close:focus-visible {
+  background: #f2f6fa;
+}
+
+.transfer-challenge-content {
+  padding: 28px;
+}
+
+.transfer-challenge-intro,
+.transfer-challenge-state,
+.transfer-challenge-result {
+  text-align: center;
+}
+
+.transfer-challenge-flight {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 14px;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: #eef4fa;
+
+  color: #405872;
+
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.transfer-challenge-intro h3,
+.transfer-challenge-state h3,
+.transfer-challenge-result h3 {
+  margin:
+    0 0 12px;
+
+  color: #263a52;
+
+  font-size:
+    clamp(1.3rem, 3vw, 1.7rem);
+}
+
+.transfer-challenge-intro > p,
+.transfer-challenge-state > p,
+.transfer-challenge-result > p {
+  max-width: 590px;
+
+  margin:
+    10px auto;
+
+  color: #526273;
+
+  line-height: 1.6;
+}
+
+.transfer-challenge-rules {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+
+  margin:
+    22px 0;
+}
+
+.transfer-challenge-rules span {
+  padding:
+    8px 12px;
+
+  border:
+    1px solid #d8e3ed;
+
+  border-radius: 999px;
+
+  background: #f8fbfd;
+
+  color: #40566d;
+
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.transfer-challenge-note,
+.transfer-challenge-retry-note {
+  padding:
+    12px 15px;
+
+  border-radius: 14px;
+
+  background: #f6f8fa;
+}
+
+.transfer-challenge-retry-note {
+  font-weight: 700;
+}
+
+.transfer-challenge-intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 24px;
+}
+
+.transfer-primary-button,
+.transfer-secondary-button,
+.transfer-challenge-launch-button {
+  min-height: 44px;
+
+  padding:
+    10px 17px;
+
+  border-radius: 12px;
+
+  font: inherit;
+  font-weight: 850;
+
+  cursor: pointer;
+}
+
+.transfer-primary-button,
+.transfer-challenge-launch-button {
+  border:
+    1px solid #2876bb;
+
+  background: #2876bb;
+
+  color: #ffffff;
+}
+
+.transfer-primary-button:hover,
+.transfer-primary-button:focus-visible,
+.transfer-challenge-launch-button:hover,
+.transfer-challenge-launch-button:focus-visible {
+  filter: brightness(0.95);
+}
+
+.transfer-secondary-button {
+  border:
+    1px solid #cfd9e3;
+
+  background: #ffffff;
+
+  color: #344a61;
+}
+
+.transfer-secondary-button:hover,
+.transfer-secondary-button:focus-visible {
+  background: #f4f7fa;
+}
+
+.transfer-primary-button:disabled {
+  opacity: 0.48;
+
+  cursor: not-allowed;
+}
+
+.transfer-question-progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 8px;
+
+  color: #50657b;
+
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.transfer-progress-track {
+  height: 8px;
+
+  overflow: hidden;
+
+  margin-bottom: 26px;
+
+  border-radius: 999px;
+
+  background: #e5ebf1;
+}
+
+.transfer-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #2876bb;
+
+  transition:
+    width 180ms ease;
+}
+
+.transfer-question-directions {
+  margin:
+    0 0 10px;
+
+  color: #687788;
+
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.transfer-question-prompt {
+  margin:
+    0 0 22px;
+
+  color: #263a52;
+
+  font-size:
+    clamp(1.2rem, 3vw, 1.55rem);
+
+  line-height: 1.45;
+}
+
+.transfer-choice-grid {
+  display: grid;
+  gap: 11px;
+}
+
+.transfer-choice-button {
+  width: 100%;
+
+  padding:
+    14px 16px;
+
+  border:
+    2px solid #d8e0e8;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #293c51;
+
+  font: inherit;
+  font-weight: 720;
+
+  line-height: 1.4;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.transfer-choice-button:hover,
+.transfer-choice-button:focus-visible {
+  border-color: #7da9d0;
+
+  background: #f7fbff;
+}
+
+.transfer-choice-button.is-selected {
+  border-color: #2876bb;
+
+  background: #edf6fd;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(40, 118, 187, 0.1);
+}
+
+.transfer-choice-grid.is-multi
+  .transfer-choice-button.is-selected::before {
+  content: "✓ ";
+
+  font-weight: 900;
+}
+
+.transfer-next-button {
+  display: block;
+
+  min-width: 140px;
+
+  margin:
+    24px 0 0 auto;
+}
+
+.transfer-challenge-state-icon,
+.transfer-result-icon {
+  margin-bottom: 10px;
+
+  font-size: 3.2rem;
+}
+
+.transfer-result-label {
+  color: #40566d;
+
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.transfer-result-score {
+  margin:
+    10px 0 14px;
+
+  color: #24364d;
+
+  font-size:
+    clamp(3rem, 10vw, 4.8rem);
+
+  font-weight: 950;
+
+  line-height: 1;
+}
+
+.transfer-result-score span {
+  font-size: 0.45em;
+  font-weight: 800;
+}
+
+.transfer-challenge-result
+  .transfer-primary-button,
+.transfer-challenge-state
+  .transfer-primary-button,
+.transfer-challenge-state
+  .transfer-secondary-button {
+  margin-top: 20px;
+}
+
+.migration-map-message
+  .transfer-challenge-launch-button {
+  align-self: center;
+
+  margin-left: auto;
+
+  white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+
+  .transfer-challenge-overlay {
+    padding: 10px;
+  }
+
+  .transfer-challenge-dialog {
+    max-height: 96vh;
+
+    border-radius: 18px;
+  }
+
+  .transfer-challenge-header {
+    padding:
+      20px 18px 16px;
+  }
+
+  .transfer-challenge-content {
+    padding:
+      22px 18px;
+  }
+
+  .transfer-question-progress {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .transfer-next-button {
+    width: 100%;
+  }
+
+  .migration-map-message
+    .transfer-challenge-launch-button {
+    width: 100%;
+
+    margin:
+      12px 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .transfer-progress-fill {
+    transition: none;
+  }
+}

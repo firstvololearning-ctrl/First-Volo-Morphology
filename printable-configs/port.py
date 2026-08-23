@@ -137,3 +137,30 @@ RECORD_NOTE = (
     "Record each word you build. Literal meaning = what the word parts suggest; "
     "definition = what the whole word means."
 )
+
+SESSION_RECIPES = [
+    {
+        "word": "teleport",
+        "parts": ["tele", "port"],
+        "word_prompt_index": 3,
+        "context_prompt_index": 3,
+    },
+    {
+        "word": "porter",
+        "parts": ["port", "-er"],
+        "word_prompt_index": 5,
+        "context_prompt_index": 5,
+    },
+    {
+        "word": "report",
+        "parts": ["re-", "port"],
+        "word_prompt_index": 6,
+        "context_prompt_index": 6,
+    },
+    {
+        "word": "support",
+        "parts": ["sub- -> sup-", "port"],
+        "word_prompt_index": 7,
+        "context_prompt_index": 7,
+    },
+]

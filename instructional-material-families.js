@@ -1,0 +1,762 @@
+"use strict";
+
+window.FirstVoloInstructionalMaterialFamilies = {
+  "version": "shared-material-families-v1",
+  "principle": "Family content is exported from the existing printable configs so interactive and print materials use the same source content.",
+  "families": {
+    "COOK": {
+      "family": "COOK",
+      "flight": "Flight A",
+      "layout": "base-word",
+      "sourceConfig": "printable-configs/cook.py",
+      "labels": {
+        "rootSection": "BASE WORD",
+        "matATitle": "MAT A - one prefix",
+        "matAPrefix": "PREFIX"
+      },
+      "tiles": {
+        "prefixes": [
+          {
+            "id": "prefix-1",
+            "section": "prefix",
+            "label": "pre-",
+            "meaning": "before",
+            "image": "images/prefixes/pre.png"
+          },
+          {
+            "id": "prefix-2",
+            "section": "prefix",
+            "label": "re-",
+            "meaning": "again; back",
+            "image": "images/prefixes/re.png"
+          },
+          {
+            "id": "prefix-3",
+            "section": "prefix",
+            "label": "over-",
+            "meaning": "too much; above",
+            "image": "images/prefixes/over.png"
+          },
+          {
+            "id": "prefix-4",
+            "section": "prefix",
+            "label": "under-",
+            "meaning": "too little; below",
+            "image": "images/prefixes/under.png"
+          }
+        ],
+        "centers": [
+          {
+            "id": "center-1",
+            "section": "center",
+            "label": "cook",
+            "meaning": "prepare food with heat",
+            "image": "images/base-words/cook.png"
+          }
+        ],
+        "suffixes": [
+          {
+            "id": "suffix-1",
+            "section": "suffix",
+            "label": "-ed",
+            "meaning": "already happened; past",
+            "image": "images/suffixes/ed.png"
+          },
+          {
+            "id": "suffix-2",
+            "section": "suffix",
+            "label": "-ing",
+            "meaning": "action happening now",
+            "image": "images/suffixes/ing.png"
+          },
+          {
+            "id": "suffix-3",
+            "section": "suffix",
+            "label": "-er",
+            "meaning": "person or thing that",
+            "image": "images/suffixes/er-agent.png"
+          },
+          {
+            "id": "suffix-4",
+            "section": "suffix",
+            "label": "-s",
+            "meaning": "present-tense verb; or more than one",
+            "image": "images/suffixes/s.png"
+          }
+        ],
+        "extensions": []
+      },
+      "sessionRecipes": [
+        {
+          "word": "precook",
+          "parts": [
+            "pre-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something before.",
+          "contextPrompt": "The recipe says to ______ the crust before adding the filling."
+        },
+        {
+          "word": "recook",
+          "parts": [
+            "re-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something again.",
+          "contextPrompt": "The chicken was still raw, so we had to ______ it."
+        },
+        {
+          "word": "undercook",
+          "parts": [
+            "under-",
+            "cook"
+          ],
+          "wordPrompt": "Build a word that means to cook something too little."
+        },
+        {
+          "word": "cooked",
+          "parts": [
+            "cook",
+            "-ed"
+          ],
+          "wordPrompt": "Build a word that means cooked in the past.",
+          "contextPrompt": "Yesterday, Dad ______ dinner for everyone."
+        },
+        {
+          "word": "cooking",
+          "parts": [
+            "cook",
+            "-ing"
+          ],
+          "wordPrompt": "Build a word that means cooking right now.",
+          "contextPrompt": "We are ______ pasta right now."
+        },
+        {
+          "word": "cooker",
+          "parts": [
+            "cook",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person or thing that cooks.",
+          "contextPrompt": "The slow ______ keeps the soup warm all day."
+        },
+        {
+          "word": "cooks",
+          "parts": [
+            "cook",
+            "-s"
+          ],
+          "contextPrompt": "She ______ dinner every Friday."
+        }
+      ],
+      "prompts": {
+        "wordLevel": [
+          "Build a word that means to cook something before.",
+          "Build a word that means to cook something again.",
+          "Build a word that means to cook something too much.",
+          "Build a word that means to cook something too little.",
+          "Build a word that means cooked in the past.",
+          "Build a word that means cooking right now.",
+          "Build a word for a person or thing that cooks.",
+          "Build a word that means cooked too much."
+        ],
+        "context": [
+          "The recipe says to ______ the crust before adding the filling.",
+          "The chicken was still raw, so we had to ______ it.",
+          "We left the vegetables in too long, so they were ______.",
+          "The potatoes were still hard because they were ______.",
+          "Yesterday, Dad ______ dinner for everyone.",
+          "We are ______ pasta right now.",
+          "The slow ______ keeps the soup warm all day.",
+          "She ______ dinner every Friday."
+        ],
+        "extension": []
+      },
+      "notes": {
+        "cards": "Keep COOK as the base word. Add a prefix, a suffix, or both to build and compare related words.",
+        "mat": "Start with COOK in the blue base-word slot. Mat A adds a prefix. Mat B adds a suffix. Mat C adds both a prefix and a suffix.",
+        "clues": "Build each word from COOK. Notice what changes when a prefix, suffix, or both are added.",
+        "recording": "Record each word you build. Word sum = show the parts you joined. Literal meaning = what the parts suggest; definition = what the whole word means."
+      }
+    },
+    "PORT": {
+      "family": "PORT",
+      "flight": "Flight B",
+      "layout": "root",
+      "sourceConfig": "printable-configs/port.py",
+      "labels": {
+        "rootSection": "ROOT / GREEK COMBINING FORM",
+        "matATitle": "MAT A - one prefix or combining form",
+        "matAPrefix": "PREFIX / COMBINING FORM"
+      },
+      "tiles": {
+        "prefixes": [
+          {
+            "id": "prefix-1",
+            "section": "prefix",
+            "label": "in- -> im-",
+            "meaning": "in; into",
+            "image": "images/prefixes/in-im-01.png"
+          },
+          {
+            "id": "prefix-2",
+            "section": "prefix",
+            "label": "ex-",
+            "meaning": "out; from",
+            "image": "images/prefixes/ex.png"
+          },
+          {
+            "id": "prefix-3",
+            "section": "prefix",
+            "label": "de-",
+            "meaning": "off; from; down",
+            "image": "images/prefixes/de.png"
+          },
+          {
+            "id": "prefix-4",
+            "section": "prefix",
+            "label": "re-",
+            "meaning": "again; back",
+            "image": "images/prefixes/re.png"
+          },
+          {
+            "id": "prefix-5",
+            "section": "prefix",
+            "label": "trans-",
+            "meaning": "across",
+            "image": "images/prefixes/trans.png"
+          },
+          {
+            "id": "prefix-6",
+            "section": "prefix",
+            "label": "sub- -> sup-",
+            "meaning": "under; below",
+            "image": "images/prefixes/sub.png"
+          }
+        ],
+        "centers": [
+          {
+            "id": "center-1",
+            "section": "center",
+            "label": "port",
+            "meaning": "carry",
+            "image": "images/roots/port.png"
+          },
+          {
+            "id": "center-2",
+            "section": "center",
+            "label": "tele",
+            "meaning": "far; distant",
+            "image": "images/roots/tele.png"
+          }
+        ],
+        "suffixes": [
+          {
+            "id": "suffix-1",
+            "section": "suffix",
+            "label": "-able",
+            "meaning": "can be; able to be",
+            "image": "images/suffixes/able.png"
+          },
+          {
+            "id": "suffix-2",
+            "section": "suffix",
+            "label": "-er",
+            "meaning": "one who; person or thing that",
+            "image": "images/suffixes/er-agent.png"
+          },
+          {
+            "id": "suffix-3",
+            "section": "suffix",
+            "label": "-ed",
+            "meaning": "already happened; past",
+            "image": "images/suffixes/ed.png"
+          },
+          {
+            "id": "suffix-4",
+            "section": "suffix",
+            "label": "-ing",
+            "meaning": "action happening now",
+            "image": "images/suffixes/ing.png"
+          },
+          {
+            "id": "suffix-5",
+            "section": "suffix",
+            "label": "-s",
+            "meaning": "more than one",
+            "image": "images/suffixes/s.png"
+          }
+        ],
+        "extensions": [
+          {
+            "id": "extension-1",
+            "section": "extension",
+            "label": "-ant",
+            "meaning": "person or thing; having a quality",
+            "image": "images/suffixes/ant.png"
+          },
+          {
+            "id": "extension-2",
+            "section": "extension",
+            "label": "-ance",
+            "meaning": "state, quality, or act",
+            "image": "images/suffixes/ance.png"
+          }
+        ]
+      },
+      "sessionRecipes": [
+        {
+          "word": "teleport",
+          "parts": [
+            "tele",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to carry something far away instantly.",
+          "contextPrompt": "In the science-fiction movie, the robot can ______ to the space station."
+        },
+        {
+          "word": "porter",
+          "parts": [
+            "port",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person who carries luggage or supplies.",
+          "contextPrompt": "The hotel ______ carried our bags upstairs."
+        },
+        {
+          "word": "report",
+          "parts": [
+            "re-",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to tell or carry information back.",
+          "contextPrompt": "After the experiment, each team will ______ its results to the class."
+        },
+        {
+          "word": "support",
+          "parts": [
+            "sub- -> sup-",
+            "port"
+          ],
+          "wordPrompt": "Build a word that means to hold up from below.",
+          "contextPrompt": "Strong beams ______ the balcony from below."
+        }
+      ],
+      "prompts": {
+        "wordLevel": [
+          "Build a word that means to carry something into a place.",
+          "Build a word that means to carry something out from a place.",
+          "Build a word that means to carry something across or from one place to another.",
+          "Build a word that means to carry something far away instantly.",
+          "Build an adjective that means able to be carried.",
+          "Build a word for a person who carries luggage or supplies.",
+          "Build a word that means to tell or carry information back.",
+          "Build a word that means to hold up from below."
+        ],
+        "context": [
+          "Many tropical fruits are ______ into the country from warmer places.",
+          "The company will ______ apples to another state this fall.",
+          "The movers will ______ the piano across town on Saturday.",
+          "In the science-fiction movie, the robot can ______ to the space station.",
+          "The folding stool is light and ______.",
+          "The hotel ______ carried our bags upstairs.",
+          "After the experiment, each team will ______ its results to the class.",
+          "Strong beams ______ the balcony from below."
+        ],
+        "extension": [
+          {
+            "suffix": "-ant",
+            "instruction": "Build a word with -ant."
+          },
+          {
+            "suffix": "-ance",
+            "instruction": "Build a word with -ance."
+          }
+        ]
+      },
+      "notes": {
+        "cards": "Core cards build transparent PORT-family words. Later cards support noticing and extension.",
+        "mat": "Not every build needs every slot. Use Mat A for core builds, Mat B for layered prefix builds, and Mat C for extension builds.",
+        "clues": "Try the word-level clues first. Then use the sentence clues as a second way to build or check the same target words.",
+        "recording": "Record each word you build. Literal meaning = what the word parts suggest; definition = what the whole word means."
+      }
+    },
+    "TRACT": {
+      "family": "TRACT",
+      "flight": "Flight B",
+      "layout": "root",
+      "sourceConfig": "printable-configs/tract.py",
+      "labels": {
+        "rootSection": "ROOT",
+        "matATitle": "MAT A - one prefix",
+        "matAPrefix": "PREFIX"
+      },
+      "tiles": {
+        "prefixes": [
+          {
+            "id": "prefix-1",
+            "section": "prefix",
+            "label": "in-",
+            "meaning": "not",
+            "image": "images/prefixes/in-im-il-ir.png"
+          },
+          {
+            "id": "prefix-2",
+            "section": "prefix",
+            "label": "ad- -> at-",
+            "meaning": "to; toward",
+            "image": "images/prefixes/ad.png",
+            "note": "changes to at- before t"
+          },
+          {
+            "id": "prefix-3",
+            "section": "prefix",
+            "label": "dis-",
+            "meaning": "apart; away; not",
+            "image": "images/prefixes/dis.png"
+          },
+          {
+            "id": "prefix-4",
+            "section": "prefix",
+            "label": "ex-",
+            "meaning": "out; from",
+            "image": "images/prefixes/ex.png"
+          },
+          {
+            "id": "prefix-5",
+            "section": "prefix",
+            "label": "re-",
+            "meaning": "again; back",
+            "image": "images/prefixes/re.png"
+          },
+          {
+            "id": "prefix-6",
+            "section": "prefix",
+            "label": "sub-",
+            "meaning": "under; below",
+            "image": "images/prefixes/sub.png"
+          }
+        ],
+        "centers": [
+          {
+            "id": "center-1",
+            "section": "center",
+            "label": "tract",
+            "meaning": "pull; draw",
+            "image": "images/roots/tract.png"
+          }
+        ],
+        "suffixes": [
+          {
+            "id": "suffix-1",
+            "section": "suffix",
+            "label": "-or",
+            "meaning": "one who; person or thing that",
+            "image": "images/suffixes/or.png"
+          },
+          {
+            "id": "suffix-2",
+            "section": "suffix",
+            "label": "-able",
+            "meaning": "can be; able to be",
+            "image": "images/suffixes/able.png"
+          },
+          {
+            "id": "suffix-3",
+            "section": "suffix",
+            "label": "-ed",
+            "meaning": "already happened; past",
+            "image": "images/suffixes/ed.png"
+          },
+          {
+            "id": "suffix-4",
+            "section": "suffix",
+            "label": "-ing",
+            "meaning": "action happening now",
+            "image": "images/suffixes/ing.png"
+          },
+          {
+            "id": "suffix-5",
+            "section": "suffix",
+            "label": "-s",
+            "meaning": "more than one; or present-tense verb",
+            "image": "images/suffixes/s.png"
+          }
+        ],
+        "extensions": [
+          {
+            "id": "extension-1",
+            "section": "extension",
+            "label": "-ion",
+            "meaning": "act or process",
+            "image": "images/suffixes/ion.png"
+          },
+          {
+            "id": "extension-2",
+            "section": "extension",
+            "label": "-ive",
+            "meaning": "having the quality of; tending to",
+            "image": "images/suffixes/ive.png"
+          }
+        ]
+      },
+      "sessionRecipes": [
+        {
+          "word": "attract",
+          "parts": [
+            "ad- -> at-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull or draw something toward.",
+          "contextPrompt": "Bright colors can ______ attention from across the room."
+        },
+        {
+          "word": "distract",
+          "parts": [
+            "dis-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull attention away.",
+          "contextPrompt": "A loud conversation can ______ a student from reading."
+        },
+        {
+          "word": "extract",
+          "parts": [
+            "ex-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull something out.",
+          "contextPrompt": "The dentist may need to ______ a badly damaged tooth."
+        },
+        {
+          "word": "retract",
+          "parts": [
+            "re-",
+            "tract"
+          ],
+          "wordPrompt": "Build a word that means to pull something back.",
+          "contextPrompt": "Press the button to ______ the awning back into its case."
+        },
+        {
+          "word": "tractor",
+          "parts": [
+            "tract",
+            "-or"
+          ],
+          "wordPrompt": "Build a word for a machine that pulls farm equipment.",
+          "contextPrompt": "The farm ______ pulled a heavy trailer across the field."
+        },
+        {
+          "word": "distraction",
+          "parts": [
+            "dis-",
+            "tract",
+            "-ion"
+          ],
+          "wordPrompt": "Build a noun that means the act of pulling attention away.",
+          "contextPrompt": "The funny side conversation caused a major ______ during the lesson."
+        },
+        {
+          "word": "extraction",
+          "parts": [
+            "ex-",
+            "tract",
+            "-ion"
+          ],
+          "wordPrompt": "Build a noun that means the act of pulling something out.",
+          "contextPrompt": "The lab report described the ______ of oil from the seeds."
+        }
+      ],
+      "prompts": {
+        "wordLevel": [
+          "Build a word that means to pull or draw something toward.",
+          "Build a word that means to pull attention away.",
+          "Build a word that means to pull something out.",
+          "Build a word that means to pull something back.",
+          "Build a word for a machine that pulls farm equipment.",
+          "Build a noun that means the act of pulling attention away.",
+          "Build a noun that means the act of pulling something out.",
+          "Build an adjective that means able to be pulled back."
+        ],
+        "context": [
+          "Bright colors can ______ attention from across the room.",
+          "A loud conversation can ______ a student from reading.",
+          "The dentist may need to ______ a badly damaged tooth.",
+          "Press the button to ______ the awning back into its case.",
+          "The farm ______ pulled a heavy trailer across the field.",
+          "The funny side conversation caused a major ______ during the lesson.",
+          "The lab report described the ______ of oil from the seeds.",
+          "The antenna is ______, so it can slide back into the radio."
+        ],
+        "extension": [
+          {
+            "suffix": "-ive",
+            "instruction": "Build a word with -ive."
+          },
+          {
+            "suffix": "-ion",
+            "instruction": "Build a word with -ion."
+          }
+        ]
+      },
+      "notes": {
+        "cards": "Core cards build more transparent TRACT-family words. Optional extension work includes more challenging family members.",
+        "mat": "Not every build needs every slot. Use Mat A for core builds, Mat B for layered prefix builds, and Mat C for extension builds. Optional extension words can also use core cards.",
+        "clues": "Start with the more transparent clues. Then use the optional extension prompts for higher-vocabulary TRACT-family words.",
+        "recording": "Record each word you build. Literal meaning = what the word parts suggest; definition = what the whole word means."
+      }
+    },
+    "VIEW": {
+      "family": "VIEW",
+      "flight": "Flight A",
+      "layout": "base-word",
+      "sourceConfig": "printable-configs/view.py",
+      "labels": {
+        "rootSection": "BASE WORD",
+        "matATitle": "MAT A - one prefix",
+        "matAPrefix": "PREFIX"
+      },
+      "tiles": {
+        "prefixes": [
+          {
+            "id": "prefix-1",
+            "section": "prefix",
+            "label": "pre-",
+            "meaning": "before",
+            "image": "images/prefixes/pre.png"
+          },
+          {
+            "id": "prefix-2",
+            "section": "prefix",
+            "label": "re-",
+            "meaning": "again; back",
+            "image": "images/prefixes/re.png"
+          }
+        ],
+        "centers": [
+          {
+            "id": "center-1",
+            "section": "center",
+            "label": "view",
+            "meaning": "see; look at",
+            "image": "images/base-words/view.png"
+          }
+        ],
+        "suffixes": [
+          {
+            "id": "suffix-1",
+            "section": "suffix",
+            "label": "-s",
+            "meaning": "more than one; or present-tense verb",
+            "image": "images/suffixes/s.png"
+          },
+          {
+            "id": "suffix-2",
+            "section": "suffix",
+            "label": "-ed",
+            "meaning": "already happened; past",
+            "image": "images/suffixes/ed.png"
+          },
+          {
+            "id": "suffix-3",
+            "section": "suffix",
+            "label": "-ing",
+            "meaning": "action happening now",
+            "image": "images/suffixes/ing.png"
+          },
+          {
+            "id": "suffix-4",
+            "section": "suffix",
+            "label": "-er",
+            "meaning": "one who; person who",
+            "image": "images/suffixes/er-agent.png"
+          },
+          {
+            "id": "suffix-5",
+            "section": "suffix",
+            "label": "-able",
+            "meaning": "can be; able to be",
+            "image": "images/suffixes/able.png"
+          }
+        ],
+        "extensions": []
+      },
+      "sessionRecipes": [
+        {
+          "word": "views",
+          "parts": [
+            "view",
+            "-s"
+          ],
+          "wordPrompt": "Build a word that means more than one view.",
+          "contextPrompt": "The lookout has several beautiful ______ of the mountains."
+        },
+        {
+          "word": "viewed",
+          "parts": [
+            "view",
+            "-ed"
+          ],
+          "wordPrompt": "Build a word that means looked at in the past.",
+          "contextPrompt": "Yesterday we ______ the exhibit at the museum."
+        },
+        {
+          "word": "viewing",
+          "parts": [
+            "view",
+            "-ing"
+          ],
+          "wordPrompt": "Build a word that means looking at something now.",
+          "contextPrompt": "We are ______ the video together right now."
+        },
+        {
+          "word": "viewer",
+          "parts": [
+            "view",
+            "-er"
+          ],
+          "wordPrompt": "Build a word for a person who views something.",
+          "contextPrompt": "Each ______ watched the short clip carefully."
+        },
+        {
+          "word": "viewable",
+          "parts": [
+            "view",
+            "-able"
+          ],
+          "wordPrompt": "Build a word that means able to be viewed.",
+          "contextPrompt": "The document is ______ on the class website."
+        }
+      ],
+      "prompts": {
+        "wordLevel": [
+          "Build a word that means to view something before.",
+          "Build a word that means to view or look at something again.",
+          "Build a word that means more than one view.",
+          "Build a word that means looked at in the past.",
+          "Build a word that means looking at something now.",
+          "Build a word for a person who views something.",
+          "Build a word that means able to be viewed.",
+          "Build a word that means looking at something again now."
+        ],
+        "context": [
+          "We watched a ______ of the movie before it came out.",
+          "I will ______ my answers before I turn in my work.",
+          "The lookout has several beautiful ______ of the mountains.",
+          "Yesterday we ______ the exhibit at the museum.",
+          "We are ______ the video together right now.",
+          "Each ______ watched the short clip carefully.",
+          "The document is ______ on the class website.",
+          "She is ______ her notes before the quiz."
+        ],
+        "extension": []
+      },
+      "notes": {
+        "cards": "Keep VIEW as the base word. Add a prefix, a suffix, or both to build and compare related words.",
+        "mat": "Start with VIEW in the blue base-word slot. Mat A adds a prefix. Mat B adds a suffix. Mat C adds both a prefix and a suffix.",
+        "clues": "Build each word from VIEW. Notice what changes when a prefix, suffix, or both are added.",
+        "recording": "Record each word you build. Word sum = show the parts you joined. Literal meaning = what the parts suggest; definition = what the whole word means."
+      }
+    }
+  }
+};

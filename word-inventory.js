@@ -1022,7 +1022,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ance",
     "label": "-ance",
-    "meaning": "state, quality, or act",
+    "meaning": "an action, or a state or quality someone or something has",
     "introBand": "6-8",
     "ccssSkill": "L.6–8.4b",
     "placementRationale": "Abstract/specialized suffix family; reserve for upper middle-grade morphology under L.6–8.4b.",
@@ -1036,7 +1036,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ence",
     "label": "-ence",
-    "meaning": "state, quality, or act",
+    "meaning": "an action, or a state or quality someone or something has",
     "introBand": "6-8",
     "ccssSkill": "L.6–8.4b",
     "placementRationale": "Abstract/specialized suffix family; reserve for upper middle-grade morphology under L.6–8.4b.",
@@ -1065,7 +1065,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ity",
     "label": "-ity",
-    "meaning": "state or condition",
+    "meaning": "a state or quality someone or something has",
     "introBand": "4-5",
     "ccssSkill": "RF.4–5.3a; L.4–5.4b",
     "placementRationale": "More specialized Greek/Latin derivational suffix; fits L.4–5.4b.",
@@ -1080,7 +1080,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ive",
     "label": "-ive",
-    "meaning": "having a quality; tending to",
+    "meaning": "describes what someone or something is like or tends to do",
     "introBand": "4-5",
     "ccssSkill": "RF.4–5.3a; L.4–5.4b",
     "placementRationale": "More specialized Greek/Latin derivational suffix; fits L.4–5.4b.",
@@ -1137,7 +1137,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ness",
     "label": "-ness",
-    "meaning": "state or quality",
+    "meaning": "a state or quality someone or something has",
     "introBand": "2-3",
     "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
     "placementRationale": "Common inflectional/derivational suffix; fits RF.3.3a-b and L.3.4b, with several forms appearing even earlier.",
@@ -1267,7 +1267,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ion",
     "label": "-ion, -tion, -sion",
-    "meaning": "act or process",
+    "meaning": "an action, process, or result",
     "introBand": "2-3",
     "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
     "placementRationale": "Common inflectional/derivational suffix; fits RF.3.3a-b and L.3.4b, with several forms appearing even earlier.",
@@ -1311,7 +1311,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ment",
     "label": "-ment",
-    "meaning": "act, result, or state",
+    "meaning": "an action, process, result, or state",
     "introBand": "2-3",
     "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
     "placementRationale": "Common inflectional/derivational suffix; fits RF.3.3a-b and L.3.4b, with several forms appearing even earlier.",
@@ -1325,7 +1325,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ous",
     "label": "-ous",
-    "meaning": "having the quality of",
+    "meaning": "having a quality",
     "introBand": "4-5",
     "ccssSkill": "RF.4–5.3a; L.4–5.4b",
     "placementRationale": "More specialized Greek/Latin derivational suffix; fits L.4–5.4b.",
@@ -1339,7 +1339,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "type": "suffix",
     "id": "ant-ent",
     "label": "-ant, -ent",
-    "meaning": "one who; having or being",
+    "meaning": "a person or thing that does something; describes a quality",
     "introBand": "6-8",
     "ccssSkill": "L.6–8.4b",
     "placementRationale": "Abstract/specialized suffix family; reserve for upper middle-grade morphology under L.6–8.4b.",
@@ -1367,7 +1367,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
   }
 ];
 
-window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v7-morpheme-metadata";
+window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v10-protection-clean-build";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
   {
@@ -1558,6 +1558,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "adjoin",
+    segmentation: "ad- + join",
     "status": "current",
     "morphemes": [
       "a-",
@@ -1623,6 +1624,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "antifreeze",
+    segmentation: "anti- + freeze",
     "status": "current",
     "morphemes": [
       "anti-"
@@ -1990,6 +1992,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "beautify",
+    segmentation: "beauty + -ify",
     "status": "current",
     "morphemes": [
       "-ify"
@@ -2858,7 +2861,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "low",
     "literal": "having a building-together quality",
-    "definition": "helpful and intended to improve or build something",
+    "definition": "useful and intended to improve or build something",
     "recommendedActivityUse": "Learn / Find / Meaning / Figure It Out; Build with explicit con- + struct + -ive segmentation",
     "reviewCaution": "Modern constructive often means helpful or improving, a figurative extension of struct = build; teach the semantic bridge explicitly.",
     "evidence": {
@@ -2912,7 +2915,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "literal": "coming together",
+    "literal": "a coming together",
+    "semanticBridgeQuality": "high",
     "definition": "a meeting or gathering of people",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -2941,6 +2945,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
     "literal": "turn or change",
+    "reviewCaution": "Avoid a full literal bridge from con- + vert. Use convert to teach vert = turn and connect that root to the whole-word meaning; do not treat the word as transparent evidence for con- = together/with.",
     "definition": "to change something into a different form",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -3802,7 +3807,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
-    "definition": "an interruption that breaks normal activity",
+    "definition": "a break in normal activity",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
       "wviVerification": "Not bulk-verified",
@@ -3996,6 +4001,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "encircle",
+    segmentation: "en- + circle",
     "status": "current",
     "morphemes": [
       "en-",
@@ -4325,6 +4331,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "faster",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er"
@@ -4440,6 +4449,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "foretell",
+    segmentation: "fore- + tell",
     "status": "current",
     "morphemes": [
       "fore-"
@@ -4556,6 +4566,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "geology",
+    segmentation: "geo + -ology",
     "status": "current",
     "morphemes": [
       "-ology",
@@ -4674,6 +4685,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "happiness",
+    segmentation: "happy + -ness",
     "status": "current",
     "morphemes": [
       "-ness"
@@ -4814,6 +4826,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "illegal",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4842,6 +4857,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "immerse",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4863,6 +4881,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "import",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "im-",
@@ -4895,6 +4916,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "importance",
+    "segmentation": null,
     "status": "current",
     "morphemes": [
       "-ance"
@@ -4907,8 +4929,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
-    "reviewCaution": "Suffix -ance is usable; do not use port = carry to infer the modern meaning.",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "reviewCaution": "Do not use as a simple Build Words item. Importance is not a clean transparent base + -ance construction for this activity.",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1144,
@@ -4918,6 +4940,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "impossible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -4946,6 +4971,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inactive",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-ive",
@@ -4975,6 +5003,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inbound",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
+    segmentation: "in- + bound",
     "status": "current",
     "morphemes": [
       "in-",
@@ -4996,6 +5028,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "incredible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-able",
@@ -5028,6 +5063,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "insert",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -5050,6 +5088,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspect",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -5078,6 +5119,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspected",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ed",
@@ -5103,6 +5147,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspecting",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ing",
@@ -5128,6 +5175,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspection",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ion",
@@ -5156,6 +5206,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspector",
+    "targetSenseIds": [
+      "er-or",
+      "location-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -5188,6 +5242,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "inspects",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-s",
@@ -5235,6 +5292,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "instruction",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ion",
@@ -5264,6 +5324,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "instructive",
+    "targetSenseIds": [
+      "location-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-ive",
@@ -5356,7 +5419,8 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "literal": "related to between nations",
+    "literal": "between or among nations",
+    "semanticBridgeQuality": "high",
     "definition": "involving two or more countries",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -5531,6 +5595,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "invisible",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "recommended",
     "morphemes": [
       "-able",
@@ -5559,6 +5626,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "irregular",
+    "targetSenseIds": [
+      "negative-in-family"
+    ],
     "status": "current",
     "morphemes": [
       "in-",
@@ -5817,6 +5887,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "midday",
+    segmentation: "mid- + day",
     "status": "current",
     "morphemes": [
       "mid-"
@@ -6058,7 +6129,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "act or process of moving",
     "definition": "movement or the act of moving",
-    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Break It Apart / Figure It Out",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1848,
@@ -6281,6 +6352,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "overuse",
+    segmentation: "over- + use",
     "status": "current",
     "morphemes": [
       "over-"
@@ -6324,6 +6396,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "pendant",
+    "segmentation": "pend + -ant",
     "status": "current",
     "morphemes": [
       "pend/pens"
@@ -7042,6 +7115,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "high",
     "literal": "throw forward",
+    "semanticBridgeQuality": "high",
     "definition": "to extend, send, or show something forward",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "evidence": {
@@ -7105,6 +7179,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "propel",
+    "segmentation": "pro- + pel",
     "status": "current",
     "morphemes": [
       "pel"
@@ -7376,6 +7451,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
     "literal": "throw back",
+    "semanticBridgeQuality": "high",
     "definition": "to refuse to accept, use, or believe something",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "evidence": {
@@ -7409,6 +7485,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "repel",
+    "segmentation": "re- + pel",
     "status": "current",
     "morphemes": [
       "pel"
@@ -7473,6 +7550,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "resistant",
+    segmentation: "resist + -ant",
     "status": "current",
     "morphemes": [
       "-ant",
@@ -7720,7 +7798,6 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "rupt"
     ],
-    "segmentation": "rupt + ure",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -7729,9 +7806,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "high",
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
-    "literal": "a breaking",
     "definition": "a break, tear, or burst",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "reviewCaution": "Contains rupt = break, but the ending is not currently a validated First Volo morpheme. Use rupture for target recognition and meaning connection, not as a full segmentation, literal-parts bridge, or Build item.",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -7783,6 +7860,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "scripted",
+    "segmentation": "script + -ed",
     "status": "current",
     "morphemes": [
       "scrib/script"
@@ -7870,6 +7948,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "semifinal",
+    segmentation: "semi- + final",
     "status": "current",
     "morphemes": [
       "semi-"
@@ -7926,6 +8005,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "high",
     "literal": "things that follow",
+    "reviewCaution": "Avoid presenting sequ + -ence as a fully compositional literal bridge. Use sequence to teach sequ = follow and connect that root to the whole-word meaning.",
     "definition": "a set of things arranged in a particular order",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
     "evidence": {
@@ -8055,6 +8135,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "stronger",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er"
@@ -8103,7 +8186,6 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "struct"
     ],
-    "segmentation": "struct + ure",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -8112,9 +8194,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "high",
     "gradeConfidence": "high",
     "vocabConfidence": "high",
-    "literal": "a building or arrangement",
     "definition": "something built or arranged in an organized way",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "reviewCaution": "Contains struct = build, but the ending is not currently a validated First Volo morpheme. Use structure for target recognition and meaning connection, not as a full segmentation, literal-parts bridge, or Build item.",
     "evidence": {
       "ngsl": true,
       "ngslRank": 667,
@@ -8342,7 +8424,15 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
     },
-    "segmentation": "super- + struct + -ure"
+    "segmentation": "super- + structure",
+    "nonTargetSupports": [
+      {
+        "part": "structure",
+        "meaning": "something built or arranged in an organized way",
+        "role": "base word",
+        "timing": "after-independent-attempt"
+      }
+    ]
   },
   {
     "word": "suspend",
@@ -8388,6 +8478,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "taller",
+    "targetSenseIds": [
+      "er-more"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -8436,6 +8529,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "teacher",
+    "targetSenseIds": [
+      "er-or"
+    ],
     "status": "current",
     "morphemes": [
       "-er",
@@ -8464,6 +8560,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "telegraph",
+    "segmentation": "tele + graph",
     "status": "current",
     "morphemes": [
       "tele"
@@ -8506,6 +8603,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "telescope",
+    "segmentation": "tele + scope",
     "status": "current",
     "morphemes": [
       "scop/scope",
@@ -8549,6 +8647,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "tenable",
+    "segmentation": "ten + -able",
     "status": "current",
     "morphemes": [
       "ten"
@@ -8741,6 +8840,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "transfer",
+    "segmentation": "trans- + fer",
     "status": "current",
     "morphemes": [
       "fer",
@@ -8780,6 +8880,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "high",
     "vocabConfidence": "medium",
     "literal": "change form",
+    "reviewCaution": "Avoid presenting a full literal bridge from trans + form. Use transform to teach form = shape/form and connect that root to the whole-word meaning.",
     "definition": "to change into a different form",
     "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
     "evidence": {
@@ -8977,6 +9078,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "undercook",
+    segmentation: "under- + cook",
     "status": "current",
     "morphemes": [
       "under-"
@@ -9057,6 +9159,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "unhappy",
+    segmentation: "un- + happy",
     "status": "current",
     "morphemes": [
       "un-"
@@ -9080,6 +9183,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "untie",
+    segmentation: "un- + tie",
     "status": "current",
     "morphemes": [
       "un-"
@@ -9408,6 +9512,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "writer",
+    "targetSenseIds": [
+      "er-or"
+    ],
+    segmentation: "write + -er",
     "status": "current",
     "morphemes": [
       "-er",
@@ -9632,5 +9740,101 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "nweaMatch": "No match",
       "curriculumEvidence": "Vocabulary.com Grade 6 phon family"
     }
+  },
+  {
+    "word": "endless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "end + -less",
+    "literal": "without end",
+    "definition": "having no end; continuing for a very long time",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "harmless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "harm + -less",
+    "literal": "without harm",
+    "definition": "not likely to hurt or cause damage",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "painless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "pain + -less",
+    "literal": "without pain",
+    "definition": "not causing or involving pain",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "cloudless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "cloud + -less",
+    "literal": "without clouds",
+    "definition": "having no clouds",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "useless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "use + -less",
+    "literal": "without use",
+    "definition": "not useful for a purpose",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
+  },
+  {
+    "word": "sleepless",
+    "status": "current",
+    "morphemes": [
+      "-less"
+    ],
+    "segmentation": "sleep + -less",
+    "literal": "without sleep",
+    "definition": "without sleep; unable to sleep",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
+    "reviewCaution": null
   }
 ];

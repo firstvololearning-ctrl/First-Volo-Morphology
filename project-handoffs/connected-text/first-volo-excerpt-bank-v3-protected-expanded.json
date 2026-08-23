@@ -1,0 +1,723 @@
+{
+  "version": "v3-protected-expanded",
+  "date": "2026-08-19",
+  "status": "cleaned + target-driven expansion; 14 candidates",
+  "sourceOfTruth": [
+    "Current First Volo Curriculum Map / Scope & Sequence",
+    "Current master word inventory",
+    "Current Flight A/B/C pre/post assessment logic",
+    "Migration Challenge reserved-transfer data"
+  ],
+  "designRules": [
+    "Practice Flight tracks word-part instructional progression; passage reading demand is separate.",
+    "Use the exact linguistic role for the specific word: base, root, Greek combining form, prefix, or suffix.",
+    "Protect scored pre/post target words and assessed word contrasts; do not over-block incidental prompt vocabulary.",
+    "Protect all 30 Migration Challenge words from ordinary instruction/application.",
+    "Future connected-text Check Transfer uses a third, non-overlapping reserved pool.",
+    "A known morpheme may be taught and practiced even when a different whole word containing it is reserved for transfer.",
+    "Lexile is a private cross-check on finalized prose, not the determinant of Practice Flight."
+  ],
+  "protectionRegistryFile": "first-volo-excerpt-protection-registry-v2.json",
+  "entries": [
+    {
+      "id": "A-comet-01",
+      "flight": "A",
+      "title": "A Comet Wakes Up",
+      "topic": "Space / comets",
+      "sourceAgency": "NASA Space Place",
+      "sourceTitle": "What Is a Comet?",
+      "sourceUrl": "https://spaceplace.nasa.gov/comets/en/",
+      "sourceAudience": "NASA Science for Kids",
+      "rightsStatus": "NASA-authored content generally reusable for educational/informational use; verify any individual third-party image separately and credit NASA.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "re-",
+          "type": "prefix",
+          "examples": [
+            "redirects"
+          ]
+        },
+        {
+          "part": "-ing",
+          "type": "suffix",
+          "examples": [
+            "heating",
+            "forming"
+          ]
+        },
+        {
+          "part": "-s",
+          "type": "suffix",
+          "examples": [
+            "moves",
+            "changes",
+            "streams"
+          ]
+        }
+      ],
+      "draftExcerpt": "Comets are icy objects that travel around the Sun. Far away, a comet stays frozen. Sometimes the pull of a planet or star redirects a comet toward the Sun. As it moves closer, the comet begins heating up. Ice changes into gas, and dust streams away. This can form a bright tail. Scientists study comets because they contain old material left from the time when our solar system was forming.",
+      "interestHook": "What happens when a frozen space object gets too close to the Sun?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 70,
+        "roughFKGradeProxy": 5.8,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "A-yellowstone-01",
+      "flight": "A",
+      "title": "Built for a Yellowstone Winter",
+      "topic": "Animals / survival",
+      "sourceAgency": "National Park Service",
+      "sourceTitle": "Get Wild: Yellowstone Survivor",
+      "sourceUrl": "https://www.nps.gov/yell/learn/kidsyouth/get-wild-yellowstone-survivor.htm",
+      "sourceAudience": "NPS kids/youth page",
+      "rightsStatus": "NPS-created text is generally U.S. public domain unless otherwise indicated; avoid NPS protected marks and verify third-party media separately.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "over-",
+          "type": "prefix",
+          "examples": [
+            "oversized"
+          ]
+        },
+        {
+          "part": "under-",
+          "type": "prefix",
+          "examples": [
+            "underwater"
+          ]
+        },
+        {
+          "part": "-ing",
+          "type": "suffix",
+          "examples": [
+            "hibernating"
+          ]
+        }
+      ],
+      "draftExcerpt": "Wild animals in Yellowstone have amazing ways to survive winter. Wolves have oversized paws that help them move across deep snow. Beavers can stay underwater for many minutes. Elk move to lower places when heavy snow arrives. Ground squirrels spend much of the year hibernating. Some animals even change color in winter. Each of these traits helps an animal handle cold, snow, or a shortage of food.",
+      "interestHook": "Could you out-jump, out-walk, or outlast a Yellowstone animal?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 67,
+        "roughFKGradeProxy": 6.6,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "A-desert-01",
+      "flight": "A",
+      "title": "How to Survive a Desert",
+      "topic": "Animals and plants / desert",
+      "sourceAgency": "National Park Service",
+      "sourceTitle": "Desert Adaptations",
+      "sourceUrl": "https://www.nps.gov/teachers/classrooms/desert-adaptations.htm",
+      "sourceAudience": "NPS lesson tagged Pre-K through Grade 2",
+      "rightsStatus": "NPS-created text is generally U.S. public domain unless otherwise indicated; verify any outside materials separately.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "under-",
+          "type": "prefix",
+          "examples": [
+            "underground"
+          ]
+        },
+        {
+          "part": "-ing",
+          "type": "suffix",
+          "examples": [
+            "living"
+          ]
+        },
+        {
+          "part": "-s",
+          "type": "suffix",
+          "examples": [
+            "plants",
+            "animals",
+            "stems",
+            "surfaces"
+          ]
+        }
+      ],
+      "draftExcerpt": "The desert can be very hot and dry. A desert tortoise can hide underground when the surface becomes too warm. Some plants store water in thick stems. Others have waxy surfaces that slow water loss. Many desert animals rest during the day and become active after sunset. These features help living things survive when water is hard to find and daytime heat is extreme.",
+      "interestHook": "What would your body need if you had to live where shade and water are scarce?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 64,
+        "roughFKGradeProxy": 6.1,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "A-earthquake-01",
+      "flight": "A",
+      "title": "Earthquake Waves Race",
+      "topic": "Earth science / earthquakes",
+      "sourceAgency": "U.S. Geological Survey",
+      "sourceTitle": "Cool Earthquake Facts / The Science of Earthquakes",
+      "sourceUrl": "https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts",
+      "sourceAudience": "USGS Earthquakes for Kids collection",
+      "rightsStatus": "USGS-authored information is U.S. public domain; credit USGS and verify any separately credited media.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "-ed",
+          "type": "suffix",
+          "examples": [
+            "recorded"
+          ]
+        },
+        {
+          "part": "-ing",
+          "type": "suffix",
+          "examples": [
+            "moving",
+            "shaking"
+          ]
+        },
+        {
+          "part": "-s",
+          "type": "suffix",
+          "examples": [
+            "waves",
+            "scientists"
+          ]
+        }
+      ],
+      "draftExcerpt": "An earthquake sends waves through the ground. Some waves move faster than others, so they do not all arrive at the same time. Scientists use instruments to record the shaking. The pattern that is recorded can help them learn where an earthquake happened and how large it was. Earthquake waves can travel very far, even when people do not feel every movement.",
+      "interestHook": "Which earthquake wave wins the race through Earth?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 62,
+        "roughFKGradeProxy": 6.2,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "B-tele-01",
+      "flight": "B",
+      "title": "Scientists Join a Dive from Far Away",
+      "topic": "Ocean exploration / technology",
+      "sourceAgency": "NOAA Ocean Exploration",
+      "sourceTitle": "Telepresence Technology",
+      "sourceUrl": "https://oceanexplorer.noaa.gov/technology/telepresence/",
+      "sourceAudience": "General/education ocean exploration",
+      "rightsStatus": "NOAA Ocean Exploration states that site information is public domain unless otherwise noted; credit the contributing author/affiliation or NOAA Ocean Exploration.",
+      "passageType": [
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "tele",
+          "type": "Greek combining form",
+          "examples": [
+            "telepresence"
+          ]
+        },
+        {
+          "part": "-ion",
+          "type": "suffix",
+          "examples": [
+            "location",
+            "expedition"
+          ]
+        }
+      ],
+      "draftExcerpt": "Ocean explorers do not all have to be on the same ship. NOAA uses telepresence technology to connect people who are far apart. Video and data travel from a research ship to scientists on shore. Those scientists can watch an underwater dive, discuss what they see, and help the shipboard team make decisions in real time. Telepresence lets experts take part in an expedition even when they are hundreds or thousands of miles from the vessel.",
+      "interestHook": "Could you help explore the deep ocean without ever boarding the ship?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 76,
+        "roughFKGradeProxy": 8.0,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "instructionalCaution": "Use tele as a known combining-form clue plus context; the remainder of telepresence is not treated as a fully taught word-part build.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "B-struct-01",
+      "flight": "B",
+      "title": "Why a Beaver Is Built That Way",
+      "topic": "Animals / structure and function",
+      "sourceAgency": "National Park Service",
+      "sourceTitle": "Animal Adaptations",
+      "sourceUrl": "https://www.nps.gov/teachers/classrooms/animal-adaptations.htm",
+      "sourceAudience": "NPS lesson tagged Grades 3-5",
+      "rightsStatus": "NPS-created text is generally U.S. public domain unless otherwise indicated; verify any cited outside teaching materials separately.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "struct",
+          "type": "root",
+          "examples": [
+            "structure",
+            "structures"
+          ]
+        },
+        {
+          "part": "-s",
+          "type": "suffix",
+          "examples": [
+            "structures",
+            "feet",
+            "teeth",
+            "sounds"
+          ]
+        }
+      ],
+      "draftExcerpt": "A beaver's body has structures that help it survive. Webbed feet help it swim, strong teeth cut wood, and a broad tail can help with steering and balance. Other animals have different structures for different jobs. A bird's beak may help it gather food, while a deer's large ears help it detect sounds. Scientists compare these structures to understand how an animal's body is built for the environment where it lives.",
+      "interestHook": "Why does a beaver need webbed feet, giant teeth, and a paddle-shaped tail?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 71,
+        "roughFKGradeProxy": 7.2,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "B-bio-01",
+      "flight": "B",
+      "title": "Living Light in the Deep",
+      "topic": "Ocean life / bioluminescence",
+      "sourceAgency": "NOAA Ocean Exploration",
+      "sourceTitle": "Bioluminescence",
+      "sourceUrl": "https://oceanexplorer.noaa.gov/education/bioluminescence/",
+      "sourceAudience": "NOAA educator resources; related investigation is tagged Grades 6-8",
+      "rightsStatus": "NOAA Ocean Exploration states that site information is public domain unless otherwise noted; credit the contributing author/affiliation or NOAA Ocean Exploration.",
+      "passageType": [
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "bio",
+          "type": "Greek combining form",
+          "examples": [
+            "bioluminescence",
+            "bioluminescent"
+          ]
+        }
+      ],
+      "draftExcerpt": "Deep in the ocean, many animals can make their own light. This phenomenon is called bioluminescence. Scientists estimate that a large share of animals living in the open-ocean water column are bioluminescent. Some animals may use light to find food, communicate, hide, or defend themselves. Because sunlight does not reach the deepest parts of the ocean, a flash of living light can be especially useful in the darkness.",
+      "interestHook": "Why would an animal living in total darkness make its own light?",
+      "lexileStatus": "The related NOAA investigation is Grades 6-8; this adapted version may fit Flight B as a supported/stretch passage. Exact finalized text should be checked privately with an authorized Lexile analyzer.",
+      "internalReadabilityScreen": {
+        "wordCount": 68,
+        "roughFKGradeProxy": 9.5,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "instructionalCaution": "Use bio as a recognizable clue and use context to build meaning. Do not present bioluminescence as fully derivable from bio alone.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "C-sequ-01",
+      "flight": "C",
+      "title": "DNA Clues in a Bottle of Seawater",
+      "topic": "Ocean science / environmental DNA",
+      "sourceAgency": "NOAA Ocean Exploration",
+      "sourceTitle": "From Data to Discovery: Unlocking Ocean Secrets With eDNA",
+      "sourceUrl": "https://oceanexplorer.noaa.gov/news/from-data-to-discovery-unlocking-ocean-secrets-with-edna/",
+      "sourceAudience": "Current NOAA Ocean Exploration feature (2026)",
+      "rightsStatus": "NOAA Ocean Exploration states that site information is public domain unless otherwise noted; credit the contributing author/affiliation or NOAA Ocean Exploration.",
+      "passageType": [
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "sequ",
+          "type": "root",
+          "examples": [
+            "sequence",
+            "sequences",
+            "sequenced"
+          ]
+        },
+        {
+          "part": "bio",
+          "type": "Greek combining form",
+          "examples": [
+            "biodiversity"
+          ]
+        }
+      ],
+      "draftExcerpt": "Scientists can learn about ocean life from tiny traces of DNA left in seawater. They collect water samples, extract environmental DNA, and sequence the genetic material. The resulting sequences can be compared with reference data to help identify organisms that were present in an area. This method can reveal evidence from many species without requiring scientists to capture every animal. As more samples are collected and sequenced, researchers can compare locations and look for patterns in the biodiversity of the deep ocean.",
+      "interestHook": "How much can scientists discover from one bottle of seawater?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 82,
+        "roughFKGradeProxy": 12.2,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "progressionNote": "sequence is legitimate instruction/application for sequ. The Migration Challenge word subsequent remains reserved and unseen.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "C-aud-01",
+      "flight": "C",
+      "title": "Listening for Bats in the Dark",
+      "topic": "Animals / sound",
+      "sourceAgency": "National Park Service",
+      "sourceTitle": "Mammals - Sequoia & Kings Canyon National Parks",
+      "sourceUrl": "https://www.nps.gov/seki/learn/nature/mammals.htm",
+      "sourceAudience": "General NPS natural-history page",
+      "rightsStatus": "NPS-created text is generally U.S. public domain unless otherwise indicated; verify any separately credited media.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "aud",
+          "type": "root",
+          "examples": [
+            "auditory",
+            "audio"
+          ]
+        },
+        {
+          "part": "re-",
+          "type": "prefix",
+          "examples": [
+            "recording",
+            "recordings"
+          ]
+        }
+      ],
+      "draftExcerpt": "Bats can hunt in darkness by sending out high-frequency calls and listening for echoes that bounce back from nearby objects or insects. Scientists can place recording equipment in natural areas to collect audio over long periods. These recordings provide auditory information about when bats are active and how their sound patterns change across places, seasons, and times of night.",
+      "interestHook": "What can a bat hear that you cannot?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "internalReadabilityScreen": {
+        "wordCount": 79,
+        "roughFKGradeProxy": 11.1,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "assessmentProtectionNote": "Revised in v2 to remove exact assessment words audible/inaudible. Uses auditory/audio instead.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "C-vert-01",
+      "flight": "C",
+      "title": "How an Underwater Robot Moves",
+      "topic": "Engineering / underwater robots",
+      "sourceAgency": "NOAA Ocean Exploration",
+      "sourceTitle": "Simple Machines: Robot Building Blocks",
+      "sourceUrl": "https://oceanexplorer.noaa.gov/lesson/underwater-robots-simple-machines/",
+      "sourceAudience": "NOAA lesson tagged Grades 6-8",
+      "rightsStatus": "NOAA Ocean Exploration states that site information is public domain unless otherwise noted; credit the contributing author/affiliation or NOAA Ocean Exploration.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "vert",
+          "type": "root",
+          "examples": [
+            "convert",
+            "converts"
+          ]
+        },
+        {
+          "part": "-ion",
+          "type": "suffix",
+          "examples": [
+            "motion"
+          ]
+        }
+      ],
+      "draftExcerpt": "Engineers who build underwater robots combine simple machines into complex systems. A remotely operated vehicle may use a hydraulic actuator to move a manipulator arm. The actuator can convert stored or supplied energy into motion, allowing the robot to push, pull, lift, or turn objects underwater. Engineers test the design, observe how the arm moves, and make changes when needed. This process helps them improve how efficiently the robot converts energy into controlled movement during an ocean mission.",
+      "interestHook": "How does a robot turn stored energy into a moving arm deep underwater?",
+      "lexileStatus": "Source lesson is explicitly Grades 6-8. Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer.",
+      "internalReadabilityScreen": {
+        "wordCount": 78,
+        "roughFKGradeProxy": 12.7,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "instructionalCaution": "convert is medium-transparency in the current inventory. Preserve con- + vert structure and use context/scaffolding rather than treating it as a simple one-part derivation.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "C-struct-02",
+      "flight": "C",
+      "title": "Why Earthquake-Resistant Buildings Matter",
+      "topic": "Earth science / engineering",
+      "sourceAgency": "U.S. Geological Survey",
+      "sourceTitle": "What are the Effects of Earthquakes?",
+      "sourceUrl": "https://www.usgs.gov/programs/earthquake-hazards/what-are-effects-earthquakes",
+      "sourceAudience": "USGS earthquake science",
+      "rightsStatus": "USGS-authored information is U.S. public domain; credit USGS and verify any separately credited media.",
+      "passageType": [
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "struct",
+          "type": "root",
+          "examples": [
+            "structure",
+            "construct"
+          ]
+        },
+        {
+          "part": "-tion",
+          "type": "suffix",
+          "examples": [
+            "composition",
+            "distribution"
+          ]
+        }
+      ],
+      "draftExcerpt": "Earthquake waves can make a structure move in several directions at once. Some waves create side-to-side motion that can be especially damaging to buildings. Engineers therefore study how the ground is likely to shake before they construct an earthquake-resistant building. They consider the strength and duration of the shaking, the distance from a fault, and the properties of the soil and rock below the structure. The goal is to construct a building that can withstand the forces produced by an earthquake.",
+      "interestHook": "How can engineers build something that survives when the ground itself moves?",
+      "lexileStatus": "Likely a higher-demand application passage; exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer.",
+      "internalReadabilityScreen": {
+        "wordCount": 81,
+        "roughFKGradeProxy": 9.8,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "progressionNote": "struct is introduced earlier; this is a denser connected-text application in a later Flight, illustrating that Flight and passage reading demand remain separate.",
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "B-telescope-01",
+      "flight": "B",
+      "title": "A Tool for Looking Far Away",
+      "topic": "Space / telescopes",
+      "sourceAgency": "NASA Space Place",
+      "sourceTitle": "How Do Telescopes Work? / Telescopes",
+      "sourceUrl": "https://spaceplace.nasa.gov/en/menu/kids/telescopes/",
+      "sourceAudience": "NASA Science for Kids",
+      "rightsStatus": "NASA-authored content generally reusable for educational/informational use; verify separately credited media.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "tele",
+          "type": "Greek combining form",
+          "examples": [
+            "telescope"
+          ]
+        },
+        {
+          "part": "scope",
+          "type": "Greek combining form",
+          "examples": [
+            "telescope"
+          ]
+        }
+      ],
+      "draftExcerpt": "Telescopes help us see objects that are very far away. A telescope gathers light with mirrors or lenses so distant objects are easier to observe. Some telescopes work from the ground, while others orbit Earth in space. In the word telescope, the Greek combining form tele means far or distant, and scope is connected with looking or examining. Together, those parts give a useful clue to what a telescope does.",
+      "interestHook": "How can a word tell you what a telescope is designed to do?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "scopeCheck": "tele and scop/scope are introduced in Flight B; telescope is a current Flight B practice word.",
+      "assessmentProtectionNote": "No scored pre/post target word or Migration Challenge reserved word is used as the morphology target.",
+      "internalReadabilityScreen": {
+        "wordCount": 70,
+        "roughFKGradeProxy": 8.2,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "B-therm-01",
+      "flight": "B",
+      "title": "Hot Water at the Bottom of the Ocean",
+      "topic": "Ocean exploration / hydrothermal vents",
+      "sourceAgency": "NOAA Ocean Exploration",
+      "sourceTitle": "Hydrothermal Vents and Volcanoes",
+      "sourceUrl": "https://oceanexplorer.noaa.gov/education/hydrothermal-vents-volcanoes-educators/",
+      "sourceAudience": "NOAA educator resources; page includes Grades 6-8 resources",
+      "rightsStatus": "NOAA Ocean Exploration states site information is public domain unless otherwise noted; verify separately credited media.",
+      "passageType": [
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "therm",
+          "type": "Greek combining form",
+          "examples": [
+            "hydrothermal",
+            "thermal"
+          ]
+        },
+        {
+          "part": "-al",
+          "type": "suffix",
+          "examples": [
+            "thermal"
+          ]
+        }
+      ],
+      "draftExcerpt": "Far below the ocean surface, cold seawater can move through cracks in the seafloor near hot magma. The water is heated and then rises back toward the ocean through hydrothermal vents. These vents can support unusual communities of animals even where sunlight does not reach. The Greek combining form therm means heat. That known part gives a useful clue in hydrothermal and thermal, while the surrounding science text helps confirm the whole meaning.",
+      "interestHook": "How can icy ocean water become superheated deep below the seafloor?",
+      "lexileStatus": "Source collection includes Grades 6-8 material; exact adapted excerpt should be checked privately for reading demand.",
+      "instructionalCaution": "Treat therm as the known clue plus context. Do not imply that students can derive the entire word hydrothermal from therm alone; hydro is not currently part of the First Volo target set.",
+      "scopeCheck": "therm and -al are available by Flight B; this passage may have higher reading demand than the morphology Flight.",
+      "internalReadabilityScreen": {
+        "wordCount": 73,
+        "roughFKGradeProxy": 8.4,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    },
+    {
+      "id": "C-terr-01",
+      "flight": "C",
+      "title": "What Makes a Planet Terrestrial?",
+      "topic": "Space / rocky planets",
+      "sourceAgency": "NASA Science",
+      "sourceTitle": "Earth / Terrestrial Planets",
+      "sourceUrl": "https://science.nasa.gov/exoplanets/terrestrial/",
+      "sourceAudience": "NASA Science; related NASA Kids Earth material available",
+      "rightsStatus": "NASA-authored content generally reusable for educational/informational use; verify separately credited media.",
+      "passageType": [
+        "instructional",
+        "application"
+      ],
+      "protectedTransferEligible": false,
+      "targetMorphology": [
+        {
+          "part": "terr",
+          "type": "root",
+          "examples": [
+            "terrestrial"
+          ]
+        }
+      ],
+      "draftExcerpt": "Earth, Mars, Mercury, and Venus are rocky planets with solid surfaces. Scientists call planets like these terrestrial planets. The root terr means earth or land, which gives a strong clue to the word terrestrial. Astronomers also use the term for rocky planets outside our solar system. Some are smaller than Earth and some are larger, but their solid, rocky nature separates them from giant planets made mostly of gas.",
+      "interestHook": "Why are Earth and Mars in the same planet group even though they look so different?",
+      "lexileStatus": "Exact finalized excerpt should be checked privately with an authorized Lexile Text Analyzer; do not publish an unofficial estimate.",
+      "scopeCheck": "terr is introduced in Flight C. The underlying concept can be presented in relatively accessible prose, illustrating that word-part Flight and passage reading demand are separate.",
+      "internalReadabilityScreen": {
+        "wordCount": 69,
+        "roughFKGradeProxy": 7.6,
+        "note": "Internal screening proxy only; not a Lexile measure and not for publication."
+      },
+      "protectionAudit": {
+        "migrationChallengeReservedWordHits": [],
+        "verifiedAssessmentTargetWordHits": [],
+        "ordinaryExcerptEligible": true,
+        "futureProtectedTransferEligible": false,
+        "note": "Connected-text transfer will use its own reserved whole-word pool."
+      }
+    }
+  ]
+}

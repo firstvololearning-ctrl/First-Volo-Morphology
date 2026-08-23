@@ -73,7 +73,10 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260820-audio4">
+  <link rel="stylesheet" href="migration-map.css?v=20260819-2304">
+  <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
+
 </head>
 
 <body>
@@ -140,6 +143,13 @@
 
       <a
         class="header-link"
+        href="program-progress.html#instructionalGuidanceWrap"
+      >
+        🧭 Session Guide
+      </a>
+
+      <a
+        class="header-link"
         href="educator-resources.html"
       >
         🍎 Educator Resources
@@ -174,12 +184,12 @@
 
         <span class="student-bar-intro-copy">
           <span class="student-bar-label">
-            Optional: Choose your name
+            Optional: Choose your learner
           </span>
 
           <span class="student-bar-note">
-            Choose a student if you want activity progress saved in this browser.
-            Use Manage Students to add or edit students.
+            Choose a learner if you want activity progress saved in this browser.
+            Use Manage Learners to add or edit learners.
           </span>
         </span>
 
@@ -188,22 +198,22 @@
       <div
         class="student-chip-list"
         id="activityStudentChips"
-        aria-label="Choose current student"
+        aria-label="Choose current learner"
       ></div>
 
       <select
         id="activityStudentSelect"
-        aria-label="Current student"
+        aria-label="Current learner"
         hidden
       >
-        <option value="">No student selected</option>
+        <option value="">No learner selected</option>
       </select>
 
       <a
         href="program-progress.html"
         class="manage-students-link"
       >
-        Manage Students
+        Manage Learners
       </a>
 
     </section>
@@ -1010,6 +1020,16 @@
             pre-
           </div>
 
+          <div class="meaning-question-audio-row">
+            <button
+              class="meaning-question-audio-button"
+              id="meaningQuestionAudioButton"
+              type="button"
+            >
+              🔊 Hear the question
+            </button>
+          </div>
+
           <div
             class="answer-grid"
             id="meaningChoices"
@@ -1402,31 +1422,6 @@
         words in reading, writing, and academic language.
       </p>
 
-
-      <section class="about-section">
-
-        <h3>
-          Instructional Logic Behind the Practice
-        </h3>
-
-        <p>
-          First Volo does not place a word into an activity simply
-          because it contains the selected word part. Words are
-          considered in relation to their morphological structure,
-          transparency, whole-word accessibility, vocabulary level,
-          and the kind of thinking an activity requires.
-        </p>
-
-        <p>
-          A word that works well for recognizing a morpheme may not
-          be appropriate for independent meaning inference, word
-          construction, or contextual application. Practice Flight
-          and Vocabulary are also kept separate so educators can
-          adjust morphological demand and lexical demand independently.
-        </p>
-
-      </section>
-
       <p class="about-lead">
         Students move through a scaffolded progression:
         <strong>Learn → Find → Word Hunt → Meaning → Word Part →
@@ -1436,6 +1431,106 @@ Change It</strong>.
         knowledge with increasing independence, including using
         word structure and sentence context together.
       </p>
+
+
+      <!-- FIRST_VOLO_ABOUT_TEACHER_LED_LOGIC_V1 -->
+      <section class="about-section">
+
+        <h3>
+          How Teacher-Led Instruction Works
+        </h3>
+
+        <p>
+          First Volo is designed to support the educator during
+          instruction, not simply present practice items. When learner
+          progress is available, the system can recommend a next word
+          part and activity from recent performance. Educators can also
+          choose a different target or activity for a specific clinical
+          or instructional reason. Opening a teacher-selected session
+          does not replace the learner's adaptive recommendation unless
+          new performance is actually saved.
+        </p>
+
+        <div class="about-level-grid">
+
+          <div class="about-level-card">
+            <strong>Begin with the student</strong>
+            <p>
+              Each new morphology demand starts with an independent
+              attempt before target support is added.
+            </p>
+          </div>
+
+          <div class="about-level-card">
+            <strong>Identify the barrier</strong>
+            <p>
+              The system distinguishes difficulty with the morphology
+              itself from barriers such as decoding, whole-word
+              knowledge, retrieval, directions, context use, or
+              sentence formulation.
+            </p>
+          </div>
+
+          <div class="about-level-card">
+            <strong>Use the least support needed</strong>
+            <p>
+              Educator guidance is matched to the activity and barrier.
+              After support, the student retries the same demand so the
+              educator can see whether the help changed performance.
+              Support is reduced again when the student succeeds with
+              greater independence.
+            </p>
+          </div>
+
+          <div class="about-level-card">
+            <strong>Apply with something new</strong>
+            <p>
+              Teacher-led sessions move from guided practice to a fresh
+              application word. When the task depends on retrieval, the
+              fresh word is protected from preview until after the
+              student has attempted the target skill.
+            </p>
+          </div>
+
+          <div class="about-level-card">
+            <strong>Check Transfer separately</strong>
+            <p>
+              Check Transfer uses reserved unfamiliar whole words that
+              have not been used for ordinary practice. The first
+              attempt is made without identifying, highlighting, or
+              defining the known morpheme. Afterward, the educator
+              records morpheme recognition separately from whole-word
+              inference.
+            </p>
+          </div>
+
+          <div class="about-level-card">
+            <strong>Protect linguistic accuracy</strong>
+            <p>
+              First Volo does not treat every spelling chunk as a
+              meaningful morpheme. Word selection considers meaningful
+              structure, transparency, accessibility, and the specific
+              demand of the activity. If an accurate instructional
+              sequence cannot be built, the system may leave that
+              option unavailable rather than inventing a word part,
+              mis-segmenting a word, or changing the intended skill.
+            </p>
+          </div>
+
+        </div>
+
+        <p class="about-small-note">
+          The instructional logic is:
+          <strong>
+            independent attempt → identify the barrier → least support
+            needed → retry the same demand → fade support after success.
+          </strong>
+          The goal is to keep the morphology reasoning with the student
+          while giving the educator practical support for deciding what
+          to do next.
+        </p>
+
+      </section>
 
 
       <section class="about-section">
@@ -1537,31 +1632,42 @@ Change It</strong>.
             <section class="about-section">
 
         <h3>
-          Digital + Targeted Hands-On Instruction
+          Digital + Hands-On Practice
         </h3>
 
         <p>
-          Digital activities and hands-on materials are designed
-          as parts of the same instructional system. First Volo
-          instructional mats and word-part cards can be matched to
-          the Practice Flight, target word family, and word structure
-          being taught, giving educators a concrete space to model,
-          break apart, build, compare, and explain words with students.
+          First Volo Morphology combines interactive practice
+          with educator-guided printable materials. The
+          printables extend the same instructional progression
+          beyond the screen rather than functioning as a
+          separate curriculum.
         </p>
 
         <p>
-          The <strong>Build &amp; Discover</strong> system supports
-          different structural demands—from simpler prefix + base or
-          root + suffix combinations to layered builds and extension
-          work—so the hands-on task can change as morphological
-          complexity increases.
+          In <strong>Flight A</strong>, hands-on practice
+          emphasizes familiar bases and high-frequency affixes.
+          Beginning in <strong>Flight B</strong>, printable sets
+          increasingly organize practice around selected
+          high-utility root families. Students can manipulate
+          word-part cards, build related words, record word
+          sums, compare literal and whole-word meanings, and
+          build words from meaning and sentence-context clues.
         </p>
 
         <p>
-          <strong>The goal is not simply more practice in another
-          format.</strong> It is a targeted educator-led teaching
-          opportunity connected to the same morphology students
-          encounter online.
+          <strong>Flight C</strong> extends this work with more
+          complex word families, layered morphology,
+          derivational relationships, and increasingly
+          independent analysis and application.
+        </p>
+
+        <p>
+          Educators can also log completed printable and
+          hands-on practice for individual learners in
+          <strong>Program Progress</strong>. These records
+          document practice and exposure only; they do not
+          change activity accuracy, assessment scores, or
+          Volo Token evidence.
         </p>
 
         <div class="about-research-link-wrap">
@@ -1594,6 +1700,58 @@ Change It</strong>.
 
 
 <section class="about-section">
+
+        <h3>
+          Assessment &amp; Progress Monitoring
+        </h3>
+
+        <p>
+          Optional <strong>Pre · Form A</strong> and
+          <strong>Post · Form B</strong> assessments are
+          available for each Practice Flight. Assessments can
+          be completed digitally or administered on paper,
+          with paper results entered into First Volo for
+          educator reporting and Pre/Post comparison.
+        </p>
+
+        <p>
+          The assessments sample word-part knowledge,
+          application to practiced words, transfer to new
+          words, word analysis, and structured morphology
+          reasoning. They are designed to help educators
+          examine change over time and should be interpreted
+          alongside instruction, classroom or intervention
+          performance, and other sources of information.
+        </p>
+
+        <div class="about-research-link-wrap">
+          <a
+            class="about-research-link"
+            href="progress-monitoring.html"
+          >
+            <span class="about-research-icon">📋</span>
+
+            <span>
+              <strong>Assessment &amp; Progress Monitoring</strong>
+              <small>
+                Access Pre/Post forms, paper entry, reports,
+                and progress-monitoring guidance.
+              </small>
+            </span>
+
+            <span
+              class="about-research-arrow"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </a>
+        </div>
+
+      </section>
+
+
+      <section class="about-section">
 
         <h3>
           Learning Progresses in Two Ways
@@ -2079,13 +2237,29 @@ First Volo Morphology.
     This activity requires JavaScript to run.
   </noscript>
 
-  <script src="word-inventory.js"></script>
+  <script src="word-inventory.js?v=20260820-protect5"></script>
   <script src="token-sets.js"></script>
   <script src="volo-tokens.js"></script>
+  <script src="transfer-challenge-data.js"></script>
+  <script src="migration-progress.js?v=20260819-1612"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
+  <script src="js/cloud/morphology-cloud.js"></script>
   <script src="activity-progress.js"></script>
-  <script src="home-volo-goals.js"></script>
+  <script src="linguistic-role-registry.js?v=20260820-role1"></script>
+  <script src="instructional-rules.js?v=20260820-rules1"></script>
+  <script src="instructional-guidance.js?v=20260819-pass2"></script>
+  <script src="instructional-material-families.js?v=20260820-material1"></script>
+  <script src="instructional-material-spec.js?v=20260820-material1"></script>
+  <script src="instructional-protection-registry.js?v=20260820-protect2"></script>
+  <script src="instructional-material-resolver.js?v=20260820-material5"></script>
+  <script src="instructional-target-resolver.js?v=20260820-target2"></script>
+  <script src="instructional-session-planner.js?v=20260820-route2"></script>
+  <script src="instructional-check-transfer.js?v=20260820-transfer1"></script>
+  <script src="transfer-challenge-ui.js?v=20260819-1755"></script>
+  <script src="migration-map.js?v=20260819-2235a"></script>
   <script src="volo-token-celebration.js"></script>
-  <script src="script.js"></script>
+  <script src="instructional-audio.js?v=20260820-rate2"></script>
+  <script src="script.js?v=20260820-mot2"></script>
   <script src="use-it.js"></script>
   <script src="change-it.js"></script>
 

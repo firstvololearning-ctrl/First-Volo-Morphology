@@ -1,0 +1,121 @@
+{
+  "version": "v2",
+  "date": "2026-08-19",
+  "principle": "Three independent protected pools",
+  "pools": {
+    "formal_pre_post": {
+      "purpose": "Baseline/outcome assessment",
+      "rule": "Protect the exact whole word(s) being scored or explicitly contrasted in each assessment item, plus the exact structured-response pair where that pair is itself the assessed construct. Do not block ordinary incidental context words merely because they appear in a prompt.",
+      "verifiedWordsDuringThisAudit": {
+        "A": [
+          "careless",
+          "disagree",
+          "helpful",
+          "helpless",
+          "hopeful",
+          "hopeless",
+          "miscount",
+          "mislabel",
+          "preheat",
+          "preview",
+          "prewash",
+          "reheat",
+          "reread",
+          "review",
+          "teacher",
+          "unhappy"
+        ],
+        "B": [
+          "construction",
+          "disrupt",
+          "exportable",
+          "import",
+          "imported",
+          "importer",
+          "impossible",
+          "inactive",
+          "inspect",
+          "inspected",
+          "inspection",
+          "inspector",
+          "interrupt",
+          "interruption",
+          "reconstruct",
+          "spectator",
+          "transport",
+          "transportable"
+        ],
+        "C": [
+          "abduct",
+          "assistance",
+          "assistant",
+          "audible",
+          "chronology",
+          "eject",
+          "ejectable",
+          "emit",
+          "inaudible",
+          "produce",
+          "propelled",
+          "reposition",
+          "retractable",
+          "retrospective",
+          "transmit"
+        ]
+      },
+      "buildRule": "Add explicit protectedTargetWords metadata to each pre/post item (or generate a central assessment-target registry), then reject ordinary excerpt-bank entries that contain those protected target words as instructional/application targets. Also reject copied or near-copied assessment prompts, response frames, and distractor sets.",
+      "note": "The taught morpheme itself is not protected. Instruction is expected to teach the morpheme; protection preserves the scored whole-word evidence."
+    },
+    "migration_challenge": {
+      "purpose": "Independent end-of-Flight transfer on the Migration Map",
+      "rule": "All 30 words remain unseen in Learn, ordinary practice, connected-text instruction/application, and future teacher-generated materials before the challenge.",
+      "passRule": "4/5 (80%)",
+      "affectsTokens": false,
+      "affectsPracticeAccuracy": false,
+      "affectsFormalAssessment": false,
+      "wordsByFlight": {
+        "2-3": [
+          "pregame",
+          "misplace",
+          "fearless",
+          "rebuild",
+          "readable",
+          "overcook",
+          "kindness",
+          "midpoint",
+          "unfair",
+          "speechless"
+        ],
+        "4-5": [
+          "export",
+          "biology",
+          "classify",
+          "semicircle",
+          "portable",
+          "manuscript",
+          "modernize",
+          "visible",
+          "thermometer",
+          "poetic"
+        ],
+        "6-8": [
+          "credible",
+          "detract",
+          "subsequent",
+          "acceptance",
+          "abnormal",
+          "evaluate",
+          "intervene",
+          "projection",
+          "dependent",
+          "retroactive"
+        ]
+      }
+    },
+    "connected_text_transfer": {
+      "purpose": "Future short protected Check Transfer excerpts/items",
+      "rule": "Create a separate reserved bank. Its whole words must not overlap formal pre/post or Migration Challenge and must be excluded from all ordinary instruction/application once reserved.",
+      "status": "not yet populated"
+    }
+  }
+}

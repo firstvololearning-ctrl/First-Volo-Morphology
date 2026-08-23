@@ -4975,6 +4975,753 @@ a:focus-visible {
   box-shadow: none;
 }
 
+
+/* Paper & Hands-On Practice tracker */
+.paper-practice-progress {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #dbe3ec;
+}
+
+.paper-practice-progress h4 {
+  margin: 0 0 8px;
+}
+
+.paper-practice-intro {
+  max-width: 850px;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.paper-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+  gap: 12px;
+}
+
+.paper-practice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 14px;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.paper-practice-flight {
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  opacity: .68;
+}
+
+.paper-practice-title {
+  line-height: 1.3;
+}
+
+.paper-practice-status {
+  min-height: 2.4em;
+  font-size: .88rem;
+  line-height: 1.35;
+}
+
+.paper-practice-log-button {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 8px 11px;
+  border: 1px solid #bfd0e4;
+  border-radius: 9px;
+  background: #eef5fc;
+  color: #173a64;
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.paper-practice-log-button:hover,
+.paper-practice-log-button:focus-visible {
+  background: #e2eef9;
+}
+
+
+.paper-practice-log-controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.paper-practice-date-label,
+.paper-practice-history-label {
+  display: grid;
+  gap: 4px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.paper-practice-date-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 36px;
+  padding: 6px 8px;
+  border: 1px solid #c9d6e3;
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: .82rem;
+}
+
+.paper-practice-history {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8ef;
+}
+
+.paper-practice-history summary {
+  cursor: pointer;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.paper-practice-history-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.paper-practice-history-row {
+  display: grid;
+  gap: 6px;
+  padding: 9px;
+  border-radius: 9px;
+  background: #f7f9fb;
+}
+
+.paper-practice-edit-button {
+  justify-self: start;
+  padding: 6px 9px;
+  border: 1px solid #bfd0e4;
+  border-radius: 8px;
+  background: #eef5fc;
+  color: #173a64;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.paper-practice-edit-button:hover,
+.paper-practice-edit-button:focus-visible {
+  background: #e2eef9;
+}
+
+
+/* ========================================
+   PROGRAM PROGRESS — HOME-STYLE POLISH
+   ======================================== */
+
+.progress-content {
+  width: min(
+    var(--page-width),
+    calc(100% - 40px)
+  );
+  margin: 0 auto 40px;
+}
+
+
+/* Main learner area = same large-card language
+   used throughout the home activity page */
+
+.progress-page .student-tracker {
+  padding: 28px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 251, 254, 0.98)
+    );
+
+  box-shadow: var(--shadow-medium);
+}
+
+.progress-page .student-tracker > h2 {
+  margin: 0 0 8px;
+
+  color: var(--navy);
+  font-size: clamp(
+    1.45rem,
+    2.5vw,
+    1.9rem
+  );
+  font-weight: 900;
+}
+
+
+/* Evidence / informational notes */
+
+.progress-page .progress-evidence-legend,
+.progress-page .tracker-local-note {
+  padding: 14px 16px;
+
+  border: 1px solid #d7e4ef;
+  border-radius: var(--radius-medium);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f7fbff,
+      #eef6fd
+    );
+
+  color: var(--text);
+  line-height: 1.5;
+}
+
+
+/* Learner controls */
+
+.progress-page .tracker-controls {
+  margin-top: 20px;
+  padding: 22px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+
+  background: rgba(255, 255, 255, 0.94);
+
+  box-shadow: var(--shadow-small);
+}
+
+.progress-page .progress-student-picker {
+  padding: 14px 16px;
+
+  border: 1px solid #d9e3ed;
+  border-radius: var(--radius-medium);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f7faff
+    );
+}
+
+.progress-page .progress-add-student input {
+  min-height: 48px;
+  padding: 10px 14px;
+
+  border: 2px solid #c7d5e5;
+  border-radius: var(--radius-medium);
+
+  background: var(--white);
+
+  color: var(--text);
+
+  box-shadow:
+    inset 0 1px 2px rgba(16, 45, 80, 0.04),
+    0 3px 9px rgba(16, 45, 80, 0.05);
+}
+
+.progress-page
+.progress-add-student input:focus {
+  border-color: var(--blue);
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(40, 118, 187, 0.12);
+}
+
+.progress-page
+.progress-add-student-button {
+  min-height: 46px;
+  padding: 10px 17px;
+
+  border-radius: 999px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* Selected learner = substantial rounded workspace */
+
+.progress-page .tracker-student-summary {
+  margin-top: 24px;
+  padding: 26px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+
+  background: var(--white);
+
+  box-shadow: var(--shadow-medium);
+}
+
+.progress-page
+.progress-student-summary-heading {
+  gap: 18px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #e1e8ef;
+}
+
+.progress-page
+.progress-student-summary-label {
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.progress-page
+.progress-student-summary-heading h3 {
+  margin-top: 3px;
+
+  color: var(--navy);
+  font-size: 1.45rem;
+}
+
+
+/* Learner action buttons */
+
+.progress-page
+.progress-student-action {
+  padding: 9px 13px;
+
+  border-radius: 999px;
+
+  box-shadow:
+    0 2px 7px rgba(16, 45, 80, 0.07);
+}
+
+
+/* Volo Token section */
+
+.progress-page .volo-token-progress {
+  margin-top: 24px;
+  padding: 22px;
+
+  border: 1px solid #dbe4ed;
+  border-radius: var(--radius-large);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fbfdff,
+      #f5f9fd
+    );
+}
+
+.progress-page .volo-token-card {
+  border-radius: var(--radius-medium);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f9fbfd
+    );
+
+  box-shadow:
+    0 3px 10px rgba(23, 59, 102, 0.07);
+}
+
+
+/* Paper / hands-on section */
+
+.progress-page .paper-practice-progress {
+  margin-top: 24px;
+  padding: 22px;
+
+  border: 1px solid #dbe4ed;
+  border-radius: var(--radius-large);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fbfdff,
+      #f5f9fd
+    );
+}
+
+.progress-page .paper-practice-card {
+  padding: 16px;
+
+  border-radius: var(--radius-medium);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f9fbfd
+    );
+
+  box-shadow:
+    0 3px 10px rgba(23, 59, 102, 0.07);
+}
+
+.progress-page
+.paper-practice-date-input {
+  border-radius: var(--radius-small);
+}
+
+.progress-page
+.paper-practice-log-button,
+.progress-page
+.paper-practice-edit-button {
+  border-radius: 999px;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.progress-page
+.paper-practice-log-button:hover,
+.progress-page
+.paper-practice-edit-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 10px rgba(23, 59, 102, 0.1);
+}
+
+
+/* Recent session area */
+
+.progress-page
+.student-progress-details > h4 {
+  margin: 24px 0 10px;
+
+  color: var(--navy);
+  font-size: 1.12rem;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .progress-page .student-tracker,
+  .progress-page .tracker-student-summary {
+    padding: 20px;
+  }
+
+  .progress-page .tracker-controls,
+  .progress-page .volo-token-progress,
+  .progress-page .paper-practice-progress {
+    padding: 16px;
+  }
+
+}
+
+/* Program Progress — roomier paper-practice cards */
+
+.progress-page .paper-practice-grid {
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.progress-page .paper-practice-card {
+  min-height: 210px;
+  padding: 18px;
+}
+
+.progress-page .paper-practice-title {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.progress-page .paper-practice-status {
+  margin-top: 2px;
+}
+
+.progress-page .paper-practice-log-controls {
+  margin-top: 8px;
+}
+
+@media (max-width: 1000px) {
+  .progress-page .paper-practice-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .progress-page .paper-practice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === DYNAMIC NEXT SESSION GUIDE === */
+
+#instructionalGuidancePanel {
+  scroll-margin-top: 22px;
+}
+
+.instructional-guidance-panel {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid #dce7f1;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow:
+    0 12px 30px
+    rgba(39, 75, 132, .07);
+}
+
+.teacher-guide-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.teacher-guide-eyebrow,
+.teacher-guide-label {
+  display: block;
+  color: #62768c;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.teacher-guide-heading h2 {
+  margin: 3px 0 2px;
+  color: #263b54;
+}
+
+.teacher-guide-heading p {
+  margin: 0;
+  color: #718196;
+}
+
+.teacher-guide-back-link {
+  flex: 0 0 auto;
+  color: #3d668d;
+  font-size: .82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.teacher-guide-core {
+  overflow: hidden;
+  border: 1px solid #e0e8f0;
+  border-radius: 16px;
+}
+
+.teacher-guide-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  padding: 13px 15px;
+  background: #ffffff;
+}
+
+.teacher-guide-row + .teacher-guide-row {
+  border-top: 1px solid #e7edf3;
+}
+
+.teacher-guide-row p {
+  margin: 0;
+  color: #40566d;
+  line-height: 1.48;
+}
+
+.teacher-guide-today {
+  background: #f3f8fd;
+}
+
+.teacher-guide-next {
+  background: #f8fbfe;
+}
+
+.teacher-guide-observation {
+  background: #fffaf0;
+}
+
+.teacher-guide-details {
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.teacher-guide-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  color: #304b67;
+}
+
+.teacher-guide-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.teacher-guide-details > summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: #55718d;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.teacher-guide-details[open] > summary::after {
+  content: "−";
+}
+
+.teacher-guide-details > summary strong,
+.teacher-guide-details > summary small {
+  display: block;
+}
+
+.teacher-guide-details > summary small {
+  margin-top: 2px;
+  color: #75869a;
+  font-size: .76rem;
+}
+
+.teacher-guide-details-body {
+  padding: 0 14px 14px;
+  border-top: 1px solid #edf1f5;
+}
+
+.teacher-current-barrier {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 13px 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: #fff6dc;
+  color: #66521c;
+}
+
+.teacher-current-barrier span {
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.teacher-support-none {
+  margin-top: 13px;
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: #f5f8fb;
+  color: #566a80;
+  line-height: 1.45;
+}
+
+.teacher-support-none strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.teacher-support-ladder {
+  margin: 13px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: support;
+}
+
+.teacher-support-ladder li {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 10px;
+  padding: 10px 11px;
+  border: 1px solid #e4ebf2;
+  border-radius: 10px;
+  background: #fbfcfe;
+  color: #42586f;
+}
+
+.teacher-support-ladder li + li {
+  margin-top: 7px;
+}
+
+.teacher-support-level {
+  color: #47739a;
+  font-size: .73rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.teacher-fade-rule {
+  margin-top: 12px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: #eef8f1;
+}
+
+.teacher-fade-rule p {
+  margin: 3px 0 0;
+  color: #456453;
+  line-height: 1.45;
+}
+
+.teacher-access-rule {
+  margin-top: 13px;
+}
+
+.teacher-access-rule ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  color: #465c72;
+}
+
+.teacher-access-rule li + li {
+  margin-top: 6px;
+}
+
+.teacher-guide-details-body > p {
+  color: #4d6278;
+  line-height: 1.5;
+}
+
+.teacher-guide-boundary {
+  margin-top: 13px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: #f4f7fa;
+}
+
+@media (max-width: 760px) {
+  .teacher-guide-heading {
+    flex-direction: column;
+  }
+
+  .teacher-guide-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .teacher-support-ladder li {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+}
+
+/* === END DYNAMIC NEXT SESSION GUIDE === */
+
 /* === PROGRAM PROGRESS MAJOR COLLAPSIBLES === */
 
 .progress-major-collapse {
@@ -5010,7 +5757,6 @@ a:focus-visible {
   color: #52708f;
   font-size: 1.2rem;
   font-weight: 900;
-  line-height: 1;
 }
 
 .progress-major-collapse[open]
@@ -5030,7 +5776,32 @@ a:focus-visible {
 }
 
 .progress-major-collapse
-  .volo-token-progress-heading {
+  .volo-token-progress-heading,
+.progress-major-collapse
+  .paper-practice-progress > h4 {
+  display: none;
+}
+
+.progress-guide-collapse {
+  scroll-margin-top: 20px;
+}
+
+.progress-guide-collapse-body {
+  padding: 0;
+}
+
+.progress-guide-collapse
+  .instructional-guidance-panel {
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.progress-guide-collapse
+  .teacher-guide-eyebrow,
+.progress-guide-collapse
+  .teacher-guide-heading h2 {
   display: none;
 }
 
@@ -5042,6 +5813,358 @@ a:focus-visible {
   .progress-major-collapse-body {
     padding: 14px;
   }
+
+  .progress-guide-collapse-body {
+    padding: 0;
+  }
 }
 
 /* === END PROGRAM PROGRESS MAJOR COLLAPSIBLES === */
+
+
+/* Session Materials link */
+
+.teacher-guide-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.teacher-guide-material-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #c5cfd7;
+  border-radius: 999px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.teacher-guide-material-link:hover,
+.teacher-guide-material-link:focus-visible {
+  border-color: #7f8d98;
+}
+
+
+/* STUDENT MEANING AUDIO */
+
+.meaning-question-audio-row {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto 20px;
+}
+
+.meaning-question-audio-button,
+.choice-audio-button {
+  border: 2px solid #c7d5e5;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--navy);
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: var(--shadow-small);
+}
+
+.meaning-question-audio-button {
+  padding: 9px 14px;
+}
+
+.answer-audio-choice {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    56px;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.answer-audio-choice .answer-button {
+  width: 100%;
+  min-width: 0;
+}
+
+.choice-audio-button {
+  width: 56px;
+  min-height: 74px;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.meaning-question-audio-button:hover,
+.choice-audio-button:hover {
+  border-color: #8fa9c2;
+  transform: translateY(-2px);
+}
+
+.meaning-question-audio-button:focus-visible,
+.choice-audio-button:focus-visible {
+  outline: 4px solid rgba(241, 181, 68, 0.55);
+  outline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+  .answer-audio-choice {
+    grid-template-columns:
+      minmax(0, 1fr)
+      50px;
+  }
+
+  .choice-audio-button {
+    width: 50px;
+  }
+}
+
+/* Student pre-response access audio */
+
+.fv-workspace-audio-button,
+.fv-display-audio-button {
+  appearance: none;
+  border: 1px solid #c6d3df;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--navy);
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.fv-workspace-audio-button {
+  margin-top: 8px;
+  padding: 6px 11px;
+  font-size: 0.82rem;
+}
+
+.fv-display-audio-button {
+  display: block;
+  margin: 8px auto 14px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+
+.fv-has-choice-audio {
+  position: relative;
+  padding-right: 54px !important;
+}
+
+.fv-choice-audio-control {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #c8d5e1;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.fv-choice-audio-control::before {
+  content: "🔊";
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.fv-choice-audio-control:hover,
+.fv-choice-audio-control:focus-visible {
+  border-color: var(--blue);
+  box-shadow:
+    0 0 0 3px rgba(40, 118, 187, 0.12);
+  outline: none;
+}
+
+.answer-button:disabled
+  .fv-choice-audio-control,
+.morpheme-tile:disabled
+  .fv-choice-audio-control,
+.hunt-word-button:disabled
+  .fv-choice-audio-control {
+  pointer-events: auto;
+  opacity: 0.72;
+}
+
+@media (max-width: 640px) {
+  .fv-has-choice-audio {
+    padding-right: 50px !important;
+  }
+
+  .fv-choice-audio-control {
+    right: 9px;
+  }
+}
+
+
+/* Student access-audio controls */
+
+.fv-access-choice-parent {
+  position: relative;
+  padding-right: 58px !important;
+}
+
+.fv-access-choice-speaker {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid #c6d4e0;
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transform: translateY(-50%);
+}
+
+.fv-access-choice-speaker::before {
+  content: "🔊";
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.fv-access-choice-speaker:hover,
+.fv-access-choice-speaker:focus-visible {
+  border-color: var(--blue);
+
+  outline: 3px solid
+    rgba(40, 118, 187, 0.14);
+
+  outline-offset: 2px;
+}
+
+.fv-access-display-speaker {
+  display: block;
+
+  margin: 8px auto 16px;
+  padding: 7px 12px;
+
+  border: 1px solid #c6d4e0;
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: var(--navy);
+  font-size: 0.82rem;
+  font-weight: 850;
+
+  cursor: pointer;
+}
+
+.fv-access-display-speaker:hover,
+.fv-access-display-speaker:focus-visible {
+  border-color: var(--blue);
+}
+
+@media (max-width: 640px) {
+  .fv-access-choice-parent {
+    padding-right: 54px !important;
+  }
+
+  .fv-access-choice-speaker {
+    right: 9px;
+  }
+}
+
+
+/* FIRST_VOLO_FAMILY_PRINTABLE_READINESS_STYLES_V1_1 */
+.family-printable-readiness-card {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid #d8e1e8;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.family-printable-readiness-heading,
+.family-printable-readiness-item,
+.family-printable-readiness-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.family-printable-readiness-heading,
+.family-printable-readiness-item {
+  justify-content: space-between;
+}
+
+.family-printable-readiness-heading h2 {
+  margin: 3px 0 0;
+}
+
+.family-printable-readiness-kicker {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5f6f7d;
+}
+
+.family-printable-readiness-note,
+.family-printable-readiness-meta,
+.family-printable-readiness-explainer,
+.family-printable-readiness-empty {
+  color: #5f6f7d;
+}
+
+.family-printable-readiness-note {
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.family-printable-readiness-explainer {
+  margin: 10px 0 14px;
+  max-width: 72ch;
+}
+
+.family-printable-readiness-list {
+  display: grid;
+  gap: 10px;
+}
+
+.family-printable-readiness-item {
+  padding: 12px 14px;
+  border: 1px solid #e3e8ed;
+  border-radius: 12px;
+  background: #fbfcfd;
+}
+
+.family-printable-ready-state,
+.family-printable-completed-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.family-printable-ready-state input,
+.family-printable-completed-state input {
+  width: 18px;
+  height: 18px;
+}
+
+.family-printable-readiness-meta {
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+.family-printable-open {
+  font-weight: 700;
+}
+
+.family-printable-completed-state {
+  font-size: 0.92rem;
+  font-weight: 650;
+}

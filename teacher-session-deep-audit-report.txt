@@ -1,0 +1,161 @@
+FIRST VOLO MORPHOLOGY — DEEP TEACHER-SESSION AUDIT
+========================================================================
+Branch: homepage-transfer-copy
+HEAD: 24f8bdc
+Working tree:
+M instructional-check-transfer.js
+ M instructional-guidance-ui.js
+ M session-materials-ui.js
+ M session-materials.css
+?? teacher-check-transfer-context-leakage-audit.js
+?? teacher-runtime-readiness-policy-audit.js
+?? teacher-session-duration-policy-audit.js
+?? teacher-step5-practice-quality-audit.js
+
+IMPORTANT
+Existing automated audits mostly validate source markers, material coverage, lexical protection, and recipe semantics.
+They do NOT prove that the final rendered browser DOM or printable packet matches the policy.
+
+Findings: 19
+Severity counts: CRITICAL=6, HIGH=9, MEDIUM=4
+
+1. [CRITICAL] Check Transfer is not gated behind completion of Part A/Part B
+   The current source has explicit Part A/Part B visibility logic, but no comparable live-state gating for Step 4. On the rendered screen, the protected word 'protective' is visible while Part A is still active. That violates the no-preview rule.
+
+2. [CRITICAL] Fresh Live Server PDF still prints the old ten identical Step 5 questions
+   The newly generated 15-minute PDF still says 'Use the first five items, or continue through all ten' and prints ten identical Word Part prompts. V12 variation and V13 15-minute limiting are not reaching printable practice markup.
+
+3. [CRITICAL] Part A exposes the application word before the student retrieves the morpheme
+   Prompts such as 'After the student retrieves it, connect it to creative' are displayed in the same student-facing block before the response. Because 'creative' visibly contains -ive, it can cue the answer. The application word must be revealed only after the retrieval response, just like the Part B rule.
+   Evidence:
+   - instructional-session-item-bank.js:774: return `Which word part means “${meaning}”? After the student retrieves it, connect it to ${word}.`;
+
+4. [CRITICAL] Print is still assembled through a separate rendering path
+   The fresh Live Server PDF has current target-only Step 1 but stale Teacher Session Plan counts and stale Step 5. That means print is not simply printing the final live session DOM; it is assembling portions from separate printable markup/data. This is the architectural source of screen/print drift.
+   Evidence:
+   - session-materials-ui.js:7376: function readyPrintablePracticeMarkup() {
+   - session-materials-ui.js:7588: readyPrintablePracticeMarkup();
+   - session-materials-ui.js:7420: <div class="print-ready-practice-item">
+   - session-materials-ui.js:7439: <div class="print-ready-practice-item">
+   - session-materials-ui.js:7453: <div class="print-ready-practice-item">
+   - session-materials-ui.js:7465: <div class="print-ready-practice-item">
+   - session-materials-ui.js:7477: <div class="print-ready-practice-item">
+   - session-materials-ui.js:7492: <div class="print-ready-practice-item">
+   - session-materials-ui.js:12180: "beforeprint",
+   - session-materials-ui.js:14625: window.print();
+   - session-materials-ui.js:509: "printEducatorDoes"
+   - session-materials-ui.js:515: "printStudentDoes"
+   - session-materials-ui.js:603: const preferredForPrint = [];
+   - session-materials-ui.js:605: const addPrintCondition = item => {
+   - session-materials-ui.js:608: !preferredForPrint.some(
+   - session-materials-ui.js:614: preferredForPrint.push(
+   - session-materials-ui.js:620: addPrintCondition(
+   - session-materials-ui.js:628: addPrintCondition(
+
+5. [CRITICAL] Student print materials expose the target-containing practice word before retrieval
+   The fresh 15-minute PDF prints 'creative' and 'sensitive' in the learner-facing Word Part materials before the response. Because those words visibly contain -ive, the printable learner material can cue the target. Post-response application words need to be teacher-controlled or placed after the response area.
+   Evidence:
+   - Fresh Live Server PDF: Part A learner pages include creative/sensitive before the response.
+
+6. [CRITICAL] The top target banner gives away the Retrieve answer
+   The rendered screen shows 'suffix -ive = describes what someone or something is like or tends to do' above Step 1, then asks the student to retrieve that meaning. If student and educator are using the same screen, the independent retrieval demand is already answered. The target/meaning summary must be teacher-only, collapsible, or hidden during student response.
+
+7. [HIGH] 10/15/30 policy does not actually control the displayed step-minute labels
+   V13 changes item counts and Step 5 limits, but its duration policy has no per-step minute allocation. The current 15-minute screen shows 3 + 6 + 3 + 3 = 15, but there is no evidence that selecting 10 or 30 minutes will update those labels appropriately.
+
+8. [HIGH] 15-minute Step 5 limit inherits the same selector failure
+   V13 hides items 6-10 by calling readyV12QuestionNodes(). If that function misses the actual rendered questions, the 15-minute screen still shows 'Continue for 5 more' and all ten items.
+
+9. [HIGH] Legacy gray activity surface still exists alongside ready-to-use student material
+   The rendered screen shows the old Part A prompt / generic educator key / response input and then the newer ready-to-use student material. Source still contains the legacy labels, so the duplicate branch has not been removed at the generator level.
+   Evidence:
+   - session-materials-ui.js:8189: : "PART A · PRACTICE";
+   - session-materials-ui.js:9168: : "PART A · PRACTICE";
+   - session-materials-ui.js:9072: Practice example: ${esc(example)}
+   - session-materials-ui.js:9187: : `Practice example: ${word}`
+   - session-materials-ui.js:10236: "write the word part the student retrieved"
+   - session-materials-ui.js:12398: "Write the word part the student retrieved.",
+   - session-materials-ui.js:10233: "review word part response"
+   - session-materials-ui.js:12402: "Review Word Part response"
+
+10. [HIGH] Optional Practice Set is visible before the instructional sequence reaches Step 5
+   There is no clear Step 5 active-state gating. Future work remains exposed while the teacher is still in Part A/Part B/Transfer.
+
+11. [HIGH] Public copy currently promises screen/print parity that the product does not yet deliver
+   The page says teachers can 'print the same learner-specific materials', but the fresh printout still diverges from screen behavior. Either fix the single-source rendering first or soften this claim until parity is real.
+   Evidence:
+   - session-materials.html:42: or print the same learner-specific materials for hands-on
+
+12. [HIGH] Stale session/print copy remains: Five additional practice items
+   This wording is still present in source and can be emitted by the old session/print renderer instead of the current V9-V13 policy.
+   Evidence:
+   - session-materials-ui.js:9498: "Five additional practice items for this target and activity. Continue for five more when appropriate.";
+
+13. [HIGH] Stale session/print copy remains: Use the first five items, or continue through all ten
+   This wording is still present in source and can be emitted by the old session/print renderer instead of the current V9-V13 policy.
+   Evidence:
+   - session-materials-ui.js:7523: Use the first five items, or continue through all ten.
+
+14. [HIGH] Stale session/print copy remains: retrieval prompts
+   This wording is still present in source and can be emitted by the old session/print renderer instead of the current V9-V13 policy.
+   Evidence:
+   - session-guide.html:694: <summary>Sample retrieval prompts</summary>
+   - session-guide.html:995: retrieve: "Use 1–2 rapid cumulative retrieval prompts. Keep this brief enough to protect time for a new-word transfer check.",
+   - session-guide.html:1002: retrieve: "Use 2–3 cumulative retrieval prompts from previously taught word parts.",
+   - session-guide.html:1009: retrieve: "Use 2–4 cumulative retrieval prompts, mixing meaning recall with quick word analysis.",
+
+15. [HIGH] Step 5 live variation misses the rendered question headings
+   V12 searches Step 5 question nodes with selector: '.ready-practice-question'. The rendered screen uses heading-level question blocks that appear as h3 in the copied page. Because h3 is omitted, the mutation layer can leave all five questions identical.
+   Evidence:
+   - Detected selector: .ready-practice-question
+
+16. [MEDIUM] Generic 'Educator key' copy adds clutter without giving the actual key
+   The old gray block tells the teacher to use the educator key but does not show a useful item-specific key there. The actual ready-to-use surface should own the response/key behavior.
+   Evidence:
+   - session-materials-ui.js:1837: "Open response. Use the educator key for this item to review the student response.";
+
+17. [MEDIUM] Independent-attempt instructions are repeated twice on the same page
+   The same support rule appears under 'Teacher-led instruction' and again inside 'Teacher Session Plan'. Keep one concise teacher reminder; repetition adds clutter without adding instructional value.
+
+18. [MEDIUM] Single-item Check Transfer can still render as 'Transfer word 1'
+   The live screen still shows 'Transfer word 1' for a one-item 15-minute session. Numbering should be emitted from the source generator based on item count, not repaired later by a DOM pass.
+   Evidence:
+   - check-transfer-ui.js:328: Transfer word ${number}
+
+19. [MEDIUM] Stale session/print copy remains: Use the first 5, or continue for 5 more
+   This wording is still present in source and can be emitted by the old session/print renderer instead of the current V9-V13 policy.
+   Evidence:
+   - session-materials-ui.js:7301: Use the first 5, or continue for 5 more.
+
+ROOT-CAUSE SUMMARY
+- The page currently has multiple rendering layers: old session UI, ready-to-use UI, runtime DOM repair layers V7-V13, and separate printable markup.
+- Several V9-V13 fixes are post-render text/visibility patches rather than changes to the source session model.
+- The Teacher Session Plan rewrite assumes ordered-list numbers are in li.textContent, so stale counts survive.
+- The Step 5 variation finder omits h3, so the live question headings can escape V12; V13's 5-item limit then escapes too.
+- Step 4 and Step 5 are not truly progression-gated.
+- Part A application words are shown in the same pre-response prompt, cueing the target form.
+- Print has its own markup path, so screen fixes do not automatically propagate.
+
+EXISTING AUDITS
+- teacher-step5-practice-quality-audit.js: PASS
+- teacher-runtime-readiness-policy-audit.js: PASS
+- teacher-session-duration-policy-audit.js: PASS
+- teacher-check-transfer-context-leakage-audit.js: PASS
+- instructional-protection-hardening-audit.js: PASS
+- teacher-check-transfer-grade-coverage-audit.js: PASS
+- teacher-resolved-material-semantics-audit.js: PASS
+- teacher-prompt-quality-audit.js: PASS
+- teacher-material-coverage-audit.js: PASS
+- teacher-build-tile-audit.js: PASS
+- teacher-nonapplicable-routing-audit.js: PASS
+- teacher-session-public-ui-audit.js: PASS
+
+RECOMMENDED FIX ORDER
+1. Stop patching text after render. Build one normalized session-plan object for 10/15/30.
+2. Render Teacher Session Plan, live Step 1-5, and print from that same object.
+3. Make one active step at a time: Retrieve -> Part A items -> Part B -> Check Transfer -> Optional Practice.
+4. Hide teacher-only target meaning and all answer-bearing application/transfer words until their reveal point.
+5. Delete the legacy gray Part A/response surface instead of hiding it conditionally.
+6. Make Step 5 data itself varied; do not rely on DOM text rewriting.
+7. Put per-step time allocation into the 10/15/30 policy, then audit sums.
+8. Re-run a rendered browser QA and freshly generated PDF QA before commit.

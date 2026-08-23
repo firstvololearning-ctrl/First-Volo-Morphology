@@ -1,0 +1,2367 @@
+/* ========================================
+   VOLO MIGRATION MAP — MODAL
+   ======================================== */
+
+.migration-flight-actions {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 10px;
+
+  width: 100%;
+}
+
+.migration-flight-actions
+.select-wrap {
+  min-width: 0;
+}
+
+.migration-map-launch-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 48px;
+  padding: 9px 15px;
+
+  border: 1px solid #a9c4e1;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #edf5fc 100%
+    );
+
+  color: #274b84;
+
+  font: inherit;
+  font-size: .84rem;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 13px
+    rgba(39, 75, 132, .10);
+}
+
+.migration-map-launch-button:hover,
+.migration-map-launch-button:focus-visible {
+  border-color: #6d9bc8;
+
+  box-shadow:
+    0 7px 18px
+    rgba(39, 75, 132, .15);
+}
+
+body.migration-modal-open {
+  overflow: hidden;
+}
+
+.migration-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+
+  overflow-y: auto;
+
+  padding: 24px;
+
+  background:
+    rgba(25, 43, 63, .46);
+
+  backdrop-filter:
+    blur(4px);
+}
+
+.migration-modal-overlay[hidden] {
+  display: none;
+}
+
+.migration-modal {
+  width:
+    min(1380px, 100%);
+
+  margin:
+    0 auto;
+
+  overflow: hidden;
+
+  border: 1px solid #cfdeeb;
+  border-radius: 25px;
+
+  background: #fff;
+
+  box-shadow:
+    0 28px 70px
+    rgba(23, 43, 66, .26);
+}
+
+.migration-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 21px 24px 17px;
+
+  border-bottom:
+    1px solid #e1e9f1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffefb 0%,
+      #f7fbff 100%
+    );
+}
+
+.migration-modal-eyebrow {
+  margin: 0 0 3px;
+
+  color: #647589;
+
+  font-size: .73rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.migration-modal-header h2 {
+  margin: 0;
+
+  color: #24364d;
+
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+
+.migration-modal-subtitle {
+  margin: 6px 0 0;
+
+  color: #5a6b80;
+
+  font-size: .9rem;
+}
+
+.migration-modal-close {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid #cad8e8;
+  border-radius: 13px;
+
+  background: #fff;
+
+  color: #274b84;
+
+  font-size: 1.8rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.migration-modal-content {
+  padding: 18px 22px 22px;
+
+  background:
+    #f9fbfd;
+}
+
+.migration-map-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 12px;
+
+  color: #526477;
+
+  font-size: .83rem;
+  font-weight: 800;
+}
+
+.migration-map-token-count {
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: #edf4fc;
+  color: #385b84;
+}
+
+.migration-map-token-count b {
+  color: #274b84;
+
+  font-size: 1rem;
+}
+
+.migration-map-scroll {
+  overflow-x: auto;
+
+  border: 1px solid #d0dfe9;
+  border-radius: 22px;
+
+  background: #eef7fc;
+
+  scrollbar-width: thin;
+}
+
+.migration-connected-map {
+  position: relative;
+
+  width: 100%;
+  min-width: 1100px;
+  height: 620px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 10% 70%,
+      rgba(95, 173, 87, .26),
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 38% 60%,
+      rgba(58, 155, 208, .16),
+      transparent 25%
+    ),
+    radial-gradient(
+      ellipse at 56% 35%,
+      rgba(66, 143, 82, .18),
+      transparent 26%
+    ),
+    radial-gradient(
+      ellipse at 86% 68%,
+      rgba(57, 163, 207, .22),
+      transparent 26%
+    ),
+    linear-gradient(
+      180deg,
+      #e7f6fd 0%,
+      #f4f8ec 52%,
+      #f8efd8 100%
+    );
+}
+
+.migration-map-route {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.migration-map-route-base,
+.migration-map-route-traveled {
+  fill: none;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+.migration-map-route-base {
+  stroke: #c4d0da;
+  stroke-width: 6;
+
+  stroke-dasharray:
+    8 8;
+}
+
+.migration-map-route-traveled {
+  stroke: #3e8fc4;
+  stroke-width: 7;
+}
+
+.migration-map-place {
+  position: absolute;
+  z-index: 3;
+
+  width: 250px;
+  height: 178px;
+
+  transform:
+    translate(-50%, -50%);
+
+  pointer-events: none;
+}
+
+.migration-map-scene {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 48%,
+      rgba(0,0,0,.96) 61%,
+      rgba(0,0,0,.64) 73%,
+      transparent 100%
+    );
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 48%,
+      rgba(0,0,0,.96) 61%,
+      rgba(0,0,0,.64) 73%,
+      transparent 100%
+    );
+}
+
+.migration-map-scene img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.migration-place-home-tree
+.migration-map-scene img {
+  width: 170%;
+  height: 145%;
+
+  max-width: none;
+
+  object-fit: cover;
+  object-position:
+    left center;
+
+  transform:
+    translate(-2%, -12%);
+}
+
+.migration-place-river {
+  width: 270px;
+  height: 190px;
+}
+
+.migration-place-mountains {
+  width: 275px;
+  height: 195px;
+}
+
+.migration-place-village {
+  width: 270px;
+  height: 190px;
+}
+
+.migration-place-coast {
+  width: 245px;
+  height: 185px;
+}
+
+.migration-place-destination {
+  width: 235px;
+  height: 175px;
+}
+
+.migration-map-place.is-locked
+.migration-map-scene {
+  opacity: .60;
+  filter:
+    saturate(.72);
+}
+
+.migration-map-marker {
+  position: absolute;
+  z-index: 10;
+
+  left: 50%;
+  bottom: 16px;
+
+  display: grid;
+  place-items: center;
+
+  width: 31px;
+  height: 31px;
+
+  transform:
+    translateX(-50%);
+
+  border: 3px solid #d2dee8;
+  border-radius: 50%;
+
+  background: #fff;
+  color: #73879a;
+
+  font-size: .75rem;
+  font-weight: 900;
+
+  box-shadow:
+    0 4px 9px
+    rgba(39, 75, 132, .15);
+}
+
+.migration-map-place.is-reached
+.migration-map-marker {
+  border-color: #4b91c1;
+
+  background: #eaf5fc;
+  color: #275a84;
+}
+
+.migration-map-place.is-current
+.migration-map-marker {
+  border-color: #274b84;
+
+  background: #274b84;
+  color: #fff;
+
+  box-shadow:
+    0 0 0 6px
+    rgba(39, 75, 132, .13);
+}
+
+.migration-map-label {
+  position: absolute;
+  z-index: 10;
+
+  left: 50%;
+  bottom: -12px;
+
+  transform:
+    translateX(-50%);
+
+  white-space: nowrap;
+
+  padding: 5px 9px;
+
+  border: 1px solid
+    rgba(200, 214, 226, .85);
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, .94);
+
+  color: #43586f;
+
+  font-size: .74rem;
+  font-weight: 850;
+
+  box-shadow:
+    0 3px 8px
+    rgba(39, 75, 132, .10);
+}
+
+.migration-map-place.is-current
+.migration-map-label {
+  color: #274b84;
+}
+
+.migration-moving-volo {
+  position: absolute;
+  z-index: 12;
+
+  left: 50%;
+  top: 47%;
+
+  width: 74px;
+  max-height: 82px;
+
+  transform:
+    translate(-50%, -50%);
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 5px 5px
+      rgba(0,0,0,.18)
+    );
+}
+
+.migration-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 20px;
+
+  margin: 11px 3px 0;
+
+  color: #687a8c;
+
+  font-size: .74rem;
+}
+
+.migration-map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.migration-legend-line {
+  display: inline-block;
+
+  width: 27px;
+  height: 4px;
+
+  border-radius: 999px;
+
+  background: #c4d0da;
+}
+
+.migration-legend-line.is-traveled {
+  background: #3e8fc4;
+}
+
+.migration-map-message,
+.migration-map-empty {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+
+  margin-top: 12px;
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
+  background: #edf4fa;
+  color: #536579;
+
+  font-size: .87rem;
+}
+
+.migration-map-message strong,
+.migration-map-empty strong {
+  color: #294d7e;
+}
+
+@media (max-width: 760px) {
+  .migration-flight-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .migration-map-launch-button {
+    width: 100%;
+  }
+
+  .migration-modal-overlay {
+    padding: 10px;
+  }
+
+  .migration-modal-header {
+    padding: 17px;
+  }
+
+  .migration-modal-content {
+    padding: 13px;
+  }
+
+  .migration-map-summary {
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .migration-map-launch-button {
+    transition: none;
+  }
+}
+
+/* ========================================
+   ORIGINAL MIGRATION FIELD MAP
+   ======================================== */
+
+/*
+  One illustrated map surface rather than a row of cards.
+  Approved clay scenes remain unchanged source artwork.
+  Each scene is positioned as a small geographic vignette
+  around the migration route.
+*/
+
+.migration-map-scroll {
+  padding: 12px;
+
+  border:
+    1px solid #bda27a;
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #dec99f 0%,
+      #c9ab78 100%
+    );
+
+  box-shadow:
+    inset 0 2px 7px
+      rgba(75, 54, 33, .15),
+    0 6px 18px
+      rgba(39, 75, 132, .08);
+}
+
+
+.migration-connected-map {
+  position: relative;
+
+  min-width: 1180px;
+  height: 600px;
+
+  overflow: hidden;
+
+  border:
+    7px solid #d9bd87;
+  border-radius: 20px;
+
+  outline:
+    1px solid
+    rgba(106, 75, 43, .72);
+
+  outline-offset: -4px;
+
+  background:
+    radial-gradient(
+      ellipse at 17% 25%,
+      rgba(113, 151, 86, .12),
+      transparent 26%
+    ),
+    radial-gradient(
+      ellipse at 42% 67%,
+      rgba(87, 149, 174, .11),
+      transparent 23%
+    ),
+    radial-gradient(
+      ellipse at 65% 29%,
+      rgba(112, 147, 89, .10),
+      transparent 24%
+    ),
+    radial-gradient(
+      ellipse at 89% 68%,
+      rgba(76, 153, 184, .12),
+      transparent 23%
+    ),
+    repeating-radial-gradient(
+      ellipse at 37% 42%,
+      transparent 0,
+      transparent 32px,
+      rgba(113, 91, 58, .035) 33px,
+      rgba(113, 91, 58, .035) 34px,
+      transparent 35px,
+      transparent 58px
+    ),
+    linear-gradient(
+      180deg,
+      #f6eccd 0%,
+      #f1e5c4 53%,
+      #ead8ad 100%
+    );
+
+  box-shadow:
+    inset 0 0 35px
+      rgba(113, 82, 44, .12);
+}
+
+
+/* subtle inner map boundary */
+.migration-connected-map::before {
+  content: "";
+
+  position: absolute;
+  inset: 18px;
+  z-index: 1;
+
+  pointer-events: none;
+
+  border:
+    1px dashed
+    rgba(115, 88, 56, .20);
+
+  border-radius: 13px;
+}
+
+
+/* ----------------------------------------
+   ROUTE
+   ---------------------------------------- */
+
+.migration-map-route {
+  z-index: 6;
+}
+
+.migration-map-route-base {
+  stroke: #b5b4aa;
+  stroke-width: 5;
+
+  stroke-dasharray:
+    7 9;
+}
+
+.migration-map-route-traveled {
+  stroke: #3e8fc4;
+  stroke-width: 6;
+}
+
+
+/* ----------------------------------------
+   LOCATION VIGNETTES
+   ---------------------------------------- */
+
+.migration-map-place {
+  z-index: 3;
+
+  width: 205px;
+  height: 145px;
+
+  pointer-events: none;
+}
+
+.migration-map-place.is-current {
+  z-index: 4;
+}
+
+
+.migration-map-scene {
+  position: absolute;
+  inset: 0;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 7px 7px
+      rgba(79, 63, 42, .13)
+    );
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 50%,
+      rgba(0,0,0,.94) 63%,
+      rgba(0,0,0,.60) 76%,
+      transparent 100%
+    );
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 50%,
+      rgba(0,0,0,.94) 63%,
+      rgba(0,0,0,.60) 76%,
+      transparent 100%
+    );
+}
+
+
+.migration-map-scene img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform:
+    scale(1.04);
+}
+
+
+/*
+  The route point is the center of each .migration-map-place.
+  The artwork is deliberately offset away from that point,
+  so the path travels between the illustrated locations
+  instead of slicing through the middle of eight cards.
+*/
+
+.migration-place-home-tree
+.migration-map-scene {
+  transform:
+    translate(-35%, -9%);
+}
+
+.migration-place-meadow
+.migration-map-scene {
+  transform:
+    translate(-8%, -62%);
+}
+
+.migration-place-river
+.migration-map-scene {
+  transform:
+    translate(-10%, 28%);
+}
+
+.migration-place-forest
+.migration-map-scene {
+  transform:
+    translate(-2%, -64%);
+}
+
+.migration-place-mountains
+.migration-map-scene {
+  transform:
+    translate(-7%, 29%);
+}
+
+.migration-place-village
+.migration-map-scene {
+  transform:
+    translate(-2%, -64%);
+}
+
+.migration-place-coast
+.migration-map-scene {
+  transform:
+    translate(-7%, 28%);
+}
+
+.migration-place-destination
+.migration-map-scene {
+  transform:
+    translate(-44%, -63%);
+}
+
+
+/* individual scene proportions */
+
+.migration-place-home-tree {
+  width: 215px;
+  height: 155px;
+}
+
+.migration-place-home-tree
+.migration-map-scene img {
+  width: 165%;
+  height: 145%;
+
+  max-width: none;
+
+  object-position:
+    left center;
+
+  transform:
+    translate(-2%, -12%);
+}
+
+
+.migration-place-river {
+  width: 220px;
+  height: 150px;
+}
+
+.migration-place-forest {
+  width: 210px;
+  height: 150px;
+}
+
+.migration-place-mountains {
+  width: 225px;
+  height: 155px;
+}
+
+.migration-place-village {
+  width: 220px;
+  height: 150px;
+}
+
+.migration-place-coast {
+  width: 205px;
+  height: 155px;
+}
+
+.migration-place-destination {
+  width: 195px;
+  height: 145px;
+}
+
+
+/* ----------------------------------------
+   ROUTE STOPS
+   ---------------------------------------- */
+
+.migration-map-marker {
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+
+  width: 32px;
+  height: 32px;
+
+  transform:
+    translate(-50%, -50%);
+
+  border:
+    3px solid #c8c4b7;
+
+  background:
+    #fffdf4;
+
+  color:
+    #6e7680;
+
+  box-shadow:
+    0 3px 7px
+      rgba(70, 58, 43, .16);
+}
+
+
+.migration-map-place.is-reached
+.migration-map-marker {
+  border-color:
+    #4b91c1;
+
+  background:
+    #eef8fd;
+
+  color:
+    #275a84;
+}
+
+
+.migration-map-place.is-current
+.migration-map-marker {
+  border-color:
+    #274b84;
+
+  background:
+    #274b84;
+
+  color:
+    #fff;
+
+  box-shadow:
+    0 0 0 6px
+      rgba(39, 75, 132, .13),
+    0 4px 9px
+      rgba(39, 75, 132, .16);
+}
+
+
+.migration-map-label {
+  left: 50%;
+  top:
+    calc(50% + 22px);
+  bottom: auto;
+
+  transform:
+    translateX(-50%);
+
+  padding:
+    4px 9px;
+
+  border:
+    1px solid
+    rgba(170, 157, 135, .70);
+
+  background:
+    rgba(255, 253, 244, .95);
+
+  color:
+    #42556a;
+
+  box-shadow:
+    0 3px 7px
+      rgba(75, 61, 42, .10);
+}
+
+
+/* ----------------------------------------
+   VOLO
+   ---------------------------------------- */
+
+.migration-moving-volo {
+  left: 50%;
+  top:
+    calc(50% - 57px);
+
+  width: 80px;
+  max-height: 90px;
+
+  transform:
+    translate(-50%, -50%);
+
+  filter:
+    drop-shadow(
+      0 6px 5px
+      rgba(45, 51, 57, .20)
+    );
+}
+
+
+/* ----------------------------------------
+   LOCKED WINTER HOME
+   ---------------------------------------- */
+
+.migration-map-place.is-locked
+.migration-map-scene {
+  opacity: .42;
+
+  filter:
+    saturate(.70)
+    brightness(1.04)
+    drop-shadow(
+      0 6px 6px
+      rgba(79, 63, 42, .10)
+    );
+}
+
+
+/* ----------------------------------------
+   MAP LEGEND
+   ---------------------------------------- */
+
+.migration-map-legend {
+  margin-top: 12px;
+}
+
+.migration-legend-line {
+  height: 3px;
+}
+
+.migration-legend-line:not(.is-traveled) {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #b5b4aa 0,
+      #b5b4aa 7px,
+      transparent 7px,
+      transparent 12px
+    );
+}
+
+.migration-legend-line.is-traveled {
+  background:
+    #3e8fc4;
+}
+
+/* === FIELD MAP REFINEMENT PASS === */
+
+/* Tighter board: less unused parchment below the route. */
+.migration-connected-map {
+  height: 520px;
+}
+
+
+/*
+  Make the approved clay locations read as illustrations
+  sitting ON the map rather than rectangular screenshots.
+*/
+.migration-map-scene {
+  overflow: hidden;
+
+  border-radius:
+    47% 53% 44% 56% /
+    51% 45% 55% 49%;
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 40%,
+      rgba(0,0,0,.95) 50%,
+      rgba(0,0,0,.72) 61%,
+      rgba(0,0,0,.32) 70%,
+      transparent 80%
+    );
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 40%,
+      rgba(0,0,0,.95) 50%,
+      rgba(0,0,0,.72) 61%,
+      rgba(0,0,0,.32) 70%,
+      transparent 80%
+    );
+}
+
+
+/* Slightly smaller vignettes create more map around them. */
+.migration-map-place {
+  width: 185px;
+  height: 132px;
+}
+
+.migration-place-home-tree {
+  width: 195px;
+  height: 140px;
+}
+
+.migration-place-river {
+  width: 200px;
+  height: 138px;
+}
+
+.migration-place-forest {
+  width: 190px;
+  height: 136px;
+}
+
+.migration-place-mountains {
+  width: 205px;
+  height: 142px;
+}
+
+.migration-place-village {
+  width: 198px;
+  height: 138px;
+}
+
+.migration-place-coast {
+  width: 190px;
+  height: 142px;
+}
+
+.migration-place-destination {
+  width: 185px;
+  height: 136px;
+}
+
+
+/* Keep illustrations clearly beside the route stops. */
+.migration-place-home-tree .migration-map-scene {
+  transform:
+    translate(-27%, -9%);
+}
+
+.migration-place-meadow .migration-map-scene {
+  transform:
+    translate(-5%, -64%);
+}
+
+.migration-place-river .migration-map-scene {
+  transform:
+    translate(-7%, 29%);
+}
+
+.migration-place-forest .migration-map-scene {
+  transform:
+    translate(-1%, -65%);
+}
+
+.migration-place-mountains .migration-map-scene {
+  transform:
+    translate(-5%, 29%);
+}
+
+.migration-place-village .migration-map-scene {
+  transform:
+    translate(-1%, -65%);
+}
+
+.migration-place-coast .migration-map-scene {
+  transform:
+    translate(-4%, 29%);
+}
+
+.migration-place-destination .migration-map-scene {
+  transform:
+    translate(4%, -68%);
+}
+
+
+/*
+  Flight path: lighter and more map-like.
+  Completed segment stays blue; route ahead is dashed.
+*/
+.migration-map-route-base {
+  stroke:
+    rgba(113, 115, 107, .72);
+
+  stroke-width: 4;
+
+  stroke-dasharray:
+    5 8;
+}
+
+.migration-map-route-traveled {
+  stroke: #3e8fc4;
+  stroke-width: 5;
+}
+
+
+/* Slightly smaller route stops so the map art stays dominant. */
+.migration-map-marker {
+  width: 29px;
+  height: 29px;
+
+  font-size: .70rem;
+}
+
+.migration-map-label {
+  top:
+    calc(50% + 19px);
+
+  padding:
+    4px 8px;
+
+  font-size: .71rem;
+}
+
+
+/* Current Volo remains the obvious moving game piece. */
+.migration-moving-volo {
+  top:
+    calc(50% - 52px);
+
+  width: 76px;
+  max-height: 84px;
+}
+
+
+/*
+  Winter Home should look distant/locked,
+  not simply like a faded rectangular image.
+*/
+.migration-map-place.is-locked
+.migration-map-scene {
+  opacity: .52;
+
+  filter:
+    saturate(.72)
+    brightness(1.07)
+    drop-shadow(
+      0 5px 5px
+      rgba(79, 63, 42, .08)
+    );
+}
+
+/* === END FIELD MAP REFINEMENT PASS === */
+
+/* === LINE ART WORLD PASS === */
+
+/*
+  Quiet illustrated geography behind the full-color
+  clay destinations. This is intentionally original
+  line work, not copied from the reference map.
+*/
+
+.migration-map-sketch {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.migration-map-sketch path,
+.migration-map-sketch circle {
+  fill: none;
+
+  stroke:
+    rgba(120, 100, 69, .24);
+
+  stroke-width: .32;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+/* terrain types get slightly different emphasis */
+
+.migration-sketch-contours path {
+  stroke:
+    rgba(126, 105, 71, .12);
+
+  stroke-width: .26;
+}
+
+.migration-sketch-mountains path {
+  stroke:
+    rgba(110, 96, 76, .29);
+}
+
+.migration-sketch-trees path {
+  stroke:
+    rgba(96, 116, 77, .28);
+}
+
+.migration-sketch-river path,
+.migration-sketch-coast path {
+  stroke:
+    rgba(78, 130, 153, .25);
+}
+
+.migration-sketch-fields path {
+  stroke:
+    rgba(128, 111, 72, .20);
+}
+
+.migration-sketch-compass path,
+.migration-sketch-compass circle {
+  stroke:
+    rgba(105, 84, 56, .30);
+}
+
+.migration-sketch-bird-path path {
+  stroke:
+    rgba(91, 105, 113, .27);
+}
+
+
+/*
+  Clay destinations remain visually above
+  the parchment drawing.
+*/
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-route {
+  z-index: 6;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+/* === END LINE ART WORLD PASS === */
+
+/* === ROUTE + WINTER HOME CLEANUP === */
+
+/*
+  Route must remain continuous and readable between
+  every destination, even where it crosses a vignette.
+*/
+.migration-map-route {
+  z-index: 7;
+}
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+
+/* quieter, clearly dashed route ahead */
+.migration-map-route-base {
+  stroke:
+    rgba(105, 105, 98, .68);
+
+  stroke-width: 4;
+
+  stroke-dasharray:
+    5 8;
+}
+
+
+/* Winter Home is a destination pop-out, not a giant panel. */
+.migration-place-destination {
+  width: 155px;
+  height: 112px;
+}
+
+.migration-place-destination
+.migration-map-scene {
+  transform:
+    translate(8%, -72%);
+}
+
+
+/* Give the final label a little breathing room. */
+.migration-place-destination
+.migration-map-label {
+  top:
+    calc(50% + 22px);
+}
+
+/* === END ROUTE + WINTER HOME CLEANUP === */
+
+/* === ILLUSTRATED WORLD PASS === */
+
+/*
+  Full-color places are special landmarks sitting on
+  an illustrated parchment world, rather than large
+  picture bubbles forming the whole map.
+*/
+
+.migration-map-sketch path,
+.migration-map-sketch circle {
+  stroke:
+    rgba(107, 91, 66, .31);
+}
+
+.migration-sketch-contours path {
+  stroke:
+    rgba(110, 94, 68, .17);
+}
+
+.migration-sketch-world-detail path {
+  fill: none;
+
+  stroke:
+    rgba(105, 91, 67, .27);
+
+  stroke-width: .34;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+/* Keep colored landmarks important, but not dominant. */
+
+.migration-place-home-tree {
+  width: 168px;
+  height: 120px;
+}
+
+.migration-place-meadow {
+  width: 158px;
+  height: 108px;
+}
+
+.migration-place-river {
+  width: 166px;
+  height: 116px;
+}
+
+.migration-place-forest {
+  width: 158px;
+  height: 110px;
+}
+
+.migration-place-mountains {
+  width: 172px;
+  height: 118px;
+}
+
+.migration-place-village {
+  width: 164px;
+  height: 112px;
+}
+
+.migration-place-coast {
+  width: 158px;
+  height: 114px;
+}
+
+.migration-place-destination {
+  width: 142px;
+  height: 102px;
+}
+
+
+/*
+  Organic pop-out silhouette instead of repeated ovals.
+*/
+
+.migration-map-scene {
+  clip-path:
+    polygon(
+      8% 18%,
+      20% 7%,
+      39% 3%,
+      57% 7%,
+      78% 4%,
+      93% 18%,
+      98% 38%,
+      96% 60%,
+      87% 80%,
+      69% 94%,
+      48% 98%,
+      27% 93%,
+      10% 81%,
+      3% 61%,
+      2% 38%
+    );
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 53%,
+      rgba(0,0,0,.92) 67%,
+      rgba(0,0,0,.52) 79%,
+      transparent 91%
+    );
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 53%,
+      rgba(0,0,0,.92) 67%,
+      rgba(0,0,0,.52) 79%,
+      transparent 91%
+    );
+}
+
+
+/*
+  Base route = dotted/dashed migration path.
+  Because the base no longer has pathLength=1,
+  these values now behave as normal SVG lengths.
+*/
+
+.migration-map-route-base {
+  stroke:
+    rgba(103, 103, 95, .67);
+
+  stroke-width: 4;
+
+  stroke-dasharray:
+    5 8;
+
+  stroke-linecap: round;
+
+  fill: none;
+}
+
+
+/* Route remains behind markers but easy to follow. */
+
+.migration-map-route {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 7;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+
+/* Preserve corrected Winter Home composition. */
+
+.migration-place-destination
+.migration-map-scene {
+  transform:
+    translate(8%, -72%);
+}
+
+/* === END ILLUSTRATED WORLD PASS === */
+
+/* === FIELD MAP POLISH PASS === */
+
+/*
+  The parchment is the world.
+  Clay scenes are colorful landmarks that rise out of it.
+*/
+
+/* ----------------------------------------------------------
+   BACKGROUND LANDSCAPE
+   ---------------------------------------------------------- */
+
+.migration-sketch-landscape-network path {
+  fill: none;
+
+  stroke:
+    rgba(105, 90, 66, .25);
+
+  stroke-width: .34;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+.migration-sketch-contours path {
+  stroke:
+    rgba(111, 96, 72, .14);
+}
+
+.migration-sketch-world-detail path {
+  stroke:
+    rgba(105, 91, 67, .23);
+}
+
+
+/* ----------------------------------------------------------
+   ROUTE
+   ---------------------------------------------------------- */
+
+/*
+  Route ahead should read as a quiet migration trail,
+  not a graph line.
+*/
+
+.migration-map-route-base {
+  stroke:
+    rgba(99, 100, 94, .61);
+
+  stroke-width: 3.2;
+
+  stroke-dasharray:
+    4 7;
+
+  stroke-linecap: round;
+
+  fill: none;
+}
+
+.migration-map-route-traveled {
+  stroke-width: 3.8;
+
+  stroke-linecap: round;
+
+  fill: none;
+}
+
+
+/* ----------------------------------------------------------
+   CLAY LANDMARKS
+   ---------------------------------------------------------- */
+
+.migration-map-scene {
+  /*
+    Fade artwork into the parchment more gradually.
+    Keep the irregular landmark silhouette already in use.
+  */
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 50%,
+      rgba(0,0,0,.94) 63%,
+      rgba(0,0,0,.72) 73%,
+      rgba(0,0,0,.34) 83%,
+      transparent 93%
+    );
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      #000 0%,
+      #000 50%,
+      rgba(0,0,0,.94) 63%,
+      rgba(0,0,0,.72) 73%,
+      rgba(0,0,0,.34) 83%,
+      transparent 93%
+    );
+
+  filter:
+    drop-shadow(
+      0 4px 4px
+      rgba(72, 58, 39, .10)
+    );
+}
+
+
+/* ----------------------------------------------------------
+   STOP MARKERS + LABELS
+   ---------------------------------------------------------- */
+
+.migration-map-marker {
+  width: 27px;
+  height: 27px;
+
+  font-size: .76rem;
+}
+
+.migration-map-label {
+  top:
+    calc(50% + 20px);
+
+  padding:
+    5px 10px;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 2px 6px
+    rgba(68, 61, 47, .10);
+}
+
+
+/*
+  Give top-row landmarks a little more separation
+  between their route marker and artwork.
+*/
+
+.migration-place-meadow .migration-map-label,
+.migration-place-forest .migration-map-label,
+.migration-place-village .migration-map-label {
+  top:
+    calc(50% + 21px);
+}
+
+
+/*
+  Bottom-row names remain compact and readable.
+*/
+
+.migration-place-river .migration-map-label,
+.migration-place-mountains .migration-map-label,
+.migration-place-coast .migration-map-label {
+  top:
+    calc(50% + 21px);
+}
+
+
+/*
+  Keep the approved Winter Home endpoint composition.
+*/
+
+.migration-place-destination .migration-map-label {
+  top:
+    calc(50% + 21px);
+}
+
+
+/* ----------------------------------------------------------
+   VOLO AT THE START
+   ---------------------------------------------------------- */
+
+/*
+  Summer Home artwork already contains Volo.
+  Hide the separate moving overlay while Summer Home
+  is the current stop; it appears once migration begins.
+*/
+
+.migration-connected-map:
+  has(.migration-place-home-tree.is-current)
+  .migration-moving-volo {
+    display: none;
+}
+
+
+/* ----------------------------------------------------------
+   LAYERING
+   ---------------------------------------------------------- */
+
+.migration-map-sketch {
+  z-index: 1;
+}
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-route {
+  z-index: 7;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+/* === END FIELD MAP POLISH PASS === */
+
+/* === FULL UNDERLYING WORLD === */
+
+.migration-sketch-full-world path {
+  fill: none;
+
+  stroke:
+    rgba(104, 89, 66, .22);
+
+  stroke-width: .34;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+/*
+  Keep the full world visible but quieter than the
+  migration route and colored destinations.
+*/
+.migration-sketch-full-world {
+  opacity: .9;
+}
+
+/* Let the clay landmarks remain the visual focus. */
+.migration-map-scene {
+  position: relative;
+  z-index: 4;
+}
+
+/* === END FULL UNDERLYING WORLD === */
+
+/* === ORGANIC WORLD FINAL === */
+
+.migration-map-sketch {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  opacity: 1;
+}
+
+.organic-contours path,
+.organic-hills path,
+.organic-ridges path,
+.organic-water path,
+.organic-fields path,
+.organic-coast path,
+.organic-palms path,
+.organic-trails path,
+.organic-birds path,
+.organic-trunks path,
+.organic-compass path,
+.organic-compass circle {
+  fill: none;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+/* faint large terrain contours */
+.organic-contours path {
+  stroke:
+    rgba(112, 96, 71, .16);
+
+  stroke-width: .30;
+}
+
+
+/* rolling land */
+.organic-hills path {
+  stroke:
+    rgba(104, 90, 68, .25);
+
+  stroke-width: .37;
+}
+
+
+/* mountain country as continuous ridges */
+.organic-ridges path {
+  stroke:
+    rgba(101, 87, 68, .28);
+
+  stroke-width: .40;
+}
+
+
+/* rounded wooded regions */
+.organic-forest circle {
+  fill:
+    rgba(100, 112, 80, .025);
+
+  stroke:
+    rgba(84, 103, 72, .24);
+
+  stroke-width: .32;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+.organic-trunks path {
+  stroke:
+    rgba(93, 83, 64, .19);
+
+  stroke-width: .30;
+}
+
+
+/* river */
+.organic-water path {
+  stroke:
+    rgba(75, 118, 139, .27);
+
+  stroke-width: .40;
+}
+
+
+/* fields */
+.organic-fields path {
+  stroke:
+    rgba(119, 101, 68, .21);
+
+  stroke-width: .32;
+}
+
+
+/* coast + water */
+.organic-coast path {
+  stroke:
+    rgba(73, 116, 137, .27);
+
+  stroke-width: .37;
+}
+
+
+/* warm final-region hint */
+.organic-palms path {
+  stroke:
+    rgba(82, 105, 71, .23);
+
+  stroke-width: .34;
+}
+
+
+/* tiny supporting details */
+.organic-trails path {
+  stroke:
+    rgba(115, 96, 68, .17);
+
+  stroke-width: .32;
+
+  stroke-dasharray:
+    1.3 2.1;
+}
+
+.organic-birds path,
+.organic-compass path,
+.organic-compass circle {
+  stroke:
+    rgba(103, 88, 67, .23);
+
+  stroke-width: .32;
+}
+
+
+/*
+  Preserve current route / landmarks / labels.
+*/
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-route {
+  z-index: 7;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+/* === END ORGANIC WORLD FINAL === */
+
+/* === COHERENT GEOGRAPHIC WORLD === */
+
+.migration-map-sketch {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+/* shared cartographic line treatment */
+
+.geo-contours path,
+.geo-meadow path,
+.geo-river path,
+.geo-forest path,
+.geo-mountains path,
+.geo-fields path,
+.geo-coast path,
+.geo-destination path,
+.geo-birds path,
+.geo-compass path,
+.geo-compass circle {
+  fill: none;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+/* broad terrain stays quiet */
+.geo-contours path {
+  stroke:
+    rgba(111, 95, 70, .14);
+
+  stroke-width: .28;
+}
+
+
+/* meadow/open land */
+.geo-meadow path {
+  stroke:
+    rgba(116, 101, 71, .24);
+
+  stroke-width: .36;
+}
+
+
+/* water clearly reads differently */
+.geo-river path,
+.geo-coast path {
+  stroke:
+    rgba(72, 116, 139, .29);
+
+  stroke-width: .40;
+}
+
+
+/* forest boundary */
+.geo-forest path {
+  stroke:
+    rgba(81, 103, 72, .25);
+
+  stroke-width: .36;
+}
+
+
+/* real ridge system */
+.geo-mountains path {
+  stroke:
+    rgba(98, 85, 68, .28);
+
+  stroke-width: .40;
+}
+
+
+/* agricultural area */
+.geo-fields path {
+  stroke:
+    rgba(119, 99, 65, .23);
+
+  stroke-width: .34;
+}
+
+
+/* destination coastline/island */
+.geo-destination path {
+  stroke:
+    rgba(77, 111, 79, .24);
+
+  stroke-width: .36;
+}
+
+
+/* tiny secondary details */
+.geo-birds path,
+.geo-compass path,
+.geo-compass circle {
+  stroke:
+    rgba(104, 89, 66, .22);
+
+  stroke-width: .31;
+}
+
+
+/* ----------------------------------------------------------
+   Slightly reduce Summer Home.
+   It was visually heavier than the rest of the route.
+   ---------------------------------------------------------- */
+
+.migration-place-home-tree {
+  width: 152px;
+  height: 108px;
+}
+
+
+/* Preserve all current route / stop layering. */
+
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-route {
+  z-index: 7;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+/* === END COHERENT GEOGRAPHIC WORLD === */
+
+
+/* === MAP DETAIL VISIBILITY === */
+
+.geo-contours path {
+  stroke: rgba(105, 89, 65, .22);
+  stroke-width: .34;
+}
+
+.geo-meadow path,
+.geo-fields path {
+  stroke: rgba(111, 92, 61, .34);
+  stroke-width: .42;
+}
+
+.geo-river path,
+.geo-coast path {
+  stroke: rgba(62, 108, 135, .42);
+  stroke-width: .48;
+}
+
+.geo-forest path {
+  stroke: rgba(72, 98, 67, .34);
+  stroke-width: .42;
+}
+
+.geo-mountains path {
+  stroke: rgba(91, 77, 60, .40);
+  stroke-width: .47;
+}
+
+.geo-destination path {
+  stroke: rgba(72, 103, 72, .34);
+  stroke-width: .42;
+}
+
+.geo-birds path {
+  stroke: rgba(94, 79, 59, .30);
+  stroke-width: .36;
+}
+
+/* Compass rose */
+
+.geo-compass .compass-ring {
+  fill: rgba(255, 250, 232, .12);
+  stroke: rgba(82, 65, 44, .50);
+  stroke-width: .46;
+}
+
+.geo-compass .compass-center {
+  fill: rgba(82, 65, 44, .42);
+  stroke: none;
+}
+
+.geo-compass .compass-main {
+  fill: rgba(104, 80, 51, .08);
+  stroke: rgba(82, 65, 44, .54);
+  stroke-width: .44;
+}
+
+.geo-compass .compass-diagonal {
+  fill: none;
+  stroke: rgba(92, 73, 50, .39);
+  stroke-width: .32;
+}
+
+.geo-compass .compass-n {
+  fill: rgba(74, 58, 41, .70);
+  font-family: inherit;
+  font-size: 2.1px;
+  font-weight: 900;
+}
+
+/* === END MAP DETAIL VISIBILITY === */
+
+/* === GENERATED IMAGE MAP UNDERLAY === */
+
+/*
+  The generated line-drawing image is the fixed geographic
+  world. Existing approved clay scene PNGs remain separate
+  pop-outs above it.
+*/
+
+.migration-connected-map {
+  background-image:
+    url("images/migration/migration-map-underlay.png") !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    100% 100% !important;
+
+  background-repeat:
+    no-repeat !important;
+}
+
+/* Retire the provisional SVG map drawing completely. */
+.migration-map-sketch {
+  display: none !important;
+}
+
+/* Preserve existing interactive layering. */
+.migration-map-place {
+  z-index: 4;
+}
+
+.migration-map-route {
+  z-index: 7;
+}
+
+.migration-map-marker,
+.migration-map-label,
+.migration-moving-volo {
+  z-index: 10;
+}
+
+/* === END GENERATED IMAGE MAP UNDERLAY === */
+
+/* === MAP POP-OUT ALIGNMENT PASS === */
+
+/*
+  Keep route/marker coordinates fixed.
+  Only size and position the approved clay artwork
+  relative to each stop.
+*/
+
+/* Summer Home — reduce visual weight */
+.migration-place-home-tree {
+  width: 140px;
+  height: 100px;
+}
+
+.migration-place-home-tree .migration-map-scene {
+  transform: translate(-22%, -8%);
+}
+
+
+/* Meadow — sit over the open western country */
+.migration-place-meadow {
+  width: 148px;
+  height: 102px;
+}
+
+.migration-place-meadow .migration-map-scene {
+  transform: translate(-8%, -62%);
+}
+
+
+/* River — align more tightly with drawn river basin */
+.migration-place-river {
+  width: 154px;
+  height: 108px;
+}
+
+.migration-place-river .migration-map-scene {
+  transform: translate(-10%, 24%);
+}
+
+
+/* Forest — centered over woodland region */
+.migration-place-forest {
+  width: 148px;
+  height: 102px;
+}
+
+.migration-place-forest .migration-map-scene {
+  transform: translate(0%, -60%);
+}
+
+
+/* Mountains — slightly smaller and higher */
+.migration-place-mountains {
+  width: 160px;
+  height: 110px;
+}
+
+.migration-place-mountains .migration-map-scene {
+  transform: translate(-3%, 24%);
+}
+
+
+/* Village — pull toward the town drawn in the underlay */
+.migration-place-village {
+  width: 150px;
+  height: 103px;
+}
+
+.migration-place-village .migration-map-scene {
+  transform: translate(-10%, -60%);
+}
+
+
+/* Coast — integrate with lower-right shoreline */
+.migration-place-coast {
+  width: 148px;
+  height: 106px;
+}
+
+.migration-place-coast .migration-map-scene {
+  transform: translate(-2%, 24%);
+}
+
+
+/* Winter Home — keep endpoint placement, reduce only artwork */
+.migration-place-destination {
+  width: 134px;
+  height: 96px;
+}
+
+.migration-place-destination .migration-map-scene {
+  transform: translate(4%, -66%);
+}
+
+/* === END MAP POP-OUT ALIGNMENT PASS === */
+
+/* === FINAL POP-OUT NUDGES === */
+
+/* River: slightly left + up */
+.migration-place-river .migration-map-scene {
+  transform: translate(-12%, 20%);
+}
+
+/* Mountains: slightly right + up */
+.migration-place-mountains .migration-map-scene {
+  transform: translate(-1%, 20%);
+}
+
+/* Village: slightly left */
+.migration-place-village .migration-map-scene {
+  transform: translate(-13%, -60%);
+}
+
+/* Coast: slightly right + down */
+.migration-place-coast .migration-map-scene {
+  transform: translate(0%, 27%);
+}
+
+/* === END FINAL POP-OUT NUDGES === */

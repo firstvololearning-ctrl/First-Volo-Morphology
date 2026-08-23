@@ -45,6 +45,10 @@ function saveActivityProgressData() {
     JSON.stringify(activityProgressData)
   );
 
+  window.FirstVoloMorphologyCloud
+    ?.queueSync
+    ?.();
+
   notifyActivityProgressChanged();
 
   const activeStudentTokens =
@@ -153,7 +157,7 @@ function renderActivityStudentChips() {
     button.setAttribute(
       "aria-label",
       student.noStudent
-        ? "Do not save progress to a student"
+        ? "Do not save progress to a learner"
         : `Study as ${student.name}`
     );
 
@@ -234,7 +238,7 @@ function renderActivityStudentSelect() {
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent = "No student selected";
+  placeholder.textContent = "No learner selected";
   activityStudentSelect.append(placeholder);
 
   activityProgressData.students

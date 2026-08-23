@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session Guide | First Volo Morphology</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+.session-guide-page {
+  background: #f7f9fc;
+}
+
+.session-guide-header-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+
+.session-guide-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.session-guide-intro,
+.session-setup,
+.today-plan,
+.adherence-section {
+  background: #ffffff;
+  border: 1px solid #dbe5ef;
+  border-radius: 22px;
+  box-shadow: 0 12px 30px rgba(40, 67, 96, 0.08);
+  margin: 1.25rem 0;
+  padding: 1.4rem;
+}
+
+.session-guide-intro h2,
+.session-setup h2,
+.today-plan h2,
+.adherence-section h2 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.45rem;
+}
+
+.session-guide-eyebrow,
+.session-guide-kicker,
+.step-number {
+  color: #536f8d;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  margin: 0;
+}
+
+.core-cycle {
+  align-items: center;
+  background: #eef5fb;
+  border: 1px solid #cfe0ee;
+  border-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 800;
+  gap: 0.55rem;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+}
+
+.core-cycle span:nth-child(odd) {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+}
+
+.session-section-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.session-section-heading.compact {
+  align-items: center;
+}
+
+.morpheme-chip,
+.morpheme-inline {
+  background: #f0e9ff;
+  border: 1px solid #d9c8ff;
+  border-radius: 8px;
+  color: #5d3f9e;
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 800;
+  padding: 0.1rem 0.42rem;
+}
+
+.prototype-note,
+.research-badge {
+  background: #fff6dc;
+  border: 1px solid #ecd895;
+  border-radius: 12px;
+  color: #6d5724;
+  font-size: 0.86rem;
+  font-weight: 700;
+  max-width: 340px;
+  padding: 0.65rem 0.8rem;
+}
+
+.research-badge {
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.setup-grid,
+.adherence-meta-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1.1rem;
+}
+
+.setup-field label,
+.session-length-fieldset legend,
+.practice-mode-fieldset legend {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.setup-field label span {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.locked-select,
+.setup-field select,
+.setup-field input {
+  background: #fbfcfe;
+  border: 1px solid #cbd8e5;
+  border-radius: 11px;
+  box-sizing: border-box;
+  color: #24364d;
+  font: inherit;
+  min-height: 44px;
+  padding: 0.65rem 0.75rem;
+  width: 100%;
+}
+
+.locked-select {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+}
+
+.session-length-fieldset,
+.practice-mode-fieldset {
+  border: 0;
+  margin: 1.15rem 0 0;
+  padding: 0;
+}
+
+.segmented-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.duration-button,
+.practice-mode-button,
+.primary-session-button,
+.secondary-session-button,
+.session-action {
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.duration-button,
+.practice-mode-button {
+  background: #ffffff;
+  border: 1px solid #b9cada;
+  color: #334e68;
+  padding: 0.62rem 0.9rem;
+}
+
+.duration-button.is-active,
+.practice-mode-button.is-active {
+  background: #284b75;
+  border-color: #284b75;
+  color: #ffffff;
+}
+
+.field-help {
+  color: #637386;
+  font-size: 0.83rem;
+  margin: 0.35rem 0 0;
+}
+
+.completion-summary {
+  background: #eef5fb;
+  border-radius: 999px;
+  color: #334e68;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.8rem;
+  white-space: nowrap;
+}
+
+.session-guide-rule {
+  background: #f6f2ff;
+  border-left: 4px solid #8267b2;
+  border-radius: 10px;
+  margin: 1rem 0 1.2rem;
+  padding: 0.8rem 0.95rem;
+}
+
+.session-step-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.session-step {
+  border: 1px solid #d7e2ec;
+  border-radius: 18px;
+  padding: 1.15rem;
+}
+
+.session-step[data-step="retrieve"] { border-top: 5px solid #6d8fb3; }
+.session-step[data-step="teachPractice"] { border-top: 5px solid #7b69ae; }
+.session-step[data-step="apply"] { border-top: 5px solid #a87a3f; }
+.session-step[data-step="transfer"] { border-top: 5px solid #568771; }
+
+.step-topline {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.step-topline h3 {
+  font-size: 1.35rem;
+  margin: 0.15rem 0 0;
+}
+
+.step-time {
+  background: #f1f5f9;
+  border-radius: 999px;
+  color: #41566c;
+  font-weight: 800;
+  padding: 0.42rem 0.7rem;
+  white-space: nowrap;
+}
+
+.step-plan-box {
+  background: #fbfcfe;
+  border: 1px solid #e1e8ef;
+  border-radius: 14px;
+  margin-top: 1rem;
+  padding: 0.95rem;
+}
+
+.step-plan-box h4,
+.role-grid h4,
+.support-box h4 {
+  margin: 0 0 0.55rem;
+}
+
+.step-plan-box ul,
+.role-grid ul,
+.support-box ul,
+.prompt-list {
+  margin-bottom: 0;
+}
+
+.step-plan-box details,
+.session-log-details {
+  margin-top: 0.8rem;
+}
+
+.step-plan-box summary,
+.session-log-details summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.role-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.9rem;
+}
+
+.role-grid > div,
+.support-box {
+  border-radius: 14px;
+  padding: 0.9rem;
+}
+
+.role-grid > div {
+  background: #f8fafc;
+  border: 1px solid #e1e8ef;
+}
+
+.support-box {
+  background: #fff9e9;
+  border: 1px solid #ead9a8;
+  margin-top: 0.9rem;
+}
+
+.support-box li + li,
+.role-grid li + li,
+.step-plan-box li + li {
+  margin-top: 0.35rem;
+}
+
+.practice-lanes {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.8rem;
+}
+
+.practice-lane {
+  background: #ffffff;
+  border: 1px solid #dbe5ef;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.practice-lane.is-muted {
+  display: none;
+}
+
+.practice-lane h5 {
+  font-size: 1rem;
+  margin: 0 0 0.45rem;
+}
+
+.session-action {
+  background: #284b75;
+  color: #ffffff;
+  display: inline-block;
+  margin-top: 0.35rem;
+  padding: 0.52rem 0.8rem;
+  text-decoration: none;
+}
+
+.word-family-box,
+.apply-task {
+  background: #ffffff;
+  border-radius: 10px;
+  margin-top: 0.6rem;
+  padding: 0.8rem;
+}
+
+.sentence-frame {
+  background: #f4f0fb;
+  border-radius: 8px;
+  margin-bottom: 0;
+  padding: 0.65rem 0.75rem;
+}
+
+.transfer-warning {
+  background: #fff1f1;
+  border: 1px solid #f0c5c5;
+  border-radius: 9px;
+  padding: 0.65rem 0.75rem;
+}
+
+.transfer-items {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.transfer-item {
+  background: #ffffff;
+  border: 1px solid #dbe5ef;
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.transfer-item p {
+  margin: 0.35rem 0 0;
+}
+
+.stretch-item > strong + span {
+  background: #eef5fb;
+  border-radius: 999px;
+  color: #456784;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-left: 0.35rem;
+  padding: 0.2rem 0.45rem;
+  text-transform: uppercase;
+}
+
+.step-check {
+  align-items: center;
+  background: #eef8f1;
+  border: 1px solid #c9e2d0;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  font-weight: 800;
+  gap: 0.55rem;
+  margin-top: 0.95rem;
+  padding: 0.72rem 0.85rem;
+}
+
+.step-check input {
+  height: 1.15rem;
+  width: 1.15rem;
+}
+
+.adherence-status {
+  background: #f5f7fa;
+  border: 1px solid #dbe3ea;
+  border-radius: 12px;
+  margin-top: 1rem;
+  padding: 0.8rem 0.9rem;
+}
+
+.adherence-status.is-complete {
+  background: #edf8f0;
+  border-color: #b9ddc2;
+  color: #315f3e;
+}
+
+.sequence-order-check {
+  align-items: flex-start;
+  background: #f8fafc;
+  border: 1px solid #dbe3ea;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  font-weight: 700;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.85rem;
+}
+
+.sequence-order-check.is-disabled {
+  color: #7a8794;
+  cursor: default;
+}
+
+.sequence-order-check input {
+  margin-top: 0.2rem;
+}
+
+.adherence-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.primary-session-button,
+.secondary-session-button {
+  border: 1px solid #284b75;
+  padding: 0.65rem 0.9rem;
+}
+
+.primary-session-button {
+  background: #284b75;
+  color: #ffffff;
+}
+
+.secondary-session-button {
+  background: #ffffff;
+  color: #284b75;
+}
+
+.secondary-session-button.danger {
+  border-color: #b66c6c;
+  color: #8a4141;
+}
+
+.save-message {
+  color: #315f3e;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+
+.session-log-table {
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.session-log-table th,
+.session-log-table td {
+  border-bottom: 1px solid #dfe7ee;
+  padding: 0.55rem 0.45rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.session-log-table th {
+  color: #4f657a;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.privacy-note {
+  color: #617285;
+  font-size: 0.82rem;
+  margin-bottom: 0;
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 820px) {
+  .setup-grid,
+  .adherence-meta-grid,
+  .role-grid,
+  .practice-lanes {
+    grid-template-columns: 1fr;
+  }
+
+  .session-section-heading,
+  .session-section-heading.compact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prototype-note {
+    max-width: none;
+  }
+
+  .session-guide-header-actions {
+    align-items: stretch;
+  }
+
+  .completion-summary {
+    white-space: normal;
+  }
+}
+
+@media print {
+  .session-guide-header-actions,
+  .session-length-fieldset,
+  .practice-mode-fieldset,
+  .adherence-actions,
+  .session-log-details,
+  .privacy-note,
+  .step-check {
+    display: none !important;
+  }
+
+  .session-guide-page {
+    background: #ffffff;
+  }
+
+  .session-guide-intro,
+  .session-setup,
+  .today-plan,
+  .adherence-section,
+  .session-step {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+
+  </style>
+</head>
+<body class="session-guide-page">
+  <header class="site-header session-guide-header">
+    <div class="brand-block">
+      <a class="brand-logo-link" href="index.html" aria-label="Return to First Volo Morphology">
+        <div class="brand-logo-wrap">
+          <img class="brand-logo" src="images/logo/logo.png" alt="First Volo Learning logo">
+        </div>
+      </a>
+    </div>
+
+    <div class="title-group">
+      <h1>Session Guide</h1>
+      <p class="site-subtitle">Plan a focused morphology session</p>
+      <p class="site-description">
+        Retrieve → Teach/Practice → Apply → Check Transfer
+      </p>
+    </div>
+
+    <div class="header-actions session-guide-header-actions">
+      <a class="header-link" href="educator-resources.html">← Educator Resources</a>
+      <a class="header-link" href="index.html">Student Activities</a>
+    </div>
+  </header>
+
+  <main class="page session-guide-main">
+    <section class="session-guide-intro">
+      <p class="session-guide-eyebrow">FIRST VOLO MORPHOLOGY · EDUCATOR TOOL</p>
+      <h2>Build the session around the student, not around finishing every activity.</h2>
+      <p>
+        Use the evidence-informed core cycle below. Online and educator-guided practice can flex
+        according to the student, target, and time available.
+      </p>
+      <div class="core-cycle" aria-label="Core intervention cycle">
+        <span>1. Retrieve</span><span aria-hidden="true">→</span>
+        <span>2. Teach / Practice</span><span aria-hidden="true">→</span>
+        <span>3. Apply</span><span aria-hidden="true">→</span>
+        <span>4. Check Transfer</span>
+      </div>
+    </section>
+
+    <section class="session-setup" aria-labelledby="sessionSetupTitle">
+      <div class="session-section-heading">
+        <div>
+          <p class="session-guide-kicker">PROTOTYPE SESSION</p>
+          <h2 id="sessionSetupTitle">Flight B · Root · <span class="morpheme-chip">struct</span></h2>
+          <p><strong>Target meaning:</strong> build</p>
+        </div>
+        <div class="prototype-note">This is the first target template. More targets can plug into the same structure.</div>
+      </div>
+
+      <div class="setup-grid">
+        <div class="setup-field">
+          <label>Practice Flight</label>
+          <div class="locked-select" aria-label="Practice Flight B">Flight B · Word Families</div>
+        </div>
+        <div class="setup-field">
+          <label>Word-part focus</label>
+          <div class="locked-select" aria-label="Root focus">Root</div>
+        </div>
+        <div class="setup-field">
+          <label>Target</label>
+          <div class="locked-select" aria-label="Target struct">struct = build</div>
+        </div>
+      </div>
+
+      <fieldset class="session-length-fieldset">
+        <legend>Choose session length</legend>
+        <div class="segmented-control" id="durationControl">
+          <button type="button" class="duration-button" data-minutes="10">⚡ 10 min</button>
+          <button type="button" class="duration-button" data-minutes="15">⏱️ 15 min</button>
+          <button type="button" class="duration-button is-active" data-minutes="30">🛫 30 min</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="practice-mode-fieldset">
+        <legend>Teach / Practice format</legend>
+        <div class="segmented-control" id="practiceModeControl">
+          <button type="button" class="practice-mode-button" data-mode="online">💻 Online</button>
+          <button type="button" class="practice-mode-button" data-mode="guided">✂️ Educator-guided</button>
+          <button type="button" class="practice-mode-button is-active" data-mode="both">Both</button>
+        </div>
+        <p class="field-help" id="practiceModeHelp">
+          The order of online and educator-guided practice is flexible. Use both when they are useful for the student.
+        </p>
+      </fieldset>
+    </section>
+
+    <section class="today-plan" aria-labelledby="todayPlanTitle">
+      <div class="session-section-heading compact">
+        <div>
+          <p class="session-guide-kicker">TODAY'S PLAN</p>
+          <h2 id="todayPlanTitle">30-minute session</h2>
+        </div>
+        <div class="completion-summary" aria-live="polite">
+          <strong id="completionCount">0/4</strong> core steps completed
+        </div>
+      </div>
+
+      <p class="session-guide-rule">
+        <strong>Support principle:</strong> Let the student attempt first. Identify what is getting in the way,
+        provide the least support needed, then give another opportunity with less help when possible.
+      </p>
+
+      <div class="session-step-grid">
+        <article class="session-step" data-step="retrieve">
+          <div class="step-topline">
+            <div>
+              <p class="step-number">STEP 1</p>
+              <h3>🔄 Retrieve</h3>
+            </div>
+            <span class="step-time" id="retrieveTime">4 min</span>
+          </div>
+
+          <div class="step-plan-box">
+            <h4>For this struct session</h4>
+            <p id="retrievePlan"></p>
+            <ul>
+              <li>Use 2–3 previously taught word parts. Suggested if already known: <strong>re-</strong>, <strong>pre-</strong>, <strong>-ion/-tion/-sion</strong>.</li>
+              <li>Ask one meaning-recall item, one word-analysis item, and one quick word-meaning item.</li>
+              <li>Do not reteach <strong>struct</strong> here if this is the student's first encounter with the root.</li>
+            </ul>
+            <details>
+              <summary>Sample retrieval prompts</summary>
+              <ul class="prompt-list">
+                <li>What does <strong>re-</strong> mean?</li>
+                <li>Break apart <strong>rebuild</strong>. What does each part contribute?</li>
+                <li>What might <strong>preheat</strong> mean?</li>
+                <li>What does <strong>-ion/-tion/-sion</strong> often tell you about a word?</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="role-grid">
+            <div>
+              <h4>Educator does</h4>
+              <ul>
+                <li>Presents previously taught morphemes and familiar words.</li>
+                <li>Uses brief prompts to revisit meanings, word parts, and word relationships.</li>
+                <li>Allows time for independent retrieval before providing support.</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Student does</h4>
+              <ul>
+                <li>Recalls previously learned morpheme meanings.</li>
+                <li>Identifies familiar word parts and breaks apart or builds familiar words.</li>
+                <li>Explains meanings or relationships when appropriate.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="support-box">
+            <h4>Educator provides support if the student…</h4>
+            <ul>
+              <li><strong>cannot recall a morpheme meaning →</strong> provide two meaning choices.</li>
+              <li><strong>does not notice the relevant word part →</strong> highlight or separate it.</li>
+              <li><strong>knows the information but is having difficulty retrieving it →</strong> provide a partial verbal or visual cue.</li>
+              <li><strong>is still unable to respond →</strong> model one example, then provide a similar item for another attempt.</li>
+              <li><strong>responds successfully with support →</strong> reduce the support on the next opportunity.</li>
+            </ul>
+          </div>
+
+          <label class="step-check"><input type="checkbox" data-completion="retrieve"> Completed Retrieve</label>
+        </article>
+
+        <article class="session-step" data-step="teachPractice">
+          <div class="step-topline">
+            <div>
+              <p class="step-number">STEP 2</p>
+              <h3>💻✂️ Teach / Practice</h3>
+            </div>
+            <span class="step-time" id="teachPracticeTime">12 min</span>
+          </div>
+
+          <div class="step-plan-box">
+            <h4>For this struct session</h4>
+            <p id="teachPracticePlan"></p>
+
+            <div class="practice-lanes">
+              <div class="practice-lane" data-lane="online">
+                <h5>💻 Online practice</h5>
+                <p>Suggested: <strong>Word Part</strong> plus <strong>Find / Word Hunt</strong> or <strong>Figure It Out</strong>, depending on the student's current need.</p>
+                <a class="session-action" href="index.html" target="_blank" rel="noopener">Open student activities →</a>
+              </div>
+
+              <div class="practice-lane" data-lane="guided">
+                <h5>✂️ Educator-guided practice</h5>
+                <p>Use the existing <strong>STRUCT Flight B</strong> printable for hands-on noticing, word-part manipulation, and word-family discussion.</p>
+                <a class="session-action" href="printables/STRUCT-flight-B-color.pdf" target="_blank" rel="noopener">Open STRUCT printable →</a>
+              </div>
+            </div>
+
+            <details>
+              <summary>Suggested word-family teaching</summary>
+              <div class="word-family-box">
+                <p><strong>Core idea:</strong> <span class="morpheme-inline">struct</span> carries the idea <em>build</em>.</p>
+                <ul>
+                  <li><strong>construct</strong> — locate <em>struct</em>; connect the whole word to building/making.</li>
+                  <li><strong>structure</strong> — locate <em>struct</em>; discuss how a structure is something built or organized.</li>
+                  <li><strong>construction</strong> — locate <em>struct</em>; notice the relationship to <em>construct</em>.</li>
+                  <li><strong>reconstruct</strong> — preserve the fuller analysis <strong>re- + con- + struct</strong>; do not present it as simply <em>re- + struct</em>.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="role-grid">
+            <div>
+              <h4>Educator does</h4>
+              <ul id="teachPracticeEducatorList"></ul>
+            </div>
+            <div>
+              <h4>Student does</h4>
+              <ul id="teachPracticeStudentList"></ul>
+            </div>
+          </div>
+
+          <div class="support-box" id="teachPracticeSupport"></div>
+
+          <label class="step-check"><input type="checkbox" data-completion="teachPractice"> Completed Teach / Practice</label>
+        </article>
+
+        <article class="session-step" data-step="apply">
+          <div class="step-topline">
+            <div>
+              <p class="step-number">STEP 3</p>
+              <h3>🧩 Apply</h3>
+            </div>
+            <span class="step-time" id="applyTime">8 min</span>
+          </div>
+
+          <div class="step-plan-box">
+            <h4>For this struct session</h4>
+            <p id="applyPlan"></p>
+            <div class="apply-task">
+              <p><strong>Use the target productively:</strong></p>
+              <ol>
+                <li>Choose or build a word containing <strong>struct</strong>.</li>
+                <li>Explain what <strong>struct = build</strong> contributes to the word.</li>
+                <li>Use the word in a sentence or explain a sentence containing it.</li>
+              </ol>
+              <p class="sentence-frame">Optional frame: “I see <strong>struct</strong>, which means <strong>build</strong>. That helps me think this word has to do with ______.”</p>
+            </div>
+          </div>
+
+          <div class="role-grid">
+            <div>
+              <h4>Educator does</h4>
+              <ul>
+                <li>Provides a productive task using the target rather than another recognition-only item.</li>
+                <li>Prompts the student to connect the root to the whole-word meaning.</li>
+                <li>Accepts oral, written, or hands-on demonstration when it shows the intended morphological thinking.</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Student does</h4>
+              <ul>
+                <li>Builds, selects, or uses a word containing <strong>struct</strong>.</li>
+                <li>Explains how the root contributes to meaning.</li>
+                <li>Uses the word in a meaningful sentence or context.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="support-box">
+            <h4>Educator provides support if the student…</h4>
+            <ul>
+              <li><strong>does not know where to begin →</strong> offer two familiar <strong>struct</strong> words to choose from.</li>
+              <li><strong>can identify struct but cannot explain its contribution →</strong> restate <strong>struct = build</strong> and ask how that idea connects to the whole word.</li>
+              <li><strong>understands the morphology but has difficulty formulating a response →</strong> provide the sentence frame.</li>
+              <li><strong>is still unable to complete the task →</strong> complete one example together, then provide a parallel item for the student to try.</li>
+              <li><strong>succeeds with support →</strong> reduce the support on the next opportunity.</li>
+            </ul>
+          </div>
+
+          <label class="step-check"><input type="checkbox" data-completion="apply"> Completed Apply</label>
+        </article>
+
+        <article class="session-step" data-step="transfer">
+          <div class="step-topline">
+            <div>
+              <p class="step-number">STEP 4</p>
+              <h3>🚀 Check Transfer</h3>
+            </div>
+            <span class="step-time" id="transferTime">6 min</span>
+          </div>
+
+          <div class="step-plan-box transfer-plan-box">
+            <h4>For this struct session</h4>
+            <p id="transferPlan"></p>
+            <p class="transfer-warning"><strong>Keep these items protected until this step.</strong> Do not preteach the transfer word.</p>
+            <div class="transfer-items">
+              <div class="transfer-item">
+                <strong>Protected transfer words are no longer exposed on this prototype page.</strong>
+                <p>
+                  Use Program Progress → learner-specific Teacher-Led Session Materials.
+                  Check Transfer there selects only unused words from the protected bank tied
+                  to the learner's exact taught morpheme.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="role-grid">
+            <div>
+              <h4>Educator does</h4>
+              <ul>
+                <li>Presents one or more words or contexts that were not directly practiced during the session.</li>
+                <li>Provides minimal support initially and observes whether the student applies known morphology.</li>
+                <li>Separates recognition of the root from successful inference of the whole word when interpreting performance.</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Student does</h4>
+              <ul>
+                <li>Identifies a familiar morpheme in a new word.</li>
+                <li>Uses word-part knowledge and context to infer as much meaning as possible.</li>
+                <li>Explains what information came from morphology and what information came from context.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="support-box">
+            <h4>Educator provides support if the student…</h4>
+            <ul>
+              <li><strong>does not know where to begin →</strong> ask, “What part do you recognize?”</li>
+              <li><strong>overlooks struct →</strong> highlight or separate the root.</li>
+              <li><strong>recognizes struct but cannot infer the whole-word meaning →</strong> direct attention to another meaningful part or the sentence context.</li>
+              <li><strong>still cannot infer the meaning →</strong> provide two plausible meaning choices.</li>
+              <li><strong>requires a model →</strong> model one item, then immediately provide a different transfer item for another attempt.</li>
+              <li><strong>succeeds with support →</strong> reduce the support on the next transfer item.</li>
+            </ul>
+          </div>
+
+          <label class="step-check"><input type="checkbox" data-completion="transfer"> Completed Check Transfer</label>
+        </article>
+      </div>
+    </section>
+
+    <section class="adherence-section" aria-labelledby="adherenceTitle">
+      <div class="session-section-heading compact">
+        <div>
+          <p class="session-guide-kicker">SESSION ADHERENCE · OPTIONAL</p>
+          <h2 id="adherenceTitle">Record what was actually completed.</h2>
+        </div>
+        <span class="research-badge">Descriptive use</span>
+      </div>
+
+      <p>
+        These check-offs are kept separate from student accuracy/mastery data. They can document exposure to the
+        core intervention sequence for implementation or pilot-research purposes, but they are <strong>not a validated fidelity measure</strong>.
+      </p>
+
+      <div class="adherence-meta-grid">
+        <div class="setup-field">
+          <label for="sessionStudentSelect">Student profile</label>
+          <select id="sessionStudentSelect">
+            <option value="">No student selected</option>
+          </select>
+          <p class="field-help">Reads existing local First Volo student profiles when available.</p>
+        </div>
+
+        <div class="setup-field">
+          <label for="studyIdInput">Study ID <span>(optional)</span></label>
+          <input id="studyIdInput" type="text" maxlength="40" autocomplete="off" placeholder="e.g., P014">
+          <p class="field-help">Use a de-identified code if you are collecting pilot data.</p>
+        </div>
+
+        <div class="setup-field">
+          <label for="sessionDateInput">Session date</label>
+          <input id="sessionDateInput" type="date">
+        </div>
+      </div>
+
+      <div class="adherence-status" id="adherenceStatus" aria-live="polite">
+        <strong>Full core sequence:</strong> Not completed
+      </div>
+
+      <label class="sequence-order-check" id="sequenceOrderLabel">
+        <input type="checkbox" id="sequenceOrderCheck" disabled>
+        Core steps were completed in the suggested order: Retrieve → Teach/Practice → Apply → Check Transfer.
+      </label>
+
+      <div class="adherence-actions">
+        <button type="button" class="primary-session-button" id="saveSessionButton">Save session record</button>
+        <button type="button" class="secondary-session-button" id="exportSessionsButton">Export CSV</button>
+        <button type="button" class="secondary-session-button danger" id="clearSessionsButton">Clear saved session records</button>
+      </div>
+      <p class="save-message" id="saveMessage" role="status"></p>
+
+      <details class="session-log-details">
+        <summary>View locally saved session records</summary>
+        <div id="sessionLog"></div>
+      </details>
+
+      <p class="privacy-note">
+        Session records stay in this browser's local storage unless you export them. CSV exports omit student names;
+        they use the optional Study ID when entered, otherwise the student's local First Volo ID.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Alexis Sacco / First Volo Learning. All rights reserved.</p>
+  </footer>
+
+  <script>
+"use strict";
+
+const FV_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
+const FV_INTERVENTION_LOG_KEY = "firstVoloMorphologyInterventionSessionsV1";
+
+const SESSION_TARGET = {
+  flight: "Flight B",
+  gradeBand: "4-5",
+  focus: "root",
+  target: "struct",
+  meaning: "build"
+};
+
+const DURATION_PLANS = {
+  10: {
+    times: { retrieve: 2, teachPractice: 4, apply: 2, transfer: 2 },
+    retrieve: "Use 1–2 rapid cumulative retrieval prompts. Keep this brief enough to protect time for a new-word transfer check.",
+    teachPractice: "Choose one main practice lane: a brief online activity OR one educator-guided struct task.",
+    apply: "Have the student explain or use one familiar struct word productively.",
+    transfer: "Use one protected transfer item and record how independently the student approaches it."
+  },
+  15: {
+    times: { retrieve: 3, teachPractice: 6, apply: 3, transfer: 3 },
+    retrieve: "Use 2–3 cumulative retrieval prompts from previously taught word parts.",
+    teachPractice: "Use one substantial practice lane or a short combination of online and educator-guided work.",
+    apply: "Have the student build, explain, or use 1–2 struct words.",
+    transfer: "Use one protected transfer item, with a second only if time allows."
+  },
+  30: {
+    times: { retrieve: 4, teachPractice: 12, apply: 8, transfer: 6 },
+    retrieve: "Use 2–4 cumulative retrieval prompts, mixing meaning recall with quick word analysis.",
+    teachPractice: "Use online practice, educator-guided practice, or both. If using both, the order can flex according to what the student needs.",
+    apply: "Move from recognition to productive use: build, explain, and use struct words in meaningful contexts.",
+    transfer: "Use 1–2 protected transfer items. Start with no morphology cue and add support only if needed."
+  }
+};
+
+const PRACTICE_CONTENT = {
+  online: {
+    educator: [
+      "Selects online activities that match the current target and allows the student to work as independently as possible.",
+      "Provides support when requested by clarifying directions, helping decode nonessential words, or modeling how to complete the task using examples that do not appear in the activity."
+    ],
+    student: [
+      "Completes the selected online work as independently as possible.",
+      "Requests educator support when needed with decoding nonessential words, understanding directions or the task, or seeing an example using items not shown in the activity."
+    ],
+    support: [
+      ["cannot read or understand the directions", "clarify or read the directions without supplying information needed to answer the item."],
+      ["does not understand what the task requires", "demonstrate how the task works using an example that does not appear in the activity."],
+      ["is having difficulty decoding a nonessential word", "provide the word so decoding does not prevent participation."],
+      ["needs help with the morphology itself", "provide the least amount of morphology support needed, then return control of the activity to the student."],
+      ["succeeds with support", "allow the next item to be completed with less support when possible."]
+    ]
+  },
+  guided: {
+    educator: [
+      "Explicitly teaches and reinforces struct = build using word-family comparison, word-part cards, word sums, or the STRUCT printable.",
+      "Models morphological thinking when needed and prompts the student to notice what stays the same across related words."
+    ],
+    student: [
+      "Locates struct across related words and connects the root to the idea build.",
+      "Builds, compares, or explains related words and discusses how known word parts contribute to meaning."
+    ],
+    support: [
+      ["is overwhelmed by the number of words or word parts", "reduce the number presented at one time."],
+      ["does not know where to begin", "direct attention to struct or another already-known word part."],
+      ["recognizes the parts but cannot connect them to the whole-word meaning", "provide one word-part meaning or a guiding question."],
+      ["understands the morphology but has difficulty explaining it", "provide a sentence frame or verbal starter."],
+      ["is still unable to complete the task", "complete one example together, then provide a parallel example for the student to try."],
+      ["succeeds with support", "reduce the support on the next word or example."]
+    ]
+  }
+};
+
+let currentMinutes = 30;
+let currentPracticeMode = "both";
+
+const durationButtons = Array.from(document.querySelectorAll(".duration-button"));
+const practiceModeButtons = Array.from(document.querySelectorAll(".practice-mode-button"));
+const completionChecks = Array.from(document.querySelectorAll("[data-completion]"));
+
+const todayPlanTitle = document.getElementById("todayPlanTitle");
+const retrieveTime = document.getElementById("retrieveTime");
+const teachPracticeTime = document.getElementById("teachPracticeTime");
+const applyTime = document.getElementById("applyTime");
+const transferTime = document.getElementById("transferTime");
+const retrievePlan = document.getElementById("retrievePlan");
+const teachPracticePlan = document.getElementById("teachPracticePlan");
+const applyPlan = document.getElementById("applyPlan");
+const transferPlan = document.getElementById("transferPlan");
+const practiceModeHelp = document.getElementById("practiceModeHelp");
+const educatorList = document.getElementById("teachPracticeEducatorList");
+const studentList = document.getElementById("teachPracticeStudentList");
+const teachPracticeSupport = document.getElementById("teachPracticeSupport");
+const completionCount = document.getElementById("completionCount");
+const adherenceStatus = document.getElementById("adherenceStatus");
+const sequenceOrderCheck = document.getElementById("sequenceOrderCheck");
+const sequenceOrderLabel = document.getElementById("sequenceOrderLabel");
+const studentSelect = document.getElementById("sessionStudentSelect");
+const studyIdInput = document.getElementById("studyIdInput");
+const sessionDateInput = document.getElementById("sessionDateInput");
+const saveSessionButton = document.getElementById("saveSessionButton");
+const exportSessionsButton = document.getElementById("exportSessionsButton");
+const clearSessionsButton = document.getElementById("clearSessionsButton");
+const saveMessage = document.getElementById("saveMessage");
+const sessionLog = document.getElementById("sessionLog");
+
+function createListItem(text) {
+  const li = document.createElement("li");
+  li.textContent = text;
+  return li;
+}
+
+function renderSupport(items) {
+  teachPracticeSupport.innerHTML = "";
+  const heading = document.createElement("h4");
+  heading.textContent = "Educator provides support if the student…";
+  teachPracticeSupport.append(heading);
+
+  const list = document.createElement("ul");
+  items.forEach(([condition, response]) => {
+    const li = document.createElement("li");
+    const strong = document.createElement("strong");
+    strong.textContent = `${condition} → `;
+    li.append(strong, document.createTextNode(response));
+    list.append(li);
+  });
+  teachPracticeSupport.append(list);
+}
+
+function uniqueItems(items) {
+  return Array.from(new Set(items));
+}
+
+function renderPracticeMode() {
+  document.querySelectorAll(".practice-lane").forEach((lane) => {
+    const laneType = lane.dataset.lane;
+    lane.classList.toggle(
+      "is-muted",
+      currentPracticeMode !== "both" && currentPracticeMode !== laneType
+    );
+  });
+
+  educatorList.innerHTML = "";
+  studentList.innerHTML = "";
+
+  const modes = currentPracticeMode === "both" ? ["online", "guided"] : [currentPracticeMode];
+  const educatorItems = uniqueItems(modes.flatMap((mode) => PRACTICE_CONTENT[mode].educator));
+  const studentItems = uniqueItems(modes.flatMap((mode) => PRACTICE_CONTENT[mode].student));
+  const supportItems = modes.flatMap((mode) => PRACTICE_CONTENT[mode].support);
+
+  educatorItems.forEach((item) => educatorList.append(createListItem(item)));
+  studentItems.forEach((item) => studentList.append(createListItem(item)));
+  renderSupport(supportItems);
+
+  if (currentPracticeMode === "online") {
+    practiceModeHelp.textContent = "Online practice can stand alone for this session. Support access to the task without doing the morphology work for the student.";
+  } else if (currentPracticeMode === "guided") {
+    practiceModeHelp.textContent = "Educator-guided practice can stand alone for this session. Use explicit teaching, hands-on analysis, and responsive scaffolding.";
+  } else {
+    practiceModeHelp.textContent = "The order of online and educator-guided practice is flexible. Use both when they are useful for the student.";
+  }
+}
+
+function renderDuration() {
+  const plan = DURATION_PLANS[currentMinutes];
+  todayPlanTitle.textContent = `${currentMinutes}-minute session`;
+  retrieveTime.textContent = `${plan.times.retrieve} min`;
+  teachPracticeTime.textContent = `${plan.times.teachPractice} min`;
+  applyTime.textContent = `${plan.times.apply} min`;
+  transferTime.textContent = `${plan.times.transfer} min`;
+  retrievePlan.textContent = plan.retrieve;
+  teachPracticePlan.textContent = plan.teachPractice;
+  applyPlan.textContent = plan.apply;
+  transferPlan.textContent = plan.transfer;
+}
+
+function getCompletionState() {
+  const completed = {};
+  completionChecks.forEach((checkbox) => {
+    completed[checkbox.dataset.completion] = checkbox.checked;
+  });
+  return completed;
+}
+
+function updateCompletionSummary() {
+  const completed = getCompletionState();
+  const count = Object.values(completed).filter(Boolean).length;
+  const full = count === 4;
+  completionCount.textContent = `${count}/4`;
+  adherenceStatus.innerHTML = `<strong>Full core sequence:</strong> ${full ? "Completed" : "Not completed"}`;
+  adherenceStatus.classList.toggle("is-complete", full);
+  sequenceOrderCheck.disabled = !full;
+  sequenceOrderLabel.classList.toggle("is-disabled", !full);
+  if (!full) sequenceOrderCheck.checked = false;
+}
+
+function loadProgressData() {
+  try {
+    const data = JSON.parse(localStorage.getItem(FV_PROGRESS_KEY) || "null");
+    if (data && Array.isArray(data.students)) return data;
+  } catch (error) {
+    console.warn("Could not read First Volo student profiles.", error);
+  }
+  return { students: [], activeStudentId: null };
+}
+
+function populateStudents() {
+  const data = loadProgressData();
+  data.students
+    .slice()
+    .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")))
+    .forEach((student) => {
+      const option = document.createElement("option");
+      option.value = student.id;
+      option.textContent = student.name || "Unnamed student";
+      studentSelect.append(option);
+    });
+
+  if (data.activeStudentId && data.students.some((student) => student.id === data.activeStudentId)) {
+    studentSelect.value = data.activeStudentId;
+  }
+}
+
+function loadInterventionLog() {
+  try {
+    const log = JSON.parse(localStorage.getItem(FV_INTERVENTION_LOG_KEY) || "[]");
+    return Array.isArray(log) ? log : [];
+  } catch (error) {
+    console.warn("Could not read intervention session records.", error);
+    return [];
+  }
+}
+
+function saveInterventionLog(log) {
+  localStorage.setItem(FV_INTERVENTION_LOG_KEY, JSON.stringify(log));
+}
+
+function makeRecordId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+  return `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return value;
+  return new Date(year, month - 1, day).toLocaleDateString();
+}
+
+function getStudentDisplayName(studentId) {
+  const data = loadProgressData();
+  return data.students.find((student) => student.id === studentId)?.name || "—";
+}
+
+function renderSessionLog() {
+  const records = loadInterventionLog();
+  if (!records.length) {
+    sessionLog.innerHTML = "<p>No intervention session records saved yet.</p>";
+    return;
+  }
+
+  const rows = records
+    .slice()
+    .sort((a, b) => String(b.savedAt).localeCompare(String(a.savedAt)))
+    .slice(0, 8)
+    .map((record) => {
+      const completedCount = Object.values(record.completed || {}).filter(Boolean).length;
+      const studentName = record.studentId ? getStudentDisplayName(record.studentId) : "—";
+      const idLabel = record.studyId || (record.studentId ? "local ID" : "unassigned");
+      return `<tr>
+        <td>${escapeHtml(formatDate(record.sessionDate))}</td>
+        <td>${escapeHtml(studentName)}</td>
+        <td>${escapeHtml(idLabel)}</td>
+        <td>${escapeHtml(String(record.plannedMinutes))} min</td>
+        <td>${escapeHtml(record.practiceMode)}</td>
+        <td>${completedCount}/4</td>
+        <td>${record.fullSequenceCompleted ? "Yes" : "No"}</td>
+      </tr>`;
+    })
+    .join("");
+
+  sessionLog.innerHTML = `<table class="session-log-table">
+    <thead><tr><th>Date</th><th>Student</th><th>Study ID</th><th>Plan</th><th>Practice</th><th>Steps</th><th>Full sequence</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function saveSessionRecord() {
+  const completed = getCompletionState();
+  const fullSequenceCompleted = Object.values(completed).every(Boolean);
+  const studyId = studyIdInput.value.trim();
+  const studentId = studentSelect.value || "";
+
+  const record = {
+    id: makeRecordId(),
+    savedAt: new Date().toISOString(),
+    sessionDate: sessionDateInput.value,
+    studentId,
+    studyId,
+    flight: SESSION_TARGET.flight,
+    gradeBand: SESSION_TARGET.gradeBand,
+    focus: SESSION_TARGET.focus,
+    target: SESSION_TARGET.target,
+    targetMeaning: SESSION_TARGET.meaning,
+    plannedMinutes: currentMinutes,
+    practiceMode: currentPracticeMode,
+    completed,
+    fullSequenceCompleted,
+    suggestedOrderFollowed: fullSequenceCompleted && sequenceOrderCheck.checked
+  };
+
+  const log = loadInterventionLog();
+  log.push(record);
+  saveInterventionLog(log);
+  renderSessionLog();
+
+  saveMessage.textContent = fullSequenceCompleted
+    ? "Session saved · full core sequence completed."
+    : "Session saved · partial sequence recorded.";
+
+  window.setTimeout(() => {
+    saveMessage.textContent = "";
+  }, 3500);
+}
+
+function csvEscape(value) {
+  const text = String(value ?? "");
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function exportSessions() {
+  const records = loadInterventionLog();
+  if (!records.length) {
+    saveMessage.textContent = "No saved session records to export.";
+    return;
+  }
+
+  const headers = [
+    "record_id",
+    "saved_at",
+    "session_date",
+    "participant_id",
+    "flight",
+    "grade_band",
+    "focus",
+    "target",
+    "target_meaning",
+    "planned_minutes",
+    "practice_mode",
+    "retrieve_completed",
+    "teach_practice_completed",
+    "apply_completed",
+    "transfer_completed",
+    "full_sequence_completed",
+    "suggested_order_followed"
+  ];
+
+  const lines = [headers.join(",")];
+  records.forEach((record) => {
+    const participantId = record.studyId || record.studentId || "unassigned";
+    const row = [
+      record.id,
+      record.savedAt,
+      record.sessionDate,
+      participantId,
+      record.flight,
+      record.gradeBand,
+      record.focus,
+      record.target,
+      record.targetMeaning,
+      record.plannedMinutes,
+      record.practiceMode,
+      Boolean(record.completed?.retrieve),
+      Boolean(record.completed?.teachPractice),
+      Boolean(record.completed?.apply),
+      Boolean(record.completed?.transfer),
+      Boolean(record.fullSequenceCompleted),
+      Boolean(record.suggestedOrderFollowed)
+    ];
+    lines.push(row.map(csvEscape).join(","));
+  });
+
+  const blob = new Blob([`${lines.join("\n")}\n`], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `first-volo-session-adherence-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function clearSessionRecords() {
+  const records = loadInterventionLog();
+  if (!records.length) return;
+  const confirmed = window.confirm("Clear all locally saved intervention session records? This cannot be undone unless you exported them first.");
+  if (!confirmed) return;
+  localStorage.removeItem(FV_INTERVENTION_LOG_KEY);
+  renderSessionLog();
+  saveMessage.textContent = "Saved intervention session records cleared.";
+}
+
+durationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    currentMinutes = Number(button.dataset.minutes);
+    durationButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+    renderDuration();
+  });
+});
+
+practiceModeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    currentPracticeMode = button.dataset.mode;
+    practiceModeButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+    renderPracticeMode();
+  });
+});
+
+completionChecks.forEach((checkbox) => {
+  checkbox.addEventListener("change", updateCompletionSummary);
+});
+
+saveSessionButton.addEventListener("click", saveSessionRecord);
+exportSessionsButton.addEventListener("click", exportSessions);
+clearSessionsButton.addEventListener("click", clearSessionRecords);
+
+sessionDateInput.value = new Date().toISOString().slice(0, 10);
+populateStudents();
+renderDuration();
+renderPracticeMode();
+updateCompletionSummary();
+renderSessionLog();
+
+  </script>
+</body>
+</html>

@@ -188,3 +188,46 @@ ROLL_NOTE = (
     "Use two regular dice. Roll once for a prefix and once for a suffix. "
     "Some high-use word parts appear twice."
 )
+
+SESSION_RECIPES = [
+    {
+        "word": "precook",
+        "parts": ["pre-", "cook"],
+        "word_prompt_index": 0,
+        "context_prompt_index": 0,
+    },
+    {
+        "word": "recook",
+        "parts": ["re-", "cook"],
+        "word_prompt_index": 1,
+        "context_prompt_index": 1,
+    },
+    {
+        "word": "undercook",
+        "parts": ["under-", "cook"],
+        "word_prompt_index": 3,
+    },
+    {
+        "word": "cooked",
+        "parts": ["cook", "-ed"],
+        "word_prompt_index": 4,
+        "context_prompt_index": 4,
+    },
+    {
+        "word": "cooking",
+        "parts": ["cook", "-ing"],
+        "word_prompt_index": 5,
+        "context_prompt_index": 5,
+    },
+    {
+        "word": "cooker",
+        "parts": ["cook", "-er"],
+        "word_prompt_index": 6,
+        "context_prompt_index": 6,
+    },
+    {
+        "word": "cooks",
+        "parts": ["cook", "-s"],
+        "context_prompt_index": 7,
+    },
+]

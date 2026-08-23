@@ -6,9 +6,9 @@ const changeItQuestions = [
     sentence: "Her ___ made the new student feel welcome.",
     choices: ["kind", "kindness", "kindly", "kinder"],
     answer: "kindness",
-    clue: "We need a noun that names a quality.",
+    clue: "We need a noun that names a quality someone or something has.",
     suffix: "-ness",
-    explanation: "-ness forms a noun. Kindness names the quality shown by her behavior.",
+    explanation: "-ness can form a noun that names a state or quality someone or something has. Kindness names the quality of being kind.",
     practiceBand: "2-3",
     vocabLevel: "familiar"
   },
@@ -30,7 +30,7 @@ const changeItQuestions = [
     answer: "action",
     clue: "We need a noun: a thing the class can take.",
     suffix: "-ion",
-    explanation: "-ion forms a noun. Action names what the class decided to take.",
+    explanation: "-ion can form a noun that names an action, process, or result. Action names what the class decided to take.",
     practiceBand: "4-5",
     vocabLevel: "familiar"
   },
@@ -61,9 +61,9 @@ const changeItQuestions = [
     sentence: "The safety ___ lasted nearly an hour.",
     choices: ["inspect", "inspection", "inspector", "inspecting"],
     answer: "inspection",
-    clue: "We need a noun that names an action or process.",
+    clue: "We need a noun that names an action, process, or result.",
     suffix: "-ion",
-    explanation: "-ion forms a noun. Inspection names the process of inspecting.",
+    explanation: "-ion can form a noun that names an action, process, or result. Inspection names the process of inspecting.",
     practiceBand: "4-5",
     vocabLevel: "academic"
   },
@@ -74,7 +74,7 @@ const changeItQuestions = [
     answer: "construction",
     clue: "We need a noun that names a process.",
     suffix: "-ion",
-    explanation: "-ion forms a noun. Construction names the process of building.",
+    explanation: "-ion can form a noun that names an action, process, or result. Construction names the process of building.",
     practiceBand: "4-5",
     vocabLevel: "academic"
   },
@@ -96,7 +96,7 @@ const changeItQuestions = [
     answer: "prediction",
     clue: "We need a noun after the adjective careful.",
     suffix: "-ion",
-    explanation: "-ion forms a noun. Prediction names what the scientist made.",
+    explanation: "-ion can form a noun that names an action, process, or result. Prediction names what the scientist made.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -228,9 +228,9 @@ const changeItQuestions = [
     sentence: "The sudden ___ of the branch showed that something was in the tree.",
     choices: ["move", "movement", "moving", "movable"],
     answer: "movement",
-    clue: "We need a noun naming an action or result.",
+    clue: "We need a noun that names an action or result.",
     suffix: "-ment",
-    explanation: "-ment can form a noun. Movement names the act or result of moving.",
+    explanation: "-ment can form a noun that names an action, process, result, or state. Movement names the action or result of moving.",
     practiceBand: "4-5",
     vocabLevel: "familiar"
   },
@@ -317,9 +317,9 @@ const changeItQuestions = [
     sentence: "The author's careful use of evidence increased the ___ of the argument.",
     choices: ["credit", "credible", "credibility", "credibly"],
     answer: "credibility",
-    clue: "We need a noun naming a quality.",
+    clue: "We need a noun that names a quality someone or something has.",
     suffix: "-ity",
-    explanation: "-ity can form a noun naming a state or quality. Credibility is the quality of being believable.",
+    explanation: "-ity can form a noun that names a state or quality someone or something has. Credibility is the quality of being believable.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -328,9 +328,9 @@ const changeItQuestions = [
     sentence: "The young plant's ___ on sunlight and water affects its growth.",
     choices: ["depend", "dependent", "dependence", "dependently"],
     answer: "dependence",
-    clue: "We need a noun naming a state or condition.",
+    clue: "We need a noun that names a state or quality someone or something has.",
     suffix: "-ence",
-    explanation: "-ence can form a noun. Dependence names the state of relying on something.",
+    explanation: "-ence can form a noun that names an action, or a state or quality someone or something has. Dependence means the state of relying on something.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -339,9 +339,9 @@ const changeItQuestions = [
     sentence: "Her ___ helped her continue working even when the problem was difficult.",
     choices: ["persist", "persistent", "persistence", "persistently"],
     answer: "persistence",
-    clue: "We need a noun naming a quality.",
+    clue: "We need a noun that names a quality someone or something has.",
     suffix: "-ence",
-    explanation: "-ence can form a noun. Persistence names the quality of continuing despite difficulty.",
+    explanation: "-ence can form a noun that names an action, or a state or quality someone or something has. Persistence names the quality of continuing despite difficulty.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -352,7 +352,7 @@ const changeItQuestions = [
     answer: "performance",
     clue: "We need a noun naming an act or result.",
     suffix: "-ance",
-    explanation: "-ance can form a noun. Performance names the act or result of performing.",
+    explanation: "-ance can form a noun that names an action, or a state or quality someone or something has. Performance names the action or result of performing.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -363,7 +363,7 @@ const changeItQuestions = [
     answer: "existence",
     clue: "We need a noun naming a state.",
     suffix: "-ence",
-    explanation: "-ence can form a noun. Existence names the state of being real or present.",
+    explanation: "-ence can form a noun that names an action, or a state or quality someone or something has. Existence names the state of being real or present.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -419,6 +419,16 @@ function getChangeItEligibleQuestions() {
   }
 
   return changeItQuestions.filter((item) => {
+    const containsReservedTransferWord =
+      (item.choices || []).some(
+        (word) =>
+          isReservedTransferWord(word)
+      );
+
+    if (containsReservedTransferWord) {
+      return false;
+    }
+
     const matchesGrade =
       gradeBand === "all" ||
       item.practiceBand === gradeBand;

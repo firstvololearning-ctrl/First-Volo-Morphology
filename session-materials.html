@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Session Materials · First Volo Morphology
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=20260820-session1"
+  >
+
+  <link
+    rel="stylesheet"
+    href="session-materials.css?v=20260820-teacher1"
+  >
+</head>
+
+<body class="session-materials-page">
+
+  <header class="session-materials-header">
+
+    <div>
+      <span class="session-eyebrow">
+        First Volo Morphology
+      </span>
+
+      <h1>
+        Teacher-Led Session Materials
+      </h1>
+
+      <p>
+        Use the interactive materials together during instruction,
+        or print the same learner-specific materials for hands-on
+        practice. The digital materials on this page are designed
+        for educator-guided use.
+      </p>
+    </div>
+
+    <a
+      class="session-back-link"
+      href="program-progress.html#instructionalGuidanceWrap"
+    >
+      ← Program Progress
+    </a>
+
+  </header>
+
+
+  <main class="session-materials-main">
+
+    <nav
+      class="session-demo-tools"
+      id="sessionDemoTools"
+      hidden
+      aria-label="Local material preview families"
+    >
+      <strong>
+        Local preview:
+      </strong>
+
+      <a href="?demo=COOK&minutes=15">
+        COOK
+      </a>
+
+      <a href="?demo=VIEW&minutes=15">
+        VIEW
+      </a>
+
+      <a href="?demo=PORT&minutes=15">
+        PORT
+      </a>
+
+      <a href="?demo=TRACT&minutes=15">
+        TRACT
+      </a>
+    </nav>
+
+
+    <section
+      class="session-empty-state"
+      id="sessionEmptyState"
+      hidden
+    >
+      <h2>
+        No learner selected
+      </h2>
+
+      <p>
+        Return to Program Progress and select a learner
+        with saved work.
+      </p>
+    </section>
+
+
+    <div
+      id="sessionMaterialsApp"
+      hidden
+    >
+
+      <section class="session-toolbar">
+
+        <div class="session-toolbar-summary">
+
+          <span
+            class="session-eyebrow"
+            id="sessionModeEyebrow"
+          >
+            Recommended session
+          </span>
+
+          <h2 id="sessionLearnerName">
+            Learner
+          </h2>
+
+          <p
+            class="session-target-line"
+            id="sessionTargetLine"
+          ></p>
+
+          <p
+            class="session-last-work"
+            id="sessionSourceLine"
+          ></p>
+
+          <p
+            class="session-last-work"
+            id="sessionLastWork"
+          ></p>
+
+        </div>
+
+
+        <div class="session-toolbar-actions">
+
+          <fieldset class="session-duration-picker">
+
+            <legend>
+              Session length
+            </legend>
+
+            <button
+              type="button"
+              data-session-minutes="10"
+            >
+              10 min
+            </button>
+
+            <button
+              type="button"
+              data-session-minutes="15"
+            >
+              15 min
+            </button>
+
+            <button
+              type="button"
+              data-session-minutes="30"
+            >
+              30 min
+            </button>
+
+          </fieldset>
+
+
+          <button
+            class="session-primary-button"
+            id="sessionPrintButton"
+            type="button"
+          >
+            🖨️ Print Session Materials
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section
+        class="session-teacher-led-note"
+        aria-labelledby="sessionSourceChooserHeading"
+      >
+        <h2 id="sessionSourceChooserHeading">
+          Two ways to start a teacher-led session
+        </h2>
+
+        <section
+          id="recommendedSessionChoice"
+          aria-labelledby="recommendedSessionHeading"
+        >
+          <span class="session-eyebrow">
+            Adaptive recommendation
+          </span>
+
+          <h3 id="recommendedSessionHeading">
+            Recommended Session
+          </h3>
+
+          <p>
+            First Volo chooses the next target and activity from the
+            student's recent performance. This remains the student's
+            adaptive recommendation unless new performance is actually saved.
+          </p>
+
+          <button
+            type="button"
+            id="useRecommendedSessionButton"
+          >
+            Use recommended session
+          </button>
+        </section>
+
+        <hr>
+
+        <section
+          id="teacherSelectedSessionChoice"
+          aria-labelledby="teacherSelectedSessionHeading"
+        >
+          <span class="session-eyebrow">
+            Educator choice
+          </span>
+
+          <h3 id="teacherSelectedSessionHeading">
+            Teacher-Selected Session
+          </h3>
+
+          <p>
+            You choose the word part and activity for a specific
+            instructional reason. Opening this session does not rewrite
+            the student's recommended next target. If performance from
+            this session is later saved, record its source as
+            <strong>Teacher selected</strong>.
+          </p>
+
+          <p>
+            <label for="teacherTargetSelect">
+              <strong>Word part</strong>
+            </label>
+            <br>
+            <select id="teacherTargetSelect"></select>
+          </p>
+
+          <p>
+            <label for="teacherActivitySelect">
+              <strong>Activity</strong>
+            </label>
+            <br>
+            <select id="teacherActivitySelect"></select>
+          </p>
+
+          <div
+            id="teacherUnavailableActivities"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <button
+            class="session-primary-button"
+            type="button"
+            id="buildTeacherSelectedSessionButton"
+          >
+            Build teacher-selected session
+          </button>
+
+          <p>
+            After the session is built, First Volo shows only the
+            10-, 15-, or 30-minute lengths that can construct the
+            required session sequence for that target and activity.
+          </p>
+        </section>
+      </section>
+
+
+      <section class="session-teacher-led-note">
+        <strong>
+          👩‍🏫 Teacher-led digital instruction
+        </strong>
+
+        <p id="sessionTeacherLedInstructionNote">
+          Present the digital tasks with the student. Let the student
+          attempt the morphology work first, then use the guidance below
+          to decide whether and how to support.
+        </p>
+      </section>
+
+
+      <section class="session-plan-strip">
+
+        <div>
+          <strong>
+            1. Retrieve
+          </strong>
+
+          <span id="retrieveTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            2. Teach / Practice
+          </strong>
+
+          <span id="teachTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            3. Apply
+          </strong>
+
+          <span id="applyTime"></span>
+        </div>
+
+        <div>
+          <strong>
+            4. Check Transfer
+          </strong>
+
+          <span id="transferTime"></span>
+        </div>
+
+      </section>
+
+
+      <section
+        class="session-warning"
+        id="sessionTargetWarning"
+        hidden
+      ></section>
+
+
+      <section
+        class="session-family-choice"
+        id="sessionFamilyChoice"
+        hidden
+      >
+
+        <span class="session-eyebrow">
+          Material context needed
+        </span>
+
+        <h2>
+          Choose the word family for this session
+        </h2>
+
+        <p>
+          The instructional target is known, but it can
+          occur in more than one reusable material family.
+          Choose the family you intend to use rather than
+          having First Volo guess.
+        </p>
+
+        <div
+          class="session-family-buttons"
+          id="sessionFamilyButtons"
+        ></div>
+
+      </section>
+
+
+      <section
+        class="session-material-unavailable"
+        id="sessionMaterialUnavailable"
+        hidden
+      >
+
+        <span
+          class="session-eyebrow"
+          id="sessionMaterialUnavailableEyebrow"
+        >
+          System-generated material unavailable
+        </span>
+
+        <h2 id="sessionMaterialUnavailableTitle">
+          First Volo could not generate a learner-ready session for this target and activity.
+        </h2>
+
+        <p id="sessionMaterialUnavailableText">
+          First Volo could not find enough suitable instructional words for this session. It will not invent or mis-segment a word part, use a protected word, or change the instructional demand just to fill the session.
+        </p>
+
+      </section>
+
+
+      <div
+        id="sessionReadyContent"
+        hidden
+      >
+
+        <section class="session-instruction-card">
+
+          <span class="session-eyebrow">
+            Teacher-led instruction
+          </span>
+
+          <h2>
+            How to guide this session
+          </h2>
+
+          <div class="session-role-grid">
+
+            <div class="session-role-box">
+              <h3>
+                Educator does
+              </h3>
+
+              <p id="sessionEducatorDoes"></p>
+            </div>
+
+            <div class="session-role-box">
+              <h3>
+                Student does
+              </h3>
+
+              <p id="sessionStudentDoes"></p>
+            </div>
+
+          </div>
+
+          <div class="session-ifthen-guidance">
+
+            <h3>
+              If the student…
+            </h3>
+
+            <p class="session-ifthen-note">
+              Begin with the independent attempt. Open a support
+              condition only if that barrier appears.
+            </p>
+
+            <div id="sessionConditionalGuidance"></div>
+
+          </div>
+
+        </section>
+
+
+        <section class="session-retrieve-card">
+
+          <span class="session-eyebrow">
+            Step 1
+          </span>
+
+          <h2>
+            Retrieve
+          </h2>
+
+          <p class="session-step-note">
+            Begin without reteaching. Let the student
+            respond before adding support.
+          </p>
+
+          <div class="session-audio-actions">
+            <button
+              class="session-secondary-button session-audio-button"
+              id="readRetrieveButton"
+              type="button"
+            >
+              🔊 Read Retrieve prompts
+            </button>
+          </div>
+
+          <ol id="retrievePromptList"></ol>
+
+          <div class="session-retrieve-support">
+
+            <strong>
+              If the student cannot remember anything about
+              <span id="retrieveSupportTarget"></span>:
+            </strong>
+
+            <ul id="retrieveSupportList"></ul>
+
+          </div>
+
+        </section>
+
+
+        <section class="session-digital-card">
+
+          <div class="session-section-heading">
+
+            <div>
+              <span class="session-eyebrow">
+                Interactive material
+              </span>
+
+              <h2 id="digitalMaterialTitle">
+                Word Building
+              </h2>
+            </div>
+
+            <div class="session-material-controls">
+
+              <button
+                class="session-secondary-button"
+                id="toggleMeaningsButton"
+                type="button"
+                aria-pressed="false"
+              >
+                Show meanings
+              </button>
+
+              <button
+                class="session-secondary-button"
+                id="clearMatButton"
+                type="button"
+              >
+                Clear mat
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="session-current-task">
+
+            <div class="session-current-task-heading">
+
+              <span
+                class="session-task-stage"
+                id="taskStage"
+              >
+                Teach / Practice
+              </span>
+
+              <span
+                class="session-task-count"
+                id="taskCount"
+              ></span>
+
+            </div>
+
+            <p
+              class="session-task-prompt"
+              id="taskPrompt"
+            ></p>
+
+            <div class="session-audio-actions">
+              <button
+                class="session-secondary-button session-audio-button"
+                id="readTaskPromptButton"
+                type="button"
+              >
+                🔊 Read prompt
+              </button>
+            </div>
+
+          </div>
+
+
+
+          <div
+            class="session-current-task"
+            id="sessionPromptResponse"
+            hidden
+          >
+            <label
+              for="sessionPromptResponseInput"
+              id="sessionPromptResponseLabel"
+            >
+              Student response
+            </label>
+
+            <input
+              id="sessionPromptResponseInput"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Write the meaningful parts using + or /"
+              style="display:block;width:100%;box-sizing:border-box;margin-top:10px;padding:12px 14px;font:inherit;border:1px solid currentColor;border-radius:12px;"
+            >
+
+            <div class="session-check-row">
+              <button
+                class="session-primary-button"
+                id="checkPromptResponseButton"
+                type="button"
+              >
+                Check Break Apart
+              </button>
+
+              <div
+                class="session-build-feedback"
+                id="promptResponseFeedback"
+                aria-live="polite"
+              ></div>
+            </div>
+          </div>
+
+
+          <div class="session-interaction-help-row">
+
+            <p class="session-interaction-help">
+              Drag a tile to the mat, or click a tile to place
+              it in its matching slot. Click a placed tile to
+              remove it. Enter and Space also work.
+            </p>
+
+            <button
+              class="session-secondary-button session-audio-button"
+              id="readDirectionsButton"
+              type="button"
+            >
+              🔊 Read directions
+            </button>
+
+          </div>
+
+
+          <div
+            class="interactive-build-mat"
+            id="interactiveBuildMat"
+            aria-label="Interactive word-building mat"
+          ></div>
+
+
+          <div
+            class="interactive-word-sum"
+            id="interactiveWordSum"
+            aria-live="polite"
+          >
+            Word sum:
+          </div>
+
+
+          <div class="session-check-row">
+
+            <button
+              class="session-primary-button"
+              id="checkBuildButton"
+              type="button"
+            >
+              Check Build
+            </button>
+
+            <div
+              class="session-build-feedback"
+              id="buildFeedback"
+              aria-live="polite"
+            ></div>
+
+          </div>
+
+
+          <section class="interactive-tile-area">
+
+            <h3>
+              Word-part tiles
+            </h3>
+
+            <div
+              class="interactive-tile-bank"
+              id="interactiveTileBank"
+            ></div>
+
+          </section>
+
+
+          <div class="session-task-navigation">
+
+            <button
+              class="session-secondary-button"
+              id="previousTaskButton"
+              type="button"
+            >
+              ← Previous
+            </button>
+
+            <button
+              class="session-secondary-button"
+              id="nextTaskButton"
+              type="button"
+            >
+              Next →
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <section class="session-transfer-card">
+
+          <span class="session-eyebrow">
+            Step 4
+          </span>
+
+          <h2>
+            Check Transfer
+          </h2>
+
+          <div id="sessionTransferContent"></div>
+
+        </section>
+
+
+        <section class="session-protection-note">
+
+          <strong>
+            Material protection
+          </strong>
+
+          <p id="sessionProtectionText"></p>
+
+        </section>
+
+      </div>
+
+
+      <section
+        class="print-session-packet"
+        id="printSessionPacket"
+        aria-label="Printable educator session materials"
+      >
+
+
+        <article class="print-page print-guide-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1>
+                Session Guide
+              </h1>
+            </div>
+
+            <div class="print-meta">
+              <strong id="printLearnerName"></strong>
+              <span id="printSessionMinutes"></span>
+            </div>
+
+          </header>
+
+
+          <section class="print-target-box">
+
+            <span>
+              Instructional target
+            </span>
+
+            <h2 id="printTargetLabel"></h2>
+
+            <p id="printTargetMeaning"></p>
+
+          </section>
+
+
+          <section class="print-session-roles">
+
+            <div>
+              <strong>
+                Educator does
+              </strong>
+
+              <p id="printEducatorDoes"></p>
+            </div>
+
+            <div>
+              <strong>
+                Student does
+              </strong>
+
+              <p id="printStudentDoes"></p>
+            </div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              1. Retrieve
+            </h3>
+
+            <ol id="printRetrieveList"></ol>
+
+            <div class="print-retrieve-support">
+
+              <strong>
+                If the student cannot remember anything about
+                <span id="printRetrieveSupportTarget"></span>:
+              </strong>
+
+              <ul id="printRetrieveSupportList"></ul>
+
+            </div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              2. Teach / Practice
+            </h3>
+
+            <div id="printPracticeList"></div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              3. Apply
+            </h3>
+
+            <div id="printApplyPrompt"></div>
+
+          </section>
+
+
+          <section class="print-step">
+
+            <h3>
+              4. Check Transfer
+            </h3>
+
+            <div id="printTransferPrompt"></div>
+
+          </section>
+
+
+          <section class="print-support-box">
+
+            <h3>
+              If support is needed
+            </h3>
+
+            <p>
+              Attempt → identify barrier → least support →
+              another attempt → fade.
+            </p>
+
+            <ol id="printSupportList"></ol>
+
+          </section>
+
+
+          <section class="print-word-part-key">
+
+            <h3>
+              Educator word-part key
+            </h3>
+
+            <div id="printWordPartKey"></div>
+
+          </section>
+
+        </article>
+
+
+        <article class="print-page print-mat-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1 id="printMatTitle">
+                Word Building Mat
+              </h1>
+            </div>
+
+          </header>
+
+          <p class="print-mat-directions"
+            id="printMatDirections">
+            Place the cards in the matching slots. Read the
+            word sum. Explain what the meaningful parts
+            contribute.
+          </p>
+
+          <div
+            class="print-build-mat"
+            id="printBuildMat"
+          ></div>
+
+
+          <div class="print-response-lines">
+
+            <div>
+              <strong>
+                Word sum
+              </strong>
+              <span></span>
+            </div>
+
+            <div>
+              <strong>
+                What do the parts suggest?
+              </strong>
+              <span></span>
+            </div>
+
+            <div>
+              <strong>
+                What does the whole word mean?
+              </strong>
+              <span></span>
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <article class="print-page print-cards-prompts-page">
+
+          <header class="print-page-header">
+
+            <div>
+              <span>
+                First Volo Morphology
+              </span>
+
+              <h1>
+                Session Cards & Prompts
+              </h1>
+            </div>
+
+          </header>
+
+
+          <section>
+
+            <h2 class="print-subheading">
+              Cut-apart word-part cards
+            </h2>
+
+            <p class="print-small-note">
+              Student cards intentionally omit meanings.
+              Add a meaning cue only if the student needs
+              that level of support.
+            </p>
+
+            <div
+              class="print-card-grid"
+              id="printCardGrid"
+            ></div>
+
+          </section>
+
+
+          <section class="print-prompt-section">
+
+            <h2 class="print-subheading">
+              Practice & Apply prompts
+            </h2>
+
+            <div
+              class="print-prompt-list"
+              id="printPromptList"
+            ></div>
+
+          </section>
+
+        </article>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script src="word-inventory.js?v=20260820-protect5"></script>
+
+  <script
+    src="linguistic-role-registry.js?v=20260820-role1"
+  ></script>
+
+  <script
+    src="instructional-rules.js?v=20260820-rules1"
+  ></script>
+
+  <script
+    src="instructional-guidance.js?v=20260820-compact2"
+  ></script>
+
+  <script
+    src="instructional-session-guidance.js?v=20260820-teacher1"
+  ></script>
+
+  <script
+    src="instructional-material-families.js?v=20260820-material2"
+  ></script>
+
+  <script
+    src="instructional-material-spec.js?v=20260820-material1"
+  ></script>
+
+  <script
+    src="instructional-protection-registry.js?v=20260820-protect2"
+  ></script>
+
+  <script src="instructional-teacher-word-extensions.js?v=20260822-selector2"></script>
+  <script src="instructional-word-selector.js?v=20260822-selector2"></script>
+  <script
+    src="instructional-session-item-bank.js?v=20260821-sessionux1"
+  ></script>
+
+  <script
+    src="instructional-material-resolver.js?v=20260821-activity3"
+  ></script>
+
+  <script
+    src="instructional-target-resolver.js?v=20260820-target2"
+  ></script>
+
+  <script
+    src="instructional-session-planner.js?v=20260821-activity3"
+  ></script>
+
+  <script
+    src="instructional-check-transfer.js?v=20260820-transfer1"
+  ></script>
+
+  <script
+    src="instructional-audio.js?v=20260820-audio1"
+  ></script>
+
+  <script
+    src="word-part-instruction.js?v=20260822-rich1"
+  ></script>
+
+  <!-- FIRST_VOLO_WORD_PART_FAMILY_CONTRAST_V1 -->
+  <script
+    src="word-part-family-contrast.js?v=20260822-family1"
+  ></script>
+  <script
+    src="session-materials-ui.js?v=20260821-sessionux1"
+  ></script>
+
+  <!-- FIRST_VOLO_SESSION_CLOUD_SYNC_V1 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
+  <script src="js/cloud/morphology-cloud.js"></script>
+  <script
+    src="check-transfer-ui.js?v=20260821-transferux2"
+  ></script>
+
+</body>
+
+</html>
