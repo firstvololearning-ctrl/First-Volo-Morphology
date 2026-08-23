@@ -1142,12 +1142,76 @@
       }
     };
 
-    const addRetry = () =>
+    const retryText = (() => {
+      switch (activity) {
+        case "learn":
+          return (
+            `Ask the student to explain again how ${label} helps explain ${entry.word}. ` +
+            "If the student states the target contribution with less or no added help, remove that support on the next example; if not, give the next level of help."
+          );
+
+        case "find":
+          return (
+            `Ask the student to find ${label} in ${entry.word} again without the highlight or comparison if possible, then tell what it contributes. ` +
+            "If the student locates the target and explains its contribution with less help, remove that support on the next word; if not, give the next level of help."
+          );
+
+        case "meaning":
+          return (
+            `Ask again: What does ${label} mean, and how does that meaning show up in ${entry.word}? ` +
+            "If the student retrieves the meaning and makes the connection with less help, remove the cue on the next item; if not, give the next level of help."
+          );
+
+        case "morpheme":
+          return (
+            `Ask again which part of ${entry.word} carries the meaning “${meaning || "the target meaning"}.” ` +
+            `If the student retrieves ${label} with less help, remove the cue on the next item; if not, give the next level of help.`
+          );
+
+        case "break":
+          return (
+            `Have the student break ${entry.word} apart again and explain what ${label} contributes. ` +
+            "If the student identifies the meaningful boundaries and target contribution with less help, remove that support on the next word; if not, give the next level of help."
+          );
+
+        case "infer":
+          return (
+            `Ask again what ${entry.word} probably means and how ${label} supports that inference. ` +
+            "If the student uses the morphology to reach or refine the whole-word meaning with less help, fade the added non-target or context support on the next item; if not, give the next level of help."
+          );
+
+        case "build":
+          return (
+            `Have the student build the word again from the meaning goal and explain what ${label} contributes. ` +
+            "If the student selects and combines the meaningful parts with less help, remove that support on the next build; if not, give the next level of help."
+          );
+
+        case "use":
+          return (
+            `Ask the student to use ${entry.word} again in a sentence that makes its meaning clear and explain what ${label} contributes. ` +
+            "If the student uses the word accurately and explains the morphology with less help, remove the cloze, model, or morphology support on the next opportunity; if sentence generation alone remains the barrier, keep only the access support."
+          );
+
+        case "change":
+          return (
+            "Ask the student to choose the word-family form again in the same sentence and explain why it fits. " +
+            "If the student selects the correct form and connects its morphology to the sentence role with less help, remove the grammatical or morphological cue on the next item; if not, give the next level of help."
+          );
+
+        default:
+          return null;
+      }
+    })();
+
+    const addRetry = () => {
+      if (!retryText) return;
+
       add(
         "Then",
-        "Ask the student to try the original item again. Reduce support if the student can continue with less help.",
+        retryText,
         "after-support"
       );
+    };
 
     switch (activity) {
       case "learn":
