@@ -3389,7 +3389,7 @@ const inferQuestions = [
   {
     type: "suffix",
     knownLabel: "-er",
-    knownMeaning: "one who",
+    knownMeaning: "a person or thing that does something",
     word: "teacher",
     correct: "a person who teaches",
     choices: [
@@ -3405,7 +3405,7 @@ const inferQuestions = [
   {
     type: "suffix",
     knownLabel: "-or",
-    knownMeaning: "one who",
+    knownMeaning: "a person or thing that does something",
     word: "inspector",
     correct: "a person who inspects",
     choices: [

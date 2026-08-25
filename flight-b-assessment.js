@@ -224,7 +224,7 @@ const FORMS = {
         support: "independently in a structured fill-in response",
         ccss: "Morphological word analysis; L.4.4b / L.5.4b supporting application",
         rubricTitle: "Same base, different suffixes",
-        rubricReference: "2 = explains both endings: inspector uses -or for a person/one who inspects; inspected uses -ed to show a completed/past action or that something was examined. 1 = accurately explains one ending or gives a partial contrast. 0 = does not explain the suffix contrast."
+        rubricReference: "2 = explains both endings: inspector uses -or to name a person or thing that inspects; inspected uses -ed to show a completed/past action or that something was examined. 1 = accurately explains one ending or gives a partial contrast. 0 = does not explain the suffix contrast."
       }
     ]
   },

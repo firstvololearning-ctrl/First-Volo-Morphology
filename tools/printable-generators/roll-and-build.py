@@ -24,6 +24,7 @@ PURPLE = HexColor("#6C2CE3")
 PURPLE_BG = HexColor("#F9F5FF")
 
 ORANGE = HexColor("#F26A16")
+ORANGE_BG = HexColor("#FFF7EF")
 LIGHT_BLUE = HexColor("#F3F7FE")
 
 GRAY = HexColor("#5D6675")
@@ -273,7 +274,11 @@ def build_pdf(cfg, output: Path):
     c.drawString(left_x, heading_y, "DIE 1 · PREFIX")
 
     c.setFillColor(PURPLE)
-    c.drawString(right_x, heading_y, "DIE 2 · SUFFIX")
+    c.drawString(
+        right_x,
+        heading_y,
+        getattr(cfg, "ROLL_SUFFIX_HEADING", "DIE 2 · SUFFIX"),
+    )
 
     # Six rows
     row_h = 37
@@ -295,16 +300,20 @@ def build_pdf(cfg, output: Path):
             GREEN_BG,
         )
 
+        suffix_item = suffixes[i]
+        suffix_color = ORANGE if suffix_item.get("extension") else PURPLE
+        suffix_bg = ORANGE_BG if suffix_item.get("extension") else PURPLE_BG
+
         die_row(
             c,
-            suffixes[i],
+            suffix_item,
             i + 1,
             right_x,
             y,
             col_w,
             row_h,
-            PURPLE,
-            PURPLE_BG,
+            suffix_color,
+            suffix_bg,
         )
 
     # Build it box

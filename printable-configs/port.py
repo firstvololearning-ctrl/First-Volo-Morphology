@@ -138,6 +138,87 @@ RECORD_NOTE = (
     "definition = what the whole word means."
 )
 
+
+# Roll & Build
+ROLL_PREFIXES = [
+    {
+        "label": "im-",
+        "meaning": "in- changes to im- before p",
+        "image": "images/prefixes/in-im-01.png",
+    },
+    {
+        "label": "ex-",
+        "meaning": "out; from",
+        "image": "images/prefixes/ex.png",
+    },
+    {
+        "label": "de-",
+        "meaning": "off; from; down",
+        "image": "images/prefixes/de.png",
+    },
+    {
+        "label": "re-",
+        "meaning": "again; back",
+        "image": "images/prefixes/re.png",
+    },
+    {
+        "label": "trans-",
+        "meaning": "across",
+        "image": "images/prefixes/trans.png",
+    },
+    {
+        "label": "sup-",
+        "meaning": "sub- changes to sup- before p",
+        "image": "images/prefixes/sub.png",
+    },
+]
+
+ROLL_SUFFIXES = [
+    {
+        "label": "-able",
+        "meaning": "can be; able to be",
+        "image": "images/suffixes/able.png",
+    },
+    {
+        "label": "-er",
+        "meaning": "a person or thing that does something",
+        "image": "images/suffixes/er-agent.png",
+    },
+    {
+        "label": "-ed",
+        "meaning": "already happened; past",
+        "image": "images/suffixes/ed.png",
+    },
+    {
+        "label": "-ing",
+        "meaning": "action happening now",
+        "image": "images/suffixes/ing.png",
+    },
+    {
+        "label": "-ant",
+        "meaning": "EXTENSION",
+        "image": "images/suffixes/ant.png",
+        "extension": True,
+    },
+    {
+        "label": "-ance",
+        "meaning": "EXTENSION",
+        "image": "images/suffixes/ance.png",
+        "extension": True,
+    },
+]
+
+ROLL_BASE = {
+    "label": "PORT",
+    "image": "images/roots/port.png",
+}
+
+ROLL_NOTE = (
+    "Use two regular dice. For in-/im- and sub-/sup-, use the form that comes before p. "
+    "Orange rolls are extension challenges."
+)
+
+
 SESSION_RECIPES = [
     {
         "word": "teleport",

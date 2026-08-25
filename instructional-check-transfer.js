@@ -1689,7 +1689,7 @@
       ])
     }),
     "er-or": Object.freeze({
-      targetIds: Object.freeze(["er-or", "er", "or"]),
+      targetIds: Object.freeze(["er-or", "or"]),
       targetLabels: Object.freeze(["-er, -or"]),
       gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([

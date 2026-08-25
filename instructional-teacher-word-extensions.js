@@ -612,7 +612,7 @@
               prompt: "Start with conduct. Complete the sentence with a related word: ‘The orchestra followed the ____ as she raised her baton.’ Then explain what changed in the word and why that form fits.",
               contextSentence: "The orchestra followed the ____ as she raised her baton.",
               expectedMeaning: "a person who leads an orchestra",
-              changeExplanation: "conduct → conductor; -or makes a word for a person who does the action"
+              changeExplanation: "conduct → conductor; -or makes a word for a person or thing that does the action"
             }),
             activities: Object.freeze(["learn", "find", "hunt", "meaning", "morpheme", "infer", "use", "change"]),
             semanticBridgeQuality: "avoid"

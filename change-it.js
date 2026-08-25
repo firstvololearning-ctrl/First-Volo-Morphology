@@ -52,7 +52,7 @@ const changeItQuestions = [
     answer: "inspector",
     clue: "We need a noun that names a person.",
     suffix: "-or",
-    explanation: "-or can form a noun naming a person who does something. An inspector is a person who inspects.",
+    explanation: "-or can form a noun naming a person or thing that does something. An inspector is a person who inspects.",
     practiceBand: "4-5",
     vocabLevel: "academic"
   },
@@ -218,7 +218,7 @@ const changeItQuestions = [
     answer: "teacher",
     clue: "We need a noun that names a person.",
     suffix: "-er",
-    explanation: "-er can form a noun naming a person who does something. A teacher is a person who teaches.",
+    explanation: "-er can form a noun naming a person or thing that does something. A teacher is a person who teaches.",
     practiceBand: "2-3",
     vocabLevel: "familiar"
   },

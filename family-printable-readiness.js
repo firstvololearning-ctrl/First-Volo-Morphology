@@ -126,7 +126,6 @@
       "ible": "able-ible",
       "able/ible": "able-ible",
       "able, ible": "able-ible",
-      "er": "er-or",
       "or": "er-or",
       "er/or": "er-or",
       "er, or": "er-or",
