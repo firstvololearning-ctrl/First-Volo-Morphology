@@ -377,9 +377,9 @@
         }),
         Object.freeze({
           id: "ct-de-02",
-          word: "devalue",
-          sentence: "A deep scratch can devalue a rare coin by making it worth less.",
-          expectedMeaning: "lower the value of"
+          word: "deice",
+          sentence: "Ground crews deice the airplane before takeoff so no frozen layer remains on the wings.",
+          expectedMeaning: "remove ice from"
         }),
       ])
     }),
@@ -1017,9 +1017,9 @@
         }),
         Object.freeze({
           id: "ct-val-02",
-          word: "validity",
-          sentence: "The team questioned the validity of the claim and whether it was strong enough to trust.",
-          expectedMeaning: "the quality of being sound or worthy of acceptance"
+          word: "equivalent",
+          sentence: "The two prizes were equivalent, so either choice was considered equally worthwhile.",
+          expectedMeaning: "equal in value, amount, effect, or function"
         }),
       ])
     }),
@@ -1093,9 +1093,9 @@
         }),
         Object.freeze({
           id: "ct-act-02",
-          word: "actionable",
-          sentence: "The team wanted actionable advice before making a decision.",
-          expectedMeaning: "able to be acted on"
+          word: "counteract",
+          sentence: "Closing the blinds can counteract the afternoon heat and keep the room cooler.",
+          expectedMeaning: "work against or reduce the effect of"
         }),
       ])
     }),
@@ -1125,9 +1125,9 @@
       items: Object.freeze([
         Object.freeze({
           id: "ct-cred-01",
-          word: "credibility",
-          sentence: "The scientist's careful evidence increased the credibility of the explanation.",
-          expectedMeaning: "the quality of being believable or trustworthy"
+          word: "credulous",
+          sentence: "The credulous shopper accepted every claim in the advertisement without checking any facts.",
+          expectedMeaning: "too ready to believe something"
         }),
         Object.freeze({
           id: "ct-cred-02",

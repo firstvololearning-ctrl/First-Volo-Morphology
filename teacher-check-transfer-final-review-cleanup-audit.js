@@ -19,7 +19,7 @@ const required =
     ["ct-val-01", "The expert completed a valuation before the painting was sold."],
     ["ct-vert-01", "The old factory was converted into apartments last year."],
     ["ct-voc-02", "The ceremony began with an invocation led by the principal."],
-    ["ct-act-02", "The team wanted actionable advice before making a decision."],
+    ["ct-act-02", "Closing the blinds can counteract the afternoon heat and keep the room cooler."],
     ["ct-aud-02", "The lesson included an auditory clue along with a picture."],
     ["ct-cred-02", "The visitor showed a credential at the front desk."],
     ["ct-dict-01", "The teacher will dictate the sentence while students write."],
@@ -105,7 +105,7 @@ for (const phrase of oldGiveaways) {
 }
 
 console.log(
-  "=== Check Transfer final review cleanup audit V1.3.1 ==="
+  "=== Check Transfer final review cleanup audit V1.3.2 ==="
 );
 console.log(
   `Curated contexts checked: ${required.size}`

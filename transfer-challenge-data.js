@@ -894,7 +894,7 @@
 
             {
               id: "C-B-03",
-              word: "projection",
+              word: "dejection",
               type: "multi",
               skill: "analysis",
 
@@ -903,16 +903,16 @@
               ],
 
               supportingTargetIds: [
-                "pro",
+                "de",
                 "ion"
               ],
 
               prompt:
-                "Choose the three taught word parts that help explain projection.",
+                "Choose the three taught word parts that help explain dejection.",
 
               choices: [
+                "de",
                 "pro",
-                "inter",
                 "ject",
                 "tract",
                 "ion",
@@ -920,7 +920,7 @@
               ],
 
               answer: [
-                "pro",
+                "de",
                 "ject",
                 "ion"
               ]

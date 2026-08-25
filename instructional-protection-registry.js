@@ -2,7 +2,7 @@
 
 (function initializeFirstVoloInstructionalProtection() {
   const registry = {
-  "version": "instructional-protection-v2-global-hardening",
+  "version": "instructional-protection-v3-lexical-family-freshness",
   "formalPrePost": [
     "abduct",
     "assistance",
@@ -75,7 +75,7 @@
     "poetic",
     "portable",
     "pregame",
-    "projection",
+    "dejection",
     "readable",
     "rebuild",
     "retroactive",
@@ -90,7 +90,7 @@
     "abscond",
     "absorbent",
     "abstain",
-    "actionable",
+    "counteract",
     "adjustable",
     "adjustment",
     "advent",
@@ -129,7 +129,7 @@
     "cookbook",
     "cookware",
     "credential",
-    "credibility",
+    "credulous",
     "criminology",
     "deconstruct",
     "deformable",
@@ -137,7 +137,7 @@
     "deposition",
     "dermatitis",
     "dermatological",
-    "devalue",
+    "deice",
     "dictate",
     "dictation",
     "digitize",
@@ -266,7 +266,7 @@
     "underpay",
     "unfasten",
     "untangle",
-    "validity",
+    "equivalent",
     "valuation",
     "viewfinder",
     "viewpoint",
@@ -278,7 +278,10 @@
     "washable",
     "whispered"
   ],
-  "principle": "Formal assessment targets, Migration Challenge words, and Session Guide Check Transfer words remain separate from ordinary instructional materials."
+  "principle": "Formal assessment targets, Migration Challenge words, Session Guide Check Transfer words, and lexical-family instructional blocks remain separate from ordinary instructional materials.",
+  "instructionalLexicalFamilyBlocks": [
+    "retrospect"
+  ]
 };
 
   function normalize(value) {
@@ -317,6 +320,13 @@
       return "check-transfer";
     }
 
+    if (
+      registry.instructionalLexicalFamilyBlocks
+        .includes(wanted)
+    ) {
+      return "lexical-family-instruction-block";
+    }
+
     return null;
   }
 
@@ -331,7 +341,8 @@
       ...new Set([
         ...registry.formalPrePost,
         ...registry.migrationChallenge,
-        ...registry.connectedTextTransfer
+        ...registry.connectedTextTransfer,
+        ...registry.instructionalLexicalFamilyBlocks
       ])
     ];
   }

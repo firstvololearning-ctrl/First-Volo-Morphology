@@ -194,6 +194,7 @@
       ...asArray(registry.formalPrePost),
       ...asArray(registry.migrationChallenge),
       ...asArray(registry.connectedTextTransfer),
+      ...asArray(registry.instructionalLexicalFamilyBlocks),
       ...asArray(checkTransfer?.getReservedWords?.())
     ];
 

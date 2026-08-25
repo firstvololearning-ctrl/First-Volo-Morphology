@@ -96,7 +96,9 @@ const jsPools = {
   migrationChallenge:
     registry.migrationChallenge || [],
   connectedTextTransfer:
-    registry.connectedTextTransfer || []
+    registry.connectedTextTransfer || [],
+  instructionalLexicalFamilyBlocks:
+    registry.instructionalLexicalFamilyBlocks || []
 };
 
 for (
@@ -134,7 +136,8 @@ const allProtected =
 const poolTotal =
   jsPools.formalPrePost.length +
   jsPools.migrationChallenge.length +
-  jsPools.connectedTextTransfer.length;
+  jsPools.connectedTextTransfer.length +
+  jsPools.instructionalLexicalFamilyBlocks.length;
 
 if (
   allProtected.size !==
@@ -532,6 +535,11 @@ console.log(
 console.log(
   "Check Transfer words:",
   jsPools.connectedTextTransfer.length
+);
+
+console.log(
+  "Lexical-family instructional blocks:",
+  jsPools.instructionalLexicalFamilyBlocks.length
 );
 
 console.log(
