@@ -58,8 +58,8 @@ ROOTS = [
 SUFFIXES = [
     {
         "label": "-or",
-        "meaning": "one who; person or thing that",
-        "image": "images/suffixes/or.png",
+        "meaning": "a person or thing that does something",
+        "image": "images/suffixes/or-agent.png",
     },
     {
         "label": "-able",

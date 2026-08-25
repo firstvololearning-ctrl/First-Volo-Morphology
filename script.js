@@ -700,7 +700,7 @@ const roots = [
     type: "root",
     label: "pend/pens",
     speech: "pend or pens",
-    meaning: "hang",
+    meaning: "hang; weigh/consider",
     image: "images/roots/pend-pens.png",
     examples: ["suspend", "pendant", "pendulum"]
   },
@@ -1131,7 +1131,7 @@ const suffixes = [
     type: "suffix",
     label: "-er, -or",
     speech: "er or or",
-    meaning: "one who; person or thing that",
+    meaning: "a person or thing that does something",
     image: "images/suffixes/er-or.png",
     examples: ["teacher", "writer", "inspector"]
   },
@@ -1364,15 +1364,15 @@ const suffixVariants = [
     id: "er-agent",
     type: "suffix",
     label: "-er",
-    meaning: "one who; person or thing that",
+    meaning: "a person or thing that does something",
     image: "images/suffixes/er-agent.png"
   },
   {
     id: "or-agent",
     type: "suffix",
     label: "-or",
-    meaning: "one who; person or thing that",
-    image: "images/suffixes/or.png"
+    meaning: "a person or thing that does something",
+    image: "images/suffixes/or-agent.png"
   },
 
   {
@@ -2182,7 +2182,7 @@ const suffixFindQuestions = [
     answer: "-or",
     choices: ["-or", "-er", "-ous", "-less"],
     itemId: "er-or",
-    image: "images/suffixes/or.png",
+    image: "images/suffixes/or-agent.png",
     base: "inspect = look at carefully",
     literal: "one who inspects",
     definition: "a person whose job is to inspect things"
@@ -3416,7 +3416,7 @@ const inferQuestions = [
     ],
     literal: "one who inspects",
     definition: "a person whose job is to examine something carefully",
-    image: "images/suffixes/or.png"
+    image: "images/suffixes/or-agent.png"
   },
   {
     type: "suffix",

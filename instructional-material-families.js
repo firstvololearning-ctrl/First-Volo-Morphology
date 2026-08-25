@@ -73,7 +73,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
             "id": "suffix-3",
             "section": "suffix",
             "label": "-er",
-            "meaning": "person or thing that",
+            "meaning": "a person or thing that does something",
             "image": "images/suffixes/er-agent.png"
           },
           {
@@ -262,7 +262,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
             "id": "suffix-2",
             "section": "suffix",
             "label": "-er",
-            "meaning": "one who; person or thing that",
+            "meaning": "a person or thing that does something",
             "image": "images/suffixes/er-agent.png"
           },
           {
@@ -451,8 +451,8 @@ window.FirstVoloInstructionalMaterialFamilies = {
             "id": "suffix-1",
             "section": "suffix",
             "label": "-or",
-            "meaning": "one who; person or thing that",
-            "image": "images/suffixes/or.png"
+            "meaning": "a person or thing that does something",
+            "image": "images/suffixes/or-agent.png"
           },
           {
             "id": "suffix-2",
@@ -668,7 +668,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
             "id": "suffix-4",
             "section": "suffix",
             "label": "-er",
-            "meaning": "one who; person who",
+            "meaning": "a person or thing that does something",
             "image": "images/suffixes/er-agent.png"
           },
           {

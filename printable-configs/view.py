@@ -45,7 +45,7 @@ SUFFIXES = [
     },
     {
         "label": "-er",
-        "meaning": "one who; person who",
+        "meaning": "a person or thing that does something",
         "image": "images/suffixes/er-agent.png",
     },
     {

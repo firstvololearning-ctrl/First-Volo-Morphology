@@ -50,7 +50,7 @@ SUFFIXES = [
     },
     {
         "label": "-er",
-        "meaning": "person or thing that",
+        "meaning": "a person or thing that does something",
         "image": "images/suffixes/er-agent.png",
     },
     {
@@ -159,7 +159,7 @@ ROLL_SUFFIXES = [
     },
     {
         "label": "-er",
-        "meaning": "person or thing that",
+        "meaning": "a person or thing that does something",
         "image": "images/suffixes/er-agent.png",
     },
     {
