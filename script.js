@@ -1142,7 +1142,7 @@ const suffixes = [
     speech: "er or or",
     meaning: "a person or thing that does something",
     image: "images/suffixes/er-or.png",
-    examples: ["teacher", "writer", "inspector"]
+    examples: ["teacher", "writer", "inspector", "narrator"]
   },
  {
   id: "er-more",

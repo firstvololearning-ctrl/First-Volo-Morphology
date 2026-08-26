@@ -184,7 +184,7 @@ Learn,target-example-pool,Learn · roots · Flight C · target:voc · vocab:acad
 Learn,target-example-pool,Learn · suffixes · Flight A · target:able-ible · vocab:familiar,suffixes,,A,familiar,LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,3,3,0,0,3,3,0,,portable | readable | visible
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ed · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,helped | jumped | walked,
 Learn,target-example-pool,Learn · suffixes · Flight A · target:er-more · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,faster | stronger | taller,
-Learn,target-example-pool,Learn · suffixes · Flight A · target:er-or · vocab:academic,suffixes,,A,academic,LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,1,1,0,0,1,1,0,,inspector
+Learn,target-example-pool,Learn · suffixes · Flight A · target:er-or · vocab:academic,suffixes,,A,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,narrator,inspector
 Learn,target-example-pool,Learn · suffixes · Flight A · target:er-or · vocab:familiar,suffixes,,A,familiar,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,writer,teacher
 Learn,target-example-pool,Learn · suffixes · Flight A · target:est · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,fastest | strongest | tallest,
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ful · vocab:familiar,suffixes,,A,familiar,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,3,3,1,1,2,2,0,careful,helpful | hopeful

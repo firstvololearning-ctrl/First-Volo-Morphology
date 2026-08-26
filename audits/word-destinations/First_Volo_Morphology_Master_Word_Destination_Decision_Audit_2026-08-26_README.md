@@ -1,6 +1,6 @@
 # First Volo Morphology — Master Word Destination / Decision Audit
 
-Generated: 2026-08-26T20:04:24.439Z
+Generated: 2026-08-26T20:13:28.661Z
 
 ## Decision path
 
@@ -32,23 +32,23 @@ Generated: 2026-08-26T20:04:24.439Z
 ## Summary
 
 - Canonical targets: 96
-- Master inventory entries: 365
-- Unique words audited: 628
-- Destination rows: 18748
+- Master inventory entries: 366
+- Unique words audited: 629
+- Destination rows: 18749
 - Formal protected words: 50
 - Migration protected words: 30
 - Check Transfer protected words: 190
 - Hard failures: 0
 - Review flags: 0
-- Informational flags: 228
+- Informational flags: 227
 - Student Digital runtime pools: 258
 - Runtime pools empty after protection: 0
 - Runtime pools intentionally unavailable: 2
-- Learn example subpools empty after protection: 9
+- Learn example subpools empty after protection: 8
   - Intentional lexical scarcity: 7
-  - Lexical-development backlog: 2
+  - Lexical-development backlog: 1
   - Unclassified Learn coverage: 0
-- Runtime pools with one viable word after protection: 38
+- Runtime pools with one viable word after protection: 39
 
 ## Output files
 

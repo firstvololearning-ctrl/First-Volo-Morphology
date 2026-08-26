@@ -1213,7 +1213,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
     "placementRationale": "Common inflectional/derivational suffix; fits RF.3.3a-b and L.3.4b, with several forms appearing even earlier.",
     "wordsmythEvidence": "Wordsmyth “basic suffixes”",
-    "currentExamples": "teacher · writer · inspector",
+    "currentExamples": "teacher · writer · inspector · narrator",
     "imagePath": "images/suffixes/er-or.png",
     "sources": "https://www.thecorestandards.org/ELA-Literacy/L/2/4/b/ ; https://www.thecorestandards.org/ELA-Literacy/RF/3/ | https://blog.wordsmyth.net/2021/12/word-parts-ii-basic-suffixes/",
     "introBandConfidence": "high"
@@ -9692,6 +9692,32 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "ngslRank": 1024,
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  }
+,
+  {
+    "word": "narrator",
+    "status": "current",
+    "morphemes": [
+      "er-or"
+    ],
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "RF.3.3a-b; L.3.4b; RL.3.6; W.3.3a",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "high",
+    "vocabConfidence": "high",
+    "literal": "one who narrates or tells",
+    "definition": "a person or voice that tells a story",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part; do not require independent full segmentation",
+    "reviewCaution": "Use narrator as an agent -or meaning example. Grade 3 standards explicitly use narrator as a literary term. Do not require students to infer a simple surface spelling rule from narrate to narrator.",
+    "evidence": {
+      "sourceGate": "SOURCE CLEARED — productive er-or family",
+      "familySource": "Merriam-Webster -er / -or agent family",
+      "curriculumEvidence": "CCSS RL.3.6 explicitly uses narrator; CCSS W.3.3a asks students to introduce a narrator and/or characters.",
+      "accessibilityDecision": "Flight A / grades 2-3 supported by explicit Grade 3 standards usage"
     }
   },
   {
