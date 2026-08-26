@@ -6168,3 +6168,402 @@ a:focus-visible {
   font-size: 0.92rem;
   font-weight: 650;
 }
+
+
+/* === CLEAN ABOUT MODAL · 2026-08-26 === */
+
+.about-clean {
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.about-clean h2 {
+  margin: 0 0 4px;
+}
+
+.about-clean h3 {
+  margin: 0 0 14px;
+  color: #173f70;
+}
+
+.about-clean-tagline {
+  margin: 0 0 18px;
+  font-weight: 700;
+  color: #355f96;
+}
+
+.about-clean-lead {
+  font-size: 1.02rem;
+}
+
+.about-clean-intro {
+  padding-bottom: 18px;
+  border-bottom: 1px solid #dfe7f0;
+}
+
+.about-clean-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.about-clean-section {
+  padding: 20px 0;
+  border-bottom: 1px solid #dfe7f0;
+}
+
+.about-clean-note {
+  margin: 12px 0 0;
+}
+
+.about-activity-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 16px;
+  border: 1px solid #d9e5f1;
+  border-radius: 14px;
+  background: #f6f9fc;
+  font-weight: 700;
+  color: #183f6d;
+}
+
+.about-flow-arrow {
+  color: #c49537;
+}
+
+.about-principles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.about-principle {
+  padding: 14px 16px;
+  border: 1px solid #dce6f0;
+  border-radius: 12px;
+  background: #fafcfe;
+}
+
+.about-principle strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #173f70;
+}
+
+.about-principle p {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.about-more {
+  padding-top: 20px;
+}
+
+.about-disclosure {
+  margin-bottom: 9px;
+  overflow: hidden;
+  border: 1px solid #d8e3ee;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.about-disclosure summary {
+  position: relative;
+  padding: 15px 46px 15px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  color: #173f70;
+  background: #f7fafc;
+}
+
+.about-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.about-disclosure summary::after {
+  content: "⌄";
+  position: absolute;
+  top: 50%;
+  right: 17px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  transition: transform 0.18s ease;
+}
+
+.about-disclosure[open] summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.about-disclosure[open] summary {
+  border-bottom: 1px solid #e0e8f0;
+}
+
+.about-disclosure-body {
+  padding: 15px 18px 18px;
+}
+
+.about-disclosure-body > :first-child {
+  margin-top: 0;
+}
+
+.about-disclosure-body > :last-child {
+  margin-bottom: 0;
+}
+
+.about-flight {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border-left: 4px solid #d3a64a;
+  background: #fafbfc;
+}
+
+.about-flight strong,
+.about-flight small {
+  display: block;
+}
+
+.about-flight strong {
+  color: #173f70;
+}
+
+.about-flight small {
+  margin-top: 2px;
+  font-weight: 700;
+  color: #66768a;
+}
+
+.about-flight p {
+  margin: 7px 0 0;
+}
+
+.about-word-parts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.about-word-parts > div {
+  padding: 13px 14px;
+  border: 1px solid #dce6f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.about-word-parts strong {
+  color: #173f70;
+}
+
+.about-word-parts p {
+  margin: 6px 0 0;
+}
+
+@media (max-width: 700px) {
+  .about-principles,
+  .about-word-parts {
+    grid-template-columns: 1fr;
+  }
+
+  .about-activity-flow {
+    font-size: 0.92rem;
+  }
+
+  .about-disclosure summary {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+}
+
+
+/* === ABOUT VISUAL USE CASES · 2026-08-26 === */
+
+.about-use-section {
+  padding-top: 20px;
+}
+
+.about-use-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.about-use-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 120px;
+  padding: 16px;
+  border: 1px solid #d8e4ef;
+  border-radius: 14px;
+  background: #fbfdff;
+}
+
+.about-use-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #eef5fb;
+  font-size: 1.55rem;
+}
+
+.about-use-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #173f70;
+  line-height: 1.3;
+}
+
+.about-use-card p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+
+/* THREE-STAGE PRACTICE FLOW */
+
+.about-stage-flow {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.about-stage-card {
+  min-height: 132px;
+  padding: 16px;
+  border: 1px solid #d8e4ef;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.about-stage-one {
+  background: #f5f9fd;
+}
+
+.about-stage-two {
+  background: #f6fbf6;
+}
+
+.about-stage-three {
+  background: #faf7fd;
+}
+
+.about-stage-number {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: #1f568d;
+  color: white;
+  font-weight: 800;
+}
+
+.about-stage-two .about-stage-number {
+  background: #378a49;
+}
+
+.about-stage-three .about-stage-number {
+  background: #7250a0;
+}
+
+.about-stage-card strong {
+  display: block;
+  color: #173f70;
+}
+
+.about-stage-card p {
+  margin: 7px 0 0;
+  font-size: 0.9rem;
+}
+
+.about-stage-arrow {
+  color: #1f568d;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.about-stage-note {
+  margin: 11px 0 0;
+  text-align: center;
+  color: #66768a;
+  font-size: 0.88rem;
+}
+
+
+/* TEACHER-LED SUPPORT */
+
+.about-support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.about-support-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 15px;
+  border: 1px solid #dce6f0;
+  border-radius: 12px;
+  background: #fafcfe;
+}
+
+.about-support-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #eef4fb;
+  font-size: 1.35rem;
+}
+
+.about-support-card strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #173f70;
+}
+
+.about-support-card p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+
+/* Hide the old ten-step visual if any old rule still targets it */
+
+.about-clean .about-activity-flow {
+  display: none;
+}
+
+
+@media (max-width: 760px) {
+
+  .about-use-grid,
+  .about-support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stage-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stage-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+
+}
