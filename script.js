@@ -846,7 +846,7 @@ const roots = [
   speech: "act",
   meaning: "do; act",
   image: "images/roots/act.png",
-  examples: ["active", "activity", "inactive"]
+  examples: ["active", "activity", "inactive", "interaction"]
 },
 {
   id: "aud",
@@ -1196,7 +1196,7 @@ const suffixes = [
     speech: "less",
     meaning: "without",
     image: "images/suffixes/less.png",
-    examples: ["hopeless", "careless", "fearless"]
+    examples: ["hopeless", "careless", "fearless", "cloudless"]
   },
   {
     id: "ly-adverb",

@@ -119,7 +119,7 @@ Learn,target-example-pool,Learn · prefixes · Flight C · target:ab · vocab:ac
 Learn,target-example-pool,Learn · prefixes · Flight C · target:ab · vocab:familiar,prefixes,,C,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,absent,
 Learn,target-example-pool,Learn · prefixes · Flight C · target:retro · vocab:academic,prefixes,,C,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,1,1,0,0,1,1,0,,retroactive
 Learn,target-example-pool,Learn · prefixes · Flight C · target:retro · vocab:challenge,prefixes,,C,challenge,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,retrofit,retrospective
-Learn,target-example-pool,Learn · roots · Flight B · target:act · vocab:academic,roots,,B,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,1,1,0,0,1,1,0,,inactive
+Learn,target-example-pool,Learn · roots · Flight B · target:act · vocab:academic,roots,,B,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,interaction,inactive
 Learn,target-example-pool,Learn · roots · Flight B · target:act · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,active | activity,
 Learn,target-example-pool,Learn · roots · Flight B · target:auto · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,autobiography | autograph | automatic,
 Learn,target-example-pool,Learn · roots · Flight B · target:bio · vocab:academic,roots,,B,academic,VIABLE_AFTER_PROTECTION,POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL,3,3,2,2,1,1,0,biodegradable | biography,biology
@@ -191,7 +191,7 @@ Learn,target-example-pool,Learn · suffixes · Flight A · target:ful · vocab:f
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ing · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,running | sleeping | writing,
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ion · vocab:academic,suffixes,,A,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,decision,construction
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ion · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,action,
-Learn,target-example-pool,Learn · suffixes · Flight A · target:less · vocab:familiar,suffixes,,A,familiar,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,3,3,0,0,3,3,0,,careless | fearless | hopeless
+Learn,target-example-pool,Learn · suffixes · Flight A · target:less · vocab:familiar,suffixes,,A,familiar,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,4,4,1,1,3,3,0,cloudless,careless | fearless | hopeless
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ly-adverb · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,carefully | quickly | slowly,
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ment · vocab:academic,suffixes,,A,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,development,
 Learn,target-example-pool,Learn · suffixes · Flight A · target:ment · vocab:familiar,suffixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,enjoyment | movement,
