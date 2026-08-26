@@ -29,7 +29,7 @@ const vm = require("vm");
 global.window = global;
 
 const ROOT = process.cwd();
-const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.2";
+const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.3";
 
 function fail(message) {
   console.error(`STOP: ${message}`);
@@ -1686,6 +1686,8 @@ for (const rows of runtimeGroups.values()) {
 
   let operationalStatus = "VIABLE";
   let cleanupDisposition = "NO_PROTECTED_SOURCE_ROWS";
+  let learnDisposition = "";
+  let learnDispositionReason = "";
 
   const intentionalNA =
     intentionalStudentDigitalNAByKey.get(
@@ -1720,10 +1722,98 @@ for (const rows of runtimeGroups.values()) {
       Learn is not operationally empty when its selected-vocabulary
       example subpool is empty. The morpheme card still renders and
       explicitly reports that no examples are currently included for
-      that vocabulary level. Treat this as example-coverage information,
-      not an unavailable activity.
+      that vocabulary level.
+
+      The remaining known cases have now been adjudicated. Distinguish
+      stable intentional scarcity from lexical-development backlog so
+      the audit does not present every empty example subpool as the same
+      kind of unfinished problem.
     */
-    operationalStatus = "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION";
+    const learnTargetId =
+      String(first.runtimePool || "")
+        .split("target:")[1]
+        ?.split(" · ")[0]
+        ?.trim() ||
+      "";
+
+    const learnDispositions = {
+      "e-ex": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "Exact Familiar Learn examples are protected. The ordinary unprotected e-/ex- example currently available is Academic; do not relabel vocabulary categories simply to fill this Learn example subpool."
+      },
+      "ab": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "Exact Academic authored Learn examples are protected. The approved ordinary ab- word absent is Familiar; preserve its vocabulary classification rather than retagging it to fill this subpool."
+      },
+      "retro": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "The Academic authored Learn example is protected. The approved ordinary retro- word retrofit is Challenge; preserve Challenge as the stretch category rather than flattening it into Academic."
+      },
+      "port": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "The exact Flight B Academic authored Learn example is protected. Transportation is Academic but is intentionally practiced in Flight C; do not pull a cross-Flight word down only to fill this Learn subpool."
+      },
+      "aud": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "The Academic authored Learn example is protected. Approved ordinary aud words audio and audience are Familiar; preserve their vocabulary classifications rather than retagging them."
+      },
+      "able-ible": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "The authored Familiar Learn examples are protected. Ordinary unprotected -able/-ible options are Academic and/or later-Flight items; do not force-fill the early Familiar subpool."
+      },
+      "ant-ent-agent": {
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
+        reason:
+          "Assistant is a protected Formal Pre/Post word and is the only current exact Familiar agent example. Pendant remains a pend target and must not be reassigned to the agent suffix merely because it ends in -ant."
+      },
+      "semi": {
+        kind: "lexical-development-backlog",
+        status: "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG",
+        reason:
+          "Source-cleared productive semi- candidates exist, but they still require instructional-role and accessibility adjudication before any word is promoted into the live Student Digital Learn inventory."
+      },
+      "er-or": {
+        kind: "lexical-development-backlog",
+        status: "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG",
+        reason:
+          "Source-cleared agent -er/-or candidates exist, but they still require instructional-role, accessibility, and placement adjudication before promotion into the live Student Digital Learn inventory."
+      },
+      "ize": {
+        kind: "lexical-development-backlog",
+        status: "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG",
+        reason:
+          "Source-cleared productive -ize candidates exist, but they still require instructional-role, accessibility, and suffix-sense fit adjudication before promotion into the live Student Digital Learn inventory."
+      }
+    };
+
+    const learnDecision =
+      learnDispositions[learnTargetId] ||
+      null;
+
+    if (learnDecision) {
+      learnDisposition = learnDecision.kind;
+      learnDispositionReason = learnDecision.reason;
+      operationalStatus = learnDecision.status;
+    } else {
+      learnDisposition = "unclassified-coverage";
+      learnDispositionReason =
+        "The Learn morpheme card remains available, but this selected-vocabulary example subpool is empty after protection and has not yet received a specific disposition.";
+      operationalStatus = "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION";
+    }
+
     cleanupDisposition = "LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY";
   } else if (!viableWords.length && protectedWords.length) {
     operationalStatus = "EMPTY_AFTER_PROTECTION";
@@ -1749,6 +1839,8 @@ for (const rows of runtimeGroups.values()) {
     runtimeVocabLevel: first.runtimeVocabLevel,
     operationalStatus,
     cleanupDisposition,
+    learnDisposition,
+    learnDispositionReason,
     authoredRows: rows.length,
     uniqueWords: uniqueWords.length,
     viableRows: viable.length,
@@ -1774,16 +1866,33 @@ for (const rows of runtimeGroups.values()) {
   }
 
   if (
-    operationalStatus ===
-    "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION"
+    String(operationalStatus)
+      .startsWith("LEARN_EXAMPLE_SUBPOOL_")
   ) {
+    let category =
+      "student-digital-learn-example-subpool-empty-after-protection";
+
+    if (
+      operationalStatus ===
+      "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY"
+    ) {
+      category =
+        "student-digital-learn-example-subpool-intentional-scarcity";
+    } else if (
+      operationalStatus ===
+      "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG"
+    ) {
+      category =
+        "student-digital-learn-example-subpool-lexical-backlog";
+    }
+
     findings.push({
       severity: "INFO",
-      category:
-        "student-digital-learn-example-subpool-empty-after-protection",
+      category,
       word: protectedWords.sort().join(" | "),
       destination: first.runtimePool,
       message:
+        learnDispositionReason ||
         "The Learn morpheme card remains available. For this selected vocabulary level, all authored examples are protected, so the card displays its no-examples message. Treat this as example-coverage information rather than an unavailable Student Digital activity."
     });
   }
@@ -2093,7 +2202,18 @@ const summary = {
   studentDigitalRuntimePools: runtimePoolRows.length,
   runtimePoolsEmptyAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "EMPTY_AFTER_PROTECTION").length,
   runtimePoolsIntentionallyUnavailable: runtimePoolRows.filter(row => row.operationalStatus === "INTENTIONALLY_UNAVAILABLE").length,
-  learnExampleSubpoolsEmptyAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION").length,
+  learnExampleSubpoolsEmptyAfterProtection: runtimePoolRows.filter(row =>
+    String(row.operationalStatus).startsWith("LEARN_EXAMPLE_SUBPOOL_")
+  ).length,
+  learnExampleSubpoolsIntentionalScarcity: runtimePoolRows.filter(row =>
+    row.operationalStatus === "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY"
+  ).length,
+  learnExampleSubpoolsLexicalBacklog: runtimePoolRows.filter(row =>
+    row.operationalStatus === "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG"
+  ).length,
+  learnExampleSubpoolsUnclassified: runtimePoolRows.filter(row =>
+    row.operationalStatus === "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION"
+  ).length,
   runtimePoolsWithOneViableWordAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "VIABLE_ONE_WORD_AFTER_PROTECTION").length,
   protectedSourceRowsPoolRemainsViable: protectedSourceCleanupRows.filter(row => row.cleanupDisposition === "POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL").length,
   protectedSourceRowsWouldEmptyPool: protectedSourceCleanupRows.filter(row => row.cleanupDisposition === "PROTECTED_REMOVAL_WOULD_LEAVE_POOL_EMPTY").length,
@@ -2112,7 +2232,7 @@ const summary = {
     "Word Hunt is audited at the whole-question level because the live runtime rejects the entire question when any protected word appears, including a distractor.",
     "v1.3 separates instructionalTargetIds from wordMorphemeIds so a complete word decomposition is never mistaken for a required target/activity cell.",
     "Student Digital Find and Figure It Out are evaluated by study-mode × Flight × vocabulary runtime pools; Build Words by build-pattern × Flight × vocabulary; Use It by its downstream active Build pattern.",
-    "Learn is different: the morpheme card remains available even when its selected-vocabulary example subpool is empty. Empty Learn example subpools are informational coverage findings, not unavailable runtime pools.",
+    "Learn is different: the morpheme card remains available even when its selected-vocabulary example subpool is empty. Empty Learn example subpools are informational coverage findings, not unavailable runtime pools. Known cases are dispositioned as intentional lexical scarcity or lexical-development backlog; any future unmatched case remains explicitly unclassified.",
     "The exact prefix+root · Flight B · familiar Build Words pool, and its downstream Use It pool, are explicitly intentional N/A because no approved unprotected familiar Flight B word currently provides a clean canonical Prefix + Root build. Prefix + ordinary-base words are not used to force-fill this path."
   ]
 };
@@ -2368,6 +2488,9 @@ Generated: ${summary.generatedAt}
 - Runtime pools empty after protection: ${summary.runtimePoolsEmptyAfterProtection}
 - Runtime pools intentionally unavailable: ${summary.runtimePoolsIntentionallyUnavailable}
 - Learn example subpools empty after protection: ${summary.learnExampleSubpoolsEmptyAfterProtection}
+  - Intentional lexical scarcity: ${summary.learnExampleSubpoolsIntentionalScarcity}
+  - Lexical-development backlog: ${summary.learnExampleSubpoolsLexicalBacklog}
+  - Unclassified Learn coverage: ${summary.learnExampleSubpoolsUnclassified}
 - Runtime pools with one viable word after protection: ${summary.runtimePoolsWithOneViableWordAfterProtection}
 
 ## Output files
@@ -2400,6 +2523,9 @@ console.log(`Student Digital runtime pools: ${summary.studentDigitalRuntimePools
 console.log(`Runtime pools empty after protection: ${summary.runtimePoolsEmptyAfterProtection}`);
 console.log(`Runtime pools intentionally unavailable: ${summary.runtimePoolsIntentionallyUnavailable}`);
 console.log(`Learn example subpools empty after protection: ${summary.learnExampleSubpoolsEmptyAfterProtection}`);
+console.log(`  Intentional lexical scarcity: ${summary.learnExampleSubpoolsIntentionalScarcity}`);
+console.log(`  Lexical-development backlog: ${summary.learnExampleSubpoolsLexicalBacklog}`);
+console.log(`  Unclassified Learn coverage: ${summary.learnExampleSubpoolsUnclassified}`);
 console.log(`Runtime pools with one viable word after protection: ${summary.runtimePoolsWithOneViableWordAfterProtection}`);
 console.log(`Protected source rows that would empty a pool if removed: ${summary.protectedSourceRowsWouldEmptyPool}`);
 
