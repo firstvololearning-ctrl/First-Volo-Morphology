@@ -262,7 +262,7 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
     "ccssSkill": "RF.4–5.3a; L.4–5.4b",
     "placementRationale": "Common Greek/Latin affix work fits L.4–5.4b; introduced after the most transparent early prefixes.",
     "wordsmythEvidence": "First Volo curricular placement; not directly grade-assigned by CCSS",
-    "currentExamples": "semicircle · semicolon · semifinal",
+    "currentExamples": "semicircle · semicolon · semifinal · semisweet",
     "imagePath": "images/prefixes/semi.png",
     "sources": "https://www.thecorestandards.org/ELA-Literacy/L/4/4/b/ ; https://www.thecorestandards.org/ELA-Literacy/L/5/4/b/",
     "introBandConfidence": "medium",
@@ -8040,6 +8040,30 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  },
+  {
+    "word": "semisweet",
+    "status": "current",
+    "morphemes": [
+      "semi-"
+    ],
+    "segmentation": "semi- + sweet",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "RF.4–5.3a; L.4–5.4b",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "partly sweet",
+    "definition": "somewhat sweet, but not very sweet",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "evidence": {
+      "sourceGate": "SOURCE CLEARED — productive semi- family",
+      "sourceNote": "semi- can mean half or partly; semisweet is a transparent current formation",
+      "source": "Merriam-Webster semi- family gate"
     }
   },
   {

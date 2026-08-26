@@ -541,7 +541,7 @@ const prefixes = [
     speech: "semi",
     meaning: "half; partly",
     image: "images/prefixes/semi.png",
-    examples: ["semicircle", "semicolon", "semifinal"]
+    examples: ["semicircle", "semicolon", "semifinal", "semisweet"]
   },
   {
     id: "anti",
