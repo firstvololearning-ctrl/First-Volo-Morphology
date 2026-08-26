@@ -393,6 +393,12 @@
   const SENSE_DISAMBIGUATED_TARGET_IDS = new Set([
     "er-more",
     "er-or",
+    "un-negation",
+    "un-reversative",
+    "ly-adverb",
+    "ly-adjective",
+    "ant-ent-agent",
+    "ant-ent-adjective",
     "negative-in-family",
     "location-in-family"
   ]);

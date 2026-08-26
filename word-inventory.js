@@ -1691,6 +1691,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "assistant",
+    "targetSenseIds": [
+      "ant-ent-agent"
+    ],
     "status": "current",
     "morphemes": [
       "-ant",
@@ -2310,6 +2313,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "carefully",
+    "targetSenseIds": [
+      "ly-adverb"
+    ],
     "status": "current",
     "morphemes": [
       "-ly"
@@ -7294,6 +7300,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "quickly",
+    "targetSenseIds": [
+      "ly-adverb"
+    ],
     "status": "current",
     "morphemes": [
       "-ly",
@@ -7599,6 +7608,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "resistant",
+    "targetSenseIds": [
+      "ant-ent-adjective"
+    ],
     segmentation: "resist + -ant",
     "status": "current",
     "morphemes": [
@@ -8126,6 +8138,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "slowly",
+    "targetSenseIds": [
+      "ly-adverb"
+    ],
     "status": "current",
     "morphemes": [
       "-ly"
@@ -9198,6 +9213,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "unfair",
+    "targetSenseIds": [
+      "un-negation"
+    ],
     "status": "current",
     "morphemes": [
       "un-"
@@ -9218,6 +9236,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "unhappy",
+    "targetSenseIds": [
+      "un-negation"
+    ],
     segmentation: "un- + happy",
     "status": "current",
     "morphemes": [
@@ -9242,6 +9263,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
   },
   {
     "word": "untie",
+    "targetSenseIds": [
+      "un-reversative"
+    ],
     segmentation: "un- + tie",
     "status": "current",
     "morphemes": [
