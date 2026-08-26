@@ -19,7 +19,7 @@
 (function initializeFirstVoloCheckTransfer() {
 
   const CORE_TARGET_IDS = Object.freeze([
-    "un",
+    "un-reversative",
     "re",
     "negative-in-family",
     "dis",
@@ -107,18 +107,18 @@
     "ing",
     "ion",
     "less",
-    "ly",
+    "ly-adverb",
     "ment",
     "ous",
-    "ant-ent",
+    "ant-ent-adjective",
     "s-es",
     "cook",
     "view",
   ]);
 
   const BANK = Object.freeze({
-    "un": Object.freeze({
-      targetIds: Object.freeze(["un"]),
+    "un-reversative": Object.freeze({
+      targetIds: Object.freeze(["un-reversative"]),
       targetLabels: Object.freeze(["un-"]),
       gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
@@ -1825,8 +1825,8 @@
         }),
       ])
     }),
-    "ly": Object.freeze({
-      targetIds: Object.freeze(["ly"]),
+    "ly-adverb": Object.freeze({
+      targetIds: Object.freeze(["ly-adverb"]),
       targetLabels: Object.freeze(["-ly"]),
       gradeBands: Object.freeze(["2-3", "4-5", "6-8"]),
       items: Object.freeze([
@@ -1882,8 +1882,8 @@
         }),
       ])
     }),
-    "ant-ent": Object.freeze({
-      targetIds: Object.freeze(["ant-ent", "ant"]),
+    "ant-ent-adjective": Object.freeze({
+      targetIds: Object.freeze(["ant-ent-adjective"]),
       targetLabels: Object.freeze(["-ant, -ent"]),
       gradeBands: Object.freeze(["4-5", "6-8"]),
       items: Object.freeze([

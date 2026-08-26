@@ -382,13 +382,22 @@ function isWordEligibleForWordHunt(
 
 const prefixes = [
   {
-    id: "un",
+    id: "un-negation",
     type: "prefix",
     label: "un-",
     speech: "un",
-    meaning: "not; opposite of",
-    image: "images/prefixes/un.png",
-    examples: ["unhappy", "untie", "unfair"]
+    meaning: "not",
+    image: "images/prefixes/un-negation.png",
+    examples: ["unhappy", "unfair"]
+  },
+  {
+    id: "un-reversative",
+    type: "prefix",
+    label: "un-",
+    speech: "un",
+    meaning: "reverse or remove",
+    image: "images/prefixes/un-reversative.png",
+    examples: ["untie"]
   },
   {
     id: "re",
@@ -1190,13 +1199,22 @@ const suffixes = [
     examples: ["hopeless", "careless", "fearless"]
   },
   {
-    id: "ly",
+    id: "ly-adverb",
     type: "suffix",
     label: "-ly",
     speech: "lee",
-    meaning: "how something is done",
-    image: "images/suffixes/ly.png",
+    meaning: "in a ___ way",
+    image: "images/suffixes/ly-adverb.png",
     examples: ["quickly", "slowly", "carefully"]
+  },
+  {
+    id: "ly-adjective",
+    type: "suffix",
+    label: "-ly",
+    speech: "lee",
+    meaning: "having qualities of; like",
+    image: "images/suffixes/ly-adjective.png",
+    examples: []
   },
   {
     id: "ment",
@@ -1217,13 +1235,22 @@ const suffixes = [
   examples: ["joyous", "dangerous", "famous"]
 },
   {
-    id: "ant-ent",
+    id: "ant-ent-agent",
     type: "suffix",
     label: "-ant, -ent",
     speech: "ant or ent",
-    meaning: "a person or thing that does something; describes a quality",
-    image: "images/suffixes/ant-ent.png",
-    examples: ["assistant", "dependent", "resistant"]
+    meaning: "a person or thing that does something",
+    image: "images/suffixes/ant-ent-agent.png",
+    examples: ["assistant"]
+  },
+  {
+    id: "ant-ent-adjective",
+    type: "suffix",
+    label: "-ant, -ent",
+    speech: "ant or ent",
+    meaning: "describes what someone or something is like or tends to do",
+    image: "images/suffixes/ant-ent-adjective.png",
+    examples: ["dependent", "resistant"]
   },
   {
     id: "s-es",
@@ -1320,9 +1347,14 @@ const suffixFunctionInfo = {
     function: "Helps make a describing word meaning without."
   },
 
-  "ly": {
-    role: "Often forms an adverb",
-    function: "Often tells how an action is done."
+  "ly-adverb": {
+    role: "Forms an adverb",
+    function: "Tells how an action is done; it means in a ___ way."
+  },
+
+  "ly-adjective": {
+    role: "Forms an adjective",
+    function: "Makes a describing word meaning having qualities of or like."
   },
 
   "ment": {
@@ -1335,9 +1367,14 @@ const suffixFunctionInfo = {
     function: "Helps make a describing word that shows a quality someone or something has."
   },
 
-  "ant-ent": {
-    role: "Can form a noun or adjective",
-    function: "Can name a person or thing that does something, or make a describing word that shows a quality."
+  "ant-ent-agent": {
+    role: "Forms a noun",
+    function: "Names a person or thing that does something."
+  },
+
+  "ant-ent-adjective": {
+    role: "Forms an adjective",
+    function: "Makes a describing word that shows what someone or something is like or tends to do."
   }
 };
 /* ========================================
@@ -1383,20 +1420,6 @@ const suffixVariants = [
     image: "images/suffixes/er-more.png"
   },
 
-  {
-    id: "ant",
-    type: "suffix",
-    label: "-ant",
-    meaning: "a person or thing that does something; describes a quality",
-    image: "images/suffixes/ant.png"
-  },
-  {
-    id: "ent",
-    type: "suffix",
-    label: "-ent",
-    meaning: "a person or thing that does something; describes a quality",
-    image: "images/suffixes/ent.png"
-  },
 
   {
     id: "s",
@@ -1454,8 +1477,8 @@ const prefixFindQuestions = [
     after: "happy",
     answer: "un-",
     choices: ["un-", "non-", "re-", "over-"],
-    itemId: "un",
-    image: "images/prefixes/un.png",
+    itemId: "un-negation",
+    image: "images/prefixes/un-negation.png",
     base: "happy = feeling pleased or glad",
     literal: "not happy",
     definition: "sad or not feeling happy"
@@ -2279,8 +2302,8 @@ const suffixFindQuestions = [
     after: "",
     answer: "-ly",
     choices: ["-ly", "-ing", "-ed", "-ment"],
-    itemId: "ly",
-    image: "images/suffixes/ly.png",
+    itemId: "ly-adverb",
+    image: "images/suffixes/ly-adverb.png",
     base: "quick = fast",
     literal: "in a quick way",
     definition: "in a fast way"
@@ -2558,12 +2581,24 @@ const wordHuntQuestions = [
   // ADDITIONAL PREFIXES
   {
     type: "prefix",
-    itemId: "un",
+    itemId: "un-negation",
     label: "un-",
-    meaning: "not; opposite of",
+    meaning: "not",
     words: [
       { word: "unhappy", correct: true, before: "", target: "un", after: "happy" },
       { word: "unfair", correct: true, before: "", target: "un", after: "fair" },
+      { word: "rebuild", correct: false },
+      { word: "misread", correct: false },
+      { word: "preview", correct: false },
+      { word: "nonverbal", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "un-reversative",
+    label: "un-",
+    meaning: "reverse or remove",
+    words: [
       { word: "unlock", correct: true, before: "", target: "un", after: "lock" },
       { word: "untie", correct: true, before: "", target: "un", after: "tie" },
       { word: "rebuild", correct: false },
@@ -2696,9 +2731,9 @@ const wordHuntQuestions = [
   // ADDITIONAL SUFFIXES
   {
     type: "suffix",
-    itemId: "ly",
+    itemId: "ly-adverb",
     label: "-ly",
-    meaning: "in a certain way",
+    meaning: "in a ___ way",
     words: [
       { word: "quickly", correct: true, before: "quick", target: "ly", after: "" },
       { word: "slowly", correct: true, before: "slow", target: "ly", after: "" },
@@ -3485,7 +3520,7 @@ const inferQuestions = [
   {
     type: "suffix",
     knownLabel: "-ly",
-    knownMeaning: "how something is done",
+    knownMeaning: "in a ___ way",
     word: "slowly",
     correct: "in a slow way",
     choices: [
@@ -3496,7 +3531,7 @@ const inferQuestions = [
     ],
     literal: "in a slow way",
     definition: "in a way that is not fast",
-    image: "images/suffixes/ly.png"
+    image: "images/suffixes/ly-adverb.png"
   },
   {
     type: "suffix",
@@ -3581,7 +3616,7 @@ const inferQuestions = [
 
   {
     type: "prefix",
-    itemId: "un",
+    itemId: "un-negation",
     knownLabel: "un-",
     knownMeaning: "not; opposite of",
     word: "unhappy",
@@ -3594,7 +3629,7 @@ const inferQuestions = [
     ],
     literal: "not happy",
     definition: "sad or not feeling happy",
-    image: "images/prefixes/un.png"
+    image: "images/prefixes/un-negation.png"
   },
 
   {
@@ -4698,9 +4733,9 @@ const inferQuestions = [
 
   {
     type: "suffix",
-    itemId: "ant-ent",
-    knownLabel: "-ant, -ent",
-    knownMeaning: "one who; having or being",
+    itemId: "ant-ent-agent",
+    knownLabel: "-ant",
+    knownMeaning: "a person or thing that does something",
     word: "assistant",
     correct: "a person who helps someone",
     choices: [
@@ -4711,14 +4746,14 @@ const inferQuestions = [
     ],
     literal: "one who assists",
     definition: "a person who helps someone",
-    image: "images/suffixes/ant-ent.png"
+    image: "images/suffixes/ant-ent-agent.png"
   },
 
   {
     type: "suffix",
-    itemId: "ant-ent",
-    knownLabel: "-ant, -ent",
-    knownMeaning: "one who; having or being",
+    itemId: "ant-ent-adjective",
+    knownLabel: "-ent",
+    knownMeaning: "describes what someone or something is like or tends to do",
     word: "dependent",
     correct: "relying on someone or something else for support",
     choices: [
@@ -4729,7 +4764,7 @@ const inferQuestions = [
     ],
     literal: "being dependent",
     definition: "relying on someone or something else for support",
-    image: "images/suffixes/ant-ent.png"
+    image: "images/suffixes/ant-ent-adjective.png"
   },
   {
     "type": "prefix",
@@ -5110,9 +5145,9 @@ const rootSuffixBuildWords = [
     baseId: "quick",
     base: "quick",
     baseMeaning: "fast",
-    suffixId: "ly",
+    suffixId: "ly-adverb",
     suffix: "-ly",
-    suffixMeaning: "how something is done",
+    suffixMeaning: "in a ___ way",
     literal: "in a quick way",
     definition: "in a fast way"
   },
@@ -5871,6 +5906,79 @@ function getCanonicalProgressMorphemeId(
       )
     ) {
       return "er-more";
+    }
+  }
+
+  if (
+    type === "prefix" &&
+    surface === "un"
+  ) {
+    const negationSense =
+      /\bnot\b|\bnegation\b/.test(meaningText) &&
+      !/\bopposite\b/.test(meaningText);
+
+    const reversativeSense =
+      /\breverse\b|\bremove\b|\bundo\b|\bno longer\b|\brelease\b/.test(
+        meaningText
+      );
+
+    if (negationSense && !reversativeSense) {
+      return "un-negation";
+    }
+
+    if (reversativeSense && !negationSense) {
+      return "un-reversative";
+    }
+  }
+
+  if (
+    type === "suffix" &&
+    surface === "ly"
+  ) {
+    const adverbSense =
+      /\badverb\b|\bin a .* way\b|\bhow .* done\b/.test(
+        meaningText
+      );
+
+    const adjectiveSense =
+      /\badjective\b|\bhaving qualities\b|\bqualities of\b|\blike\b/.test(
+        meaningText
+      );
+
+    if (adverbSense && !adjectiveSense) {
+      return "ly-adverb";
+    }
+
+    if (adjectiveSense && !adverbSense) {
+      return "ly-adjective";
+    }
+  }
+
+  if (
+    type === "suffix" &&
+    [
+      "ant",
+      "ent",
+      "ant-ent",
+      "ant, -ent"
+    ].includes(surface)
+  ) {
+    const agentSense =
+      /\bperson\b|\bthing that does\b|\bone who\b|\bagent\b/.test(
+        meaningText
+      );
+
+    const adjectiveSense =
+      /\badjective\b|\bdescribes\b|\bquality\b|\btends? to\b|\bhaving\b|\bbeing\b/.test(
+        meaningText
+      );
+
+    if (agentSense && !adjectiveSense) {
+      return "ant-ent-agent";
+    }
+
+    if (adjectiveSense && !agentSense) {
+      return "ant-ent-adjective";
     }
   }
 

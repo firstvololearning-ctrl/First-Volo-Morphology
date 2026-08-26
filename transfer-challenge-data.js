@@ -356,7 +356,7 @@
               skill: "context-inference",
 
               primaryTargetIds: [
-                "un"
+                "un-negation"
               ],
 
               prompt:
@@ -933,7 +933,7 @@
               skill: "morpheme-application",
 
               primaryTargetIds: [
-                "ant-ent"
+                "ant-ent-adjective"
               ],
 
               prompt:

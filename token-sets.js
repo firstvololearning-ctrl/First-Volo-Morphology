@@ -21,7 +21,8 @@ const FIRST_VOLO_TOKEN_SETS = [
     introBand: "2-3",
     type: "prefix",
     morphemeIds: [
-      "un",
+      "un-negation",
+      "un-reversative",
       "re",
       "dis",
       "pre",
@@ -74,7 +75,8 @@ const FIRST_VOLO_TOKEN_SETS = [
       "able-ible",
       "er-or",
       "ion",
-      "ly",
+      "ly-adverb",
+      "ly-adjective",
       "ment"
     ]
   },
@@ -281,7 +283,8 @@ const FIRST_VOLO_TOKEN_SETS = [
     morphemeIds: [
       "ance",
       "ence",
-      "ant-ent"
+      "ant-ent-agent",
+      "ant-ent-adjective"
     ]
   }
 ];

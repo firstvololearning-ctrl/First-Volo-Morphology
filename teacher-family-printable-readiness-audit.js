@@ -215,7 +215,7 @@ port.sessions.push({
   responses: [{
     id:"r2",
     skill:"learn",
-    primaryTargetId:"un"
+    primaryTargetId:"un-negation"
   }]
 });
 
