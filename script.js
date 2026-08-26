@@ -684,7 +684,7 @@ const roots = [
     speech: "ject",
     meaning: "throw",
     image: "images/roots/ject.png",
-    examples: ["reject", "project", "eject"]
+    examples: ["reject", "project", "eject", "projection"]
   },
   {
     id: "mit",

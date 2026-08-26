@@ -161,7 +161,7 @@ Learn,target-example-pool,Learn · roots · Flight C · target:derm · vocab:aca
 Learn,target-example-pool,Learn · roots · Flight C · target:duct · vocab:familiar,roots,,C,familiar,VIABLE_AFTER_PROTECTION,POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL,3,3,2,2,1,1,0,conduct | introduce,produce
 Learn,target-example-pool,Learn · roots · Flight C · target:fer · vocab:academic,roots,,C,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,confer,
 Learn,target-example-pool,Learn · roots · Flight C · target:fer · vocab:familiar,roots,,C,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,refer | transfer,
-Learn,target-example-pool,Learn · roots · Flight C · target:ject · vocab:academic,roots,,C,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,2,2,0,0,2,2,0,,eject | reject
+Learn,target-example-pool,Learn · roots · Flight C · target:ject · vocab:academic,roots,,C,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,3,3,1,1,2,2,0,projection,eject | reject
 Learn,target-example-pool,Learn · roots · Flight C · target:ject · vocab:familiar,roots,,C,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,project,
 Learn,target-example-pool,Learn · roots · Flight C · target:mit · vocab:academic,roots,,C,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,3,3,1,1,2,2,0,submit,emit | transmit
 Learn,target-example-pool,Learn · roots · Flight C · target:pel · vocab:academic,roots,,C,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,compel | propel | repel,
