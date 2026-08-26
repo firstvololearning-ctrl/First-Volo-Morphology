@@ -388,7 +388,7 @@ const prefixes = [
     speech: "un",
     meaning: "not",
     image: "images/prefixes/un-negation.png",
-    examples: ["unhappy", "unfair"]
+    examples: ["unhappy", "unfair", "unsafe", "unclear"]
   },
   {
     id: "un-reversative",
@@ -604,7 +604,7 @@ const prefixes = [
     speech: "e or ex",
     meaning: "out; from",
     image: "images/prefixes/e-ex.png",
-    examples: ["emit", "export", "exhale"]
+    examples: ["emit", "export", "exhale", "eruption"]
   },
   {
     id: "pro",
@@ -720,7 +720,7 @@ const roots = [
     speech: "port",
     meaning: "carry",
     image: "images/roots/port.png",
-    examples: ["transport", "portable", "import"]
+    examples: ["transport", "portable", "import", "porter"]
   },
   {
     id: "pos",
@@ -774,7 +774,7 @@ const roots = [
     speech: "spect",
     meaning: "look; watch",
     image: "images/roots/spect.png",
-    examples: ["inspect", "spectator", "inspector"]
+    examples: ["inspect", "spectator", "inspector", "perspective"]
   },
   {
     id: "struct",

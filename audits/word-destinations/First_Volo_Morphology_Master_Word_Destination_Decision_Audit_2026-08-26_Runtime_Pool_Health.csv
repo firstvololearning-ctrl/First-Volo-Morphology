@@ -88,7 +88,7 @@ Learn,target-example-pool,Learn · prefixes · Flight A · target:re · vocab:fa
 Learn,target-example-pool,Learn · prefixes · Flight A · target:sub · vocab:academic,prefixes,,A,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,submerge,
 Learn,target-example-pool,Learn · prefixes · Flight A · target:sub · vocab:challenge,prefixes,,A,challenge,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,subsoil,
 Learn,target-example-pool,Learn · prefixes · Flight A · target:sub · vocab:familiar,prefixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,submarine,
-Learn,target-example-pool,Learn · prefixes · Flight A · target:un-negation · vocab:familiar,prefixes,,A,familiar,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,2,2,0,0,2,2,0,,unfair | unhappy
+Learn,target-example-pool,Learn · prefixes · Flight A · target:un-negation · vocab:familiar,prefixes,,A,familiar,VIABLE_AFTER_PROTECTION,POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL,4,4,2,2,2,2,0,unclear | unsafe,unfair | unhappy
 Learn,target-example-pool,Learn · prefixes · Flight A · target:un-reversative · vocab:familiar,prefixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,untie,
 Learn,target-example-pool,Learn · prefixes · Flight A · target:under · vocab:familiar,prefixes,,A,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,undercook | underground | underpaid,
 Learn,target-example-pool,Learn · prefixes · Flight B · target:anti · vocab:academic,prefixes,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,antibacterial | antisocial,
@@ -99,7 +99,7 @@ Learn,target-example-pool,Learn · prefixes · Flight B · target:con-com · voc
 Learn,target-example-pool,Learn · prefixes · Flight B · target:con-com · vocab:familiar,prefixes,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,combine | connect,
 Learn,target-example-pool,Learn · prefixes · Flight B · target:de · vocab:academic,prefixes,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,descend,
 Learn,target-example-pool,Learn · prefixes · Flight B · target:de · vocab:familiar,prefixes,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,defrost | detach,
-Learn,target-example-pool,Learn · prefixes · Flight B · target:e-ex · vocab:academic,prefixes,,B,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,1,1,0,0,1,1,0,,emit
+Learn,target-example-pool,Learn · prefixes · Flight B · target:e-ex · vocab:academic,prefixes,,B,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,eruption,emit
 Learn,target-example-pool,Learn · prefixes · Flight B · target:e-ex · vocab:familiar,prefixes,,B,familiar,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,2,2,0,0,2,2,0,,exhale | export
 Learn,target-example-pool,Learn · prefixes · Flight B · target:inter · vocab:academic,prefixes,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,interact | international | interstate,
 Learn,target-example-pool,Learn · prefixes · Flight B · target:location-in-family · vocab:academic,prefixes,,B,academic,VIABLE_AFTER_PROTECTION,POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL,4,4,3,3,1,1,0,immerse | inbound | insert,import
@@ -138,13 +138,13 @@ Learn,target-example-pool,Learn · roots · Flight B · target:phon · vocab:aca
 Learn,target-example-pool,Learn · roots · Flight B · target:phon · vocab:challenge,roots,,B,challenge,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,phonograph,
 Learn,target-example-pool,Learn · roots · Flight B · target:phon · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,telephone,
 Learn,target-example-pool,Learn · roots · Flight B · target:port · vocab:academic,roots,,B,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,1,1,0,0,1,1,0,,import
-Learn,target-example-pool,Learn · roots · Flight B · target:port · vocab:familiar,roots,,B,familiar,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,2,2,0,0,2,2,0,,portable | transport
+Learn,target-example-pool,Learn · roots · Flight B · target:port · vocab:familiar,roots,,B,familiar,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,3,3,1,1,2,2,0,porter,portable | transport
 Learn,target-example-pool,Learn · roots · Flight B · target:rupt · vocab:academic,roots,,B,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,3,3,1,1,2,2,0,rupture,disrupt | interrupt
 Learn,target-example-pool,Learn · roots · Flight B · target:scop · vocab:academic,roots,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,microscope | periscope,
 Learn,target-example-pool,Learn · roots · Flight B · target:scop · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,telescope,
 Learn,target-example-pool,Learn · roots · Flight B · target:scrib · vocab:academic,roots,,B,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,2,2,1,1,1,1,0,scripted,manuscript
 Learn,target-example-pool,Learn · roots · Flight B · target:scrib · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,describe,
-Learn,target-example-pool,Learn · roots · Flight B · target:spect · vocab:academic,roots,,B,academic,LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION,LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY,3,3,0,0,3,3,0,,inspect | inspector | spectator
+Learn,target-example-pool,Learn · roots · Flight B · target:spect · vocab:academic,roots,,B,academic,VIABLE_ONE_WORD_AFTER_PROTECTION,PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD,4,4,1,1,3,3,0,perspective,inspect | inspector | spectator
 Learn,target-example-pool,Learn · roots · Flight B · target:struct · vocab:academic,roots,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,3,3,3,3,0,0,0,construct | instruct | structure,
 Learn,target-example-pool,Learn · roots · Flight B · target:tele · vocab:academic,roots,,B,academic,VIABLE,NO_PROTECTED_SOURCE_ROWS,1,1,1,1,0,0,0,telegraph,
 Learn,target-example-pool,Learn · roots · Flight B · target:tele · vocab:familiar,roots,,B,familiar,VIABLE,NO_PROTECTED_SOURCE_ROWS,2,2,2,2,0,0,0,telescope | television,
