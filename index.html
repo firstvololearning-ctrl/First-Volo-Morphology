@@ -552,9 +552,9 @@
       >
         <div class="word-builder-path-heading">
           <div>
-            <strong>🧱 Word Builder Path</strong>
+            <strong>📊 Your practice progress</strong>
             <small id="wordBuilderPathNote">
-              Choose any step. Nothing is locked.
+              Learn is your starting and reference activity. Choose any activity when you are ready.
             </small>
           </div>
 
@@ -566,21 +566,25 @@
           </div>
         </div>
 
-        <div class="word-builder-path-scroll">
-          <div
-            class="word-builder-path-phases"
-            aria-hidden="true"
-          >
-            <span class="path-phase-learn">🌱 Learn</span>
-            <span class="path-phase-practice">🎯 Practice</span>
-          </div>
-
-          <div
-            class="word-builder-path-track"
-            id="wordBuilderPathTrack"
-            aria-label="Word Builder Path"
-          ></div>
+        <div
+          class="practice-stage-summary"
+          aria-label="Practice progression"
+        >
+          <span>Learn &amp; Recognize</span>
+          <span aria-hidden="true">→</span>
+          <span>Analyze</span>
+          <span aria-hidden="true">→</span>
+          <span>Infer</span>
+          <span aria-hidden="true">→</span>
+          <span>Build &amp; Use</span>
         </div>
+
+        <div
+          class="word-builder-path-track"
+          id="wordBuilderPathTrack"
+          aria-hidden="true"
+          hidden
+        ></div>
       </div>
 
       <nav

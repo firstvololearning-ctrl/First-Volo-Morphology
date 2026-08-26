@@ -6567,3 +6567,37 @@ a:focus-visible {
   }
 
 }
+
+
+/* === SIMPLIFIED PRACTICE PROGRESS · 2026-08-26 === */
+
+.practice-stage-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #f7fafc;
+  color: #173f70;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.practice-stage-summary span:nth-child(even) {
+  color: #8a98a8;
+  font-weight: 500;
+}
+
+.word-builder-path-track[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .practice-stage-summary {
+    gap: 7px;
+    font-size: 0.82rem;
+  }
+}
