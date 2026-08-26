@@ -1,6 +1,6 @@
 # First Volo Morphology — Master Word Destination / Decision Audit
 
-Generated: 2026-08-26T18:08:14.909Z
+Generated: 2026-08-26T19:16:22.841Z
 
 ## Decision path
 

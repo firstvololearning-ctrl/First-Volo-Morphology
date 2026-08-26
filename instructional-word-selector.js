@@ -77,6 +77,65 @@
     return 2;
   }
 
+  /*
+    Teacher-led vocabulary SELECTION progression.
+    Keep this separate from vocabRank(), which also feeds the existing
+    accessibility/scoring model. This pass corrects the selection ceiling
+    without silently changing accessibility categories at the same time.
+  */
+  function selectionVocabRank(value) {
+    const text =
+      String(value || "")
+        .trim()
+        .toLowerCase();
+
+    if (
+      text === "familiar" ||
+      text === "everyday"
+    ) return 1;
+
+    if (
+      text === "academic" ||
+      text === "general" ||
+      text === "core"
+    ) return 2;
+
+    if (
+      text === "challenge" ||
+      text === "specialized"
+    ) return 3;
+
+    return 2;
+  }
+
+
+  function nextHarderVocabularyLevel(value) {
+    const text =
+      String(value || "")
+        .trim()
+        .toLowerCase();
+
+    /*
+      Preserve the corrected ceiling:
+      Familiar -> Familiar only.
+      Academic -> Familiar + Academic.
+      Challenge -> Familiar + Academic + Challenge.
+
+      The only fallback needed to preserve a previously available guided
+      context after correcting the old ordering is Academic -> Challenge.
+    */
+    if (
+      text === "academic" ||
+      text === "general" ||
+      text === "core"
+    ) {
+      return "challenge";
+    }
+
+    return null;
+  }
+
+
   function transparencyRank(value) {
     const text =
       String(value || "")
@@ -904,10 +963,10 @@
     }
 
     return (
-      vocabRank(
+      selectionVocabRank(
         item?.vocabLevel
       ) <=
-      vocabRank(
+      selectionVocabRank(
         requested
       )
     );
@@ -1934,14 +1993,20 @@
           .filter(Boolean)
       );
 
-    const seen =
-      new Set();
-
-    const selections =
+    const source =
       sourceCandidates({
         target,
         candidates
-      })
+      });
+
+    function collect(
+      effectiveVocabularyLevel,
+      fallback = false
+    ) {
+      const seen =
+        new Set();
+
+      return source
         .map(
           item =>
             evaluateCandidate({
@@ -1951,7 +2016,8 @@
               objective,
               stage,
               gradeBand,
-              vocabularyLevel,
+              vocabularyLevel:
+                effectiveVocabularyLevel,
               flight,
               isProtected
             })
@@ -1979,11 +2045,69 @@
             return true;
           }
         )
+        .map(
+          result =>
+            fallback
+              ? {
+                  ...result,
+                  vocabularyFallback:
+                    true,
+                  requestedVocabularyLevel:
+                    vocabularyLevel,
+                  effectiveVocabularyLevel,
+                  whyEligible:
+                    (
+                      result.whyEligible ||
+                      "Eligible teacher-led candidate."
+                    ) +
+                    " Used as a one-level-harder guided fallback because no eligible candidate was available at or below the requested vocabulary level."
+                }
+              : {
+                  ...result,
+                  vocabularyFallback:
+                    false,
+                  requestedVocabularyLevel:
+                    vocabularyLevel,
+                  effectiveVocabularyLevel:
+                    vocabularyLevel
+                }
+        )
         .sort(
           (a, b) =>
             b.score -
             a.score
         );
+    }
+
+    let selections =
+      collect(
+        vocabularyLevel,
+        false
+      );
+
+    /*
+      Guided teacher-led work may step ONE vocabulary level harder only
+      when the preferred cumulative pool is completely empty. Apply-stage
+      selection does not receive this fallback because Apply is the more
+      independent demand.
+    */
+    if (
+      selections.length === 0 &&
+      stage === "guided"
+    ) {
+      const fallbackLevel =
+        nextHarderVocabularyLevel(
+          vocabularyLevel
+        );
+
+      if (fallbackLevel) {
+        selections =
+          collect(
+            fallbackLevel,
+            true
+          );
+      }
+    }
 
     const hasExplicitLimit =
       limit !== null &&
