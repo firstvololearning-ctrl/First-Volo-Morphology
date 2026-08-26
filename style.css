@@ -6601,3 +6601,192 @@ a:focus-visible {
     font-size: 0.82rem;
   }
 }
+
+
+/* === COMPACT PRACTICE SETUP · 2026-08-26 === */
+
+.practice-setup-compact {
+  margin-top: 18px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #d9e4ef;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(24, 63, 109, 0.06);
+}
+
+.practice-setup-heading {
+  padding: 18px 20px 15px;
+  border-bottom: 1px solid #e1e9f1;
+  background: #f6f9fc;
+}
+
+.practice-setup-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: #6d7e90;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.practice-setup-heading h2 {
+  margin: 0;
+  color: #173f70;
+  font-size: 1.2rem;
+}
+
+.practice-setup-heading p {
+  margin: 4px 0 0;
+  color: #647487;
+  font-size: 0.9rem;
+}
+
+
+/* Make each setup choice feel like one step inside the same card */
+
+.practice-setup-compact .practice-flight-control,
+.practice-setup-compact .vocabulary-control {
+  margin: 0;
+  padding: 16px 20px;
+  border: 0;
+  border-bottom: 1px solid #e7edf3;
+  border-radius: 0;
+  background: transparent;
+}
+
+.practice-setup-compact #studySelectorLabel {
+  margin: 0;
+  padding: 16px 20px 8px;
+}
+
+.practice-setup-compact .study-choice-grid {
+  margin: 0;
+  padding: 0 20px 16px;
+  border-bottom: 1px solid #e7edf3;
+}
+
+
+/* Smaller, quieter numbered steps */
+
+.practice-setup-compact .step-number {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  font-size: 0.86rem;
+}
+
+.practice-setup-compact .selector-label {
+  gap: 10px;
+}
+
+.practice-setup-compact .selector-label > span:last-child {
+  font-size: 1rem;
+}
+
+.practice-setup-compact .selector-label small {
+  margin-top: 2px;
+  color: #6b7887;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+
+/* Tighten the Flight help so it does not dominate */
+
+.practice-setup-compact .practice-flight-help {
+  margin-top: 8px;
+}
+
+.practice-setup-compact .practice-flight-help summary {
+  font-size: 0.84rem;
+}
+
+
+/* Keep selects compact */
+
+.practice-setup-compact .select-wrap {
+  margin-top: 8px;
+}
+
+.practice-setup-compact .study-select {
+  min-height: 42px;
+}
+
+
+/* Slightly tighten study buttons */
+
+.practice-setup-compact .study-choice-button {
+  min-height: 76px;
+  padding: 10px 12px;
+}
+
+.practice-setup-compact .study-choice-button strong {
+  font-size: 0.92rem;
+}
+
+.practice-setup-compact .study-choice-button small {
+  font-size: 0.78rem;
+}
+
+
+/* Availability message belongs to setup card */
+
+.practice-setup-compact .study-availability {
+  margin: 0;
+  padding: 10px 20px 14px;
+}
+
+
+/* Make Step 5 clearly feel like the next section */
+
+.activity-selector-section {
+  margin-top: 26px;
+}
+
+#activitySelectorLabel {
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+#activitySelectorLabel > span:last-child {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #173f70;
+}
+
+#activitySelectorLabel small {
+  display: block;
+  margin-top: 2px;
+  color: #68798b;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+
+/* Small screens */
+
+@media (max-width: 700px) {
+  .practice-setup-heading {
+    padding: 16px;
+  }
+
+  .practice-setup-compact .practice-flight-control,
+  .practice-setup-compact .vocabulary-control {
+    padding: 14px 16px;
+  }
+
+  .practice-setup-compact #studySelectorLabel {
+    padding: 14px 16px 8px;
+  }
+
+  .practice-setup-compact .study-choice-grid {
+    padding: 0 16px 14px;
+  }
+
+  .practice-setup-compact .study-availability {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
