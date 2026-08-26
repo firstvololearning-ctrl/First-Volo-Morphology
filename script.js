@@ -6674,6 +6674,117 @@ function getPracticedActivityModes() {
   );
 }
 
+/* ACTIVITY CARD SAVED-PRACTICE BADGES · 2026-08-26 */
+
+function normalizeActivityCardText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function getActivityCardMode(button) {
+
+  if (!button) {
+    return "";
+  }
+
+  const explicit =
+    button.dataset?.mode ||
+    button.dataset?.activity ||
+    button.dataset?.activityMode ||
+    button.getAttribute("data-mode") ||
+    button.getAttribute("data-activity") ||
+    "";
+
+  if (
+    explicit &&
+    wordBuilderPathSteps.some(
+      (step) => step.mode === explicit
+    )
+  ) {
+    return explicit;
+  }
+
+  const buttonText =
+    normalizeActivityCardText(button.textContent);
+
+  const match =
+    wordBuilderPathSteps.find((step) => {
+
+      const candidates = [
+        step.mode,
+        step.label,
+        step.title
+      ]
+        .filter(Boolean)
+        .map((value) =>
+          normalizeActivityCardText(
+            String(value).replace(/-/g, " ")
+          )
+        );
+
+      return candidates.some(
+        (candidate) =>
+          candidate &&
+          buttonText.includes(candidate)
+      );
+
+    });
+
+  return match?.mode || "";
+}
+
+function renderActivityCardPracticeChecks(practicedModes) {
+
+  document
+    .querySelectorAll(
+      ".activity-menu button, .activity-menu [role='button']"
+    )
+    .forEach((button) => {
+
+      const mode =
+        getActivityCardMode(button);
+
+      const practiced =
+        mode &&
+        mode !== "learn" &&
+        practicedModes.has(mode);
+
+      let badge =
+        button.querySelector(".activity-tried-badge");
+
+      button.classList.toggle(
+        "has-saved-practice",
+        Boolean(practiced)
+      );
+
+      if (practiced && !badge) {
+
+        badge =
+          document.createElement("span");
+
+        badge.className =
+          "activity-tried-badge";
+
+        badge.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+        badge.textContent = "✓";
+
+        button.appendChild(badge);
+      }
+
+      if (!practiced && badge) {
+        badge.remove();
+      }
+
+    });
+}
+
 function renderWordBuilderPath() {
   if (!wordBuilderPathTrack) {
     return;
@@ -6703,9 +6814,13 @@ function renderWordBuilderPath() {
 
   if (wordBuilderPathNote) {
     wordBuilderPathNote.textContent = student
-      ? "✓ means this activity has saved practice. Nothing is locked."
-      : "Choose any step. Select a student if you want practice saved.";
+      ? "✓ = tried · Nothing is locked."
+      : "Nothing is locked. Choose a learner if you want practice saved.";
   }
+
+  renderActivityCardPracticeChecks(
+    practicedModes
+  );
 
   wordBuilderPathTrack.innerHTML =
     wordBuilderPathSteps
@@ -11145,3 +11260,113 @@ showStartMessage(
   "Choose what you want to study.",
   "Choose prefixes, roots, suffixes, or a word-building combination above, then select an activity."
 );
+
+
+/* HEADER DYNAMIC SAVE GROUPING · 2026-08-26 */
+
+(function () {
+
+  function moveSaveAcrossDevices() {
+
+    const target =
+      document.getElementById(
+        "headerTrackSaveGroup"
+      );
+
+    const groups =
+      document.getElementById(
+        "headerResourceGroups"
+      );
+
+    if (!target || !groups) {
+      return;
+    }
+
+    const header =
+      groups.closest("header");
+
+    if (!header) {
+      return;
+    }
+
+    const controls =
+      Array.from(
+        header.querySelectorAll(
+          "a, button"
+        )
+      );
+
+    const saveControl =
+      controls.find((control) => {
+        return String(
+          control.textContent || ""
+        )
+          .replace(/\s+/g, " ")
+          .trim()
+          .includes(
+            "Save Across Devices"
+          );
+      });
+
+    if (
+      saveControl &&
+      saveControl.parentElement !== target
+    ) {
+      target.appendChild(saveControl);
+    }
+
+  }
+
+  function startHeaderResourceGrouping() {
+
+    moveSaveAcrossDevices();
+
+    const groups =
+      document.getElementById(
+        "headerResourceGroups"
+      );
+
+    const header =
+      groups?.closest("header");
+
+    if (!header) {
+      return;
+    }
+
+    const observer =
+      new MutationObserver(
+        moveSaveAcrossDevices
+      );
+
+    observer.observe(
+      header,
+      {
+        childList: true,
+        subtree: true
+      }
+    );
+
+    window.setTimeout(
+      moveSaveAcrossDevices,
+      100
+    );
+
+    window.setTimeout(
+      moveSaveAcrossDevices,
+      500
+    );
+
+  }
+
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      startHeaderResourceGrouping
+    );
+  } else {
+    startHeaderResourceGrouping();
+  }
+
+})();
