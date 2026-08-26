@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "auditVersion": "master-word-destination-decision-audit-v1.3.3",
-    "generatedAt": "2026-08-26T20:13:28.661Z",
+    "auditVersion": "master-word-destination-decision-audit-v1.3.4",
+    "generatedAt": "2026-08-26T20:20:35.671Z",
     "repoRoot": "/Users/asacco/Documents/First Volo Learning/Digital Products/First Volo Morphology",
     "canonicalTargets": 96,
     "masterInventoryEntries": 366,
@@ -18,8 +18,8 @@
     "runtimePoolsEmptyAfterProtection": 0,
     "runtimePoolsIntentionallyUnavailable": 2,
     "learnExampleSubpoolsEmptyAfterProtection": 8,
-    "learnExampleSubpoolsIntentionalScarcity": 7,
-    "learnExampleSubpoolsLexicalBacklog": 1,
+    "learnExampleSubpoolsIntentionalScarcity": 8,
+    "learnExampleSubpoolsLexicalBacklog": 0,
     "learnExampleSubpoolsUnclassified": 0,
     "runtimePoolsWithOneViableWordAfterProtection": 39,
     "protectedSourceRowsPoolRemainsViable": 88,
@@ -523523,10 +523523,10 @@
       "runtimePattern": "",
       "runtimeFlight": "B",
       "runtimeVocabLevel": "academic",
-      "operationalStatus": "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG",
+      "operationalStatus": "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
       "cleanupDisposition": "LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY",
-      "learnDisposition": "lexical-development-backlog",
-      "learnDispositionReason": "Source-cleared productive -ize candidates exist, but they still require instructional-role, accessibility, and suffix-sense fit adjudication before promotion into the live Student Digital Learn inventory.",
+      "learnDisposition": "intentional-scarcity",
+      "learnDispositionReason": "The exact Flight B Academic Learn example modernize is protected. Organize and realize are correctly Familiar, while vocalize is intentionally practiced in Flight C. The remaining source-cleared candidates do not simultaneously satisfy the current bare-Learn demand, Academic Flight B placement, accessibility, and the taught -ize sense: moisturize is better treated as everyday/familiar; tranquilize is more specialized; victimize is semantically valid but not preferred as a bare introductory example; specialize needs context because its modern meaning is not a simple make/become paraphrase; philosophize represents the engage-in-an-activity sense; and patronize is lexicalized. Preserve these distinctions rather than retagging, pulling words across Flights, or weakening the taught suffix meaning merely to fill the subpool.",
       "authoredRows": 1,
       "uniqueWords": 1,
       "viableRows": 0,
@@ -528314,10 +528314,10 @@
     },
     {
       "severity": "INFO",
-      "category": "student-digital-learn-example-subpool-lexical-backlog",
+      "category": "student-digital-learn-example-subpool-intentional-scarcity",
       "word": "modernize",
       "destination": "Learn · suffixes · Flight B · target:ize · vocab:academic",
-      "message": "Source-cleared productive -ize candidates exist, but they still require instructional-role, accessibility, and suffix-sense fit adjudication before promotion into the live Student Digital Learn inventory."
+      "message": "The exact Flight B Academic Learn example modernize is protected. Organize and realize are correctly Familiar, while vocalize is intentionally practiced in Flight C. The remaining source-cleared candidates do not simultaneously satisfy the current bare-Learn demand, Academic Flight B placement, accessibility, and the taught -ize sense: moisturize is better treated as everyday/familiar; tranquilize is more specialized; victimize is semantically valid but not preferred as a bare introductory example; specialize needs context because its modern meaning is not a simple make/become paraphrase; philosophize represents the engage-in-an-activity sense; and patronize is lexicalized. Preserve these distinctions rather than retagging, pulling words across Flights, or weakening the taught suffix meaning merely to fill the subpool."
     },
     {
       "severity": "INFO",

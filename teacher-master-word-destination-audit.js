@@ -29,7 +29,7 @@ const vm = require("vm");
 global.window = global;
 
 const ROOT = process.cwd();
-const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.3";
+const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.4";
 
 function fail(message) {
   console.error(`STOP: ${message}`);
@@ -1792,10 +1792,10 @@ for (const rows of runtimeGroups.values()) {
           "Source-cleared agent -er/-or candidates exist, but they still require instructional-role, accessibility, and placement adjudication before promotion into the live Student Digital Learn inventory."
       },
       "ize": {
-        kind: "lexical-development-backlog",
-        status: "LEARN_EXAMPLE_SUBPOOL_LEXICAL_BACKLOG",
+        kind: "intentional-scarcity",
+        status: "LEARN_EXAMPLE_SUBPOOL_INTENTIONAL_SCARCITY",
         reason:
-          "Source-cleared productive -ize candidates exist, but they still require instructional-role, accessibility, and suffix-sense fit adjudication before promotion into the live Student Digital Learn inventory."
+          "The exact Flight B Academic Learn example modernize is protected. Organize and realize are correctly Familiar, while vocalize is intentionally practiced in Flight C. The remaining source-cleared candidates do not simultaneously satisfy the current bare-Learn demand, Academic Flight B placement, accessibility, and the taught -ize sense: moisturize is better treated as everyday/familiar; tranquilize is more specialized; victimize is semantically valid but not preferred as a bare introductory example; specialize needs context because its modern meaning is not a simple make/become paraphrase; philosophize represents the engage-in-an-activity sense; and patronize is lexicalized. Preserve these distinctions rather than retagging, pulling words across Flights, or weakening the taught suffix meaning merely to fill the subpool."
       }
     };
 

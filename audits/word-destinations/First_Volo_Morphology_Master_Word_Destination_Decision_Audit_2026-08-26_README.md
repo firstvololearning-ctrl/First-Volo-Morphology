@@ -1,6 +1,6 @@
 # First Volo Morphology — Master Word Destination / Decision Audit
 
-Generated: 2026-08-26T20:13:28.661Z
+Generated: 2026-08-26T20:20:35.671Z
 
 ## Decision path
 
@@ -45,8 +45,8 @@ Generated: 2026-08-26T20:13:28.661Z
 - Runtime pools empty after protection: 0
 - Runtime pools intentionally unavailable: 2
 - Learn example subpools empty after protection: 8
-  - Intentional lexical scarcity: 7
-  - Lexical-development backlog: 1
+  - Intentional lexical scarcity: 8
+  - Lexical-development backlog: 0
   - Unclassified Learn coverage: 0
 - Runtime pools with one viable word after protection: 39
 
