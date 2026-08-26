@@ -292,8 +292,7 @@
           </h2>
 
           <p>
-            Choose a Practice Flight, what you want to study,
-            and the vocabulary level.
+            Choose a Practice Flight, what you want to study, and whether to add Stretch Words.
           </p>
         </div>
       </div>
@@ -312,7 +311,7 @@
         Practice Flight
 
         <small>
-          Choose the word-part level you want to practice.
+          Choose the morphology level you want to practice.
         </small>
       </span>
     </label>
@@ -352,8 +351,7 @@
 
         <p>
           Students can work flexibly across Flights when that better
-          matches their instructional needs. Vocabulary level remains
-          a separate choice within each Flight.
+          matches their instructional needs. Word Challenge is separate from Practice Flight. Standard Words combine Familiar and Academic vocabulary; Stretch Words can be added for additional challenge.
         </p>
       </div>
     </details>
@@ -514,51 +512,131 @@
         </optgroup>
       </select>
 
-<div class="filter-control vocabulary-control">
+<div class="filter-control vocabulary-control word-challenge-control">
 
-    <label
+    <!-- WORD CHALLENGE STANDARD + STRETCH · 2026-08-26 -->
+
+    <div
       class="selector-label filter-label numbered-filter-label"
-      for="vocabLevelSelect"
     >
       <span class="step-number" aria-hidden="true">
         4
       </span>
 
       <span>
-        Vocabulary
+        Word Challenge
 
         <small>
-          Choose familiar, academic, stretch, or all vocabulary.
+          Standard Words are used by default. Add Stretch Words
+          when you want more lexical challenge.
         </small>
       </span>
-    </label>
+    </div>
 
-    <div class="select-wrap">
+    <div class="word-challenge-panel">
 
-      <select
-        class="study-select"
-        id="vocabLevelSelect"
+      <div class="word-challenge-standard">
+
+        <span class="word-challenge-standard-icon" aria-hidden="true">
+          ✓
+        </span>
+
+        <span>
+          <strong>
+            Standard Words
+          </strong>
+
+          <small>
+            Familiar + Academic vocabulary
+          </small>
+        </span>
+
+      </div>
+
+
+      <label
+        class="stretch-word-toggle"
+        for="includeStretchWords"
       >
 
-        <option value="all" selected>
-          All Vocabulary
-        </option>
+        <input
+          type="checkbox"
+          id="includeStretchWords"
+        >
 
-        <option value="familiar">
-          Familiar
-        </option>
+        <span class="stretch-word-toggle-control" aria-hidden="true">
+          <span></span>
+        </span>
 
-        <option value="academic">
-          Academic
-        </option>
+        <span class="stretch-word-toggle-copy">
 
-        <option value="challenge">
-          Stretch Words
-        </option>
+          <strong>
+            Include Stretch Words
+          </strong>
 
-      </select>
+          <small>
+            Add less familiar or more advanced vocabulary.
+          </small>
+
+        </span>
+
+      </label>
+
+
+      <details class="word-challenge-help">
+
+        <summary>
+          ⓘ How is word challenge defined?
+        </summary>
+
+        <div class="word-challenge-help-panel">
+
+          <p>
+            First Volo keeps three vocabulary classifications
+            in the underlying word inventory:
+            <strong>Familiar, Academic, and Stretch</strong>.
+          </p>
+
+          <p>
+            <strong>Standard Words</strong> combines Familiar and
+            Academic vocabulary so students have a useful range
+            of accessible and school-relevant words during
+            ordinary practice.
+          </p>
+
+          <p>
+            <strong>Include Stretch Words</strong> adds words
+            classified as Stretch for additional lexical challenge.
+          </p>
+
+          <p>
+            Vocabulary classification is separate from
+            <strong>Practice Flight</strong>, which describes
+            the complexity of the morphology being practiced.
+          </p>
+
+        </div>
+
+      </details>
 
     </div>
+
+
+    <select
+      class="study-select"
+      id="vocabLevelSelect"
+      hidden
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <option value="standard" selected>
+        Standard Words
+      </option>
+
+      <option value="all">
+        Standard + Stretch Words
+      </option>
+    </select>
 
   </div>
 

@@ -181,20 +181,29 @@ function isWordEligibleForSelectedVocabulary(word) {
     return true;
   }
 
-  return (
-    getWordVocabularyLevel(word) === vocabLevel
-  );
+  const wordLevel =
+    getWordVocabularyLevel(word);
+
+  if (vocabLevel === "standard") {
+    return (
+      wordLevel === "familiar" ||
+      wordLevel === "academic"
+    );
+  }
+
+  return wordLevel === vocabLevel;
 }
 
 function getVocabularyLevelLabel() {
   const labels = {
-    all: "All Vocabulary",
+    standard: "Standard Words",
+    all: "Standard + Stretch Words",
     familiar: "Familiar",
     academic: "Academic",
     challenge: "Stretch Words"
   };
 
-  return labels[vocabLevel] || "All Vocabulary";
+  return labels[vocabLevel] || "Standard Words";
 }
 
 function getLearnExamplesForSelectedVocabulary(item) {
@@ -220,7 +229,11 @@ function getLearnExamplesForSelectedVocabulary(item) {
 
 function getLearnExampleLabel() {
   if (vocabLevel === "all") {
-    return "Common words";
+    return "Standard + stretch words";
+  }
+
+  if (vocabLevel === "standard") {
+    return "Standard words";
   }
 
   return `${getVocabularyLevelLabel()} words`;
@@ -233,7 +246,11 @@ function getActiveWordFilterLabel() {
     parts.push(getGradeBandLabel());
   }
 
-  if (vocabLevel !== "all") {
+  const vocabularyDoesNotApply =
+    activeMode === "meaning" ||
+    activeMode === "morpheme";
+
+  if (!vocabularyDoesNotApply) {
     parts.push(getVocabularyLevelLabel());
   }
 
@@ -5538,6 +5555,8 @@ const studyChoiceButtons = [
 ];
 const gradeBandSelect = document.getElementById("gradeBandSelect");
 const vocabLevelSelect = document.getElementById("vocabLevelSelect");
+const includeStretchWords =
+  document.getElementById("includeStretchWords");
 const studyAvailability =
   document.getElementById("studyAvailability");
 
@@ -5700,7 +5719,7 @@ let activeMode = "learn";
 let learnMode = "explore";
 let sortRoundIndex = 0;
 let gradeBand = gradeBandSelect?.value || "all";
-let vocabLevel = vocabLevelSelect?.value || "all";
+let vocabLevel = vocabLevelSelect?.value || "standard";
 
 let quizState = {
   mode: "",
@@ -6351,16 +6370,25 @@ function vocabularyLevelExistsInSelectedFlight(level) {
     return true;
   }
 
+  const levelMatches = (entry) => {
+    if (level === "standard") {
+      return (
+        entry.vocabLevel === "familiar" ||
+        entry.vocabLevel === "academic"
+      );
+    }
+
+    return entry.vocabLevel === level;
+  };
+
   if (gradeBand === "all") {
-    return WORD_INVENTORY.some(
-      (entry) => entry.vocabLevel === level
-    );
+    return WORD_INVENTORY.some(levelMatches);
   }
 
   return WORD_INVENTORY.some(
     (entry) =>
       entry.practiceBand === gradeBand &&
-      entry.vocabLevel === level
+      levelMatches(entry)
   );
 }
 
@@ -6386,8 +6414,20 @@ function updateVocabularyLevelAvailability() {
   );
 
   if (selectedVocabularyBecameUnavailable) {
-    vocabLevel = "all";
-    vocabLevelSelect.value = "all";
+    const fallback =
+      vocabularyLevelExistsInSelectedFlight(
+        "standard"
+      )
+        ? "standard"
+        : "all";
+
+    vocabLevel = fallback;
+    vocabLevelSelect.value = fallback;
+  }
+
+  if (includeStretchWords) {
+    includeStretchWords.checked =
+      vocabLevel === "all";
   }
 }
 
@@ -6918,8 +6958,20 @@ function updateVocabularyFilterAvailability(mode = activeMode) {
 
   vocabLevelSelect.title =
     vocabularyDoesNotApply
-      ? "Vocabulary level does not apply to direct word-part practice."
+      ? "Word challenge does not apply to direct word-part practice."
       : "";
+
+  if (includeStretchWords) {
+    includeStretchWords.disabled =
+      vocabularyDoesNotApply;
+
+    includeStretchWords
+      .closest(".word-challenge-panel")
+      ?.classList.toggle(
+        "word-challenge-disabled",
+        vocabularyDoesNotApply
+      );
+  }
 }
 
 function activateActivityButton(mode) {
@@ -11081,9 +11133,30 @@ gradeBandSelect.addEventListener("change", () => {
 vocabLevelSelect.addEventListener("change", () => {
   vocabLevel = vocabLevelSelect.value;
 
+  if (includeStretchWords) {
+    includeStretchWords.checked =
+      vocabLevel === "all";
+  }
+
   renderCurrentActivity();
   updateCurrentPracticeSummary();
 });
+
+includeStretchWords?.addEventListener(
+  "change",
+  () => {
+    vocabLevel =
+      includeStretchWords.checked
+        ? "all"
+        : "standard";
+
+    vocabLevelSelect.value =
+      vocabLevel;
+
+    renderCurrentActivity();
+    updateCurrentPracticeSummary();
+  }
+);
 
 
 nextQuestionButton.addEventListener("click", () => {
@@ -11370,3 +11443,14 @@ showStartMessage(
   }
 
 })();
+
+
+/* WORD CHALLENGE STANDARD + STRETCH · 2026-08-26 */
+/*
+  Visible Word Challenge:
+  standard = Familiar + Academic
+  all      = Familiar + Academic + Stretch
+
+  The master inventory retains the original
+  familiar / academic / challenge classifications.
+*/

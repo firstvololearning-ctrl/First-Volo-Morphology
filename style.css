@@ -7240,3 +7240,164 @@ header p {
   }
 
 }
+
+
+/* === WORD CHALLENGE STANDARD + STRETCH · 2026-08-26 === */
+
+.word-challenge-control {
+  padding-bottom: 16px !important;
+}
+
+.word-challenge-panel {
+  margin: 8px 20px 0;
+  padding: 14px;
+  border: 1px solid #dce6ef;
+  border-radius: 14px;
+  background: #f9fbfd;
+}
+
+.word-challenge-standard {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: #eef6f0;
+}
+
+.word-challenge-standard-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #378a49;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.word-challenge-standard strong,
+.stretch-word-toggle strong {
+  display: block;
+  color: #173f70;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.word-challenge-standard small,
+.stretch-word-toggle small {
+  display: block;
+  margin-top: 2px;
+  color: #627386;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.stretch-word-toggle {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 10px;
+  padding: 11px 13px;
+  border: 1px solid #dde5ed;
+  border-radius: 11px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.stretch-word-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stretch-word-toggle-control {
+  position: relative;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: #bdc8d2;
+  transition:
+    background 0.18s ease;
+}
+
+.stretch-word-toggle-control span {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.18s ease;
+}
+
+.stretch-word-toggle input:checked
+  + .stretch-word-toggle-control {
+  background: #7250a0;
+}
+
+.stretch-word-toggle input:checked
+  + .stretch-word-toggle-control span {
+  transform: translateX(18px);
+}
+
+.stretch-word-toggle input:focus-visible
+  + .stretch-word-toggle-control {
+  outline: 3px solid rgba(31, 86, 141, 0.28);
+  outline-offset: 2px;
+}
+
+.stretch-word-toggle-copy {
+  min-width: 0;
+}
+
+.word-challenge-help {
+  margin-top: 10px;
+}
+
+.word-challenge-help summary {
+  cursor: pointer;
+  color: #315d88;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.word-challenge-help-panel {
+  margin-top: 8px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: #fff;
+  color: #536578;
+  font-size: 0.84rem;
+  line-height: 1.48;
+}
+
+.word-challenge-help-panel p {
+  margin: 0 0 9px;
+}
+
+.word-challenge-help-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.word-challenge-disabled {
+  opacity: 0.58;
+}
+
+.word-challenge-disabled
+  .stretch-word-toggle {
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .word-challenge-panel {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
