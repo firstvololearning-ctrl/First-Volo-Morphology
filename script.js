@@ -3618,7 +3618,7 @@ const inferQuestions = [
     type: "prefix",
     itemId: "un-negation",
     knownLabel: "un-",
-    knownMeaning: "not; opposite of",
+    knownMeaning: "not",
     word: "unhappy",
     correct: "sad or not feeling happy",
     choices: [
