@@ -1,10 +1,10 @@
 # First Volo Morphology — Master Word Destination / Decision Audit
 
-Generated: 2026-08-26T16:31:54.399Z
+Generated: 2026-08-26T17:24:43.984Z
 
 ## Decision path
 
-**Word → canonical target → protection → Flight/context → activity demand → stage → delivery/destination**
+**Word → instructional target (when applicable) + word morphemes → protection → actual runtime pool → stage → delivery/destination**
 
 ## What this audit distinguishes
 
@@ -19,7 +19,7 @@ Generated: 2026-08-26T16:31:54.399Z
 
 ## Important structural rules
 
-1. A word is **not forced into one bucket**. An ordinary word may be eligible for several appropriate destinations.
+1. A word is **not forced into one bucket**, and its complete morpheme decomposition is **not** treated as a required target/activity cell.
 2. Formal Pre/Post, Migration Challenge, and Check Transfer are separate protected pools.
 3. **Figure It Out is included explicitly** as internal activity id `infer`.
 4. Digital **Meaning** and **Word Part** are target-level activities and therefore do not have a fixed whole-word pool.
@@ -27,19 +27,25 @@ Generated: 2026-08-26T16:31:54.399Z
 6. Teacher-led Part A, Part B, and Optional Practice are dynamic selections from the ordinary unprotected item bank.
 7. Print family resources are audited from the shared family configuration.
 8. Student Digital Change It and Teacher-Led Change It are separate systems and can legitimately have different coverage.
+9. Student Digital pool health is evaluated against the runtime selection unit: Learn target examples; Find/Figure It Out study × Flight × vocabulary; Build pattern × Flight × vocabulary; Use It active Build pattern; Word Hunt/Change It whole question.
 
 ## Summary
 
 - Canonical targets: 96
 - Master inventory entries: 364
 - Unique words audited: 627
-- Destination rows: 18691
+- Destination rows: 18696
 - Formal protected words: 50
 - Migration protected words: 30
 - Check Transfer protected words: 190
 - Hard failures: 0
 - Review flags: 0
-- Informational flags: 220
+- Informational flags: 236
+- Student Digital runtime pools: 258
+- Runtime pools empty after protection: 0
+- Runtime pools intentionally unavailable: 2
+- Learn example subpools empty after protection: 17
+- Runtime pools with one viable word after protection: 31
 
 ## Output files
 
@@ -48,3 +54,5 @@ Generated: 2026-08-26T16:31:54.399Z
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Word_Master.csv`
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Target_Exceptions.csv`
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Findings.csv`
+- `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Runtime_Pool_Health.csv`
+- `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Protected_Source_Cleanup.csv`

@@ -29,7 +29,7 @@ const vm = require("vm");
 global.window = global;
 
 const ROOT = process.cwd();
-const AUDIT_VERSION = "master-word-destination-decision-audit-v1.2";
+const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.2";
 
 function fail(message) {
   console.error(`STOP: ${message}`);
@@ -104,6 +104,41 @@ function roleForTarget(target) {
 
 function unique(values) {
   return [...new Set(asArray(values).filter(v => v !== null && v !== undefined && v !== ""))];
+}
+
+function hasOwn(object, key) {
+  return Object.prototype.hasOwnProperty.call(object || {}, key);
+}
+
+function studyModeForType(type) {
+  if (type === "prefix") return "prefixes";
+  if (type === "root") return "roots";
+  if (type === "suffix") return "suffixes";
+  return "combinations";
+}
+
+function studyModeForTargetId(id) {
+  return studyModeForType(targetById(id)?.type);
+}
+
+function vocabLevelFor(rec, item = null) {
+  const explicit =
+    item?.vocabLevel ||
+    item?.vocabularyLevel ||
+    item?.level ||
+    null;
+
+  if (explicit) return String(explicit);
+
+  const levels = [...(rec?.vocabLevels || [])].sort();
+  return levels.length ? levels.join(" | ") : "unspecified";
+}
+
+function buildPatternForPool(name) {
+  if (name === "buildWords") return "prefix+root";
+  if (name === "rootSuffixBuildWords") return "root+suffix";
+  if (name === "prefixRootSuffixBuildWords") return "prefix+root+suffix";
+  return name || "unknown-build-pattern";
 }
 
 function escapeCsv(value) {
@@ -602,25 +637,29 @@ function addDestination(word, info = {}) {
   const rec = ensureWord(word);
   if (!rec) return;
 
-  const targetIds =
-    unique(
-      asArray(info.targetIds).length
-        ? info.targetIds
-        : [...rec.targetIds]
-    );
+  const wordMorphemeIds = unique([...rec.targetIds]);
+
+  const instructionalTargetIds = unique(
+    hasOwn(info, "instructionalTargetIds")
+      ? asArray(info.instructionalTargetIds)
+      : hasOwn(info, "targetIds")
+        ? asArray(info.targetIds)
+        : wordMorphemeIds
+  );
 
   if (info.source) rec.sources.add(info.source);
   if (info.evidence) rec.evidence.add(info.evidence);
-  for (const id of targetIds) {
+
+  for (const id of instructionalTargetIds) {
     if (targetById(id)) rec.targetIds.add(id);
   }
 
-  const targetLabels = targetIds
+  const instructionalTargetLabels = instructionalTargetIds
     .map(id => targetById(id)?.label || id)
     .filter(Boolean);
 
   const canonicalFlights = unique(
-    targetIds.map(flightForTarget).filter(Boolean)
+    instructionalTargetIds.map(flightForTarget).filter(Boolean)
   );
 
   const practiceFlights = unique(
@@ -630,10 +669,28 @@ function addDestination(word, info = {}) {
   destinations.push({
     word: rec.word,
     normalizedWord: rec.normalizedWord,
-    targetIds: targetIds.join(" | "),
-    targetLabels: targetLabels.join(" | "),
+
+    /*
+      v1.3 separates the instructional target from the word's complete
+      morpheme signature. targetIds remains as a compatibility alias for
+      instructionalTargetIds so older downstream inspection scripts do not
+      silently reinterpret every morpheme in a word as a required activity cell.
+    */
+    targetIds: instructionalTargetIds.join(" | "),
+    instructionalTargetIds: instructionalTargetIds.join(" | "),
+    instructionalTargetLabels: instructionalTargetLabels.join(" | "),
+    wordMorphemeIds: wordMorphemeIds.join(" | "),
+    targetLabels: instructionalTargetLabels.join(" | "),
     canonicalTargetFlights: canonicalFlights.join(" | "),
     practiceFlights: practiceFlights.join(" | "),
+
+    runtimePoolType: info.runtimePoolType || "",
+    runtimePool: info.runtimePool || "",
+    studyMode: info.studyMode || "",
+    runtimePattern: info.runtimePattern || "",
+    runtimeFlight: info.runtimeFlight || "",
+    runtimeVocabLevel: info.runtimeVocabLevel || "",
+
     channel: info.channel || "",
     activity: info.activity || "",
     stage: info.stage || "",
@@ -772,12 +829,65 @@ for (const item of asArray(checkTransferApi.items)) {
 }
 
 /* ================================================================
-   DIGITAL STUDENT PRACTICE
+   DIGITAL STUDENT PRACTICE — RUNTIME-POOL MODEL (v1.3)
    ================================================================ */
 
 const scriptSource = read("script.js");
 const useSource = read("use-it.js", true);
 const changeSource = read("change-it.js", true);
+
+/*
+  Fail visibly if the runtime selection architecture drifts away from the
+  model encoded below. These are intentionally broad structural checks,
+  not formatting-sensitive source snapshots.
+*/
+const runtimeModelChecks = [
+  {
+    label: "Find/Figure It Out grade+vocabulary filtering",
+    ok:
+      /function\s+filterWordsBySelectedFilters\s*\(/.test(scriptSource) &&
+      /mode\s*===\s*["']find["']/.test(scriptSource) &&
+      /mode\s*===\s*["']infer["']/.test(scriptSource)
+  },
+  {
+    label: "Learn vocabulary-filtered examples",
+    ok: /function\s+getLearnExamplesForSelectedVocabulary\s*\(/.test(scriptSource)
+  },
+  {
+    label: "Word Hunt whole-question grade/vocabulary eligibility",
+    ok:
+      /function\s+isWordHuntEligibleForSelectedGrade\s*\(/.test(scriptSource) &&
+      /function\s+isWordHuntEligibleForSelectedVocabulary\s*\(/.test(scriptSource)
+  },
+  {
+    label: "Build pattern selector",
+    ok:
+      /function\s+getActiveBuildWords\s*\(/.test(scriptSource) &&
+      /rootSuffixBuildWords/.test(scriptSource) &&
+      /prefixRootSuffixBuildWords/.test(scriptSource) &&
+      /buildWords/.test(scriptSource)
+  },
+  {
+    label: "Use It derives eligibility from active Build words",
+    ok:
+      !useSource ||
+      /function\s+getUseItEligibleWords\s*\(/.test(useSource) &&
+      /getActiveBuildWords\s*\(/.test(useSource)
+  }
+];
+
+for (const check of runtimeModelChecks) {
+  if (!check.ok) {
+    findings.push({
+      severity: "REVIEW",
+      category: "audit-runtime-model-drift",
+      word: "",
+      destination: "Student Digital runtime architecture",
+      message:
+        `The v1.3 runtime-pool audit assumption was not found in current source: ${check.label}. Review the audit model before relying on pool-health results.`
+    });
+  }
+}
 
 const digitalTargetCollections = [
   ...asArray(parseConstLiteral(scriptSource, "prefixes", findings, "script.js")),
@@ -795,32 +905,43 @@ function digitalReason(word, activity) {
   if (isProtected(word)) {
     return `Authored in ${activity} source, but central ordinary-practice filtering blocks protected words at runtime.`;
   }
-  return `Authored for ${activity}; available when the learner's Flight/study/vocabulary filters match.`;
+  return `Authored for ${activity}; available when the learner's actual runtime pool filters match.`;
 }
 
-/* Learn examples */
+/* Learn — target-level example availability, not a word-morpheme-combination cell. */
 for (const target of digitalTargetCollections) {
   const id = target?.id || null;
+  const flight = id ? flightForTarget(id) || "?" : "?";
+  const studyMode = id ? studyModeForTargetId(id) : studyModeForType(target?.type);
+
   for (const word of asArray(target?.examples)) {
+    const rec = ensureWord(word);
+    const vocab = vocabLevelFor(rec);
+    const runtimePool = `Learn · ${studyMode} · Flight ${flight} · target:${id || target?.label || "unresolved"} · vocab:${vocab}`;
     addDestination(word, {
-      targetIds: id ? [id] : [],
+      instructionalTargetIds: id ? [id] : [],
       channel: "Student Digital",
       activity: "Learn",
       stage: "Authored Example",
-      destination: `Flight ${id ? flightForTarget(id) || "?" : "?"} Digital Learn`,
+      destination: `Flight ${flight} Digital Learn`,
       status: digitalStatus(word),
       source: "script.js",
       evidence: `Learn examples for ${id || target?.label || "unresolved target"}`,
-      reason: digitalReason(word, "Learn")
+      reason: digitalReason(word, "Learn"),
+      runtimePoolType: "target-example-pool",
+      runtimePool,
+      studyMode,
+      runtimeFlight: flight,
+      runtimeVocabLevel: vocab
     });
   }
 }
 
-/* Find */
-for (const name of [
-  "prefixFindQuestions",
-  "rootFindQuestions",
-  "suffixFindQuestions"
+/* Find — selected from study-mode × Flight × vocabulary pools. */
+for (const [name, studyMode] of [
+  ["prefixFindQuestions", "prefixes"],
+  ["rootFindQuestions", "roots"],
+  ["suffixFindQuestions", "suffixes"]
 ]) {
   const questions = asArray(parseConstLiteral(scriptSource, name, findings, "script.js"));
   for (const q of questions) {
@@ -831,9 +952,11 @@ for (const name of [
       bandToFlight([...rec.practiceBands][0]) ||
       (id ? flightForTarget(id) : null) ||
       "?";
+    const vocab = vocabLevelFor(rec, q);
+    const runtimePool = `Find · ${studyMode} · Flight ${practiceFlight} · vocab:${vocab}`;
 
     addDestination(q.word, {
-      targetIds: id ? [id] : [],
+      instructionalTargetIds: id ? [id] : [],
       channel: "Student Digital",
       activity: "Find",
       stage: "Authored Question",
@@ -841,12 +964,17 @@ for (const name of [
       status: digitalStatus(q.word),
       source: "script.js",
       evidence: `${name}${id ? ` · ${id}` : ""}`,
-      reason: digitalReason(q.word, "Find")
+      reason: digitalReason(q.word, "Find"),
+      runtimePoolType: "study-flight-vocab-pool",
+      runtimePool,
+      studyMode,
+      runtimeFlight: practiceFlight,
+      runtimeVocabLevel: vocab
     });
   }
 }
 
-/* Word Hunt */
+/* Word Hunt — whole-question gate; target ID is the question target. */
 const huntQuestions = asArray(
   parseConstLiteral(scriptSource, "wordHuntQuestions", findings, "script.js")
 );
@@ -855,8 +983,8 @@ for (const q of huntQuestions) {
   const id = q.itemId || q.targetId || q.morphemeId || null;
   const words = asArray(q.words);
   const correct = words.filter(item => item?.correct);
-  const questionBlocked =
-    words.some(item => item?.word && isProtected(item.word));
+  const questionBlocked = words.some(item => item?.word && isProtected(item.word));
+  const studyMode = studyModeForType(q.type || targetById(id)?.type);
 
   const correctFlight =
     unique(
@@ -870,28 +998,31 @@ for (const q of huntQuestions) {
     (id ? flightForTarget(id) : null) ||
     "?";
 
+  const runtimePool = `Word Hunt · ${studyMode} · Flight ${correctFlight} · target:${id || q.target || "unresolved"}`;
+
   for (const item of words) {
     if (!item?.word) continue;
+    const rec = ensureWord(item.word);
 
     addDestination(item.word, {
-      targetIds:
-        item.correct && id
-          ? [id]
-          : [],
+      instructionalTargetIds: item.correct && id ? [id] : [],
       channel: "Student Digital",
       activity: "Word Hunt",
       stage: item.correct ? "Target Word" : "Distractor",
       destination: `Flight ${correctFlight} Digital Word Hunt`,
-      status:
-        questionBlocked
-          ? "QUESTION_FILTERED_PROTECTED"
-          : digitalStatus(item.word),
+      status: questionBlocked
+        ? "QUESTION_FILTERED_PROTECTED"
+        : digitalStatus(item.word),
       source: "script.js",
       evidence: `${id || q.target || "unresolved target"} · ${item.correct ? "correct" : "distractor"}`,
-      reason:
-        questionBlocked
-          ? "The entire Word Hunt question is filtered because at least one authored word is protected, including distractors."
-          : digitalReason(item.word, "Word Hunt")
+      reason: questionBlocked
+        ? "The entire Word Hunt question is filtered because at least one authored word is protected, including distractors."
+        : digitalReason(item.word, "Word Hunt"),
+      runtimePoolType: "whole-question",
+      runtimePool,
+      studyMode,
+      runtimeFlight: correctFlight,
+      runtimeVocabLevel: vocabLevelFor(rec, q)
     });
   }
 }
@@ -899,11 +1030,9 @@ for (const q of huntQuestions) {
 /*
   Meaning and Word Part are target-level digital activities generated from
   the current morpheme study items. They do not have a fixed whole-word pool.
-  That rule is recorded in audit metadata below instead of falsely assigning
-  every word to those activities.
 */
 
-/* Figure It Out */
+/* Figure It Out — selected from study-mode × Flight × vocabulary pools. */
 const inferQuestions = asArray(
   parseConstLiteral(scriptSource, "inferQuestions", findings, "script.js")
 );
@@ -911,23 +1040,18 @@ const inferQuestions = asArray(
 for (const q of inferQuestions) {
   if (!q?.word) continue;
 
-  const explicitId =
-    q.itemId ||
-    q.targetId ||
-    null;
-
+  const explicitId = q.itemId || q.targetId || null;
   const rec = ensureWord(q.word);
-  const ids = explicitId
-    ? [explicitId]
-    : [...rec.targetIds];
-
   const practiceFlight =
     bandToFlight([...rec.practiceBands][0]) ||
-    unique(ids.map(flightForTarget).filter(Boolean))[0] ||
+    (explicitId ? flightForTarget(explicitId) : null) ||
     "?";
+  const studyMode = studyModeForType(q.type || targetById(explicitId)?.type);
+  const vocab = vocabLevelFor(rec, q);
+  const runtimePool = `Figure It Out · ${studyMode} · Flight ${practiceFlight} · vocab:${vocab}`;
 
   addDestination(q.word, {
-    targetIds: ids,
+    instructionalTargetIds: explicitId ? [explicitId] : [],
     channel: "Student Digital",
     activity: "Figure It Out",
     stage: "Authored Question",
@@ -935,11 +1059,16 @@ for (const q of inferQuestions) {
     status: digitalStatus(q.word),
     source: "script.js",
     evidence: q.knownLabel || explicitId || "",
-    reason: digitalReason(q.word, "Figure It Out")
+    reason: digitalReason(q.word, "Figure It Out"),
+    runtimePoolType: "study-flight-vocab-pool",
+    runtimePool,
+    studyMode,
+    runtimeFlight: practiceFlight,
+    runtimeVocabLevel: vocab
   });
 }
 
-/* Break It Apart — inventory/runtime generated eligibility */
+/* Break It Apart — generated eligible inventory × instructional target/study mode. */
 for (const entry of masterWords) {
   if (!entry?.word) continue;
 
@@ -985,9 +1114,13 @@ for (const entry of masterWords) {
       bandToFlight(entry.practiceBand) ||
       flightForTarget(eligibleTargets[0]) ||
       "?";
+    const modes = unique(eligibleTargets.map(studyModeForTargetId));
+    const studyMode = modes.length === 1 ? modes[0] : "combinations";
+    const vocab = entry.vocabLevel || "unspecified";
+    const runtimePool = `Break It Apart · ${studyMode} · Flight ${flight} · vocab:${vocab}`;
 
     addDestination(entry.word, {
-      targetIds: eligibleTargets,
+      instructionalTargetIds: eligibleTargets,
       channel: "Student Digital",
       activity: "Break It Apart",
       stage: "Generated from Inventory",
@@ -995,32 +1128,48 @@ for (const entry of masterWords) {
       status: "GENERATED_ELIGIBLE",
       source: "word-inventory.js + instructional-word-selector.js",
       evidence: entry.segmentation || "",
-      reason: "Canonical inventory word passes full-segmentation, protection, target, and activity-eligibility gates."
+      reason: "Canonical inventory word passes full-segmentation, protection, target, and activity-eligibility gates.",
+      runtimePoolType: "generated-study-flight-vocab-pool",
+      runtimePool,
+      studyMode,
+      runtimeFlight: flight,
+      runtimeVocabLevel: vocab
     });
   }
 }
 
-/* Build Words */
+/* Build Words — pattern × Flight × vocabulary pools, not one required cell per word morpheme signature. */
 const buildPools = [];
+const buildPatternsByWord = new Map();
+
 for (const name of [
   "buildWords",
   "rootSuffixBuildWords",
   "prefixRootSuffixBuildWords"
 ]) {
   const pool = asArray(parseConstLiteral(scriptSource, name, findings, "script.js"));
+  const pattern = buildPatternForPool(name);
+
   for (const item of pool) {
     if (!item?.word) continue;
-    buildPools.push(item);
+    const annotated = { ...item, _poolName: name, _pattern: pattern };
+    buildPools.push(annotated);
 
     const rec = ensureWord(item.word);
-    const ids = [...rec.targetIds];
     const practiceFlight =
       bandToFlight([...rec.practiceBands][0]) ||
-      unique(ids.map(flightForTarget).filter(Boolean))[0] ||
+      unique([...rec.targetIds].map(flightForTarget).filter(Boolean))[0] ||
       "?";
+    const vocab = vocabLevelFor(rec, item);
+    const runtimePool = `Build Words · ${pattern} · Flight ${practiceFlight} · vocab:${vocab}`;
+
+    if (!buildPatternsByWord.has(rec.normalizedWord)) {
+      buildPatternsByWord.set(rec.normalizedWord, new Set());
+    }
+    buildPatternsByWord.get(rec.normalizedWord).add(pattern);
 
     addDestination(item.word, {
-      targetIds: ids,
+      instructionalTargetIds: [],
       channel: "Student Digital",
       activity: "Build Words",
       stage: "Authored Build Pool",
@@ -1028,14 +1177,20 @@ for (const name of [
       status: digitalStatus(item.word),
       source: "script.js",
       evidence: name,
-      reason: digitalReason(item.word, "Build Words")
+      reason: digitalReason(item.word, "Build Words"),
+      runtimePoolType: "build-pattern-flight-vocab-pool",
+      runtimePool,
+      studyMode: "combinations",
+      runtimePattern: pattern,
+      runtimeFlight: practiceFlight,
+      runtimeVocabLevel: vocab
     });
   }
 }
 
 const buildWordSet = new Set(buildPools.map(item => normalizeWord(item.word)));
 
-/* Use It */
+/* Use It — sentence availability is downstream of the active Build pool. */
 const useBank =
   useSource
     ? parseConstLiteral(useSource, "useItSentenceBank", findings, "use-it.js")
@@ -1044,11 +1199,12 @@ const useBank =
 if (useBank && typeof useBank === "object") {
   for (const word of Object.keys(useBank)) {
     const rec = ensureWord(word);
-    const ids = [...rec.targetIds];
     const practiceFlight =
       bandToFlight([...rec.practiceBands][0]) ||
-      unique(ids.map(flightForTarget).filter(Boolean))[0] ||
+      unique([...rec.targetIds].map(flightForTarget).filter(Boolean))[0] ||
       "?";
+    const vocab = vocabLevelFor(rec);
+    const patterns = [...(buildPatternsByWord.get(rec.normalizedWord) || [])];
 
     let status = digitalStatus(word);
     let reason = digitalReason(word, "Use It");
@@ -1056,24 +1212,36 @@ if (useBank && typeof useBank === "object") {
     if (!isProtected(word) && !buildWordSet.has(normalizeWord(word))) {
       status = "AUTHORED_NOT_IN_ACTIVE_BUILD_POOL";
       reason =
-        "A Use It sentence is authored, but current Use It eligibility begins with getActiveBuildWords(); this word is not in the extracted Build pools.";
+        "A Use It sentence is authored, but current Use It eligibility begins with the active Build pool; this word is not in the extracted Build pools.";
     }
 
-    addDestination(word, {
-      targetIds: ids,
-      channel: "Student Digital",
-      activity: "Use It",
-      stage: "Sentence Bank",
-      destination: `Flight ${practiceFlight} Digital Use It`,
-      status,
-      source: "use-it.js",
-      evidence: String(useBank[word]),
-      reason
-    });
+    const patternLabels = patterns.length ? patterns : ["not-in-active-build-pool"];
+
+    for (const pattern of patternLabels) {
+      const runtimePool = `Use It · ${pattern} · Flight ${practiceFlight} · vocab:${vocab}`;
+
+      addDestination(word, {
+        instructionalTargetIds: [],
+        channel: "Student Digital",
+        activity: "Use It",
+        stage: "Sentence Bank",
+        destination: `Flight ${practiceFlight} Digital Use It`,
+        status,
+        source: "use-it.js",
+        evidence: String(useBank[word]),
+        reason,
+        runtimePoolType: "build-derived-sentence-pool",
+        runtimePool,
+        studyMode: "combinations",
+        runtimePattern: pattern,
+        runtimeFlight: practiceFlight,
+        runtimeVocabLevel: vocab
+      });
+    }
   }
 }
 
-/* Change It */
+/* Change It — whole authored family/question gate. */
 const changeQuestions =
   changeSource
     ? asArray(parseConstLiteral(changeSource, "changeItQuestions", findings, "change-it.js"))
@@ -1081,30 +1249,31 @@ const changeQuestions =
 
 for (const q of changeQuestions) {
   const choices = asArray(q.choices);
-  const questionBlocked =
-    choices.some(word => isProtected(word));
+  const questionBlocked = choices.some(word => isProtected(word));
+  const flight = bandToFlight(q.practiceBand) || "?";
+  const vocab = q.vocabLevel || q.vocabularyLevel || "unspecified";
+  const runtimePool = `Change It · Flight ${flight} · family:${q.family || "unlabeled"}`;
 
   for (const word of choices) {
-    const rec = ensureWord(word);
-    const ids = [...rec.targetIds];
-    const flight = bandToFlight(q.practiceBand) || "?";
-
     addDestination(word, {
-      targetIds: ids,
+      instructionalTargetIds: [],
       channel: "Student Digital",
       activity: "Change It",
       stage: word === q.answer ? "Correct Answer" : "Choice",
       destination: `Flight ${flight} Digital Change It`,
-      status:
-        questionBlocked
-          ? "QUESTION_FILTERED_PROTECTED"
-          : "AUTHORED_ELIGIBLE",
+      status: questionBlocked
+        ? "QUESTION_FILTERED_PROTECTED"
+        : "AUTHORED_ELIGIBLE",
       source: "change-it.js",
       evidence: q.family || "",
-      reason:
-        questionBlocked
-          ? "The entire Change It question is filtered because at least one choice is protected."
-          : "Authored Change It word-family choice; available when study-mode, Flight, and vocabulary filters match."
+      reason: questionBlocked
+        ? "The entire Change It question is filtered because at least one choice is protected."
+        : "Authored Change It word-family choice; available when study-mode, Flight, and vocabulary filters match.",
+      runtimePoolType: "whole-question",
+      runtimePool,
+      studyMode: "combinations",
+      runtimeFlight: flight,
+      runtimeVocabLevel: vocab
     });
   }
 }
@@ -1442,12 +1611,269 @@ const wordMasterRows = [...wordRecords.values()]
   .sort((a, b) => a.word.localeCompare(b.word));
 
 /* ================================================================
+   STUDENT DIGITAL RUNTIME-POOL HEALTH (v1.3)
+   ================================================================ */
+
+const runtimePoolRows = [];
+const protectedSourceCleanupRows = [];
+
+/*
+  Explicit Student Digital runtime combinations that are intentionally
+  unavailable because the current canonical inventory does not contain
+  an instructionally clean item for that exact pattern / Flight /
+  vocabulary combination.
+
+  Do not fill these with prefix + ordinary-base words merely to make a
+  Prefix + Root pool nonempty.
+*/
+const intentionalStudentDigitalNAPools = [
+  {
+    activity: "Build Words",
+    runtimePoolType: "build-pattern-flight-vocab-pool",
+    runtimePool: "Build Words · prefix+root · Flight B · vocab:familiar",
+    studyMode: "combinations",
+    runtimePattern: "prefix+root",
+    runtimeFlight: "B",
+    runtimeVocabLevel: "familiar",
+    reason:
+      "Intentional N/A: no approved unprotected familiar Flight B word currently provides a clean canonical Prefix + Root build. Transparent prefix + ordinary-base words are not substituted because this path is explicitly labeled Prefix + Root."
+  },
+  {
+    activity: "Use It",
+    runtimePoolType: "build-derived-sentence-pool",
+    runtimePool: "Use It · prefix+root · Flight B · vocab:familiar",
+    studyMode: "combinations",
+    runtimePattern: "prefix+root",
+    runtimeFlight: "B",
+    runtimeVocabLevel: "familiar",
+    reason:
+      "Intentional N/A downstream of the corresponding Prefix + Root Build Words pool; Use It begins with the active Build pool."
+  }
+];
+
+const intentionalStudentDigitalNAByKey = new Map(
+  intentionalStudentDigitalNAPools.map(item => [
+    `${item.activity}|||${item.runtimePool}`,
+    item
+  ])
+);
+
+const runtimeGroups = new Map();
+for (const row of destinations.filter(
+  item => item.channel === "Student Digital" && item.runtimePool
+)) {
+  const key = `${row.activity}|||${row.runtimePool}`;
+  if (!runtimeGroups.has(key)) runtimeGroups.set(key, []);
+  runtimeGroups.get(key).push(row);
+}
+
+const viableStatuses = new Set([
+  "AUTHORED_ELIGIBLE",
+  "GENERATED_ELIGIBLE"
+]);
+
+for (const rows of runtimeGroups.values()) {
+  const first = rows[0];
+  const uniqueWords = unique(rows.map(row => row.normalizedWord));
+  const viable = rows.filter(row => viableStatuses.has(row.status));
+  const viableWords = unique(viable.map(row => row.normalizedWord));
+  const protectedRows = rows.filter(row =>
+    row.status === "AUTHORED_FILTERED_PROTECTED" ||
+    row.status === "QUESTION_FILTERED_PROTECTED"
+  );
+  const protectedWords = unique(protectedRows.map(row => row.normalizedWord));
+  const inactiveRows = rows.filter(row => row.status === "AUTHORED_NOT_IN_ACTIVE_BUILD_POOL");
+
+  let operationalStatus = "VIABLE";
+  let cleanupDisposition = "NO_PROTECTED_SOURCE_ROWS";
+
+  const intentionalNA =
+    intentionalStudentDigitalNAByKey.get(
+      `${first.activity}|||${first.runtimePool}`
+    );
+
+  if (intentionalNA) {
+    operationalStatus = "INTENTIONALLY_UNAVAILABLE";
+    cleanupDisposition =
+      protectedWords.length
+        ? "REMOVE_PROTECTED_SOURCE_ROWS_INTENTIONAL_NA"
+        : "INTENTIONAL_NA_NO_AUTHORED_SOURCE";
+  } else if (first.activity === "Use It" && first.runtimePattern === "not-in-active-build-pool") {
+    operationalStatus = "INACTIVE_SOURCE_ONLY";
+    cleanupDisposition = "REMOVE_OR_ARCHIVE_INACTIVE_SOURCE";
+  } else if (first.runtimePoolType === "whole-question") {
+    if (rows.some(row => row.status === "QUESTION_FILTERED_PROTECTED")) {
+      operationalStatus = "BLOCKED_WHOLE_QUESTION";
+      cleanupDisposition = "REPAIR_QUESTION_BEFORE_SOURCE_CLEANUP";
+    } else if (viableWords.length) {
+      operationalStatus = "VIABLE";
+      cleanupDisposition = protectedWords.length
+        ? "POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL"
+        : "NO_PROTECTED_SOURCE_ROWS";
+    }
+  } else if (
+    first.activity === "Learn" &&
+    !viableWords.length &&
+    protectedWords.length
+  ) {
+    /*
+      Learn is not operationally empty when its selected-vocabulary
+      example subpool is empty. The morpheme card still renders and
+      explicitly reports that no examples are currently included for
+      that vocabulary level. Treat this as example-coverage information,
+      not an unavailable activity.
+    */
+    operationalStatus = "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION";
+    cleanupDisposition = "LEARN_CARD_REMAINS_AVAILABLE_EXAMPLE_COVERAGE_EMPTY";
+  } else if (!viableWords.length && protectedWords.length) {
+    operationalStatus = "EMPTY_AFTER_PROTECTION";
+    cleanupDisposition = "PROTECTED_REMOVAL_WOULD_LEAVE_POOL_EMPTY";
+  } else if (!viableWords.length && inactiveRows.length) {
+    operationalStatus = "INACTIVE_SOURCE_ONLY";
+    cleanupDisposition = "NOT_IN_ACTIVE_RUNTIME_POOL";
+  } else if (viableWords.length === 1 && protectedWords.length) {
+    operationalStatus = "VIABLE_ONE_WORD_AFTER_PROTECTION";
+    cleanupDisposition = "PROTECTED_REMOVAL_LEAVES_ONE_VIABLE_WORD";
+  } else if (viableWords.length && protectedWords.length) {
+    operationalStatus = "VIABLE_AFTER_PROTECTION";
+    cleanupDisposition = "POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL";
+  }
+
+  const poolRow = {
+    activity: first.activity,
+    runtimePoolType: first.runtimePoolType,
+    runtimePool: first.runtimePool,
+    studyMode: first.studyMode,
+    runtimePattern: first.runtimePattern,
+    runtimeFlight: first.runtimeFlight,
+    runtimeVocabLevel: first.runtimeVocabLevel,
+    operationalStatus,
+    cleanupDisposition,
+    authoredRows: rows.length,
+    uniqueWords: uniqueWords.length,
+    viableRows: viable.length,
+    viableWords: viableWords.length,
+    protectedRows: protectedRows.length,
+    protectedWords: protectedWords.length,
+    inactiveRows: inactiveRows.length,
+    viableWordList: viableWords.sort().join(" | "),
+    protectedWordList: protectedWords.sort().join(" | ")
+  };
+
+  runtimePoolRows.push(poolRow);
+
+  if (operationalStatus === "EMPTY_AFTER_PROTECTION") {
+    findings.push({
+      severity: "REVIEW",
+      category: "student-digital-runtime-pool-empty-after-protection",
+      word: protectedWords.sort().join(" | "),
+      destination: first.runtimePool,
+      message:
+        "This actual Student Digital runtime pool has authored source rows but no viable unprotected word after the protection gate. Do not solve this by treating the word's complete morpheme signature as a required target cell; review the pool itself for replacement vocabulary, fallback behavior, or intentional unavailability."
+    });
+  }
+
+  if (
+    operationalStatus ===
+    "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION"
+  ) {
+    findings.push({
+      severity: "INFO",
+      category:
+        "student-digital-learn-example-subpool-empty-after-protection",
+      word: protectedWords.sort().join(" | "),
+      destination: first.runtimePool,
+      message:
+        "The Learn morpheme card remains available. For this selected vocabulary level, all authored examples are protected, so the card displays its no-examples message. Treat this as example-coverage information rather than an unavailable Student Digital activity."
+    });
+  }
+
+  for (const row of protectedRows.filter(item => item.protection)) {
+    protectedSourceCleanupRows.push({
+      word: row.word,
+      protection: row.protection,
+      source: row.source,
+      activity: row.activity,
+      runtimePoolType: row.runtimePoolType,
+      runtimePool: row.runtimePool,
+      studyMode: row.studyMode,
+      runtimePattern: row.runtimePattern,
+      runtimeFlight: row.runtimeFlight,
+      runtimeVocabLevel: row.runtimeVocabLevel,
+      cleanupDisposition,
+      viableWordsRemaining: viableWords.length,
+      viableWordList: viableWords.sort().join(" | "),
+      destination: row.destination
+    });
+  }
+}
+
+/*
+  Preserve intentional N/A pools in the audit even after their dead
+  protected authored rows are removed from source.
+*/
+const observedRuntimePoolKeys = new Set(
+  runtimePoolRows.map(
+    row => `${row.activity}|||${row.runtimePool}`
+  )
+);
+
+for (const item of intentionalStudentDigitalNAPools) {
+  const key = `${item.activity}|||${item.runtimePool}`;
+
+  if (observedRuntimePoolKeys.has(key)) {
+    continue;
+  }
+
+  runtimePoolRows.push({
+    activity: item.activity,
+    runtimePoolType: item.runtimePoolType,
+    runtimePool: item.runtimePool,
+    studyMode: item.studyMode,
+    runtimePattern: item.runtimePattern,
+    runtimeFlight: item.runtimeFlight,
+    runtimeVocabLevel: item.runtimeVocabLevel,
+    operationalStatus: "INTENTIONALLY_UNAVAILABLE",
+    cleanupDisposition: "INTENTIONAL_NA_NO_AUTHORED_SOURCE",
+    authoredRows: 0,
+    uniqueWords: 0,
+    viableRows: 0,
+    viableWords: 0,
+    protectedRows: 0,
+    protectedWords: 0,
+    inactiveRows: 0,
+    viableWordList: "",
+    protectedWordList: ""
+  });
+
+  findings.push({
+    severity: "INFO",
+    category: "student-digital-runtime-pool-intentionally-unavailable",
+    word: "",
+    destination: item.runtimePool,
+    message: item.reason
+  });
+}
+
+runtimePoolRows.sort((a, b) =>
+  a.activity.localeCompare(b.activity) ||
+  a.runtimePool.localeCompare(b.runtimePool)
+);
+
+protectedSourceCleanupRows.sort((a, b) =>
+  a.activity.localeCompare(b.activity) ||
+  a.runtimePool.localeCompare(b.runtimePool) ||
+  a.word.localeCompare(b.word)
+);
+
+/* ================================================================
    FINDINGS / SUMMARY
    ================================================================ */
 
 const digitalProtectedSourceRows = destinations.filter(
   row =>
     row.channel === "Student Digital" &&
+    Boolean(row.protection) &&
     (
       row.status === "AUTHORED_FILTERED_PROTECTED" ||
       row.status === "QUESTION_FILTERED_PROTECTED"
@@ -1664,6 +2090,13 @@ const summary = {
   hardFailures: findings.filter(item => item.severity === "HARD").length,
   reviewFlags: findings.filter(item => item.severity === "REVIEW").length,
   informationalFlags: findings.filter(item => item.severity === "INFO").length,
+  studentDigitalRuntimePools: runtimePoolRows.length,
+  runtimePoolsEmptyAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "EMPTY_AFTER_PROTECTION").length,
+  runtimePoolsIntentionallyUnavailable: runtimePoolRows.filter(row => row.operationalStatus === "INTENTIONALLY_UNAVAILABLE").length,
+  learnExampleSubpoolsEmptyAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "LEARN_EXAMPLE_SUBPOOL_EMPTY_AFTER_PROTECTION").length,
+  runtimePoolsWithOneViableWordAfterProtection: runtimePoolRows.filter(row => row.operationalStatus === "VIABLE_ONE_WORD_AFTER_PROTECTION").length,
+  protectedSourceRowsPoolRemainsViable: protectedSourceCleanupRows.filter(row => row.cleanupDisposition === "POOL_REMAINS_VIABLE_AFTER_PROTECTED_REMOVAL").length,
+  protectedSourceRowsWouldEmptyPool: protectedSourceCleanupRows.filter(row => row.cleanupDisposition === "PROTECTED_REMOVAL_WOULD_LEAVE_POOL_EMPTY").length,
   digitalProtectedAuthoredButFilteredRows: digitalProtectedSourceRows.length,
   blockedWordHuntQuestions: findings.filter(item => item.category === "word-hunt-question-blocked-protected").length,
   blockedChangeItQuestions: findings.filter(item => item.category === "change-it-question-blocked-protected").length,
@@ -1676,7 +2109,11 @@ const summary = {
     "Check Transfer, Migration Challenge, and Formal Pre/Post are protected fixed pools.",
     "Figure It Out is explicitly audited as internal activity id infer.",
     "Student Digital Change It has authored questions, while Teacher-Led Change It may still be not-applicable under the teacher material gate. These are separate channels.",
-    "Word Hunt is audited at the whole-question level because the live runtime rejects the entire question when any protected word appears, including a distractor."
+    "Word Hunt is audited at the whole-question level because the live runtime rejects the entire question when any protected word appears, including a distractor.",
+    "v1.3 separates instructionalTargetIds from wordMorphemeIds so a complete word decomposition is never mistaken for a required target/activity cell.",
+    "Student Digital Find and Figure It Out are evaluated by study-mode × Flight × vocabulary runtime pools; Build Words by build-pattern × Flight × vocabulary; Use It by its downstream active Build pattern.",
+    "Learn is different: the morpheme card remains available even when its selected-vocabulary example subpool is empty. Empty Learn example subpools are informational coverage findings, not unavailable runtime pools.",
+    "The exact prefix+root · Flight B · familiar Build Words pool, and its downstream Use It pool, are explicitly intentional N/A because no approved unprotected familiar Flight B word currently provides a clean canonical Prefix + Root build. Prefix + ordinary-base words are not used to force-fill this path."
   ]
 };
 
@@ -1684,7 +2121,7 @@ const output = {
   metadata: summary,
   decisionRules: {
     topLevel:
-      "Word -> exact canonical target -> protection -> Flight/context -> activity demand -> stage -> delivery/destination",
+      "Word -> instructional target (when applicable) + word morphemes -> protection -> actual runtime pool -> stage -> delivery/destination",
     statuses: {
       ACTUAL_FIXED:
         "Fixed protected assessment/transfer placement.",
@@ -1692,6 +2129,8 @@ const output = {
         "Authored ordinary digital item available when current learner filters match.",
       AUTHORED_FILTERED_PROTECTED:
         "Present in source, but central runtime protection blocks ordinary exposure.",
+      AUTHORED_NOT_IN_ACTIVE_BUILD_POOL:
+        "Use It sentence exists in source, but the word is not in the current active Build pool and cannot be selected as a Use It item.",
       QUESTION_FILTERED_PROTECTED:
         "Question is authored but filtered because one of its choices is protected.",
       GENERATED_ELIGIBLE:
@@ -1723,6 +2162,8 @@ const output = {
   },
   wordMaster: wordMasterRows,
   destinations,
+  runtimePoolHealth: runtimePoolRows,
+  protectedSourceCleanup: protectedSourceCleanupRows,
   targetExceptions,
   findings
 };
@@ -1742,6 +2183,8 @@ const matrixPath = path.join(outDir, `${base}_Destination_Matrix.csv`);
 const masterPath = path.join(outDir, `${base}_Word_Master.csv`);
 const exceptionsPath = path.join(outDir, `${base}_Target_Exceptions.csv`);
 const findingsPath = path.join(outDir, `${base}_Findings.csv`);
+const runtimePoolsPath = path.join(outDir, `${base}_Runtime_Pool_Health.csv`);
+const cleanupPath = path.join(outDir, `${base}_Protected_Source_Cleanup.csv`);
 const readmePath = path.join(outDir, `${base}_README.md`);
 
 fs.writeFileSync(jsonPath, JSON.stringify(output, null, 2) + "\n", "utf8");
@@ -1757,9 +2200,18 @@ writeCsv(
   [
     "word",
     "targetIds",
+    "instructionalTargetIds",
+    "instructionalTargetLabels",
+    "wordMorphemeIds",
     "targetLabels",
     "canonicalTargetFlights",
     "practiceFlights",
+    "runtimePoolType",
+    "runtimePool",
+    "studyMode",
+    "runtimePattern",
+    "runtimeFlight",
+    "runtimeVocabLevel",
     "channel",
     "activity",
     "stage",
@@ -1823,13 +2275,59 @@ writeCsv(
   ]
 );
 
+writeCsv(
+  runtimePoolsPath,
+  runtimePoolRows,
+  [
+    "activity",
+    "runtimePoolType",
+    "runtimePool",
+    "studyMode",
+    "runtimePattern",
+    "runtimeFlight",
+    "runtimeVocabLevel",
+    "operationalStatus",
+    "cleanupDisposition",
+    "authoredRows",
+    "uniqueWords",
+    "viableRows",
+    "viableWords",
+    "protectedRows",
+    "protectedWords",
+    "inactiveRows",
+    "viableWordList",
+    "protectedWordList"
+  ]
+);
+
+writeCsv(
+  cleanupPath,
+  protectedSourceCleanupRows,
+  [
+    "word",
+    "protection",
+    "source",
+    "activity",
+    "runtimePoolType",
+    "runtimePool",
+    "studyMode",
+    "runtimePattern",
+    "runtimeFlight",
+    "runtimeVocabLevel",
+    "cleanupDisposition",
+    "viableWordsRemaining",
+    "viableWordList",
+    "destination"
+  ]
+);
+
 const readme = `# First Volo Morphology — Master Word Destination / Decision Audit
 
 Generated: ${summary.generatedAt}
 
 ## Decision path
 
-**Word → canonical target → protection → Flight/context → activity demand → stage → delivery/destination**
+**Word → instructional target (when applicable) + word morphemes → protection → actual runtime pool → stage → delivery/destination**
 
 ## What this audit distinguishes
 
@@ -1844,7 +2342,7 @@ Generated: ${summary.generatedAt}
 
 ## Important structural rules
 
-1. A word is **not forced into one bucket**. An ordinary word may be eligible for several appropriate destinations.
+1. A word is **not forced into one bucket**, and its complete morpheme decomposition is **not** treated as a required target/activity cell.
 2. Formal Pre/Post, Migration Challenge, and Check Transfer are separate protected pools.
 3. **Figure It Out is included explicitly** as internal activity id \`infer\`.
 4. Digital **Meaning** and **Word Part** are target-level activities and therefore do not have a fixed whole-word pool.
@@ -1852,6 +2350,7 @@ Generated: ${summary.generatedAt}
 6. Teacher-led Part A, Part B, and Optional Practice are dynamic selections from the ordinary unprotected item bank.
 7. Print family resources are audited from the shared family configuration.
 8. Student Digital Change It and Teacher-Led Change It are separate systems and can legitimately have different coverage.
+9. Student Digital pool health is evaluated against the runtime selection unit: Learn target examples; Find/Figure It Out study × Flight × vocabulary; Build pattern × Flight × vocabulary; Use It active Build pattern; Word Hunt/Change It whole question.
 
 ## Summary
 
@@ -1865,6 +2364,11 @@ Generated: ${summary.generatedAt}
 - Hard failures: ${summary.hardFailures}
 - Review flags: ${summary.reviewFlags}
 - Informational flags: ${summary.informationalFlags}
+- Student Digital runtime pools: ${summary.studentDigitalRuntimePools}
+- Runtime pools empty after protection: ${summary.runtimePoolsEmptyAfterProtection}
+- Runtime pools intentionally unavailable: ${summary.runtimePoolsIntentionallyUnavailable}
+- Learn example subpools empty after protection: ${summary.learnExampleSubpoolsEmptyAfterProtection}
+- Runtime pools with one viable word after protection: ${summary.runtimePoolsWithOneViableWordAfterProtection}
 
 ## Output files
 
@@ -1873,6 +2377,8 @@ Generated: ${summary.generatedAt}
 - \`${path.basename(masterPath)}\`
 - \`${path.basename(exceptionsPath)}\`
 - \`${path.basename(findingsPath)}\`
+- \`${path.basename(runtimePoolsPath)}\`
+- \`${path.basename(cleanupPath)}\`
 `;
 
 fs.writeFileSync(readmePath, readme, "utf8");
@@ -1890,6 +2396,12 @@ console.log(`Teacher Change It N/A targets: ${summary.teacherChangeTargetsNotApp
 console.log(`Hard failures: ${summary.hardFailures}`);
 console.log(`Review flags: ${summary.reviewFlags}`);
 console.log(`Informational flags: ${summary.informationalFlags}`);
+console.log(`Student Digital runtime pools: ${summary.studentDigitalRuntimePools}`);
+console.log(`Runtime pools empty after protection: ${summary.runtimePoolsEmptyAfterProtection}`);
+console.log(`Runtime pools intentionally unavailable: ${summary.runtimePoolsIntentionallyUnavailable}`);
+console.log(`Learn example subpools empty after protection: ${summary.learnExampleSubpoolsEmptyAfterProtection}`);
+console.log(`Runtime pools with one viable word after protection: ${summary.runtimePoolsWithOneViableWordAfterProtection}`);
+console.log(`Protected source rows that would empty a pool if removed: ${summary.protectedSourceRowsWouldEmptyPool}`);
 
 console.log("\nOutputs:");
 for (const file of [
@@ -1898,6 +2410,8 @@ for (const file of [
   masterPath,
   exceptionsPath,
   findingsPath,
+  runtimePoolsPath,
+  cleanupPath,
   readmePath
 ]) {
   console.log(`- ${path.relative(ROOT, file)}`);

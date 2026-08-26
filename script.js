@@ -2364,6 +2364,35 @@ const suffixFindQuestions = [
     literal: "more than one book",
     definition: "two or more books"
   }
+,
+  {
+    type: "suffix",
+    word: "prediction",
+    before: "predict",
+    target: "ion",
+    after: "",
+    answer: "-ion",
+    choices: ["-ion", "-ment", "-ive", "-ity"],
+    itemId: "ion",
+    image: "images/suffixes/ion.png",
+    base: "predict = say what may happen",
+    literal: "an action or result of predicting",
+    definition: "a statement about what may happen"
+  },
+  {
+    type: "suffix",
+    word: "credible",
+    before: "cred",
+    target: "ible",
+    after: "",
+    answer: "-ible",
+    choices: ["-ible", "-ive", "-al", "-ous"],
+    itemId: "able-ible",
+    image: "images/suffixes/able-ible.png",
+    base: "cred = believe or trust",
+    literal: "able to be believed",
+    definition: "able to be believed or trusted"
+  }
 ];
 /* ========================================
    WORD HUNT QUESTIONS
@@ -4850,6 +4879,55 @@ const inferQuestions = [
     "definition": "to understand or explain something incorrectly",
     "image": "images/prefixes/mis.png"
   }
+,
+  {
+    type: "suffix",
+    knownLabel: "-ion",
+    knownMeaning: "an action, process, or result",
+    word: "prediction",
+    correct: "a statement about what may happen",
+    choices: [
+      "a statement about what may happen",
+      "a person who predicts",
+      "able to predict something",
+      "predicting in a careful way"
+    ],
+    literal: "an action or result of predicting",
+    definition: "a statement about what may happen",
+    image: "images/suffixes/ion.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ible",
+    knownMeaning: "can be; able to be",
+    word: "credible",
+    correct: "able to be believed or trusted",
+    choices: [
+      "able to be believed or trusted",
+      "a person who believes something",
+      "the process of believing something",
+      "believing something again"
+    ],
+    literal: "able to be believed",
+    definition: "able to be believed or trusted",
+    image: "images/suffixes/able-ible.png"
+  },
+  {
+    type: "suffix",
+    knownLabel: "-ion",
+    knownMeaning: "an action, process, or result",
+    word: "production",
+    correct: "the process of making or creating something",
+    choices: [
+      "the process of making or creating something",
+      "a person who makes something",
+      "able to make something",
+      "making something again"
+    ],
+    literal: "the process or result of producing",
+    definition: "the process of making or creating something",
+    image: "images/suffixes/ion.png"
+  }
 ];
 
 
@@ -4879,19 +4957,7 @@ const buildWords = [
     rootMeaning: "break",
     literal: "break between",
     definition: "to break into something; to stop it briefly"
-  },
-  {
-    word: "transport",
-    prefixId: "trans",
-    prefix: "trans-",
-    prefixMeaning: "across",
-    rootId: "port",
-    root: "port",
-    rootMeaning: "carry",
-    literal: "carry across",
-    definition: "to move people or things from one place to another"
-  },
-  {
+  },  {
     word: "import",
     prefixId: "im",
     prefix: "im-",
@@ -4901,19 +4967,7 @@ const buildWords = [
     rootMeaning: "carry",
     literal: "carry into",
     definition: "to bring goods or information into a place"
-  },
-  {
-    word: "export",
-    prefixId: "ex",
-    prefix: "ex-",
-    prefixMeaning: "out",
-    rootId: "port",
-    root: "port",
-    rootMeaning: "carry",
-    literal: "carry out",
-    definition: "to send goods or information out to another place"
-  },
-  {
+  },  {
     word: "reject",
     prefixId: "re",
     prefix: "re-",
@@ -5340,6 +5394,18 @@ const rootSuffixBuildWords = [
     definition: "the quality of continuing even when something is difficult"
   }
 
+,
+  {
+    word: "scripted",
+    baseId: "scrib",
+    base: "script",
+    baseMeaning: "write",
+    suffixId: "ed",
+    suffix: "-ed",
+    suffixMeaning: "past; already happened",
+    literal: "written as a script",
+    definition: "written or planned according to a script"
+  }
 ];
 /* ========================================
    PREFIX + ROOT / BASE + SUFFIX BUILDING DATA

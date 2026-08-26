@@ -12,22 +12,20 @@
    ======================================== */
 
 const useItSentenceBank = {
+  scripted:
+    "The actors followed a ___ scene so each line and action happened as planned.",
+
+  convert:
+    "The device can ___ sunlight into electrical energy.",
+
 
   construct:
     "The students will ___ a model bridge from wooden sticks.",
 
   interrupt:
     "Please do not ___ the speaker while she is explaining the experiment.",
-
-  transport:
-    "Trucks ___ food from the warehouse to stores.",
-
   import:
     "The company will ___ coffee from another country.",
-
-  export:
-    "The farm will ___ its fruit to markets in other countries.",
-
   reject:
     "The committee may ___ a proposal that does not meet the requirements.",
 
