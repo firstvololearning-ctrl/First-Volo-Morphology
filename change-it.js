@@ -2,28 +2,6 @@
 
 const changeItQuestions = [
   {
-    family: "kind → kindness → kindly",
-    sentence: "Her ___ made the new student feel welcome.",
-    choices: ["kind", "kindness", "kindly", "kinder"],
-    answer: "kindness",
-    clue: "We need a noun that names a quality someone or something has.",
-    suffix: "-ness",
-    explanation: "-ness can form a noun that names a state or quality someone or something has. Kindness names the quality of being kind.",
-    practiceBand: "2-3",
-    vocabLevel: "familiar"
-  },
-  {
-    family: "help → helper → helpful → helpfully",
-    sentence: "The directions were ___ because they explained each step clearly.",
-    choices: ["help", "helper", "helpful", "helpfully"],
-    answer: "helpful",
-    clue: "We need an adjective that describes the directions.",
-    suffix: "-ful",
-    explanation: "-ful often forms an adjective. Helpful describes the directions.",
-    practiceBand: "2-3",
-    vocabLevel: "familiar"
-  },
-  {
     family: "act → action → active → actively",
     sentence: "The class decided to take ___ to reduce wasted paper.",
     choices: ["act", "action", "active", "actively"],
@@ -46,50 +24,6 @@ const changeItQuestions = [
     vocabLevel: "familiar"
   },
   {
-    family: "inspect → inspection → inspector",
-    sentence: "The building ___ carefully checked the safety equipment.",
-    choices: ["inspect", "inspection", "inspector", "inspecting"],
-    answer: "inspector",
-    clue: "We need a noun that names a person.",
-    suffix: "-or",
-    explanation: "-or can form a noun naming a person or thing that does something. An inspector is a person who inspects.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-  {
-    family: "inspect → inspection → inspector",
-    sentence: "The safety ___ lasted nearly an hour.",
-    choices: ["inspect", "inspection", "inspector", "inspecting"],
-    answer: "inspection",
-    clue: "We need a noun that names an action, process, or result.",
-    suffix: "-ion",
-    explanation: "-ion can form a noun that names an action, process, or result. Inspection names the process of inspecting.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-  {
-    family: "construct → construction → constructive",
-    sentence: "The ___ of the new bridge took several months.",
-    choices: ["construct", "construction", "constructive", "constructively"],
-    answer: "construction",
-    clue: "We need a noun that names a process.",
-    suffix: "-ion",
-    explanation: "-ion can form a noun that names an action, process, or result. Construction names the process of building.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-  {
-    family: "construct → construction → constructive",
-    sentence: "Her feedback was ___ and helped improve the project.",
-    choices: ["construct", "construction", "constructive", "constructively"],
-    answer: "constructive",
-    clue: "We need an adjective that describes the feedback.",
-    suffix: "-ive",
-    explanation: "-ive often forms an adjective. Constructive describes feedback that helps improve something.",
-    practiceBand: "6-8",
-    vocabLevel: "academic"
-  },
-  {
     family: "predict → prediction → predictive",
     sentence: "The scientist made a careful ___ about the results.",
     choices: ["predict", "predicted", "prediction", "predictive"],
@@ -110,29 +44,6 @@ const changeItQuestions = [
     explanation: "-ive often forms an adjective. Predictive describes a model used to predict.",
     practiceBand: "6-8",
     vocabLevel: "academic"
-  }
-,
-  {
-    family: "care → careful → careless → carefully",
-    sentence: "Be ___ with the glass so it does not break.",
-    choices: ["care", "careful", "careless", "carefully"],
-    answer: "careful",
-    clue: "We need an adjective that describes how someone should be.",
-    suffix: "-ful",
-    explanation: "-ful can form an adjective. Careful describes someone who uses care.",
-    practiceBand: "2-3",
-    vocabLevel: "familiar"
-  },
-  {
-    family: "hope → hopeful → hopeless → hopefully",
-    sentence: "After every plan failed, the situation seemed ___.",
-    choices: ["hope", "hopeful", "hopeless", "hopefully"],
-    answer: "hopeless",
-    clue: "We need an adjective that describes the situation.",
-    suffix: "-less",
-    explanation: "-less can form an adjective meaning without something. Hopeless means without much hope.",
-    practiceBand: "2-3",
-    vocabLevel: "familiar"
   },
   {
     family: "quick → quicker → quickly → quickness",
@@ -212,18 +123,6 @@ const changeItQuestions = [
     vocabLevel: "familiar"
   },
   {
-    family: "teach → teacher → teaches → teaching",
-    sentence: "Ms. Lee is our science ___.",
-    choices: ["teach", "teacher", "teaches", "teaching"],
-    answer: "teacher",
-    clue: "We need a noun that names a person.",
-    suffix: "-er",
-    explanation: "-er can form a noun naming a person or thing that does something. A teacher is a person who teaches.",
-    practiceBand: "2-3",
-    vocabLevel: "familiar"
-  },
-
-  {
     family: "move → movement → moving → movable",
     sentence: "The sudden ___ of the branch showed that something was in the tree.",
     choices: ["move", "movement", "moving", "movable"],
@@ -257,17 +156,6 @@ const changeItQuestions = [
     vocabLevel: "familiar"
   },
   {
-    family: "poem → poet → poetic → poetically",
-    sentence: "The author's ___ language created a vivid picture in the reader's mind.",
-    choices: ["poem", "poet", "poetic", "poetically"],
-    answer: "poetic",
-    clue: "We need an adjective that describes the language.",
-    suffix: "-ic",
-    explanation: "-ic can form an adjective. Poetic describes language with qualities associated with poetry.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-  {
     family: "art → artist → artistic → artistically",
     sentence: "The ___ created a large mural for the school.",
     choices: ["art", "artist", "artistic", "artistically"],
@@ -278,29 +166,6 @@ const changeItQuestions = [
     practiceBand: "4-5",
     vocabLevel: "familiar"
   },
-  {
-    family: "modern → modernize → modernized → modernization",
-    sentence: "The city plans to ___ the old train station with updated equipment.",
-    choices: ["modern", "modernize", "modernized", "modernization"],
-    answer: "modernize",
-    clue: "After to, we need a verb naming the action.",
-    suffix: "-ize",
-    explanation: "-ize can form a verb meaning make or become. Modernize means to make more modern.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-  {
-    family: "class → classify → classified → classification",
-    sentence: "Scientists ___ organisms according to shared characteristics.",
-    choices: ["class", "classify", "classified", "classification"],
-    answer: "classify",
-    clue: "We need a present-tense verb naming what scientists do.",
-    suffix: "-ify",
-    explanation: "-ify can form a verb. Classify means to arrange things into groups or categories.",
-    practiceBand: "4-5",
-    vocabLevel: "academic"
-  },
-
   {
     family: "credit → credible → credibility → credibly",
     sentence: "The researcher used a ___ source to support the claim.",
@@ -320,17 +185,6 @@ const changeItQuestions = [
     clue: "We need a noun that names a quality someone or something has.",
     suffix: "-ity",
     explanation: "-ity can form a noun that names a state or quality someone or something has. Credibility is the quality of being believable.",
-    practiceBand: "6-8",
-    vocabLevel: "academic"
-  },
-  {
-    family: "depend → dependent → dependence → dependently",
-    sentence: "The young plant's ___ on sunlight and water affects its growth.",
-    choices: ["depend", "dependent", "dependence", "dependently"],
-    answer: "dependence",
-    clue: "We need a noun that names a state or quality someone or something has.",
-    suffix: "-ence",
-    explanation: "-ence can form a noun that names an action, or a state or quality someone or something has. Dependence means the state of relying on something.",
     practiceBand: "6-8",
     vocabLevel: "academic"
   },
@@ -388,19 +242,7 @@ const changeItQuestions = [
     explanation: "-ize can form a verb. Vocalize means to produce or express with the voice.",
     practiceBand: "6-8",
     vocabLevel: "academic"
-  },
-  {
-    family: "sequence → sequential → sequentially → sequencing",
-    sentence: "The report presents the events in ___ order.",
-    choices: ["sequence", "sequential", "sequentially", "sequencing"],
-    answer: "sequential",
-    clue: "We need an adjective that describes the order.",
-    suffix: "-al",
-    explanation: "-al can form an adjective. Sequential describes things arranged so that one follows another.",
-    practiceBand: "6-8",
-    vocabLevel: "academic"
   }
-
 ];
 
 let changeItState = {

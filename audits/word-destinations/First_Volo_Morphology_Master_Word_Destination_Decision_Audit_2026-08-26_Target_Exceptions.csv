@@ -1,0 +1,109 @@
+targetId,targetLabel,flight,activity,status,reason
+un-negation,un-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+un-reversative,un-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+re,re-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+negative-in-family,"in-, im-, il-, ir-",B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+dis,dis-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+en-em,"en-, em-",A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+non,non-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+location-in-family,"in-, im-",B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+over,over-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+mis,mis-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+sub,sub-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+pre,pre-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+inter,inter-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+fore,fore-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+de,de-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+trans,trans-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+super,super-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+semi,semi-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+anti,anti-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+mid,mid-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+under,under-,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ab,ab-,C,Break It Apart,NOT_APPLICABLE,Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target.
+ab,ab-,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+a-ad,"a-, ad-",C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+con-com,"con-, com-",B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+e-ex,"e-, ex-",B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+pro,pro-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+retro,retro-,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+circum,circum-,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+bio,bio,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+chron,chron,C,Break It Apart,NOT_APPLICABLE,Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target.
+chron,chron,C,Build Words,NOT_APPLICABLE,The only currently approved clean CHRON decomposition is reserved/protected; the safe ordinary CHRON words do not yet have an approved clean segmentation.
+chron,chron,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+duct,duct/duce,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+fer,fer,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ject,ject,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+mit,mit,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+pel,pel,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+pend,pend/pens,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+port,port,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+pos,pos,C,Break It Apart,NOT_APPLICABLE,Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target.
+pos,pos,C,Build Words,NOT_APPLICABLE,The safe ordinary POS words in the master inventory do not currently have an approved clean decomposition for movable Build tiles.
+pos,pos,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+put,put,C,Break It Apart,NOT_APPLICABLE,PUT words in the master inventory do not have an approved transparent segmentation. Do not force word-part boundaries on synchronically opaque forms.
+put,put,C,Figure It Out,NOT_APPLICABLE,"PUT words are low-transparency recognition/stretch items, and the master inventory explicitly warns against independent Figure It Out."
+put,put,C,Build Words,NOT_APPLICABLE,"PUT words are low-transparency recognition/stretch items, and the master inventory explicitly warns against independent Build Words."
+put,put,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+rupt,rupt,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+scrib,scrib/script,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+sequ,sequ,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+spect,spect,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+struct,struct,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ten,ten,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+tract,tract,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+val,val,C,Break It Apart,NOT_APPLICABLE,Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target.
+val,val,C,Build Words,NOT_APPLICABLE,"The cleanest available VAL candidate is protected, while the safe ordinary VAL words do not currently have an approved clean decomposition for Build."
+val,val,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ven,ven/vent,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+vert,vert,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+voc,voc,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+act,act,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+aud,aud,C,Break It Apart,NOT_APPLICABLE,Break It Apart is intentionally not applicable: no clean ordinary full segmentation is approved for this target.
+aud,aud,C,Build Words,NOT_APPLICABLE,The currently cleanly segmented AUD words are protected; the safe ordinary AUD words do not have an approved clean decomposition for Build.
+aud,aud,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+cred,cred,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+dict,dict,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+form,form,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+graph,graph,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+mot,mot/mov,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+vis,vis/vid,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+micro,micro,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+tele,tele,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+auto,auto,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+biblio,biblio,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+derm,derm/dermat,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+phon,phon/phone,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+scop,scop/scope,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+metr,metr/meter,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+therm,therm,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+geo,geo,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+terr,terr,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+al,-al,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ance,-ance,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ence,-ence,C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ic,-ic,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ity,-ity,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ive,-ive,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ist,-ist,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ize,-ize,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ify,-ify,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ness,-ness,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ology,-ology,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+able-ible,"-able, -ible",A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ed,-ed,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+er-or,"-er, -or",A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+er-more,-er,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+est,-est,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ful,-ful,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ing,-ing,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ion,"-ion, -tion, -sion",A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+less,-less,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ly-adverb,-ly,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ly-adjective,-ly,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ment,-ment,A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ous,-ous,B,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ant-ent-agent,"-ant, -ent",C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+ant-ent-adjective,"-ant, -ent",C,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.
+s-es,"-s, -es",A,Change It,NOT_APPLICABLE,Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target.

@@ -2377,14 +2377,12 @@ const wordHuntQuestions = [
     label: "pre-",
     meaning: "before",
     words: [
-      { word: "preview", correct: true, before: "", target: "pre", after: "view" },
-      { word: "preheat", correct: true, before: "", target: "pre", after: "heat" },
       { word: "preschool", correct: true, before: "", target: "pre", after: "school" },
-      { word: "pregame", correct: true, before: "", target: "pre", after: "game" },
-      { word: "rebuild", correct: false },
-      { word: "transport", correct: false },
-      { word: "unhappy", correct: false },
-      { word: "submarine", correct: false }
+      { word: "precook", correct: true, before: "", target: "pre", after: "cook" },
+      { word: "nonverbal", correct: false },
+      { word: "submarine", correct: false },
+      { word: "misread", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2394,14 +2392,12 @@ const wordHuntQuestions = [
     label: "re-",
     meaning: "again; back",
     words: [
-      { word: "rebuild", correct: true, before: "", target: "re", after: "build" },
-      { word: "reread", correct: true, before: "", target: "re", after: "read" },
       { word: "rewrite", correct: true, before: "", target: "re", after: "write" },
       { word: "return", correct: true, before: "", target: "re", after: "turn" },
-      { word: "preview", correct: false },
       { word: "misread", correct: false },
-      { word: "export", correct: false },
-      { word: "unhappy", correct: false }
+      { word: "submarine", correct: false },
+      { word: "nonverbal", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2415,10 +2411,10 @@ const wordHuntQuestions = [
       { word: "subsoil", correct: true, before: "", target: "sub", after: "soil" },
       { word: "submerge", correct: true, before: "", target: "sub", after: "merge" },
       { word: "subset", correct: true, before: "", target: "sub", after: "set" },
-      { word: "superhuman", correct: false },
-      { word: "transport", correct: false },
-      { word: "preview", correct: false },
-      { word: "nonverbal", correct: false }
+      { word: "nonverbal", correct: false },
+      { word: "misread", correct: false },
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false }
     ]
   },
 
@@ -2430,12 +2426,11 @@ const wordHuntQuestions = [
     words: [
       { word: "misread", correct: true, before: "", target: "mis", after: "read" },
       { word: "misfire", correct: true, before: "", target: "mis", after: "fire" },
-      { word: "misplace", correct: true, before: "", target: "mis", after: "place" },
       { word: "mistake", correct: true, before: "", target: "mis", after: "take" },
-      { word: "reread", correct: false },
       { word: "disconnect", correct: false },
-      { word: "preview", correct: false },
-      { word: "overcook", correct: false }
+      { word: "submarine", correct: false },
+      { word: "nonverbal", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2448,12 +2443,11 @@ const wordHuntQuestions = [
     words: [
       { word: "construct", correct: true, before: "con", target: "struct", after: "" },
       { word: "structure", correct: true, before: "", target: "struct", after: "ure" },
-      { word: "reconstruct", correct: true, before: "recon", target: "struct", after: "" },
       { word: "instruct", correct: true, before: "in", target: "struct", after: "" },
-      { word: "transport", correct: false },
-      { word: "inspect", correct: false },
       { word: "rupture", correct: false },
-      { word: "sequence", correct: false }
+      { word: "sequence", correct: false },
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false }
     ]
   },
 
@@ -2463,14 +2457,12 @@ const wordHuntQuestions = [
     label: "port",
     meaning: "carry",
     words: [
-      { word: "transport", correct: true, before: "trans", target: "port", after: "" },
-      { word: "portable", correct: true, before: "", target: "port", after: "able" },
-      { word: "import", correct: true, before: "im", target: "port", after: "" },
-      { word: "export", correct: true, before: "ex", target: "port", after: "" },
+      { word: "porter", correct: true, before: "", target: "port", after: "er" },
+      { word: "support", correct: true, before: "sup", target: "port", after: "" },
       { word: "construct", correct: false },
       { word: "rupture", correct: false },
-      { word: "spectator", correct: false },
-      { word: "sequence", correct: false }
+      { word: "sequence", correct: false },
+      { word: "perspective", correct: false }
     ]
   },
 
@@ -2480,14 +2472,12 @@ const wordHuntQuestions = [
     label: "spect",
     meaning: "look; watch",
     words: [
-      { word: "inspect", correct: true, before: "in", target: "spect", after: "" },
-      { word: "spectator", correct: true, before: "", target: "spect", after: "ator" },
-      { word: "inspector", correct: true, before: "in", target: "spect", after: "or" },
-      { word: "perspective", correct: true, before: "per", target: "spect", after: "ive" },
-      { word: "manuscript", correct: false },
-      { word: "transport", correct: false },
-      { word: "structure", correct: false },
-      { word: "sequence", correct: false }
+      { word: "prospective", correct: true, before: "pro", target: "spect", after: "ive" },
+      { word: "respect", correct: true, before: "re", target: "spect", after: "" },
+      { word: "credible", correct: false },
+      { word: "tenable", correct: false },
+      { word: "biography", correct: false },
+      { word: "transportation", correct: false }
     ]
   },
 
@@ -2498,13 +2488,11 @@ const wordHuntQuestions = [
     meaning: "break",
     words: [
       { word: "rupture", correct: true, before: "", target: "rupt", after: "ure" },
-      { word: "interrupt", correct: true, before: "inter", target: "rupt", after: "" },
-      { word: "disrupt", correct: true, before: "dis", target: "rupt", after: "" },
       { word: "eruption", correct: true, before: "e", target: "rupt", after: "ion" },
       { word: "construct", correct: false },
-      { word: "portable", correct: false },
       { word: "sequence", correct: false },
-      { word: "inspect", correct: false }
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false }
     ]
   },
 
@@ -2515,14 +2503,12 @@ const wordHuntQuestions = [
     label: "-ful",
     meaning: "full of",
     words: [
-      { word: "helpful", correct: true, before: "help", target: "ful", after: "" },
-      { word: "hopeful", correct: true, before: "hope", target: "ful", after: "" },
       { word: "careful", correct: true, before: "care", target: "ful", after: "" },
       { word: "playful", correct: true, before: "play", target: "ful", after: "" },
-      { word: "hopeless", correct: false },
       { word: "quickly", correct: false },
       { word: "movement", correct: false },
-      { word: "walked", correct: false }
+      { word: "walked", correct: false },
+      { word: "running", correct: false }
     ]
   },
 
@@ -2532,14 +2518,14 @@ const wordHuntQuestions = [
     label: "-less",
     meaning: "without",
     words: [
-      { word: "hopeless", correct: true, before: "hope", target: "less", after: "" },
-      { word: "careless", correct: true, before: "care", target: "less", after: "" },
-      { word: "fearless", correct: true, before: "fear", target: "less", after: "" },
-      { word: "speechless", correct: true, before: "speech", target: "less", after: "" },
-      { word: "helpful", correct: false },
-      { word: "slowly", correct: false },
+      { word: "cloudless", correct: true, before: "cloud", target: "less", after: "" },
+      { word: "endless", correct: true, before: "end", target: "less", after: "" },
+      { word: "harmless", correct: true, before: "harm", target: "less", after: "" },
+      { word: "painless", correct: true, before: "pain", target: "less", after: "" },
+      { word: "quickly", correct: false },
       { word: "movement", correct: false },
-      { word: "jumped", correct: false }
+      { word: "jumped", correct: false },
+      { word: "running", correct: false }
     ]
   },
 
@@ -2554,9 +2540,9 @@ const wordHuntQuestions = [
       { word: "sleeping", correct: true, before: "sleep", target: "ing", after: "" },
       { word: "jumping", correct: true, before: "jump", target: "ing", after: "" },
       { word: "walked", correct: false },
-      { word: "helpful", correct: false },
       { word: "fastest", correct: false },
-      { word: "movement", correct: false }
+      { word: "movement", correct: false },
+      { word: "boxes", correct: false }
     ]
   },
 
@@ -2571,9 +2557,9 @@ const wordHuntQuestions = [
       { word: "helped", correct: true, before: "help", target: "ed", after: "" },
       { word: "painted", correct: true, before: "paint", target: "ed", after: "" },
       { word: "running", correct: false },
-      { word: "hopeful", correct: false },
       { word: "fastest", correct: false },
-      { word: "boxes", correct: false }
+      { word: "boxes", correct: false },
+      { word: "movement", correct: false }
     ]
   }
 ,
@@ -2585,12 +2571,12 @@ const wordHuntQuestions = [
     label: "un-",
     meaning: "not",
     words: [
-      { word: "unhappy", correct: true, before: "", target: "un", after: "happy" },
-      { word: "unfair", correct: true, before: "", target: "un", after: "fair" },
-      { word: "rebuild", correct: false },
+      { word: "unsafe", correct: true, before: "", target: "un", after: "safe" },
+      { word: "unclear", correct: true, before: "", target: "un", after: "clear" },
       { word: "misread", correct: false },
-      { word: "preview", correct: false },
-      { word: "nonverbal", correct: false }
+      { word: "nonverbal", correct: false },
+      { word: "submarine", correct: false },
+      { word: "movement", correct: false }
     ]
   },
   {
@@ -2601,10 +2587,10 @@ const wordHuntQuestions = [
     words: [
       { word: "unlock", correct: true, before: "", target: "un", after: "lock" },
       { word: "untie", correct: true, before: "", target: "un", after: "tie" },
-      { word: "rebuild", correct: false },
       { word: "misread", correct: false },
-      { word: "preview", correct: false },
-      { word: "nonverbal", correct: false }
+      { word: "nonverbal", correct: false },
+      { word: "submarine", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2615,13 +2601,11 @@ const wordHuntQuestions = [
     meaning: "apart; away; not; opposite of",
     words: [
       { word: "disconnect", correct: true, before: "", target: "dis", after: "connect" },
-      { word: "dislike", correct: true, before: "", target: "dis", after: "like" },
-      { word: "disagree", correct: true, before: "", target: "dis", after: "agree" },
       { word: "disobey", correct: true, before: "", target: "dis", after: "obey" },
-      { word: "rebuild", correct: false },
-      { word: "preview", correct: false },
       { word: "submarine", correct: false },
-      { word: "transport", correct: false }
+      { word: "nonverbal", correct: false },
+      { word: "misread", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2631,14 +2615,12 @@ const wordHuntQuestions = [
     label: "trans-",
     meaning: "across",
     words: [
-      { word: "transport", correct: true, before: "", target: "trans", after: "port" },
       { word: "transform", correct: true, before: "", target: "trans", after: "form" },
-      { word: "transmit", correct: true, before: "", target: "trans", after: "mit" },
       { word: "transfer", correct: true, before: "", target: "trans", after: "fer" },
-      { word: "preview", correct: false },
-      { word: "rebuild", correct: false },
       { word: "submarine", correct: false },
-      { word: "nonverbal", correct: false }
+      { word: "nonverbal", correct: false },
+      { word: "misread", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2651,11 +2633,10 @@ const wordHuntQuestions = [
       { word: "nonverbal", correct: true, before: "", target: "non", after: "verbal" },
       { word: "nonfiction", correct: true, before: "", target: "non", after: "fiction" },
       { word: "nonstop", correct: true, before: "", target: "non", after: "stop" },
-      { word: "nonliving", correct: true, before: "", target: "non", after: "living" },
-      { word: "unhappy", correct: false },
       { word: "misread", correct: false },
-      { word: "preview", correct: false },
-      { word: "transport", correct: false }
+      { word: "submarine", correct: false },
+      { word: "movement", correct: false },
+      { word: "quickly", correct: false }
     ]
   },
 
@@ -2667,13 +2648,12 @@ const wordHuntQuestions = [
     meaning: "say; tell",
     words: [
       { word: "predict", correct: true, before: "pre", target: "dict", after: "" },
-      { word: "dictate", correct: true, before: "", target: "dict", after: "ate" },
       { word: "prediction", correct: true, before: "pre", target: "dict", after: "ion" },
       { word: "predictive", correct: true, before: "pre", target: "dict", after: "ive" },
-      { word: "inspect", correct: false },
-      { word: "portable", correct: false },
       { word: "sequence", correct: false },
-      { word: "construct", correct: false }
+      { word: "construct", correct: false },
+      { word: "rupture", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2687,10 +2667,10 @@ const wordHuntQuestions = [
       { word: "geography", correct: true, before: "geo", target: "graph", after: "y" },
       { word: "bibliography", correct: true, before: "biblio", target: "graph", after: "y" },
       { word: "graphical", correct: true, before: "", target: "graph", after: "ical" },
-      { word: "portable", correct: false },
       { word: "sequence", correct: false },
-      { word: "audible", correct: false },
-      { word: "construct", correct: false }
+      { word: "construct", correct: false },
+      { word: "rupture", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2702,12 +2682,10 @@ const wordHuntQuestions = [
     words: [
       { word: "project", correct: true, before: "pro", target: "ject", after: "" },
       { word: "projection", correct: true, before: "pro", target: "ject", after: "ion" },
-      { word: "reject", correct: true, before: "re", target: "ject", after: "" },
-      { word: "inject", correct: true, before: "in", target: "ject", after: "" },
-      { word: "inspect", correct: false },
-      { word: "transport", correct: false },
       { word: "sequence", correct: false },
-      { word: "credible", correct: false }
+      { word: "credible", correct: false },
+      { word: "construct", correct: false },
+      { word: "rupture", correct: false }
     ]
   },
 
@@ -2720,11 +2698,10 @@ const wordHuntQuestions = [
       { word: "attract", correct: true, before: "at", target: "tract", after: "" },
       { word: "distraction", correct: true, before: "dis", target: "tract", after: "ion" },
       { word: "extraction", correct: true, before: "ex", target: "tract", after: "ion" },
-      { word: "retractable", correct: true, before: "re", target: "tract", after: "able" },
-      { word: "portable", correct: false },
       { word: "construct", correct: false },
-      { word: "inspect", correct: false },
-      { word: "sequence", correct: false }
+      { word: "sequence", correct: false },
+      { word: "rupture", correct: false },
+      { word: "movement", correct: false }
     ]
   },
 
@@ -2738,11 +2715,10 @@ const wordHuntQuestions = [
       { word: "quickly", correct: true, before: "quick", target: "ly", after: "" },
       { word: "slowly", correct: true, before: "slow", target: "ly", after: "" },
       { word: "carefully", correct: true, before: "careful", target: "ly", after: "" },
-      { word: "suddenly", correct: true, before: "sudden", target: "ly", after: "" },
       { word: "movement", correct: false },
-      { word: "helpful", correct: false },
       { word: "walked", correct: false },
-      { word: "portable", correct: false }
+      { word: "running", correct: false },
+      { word: "boxes", correct: false }
     ]
   },
 
@@ -2750,16 +2726,15 @@ const wordHuntQuestions = [
     type: "suffix",
     itemId: "ment",
     label: "-ment",
-    meaning: "act; process; result",
+    meaning: "an action, process, result, or state",
     words: [
       { word: "movement", correct: true, before: "move", target: "ment", after: "" },
-      { word: "agreement", correct: true, before: "agree", target: "ment", after: "" },
-      { word: "treatment", correct: true, before: "treat", target: "ment", after: "" },
+      { word: "enjoyment", correct: true, before: "enjoy", target: "ment", after: "" },
       { word: "development", correct: true, before: "develop", target: "ment", after: "" },
       { word: "quickly", correct: false },
-      { word: "hopeful", correct: false },
       { word: "prediction", correct: false },
-      { word: "visible", correct: false }
+      { word: "walked", correct: false },
+      { word: "running", correct: false }
     ]
   },
 
@@ -2772,11 +2747,10 @@ const wordHuntQuestions = [
       { word: "motion", correct: true, before: "mot", target: "ion", after: "" },
       { word: "prediction", correct: true, before: "predict", target: "ion", after: "" },
       { word: "projection", correct: true, before: "project", target: "ion", after: "" },
-      { word: "inspection", correct: true, before: "inspect", target: "ion", after: "" },
       { word: "movement", correct: false },
       { word: "quickly", correct: false },
-      { word: "portable", correct: false },
-      { word: "helpful", correct: false }
+      { word: "sequence", correct: false },
+      { word: "construct", correct: false }
     ]
   },
 
@@ -2786,14 +2760,14 @@ const wordHuntQuestions = [
     label: "-able / -ible",
     meaning: "able to be",
     words: [
-      { word: "portable", correct: true, before: "port", target: "able", after: "" },
-      { word: "visible", correct: true, before: "vis", target: "ible", after: "" },
       { word: "credible", correct: true, before: "cred", target: "ible", after: "" },
-      { word: "audible", correct: true, before: "aud", target: "ible", after: "" },
+      { word: "incredible", correct: true, before: "incred", target: "ible", after: "" },
+      { word: "tenable", correct: true, before: "ten", target: "able", after: "" },
+      { word: "biodegradable", correct: true, before: "biodegrad", target: "able", after: "" },
       { word: "movement", correct: false },
       { word: "quickly", correct: false },
       { word: "prediction", correct: false },
-      { word: "hopeful", correct: false }
+      { word: "sequence", correct: false }
     ]
   },
 
@@ -2839,31 +2813,13 @@ const wordHuntQuestions = [
     label: "a-, ad-",
     meaning: "to; toward",
     words: [
-      {
-        word: "adjoin",
-        correct: true,
-        before: "",
-        target: "ad",
-        after: "join"
-      },
-      {
-        word: "adhere",
-        correct: true,
-        before: "",
-        target: "ad",
-        after: "here"
-      },
-      {
-        word: "advance",
-        correct: true,
-        before: "",
-        target: "ad",
-        after: "vance"
-      },
-      { word: "abduct", correct: false },
-      { word: "retroactive", correct: false },
+      { word: "adjoin", correct: true, before: "", target: "ad", after: "join" },
+      { word: "adhere", correct: true, before: "", target: "ad", after: "here" },
+      { word: "advance", correct: true, before: "", target: "ad", after: "vance" },
       { word: "transfer", correct: false },
-      { word: "underpaid", correct: false }
+      { word: "underpaid", correct: false },
+      { word: "sequence", correct: false },
+      { word: "construct", correct: false }
     ]
   }
 

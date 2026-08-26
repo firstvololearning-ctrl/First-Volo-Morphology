@@ -9969,5 +9969,161 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "high",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "reviewCaution": null
+  },
+  {
+    "word": "unlock",
+    "targetSenseIds": [
+      "un-reversative"
+    ],
+    "status": "current",
+    "morphemes": [
+      "un-"
+    ],
+    "segmentation": "un- + lock",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "reverse the locked state",
+    "definition": "to open something that was locked",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked",
+      "auditRationale": "Existing Flight A Word Hunt target word; canonicalized to remove a second-source-only digital word."
+    }
+  },
+  {
+    "word": "precook",
+    "targetSenseIds": [
+      "pre"
+    ],
+    "status": "current",
+    "morphemes": [
+      "pre-"
+    ],
+    "segmentation": "pre- + cook",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "cook before",
+    "definition": "to cook something before a later step or use",
+    "recommendedActivityUse": "Learn / Find / Word Hunt / Meaning / Word Part / Break It Apart / Figure It Out",
+    "evidence": {
+      "curriculumEvidence": "Existing First Volo COOK-family printable word; promoted to canonical ordinary digital practice to replace protected pre- words.",
+      "auditRationale": "Repairs Student Digital Word Hunt without exposing formal, Migration, or Check Transfer vocabulary."
+    }
+  },
+  {
+    "word": "porter",
+    "targetSenseIds": [
+      "port"
+    ],
+    "status": "current",
+    "morphemes": [
+      "port"
+    ],
+    "segmentation": "port + -er",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "RF.4-5.3a; L.4-5.4b",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "person who carries",
+    "definition": "a person whose job includes carrying luggage or supplies",
+    "recommendedActivityUse": "Learn / Find / Word Hunt / Meaning / Word Part / Break It Apart / Figure It Out",
+    "evidence": {
+      "curriculumEvidence": "Existing First Volo PORT-family printable clue: a person who carries luggage or supplies.",
+      "auditRationale": "Canonicalized from an existing print resource so PORT Word Hunt does not teach protected import/export/transport/portable words."
+    }
+  },
+  {
+    "word": "support",
+    "targetSenseIds": [
+      "port"
+    ],
+    "status": "current",
+    "morphemes": [
+      "port"
+    ],
+    "segmentation": "sup- + port",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "RF.4-5.3a; L.4-5.4b",
+    "vocabLevel": "familiar",
+    "transparency": "medium",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "high",
+    "literal": "carry or hold up from below",
+    "definition": "to hold up or help something",
+    "recommendedActivityUse": "Learn / Find / Word Hunt / Meaning / Word Part; Figure It Out with scaffolding",
+    "reviewCaution": "Use the carry/hold-up bridge explicitly; do not overstate the modern whole-word meaning as a literal sum.",
+    "evidence": {
+      "curriculumEvidence": "Existing First Volo PORT-family printable clue: hold up from below.",
+      "auditRationale": "Canonicalized from an existing print resource as an ordinary PORT recognition/meaning word."
+    }
+  },
+  {
+    "word": "unsafe",
+    "targetSenseIds": [
+      "un-negation"
+    ],
+    "status": "current",
+    "morphemes": [
+      "un-"
+    ],
+    "segmentation": "un- + safe",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "high",
+    "literal": "not safe",
+    "definition": "not safe; likely to cause harm",
+    "recommendedActivityUse": "Learn / Find / Word Hunt / Meaning / Word Part / Break It Apart / Figure It Out",
+    "evidence": {
+      "auditRationale": "First Volo-curated high-transparency ordinary practice replacement because the prior un-negation examples are protected assessment/transfer words."
+    }
+  },
+  {
+    "word": "unclear",
+    "targetSenseIds": [
+      "un-negation"
+    ],
+    "status": "current",
+    "morphemes": [
+      "un-"
+    ],
+    "segmentation": "un- + clear",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2.4b-c; RF.3.3a-b; L.3.4b-c",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "high",
+    "literal": "not clear",
+    "definition": "not easy to understand or see clearly",
+    "recommendedActivityUse": "Learn / Find / Word Hunt / Meaning / Word Part / Break It Apart / Figure It Out",
+    "evidence": {
+      "auditRationale": "First Volo-curated high-transparency ordinary practice replacement because the prior un-negation examples are protected assessment/transfer words."
+    }
   }
 ];
