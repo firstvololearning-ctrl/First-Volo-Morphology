@@ -93,6 +93,54 @@
 
     }
 
+    /*
+      Change It is applicable only when this target has at least one
+      ordinary, unprotected inventory entry with a validated context-driven
+      changeTask whose expected form is also unprotected. Keep this gate
+      aligned with the filtering used by buildItems().
+    */
+    if (activity === "change") {
+      const meta = targetMeta(target);
+
+      const hasValidatedChangeTask =
+        wordInventory().some(entry => {
+          if (
+            !entryMatchesTarget(
+              entry,
+              target,
+              meta
+            ) ||
+            isProtected(entry.word) ||
+            !activityEligible(
+              entry,
+              "change",
+              target,
+              meta
+            )
+          ) {
+            return false;
+          }
+
+          const change =
+            changeTaskDetails(entry);
+
+          return Boolean(
+            change &&
+            !isProtected(
+              change.expectedWord
+            )
+          );
+        });
+
+      if (!hasValidatedChangeTask) {
+        return {
+          applicable: false,
+          reason:
+            "Change It is intentionally not applicable: no validated ordinary context-driven form-change task is available for this target."
+        };
+      }
+    }
+
     const targetId = target?.id || null;
     const reason =
       ACTIVITY_APPLICABILITY_OVERRIDES[targetId]?.[activity] || null;

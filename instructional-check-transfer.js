@@ -80,7 +80,7 @@
     "tele",
     "auto",
     "biblio",
-    "derma",
+    "derm",
     "phon",
     "scop",
     "metr",
@@ -1308,9 +1308,9 @@
         }),
       ])
     }),
-    "derma": Object.freeze({
-      targetIds: Object.freeze(["derma"]),
-      targetLabels: Object.freeze(["derma"]),
+    "derm": Object.freeze({
+      targetIds: Object.freeze(["derm"]),
+      targetLabels: Object.freeze(["derm/dermat"]),
       gradeBands: Object.freeze(["6-8"]),
       items: Object.freeze([
         Object.freeze({

@@ -267,7 +267,7 @@ const FIRST_VOLO_TOKEN_SETS = [
       "val",
       "ven",
       "biblio",
-      "derma",
+      "derm",
       "terr"
     ]
   },

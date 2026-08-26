@@ -29,6 +29,22 @@ for (const match of coverageSource.matchAll(requirePattern)) {
   }
 }
 
+const selectorPath =
+  path.join(__dirname, "instructional-word-selector.js");
+
+if (
+  fs.existsSync(selectorPath) &&
+  !loaded.has(selectorPath)
+) {
+  require(selectorPath);
+  loaded.add(selectorPath);
+}
+
+if (!global.FirstVoloInstructionalWordSelector?.segmentationPieceValidation) {
+  console.error("Instructional word selector unavailable.");
+  process.exit(1);
+}
+
 const bank =
   global.FirstVoloSessionItemBank;
 

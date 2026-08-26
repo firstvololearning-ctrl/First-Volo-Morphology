@@ -902,8 +902,8 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
   },
   {
     "type": "root",
-    "id": "derma",
-    "label": "derma",
+    "id": "derm",
+    "label": "derm/dermat",
     "meaning": "skin",
     "introBand": "6-8",
     "ccssSkill": "L.6–8.4b",
@@ -1409,7 +1409,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -1766,6 +1766,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "aud"
     ],
+    "literal": "hearing or listening; people who listen",
+    "definition": "a group of people who listen to, watch, or read something",
+    "teachingContext": "The audience listened carefully while the speaker explained the idea.",
+    "reviewCaution": "Sense-restricted semantic-bridge item: connect aud = hear to the historical meanings hearing or listening and assembly of listeners. Use a listening/hearing context for morphology inference; explain viewers and readers as later extensions. Treat aud as the target clue without requiring a full segmentation.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "4-5",
@@ -1774,7 +1778,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "high",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1166,
@@ -2672,6 +2676,16 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "duct/duce"
     ],
+    "segmentation": "con- + duct",
+    "definition": "to lead, direct, or manage an activity",
+    "nonTargetSupports": [
+      {
+        "part": "con-",
+        "meaning": "with; together",
+        "role": "prefix"
+      }
+    ],
+    "reviewCaution": "Sense-restricted inference item: use the verb sense to lead, direct, or manage. Do not use the noun sense meaning behavior for duct/duce inference. If con- is a barrier, supply con- = with/together after the independent attempt, then retry the same inference.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "4-5",
@@ -3035,6 +3049,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "cred"
     ],
+    "literal": "belief; trust",
+    "definition": "trust or confidence in someone, including confidence that they will repay money",
+    "teachingContext": "The bank gave her credit because it trusted that she would repay the money.",
+    "reviewCaution": "Guided semantic-bridge item: connect cred = trust or believe to the historical meanings belief and trust, then to modern financial credit as confidence that someone will repay. Academic credit, movie credits, and praise or acknowledgment are later extensions and should not be used as independent evidence for cred = trust/believe. Keep the complete surface segmentation unasserted.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "4-5",
@@ -3043,7 +3061,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "high",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "ngsl": true,
       "ngslRank": 944,
@@ -3268,7 +3286,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "status": "current",
     "morphemes": [
       "-al",
-      "derma"
+      "derm"
     ],
     "segmentation": "derm + -al",
     "morphemeIntroBand": "6-8",
@@ -3290,7 +3308,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "dermatitis",
     "status": "recommended",
     "morphemes": [
-      "derma"
+      "derm"
     ],
     "segmentation": "dermat + -itis",
     "morphemeIntroBand": "6-8",
@@ -3312,7 +3330,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "dermatologist",
     "status": "current",
     "morphemes": [
-      "derma"
+      "derm"
     ],
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
@@ -3332,8 +3350,14 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "dermatology",
     "status": "current",
     "morphemes": [
-      "derma"
+      "-ology",
+      "derm"
     ],
+    "segmentation": "dermat + ology",
+    "literal": "study of skin",
+    "definition": "the medical field focused on the skin and its conditions",
+    "teachingContext": "Dermatology is the medical field that focuses on the skin and skin conditions.",
+    "reviewCaution": "Clean compositional item: connect dermat- = skin with -ology = study of. Treat dermat- as the surface form of the derm/dermat root family. Do not analyze dermatology as derma + tology or teach the o as a separate morpheme.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "6-8",
@@ -3342,7 +3366,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning / Word Part / Figure It Out / Break It Apart; Build Words when both displayed pieces are explicitly taught",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -3374,6 +3398,17 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "scrib/script"
     ],
+    "literal": "write down; represent",
+    "definition": "to represent or explain something in words",
+    "teachingContext": "Describe the animal so someone who cannot see it can picture what it is like.",
+    "nonTargetSupports": [
+      {
+        "part": "de-",
+        "meaning": "down",
+        "role": "prefix"
+      }
+    ],
+    "reviewCaution": "Guided semantic-bridge item: connect scrib/script = write to the historical relationship write down or represent, then to the modern meaning represent in words. Use context for the modern sense. Do not require a full segmentation unless the complete surface structure is separately validated.",
     "morphemeIntroBand": "4-5",
     "practiceBand": "4-5",
     "accessibilityBand": "4-5",
@@ -3382,7 +3417,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "high",
     "vocabConfidence": "high",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "ngsl": true,
       "ngslRank": 457,
@@ -3412,7 +3447,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
     "definition": "the act or process of destroying",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "ngsl": true,
       "ngslRank": 2588,
@@ -4066,7 +4101,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "word": "epidermis",
     "status": "recommended",
     "morphemes": [
-      "derma"
+      "derm"
     ],
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
@@ -5556,6 +5591,16 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "duct/duce"
     ],
+    "segmentation": "intro- + duce",
+    "literal": "lead in; bring in",
+    "nonTargetSupports": [
+      {
+        "part": "intro-",
+        "meaning": "inward; to the inside",
+        "role": "prefix"
+      }
+    ],
+    "reviewCaution": "Clean compositional item for duct/duce = lead. For Break It Apart, analyze intro- + duce; if intro- is unfamiliar, supply intro- = inward/to the inside while keeping duct/duce reasoning as the student's job.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "2-3",
@@ -6430,8 +6475,10 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "gradeConfidence": "medium",
     "vocabConfidence": "medium",
     "literal": "hanging thing",
-    "definition": "a weight that hangs and swings back and forth",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
+    "definition": "a weight that hangs from a fixed point and swings back and forth",
+    "teachingContext": "The pendulum hangs from a fixed point and swings back and forth.",
+    "reviewCaution": "Target-reasoning item: pend/pens = hang directly contributes to the modern meaning because a pendulum is a hanging object. Independent target inference is appropriate; keep the complete surface segmentation unasserted.",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "Not checked"
@@ -7116,7 +7163,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "high",
     "literal": "throw forward",
     "semanticBridgeQuality": "high",
-    "definition": "to extend, send, or show something forward",
+    "definition": "to cast, send, show, or extend something forward",
+    "teachingContext": "The projector will project the image onto the screen.",
+    "reviewCaution": "Sense-restricted inference item: use a verb sense that preserves the cast/send/extend-forward relationship, such as projecting an image, projecting the voice, or projecting outward. Do not use the noun sense meaning a school assignment as independent evidence for ject = throw.",
     "recommendedActivityUse": "Full practice; Build only when all displayed pieces are explicitly taught",
     "evidence": {
       "ngsl": true,
@@ -7667,6 +7716,16 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "retro-"
     ],
+    "segmentation": "retro- + fit",
+    "definition": "modify an existing thing to include newer features, equipment, or changes",
+    "nonTargetSupports": [
+      {
+        "part": "fit",
+        "meaning": "provide with what is suitable; equip",
+        "role": "lexical base"
+      }
+    ],
+    "reviewCaution": "Conditional inference item: preserve retro- = back/backward as the target. If fit is the barrier, supply fit = provide with what is suitable/equip after the independent attempt, then retry the same inference.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "6-8",
@@ -7675,7 +7734,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "low",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Break It Apart; Build Words when both displayed pieces are explicitly taught",
     "evidence": {
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
@@ -9209,6 +9268,9 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "morphemes": [
       "val"
     ],
+    "definition": "well-grounded, supported by facts or reasoning, or having recognized force",
+    "teachingContext": "The conclusion is valid because the evidence strongly supports it.",
+    "reviewCaution": "Guided semantic-bridge item: connect val = strong to the historical meanings strong, effective, or powerful, then to modern valid meaning well-grounded, supported, or having force. Treat val as the target clue without requiring a full segmentation.",
     "morphemeIntroBand": "6-8",
     "practiceBand": "6-8",
     "accessibilityBand": "6-8",
@@ -9217,7 +9279,7 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "medium",
     "gradeConfidence": "medium",
     "vocabConfidence": "high",
-    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Build only if segmentation is clean",
+    "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding",
     "evidence": {
       "nawl": true,
       "wviVerification": "Not bulk-verified",

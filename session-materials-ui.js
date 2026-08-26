@@ -11855,7 +11855,7 @@ function ensureReadyMaterialContainer() {
               </p>
 
               <p>
-                <strong>If the parts are right but the order is not:</strong>
+                <strong>If the student has the right parts but puts them in the wrong place:</strong>
                 ask which part is the prefix, root/base, or suffix and where that kind of part belongs. Then let the student rearrange the build.
               </p>
 
@@ -11866,13 +11866,13 @@ function ensureReadyMaterialContainer() {
               </p>
 
               <p>
-                <strong>If the word is built correctly but the explanation is unclear:</strong>
+                <strong>If the student builds the word but cannot explain it:</strong>
                 ask, “What does each meaningful part add to the word?”
               </p>
 
               <p>
                 <strong>If the student is still blocked:</strong>
-                model one different build, then return to this item and let the student try again.
+                model how to complete a different build using parts not in this item, then return to this item and let the student try again.
               </p>
             </div>
           </div>

@@ -614,8 +614,16 @@
               expectedMeaning: "a person who leads an orchestra",
               changeExplanation: "conduct → conductor; -or makes a word for a person or thing that does the action"
             }),
-            activities: Object.freeze(["learn", "find", "hunt", "meaning", "morpheme", "infer", "use", "change"]),
-            semanticBridgeQuality: "avoid"
+            nonTargetSupports: Object.freeze([
+              Object.freeze({
+                part: "con-",
+                meaning: "with; together",
+                role: "prefix",
+                timing: "after-independent-attempt-when-needed"
+              })
+            ]),
+            reviewCaution: "Use the verb sense to lead, direct, or manage. Do not use the noun sense meaning behavior for duct/duce inference. If con- is the barrier, supply con- = with/together after the independent attempt, then retry.",
+            activities: Object.freeze(["learn", "find", "hunt", "meaning", "morpheme", "infer", "use", "change"])
           }),
           Object.freeze({
             word: "introduce",
@@ -636,7 +644,7 @@
               changeExplanation: "introduce → introduction; the form changes from a verb to a noun"
             }),
             activities: Object.freeze(["learn", "find", "hunt", "meaning", "morpheme", "infer", "use", "change"]),
-            semanticBridgeQuality: "avoid"
+            semanticBridgeQuality: "high"
           }),
           Object.freeze({
             word: "deduction",

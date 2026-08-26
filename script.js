@@ -939,10 +939,10 @@ const roots = [
   examples: ["bibliography", "bibliographic", "bibliophile"]
 },
 {
-  id: "derma",
+  id: "derm",
   type: "root",
-  label: "derma",
-  speech: "derma",
+  label: "derm/dermat",
+  speech: "derm or dermat",
   meaning: "skin",
   image: "images/roots/derma.png",
   examples: ["dermatology", "dermatologist", "dermal"]
@@ -4626,8 +4626,8 @@ const inferQuestions = [
 
   {
     type: "root",
-    itemId: "derma",
-    knownLabel: "derma",
+    itemId: "derm",
+    knownLabel: "derm",
     knownMeaning: "skin",
     word: "dermal",
     correct: "related to the skin",
@@ -4644,8 +4644,8 @@ const inferQuestions = [
 
   {
     type: "root",
-    itemId: "derma",
-    knownLabel: "derma",
+    itemId: "derm",
+    knownLabel: "dermat",
     knownMeaning: "skin",
     word: "dermatitis",
     correct: "inflammation of the skin",
