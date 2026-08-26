@@ -775,13 +775,12 @@ function printStudentForm() {
   .blank { display: inline-block; width: 110px; border-bottom: 1.5px solid #26384b; height: 18px; vertical-align: bottom; }
   .blank.long { width: 180px; }
   .write-lines span { display: block; border-bottom: 1px solid #8b99a8; height: 28px; }
-  footer { margin-top: 18px; padding-top: 8px; border-top: 2px solid #173b66; font-size: 9pt; color: #58697b; }
 </style>
 </head>
 <body>
 <header>
   <h1>Flight C Check-In</h1>
-  <div class="sub">${escapeHtml(formLabel)}</div>
+  <div class="sub">${escapeHtml(formLabel)} · First Volo Morphology</div>
   <div class="meta">
     <span>Student Code: ${escapeHtml(code || "________________")}</span>
     <span>Date: __________________</span>
@@ -789,7 +788,6 @@ function printStudentForm() {
 </header>
 <div class="directions">${escapeHtml(studentDirections)}</div>
 ${itemMarkup}
-<footer>First Volo Morphology · Student assessment form</footer>
 <script>window.addEventListener("load", () => setTimeout(() => window.print(), 150));<\/script>
 </body>
 </html>`);
