@@ -6988,6 +6988,7 @@ function activateActivityButton(mode) {
 }
 
 function renderCurrentActivity() {
+  renderWordBuildingActivityAvailability();
   const gradeFilteredMorphemeModes =
     new Set([
       "learn",
@@ -11454,3 +11455,83 @@ showStartMessage(
   The master inventory retains the original
   familiar / academic / challenge classifications.
 */
+
+
+/* ========================================
+   WORD-BUILDING ACTIVITY AVAILABILITY · 2026-08-26
+   ======================================== */
+
+function renderWordBuildingActivityAvailability() {
+  const wordBuildingModes = [
+    "prefix-root",
+    "root-suffix",
+    "prefix-root-suffix"
+  ];
+
+  /*
+    Before a study set is chosen, do not imply that
+    any activity is unavailable. Availability depends
+    on the Step 3 selection.
+  */
+  if (!studyMode) {
+    ["build", "use", "change"].forEach((mode) => {
+      const button = [...activityButtons].find(
+        (item) => item.dataset.mode === mode
+      );
+
+      if (!button) {
+        return;
+      }
+
+      button.disabled = false;
+
+      button.classList.remove(
+        "activity-unavailable"
+      );
+
+      button.removeAttribute(
+        "aria-disabled"
+      );
+
+      button.title = "";
+    });
+
+    return;
+  }
+
+  const hasWordBuildingSet =
+    wordBuildingModes.includes(studyMode);
+
+  ["build", "use", "change"].forEach((mode) => {
+    const button = [...activityButtons].find(
+      (item) => item.dataset.mode === mode
+    );
+
+    if (!button) {
+      return;
+    }
+
+    button.disabled = !hasWordBuildingSet;
+
+    button.classList.toggle(
+      "activity-unavailable",
+      !hasWordBuildingSet
+    );
+
+    if (!hasWordBuildingSet) {
+      button.setAttribute(
+        "aria-disabled",
+        "true"
+      );
+
+      button.title =
+        "Choose a word-building combination first.";
+    } else {
+      button.removeAttribute(
+        "aria-disabled"
+      );
+
+      button.title = "";
+    }
+  });
+}

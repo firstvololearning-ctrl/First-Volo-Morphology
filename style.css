@@ -7401,3 +7401,46 @@ header p {
     margin-right: 16px;
   }
 }
+
+/* === STRONG ACTIVITY AVAILABILITY · 2026-08-26 === */
+
+.activity-menu button:disabled,
+.activity-menu button.activity-unavailable {
+  position: relative;
+  opacity: 0.42 !important;
+  background: #eef2f5 !important;
+  border-color: #c9d2da !important;
+  color: #6f7c87 !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.activity-menu button:disabled:hover,
+.activity-menu button.activity-unavailable:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.activity-menu button:disabled .activity-icon,
+.activity-menu button.activity-unavailable .activity-icon {
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+
+.activity-menu button:disabled::after,
+.activity-menu button.activity-unavailable::after {
+  content: "Not available for this setup";
+  display: block;
+  margin-top: 6px;
+  font-size: 0.62rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: #66727d;
+}
+
+.activity-menu button[data-mode="build"]:disabled::after,
+.activity-menu button[data-mode="use"]:disabled::after,
+.activity-menu button[data-mode="change"]:disabled::after {
+  content: "Needs a word-building set";
+}
