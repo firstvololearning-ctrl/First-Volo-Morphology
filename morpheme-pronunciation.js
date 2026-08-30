@@ -38,8 +38,60 @@
   const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   const controlledManifest = Object.create(null);
+  const VERIFIED_TARGETS = Object.freeze({
+    chron: ["/krɑn/", "HUMAN PEDAGOGICAL DECISION", "short-o citation pronunciation; dialect-equivalent short-o realization allowed"],
+    ject: ["/dʒɛkt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    rupt: ["/rʌpt/", "HUMAN PEDAGOGICAL DECISION", "final /pt/ must be clearly present"],
+    spect: ["/spɛkt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    struct: ["/strʌkt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    tract: ["/trækt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    act: ["/ækt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    dict: ["/dɪkt/", "HUMAN PEDAGOGICAL DECISION", "final /kt/ must be clearly present"],
+    ize: ["/aɪz/", "HUMAN PEDAGOGICAL DECISION", "citation pronunciation is eyes; visible form remains -ize"],
+    tion: ["/ʃən/", "HUMAN PEDAGOGICAL DECISION", "suffix citation pronunciation"],
+    ic: ["/ɪk/", "HUMAN PEDAGOGICAL DECISION", "human cue: ick"],
+    ify: ["/ɪfaɪ/", "HUMAN PEDAGOGICAL DECISION", "suffix pronunciation represented in clarify, simplify, beautify"],
+    ance: ["/æns/", "HUMAN PEDAGOGICAL DECISION / USER-PROVIDED PRONUNCIATION REFERENCE", "examples: performance, importance, acceptance"],
+    ence: ["/ɛns/", "HUMAN PEDAGOGICAL DECISION / USER-PROVIDED PRONUNCIATION REFERENCE", "examples: difference, existence, evidence"],
+    ment: ["/mənt/", "HUMAN PEDAGOGICAL DECISION / USER-PROVIDED PRONUNCIATION REFERENCE", "final /t/ must be clearly audible; examples: movement, development, enjoyment"],
+    un: ["/ʌn/", "HUMAN PEDAGOGICAL DECISION", "ordinary English prefix citation pronunciation; not French-like une"],
+    in: ["/ɪn/", "HUMAN PEDAGOGICAL DECISION", "negative in- family member; retain as a separate controlled clip"],
+    im: ["/ɪm/", "HUMAN PEDAGOGICAL DECISION", "negative im- family member; retain as a separate controlled clip"],
+    il: ["/ɪl/", "HUMAN PEDAGOGICAL DECISION", "negative il- family member; retain as a separate controlled clip"],
+    ir: ["/ɪr/", "HUMAN PEDAGOGICAL DECISION", "negative ir- family member; retain as a separate controlled clip"],
+    ad: ["/æd/", "HUMAN PEDAGOGICAL DECISION", "short-a ad, like add; cue includes advent"],
+    ab: ["/æb/", "HUMAN PEDAGOGICAL DECISION", "short-a ab, like abs; cue includes absent"],
+    a: ["/ə/", "HUMAN PEDAGOGICAL DECISION + SOURCE DISTINCTION", "First Volo a- in the a-, ad- to/toward family; reduced citation uh. Greek negative a- /eɪ/ is a different morpheme."],
+    duce: ["/duːs/", "HUMAN PEDAGOGICAL DECISION", "Cue: the sound in reduce, produce, and introduce; not Italian Duce."],
+    duct: ["/dʌkt/", "HUMAN PEDAGOGICAL DECISION", "Complete final /kt/ cluster must be audible."],
+    pos: ["/poʊz/", "HUMAN PEDAGOGICAL DECISION", "American-English citation pose; do not use reduced position vowel."],
+    put: ["/pjuːt/", "HUMAN PEDAGOGICAL DECISION", "Citation pute; compute/dispute are clearest evidence."],
+    scrib: ["/skrɪb/", "HUMAN PEDAGOGICAL DECISION", "Intended scrib pronunciation was fine."],
+    script: ["/skrɪpt/", "HUMAN PEDAGOGICAL DECISION", "Complete final /pt/ cluster must be audible."],
+    sequ: ["/sɛkw/", "HUMAN PEDAGOGICAL DECISION", "Cue sekw; not letter names or /siːkw/."],
+    derm: ["existing intended citation pronunciation", "HUMAN PEDAGOGICAL DECISION", "Intended pronunciation was fine; preserve vowel and stress."],
+    dermat: ["existing intended citation pronunciation + clearly audible final /t/", "HUMAN PEDAGOGICAL DECISION", "Preserve vowel and stress; do not add a syllable or drop final /t/."],
+    ven: ["/vɛn/", "HUMAN PEDAGOGICAL DECISION", "Cue ven rhyming with hen/men; example intervene."],
+    vent: ["/vɛnt/", "HUMAN PEDAGOGICAL DECISION", "Ordinary English word vent; examples prevent and convention."],
+    voc: ["/vɑk/", "HUMAN PEDAGOGICAL DECISION", "American-English short-o citation vok."],
+    aud: ["/ɔd/", "HUMAN PEDAGOGICAL DECISION", "Cue awd; examples audio, audible, audience."],
+    geo: ["/ˈdʒiːoʊ/", "HUMAN PEDAGOGICAL DECISION", "Cue JEE-oh; source-supported by canonical examples."],
+    terr: ["/tɛr/", "HUMAN PEDAGOGICAL DECISION", "Cue beginning of terrain/terrier; First Volo American-English citation."],
+    al: ["/əl/", "HUMAN PEDAGOGICAL DECISION", "Unstressed uhl."],
+    ist: ["/ɪst/", "HUMAN PEDAGOGICAL DECISION", "Short-i ist."],
+    able: ["/əbəl/", "HUMAN PEDAGOGICAL DECISION", "Unstressed suffix uh-bull; not standalone able."],
+    ion: ["/ʃən/", "HUMAN PEDAGOGICAL DECISION + SOURCE SUPPORT", "First Volo pedagogical citation shun; example action; distinct written form from tion."],
+    sion: ["/ʒən/", "HUMAN PEDAGOGICAL DECISION + SOURCE SUPPORT", "Citation based on decision; contextual /ʃən/ variation also documented."],
+    ous: ["/əs/", "HUMAN PEDAGOGICAL DECISION", "Unstressed us."],
+    ant: ["/ənt/", "HUMAN PEDAGOGICAL DECISION", "Unstressed uhnt; not standalone insect ant."],
+    ent: ["/ənt/", "HUMAN PEDAGOGICAL DECISION", "Unstressed uhnt."],
+    s: [null, "HUMAN PEDAGOGICAL DECISION", "Context-dependent allomorphs /s/, /z/, /ɪz/; no universal IPA."],
+    es: [null, "HUMAN PEDAGOGICAL DECISION", "Context-dependent allomorphs /s/, /z/, /ɪz/; boxes is /ɪz/ but spelling is not universal."],
+    semi: ["/ˈsɛmi/", "HUMAN PEDAGOGICAL DECISION", "First Volo citation pronunciation: SEM-ee"]
+  });
+  const FAMILY_SPEAKING_RULES = Object.freeze({ "negative-in-family": "in or im or il or ir", "a-ad": "uh or ad", "s-es": "s or z or iz" });
   const EXAMPLE_EVIDENCE = Object.freeze({
-    un: ["unhappy", "unfair", "untie"], in: ["inactive"], im: ["impossible"], il: ["illegal"], ir: ["irregular"], semi: ["semicircle", "semicolon", "semifinal", "semisweet"], ab: ["abduct", "absent", "abnormal"], a: ["adhere"], ad: ["advance", "adjoin"], chron: ["chronology", "chronological", "synchronize"], duct: ["conduct"], duce: ["introduce", "produce"], ject: ["reject", "project", "eject"], pos: ["position", "deposit", "compose"], put: ["compute", "dispute", "reputation"], rupt: ["rupture", "interrupt", "disrupt"], scrib: ["describe"], script: ["scripted", "manuscript"], sequ: ["sequence", "consequence", "subsequent"], spect: ["inspect", "spectator", "respect"], struct: ["construct", "structure", "instruct"], tract: ["attract", "tractor", "extract"], ven: ["prevent"], vent: ["convention", "intervene"], voc: ["vocal", "vocation", "vocabulary"], act: ["active", "activity", "inactive"], aud: ["audio", "audible", "audience"], dict: ["predict", "dictionary", "contradict"], derm: ["epidermis"], dermat: ["dermatology", "dermatologist"], geo: ["geology", "geography", "geothermal"], terr: ["terrain", "territory", "subterranean"], al: ["natural", "musical", "regional"], ance: ["performance", "importance", "acceptance"], ence: ["difference", "existence", "evidence"], ic: ["poetic", "scientific", "historic"], ist: ["artist", "scientist", "pianist"], ize: ["realize", "modernize", "organize"], ify: ["clarify", "simplify", "beautify"], able: ["portable", "readable"], ion: ["action"], tion: ["construction"], sion: ["decision"], ment: ["movement", "development", "enjoyment"], ous: ["joyous", "dangerous", "famous"], ant: ["assistant", "resistant"], ent: ["dependent"], s: ["books", "dogs"], es: ["boxes"]
+    un: ["unhappy", "unfair", "untie"], in: ["inactive"], im: ["impossible"], il: ["illegal"], ir: ["irregular"], semi: ["semicircle", "semicolon", "semifinal", "semisweet"], ab: ["abduct", "absent", "abnormal"], a: ["adhere"], ad: ["advance", "adjoin"], chron: ["chronology", "chronological", "synchronize"], duct: ["conduct"], duce: ["introduce", "produce"], ject: ["reject", "project", "eject"], pos: ["position", "deposit", "compose"], put: ["compute", "dispute", "reputation"], rupt: ["rupture", "interrupt", "disrupt"], scrib: ["describe"], script: ["scripted", "manuscript"], sequ: ["sequence", "consequence", "subsequent"], spect: ["inspect", "spectator", "respect"], struct: ["construct", "structure", "instruct"], tract: ["attract", "tractor", "extract"], ven: ["intervene"], vent: ["prevent", "convention"], voc: ["vocal", "vocation", "vocabulary"], act: ["active", "activity", "inactive"], aud: ["audio", "audible", "audience"], dict: ["predict", "dictionary", "contradict"], derm: ["epidermis"], dermat: ["dermatology", "dermatologist"], geo: ["geology", "geography", "geothermal"], terr: ["terrain", "territory", "subterranean"], al: ["natural", "musical", "regional"], ance: ["performance", "importance", "acceptance"], ence: ["difference", "existence", "evidence"], ic: ["poetic", "scientific", "historic"], ist: ["artist", "scientist", "pianist"], ize: ["realize", "modernize", "organize"], ify: ["clarify", "simplify", "beautify"], able: ["portable", "readable"], ion: ["action"], tion: ["construction"], sion: ["decision"], ment: ["movement", "development", "enjoyment"], ous: ["joyous", "dangerous", "famous"], ant: ["assistant", "resistant"], ent: ["dependent"], s: ["books", "dogs"], es: ["boxes"]
   });
   const AMBIGUITY_NOTES = Object.freeze({ "negative-in-family": "Allomorphs are represented by separate atomic forms.", "a-ad": "Examples support separate a/ad forms; verify pronunciation by form.", duct: "duct and duce are distinct written forms.", scrib: "scrib and script are distinct written forms.", ven: "ven and vent are distinct written forms.", derm: "derm and dermat are distinct written forms.", ion: "ion, tion, and sion are distinct written forms.", "ant-ent-agent": "ant and ent occur in different examples.", "ant-ent-adjective": "ant and ent occur in different examples.", "s-es": "s and es are distinct plural allomorphs." });
   const CITATION_METADATA = Object.freeze({
@@ -50,10 +102,24 @@
     ion: ["yes", "yes", "NEEDS DECISION", "ion/tion/sion have distinct contextual forms"], tion: ["yes", "yes", "NEEDS DECISION", "ion/tion/sion have distinct contextual forms"], sion: ["yes", "yes", "NEEDS DECISION", "ion/tion/sion have distinct contextual forms"], ant: ["yes", "yes", "NEEDS DECISION", "ant/ent allomorph family"], ent: ["yes", "yes", "NEEDS DECISION", "ant/ent allomorph family"],
     al: ["yes", "yes", "NEEDS DECISION", "suffix citation versus reduced word realization"], ance: ["yes", "yes", "NEEDS DECISION", "suffix citation versus unstressed word realization"], ence: ["yes", "yes", "NEEDS DECISION", "suffix citation versus unstressed word realization"], able: ["yes", "yes", "NEEDS DECISION", "suffix citation versus reduced word realization"], ous: ["yes", "yes", "NEEDS DECISION", "suffix citation versus reduced word realization"], s: ["partial", "yes", "NEEDS DECISION", "books/dogs demonstrate contextual /s/ and /z/"], es: ["partial", "yes", "NEEDS DECISION", "boxes demonstrates a contextual allomorph; citation form unresolved"]
   });
+  const PREFIX_TARGET_SOURCING = Object.freeze({
+    un: ["ordinary English prefix sound at the beginning of unhappy", "/ʌn/", "SOURCE NEEDED", "Must not be French-like une; citation form is separate from word context."],
+    in: ["individual negative in- allomorph", "/ɪn/", "SOURCE NEEDED", "Keep distinct from im-, il-, and ir-."],
+    im: ["individual negative im- allomorph", "/ɪm/", "SOURCE NEEDED", "Keep distinct from in-, il-, and ir-."],
+    il: ["individual negative il- allomorph", "/ɪl/", "SOURCE NEEDED", "Keep distinct from in-, im-, and ir-."],
+    ir: ["individual negative ir- allomorph", "/ɪr/", "SOURCE NEEDED", "Keep distinct from in-, im-, and il-."],
+    semi: ["SEM-ee or SEM-eye are both reported possibilities", "/ˈsɛmi/ or /ˈsɛmaɪ/", "SOURCE NEEDED", "Determine the educational/dictionary form and select one consistently for First Volo."],
+    ab: ["ab- prefix citation form", null, "SOURCE NEEDED", "Do not infer isolated citation from abduct, absent, or abnormal."],
+    a: ["a- prefix citation form", null, "SOURCE NEEDED", "Adhere is not sufficient proof that isolated a- is the letter-name A."],
+    ad: ["ad- prefix citation form", null, "SOURCE NEEDED", "Advance and adjoin provide context but do not by themselves settle citation form." ]
+  });
   const addManifestForm = (audioKey, id, variantId = null) => {
-    const target = audioKey === "tion" ? "/ʃən/" : null;
+    const targetRecord = VERIFIED_TARGETS[audioKey] || null;
+    const target = targetRecord?.[0] || null;
     const citation = CITATION_METADATA[audioKey] || ["yes", "no", "STABLE", "No contextual variation identified in the current examples."];
-    const item = controlledManifest[audioKey] ||= { audioKey, visibleForm: audioKey, canonicalIds: [], variantIds: [], proposedFilename: `audio/morphemes/${audioKey}.mp3`, pronunciationTarget: target, pronunciationSource: target ? "User-provided authoritative target; reference verification still required" : null, sourceStatus: target ? "TARGET VERIFIED" : "TARGET NEEDS SOURCE", FirstVoloExamples: EXAMPLE_EVIDENCE[audioKey] || [], exampleSource: "word-inventory.js: currentExamples", exampleEvidenceValid: citation[0], contextualVariation: citation[1], citationPronunciationStatus: citation[2], contextNotes: citation[3], notes: "", clipStatus: "not created" };
+    const sourcing = PREFIX_TARGET_SOURCING[audioKey] || null;
+    const targetVerified = Boolean(targetRecord);
+    const item = controlledManifest[audioKey] ||= { audioKey, visibleForm: audioKey, canonicalIds: [], variantIds: [], proposedFilename: `audio/morphemes/${audioKey}.mp3`, pronunciationTarget: target ?? sourcing?.[1] ?? null, pronunciationSource: targetRecord?.[1] || null, sourceStatus: targetVerified ? "TARGET VERIFIED" : "TARGET NEEDS SOURCE", candidateCitationPronunciation: sourcing?.[0] || null, ipaTarget: sourcing?.[1] || null, targetSourceStatus: sourcing?.[2] || (targetVerified ? "TARGET VERIFIED" : "TARGET NEEDS SOURCE"), FirstVoloExamples: EXAMPLE_EVIDENCE[audioKey] || [], exampleSource: "word-inventory.js: currentExamples", exampleEvidenceValid: citation[0], contextualVariation: citation[1], citationPronunciationStatus: citation[2], contextNotes: sourcing?.[3] || citation[3], notes: targetRecord?.[2] || "", clipStatus: "not created" };
     if (variantId) item.variantIds.push(variantId);
     else if (!item.canonicalIds.includes(id)) {
       item.canonicalIds.push(id);
@@ -115,6 +181,7 @@
     approvedCanonicalIds: Object.freeze([...APPROVED_CANONICAL_IDS]),
     controlledAudioIds: Object.freeze([...CONTROLLED_AUDIO_IDS]),
     controlledAudioManifest: Object.freeze(Object.values(controlledManifest).map((item) => Object.freeze({ ...item, canonicalIds: Object.freeze(item.canonicalIds), variantIds: Object.freeze(item.variantIds) }))),
+    familySpeakingRules: FAMILY_SPEAKING_RULES,
     resolveMorphemeAudio,
     containsControlledMorpheme,
     getMorphemeSpeechText,
