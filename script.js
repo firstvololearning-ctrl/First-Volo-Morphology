@@ -6449,6 +6449,11 @@ function getTypeClass(type) {
 }
 
 function speak(text) {
+  if (window.FirstVoloInstructionalAudio?.available?.()) {
+    window.FirstVoloInstructionalAudio.speak(text);
+    return;
+  }
+
   if (!("speechSynthesis" in window)) {
     return;
   }
