@@ -1,0 +1,52 @@
+{
+  "clips": [
+    {
+      "audioKey": "chron",
+      "audioPath": "audio/morphemes/chron.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "duce",
+      "audioPath": "audio/morphemes/duce.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "duct",
+      "audioPath": "audio/morphemes/duct.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sequ",
+      "audioPath": "audio/morphemes/sequ.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "geo",
+      "audioPath": "audio/morphemes/geo.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "able",
+      "audioPath": "audio/morphemes/able.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion",
+      "audioPath": "audio/morphemes/sion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "dermat",
+      "audioPath": "audio/morphemes/dermat.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    }
+  ]
+}
