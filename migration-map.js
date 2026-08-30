@@ -673,6 +673,70 @@
     return svg;
   }
 
+  function positionRewardOnRoute(
+    map,
+    rewardAccess,
+    progress
+  ) {
+    const tokenIndex =
+      progress.tokenStatuses.findIndex(
+        (status) =>
+          status.setId ===
+          rewardAccess.dataset.unlockToken
+      );
+
+    if (
+      tokenIndex < 0 ||
+      progress.totalTokens < 1
+    ) {
+      return false;
+    }
+
+    const tokenOrdinal =
+      tokenIndex + 1;
+
+    const tokenRatio =
+      tokenOrdinal /
+      progress.totalTokens;
+
+    const routePosition =
+      tokenRatio *
+      (progress.stops.length - 2);
+
+    const routeRatio =
+      routePosition /
+      (progress.stops.length - 1);
+
+    const routePath =
+      map.querySelector(
+        ".migration-map-route-base"
+      );
+
+    if (!routePath?.getTotalLength) {
+      return false;
+    }
+
+    const point =
+      routePath.getPointAtLength(
+        routePath.getTotalLength() *
+        routeRatio
+      );
+
+    rewardAccess.style.left =
+      `${point.x}%`;
+
+    rewardAccess.style.top =
+      `${point.y}%`;
+
+    rewardAccess.dataset.routePosition =
+      String(routePosition);
+
+    rewardAccess.dataset.routeRatio =
+      String(routeRatio);
+
+    return true;
+  }
+
   function makeVolo(index) {
     const image =
       document.createElement("img");
@@ -1005,8 +1069,19 @@
       return;
     }
 
-    const student =
+    let student =
       getStudent();
+
+    const rewardTestState =
+      window.FirstVoloRewards
+        ?.getTestState?.();
+
+    if (!student && rewardTestState) {
+      student = {
+        id: "reward-preview",
+        name: "Reward Preview"
+      };
+    }
 
     if (!student) {
       renderNoStudent();
@@ -1151,6 +1226,22 @@
         );
       }
     );
+
+    const rewardAccess =
+      window.FirstVoloRewards
+        ?.createJourneyAccess?.(
+          student,
+          flightValue
+        );
+
+    if (rewardAccess) {
+      map.append(rewardAccess);
+      positionRewardOnRoute(
+        map,
+        rewardAccess,
+        progress
+      );
+    }
 
     scroll.append(map);
 
