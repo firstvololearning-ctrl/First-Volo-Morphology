@@ -2,22 +2,11 @@
 
 /* Optional games read progress but never write instructional data. */
 (function () {
-  const ROUNDS = Object.freeze([
-    { target: "re", meaning: "AGAIN", distractors: ["pre", "un", "mis"] },
-    { target: "pre", meaning: "BEFORE", distractors: ["re", "non", "dis"] },
-    { target: "mis", meaning: "WRONGLY", distractors: ["re", "pre", "non"] },
-    { target: "non", meaning: "NOT", distractors: ["dis", "un", "pre"] },
-    { target: "dis", meaning: "NOT OR OPPOSITE OF", distractors: ["non", "re", "mis"] }
-  ]);
   const SKY_THEME = Object.freeze({
     id: "migration-sky", className: "reward-theme-sky",
     objectStyle: "wind-puff", voloAsset: "images/volo/volo-sky-catch.png"
   });
-  const REWARDS = Object.freeze([Object.freeze({
-    id: "volos-sky-catch", title: "Volo’s Sky Catch", icon: "🎮", flight: "2-3",
-    unlockToken: "foundation-prefixes-1", theme: SKY_THEME,
-    gameType: "moving-catch", launch: openSkyCatch
-  })]);
+  const REWARDS = window.FirstVoloRewardRegistry?.definitions || [];
   const ROUND_DURATION_MS = 15000;
   const MOVE_STEP = 7;
   const LIMITS = Object.freeze({ minX: 9, maxX: 83, minY: 15, maxY: 82 });
@@ -26,6 +15,7 @@
 
   let returnFocus, gameOverlay, gameBody, animationFrame;
   let roundIndex = 0, caught = 0, missed = 0, totalCaught = 0;
+  let activeReward = null;
   let volo = { x: 16, y: 48 }, floaters = [], roundStart = 0, lastFrame = 0;
   let roundActive = false, nextFloaterId = 0;
 
@@ -37,15 +27,29 @@
   }
   function isUnlocked(reward, student) {
     const test = getTestState();
-    if (test) return test === "unlocked";
+    const testReward = new URLSearchParams(location.search).get("rewardId");
+    if (test && (!testReward || testReward === reward.id)) return test === "unlocked";
     return Boolean(student && window.FirstVoloTokens?.isTokenEarned?.(student, reward.unlockToken));
+  }
+  function displayMorpheme(id) {
+    return window.FirstVoloRewardRegistry?.learnerLabel?.(id) || id.replace(/-(negation|reversative)$/, "");
+  }
+  function speakPrompt(text) {
+    return window.FirstVoloInstructionalAudio?.speak?.(text, { gradeBand: activeReward?.flight });
   }
   function createJourneyAccess(student, flightValue) {
     const reward = REWARDS.find((item) => item.flight === flightValue);
-    if (!reward) return null;
+    return reward ? createRewardAccess(reward, student) : null;
+  }
+  function createJourneyAccesses(student, flightValue) {
+    return REWARDS.filter((item) => item.flight === flightValue)
+      .map((reward) => createRewardAccess(reward, student));
+  }
+  function createRewardAccess(reward, student) {
     const unlocked = isUnlocked(reward, student);
     const stop = document.createElement("div");
     stop.className = `reward-route-stop ${unlocked ? "is-unlocked" : "is-locked"}`;
+    stop.dataset.rewardId = reward.id;
     stop.dataset.unlockToken = reward.unlockToken;
 
     const marker = document.createElement("button");
@@ -66,7 +70,7 @@
     if (unlocked) {
       copy.innerHTML = '<strong>🎮 Reward Stop Unlocked</strong>' +
         `<span>${reward.title}</span>` +
-        '<p>Catch the right word parts and help Volo ride the wind.</p>' +
+        `<p>${reward.shortDescription}</p>` +
         '<small>Optional reward · Your Journey progress will not change.</small>';
       const play = document.createElement("button");
       play.type = "button";
@@ -74,7 +78,7 @@
       play.textContent = "Play";
       play.addEventListener("click", (event) => {
         event.stopPropagation();
-        reward.launch(play, reward);
+        launchReward(reward, play);
       });
       card.append(copy, play);
     } else {
@@ -88,6 +92,12 @@
     });
     stop.append(marker, card);
     return stop;
+  }
+
+  function launchReward(reward, source) {
+    if (!reward) return;
+    if (reward.gameType === "sky-catch") return openSkyCatch(source, reward);
+    return window.FirstVoloConfigGames?.open?.(reward, source);
   }
 
   function ensureDialog() {
@@ -111,9 +121,10 @@
   function openSkyCatch(source, reward = REWARDS[0]) {
     ensureDialog();
     returnFocus = source || document.activeElement;
-    gameOverlay.dataset.theme = reward.theme.id;
+    gameOverlay.dataset.theme = typeof reward.theme === "string" ? reward.theme : reward.theme.id;
     roundIndex = 0;
     totalCaught = 0;
+    activeReward = reward;
     gameOverlay.hidden = false;
     document.body.classList.add("reward-game-open");
     renderRoundIntro();
@@ -132,38 +143,44 @@
   }
   function renderRoundIntro() {
     stopRound();
-    const round = ROUNDS[roundIndex];
+    const round = activeReward.rounds[roundIndex];
+    const spokenTask = `Catch ${displayMorpheme(round.target)}. It means ${round.meaning}.`;
     gameBody.innerHTML = `<div class="reward-sky-intro">
-      <div class="reward-round-count">Wind ${roundIndex + 1} of ${ROUNDS.length}</div>
+      <div class="reward-round-count">Wind ${roundIndex + 1} of ${activeReward.rounds.length}</div>
       <h3>Catch the word part that means <strong>${round.meaning}</strong>.</h3>
+      <button type="button" class="reward-speak-button" aria-label="Hear directions again">🔊</button>
       <p>Move Volo with arrow keys, WASD, or point inside the sky.</p>
       <button type="button" class="reward-start-button">Ride the wind!</button></div>`;
     const start = gameBody.querySelector(".reward-start-button");
+    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask));
     start.addEventListener("click", startRound);
     start.focus();
   }
   function startRound() {
-    const round = ROUNDS[roundIndex];
+    const round = activeReward.rounds[roundIndex];
     caught = 0; missed = 0; volo = { x: 16, y: 48 }; floaters = [];
+    const spokenTask = `Catch ${displayMorpheme(round.target)}. It means ${round.meaning}.`;
     gameBody.innerHTML = `<div class="reward-game-hud">
-      <div><span>Wind ${roundIndex + 1} of 5</span><strong>Catch: ${round.target} = ${round.meaning}</strong></div>
+      <div><span>Wind ${roundIndex + 1} of 5</span><strong>Catch: ${displayMorpheme(round.target)} = ${round.meaning}</strong><button type="button" class="reward-speak-button" aria-label="Hear directions again">🔊</button></div>
       <div class="reward-score" aria-live="polite"><span>Caught: <b>0</b></span><span>Missed: <b>0</b></span></div></div>
       <div class="reward-time-track"><span></span></div>
       <div class="reward-sky-field" tabindex="0" aria-label="Move Volo with arrow keys, WASD, pointer, or touch.">
         <div class="reward-wind-line reward-wind-line-one"></div><div class="reward-wind-line reward-wind-line-two"></div>
         <div class="reward-flight-energy"><span>Flight energy</span><div><i></i></div></div>
-        <div class="reward-catch-feedback" aria-live="polite">Catch every <b>${round.target}</b> you can!</div>
+        <div class="reward-catch-feedback" aria-live="polite">Catch every <b>${displayMorpheme(round.target)}</b> you can!</div>
         <img class="reward-volo" src="${SKY_THEME.voloAsset}" alt="Volo flying"></div>`;
     const field = gameBody.querySelector(".reward-sky-field");
     field.addEventListener("pointerdown", handlePointerMove);
     field.addEventListener("pointermove", (event) => {
       if (event.buttons || event.pointerType === "touch") handlePointerMove(event);
     });
-    [round.target, ...round.distractors].forEach((label, index) =>
-      spawnFloater(label, label === round.target, 53 + index * 13, 17 + index * 19));
+    [round.target, ...round.distractors].forEach((id, index) =>
+      spawnFloater(displayMorpheme(id), id === round.target, 53 + index * 13, 17 + index * 19));
     updateVolo();
     roundStart = performance.now(); lastFrame = roundStart; roundActive = true;
     field.focus();
+    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask));
+    speakPrompt(spokenTask);
     animationFrame = requestAnimationFrame(animateRound);
   }
   function spawnFloater(label, isTarget, x, y) {
@@ -242,7 +259,7 @@
       setTimeout(() => { bird.classList.remove("is-boosting"); if (roundActive) respawn(floater, index * 3); }, 540);
     } else {
       floater.bumpUntil = now + 950; floater.element.classList.add("is-bumped"); bird?.classList.add("is-wobbling");
-      showFeedback(`That’s ${floater.label}. Keep looking for ${ROUNDS[roundIndex].target}!`, "gentle");
+      showFeedback(`That’s ${floater.label}. Keep looking for ${displayMorpheme(activeReward.rounds[roundIndex].target)}!`, "gentle");
       setTimeout(() => { floater.element.classList.remove("is-bumped"); bird?.classList.remove("is-wobbling"); }, 500);
     }
   }
@@ -286,7 +303,7 @@
   }
   function finishRound() {
     stopRound(); totalCaught += caught;
-    if (roundIndex + 1 >= ROUNDS.length) return renderComplete();
+    if (roundIndex + 1 >= activeReward.rounds.length) return renderComplete();
     gameBody.innerHTML = `<div class="reward-round-complete"><div>✨</div><h3>Great flying!</h3>
       <p>Volo caught <strong>${caught}</strong> word part${caught === 1 ? "" : "s"} in this wind.</p>
       <button type="button" class="reward-next-button">Next wind</button></div>`;
@@ -304,6 +321,53 @@
     gameBody.querySelector(".reward-return-button").addEventListener("click", closeGame); replay.focus();
   }
 
-  window.FirstVoloRewards = { registry: REWARDS, rounds: ROUNDS, getTestState, isUnlocked,
-    createJourneyAccess, open: openSkyCatch, close: closeGame };
+  let myGamesOverlay = null;
+  let myGamesReturnFocus = null;
+  function openMyGames(student, source) {
+    myGamesReturnFocus = source || document.activeElement;
+    if (!myGamesOverlay) {
+      myGamesOverlay = document.createElement("div");
+      myGamesOverlay.className = "reward-my-games-overlay";
+      myGamesOverlay.hidden = true;
+      myGamesOverlay.innerHTML = `<section class="reward-my-games" role="dialog" aria-modal="true" aria-labelledby="rewardMyGamesTitle">
+        <header><div><span>Optional rewards</span><h2 id="rewardMyGamesTitle">🎮 My Games</h2></div>
+        <button type="button" class="reward-my-games-close">Close</button></header><div class="reward-my-games-list"></div></section>`;
+      myGamesOverlay.querySelector(".reward-my-games-close").addEventListener("click", () => {
+        myGamesOverlay.hidden = true;
+        myGamesReturnFocus?.focus?.();
+      });
+      myGamesOverlay.addEventListener("click", (event) => {
+        if (event.target === myGamesOverlay) myGamesOverlay.hidden = true;
+      });
+      document.body.append(myGamesOverlay);
+    }
+    const list = myGamesOverlay.querySelector(".reward-my-games-list");
+    list.innerHTML = "";
+    [["2-3", "Flight A"], ["4-5", "Flight B"], ["6-8", "Flight C"]].forEach(([flight, label]) => {
+      const group = document.createElement("section");
+      group.className = "reward-my-games-group";
+      group.innerHTML = `<h3>${label}</h3><div></div>`;
+      const cards = group.querySelector("div");
+      REWARDS.filter((reward) => reward.flight === flight).forEach((reward) => {
+        const unlocked = isUnlocked(reward, student);
+        const item = document.createElement("article");
+        item.className = `reward-my-game ${unlocked ? "is-unlocked" : "is-locked"}`;
+        item.innerHTML = `<div><strong>${unlocked ? "🎮" : "🔒"} ${reward.title}</strong><p>${reward.shortDescription}</p></div>`;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = unlocked ? "Play" : "Locked";
+        button.disabled = !unlocked;
+        button.addEventListener("click", () => launchReward(reward, button));
+        item.append(button);
+        cards.append(item);
+      });
+      list.append(group);
+    });
+    myGamesOverlay.hidden = false;
+    myGamesOverlay.querySelector(".reward-my-games-close").focus();
+  }
+
+  window.FirstVoloRewards = { registry: REWARDS, getTestState, isUnlocked,
+    createJourneyAccess, createJourneyAccesses, launch: launchReward,
+    openMyGames, open: openSkyCatch, close: closeGame };
 })();

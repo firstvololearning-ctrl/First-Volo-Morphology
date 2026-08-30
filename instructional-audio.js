@@ -13,7 +13,10 @@
 
 
   function prepareSpeechText(value) {
-    return String(value || "")
+    const pronunciation =
+      window.FirstVoloMorphemePronunciation;
+
+    return (pronunciation?.replaceMorphemeLabels?.(value) || String(value || ""))
       .replace(
         /_{2,}/g,
         " blank "
@@ -41,6 +44,10 @@
       .replace(
         /\s+/g,
         " "
+      )
+      .replace(
+        /\s+([?.!,])/g,
+        "$1"
       )
       .trim();
   }
