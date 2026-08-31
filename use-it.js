@@ -644,7 +644,13 @@ function renderUseItFeedback(
     feedback,
     `${item.word}. ` +
     `${getUseItPartsText(item)}. ` +
-    `${item.word} means ${item.definition}.`
+    `${item.word} means ${item.definition}.`,
+    [
+      { id: item.prefixId, token: item.prefix },
+      { id: item.rootId, token: item.root },
+      { id: item.baseId, token: item.base },
+      { id: item.suffixId, token: item.suffix }
+    ]
   );
 }
 
@@ -667,4 +673,3 @@ function goToNextUseItQuestion() {
 
   renderUseItQuestion();
 }
-

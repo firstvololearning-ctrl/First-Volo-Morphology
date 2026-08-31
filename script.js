@@ -6449,6 +6449,11 @@ function getTypeClass(type) {
 }
 
 function speak(text) {
+  if (window.FirstVoloInstructionalAudio?.available?.()) {
+    window.FirstVoloInstructionalAudio.speak(text);
+    return;
+  }
+
   if (!("speechSynthesis" in window)) {
     return;
   }
@@ -6463,7 +6468,7 @@ function speak(text) {
   window.speechSynthesis.speak(utterance);
 }
 
-function setAudioButton(container, text) {
+function setAudioButton(container, text, morphemeDescriptors = []) {
   const button = container.querySelector(".audio-button");
 
   if (!button) {
@@ -6471,8 +6476,19 @@ function setAudioButton(container, text) {
   }
 
   button.addEventListener("click", () => {
+    const audio = window.FirstVoloInstructionalAudio;
+    if (morphemeDescriptors.length && audio?.speakWithControlledMorphemes) {
+      audio.speakWithControlledMorphemes(text, morphemeDescriptors, { gradeBand });
+      return;
+    }
     speak(text);
   });
+}
+
+function instructionalAudioDescriptor(id, token) {
+  return id === "ion"
+    ? { id, token, audioKey: "ion-family" }
+    : { id, token };
 }
 
 function hideAllPanels() {
@@ -7821,7 +7837,8 @@ ${suffixFunctionMarkup}
   setAudioButton(
     detail,
     `${item.speech} means ${item.meaning}. ` +
-    audioExampleText
+    audioExampleText,
+    [instructionalAudioDescriptor(item.id, item.speech)]
   );
 
   detail.scrollIntoView({
@@ -8571,6 +8588,9 @@ function renderQuizQuestion() {
 
 
 function recordCoreProgressResponse(details) {
+  if (window.__firstVoloAudioQa) {
+    return;
+  }
   window.FirstVoloActivityProgress?.recordResponse(details);
 }
 
@@ -8581,6 +8601,38 @@ function recordCoreProgressResponse(details) {
 function fvAccessSpeak(text) {
   const audio =
     window.FirstVoloInstructionalAudio;
+
+  if (["duct/duce", "duct or duce"].includes(String(text || "").trim())) {
+    audio?.speakSegments?.([
+      { type: "controlled", audioKey: "duct" },
+      { type: "tts", text: "or" },
+      { type: "controlled", audioKey: "duce" }
+    ]);
+    return;
+  }
+
+  if (String(text || "").trim() === "ion, tion, or sion") {
+    audio?.speakWithControlledMorphemes?.(text, [{ id: "ion", token: text, audioKey: "ion-family" }]);
+    return;
+  }
+
+  const pronunciation =
+    window.FirstVoloMorphemePronunciation;
+
+  const resolvedMorpheme =
+    pronunciation?.resolveMorphemeAudio?.(String(text || "").trim());
+
+  if (
+    resolvedMorpheme?.strategy === "controlled"
+  ) {
+    pronunciation
+      ?.playControlledClip?.(resolvedMorpheme.audioKey)
+      ?.catch?.((error) => {
+        console.warn("Controlled morpheme audio unavailable", error);
+      });
+
+    return;
+  }
 
   if (
     audio?.available?.()
@@ -8631,7 +8683,8 @@ function fvAccessMorphemeSpeech(label) {
 function fvAddChoiceSpeaker(
   answerButton,
   speechText,
-  ariaLabel
+  ariaLabel,
+  morphemeId = null
 ) {
   if (
     answerButton.querySelector(
@@ -8682,9 +8735,7 @@ function fvAddChoiceSpeaker(
       event.preventDefault();
       event.stopPropagation();
 
-      fvAccessSpeak(
-        speechText
-      );
+      fvAccessSpeak(speechText, morphemeId);
     }
   );
 
@@ -8701,9 +8752,7 @@ function fvAddChoiceSpeaker(
       event.preventDefault();
       event.stopPropagation();
 
-      fvAccessSpeak(
-        speechText
-      );
+      fvAccessSpeak(speechText, morphemeId);
     }
   );
 
@@ -9137,7 +9186,8 @@ function renderHuntFeedback(
     `Words with this word part include ${question.words
       .filter((wordItem) => wordItem.correct)
       .map((wordItem) => wordItem.word)
-      .join(", ")}.`
+      .join(", ")}.`,
+    [instructionalAudioDescriptor(item.id, item.speech)]
   );
 }
 
@@ -9145,19 +9195,18 @@ function renderHuntFeedback(
    CHOOSE THE MEANING
    ======================================== */
 
-function speakStudentAccessText(text) {
+function speakStudentAccessText(text, morphemeDescriptors = []) {
   const audio =
     window.FirstVoloInstructionalAudio;
 
   if (
     audio?.available?.()
   ) {
-    audio.speak(
-      text,
-      {
-        gradeBand
-      }
-    );
+    if (morphemeDescriptors.length && audio.speakWithControlledMorphemes) {
+      audio.speakWithControlledMorphemes(text, morphemeDescriptors, { gradeBand });
+    } else {
+      audio.speak(text, { gradeBand });
+    }
 
     return;
   }
@@ -9206,8 +9255,21 @@ function renderMeaningQuestion(question) {
     );
 
     meaningQuestionAudioButton.onclick = () => {
+      if (question.item?.id === "duct") {
+        window.FirstVoloInstructionalAudio
+          ?.speakSegments?.([
+            { type: "tts", text: "What does" },
+            { type: "controlled", audioKey: "duct" },
+            { type: "tts", text: "or" },
+            { type: "controlled", audioKey: "duce" },
+            { type: "tts", text: "mean?" }
+          ]);
+        return;
+      }
+
       speakStudentAccessText(
-        `What does ${spokenTarget} mean?`
+        `What does ${spokenTarget} mean?`,
+        [instructionalAudioDescriptor(question.item.id, spokenTarget)]
       );
     };
   }
@@ -9369,7 +9431,8 @@ function renderMorphemeQuestion(question) {
           fvAccessMorphemeSpeech(
             choiceItem.label
           ),
-        `Hear ${choiceItem.label}`
+        `Hear ${choiceItem.label}`,
+        choiceItem.id
       );
     }
 
@@ -9591,7 +9654,11 @@ function answerBreakQuestion(
       question.definition
         ? `${question.word} means ${question.definition}.`
         : ""
-    )
+    ),
+    question.segmentation.split("+").map((part) => {
+      const token = part.trim();
+      return { id: getCanonicalProgressMorphemeId(token), token };
+    })
   );
 
   showNextButton();
@@ -9746,7 +9813,8 @@ function answerInferQuestion(button, choice, question) {
     inferFeedback,
     `${question.knownLabel} means ${question.knownMeaning}. ` +
     `${question.word} literally means ${question.literal}. ` +
-    `${question.word} means ${question.definition}.`
+    `${question.word} means ${question.definition}.`,
+    [instructionalAudioDescriptor(getCanonicalProgressMorphemeId(question.knownLabel), question.knownLabel)]
   );
 
   showNextButton();
@@ -9838,7 +9906,8 @@ function renderWordFeedback(
     container,
     `${question.answer} means ${item.meaning}. ` +
     `${question.word} literally means ${question.literal}. ` +
-    `${question.word} means ${question.definition}.`
+    `${question.word} means ${question.definition}.`,
+    [instructionalAudioDescriptor(item.id, question.answer)]
   );
 }
 
@@ -9910,7 +9979,8 @@ function renderMorphemeFeedback(
   setAudioButton(
     container,
     `${item.speech} means ${item.meaning}. ` +
-    `Examples include ${item.examples.join(", ")}.`
+    `Examples include ${item.examples.join(", ")}.`,
+    [instructionalAudioDescriptor(item.id, item.speech)]
   );
 }
 
@@ -10812,7 +10882,11 @@ function checkBuiltWord() {
       `${currentBuildTarget.word} literally means ` +
       `${currentBuildTarget.literal}. ` +
       `${currentBuildTarget.word} means ` +
-      `${currentBuildTarget.definition}.`
+      `${currentBuildTarget.definition}.`,
+      [
+        { id: currentBuildTarget.baseId, token: currentBuildTarget.base },
+        { id: currentBuildTarget.suffixId, token: currentBuildTarget.suffix }
+      ]
     );
   } else if (isThreePart) {
     buildFeedback.innerHTML = `
@@ -10902,7 +10976,12 @@ function checkBuiltWord() {
       `${currentBuildTarget.word} literally means ` +
       `${currentBuildTarget.literal}. ` +
       `${currentBuildTarget.word} means ` +
-      `${currentBuildTarget.definition}.`
+      `${currentBuildTarget.definition}.`,
+      [
+        { id: currentBuildTarget.prefixId, token: currentBuildTarget.prefix },
+        { id: currentBuildTarget.baseId, token: currentBuildTarget.base },
+        { id: currentBuildTarget.suffixId, token: currentBuildTarget.suffix }
+      ]
     );
 
   } else {
@@ -10982,7 +11061,11 @@ function checkBuiltWord() {
       `${currentBuildTarget.word} literally means ` +
       `${currentBuildTarget.literal}. ` +
       `${currentBuildTarget.word} means ` +
-      `${currentBuildTarget.definition}.`
+      `${currentBuildTarget.definition}.`,
+      [
+        { id: currentBuildTarget.prefixId, token: currentBuildTarget.prefix },
+        { id: currentBuildTarget.rootId, token: currentBuildTarget.root }
+      ]
     );
   }
 
@@ -11334,6 +11417,87 @@ showStartMessage(
   "Choose what you want to study.",
   "Choose prefixes, roots, suffixes, or a word-building combination above, then select an activity."
 );
+
+/* Localhost-only audio QA shortcut; never starts a learner session. */
+(function setupAudioQaShortcut() {
+  if (!window.location || !["localhost", "127.0.0.1", "::1", ""].includes(window.location.hostname)) return;
+  const audioQa = new URLSearchParams(window.location.search).get("audioQa");
+  if (audioQa === "predict-tts") {
+    window.__firstVoloAudioQa = true;
+    startPanel.hidden = true;
+    hideAllPanels();
+    hideQuizControls();
+    const panel = document.createElement("section");
+    panel.style.cssText = "position:fixed;inset:20vh 10vw;z-index:9200;padding:28px;border:2px solid #bcd9ee;border-radius:18px;background:#f8fbfe;box-shadow:0 18px 60px #1b304c55;font-family:inherit;color:#284967";
+    panel.innerHTML = `<h2>Whole-word TTS QA</h2><p>Compare the production speech route for <strong>predict</strong>.</p><div style="display:grid;gap:12px;max-width:420px"><button type="button" data-qa-speech="predict">Play: predict</button><button type="button" data-qa-speech="The word is predict.">Play: The word is predict.</button><button type="button" data-qa-reward>Open Root Word Builder: predict</button></div>`;
+    panel.querySelectorAll("button[data-qa-speech]").forEach((button) => {
+      button.addEventListener("click", () => window.FirstVoloInstructionalAudio?.speak(button.dataset.qaSpeech, { gradeBand }));
+    });
+    panel.querySelector("button[data-qa-reward]").addEventListener("click", () => {
+      const query = new URLSearchParams({ rewardQa: "dict", rewardTest: "unlocked", rewardId: "root-word-builder", rewardStage: "2", rewardPlay: "1", fresh: `predict-tts-${Date.now()}` });
+      window.location.href = `${window.location.pathname}?${query.toString()}`;
+    });
+    document.body.append(panel);
+    return;
+  }
+  if (audioQa === "learn-geo") {
+    const item = roots.find((candidate) => candidate.id === "geo");
+    if (!item) return;
+    window.__firstVoloAudioQa = true;
+    studyMode = "roots";
+    activeMode = "learn";
+    activateActivityButton("learn");
+    startPanel.hidden = true;
+    hideAllPanels();
+    hideQuizControls();
+    renderLearnActivity();
+    renderLearnDetail(item);
+    return;
+  }
+  if (audioQa === "break-active") {
+    const question = breakApartQuestions.find((candidate) => candidate.word === "active");
+    if (!question) return;
+    window.__firstVoloAudioQa = true;
+    studyMode = "roots";
+    activeMode = "break";
+    quizState = {
+      mode: "break",
+      items: [question],
+      index: 0,
+      score: 0,
+      answered: false
+    };
+    activateActivityButton("break");
+    startPanel.hidden = true;
+    hideAllPanels();
+    hideQuizControls();
+    renderBreakQuestion(question);
+    return;
+  }
+  if (audioQa === "meaning-tion") {
+    const question = createMeaningQuestions(suffixes).find((candidate) => candidate.item?.id === "ion");
+    if (!question) return;
+    studyMode = "suffixes";
+    activeMode = "meaning";
+    activateActivityButton("meaning");
+    startPanel.hidden = true;
+    hideAllPanels();
+    hideQuizControls();
+    renderMeaningQuestion(question);
+    return;
+  }
+  if (audioQa !== "duct-duce") return;
+  const item = roots.find((candidate) => candidate.id === "duct");
+  if (!item) return;
+  studyMode = "roots";
+  activeMode = "meaning";
+  activateActivityButton("meaning");
+  startPanel.hidden = true;
+  hideAllPanels();
+  hideQuizControls();
+  renderMeaningQuestion({ item, choices: [item.meaning, "throw", "pull or draw", "see"] });
+  fvAddDisplaySpeaker(meaningMorpheme, "duct/duce", "Hear duct/duce");
+})();
 
 
 /* HEADER DYNAMIC SAVE GROUPING · 2026-08-26 */

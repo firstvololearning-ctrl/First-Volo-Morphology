@@ -1,0 +1,19 @@
+{
+  "auditDate": "2026-08-30",
+  "humanReviewed": true,
+  "canonicalCount": 96,
+  "approvedCount": 57,
+  "problemCount": 39,
+  "approvedCanonicalIds": ["re", "dis", "en-em", "non", "location-in-family", "over", "mis", "sub", "pre", "inter", "fore", "de", "trans", "super", "anti", "mid", "under", "con-com", "e-ex", "pro", "retro", "circum", "bio", "fer", "mit", "pel", "pend", "port", "ten", "val", "vert", "cred", "form", "graph", "mot", "vis", "micro", "tele", "auto", "biblio", "phon", "scop", "metr", "therm", "ity", "ive", "ness", "ology", "ed", "er-or", "er-more", "est", "ful", "ing", "less", "ly-adverb", "ly-adjective"],
+  "controlledAudioNeededCanonicalIds": ["un-negation", "un-reversative", "negative-in-family", "semi", "ab", "a-ad", "chron", "duct", "ject", "pos", "put", "rupt", "scrib", "sequ", "spect", "struct", "tract", "ven", "voc", "act", "aud", "dict", "derm", "geo", "terr", "al", "ance", "ence", "ic", "ist", "ize", "ify", "able-ible", "ion", "ment", "ous", "ant-ent-agent", "ant-ent-adjective", "s-es"],
+  "variantStatuses": {
+    "variant:-ible": "approved",
+    "variant:-tion": "controlled audio needed",
+    "variant:-sion": "controlled audio needed",
+    "variant:-able": "controlled audio needed",
+    "variant:-ance": "controlled audio needed",
+    "variant:-ence": "controlled audio needed",
+    "variant:-ion": "controlled audio needed"
+  },
+  "rule": "Approved means human-heard and accepted. Problem means a pronunciation defect was heard."
+}

@@ -1,0 +1,322 @@
+{
+  "clips": [
+    {
+      "audioKey": "chron",
+      "audioPath": "audio/morphemes/chron.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "duce",
+      "audioPath": "audio/morphemes/duce.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "duct",
+      "audioPath": "audio/morphemes/duct.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sequ",
+      "audioPath": "audio/morphemes/sequ.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "geo",
+      "audioPath": "audio/morphemes/geo.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "able",
+      "audioPath": "audio/morphemes/able.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion",
+      "audioPath": "audio/morphemes/sion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "dermat",
+      "audioPath": "audio/morphemes/dermat.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "un",
+      "audioPath": "audio/morphemes/un.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "in",
+      "audioPath": "audio/morphemes/in.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "im",
+      "audioPath": "audio/morphemes/im.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "il",
+      "audioPath": "audio/morphemes/il.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ir",
+      "audioPath": "audio/morphemes/ir.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "semi",
+      "audioPath": "audio/morphemes/semi.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ab",
+      "audioPath": "audio/morphemes/ab.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "a",
+      "audioPath": "audio/morphemes/a.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ad",
+      "audioPath": "audio/morphemes/ad.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ject",
+      "audioPath": "audio/morphemes/ject.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "pos",
+      "audioPath": "audio/morphemes/pos.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "put",
+      "audioPath": "audio/morphemes/put.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "rupt",
+      "audioPath": "audio/morphemes/rupt.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "scrib",
+      "audioPath": "audio/morphemes/scrib.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "script",
+      "audioPath": "audio/morphemes/script.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "spect",
+      "audioPath": "audio/morphemes/spect.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "struct",
+      "audioPath": "audio/morphemes/struct.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "tract",
+      "audioPath": "audio/morphemes/tract.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ven",
+      "audioPath": "audio/morphemes/ven.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "vent",
+      "audioPath": "audio/morphemes/vent.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "voc",
+      "audioPath": "audio/morphemes/voc.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "act",
+      "audioPath": "audio/morphemes/act.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "aud",
+      "audioPath": "audio/morphemes/aud.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "dict",
+      "audioPath": "audio/morphemes/dict.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "derm",
+      "audioPath": "audio/morphemes/derm.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "terr",
+      "audioPath": "audio/morphemes/terr.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "al",
+      "audioPath": "audio/morphemes/al.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ance",
+      "audioPath": "audio/morphemes/ance.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ence",
+      "audioPath": "audio/morphemes/ence.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ic",
+      "audioPath": "audio/morphemes/ic.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ist",
+      "audioPath": "audio/morphemes/ist.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ize",
+      "audioPath": "audio/morphemes/ize.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ify",
+      "audioPath": "audio/morphemes/ify.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ion",
+      "audioPath": "audio/morphemes/ion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "tion",
+      "audioPath": "audio/morphemes/tion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ment",
+      "audioPath": "audio/morphemes/ment.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ous",
+      "audioPath": "audio/morphemes/ous.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ant",
+      "audioPath": "audio/morphemes/ant.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ent",
+      "audioPath": "audio/morphemes/ent.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-s",
+      "audioPath": "audio/morphemes/s-es-s.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-z",
+      "audioPath": "audio/morphemes/s-es-z.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-iz",
+      "audioPath": "audio/morphemes/s-es-iz.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ion-family",
+      "audioPath": "audio/morphemes/ion-family.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion-shun",
+      "audioPath": "audio/morphemes/sion-shun.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion-zhun",
+      "audioPath": "audio/morphemes/sion-zhun.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    }
+  ]
+}

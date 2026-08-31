@@ -142,6 +142,18 @@
 
   actions.append(launchButton);
 
+  const myGamesButton =
+    document.createElement("button");
+
+  myGamesButton.type = "button";
+  myGamesButton.className =
+    "migration-map-launch-button migration-my-games-button";
+  myGamesButton.innerHTML =
+    '<span aria-hidden="true">🎮</span>' +
+    "<span>My Games</span>";
+
+  actions.append(myGamesButton);
+
   const overlay =
     document.createElement("div");
 
@@ -1227,21 +1239,21 @@
       }
     );
 
-    const rewardAccess =
+    const rewardAccesses =
       window.FirstVoloRewards
-        ?.createJourneyAccess?.(
+        ?.createJourneyAccesses?.(
           student,
           flightValue
-        );
+        ) || [];
 
-    if (rewardAccess) {
+    rewardAccesses.forEach((rewardAccess) => {
       map.append(rewardAccess);
       positionRewardOnRoute(
         map,
         rewardAccess,
         progress
       );
-    }
+    });
 
     scroll.append(map);
 
@@ -1283,6 +1295,29 @@
   launchButton.addEventListener(
     "click",
     openModal
+  );
+
+  myGamesButton.addEventListener(
+    "click",
+    () => {
+      let student = getStudent();
+      const rewardTestState =
+        window.FirstVoloRewards
+          ?.getTestState?.();
+
+      if (!student && rewardTestState) {
+        student = {
+          id: "reward-preview",
+          name: "Reward Preview"
+        };
+      }
+
+      window.FirstVoloRewards
+        ?.openMyGames?.(
+          student,
+          myGamesButton
+        );
+    }
   );
 
   closeButton.addEventListener(
@@ -1361,4 +1396,60 @@
     close: closeModal,
     render
   };
+
+  /* Localhost-only visual QA; it never creates or writes learner progress. */
+  if (
+    window.FirstVoloRewards
+      ?.getTestState?.()
+  ) {
+    const qaParams =
+      new URLSearchParams(
+        window.location.search
+      );
+    const qaFlight =
+      qaParams.get("rewardFlight");
+    const qaView =
+      qaParams.get("rewardView");
+    const qaGame =
+      qaParams.get("rewardGame");
+    const qaPopover =
+      qaParams.get("rewardPopover");
+
+    if (["2-3", "4-5", "6-8"].includes(qaFlight)) {
+      gradeBandSelect.value = qaFlight;
+      gradeBandSelect.dispatchEvent(
+        new Event("change", { bubbles: true })
+      );
+    }
+
+    window.setTimeout(() => {
+      if (qaView === "map") {
+        openModal();
+        if (qaPopover) {
+          content.querySelector(
+            `[data-reward-id="${CSS.escape(qaPopover)}"] .reward-route-marker`
+          )?.click();
+        }
+      }
+      if (qaView === "my-games") myGamesButton.click();
+      if (qaGame) {
+        const reward =
+          window.FirstVoloRewards.registry
+            .find((item) => item.id === qaGame);
+        const qaStudent = {
+          id: "reward-preview",
+          name: "Reward Preview"
+        };
+        if (
+          reward &&
+          window.FirstVoloRewards.isUnlocked(
+            reward,
+            qaStudent
+          )
+        ) {
+          window.FirstVoloRewards.launch(reward);
+        }
+      }
+    }, 0);
+  }
 })();
