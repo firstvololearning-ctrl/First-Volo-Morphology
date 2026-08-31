@@ -437,7 +437,8 @@ function renderChangeItFeedback(item, isCorrect) {
 
   setAudioButton(
     feedback,
-    `${item.answer}. ${item.explanation}`
+    `${item.answer}. ${item.explanation}`,
+    [{ id: getCanonicalProgressMorphemeId(item.suffix), token: item.suffix }]
   );
 }
 

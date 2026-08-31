@@ -12,7 +12,11 @@
   const display = (id) => registry()?.learnerLabel?.(id) || id;
   const promptLabel = (id) => registry()?.promptLabel?.(id) || display(id);
   const meaning = (id) => registry()?.meaningSense?.(id) || id;
-  const speak = (text) => window.FirstVoloInstructionalAudio?.speak?.(text, { gradeBand: activeReward?.flight });
+  const speak = (text, descriptors = []) => {
+    const audio = window.FirstVoloInstructionalAudio;
+    if (descriptors.length && audio?.speakWithControlledMorphemes) return audio.speakWithControlledMorphemes(text, descriptors, { gradeBand: activeReward?.flight });
+    return audio?.speak?.(text, { gradeBand: activeReward?.flight });
+  };
   const taskFor = (stage) => stage.mode === "build"
     ? `Build ${stage.round.word}. Catch ${stage.target}.`
     : `Catch a meaning of ${promptLabel(stage.morphemeId)}.`;
@@ -111,17 +115,23 @@
     const build = stage.mode === "build";
     const taskText = build ? `Catch ${stage.target}.` : "";
     const spokenTask = taskFor(stage);
+    const spokenIds = build ? [...new Set(stage.round.pieces)] : [stage.morphemeId];
+    const spokenDescriptors = spokenIds.map((id) => ({
+      id,
+      token: build ? id : promptLabel(id),
+      ...(id === "ion" && !build ? { audioKey: "ion-family" } : {})
+    }));
     body.innerHTML = `<div class="reward-config-hud"><div class="reward-config-task"><div class="reward-config-progress"><small>${build ? `Word ${stage.roundIndex + 1} of ${activeReward.rounds.length}` : `Wind ${stage.roundIndex + 1} of ${stages.length}`}</small><button type="button" class="reward-config-speak" aria-label="Hear directions again">🔊</button></div>
       <h3>${build ? `BUILD ${stage.round.word.toUpperCase()}` : `CATCH A MEANING OF ${promptLabel(stage.morphemeId)}`}</h3>${build ? `<strong>${taskText}</strong><span>${stage.round.baseHelp}</span>` : ""}</div>
       <div class="reward-build-slots">${build ? stage.round.pieces.map((piece, index) => `<b class="${index < stage.pieceIndex ? "is-filled" : ""}">${index < stage.pieceIndex ? piece : "?"}</b>`).join("") : ""}</div></div>
       <div class="reward-config-field" tabindex="0"><div class="reward-config-feedback" aria-live="polite">${build ? "Collect the next piece." : "Choose the matching meaning."}</div>
       <img class="reward-config-volo" src="${VOLO_ASSET}" alt="Volo flying"></div>`;
-    body.querySelector(".reward-config-speak").addEventListener("click", () => speak(spokenTask));
+    body.querySelector(".reward-config-speak").addEventListener("click", () => speak(spokenTask, spokenDescriptors));
     const field = body.querySelector(".reward-config-field");
     field.addEventListener("pointerdown", handlePointer);
     field.addEventListener("pointermove", (event) => { if (event.buttons || event.pointerType === "touch") handlePointer(event); });
     stageChoices(stage).forEach((choice, index) => spawn(choice, 53 + index * 13, 17 + index * 19));
-    updateVolo(); active = true; lastFrame = performance.now(); field.focus(); frame = requestAnimationFrame(animate); speak(spokenTask);
+    updateVolo(); active = true; lastFrame = performance.now(); field.focus(); frame = requestAnimationFrame(animate); speak(spokenTask, spokenDescriptors);
   }
 
   function spawn(choice, x, y) {
@@ -215,7 +225,7 @@
     const replay = body.querySelector(".reward-config-replay"); replay.addEventListener("click", () => { stageIndex = 0; collected = []; renderIntro(); });
     body.querySelector(".reward-config-back").addEventListener("click", close); replay.focus();
   }
-  function stop() { active = false; if (frame) cancelAnimationFrame(frame); frame = null; }
+  function stop() { active = false; if (frame) cancelAnimationFrame(frame); frame = null; window.FirstVoloInstructionalAudio?.stop?.(); }
   function close() { stop(); if (!overlay) return; overlay.hidden = true; returnFocus?.focus?.(); }
 
   window.FirstVoloConfigGames = Object.freeze({ open, close });

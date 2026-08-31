@@ -34,8 +34,10 @@
   function displayMorpheme(id) {
     return window.FirstVoloRewardRegistry?.learnerLabel?.(id) || id.replace(/-(negation|reversative)$/, "");
   }
-  function speakPrompt(text) {
-    return window.FirstVoloInstructionalAudio?.speak?.(text, { gradeBand: activeReward?.flight });
+  function speakPrompt(text, descriptors = []) {
+    const audio = window.FirstVoloInstructionalAudio;
+    if (descriptors.length && audio?.speakWithControlledMorphemes) return audio.speakWithControlledMorphemes(text, descriptors, { gradeBand: activeReward?.flight });
+    return audio?.speak?.(text, { gradeBand: activeReward?.flight });
   }
   function createJourneyAccess(student, flightValue) {
     const reward = REWARDS.find((item) => item.flight === flightValue);
@@ -145,6 +147,7 @@
     stopRound();
     const round = activeReward.rounds[roundIndex];
     const spokenTask = `Catch ${displayMorpheme(round.target)}. It means ${round.meaning}.`;
+    const spokenDescriptors = [{ id: round.target, token: displayMorpheme(round.target) }];
     gameBody.innerHTML = `<div class="reward-sky-intro">
       <div class="reward-round-count">Wind ${roundIndex + 1} of ${activeReward.rounds.length}</div>
       <h3>Catch the word part that means <strong>${round.meaning}</strong>.</h3>
@@ -152,7 +155,7 @@
       <p>Move Volo with arrow keys, WASD, or point inside the sky.</p>
       <button type="button" class="reward-start-button">Ride the wind!</button></div>`;
     const start = gameBody.querySelector(".reward-start-button");
-    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask));
+    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask, spokenDescriptors));
     start.addEventListener("click", startRound);
     start.focus();
   }
@@ -160,6 +163,7 @@
     const round = activeReward.rounds[roundIndex];
     caught = 0; missed = 0; volo = { x: 16, y: 48 }; floaters = [];
     const spokenTask = `Catch ${displayMorpheme(round.target)}. It means ${round.meaning}.`;
+    const spokenDescriptors = [{ id: round.target, token: displayMorpheme(round.target) }];
     gameBody.innerHTML = `<div class="reward-game-hud">
       <div><span>Wind ${roundIndex + 1} of 5</span><strong>Catch: ${displayMorpheme(round.target)} = ${round.meaning}</strong><button type="button" class="reward-speak-button" aria-label="Hear directions again">🔊</button></div>
       <div class="reward-score" aria-live="polite"><span>Caught: <b>0</b></span><span>Missed: <b>0</b></span></div></div>
@@ -179,8 +183,8 @@
     updateVolo();
     roundStart = performance.now(); lastFrame = roundStart; roundActive = true;
     field.focus();
-    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask));
-    speakPrompt(spokenTask);
+    gameBody.querySelector(".reward-speak-button").addEventListener("click", () => speakPrompt(spokenTask, spokenDescriptors));
+    speakPrompt(spokenTask, spokenDescriptors);
     animationFrame = requestAnimationFrame(animateRound);
   }
   function spawnFloater(label, isTarget, x, y) {
@@ -370,4 +374,12 @@
   window.FirstVoloRewards = { registry: REWARDS, getTestState, isUnlocked,
     createJourneyAccess, createJourneyAccesses, launch: launchReward,
     openMyGames, open: openSkyCatch, close: closeGame };
+
+  if (
+    ["localhost", "127.0.0.1", "::1", ""].includes(location.hostname) &&
+    new URLSearchParams(location.search).get("rewardQa") === "dict"
+  ) {
+    const reward = REWARDS.find((item) => item.id === "root-word-builder");
+    if (reward) window.setTimeout(() => launchReward(reward, null), 0);
+  }
 })();

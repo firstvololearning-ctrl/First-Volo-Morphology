@@ -299,6 +299,24 @@
       "audioPath": "audio/morphemes/s-es-iz.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ion-family",
+      "audioPath": "audio/morphemes/ion-family.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion-shun",
+      "audioPath": "audio/morphemes/sion-shun.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "sion-zhun",
+      "audioPath": "audio/morphemes/sion-zhun.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }

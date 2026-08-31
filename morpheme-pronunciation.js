@@ -4,6 +4,7 @@
 (function (root) {
   const APPROVED_CANONICAL_IDS = new Set(["re", "dis", "en-em", "non", "location-in-family", "over", "mis", "sub", "pre", "inter", "fore", "de", "trans", "super", "anti", "mid", "under", "con-com", "e-ex", "pro", "retro", "circum", "bio", "fer", "mit", "pel", "pend", "port", "ten", "val", "vert", "cred", "form", "graph", "mot", "vis", "micro", "tele", "auto", "biblio", "phon", "scop", "metr", "therm", "ity", "ive", "ness", "ology", "ed", "er-or", "er-more", "est", "ful", "ing", "less", "ly-adverb", "ly-adjective"]);
   const CONTROLLED_AUDIO_IDS = new Set(["un-negation", "un-reversative", "negative-in-family", "semi", "ab", "a-ad", "chron", "duct", "ject", "pos", "put", "rupt", "scrib", "sequ", "spect", "struct", "tract", "ven", "voc", "act", "aud", "dict", "derm", "geo", "terr", "al", "ance", "ence", "ic", "ist", "ize", "ify", "able-ible", "ion", "ment", "ous", "ant-ent-agent", "ant-ent-adjective", "s-es"]);
+  const activeControlledPlaybacks = new Set();
   const CONTROLLED_VARIANT_LABELS = new Set(["-tion", "-sion", "-able", "-ance", "-ence", "-ion"]);
   const SPEECH_BY_ID = Object.freeze({
     "un-negation":"un", "un-reversative":"un", re:"ree", "negative-in-family":"in, im, il, or ir", dis:"dis", "en-em":"en or em", non:"non", "location-in-family":"in or im", over:"over", mis:"mis", sub:"sub", pre:"pree", inter:"inter", fore:"fore", de:"dee", trans:"trans", super:"super", semi:"semi", anti:"anti", mid:"mid", under:"under", ab:"ab", "a-ad":"a or ad", "con-com":"con or com", "e-ex":"e or ex", pro:"pro", retro:"retro", circum:"circum",
@@ -80,7 +81,7 @@
     al: ["/əl/", "HUMAN PEDAGOGICAL DECISION", "Unstressed uhl."],
     ist: ["/ɪst/", "HUMAN PEDAGOGICAL DECISION", "Short-i ist."],
     able: ["/əbəl/", "HUMAN PEDAGOGICAL DECISION", "Unstressed suffix uh-bull; not standalone able."],
-    ion: ["/ʃən/", "HUMAN PEDAGOGICAL DECISION + SOURCE SUPPORT", "First Volo pedagogical citation shun; example action; distinct written form from tion."],
+    ion: ["/ən/", "HUMAN PEDAGOGICAL DECISION", "Individual -ion citation pronunciation is reduced uhn; distinct from the ion-family recording and -tion."],
     sion: ["/ʒən/", "HUMAN PEDAGOGICAL DECISION + SOURCE SUPPORT", "Citation based on decision; contextual /ʃən/ variation also documented."],
     ous: ["/əs/", "HUMAN PEDAGOGICAL DECISION", "Unstressed us."],
     ant: ["/ənt/", "HUMAN PEDAGOGICAL DECISION", "Unstressed uhnt; not standalone insect ant."],
@@ -144,10 +145,18 @@
     { audioKey: "s-es-z", visibleForm: "/z/", proposedFilename: "audio/morphemes/s-es-z.m4a", pronunciationTarget: "/z/", notes: "Voiced surface realization only; do not record the letter name zee.", FirstVoloExamples: ["dogs"] },
     { audioKey: "s-es-iz", visibleForm: "/ɪz/", proposedFilename: "audio/morphemes/s-es-iz.m4a", pronunciationTarget: "/ɪz/", notes: "Short iz syllable surface realization.", FirstVoloExamples: ["boxes"] }
   ]);
+  const ION_FAMILY_AUDIO = Object.freeze({ audioKey: "ion-family", visibleForm: "-ion, -tion, -sion", proposedFilename: "audio/morphemes/ion-family.m4a", pronunciationTarget: "family sequence: /ʃən/, /ʃən/, /ʒən/", notes: "Family-level recording; preserve documented contextual /ʃən/ variation for -sion.", FirstVoloExamples: ["action", "construction", "decision"] });
+  const ION_SION_INDIVIDUALS = Object.freeze([
+    { audioKey: "ion", visibleForm: "-ion", proposedFilename: "audio/morphemes/ion.m4a", pronunciationTarget: "/ən/", notes: "Record “uhn” only; existing approved clip is retained pending rerecording review.", FirstVoloExamples: ["action"] },
+    { audioKey: "sion-shun", visibleForm: "-sion → /ʃən/", proposedFilename: "audio/morphemes/sion-shun.m4a", pronunciationTarget: "/ʃən/", notes: "Record “shun” only.", FirstVoloExamples: ["tension", "pension", "compulsion"] },
+    { audioKey: "sion-zhun", visibleForm: "-sion → /ʒən/", proposedFilename: "audio/morphemes/sion-zhun.m4a", pronunciationTarget: "/ʒən/", notes: "Record “zhun” only.", FirstVoloExamples: ["decision", "vision", "explosion"] }
+  ]);
   const S_ES_REALIZATION_AUDIO_KEYS = Object.freeze(S_ES_REALIZATIONS.map((item) => item.audioKey));
-  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS]);
-  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS]);
-  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS, "suffixes-1": SUFFIXES_BATCH1_AUDIO_KEYS, "suffixes-2": SUFFIXES_BATCH2_AUDIO_KEYS, "s-es": S_ES_REALIZATION_AUDIO_KEYS, "final-redos": Object.freeze(["s-es-s", "tion"]) });
+  const ION_FAMILY_AUDIO_KEYS = Object.freeze([ION_FAMILY_AUDIO.audioKey]);
+  const ION_SION_INDIVIDUAL_AUDIO_KEYS = Object.freeze(ION_SION_INDIVIDUALS.map((item) => item.audioKey));
+  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS, ...ION_FAMILY_AUDIO_KEYS, ...ION_SION_INDIVIDUAL_AUDIO_KEYS]);
+  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS, ...ION_FAMILY_AUDIO_KEYS, ...ION_SION_INDIVIDUAL_AUDIO_KEYS]);
+  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS, "suffixes-1": SUFFIXES_BATCH1_AUDIO_KEYS, "suffixes-2": SUFFIXES_BATCH2_AUDIO_KEYS, "s-es": S_ES_REALIZATION_AUDIO_KEYS, "final-redos": Object.freeze(["s-es-s", "tion"]), "ion-family": ION_FAMILY_AUDIO_KEYS, "ion-sion-individuals": ION_SION_INDIVIDUAL_AUDIO_KEYS });
   const PILOT_AUDIO_EXTENSION = "m4a";
   Object.entries(controlledById).forEach(([id, keys]) => keys.forEach((key) => addManifestForm(key, id)));
   Object.entries(controlledByVariant).forEach(([label, key]) => addManifestForm(key, null, `variant:${label}`));
@@ -174,6 +183,14 @@
     return { strategy: "tts", speechText: entry.speechText };
   }
 
+  function controlledAudioKeysForId(id) {
+    const familyKeys = Object.values(controlledManifest)
+      .filter((item) => item.canonicalIds.includes(id))
+      .map((item) => item.audioKey);
+    if (familyKeys.length) return familyKeys;
+    return CONTROLLED_CLIP_AUDIO_KEYS.includes(id) ? [id] : [];
+  }
+
   function controlledClipPath(audioKey) {
     return `audio/morphemes/${CONTROLLED_REVIEW_AUDIO_KEYS.includes(audioKey) ? `${audioKey}.${PILOT_AUDIO_EXTENSION}` : `${audioKey}.mp3`}`;
   }
@@ -192,14 +209,30 @@
     const baseSrc = controlledClipPath(audioKey);
     const src = cacheBust ? `${baseSrc}?qa=${encodeURIComponent(cacheBust)}` : baseSrc;
     if (typeof root.Audio !== "function") return Promise.reject(new Error("Audio playback is unavailable"));
-    return isControlledClipInstalled(audioKey).then((installed) => {
-      if (!installed) throw new Error(`Controlled clip is missing: ${src}`);
-      return new Promise((resolve, reject) => {
-        const audio = new root.Audio(src);
-        audio.addEventListener("ended", resolve, { once: true });
-        audio.addEventListener("error", () => reject(new Error(`Unable to play controlled clip: ${src}`)), { once: true });
-        audio.play().catch(reject);
-      });
+    return new Promise((resolve, reject) => {
+      const audio = new root.Audio(src);
+      const entry = { audio, resolve, reject };
+      activeControlledPlaybacks.add(entry);
+      const finish = (result) => {
+        activeControlledPlaybacks.delete(entry);
+        resolve(result);
+      };
+      audio.addEventListener("ended", () => finish(true), { once: true });
+      audio.addEventListener("error", () => {
+        activeControlledPlaybacks.delete(entry);
+        reject(new Error(`Unable to play controlled clip: ${src}`));
+      }, { once: true });
+      const playResult = audio.play();
+      playResult?.catch?.(reject);
+    });
+  }
+
+  function stopControlledClips() {
+    activeControlledPlaybacks.forEach((entry) => {
+      activeControlledPlaybacks.delete(entry);
+      const { audio, resolve } = entry;
+      try { audio.pause(); } catch (_) { /* already stopped */ }
+      resolve(false);
     });
   }
 
@@ -254,12 +287,16 @@
     controlledAudioManifest: Object.freeze(Object.values(controlledManifest).map((item) => Object.freeze({ ...item, canonicalIds: Object.freeze(item.canonicalIds), variantIds: Object.freeze(item.variantIds) }))),
     pilotAudioKeys: PILOT_AUDIO_KEYS,
     controlledAudioRealizations: S_ES_REALIZATIONS,
+    controlledAudioFamily: ION_FAMILY_AUDIO,
+    controlledAudioIndividuals: ION_SION_INDIVIDUALS,
     controlledAudioReviewBatches: CONTROLLED_AUDIO_REVIEW_BATCHES,
     controlledClipPath,
     isControlledClipInstalled,
     playControlledClip,
+    stopControlledClips,
     familySpeakingRules: FAMILY_SPEAKING_RULES,
     resolveMorphemeAudio,
+    controlledAudioKeysForId,
     containsControlledMorpheme,
     getMorphemeSpeechText,
     replaceMorphemeLabels
@@ -305,6 +342,10 @@
     const manifestByKey = new Map(controlledManifest && Object.values(controlledManifest).map((item) => [item.audioKey, item]));
     const reviewItems = reviewBatch === "s-es"
       ? S_ES_REALIZATIONS
+      : reviewBatch === "ion-family"
+        ? [ION_FAMILY_AUDIO]
+      : reviewBatch === "ion-sion-individuals"
+        ? ION_SION_INDIVIDUALS
       : reviewBatch === "final-redos"
         ? reviewKeys.map((key) => S_ES_REALIZATIONS.find((item) => item.audioKey === key) || manifestByKey.get(key)).filter(Boolean)
         : reviewKeys.map((key) => manifestByKey.get(key)).filter(Boolean);
@@ -329,7 +370,7 @@
       preview.addEventListener("click", () => { if (!temporaryRecording?.url) { debug("play-click-without-recording"); return; } debug("play-click", { url: temporaryRecording.url, blobSize: temporaryRecording.size, mimeType: temporaryRecording.mimeType }); recordingAudio?.pause(); if (!recordingAudio) recordingAudio = new root.Audio(); recordingAudio.src = temporaryRecording.url; recordingAudio.load(); recordingAudio.currentTime = 0; const promise = recordingAudio.play(); promise?.then(() => debug("play-started", { readyState: recordingAudio.readyState, networkState: recordingAudio.networkState })).catch((error) => { debug("play-rejected", { message: error.message, readyState: recordingAudio.readyState, networkState: recordingAudio.networkState, mediaError: recordingAudio.error?.code || null }); row.querySelector(".controlled-audio-file").textContent = `Playback error: ${error.message}`; }); });
       redo.addEventListener("click", () => { recordingAudio?.pause(); if (temporaryRecording?.url) { debug("redo-revoke", { url: temporaryRecording.url }); URL.revokeObjectURL(temporaryRecording.url); } temporaryRecording = null; nativeAudio.removeAttribute("src"); nativeAudio.load(); preview.disabled = true; redo.disabled = true; save.disabled = true; row.querySelector(".controlled-audio-file").textContent = `Ready to record · Save as ${item.proposedFilename}`; });
       save.addEventListener("click", () => { if (temporaryRecording?.blob && temporaryRecording.size > 0 && temporaryRecording.url) { const filename = `${key}.${recordingExtension(temporaryRecording.mimeType)}`; downloadRecording(temporaryRecording.blob, filename); row.querySelector(".controlled-audio-file").textContent = `Saved/downloaded: ${filename} · place in audio/morphemes/${filename}`; } });
-      select.value = reviewBatch === "final-redos" ? "Approved" : (stored[key] || "Pending review");
+      select.value = reviewBatch === "ion-sion-individuals" ? "Approved" : (stored[key] || "Pending review");
       select.addEventListener("change", () => { stored[key] = select.value; try { root.localStorage?.setItem("firstVoloControlledAudioPilotReview:v1", JSON.stringify(stored)); } catch (_) {} });
       row.querySelector(".controlled-audio-file").textContent = "Checking " + item.proposedFilename + "…";
       isControlledClipInstalled(key).then((installed) => {

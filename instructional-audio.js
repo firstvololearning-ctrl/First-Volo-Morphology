@@ -1,6 +1,7 @@
 "use strict";
 
 (function initializeFirstVoloInstructionalAudio() {
+  let playbackGeneration = 0;
 
   function available() {
     return (
@@ -221,10 +222,12 @@
 
 
   function stop() {
+    playbackGeneration += 1;
     if (available()) {
       window.speechSynthesis
         .cancel();
     }
+    window.FirstVoloMorphemePronunciation?.stopControlledClips?.();
   }
 
   function speakSegments(segments = []) {
@@ -233,6 +236,7 @@
       if (!available()) { resolve(false); return; }
       const prepared = prepareSpeechText(value);
       if (!prepared) { resolve(true); return; }
+      if (/^[\W_]+$/.test(prepared)) { resolve(true); return; }
       window.speechSynthesis.cancel();
       const utterance = new window.SpeechSynthesisUtterance(prepared);
       utterance.lang = "en-US";
@@ -243,10 +247,50 @@
       utterance.addEventListener("error", (event) => reject(event.error || new Error("Speech playback failed")), { once: true });
       window.speechSynthesis.speak(utterance);
     });
+    const generation = playbackGeneration;
     return segments.reduce((promise, segment) => promise.then(() => {
+      if (generation !== playbackGeneration) return false;
       if (segment?.type === "controlled") return pronunciation?.playControlledClip?.(segment.audioKey);
+      if (segment?.type !== "tts") return false;
       return speakText(segment?.text || "");
     }), Promise.resolve());
+  }
+
+  function speakWithControlledMorphemes(text, descriptors = [], options = {}) {
+    const source = String(text || "");
+    const pronunciation = window.FirstVoloMorphemePronunciation;
+    const items = (Array.isArray(descriptors) ? descriptors : [descriptors])
+      .map((item) => typeof item === "string" ? { id: item, token: item } : item)
+      .filter((item) => item?.id && item?.token)
+      .map((item) => ({ ...item, token: String(item.token) }))
+      .filter((item) => pronunciation?.resolveMorphemeAudio?.(item.id)?.strategy === "controlled")
+      .sort((a, b) => b.token.length - a.token.length);
+    if (!items.length) return speak(source, options);
+    const escaped = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = items.map((item) => escaped(item.token)).join("|");
+    const matches = [];
+    const matcher = new RegExp(`(?<![A-Za-z])(${pattern})(?![A-Za-z])`, "gi");
+    let match;
+    while ((match = matcher.exec(source))) matches.push({ start: match.index, end: match.index + match[0].length, token: match[0] });
+    if (!matches.length) return speak(source, options);
+    const segments = [];
+    let cursor = 0;
+    matches.forEach((match) => {
+      if (match.start > cursor) segments.push({ type: "tts", text: source.slice(cursor, match.start) });
+      const descriptor = items.find((item) => item.token.toLowerCase() === match.token.toLowerCase());
+      const keys = descriptor?.audioKey
+        ? [descriptor.audioKey]
+        : (pronunciation?.controlledAudioKeysForId?.(descriptor?.id) || []);
+      if (keys.length) {
+        keys.forEach((audioKey, index) => {
+          if (index) segments.push({ type: "tts", text: "or" });
+          segments.push({ type: "controlled", audioKey });
+        });
+      }
+      cursor = match.end;
+    });
+    if (cursor < source.length) segments.push({ type: "tts", text: source.slice(cursor) });
+    return speakSegments(segments);
   }
 
 
@@ -256,6 +300,7 @@
     rateForGradeBand,
     speak,
     speakSegments,
+    speakWithControlledMorphemes,
     stop
   };
 
