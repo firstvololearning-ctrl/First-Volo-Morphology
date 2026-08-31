@@ -8,17 +8,9 @@
 
   Token rules are NOT changed here.
 
-  Journey structure:
-    Home Tree
-    Meadow
-    River
-    Forest
-    Mountains
-    Village
-    Coast
-    Destination
-
-  Tokens move Volo from Home Tree through the Coast.
+  The token/mastery engine remains the source of truth for learning.
+  This module translates demonstrated learning into discrete arrivals on
+  each Flight's active migration route.
 
   The final Destination is reserved for a future
   Transfer Check using novel words that are separate
@@ -33,35 +25,48 @@
   const STOPS = Object.freeze([
     {
       id: "home-tree",
-      label: "Summer Home"
+      label: "Summer Home",
+      routeRatio: 0
     },
     {
       id: "meadow",
-      label: "Meadow"
+      label: "Meadow",
+      routeRatio: 0.142857
     },
     {
       id: "river",
-      label: "River"
+      label: "River",
+      routeRatio: 0.285714
     },
     {
       id: "forest",
-      label: "Forest"
+      label: "Forest",
+      routeRatio: 0.428571
     },
     {
       id: "mountains",
-      label: "Mountains"
+      label: "Mountains",
+      routeRatio: 0.571429
     },
     {
       id: "village",
-      label: "Village"
+      label: "Village",
+      routeRatio: 0.714286
+    },
+    {
+      id: "pond",
+      label: "Pond",
+      routeRatio: 0.785714
     },
     {
       id: "coast",
-      label: "Coast"
+      label: "Coast",
+      routeRatio: 0.857143
     },
     {
       id: "destination",
-      label: "Winter Home"
+      label: "Winter Home",
+      routeRatio: 1
     }
   ]);
 
@@ -70,23 +75,62 @@
       id: "A",
       label: "Flight A",
       collection: "Foundation",
-      badgeLabel: "Foundation Badge"
+      badgeLabel: "Foundation Badge",
+      activeStopIds: [
+        "home-tree", "meadow", "forest", "village", "coast", "destination"
+      ]
     },
 
     "4-5": {
       id: "B",
       label: "Flight B",
       collection: "Expansion",
-      badgeLabel: "Expansion Badge"
+      badgeLabel: "Expansion Badge",
+      activeStopIds: [
+        "home-tree", "meadow", "river", "forest", "mountains",
+        "pond", "village", "coast", "destination"
+      ]
     },
 
     "6-8": {
       id: "C",
       label: "Flight C",
       collection: "Advanced",
-      badgeLabel: "Advanced Badge"
+      badgeLabel: "Advanced Badge",
+      activeStopIds: [
+        "home-tree", "meadow", "forest", "mountains", "village", "coast", "destination"
+      ]
     }
   });
+
+  const STOP_BY_ID = new Map(
+    STOPS.map((stop) => [stop.id, stop])
+  );
+
+  function getFlightStops(flight) {
+    return flight.activeStopIds
+      .map((stopId) => {
+        const stop = STOP_BY_ID.get(stopId);
+
+        if (flight.id === "B") {
+          if (stopId === "pond") {
+            return { ...stop, routeRatio: 0.714286 };
+          }
+
+          if (stopId === "village") {
+            return { ...stop, routeRatio: 0.785714 };
+          }
+        }
+
+        return stop;
+      })
+      .filter(Boolean);
+  }
+
+  function isDevelopment() {
+    return ["", "localhost", "127.0.0.1", "::1"]
+      .includes(window.location.hostname);
+  }
 
 
   function getFlight(flightValue) {
@@ -181,6 +225,21 @@
         flightValue
       );
 
+    const stops =
+      getFlightStops(flight);
+
+    const instructionalDestinationCount =
+      Math.max(0, stops.length - 2);
+
+    if (
+      statuses.length !== instructionalDestinationCount &&
+      isDevelopment()
+    ) {
+      console.warn(
+        `[FirstVoloMigration] ${flight.label} has ${statuses.length} token-set statuses but ${instructionalDestinationCount} instructional destinations.`
+      );
+    }
+
     const totalTokens =
       statuses.length;
 
@@ -197,19 +256,6 @@
       totalTokens > 0
         ? earnedTokens / totalTokens
         : 0;
-
-    /*
-      Token progress occupies stops 0–6:
-      Home Tree through Coast.
-
-      Stop 7 (Destination) is reserved
-      for successful transfer.
-    */
-    const coastIndex =
-      STOPS.length - 2;
-
-    const tokenRoutePosition =
-      tokenRatio * coastIndex;
 
     const tokensComplete =
       totalTokens > 0 &&
@@ -230,33 +276,35 @@
       tokensComplete &&
       transferPassed;
 
-    const routePosition =
-      journeyComplete
-        ? STOPS.length - 1
-        : tokenRoutePosition;
-
     const currentStopIndex =
-      Math.min(
-        STOPS.length - 1,
-        Math.floor(
-          routePosition + 0.000001
-        )
-      );
+      journeyComplete
+        ? stops.length - 1
+        : Math.min(
+          instructionalDestinationCount,
+          earnedTokens
+        );
 
     const currentStop =
-      STOPS[currentStopIndex];
+      stops[currentStopIndex];
 
     const nextStop =
       currentStopIndex <
-        STOPS.length - 1
-        ? STOPS[
+        stops.length - 1
+        ? stops[
             currentStopIndex + 1
           ]
         : null;
 
+    const routeRatio =
+      currentStop?.routeRatio || 0;
+
     return {
       flight,
-      stops: STOPS,
+      stops,
+
+      instructionalDestinationCount,
+      totalDestinations:
+        instructionalDestinationCount,
 
       totalTokens,
       earnedTokens,
@@ -274,7 +322,10 @@
       postTestReady:
         journeyComplete,
 
-      routePosition,
+      // Kept as a discrete index for compatibility. The physical route
+      // uses routeRatio, which is defined by the canonical map geometry.
+      routePosition: currentStopIndex,
+      routeRatio,
 
       currentStopIndex,
       currentStop,
@@ -293,6 +344,7 @@
     STOPS,
     FLIGHTS,
     getFlight,
+    getFlightStops,
     getFlightStatuses,
     getProgress
   };

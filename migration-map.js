@@ -31,6 +31,9 @@
       "village":
         "images/migration/scenes/village.png",
 
+      "pond":
+        "images/migration/scenes/pond.png",
+
       "coast":
         "images/migration/scenes/coast.png",
 
@@ -68,6 +71,11 @@
       "village": {
         x: 76,
         y: 42
+      },
+
+      "pond": {
+        x: 75,
+        y: 45
       },
 
       "coast": {
@@ -142,18 +150,6 @@
 
   actions.append(launchButton);
 
-  const myGamesButton =
-    document.createElement("button");
-
-  myGamesButton.type = "button";
-  myGamesButton.className =
-    "migration-map-launch-button migration-my-games-button";
-  myGamesButton.innerHTML =
-    '<span aria-hidden="true">🎮</span>' +
-    "<span>My Games</span>";
-
-  actions.append(myGamesButton);
-
   const overlay =
     document.createElement("div");
 
@@ -217,7 +213,7 @@
     "migration-modal-subtitle";
 
   subtitle.textContent =
-    "Earn Volo Tokens to help Volo migrate from Summer Home to Winter Home.";
+    "Show what you know to help Volo migrate from Summer Home to Winter Home.";
 
   headerCopy.append(
     eyebrow,
@@ -604,16 +600,29 @@
     );
 
     const pathData =
-      [
-        "M 13 62",
-        "C 18 59, 23 50, 27 48",
-        "C 32 47, 36 56, 40 60",
-        "C 45 59, 49 48, 53 44",
-        "C 57 43, 62 52, 65 56",
-        "C 69 55, 73 46, 76 42",
-        "C 80 41, 83 50, 86 55",
-        "C 89 53, 90 45, 90 39"
-      ].join(" ");
+      (progress.flight.id === "B"
+        ? [
+          "M 13 62",
+          "C 18 59, 23 50, 27 48",
+          "C 32 47, 36 56, 40 60",
+          "C 45 59, 49 48, 53 44",
+          "C 57 43, 62 52, 65 56",
+          "C 67 61, 71 68, 75 70",
+          "C 76 63, 79 51, 76 42",
+          "C 80 43, 84 50, 86 55",
+          "C 89 53, 90 45, 90 39"
+        ]
+        : [
+          "M 13 62",
+          "C 18 59, 23 50, 27 48",
+          "C 32 47, 36 56, 40 60",
+          "C 45 59, 49 48, 53 44",
+          "C 57 43, 62 52, 65 56",
+          "C 69 55, 73 46, 76 42",
+          "C 80 41, 83 50, 86 55",
+          "C 89 53, 90 45, 90 39"
+        ]
+      ).join(" ");
 
     const base =
       document.createElementNS(
@@ -653,14 +662,7 @@
     const ratio =
       Math.max(
         0,
-        Math.min(
-          1,
-          progress.routePosition /
-            (
-              progress.stops.length -
-              1
-            )
-        )
+        Math.min(1, progress.routeRatio || 0)
       );
 
     if (ratio <= 0) {
@@ -707,17 +709,21 @@
     const tokenOrdinal =
       tokenIndex + 1;
 
-    const tokenRatio =
-      tokenOrdinal /
-      progress.totalTokens;
+    const destinationIndex =
+      Math.min(
+        tokenOrdinal,
+        progress.instructionalDestinationCount
+      );
 
-    const routePosition =
-      tokenRatio *
-      (progress.stops.length - 2);
+    const destination =
+      progress.stops[destinationIndex];
+
+    if (!destination) {
+      return false;
+    }
 
     const routeRatio =
-      routePosition /
-      (progress.stops.length - 1);
+      destination.routeRatio;
 
     const routePath =
       map.querySelector(
@@ -741,7 +747,7 @@
       `${point.y}%`;
 
     rewardAccess.dataset.routePosition =
-      String(routePosition);
+      String(destinationIndex);
 
     rewardAccess.dataset.routeRatio =
       String(routeRatio);
@@ -772,7 +778,10 @@
     progress
   ) {
     const position =
-      POSITIONS[stop.id];
+      progress.flight.id === "B" &&
+      stop.id === "pond"
+          ? { x: 75, y: 70 }
+        : POSITIONS[stop.id];
 
     const place =
       document.createElement("div");
@@ -791,8 +800,7 @@
       progress.currentStopIndex;
 
     const reached =
-      progress.routePosition >=
-      index - 0.000001;
+      progress.currentStopIndex >= index;
 
     const locked =
       stop.id === "destination" &&
@@ -841,10 +849,13 @@
       "migration-map-marker";
 
     marker.textContent =
-      reached &&
-      !current
-        ? "✓"
-        : String(index + 1);
+      stop.id === "home-tree"
+        ? "⌂"
+        : stop.id === "destination"
+          ? "★"
+          : reached && !current
+            ? "✓"
+            : String(index);
 
     marker.setAttribute(
       "aria-hidden",
@@ -952,7 +963,7 @@
         "Volo reached the Coast.";
 
       text.textContent =
-        `Complete the final Migration Challenge to show what you know about the word parts you learned in ${progress.flight.label}. Complete the challenge successfully to help Volo reach Winter Home.`;
+        "Complete the final Migration Challenge to show how independently you can apply what you learned to unfamiliar words and new contexts. Complete it successfully to help Volo reach Winter Home.";
     } else if (
       progress.earnedTokens === 0
     ) {
@@ -960,14 +971,14 @@
         "Volo is ready to migrate.";
 
       text.textContent =
-        "Earn Volo Tokens to help Volo travel from Summer Home toward Winter Home.";
+        "Show what you know across groups of word parts to help Volo reach the next destination.";
     } else {
       strong.textContent =
         `Volo reached ${progress.currentStop.label}.`;
 
       text.textContent =
         progress.nextStop
-          ? `Keep earning Tokens to travel toward ${progress.nextStop.label}.`
+          ? `Keep showing what you know to travel toward ${progress.nextStop.label}.`
           : "Keep going.";
     }
 
@@ -981,16 +992,8 @@
       is earned, the Transfer Challenge is
       the final step before Winter Home.
     */
-    const transferTestMode =
-      new URLSearchParams(
-        window.location.search
-      ).get("transferTest") === "1";
-
     if (
-      (
-        progress.tokensComplete ||
-        transferTestMode
-      ) &&
+      progress.tokensComplete &&
       !progress.transferPassed
     ) {
       const transferButton =
@@ -1057,7 +1060,7 @@
       `
         <strong>Choose a learner first.</strong>
         <span>
-          Volo's Migration Map uses that learner's earned Volo Tokens.
+          Volo's Migration Map uses that learner's demonstrated learning progress.
         </span>
       `;
 
@@ -1111,79 +1114,6 @@
       return;
     }
 
-    /*
-      TEST MODE ONLY
-
-      The real migration engine remains untouched.
-
-      ?transferTest=1 visually simulates:
-        all Flight tokens earned -> Coast
-        Migration Challenge passed -> Winter Home
-
-      No Volo Tokens are written or awarded here.
-    */
-    const transferTestMode =
-      new URLSearchParams(
-        window.location.search
-      ).get("transferTest") === "1";
-
-    if (transferTestMode) {
-      const destinationIndex =
-        progress.stops.length - 1;
-
-      const coastIndex =
-        destinationIndex - 1;
-
-      const simulatedJourneyComplete =
-        Boolean(
-          progress.transferPassed
-        );
-
-      const simulatedStopIndex =
-        simulatedJourneyComplete
-          ? destinationIndex
-          : coastIndex;
-
-      progress = {
-        ...progress,
-
-        earnedTokens:
-          progress.totalTokens,
-
-        tokenRatio: 1,
-
-        tokensComplete: true,
-        transferUnlocked: true,
-
-        journeyComplete:
-          simulatedJourneyComplete,
-
-        postTestReady:
-          simulatedJourneyComplete,
-
-        badgeEarned:
-          simulatedJourneyComplete,
-
-        routePosition:
-          simulatedStopIndex,
-
-        currentStopIndex:
-          simulatedStopIndex,
-
-        currentStop:
-          progress.stops[
-            simulatedStopIndex
-          ],
-
-        nextStop:
-          simulatedJourneyComplete
-            ? null
-            : progress.stops[
-                destinationIndex
-              ]
-      };
-    }
-
     const summary =
       document.createElement("div");
 
@@ -1203,7 +1133,7 @@
       "migration-map-token-count";
 
     tokens.innerHTML =
-      `<b>${progress.earnedTokens}</b> of ${progress.totalTokens} Volo Tokens`;
+      `<b>${progress.earnedTokens}</b> of ${progress.totalDestinations} destinations reached`;
 
     summary.append(
       learner,
@@ -1220,7 +1150,7 @@
       document.createElement("div");
 
     map.className =
-      "migration-connected-map";
+      `migration-connected-map migration-flight-${progress.flight.id}`;
 
     map.append(
       makeMapSketch(),
@@ -1239,21 +1169,21 @@
       }
     );
 
-    const rewardAccesses =
+    const rewardAccess =
       window.FirstVoloRewards
-        ?.createJourneyAccesses?.(
+        ?.createJourneyAccess?.(
           student,
           flightValue
-        ) || [];
+        );
 
-    rewardAccesses.forEach((rewardAccess) => {
+    if (rewardAccess) {
       map.append(rewardAccess);
       positionRewardOnRoute(
         map,
         rewardAccess,
         progress
       );
-    });
+    }
 
     scroll.append(map);
 
@@ -1295,29 +1225,6 @@
   launchButton.addEventListener(
     "click",
     openModal
-  );
-
-  myGamesButton.addEventListener(
-    "click",
-    () => {
-      let student = getStudent();
-      const rewardTestState =
-        window.FirstVoloRewards
-          ?.getTestState?.();
-
-      if (!student && rewardTestState) {
-        student = {
-          id: "reward-preview",
-          name: "Reward Preview"
-        };
-      }
-
-      window.FirstVoloRewards
-        ?.openMyGames?.(
-          student,
-          myGamesButton
-        );
-    }
   );
 
   closeButton.addEventListener(
@@ -1396,60 +1303,4 @@
     close: closeModal,
     render
   };
-
-  /* Localhost-only visual QA; it never creates or writes learner progress. */
-  if (
-    window.FirstVoloRewards
-      ?.getTestState?.()
-  ) {
-    const qaParams =
-      new URLSearchParams(
-        window.location.search
-      );
-    const qaFlight =
-      qaParams.get("rewardFlight");
-    const qaView =
-      qaParams.get("rewardView");
-    const qaGame =
-      qaParams.get("rewardGame");
-    const qaPopover =
-      qaParams.get("rewardPopover");
-
-    if (["2-3", "4-5", "6-8"].includes(qaFlight)) {
-      gradeBandSelect.value = qaFlight;
-      gradeBandSelect.dispatchEvent(
-        new Event("change", { bubbles: true })
-      );
-    }
-
-    window.setTimeout(() => {
-      if (qaView === "map") {
-        openModal();
-        if (qaPopover) {
-          content.querySelector(
-            `[data-reward-id="${CSS.escape(qaPopover)}"] .reward-route-marker`
-          )?.click();
-        }
-      }
-      if (qaView === "my-games") myGamesButton.click();
-      if (qaGame) {
-        const reward =
-          window.FirstVoloRewards.registry
-            .find((item) => item.id === qaGame);
-        const qaStudent = {
-          id: "reward-preview",
-          name: "Reward Preview"
-        };
-        if (
-          reward &&
-          window.FirstVoloRewards.isUnlocked(
-            reward,
-            qaStudent
-          )
-        ) {
-          window.FirstVoloRewards.launch(reward);
-        }
-      }
-    }, 0);
-  }
 })();

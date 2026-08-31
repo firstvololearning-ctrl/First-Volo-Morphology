@@ -2364,4 +2364,20 @@ body.migration-modal-open {
   transform: translate(0%, 27%);
 }
 
+/* Pond — place the new scene just below the route between Village and Coast. */
+.migration-place-pond {
+  width: 100px;
+  height: 72px;
+}
+
+.migration-place-pond .migration-map-scene {
+  transform: translate(-5%, 22%);
+}
+
+/* Flight B Pond — a distinct lower-middle destination. */
+.migration-flight-B .migration-place-pond {
+  width: 145px;
+  height: 102px;
+}
+
 /* === END FINAL POP-OUT NUDGES === */
