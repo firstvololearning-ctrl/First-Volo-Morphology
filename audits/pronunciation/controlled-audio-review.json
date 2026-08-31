@@ -203,6 +203,48 @@
       "audioPath": "audio/morphemes/terr.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "al",
+      "audioPath": "audio/morphemes/al.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ance",
+      "audioPath": "audio/morphemes/ance.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ence",
+      "audioPath": "audio/morphemes/ence.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ic",
+      "audioPath": "audio/morphemes/ic.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ist",
+      "audioPath": "audio/morphemes/ist.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ize",
+      "audioPath": "audio/morphemes/ize.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ify",
+      "audioPath": "audio/morphemes/ify.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }

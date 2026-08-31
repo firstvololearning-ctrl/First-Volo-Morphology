@@ -137,9 +137,10 @@
   const PREFIX_AUDIO_KEYS = Object.freeze(["un", "in", "im", "il", "ir", "semi", "ab", "a", "ad"]);
   const ROOTS_BATCH1_AUDIO_KEYS = Object.freeze(["ject", "pos", "put", "rupt", "scrib", "script", "spect", "struct", "tract"]);
   const ROOTS_BATCH2_AUDIO_KEYS = Object.freeze(["ven", "vent", "voc", "act", "aud", "dict", "derm", "terr"]);
-  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS]);
-  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS]);
-  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS });
+  const SUFFIXES_BATCH1_AUDIO_KEYS = Object.freeze(["al", "ance", "ence", "ic", "ist", "ize", "ify"]);
+  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS]);
+  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS]);
+  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS, "suffixes-1": SUFFIXES_BATCH1_AUDIO_KEYS });
   const PILOT_AUDIO_EXTENSION = "m4a";
   Object.entries(controlledById).forEach(([id, keys]) => keys.forEach((key) => addManifestForm(key, id)));
   Object.entries(controlledByVariant).forEach(([label, key]) => addManifestForm(key, null, `variant:${label}`));
