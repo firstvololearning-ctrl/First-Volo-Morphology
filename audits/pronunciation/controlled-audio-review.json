@@ -281,6 +281,24 @@
       "audioPath": "audio/morphemes/ent.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-s",
+      "audioPath": "audio/morphemes/s-es-s.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-z",
+      "audioPath": "audio/morphemes/s-es-z.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "s-es-iz",
+      "audioPath": "audio/morphemes/s-es-iz.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }

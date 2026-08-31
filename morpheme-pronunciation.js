@@ -139,9 +139,15 @@
   const ROOTS_BATCH2_AUDIO_KEYS = Object.freeze(["ven", "vent", "voc", "act", "aud", "dict", "derm", "terr"]);
   const SUFFIXES_BATCH1_AUDIO_KEYS = Object.freeze(["al", "ance", "ence", "ic", "ist", "ize", "ify"]);
   const SUFFIXES_BATCH2_AUDIO_KEYS = Object.freeze(["ion", "tion", "ment", "ous", "ant", "ent"]);
-  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS]);
-  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS]);
-  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS, "suffixes-1": SUFFIXES_BATCH1_AUDIO_KEYS, "suffixes-2": SUFFIXES_BATCH2_AUDIO_KEYS });
+  const S_ES_REALIZATIONS = Object.freeze([
+    { audioKey: "s-es-s", visibleForm: "/s/", proposedFilename: "audio/morphemes/s-es-s.m4a", pronunciationTarget: "/s/", notes: "Voiceless surface realization only; do not record the letter name ess.", FirstVoloExamples: ["books"] },
+    { audioKey: "s-es-z", visibleForm: "/z/", proposedFilename: "audio/morphemes/s-es-z.m4a", pronunciationTarget: "/z/", notes: "Voiced surface realization only; do not record the letter name zee.", FirstVoloExamples: ["dogs"] },
+    { audioKey: "s-es-iz", visibleForm: "/ɪz/", proposedFilename: "audio/morphemes/s-es-iz.m4a", pronunciationTarget: "/ɪz/", notes: "Short iz syllable surface realization.", FirstVoloExamples: ["boxes"] }
+  ]);
+  const S_ES_REALIZATION_AUDIO_KEYS = Object.freeze(S_ES_REALIZATIONS.map((item) => item.audioKey));
+  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS]);
+  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH2_AUDIO_KEYS, ...SUFFIXES_BATCH1_AUDIO_KEYS, ...SUFFIXES_BATCH2_AUDIO_KEYS, ...S_ES_REALIZATION_AUDIO_KEYS]);
+  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS, "roots-2": ROOTS_BATCH2_AUDIO_KEYS, "suffixes-1": SUFFIXES_BATCH1_AUDIO_KEYS, "suffixes-2": SUFFIXES_BATCH2_AUDIO_KEYS, "s-es": S_ES_REALIZATION_AUDIO_KEYS, "final-redos": Object.freeze(["s-es-s", "tion"]) });
   const PILOT_AUDIO_EXTENSION = "m4a";
   Object.entries(controlledById).forEach(([id, keys]) => keys.forEach((key) => addManifestForm(key, id)));
   Object.entries(controlledByVariant).forEach(([label, key]) => addManifestForm(key, null, `variant:${label}`));
@@ -152,6 +158,9 @@
   }
 
   function resolveMorphemeAudio(id) {
+    if (id === "s" || id === "es") {
+      return { strategy: "controlled", audioKey: id, audioSrc: null, status: "AUDIO NEEDED" };
+    }
     if (CONTROLLED_CLIP_AUDIO_KEYS.includes(id)) {
       return { strategy: "controlled", audioKey: id, audioSrc: controlledClipPath(id), status: "CLIP INSTALLED" };
     }
@@ -179,8 +188,9 @@
     }
   }
 
-  function playControlledClip(audioKey) {
-    const src = controlledClipPath(audioKey);
+  function playControlledClip(audioKey, cacheBust = "") {
+    const baseSrc = controlledClipPath(audioKey);
+    const src = cacheBust ? `${baseSrc}?qa=${encodeURIComponent(cacheBust)}` : baseSrc;
     if (typeof root.Audio !== "function") return Promise.reject(new Error("Audio playback is unavailable"));
     return isControlledClipInstalled(audioKey).then((installed) => {
       if (!installed) throw new Error(`Controlled clip is missing: ${src}`);
@@ -243,6 +253,7 @@
     controlledAudioIds: Object.freeze([...CONTROLLED_AUDIO_IDS]),
     controlledAudioManifest: Object.freeze(Object.values(controlledManifest).map((item) => Object.freeze({ ...item, canonicalIds: Object.freeze(item.canonicalIds), variantIds: Object.freeze(item.variantIds) }))),
     pilotAudioKeys: PILOT_AUDIO_KEYS,
+    controlledAudioRealizations: S_ES_REALIZATIONS,
     controlledAudioReviewBatches: CONTROLLED_AUDIO_REVIEW_BATCHES,
     controlledClipPath,
     isControlledClipInstalled,
@@ -292,14 +303,18 @@
     const reviewBatch = new URLSearchParams(root.location.search).get("controlledAudioReview");
     const reviewKeys = CONTROLLED_AUDIO_REVIEW_BATCHES[reviewBatch];
     const manifestByKey = new Map(controlledManifest && Object.values(controlledManifest).map((item) => [item.audioKey, item]));
+    const reviewItems = reviewBatch === "s-es"
+      ? S_ES_REALIZATIONS
+      : reviewBatch === "final-redos"
+        ? reviewKeys.map((key) => S_ES_REALIZATIONS.find((item) => item.audioKey === key) || manifestByKey.get(key)).filter(Boolean)
+        : reviewKeys.map((key) => manifestByKey.get(key)).filter(Boolean);
     const stored = (() => { try { return JSON.parse(root.localStorage?.getItem("firstVoloControlledAudioPilotReview:v1") || "{}"); } catch (_) { return {}; } })();
     const panel = document.createElement("section");
     panel.className = "controlled-audio-pilot-review";
     panel.innerHTML = `<header><div><small>Local QA only · no learner progress</small><h2>Controlled-audio ${reviewBatch === "prefixes" ? "prefix" : "pilot"}</h2><p>Human-recorded clips are reviewed here; files are never auto-approved.</p></div><button type="button" aria-label="Close controlled audio review">Close</button></header><div class="controlled-audio-pilot-list"></div>`;
     const list = panel.querySelector(".controlled-audio-pilot-list");
-    reviewKeys.forEach((key) => {
-      const item = manifestByKey.get(key);
-      if (!item) return;
+    reviewItems.forEach((item) => {
+      const key = item.audioKey;
       const row = document.createElement("article");
       row.className = "controlled-audio-pilot-row";
       row.innerHTML = `<div><strong>${item.visibleForm}</strong><small>Target: ${item.pronunciationTarget || "see notes"}</small><small>${item.notes || item.contextNotes || ""}</small><small>Examples: ${(item.FirstVoloExamples || []).join(" · ")}</small><small class="controlled-audio-file">Checking ${item.proposedFilename}…</small><audio class="controlled-audio-native" controls preload="none" aria-label="Native temporary recording diagnostic"></audio></div><div class="controlled-audio-pilot-actions"><button type="button" class="controlled-audio-saved" disabled>▶ Play saved clip</button><button type="button" class="controlled-audio-record">🎙 Record</button><button type="button" class="controlled-audio-stop" disabled>■ Stop</button><button type="button" class="controlled-audio-preview" disabled>▶ Play recording</button><button type="button" class="controlled-audio-redo" disabled>↻ Redo</button><button type="button" class="controlled-audio-save" disabled>Save recording</button><select aria-label="Review status for ${item.visibleForm}"><option>Pending review</option><option>Approved</option><option>Needs redo</option></select></div>`;
@@ -314,13 +329,13 @@
       preview.addEventListener("click", () => { if (!temporaryRecording?.url) { debug("play-click-without-recording"); return; } debug("play-click", { url: temporaryRecording.url, blobSize: temporaryRecording.size, mimeType: temporaryRecording.mimeType }); recordingAudio?.pause(); if (!recordingAudio) recordingAudio = new root.Audio(); recordingAudio.src = temporaryRecording.url; recordingAudio.load(); recordingAudio.currentTime = 0; const promise = recordingAudio.play(); promise?.then(() => debug("play-started", { readyState: recordingAudio.readyState, networkState: recordingAudio.networkState })).catch((error) => { debug("play-rejected", { message: error.message, readyState: recordingAudio.readyState, networkState: recordingAudio.networkState, mediaError: recordingAudio.error?.code || null }); row.querySelector(".controlled-audio-file").textContent = `Playback error: ${error.message}`; }); });
       redo.addEventListener("click", () => { recordingAudio?.pause(); if (temporaryRecording?.url) { debug("redo-revoke", { url: temporaryRecording.url }); URL.revokeObjectURL(temporaryRecording.url); } temporaryRecording = null; nativeAudio.removeAttribute("src"); nativeAudio.load(); preview.disabled = true; redo.disabled = true; save.disabled = true; row.querySelector(".controlled-audio-file").textContent = `Ready to record · Save as ${item.proposedFilename}`; });
       save.addEventListener("click", () => { if (temporaryRecording?.blob && temporaryRecording.size > 0 && temporaryRecording.url) { const filename = `${key}.${recordingExtension(temporaryRecording.mimeType)}`; downloadRecording(temporaryRecording.blob, filename); row.querySelector(".controlled-audio-file").textContent = `Saved/downloaded: ${filename} · place in audio/morphemes/${filename}`; } });
-      select.value = stored[key] || "Pending review";
+      select.value = reviewBatch === "final-redos" ? "Approved" : (stored[key] || "Pending review");
       select.addEventListener("change", () => { stored[key] = select.value; try { root.localStorage?.setItem("firstVoloControlledAudioPilotReview:v1", JSON.stringify(stored)); } catch (_) {} });
       row.querySelector(".controlled-audio-file").textContent = "Checking " + item.proposedFilename + "…";
       isControlledClipInstalled(key).then((installed) => {
         row.querySelector(".controlled-audio-file").textContent = installed ? "Installed" : "Missing";
         play.disabled = !installed;
-        if (installed) play.addEventListener("click", () => playControlledClip(key).catch((error) => { row.querySelector(".controlled-audio-file").textContent = error.message; }));
+        if (installed) play.addEventListener("click", () => playControlledClip(key, `${reviewBatch}-${Date.now()}`).catch((error) => { row.querySelector(".controlled-audio-file").textContent = error.message; }));
       });
       list.append(row);
     });
