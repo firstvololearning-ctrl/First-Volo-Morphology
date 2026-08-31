@@ -8587,6 +8587,33 @@ function fvAccessSpeak(text) {
   const audio =
     window.FirstVoloInstructionalAudio;
 
+  if (["duct/duce", "duct or duce"].includes(String(text || "").trim())) {
+    audio?.speakSegments?.([
+      { type: "controlled", audioKey: "duct" },
+      { type: "tts", text: "or" },
+      { type: "controlled", audioKey: "duce" }
+    ]);
+    return;
+  }
+
+  const pronunciation =
+    window.FirstVoloMorphemePronunciation;
+
+  const resolvedMorpheme =
+    pronunciation?.resolveMorphemeAudio?.(String(text || "").trim());
+
+  if (
+    resolvedMorpheme?.strategy === "controlled"
+  ) {
+    pronunciation
+      ?.playControlledClip?.(resolvedMorpheme.audioKey)
+      ?.catch?.((error) => {
+        console.warn("Controlled morpheme audio unavailable", error);
+      });
+
+    return;
+  }
+
   if (
     audio?.available?.()
   ) {
@@ -9211,6 +9238,18 @@ function renderMeaningQuestion(question) {
     );
 
     meaningQuestionAudioButton.onclick = () => {
+      if (question.item?.id === "duct") {
+        window.FirstVoloInstructionalAudio
+          ?.speakSegments?.([
+            { type: "tts", text: "What does" },
+            { type: "controlled", audioKey: "duct" },
+            { type: "tts", text: "or" },
+            { type: "controlled", audioKey: "duce" },
+            { type: "tts", text: "mean?" }
+          ]);
+        return;
+      }
+
       speakStudentAccessText(
         `What does ${spokenTarget} mean?`
       );
@@ -11339,6 +11378,22 @@ showStartMessage(
   "Choose what you want to study.",
   "Choose prefixes, roots, suffixes, or a word-building combination above, then select an activity."
 );
+
+/* Localhost-only audio QA shortcut; never starts a learner session. */
+(function setupAudioQaShortcut() {
+  if (!window.location || !["localhost", "127.0.0.1", "::1", ""].includes(window.location.hostname)) return;
+  if (new URLSearchParams(window.location.search).get("audioQa") !== "duct-duce") return;
+  const item = roots.find((candidate) => candidate.id === "duct");
+  if (!item) return;
+  studyMode = "roots";
+  activeMode = "meaning";
+  activateActivityButton("meaning");
+  startPanel.hidden = true;
+  hideAllPanels();
+  hideQuizControls();
+  renderMeaningQuestion({ item, choices: [item.meaning, "throw", "pull or draw", "see"] });
+  fvAddDisplaySpeaker(meaningMorpheme, "duct/duce", "Hear duct/duce");
+})();
 
 
 /* HEADER DYNAMIC SAVE GROUPING · 2026-08-26 */

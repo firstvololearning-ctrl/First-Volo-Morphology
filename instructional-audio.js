@@ -227,12 +227,35 @@
     }
   }
 
+  function speakSegments(segments = []) {
+    const pronunciation = window.FirstVoloMorphemePronunciation;
+    const speakText = (value) => new Promise((resolve, reject) => {
+      if (!available()) { resolve(false); return; }
+      const prepared = prepareSpeechText(value);
+      if (!prepared) { resolve(true); return; }
+      window.speechSynthesis.cancel();
+      const utterance = new window.SpeechSynthesisUtterance(prepared);
+      utterance.lang = "en-US";
+      utterance.rate = rateForText(prepared, null);
+      const voice = chooseVoice();
+      if (voice) utterance.voice = voice;
+      utterance.addEventListener("end", () => resolve(true), { once: true });
+      utterance.addEventListener("error", (event) => reject(event.error || new Error("Speech playback failed")), { once: true });
+      window.speechSynthesis.speak(utterance);
+    });
+    return segments.reduce((promise, segment) => promise.then(() => {
+      if (segment?.type === "controlled") return pronunciation?.playControlledClip?.(segment.audioKey);
+      return speakText(segment?.text || "");
+    }), Promise.resolve());
+  }
+
 
   window.FirstVoloInstructionalAudio = {
     available,
     prepareSpeechText,
     rateForGradeBand,
     speak,
+    speakSegments,
     stop
   };
 
