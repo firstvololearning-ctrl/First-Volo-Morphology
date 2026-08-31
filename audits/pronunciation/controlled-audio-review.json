@@ -245,6 +245,42 @@
       "audioPath": "audio/morphemes/ify.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ion",
+      "audioPath": "audio/morphemes/ion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "tion",
+      "audioPath": "audio/morphemes/tion.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ment",
+      "audioPath": "audio/morphemes/ment.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ous",
+      "audioPath": "audio/morphemes/ous.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ant",
+      "audioPath": "audio/morphemes/ant.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ent",
+      "audioPath": "audio/morphemes/ent.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }
