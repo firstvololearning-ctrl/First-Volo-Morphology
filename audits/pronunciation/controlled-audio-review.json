@@ -47,6 +47,60 @@
       "audioPath": "audio/morphemes/dermat.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "un",
+      "audioPath": "audio/morphemes/un.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "in",
+      "audioPath": "audio/morphemes/in.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "im",
+      "audioPath": "audio/morphemes/im.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "il",
+      "audioPath": "audio/morphemes/il.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ir",
+      "audioPath": "audio/morphemes/ir.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "semi",
+      "audioPath": "audio/morphemes/semi.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ab",
+      "audioPath": "audio/morphemes/ab.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "a",
+      "audioPath": "audio/morphemes/a.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ad",
+      "audioPath": "audio/morphemes/ad.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }
