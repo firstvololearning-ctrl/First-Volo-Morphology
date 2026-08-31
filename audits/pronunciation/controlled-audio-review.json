@@ -101,6 +101,60 @@
       "audioPath": "audio/morphemes/ad.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ject",
+      "audioPath": "audio/morphemes/ject.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "pos",
+      "audioPath": "audio/morphemes/pos.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "put",
+      "audioPath": "audio/morphemes/put.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "rupt",
+      "audioPath": "audio/morphemes/rupt.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "scrib",
+      "audioPath": "audio/morphemes/scrib.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "script",
+      "audioPath": "audio/morphemes/script.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "spect",
+      "audioPath": "audio/morphemes/spect.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "struct",
+      "audioPath": "audio/morphemes/struct.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "tract",
+      "audioPath": "audio/morphemes/tract.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }

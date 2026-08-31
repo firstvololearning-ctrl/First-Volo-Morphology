@@ -119,7 +119,7 @@
     const citation = CITATION_METADATA[audioKey] || ["yes", "no", "STABLE", "No contextual variation identified in the current examples."];
     const sourcing = PREFIX_TARGET_SOURCING[audioKey] || null;
     const targetVerified = Boolean(targetRecord);
-    const extension = CONTROLLED_CLIP_AUDIO_KEYS.includes(audioKey) ? PILOT_AUDIO_EXTENSION : "mp3";
+    const extension = CONTROLLED_REVIEW_AUDIO_KEYS.includes(audioKey) ? PILOT_AUDIO_EXTENSION : "mp3";
     const item = controlledManifest[audioKey] ||= { audioKey, visibleForm: audioKey, canonicalIds: [], variantIds: [], proposedFilename: `audio/morphemes/${audioKey}.${extension}`, pronunciationTarget: target ?? sourcing?.[1] ?? null, pronunciationSource: targetRecord?.[1] || null, sourceStatus: targetVerified ? "TARGET VERIFIED" : "TARGET NEEDS SOURCE", candidateCitationPronunciation: sourcing?.[0] || null, ipaTarget: sourcing?.[1] || null, targetSourceStatus: sourcing?.[2] || (targetVerified ? "TARGET VERIFIED" : "TARGET NEEDS SOURCE"), FirstVoloExamples: EXAMPLE_EVIDENCE[audioKey] || [], exampleSource: "word-inventory.js: currentExamples", exampleEvidenceValid: citation[0], contextualVariation: citation[1], citationPronunciationStatus: citation[2], contextNotes: sourcing?.[3] || citation[3], notes: targetRecord?.[2] || "", clipStatus: "not created" };
     if (variantId) item.variantIds.push(variantId);
     else if (!item.canonicalIds.includes(id)) {
@@ -135,8 +135,10 @@
   const controlledByVariant = { "-tion": "tion", "-sion": "sion", "-able": "able", "-ance": "ance", "-ence": "ence", "-ion": "ion" };
   const PILOT_AUDIO_KEYS = Object.freeze(["chron", "duce", "duct", "sequ", "geo", "able", "sion", "dermat"]);
   const PREFIX_AUDIO_KEYS = Object.freeze(["un", "in", "im", "il", "ir", "semi", "ab", "a", "ad"]);
-  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS]);
-  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS });
+  const ROOTS_BATCH1_AUDIO_KEYS = Object.freeze(["ject", "pos", "put", "rupt", "scrib", "script", "spect", "struct", "tract"]);
+  const CONTROLLED_CLIP_AUDIO_KEYS = Object.freeze([...PILOT_AUDIO_KEYS, ...PREFIX_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS]);
+  const CONTROLLED_REVIEW_AUDIO_KEYS = Object.freeze([...CONTROLLED_CLIP_AUDIO_KEYS, ...ROOTS_BATCH1_AUDIO_KEYS]);
+  const CONTROLLED_AUDIO_REVIEW_BATCHES = Object.freeze({ pilot: PILOT_AUDIO_KEYS, prefixes: PREFIX_AUDIO_KEYS, "roots-1": ROOTS_BATCH1_AUDIO_KEYS });
   const PILOT_AUDIO_EXTENSION = "m4a";
   Object.entries(controlledById).forEach(([id, keys]) => keys.forEach((key) => addManifestForm(key, id)));
   Object.entries(controlledByVariant).forEach(([label, key]) => addManifestForm(key, null, `variant:${label}`));
@@ -161,7 +163,7 @@
   }
 
   function controlledClipPath(audioKey) {
-    return `audio/morphemes/${CONTROLLED_CLIP_AUDIO_KEYS.includes(audioKey) ? `${audioKey}.${PILOT_AUDIO_EXTENSION}` : `${audioKey}.mp3`}`;
+    return `audio/morphemes/${CONTROLLED_REVIEW_AUDIO_KEYS.includes(audioKey) ? `${audioKey}.${PILOT_AUDIO_EXTENSION}` : `${audioKey}.mp3`}`;
   }
 
   async function isControlledClipInstalled(audioKey) {
