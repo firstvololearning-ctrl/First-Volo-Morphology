@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import sys, zipfile
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.colors import HexColor, white
@@ -19,13 +19,17 @@ REPO = HOME / "Documents" / "First Volo Learning" / "Digital Products" / "First 
 FLIGHT_DIR = REPO / "waypoints" / "flight-a"
 MEANING_DIR = FLIGHT_DIR / "images"
 OUTDIR = FLIGHT_DIR / "pdfs"
-WAYPOINT_BASE_DIR = FLIGHT_DIR / "flight-a-bases"
+GEN_BASE_DIR = FLIGHT_DIR / "_generated-base-tiles"
 
 LOGO = REPO / "images" / "logo" / "logo.png"
 PREFIX_DIR = REPO / "images" / "prefixes"
 SUFFIX_DIR = REPO / "images" / "suffixes"
+BASE_DIR = REPO / "images" / "base-words"
+FLIGHT_BASE_DIR = FLIGHT_DIR / "flight-a-bases"
+CROPPED_INPUT_DIR = FLIGHT_DIR / "_cropped"
 
 OUTDIR.mkdir(parents=True, exist_ok=True)
+GEN_BASE_DIR.mkdir(parents=True, exist_ok=True)
 
 NAVY = HexColor("#0B3B78")
 BLUE = HexColor("#1769AA")
@@ -52,12 +56,12 @@ WORDS = [
         "tiles": [
             ("prefix", "re", "re-", "again"),
             ("base", "write", "write", "write"),
-            ("suffix", "ing", "-ing", "ongoing action"),
+            ("suffix", "ing", "-ing", "action happening now"),
         ],
         "sum": "re- + write + -ing -> rewriting",
-        "parts": "again + write + ongoing action",
-        "bridge": "writing something again or in a new way",
-        "definition": "writing something again, usually to improve or change it.",
+        "parts": "again + write + action happening now",
+        "bridge": "writing something again to change or improve it",
+        "definition": "writing something again to change it or make it better.",
         "context": "She is rewriting her paragraph to make it clearer.",
         "family": "write · writer · rewrite · rewriting · written",
     },
@@ -67,12 +71,12 @@ WORDS = [
         "tiles": [
             ("prefix", "dis", "dis-", "apart / away"),
             ("base", "connect", "connect", "join"),
-            ("suffix", "ion", "-ion", "act / state"),
+            ("suffix", "ion", "-ion", "action / state"),
         ],
         "sum": "dis- + connect + -ion -> disconnection",
-        "parts": "apart / away + connect + act / state",
-        "bridge": "the act or state of breaking a connection",
-        "definition": "a break or loss of a connection.",
+        "parts": "apart / away + connect + state",
+        "bridge": "the state of no longer being connected",
+        "definition": "when things that were connected are no longer connected.",
         "context": "The loose cable caused a disconnection from the internet.",
         "family": "connect · disconnect · disconnected · disconnection",
     },
@@ -85,9 +89,9 @@ WORDS = [
             ("suffix", "s-es", "-s", "more than one"),
         ],
         "sum": "pre- + view + -s -> previews",
-        "parts": "before + view + more than one",
-        "bridge": "more than one look at something before the full thing",
-        "definition": "short looks at something before it is fully shown or released.",
+        "parts": "before + look + more than one",
+        "bridge": "more than one look before you see the whole thing",
+        "definition": "short looks at something before you see the whole thing.",
         "context": "We watched previews before the movie began.",
         "family": "view · preview · previews",
     },
@@ -95,15 +99,15 @@ WORDS = [
         "word": "EMPOWERMENT",
         "image": ["empowerment.png"],
         "tiles": [
-            ("prefix", "em", "em-", "cause to / put into"),
+            ("prefix", "em", "em-", "cause to have / put into"),
             ("base", "power", "power", "strength / control"),
             ("suffix", "ment", "-ment", "act / state / result"),
         ],
         "sum": "em- + power + -ment -> empowerment",
-        "parts": "cause to have + power + act / state / result",
-        "bridge": "the process or state of gaining or giving power",
-        "definition": "the process of gaining or giving power, confidence, or control.",
-        "context": "Learning to speak up gave her a sense of empowerment.",
+        "parts": "cause to have + power + state / result",
+        "bridge": "gaining or being given power to act or make choices",
+        "definition": "gaining or being given power and confidence to do something.",
+        "context": "Learning to speak up gave her a feeling of empowerment.",
         "family": "power · empower · empowered · empowerment",
     },
     {
@@ -112,12 +116,12 @@ WORDS = [
         "tiles": [
             ("prefix", "un", "un-", "not"),
             ("base", "even", "even", "level / equal"),
-            ("suffix", "ness", "-ness", "state / quality"),
+            ("suffix", "ness", "-ness", "state of being"),
         ],
         "sum": "un- + even + -ness -> unevenness",
-        "parts": "not + even + state / quality",
-        "bridge": "the quality of not being even or level",
-        "definition": "the quality of being irregular, bumpy, or not level.",
+        "parts": "not + even + state of being",
+        "bridge": "the state of not being even or level",
+        "definition": "when a surface is bumpy or not level.",
         "context": "The unevenness of the path made him walk carefully.",
         "family": "even · uneven · unevenly · unevenness",
     },
@@ -132,8 +136,8 @@ WORDS = [
         "sum": "over- + use + -ed -> overused",
         "parts": "too much + use + already happened",
         "bridge": "used too much",
-        "definition": "used so much that it becomes less effective or interesting.",
-        "context": "The writer overused the same phrase in every paragraph.",
+        "definition": "used too much or too often.",
+        "context": "The overused phrase made the paragraph sound repetitive.",
         "family": "use · overuse · overused",
     },
     {
@@ -145,9 +149,9 @@ WORDS = [
         ],
         "sum": "non- + fiction -> nonfiction",
         "parts": "not + fiction",
-        "bridge": "writing that is not fiction",
-        "definition": "writing based on real people, facts, or events.",
-        "context": "She chose a nonfiction book about dolphins.",
+        "bridge": "writing that is not made up",
+        "definition": "writing about real people, facts, or events.",
+        "context": "She would like to read nonfiction about dolphins.",
         "family": "fiction · nonfiction · fictional",
     },
     {
@@ -156,13 +160,13 @@ WORDS = [
         "tiles": [
             ("prefix", "mis", "mis-", "wrongly"),
             ("base", "lead", "lead", "guide"),
-            ("suffix", "ing", "-ing", "ongoing action"),
+            ("suffix", "ing", "-ing", "action happening now"),
         ],
         "sum": "mis- + lead + -ing -> misleading",
         "parts": "wrongly + lead + ongoing action",
         "bridge": "leading someone the wrong way",
-        "definition": "causing someone to believe something incorrect or go the wrong way.",
-        "context": "The map is misleading him because the school is not where it appears to be.",
+        "definition": "making someone believe something that is not true or go the wrong way.",
+        "context": "The map is misleading because it makes the school look like it is right in front of him.",
         "family": "lead · mislead · misleading · misled",
     },
     {
@@ -175,37 +179,37 @@ WORDS = [
         "sum": "sub- + soil -> subsoil",
         "parts": "below + soil",
         "bridge": "soil below the top layer",
-        "definition": "the layer of soil beneath the topsoil.",
+        "definition": "the layer of soil under the topsoil.",
         "context": "The roots reached down into the subsoil.",
         "family": "soil · topsoil · subsoil",
     },
     {
-        "word": "REMOVABLE",
-        "image": ["removable.png"],
+        "word": "COUNTABLE",
+        "image": ["countable.png"],
         "tiles": [
-            ("base", "remove", "remove", "take off / away"),
+            ("base", "count", "count", "find how many"),
             ("suffix", "able", "-able", "able to be"),
         ],
-        "sum": "remove + -able -> removable",
-        "parts": "remove + able to be",
-        "bridge": "able to be removed",
-        "definition": "able to be taken off or away.",
-        "context": "The bottle has a removable sticker.",
-        "family": "remove · removable · removal",
+        "sum": "count + -able -> countable",
+        "parts": "count + able to be",
+        "bridge": "able to be counted",
+        "definition": "able to be counted.",
+        "context": "The marbles on the table are countable.",
+        "family": "count · counted · counting · countable",
     },
     {
         "word": "SUCCESSFULLY",
         "image": ["successfully.png"],
         "tiles": [
-            ("base", "success", "success", "achieving a goal"),
+            ("base", "success", "success", "reaching a goal"),
             ("suffix", "ful", "-ful", "full of / having"),
             ("suffix", "ly", "-ly", "in a way"),
         ],
         "sum": "success + -ful + -ly -> successfully",
-        "parts": "success + full of / having + in a way",
-        "bridge": "in a way that achieves success",
-        "definition": "in a way that achieves the intended result.",
-        "context": "She successfully completed the experiment.",
+        "parts": "success -> successful -> in a successful way",
+        "bridge": "in a way that works or reaches the goal",
+        "definition": "in a way that works or reaches the goal.",
+        "context": "She successfully built the tower so it stayed standing.",
         "family": "success · successful · successfully · succeed",
     },
 ]
@@ -221,15 +225,16 @@ for p, label in [
     (LOGO, "First Volo logo"),
     (PREFIX_DIR, "prefix tiles"),
     (SUFFIX_DIR, "suffix tiles"),
-    (WAYPOINT_BASE_DIR, "Flight A clay base tiles"),
 ]:
     need(p, label)
 
 def find_meaning(candidates):
-    for n in candidates:
-        p = MEANING_DIR / n
-        if p.exists():
-            return p
+    # Normal meaning-image folder first; allow already-prepared replacements in _cropped.
+    for folder in (MEANING_DIR, CROPPED_INPUT_DIR):
+        for n in candidates:
+            p = folder / n
+            if p.exists():
+                return p
     raise FileNotFoundError("Meaning image not found; tried: " + ", ".join(candidates))
 
 def font_path():
@@ -243,29 +248,68 @@ def font_path():
             return p
     return None
 
+def make_plain_base_tile(base, gloss):
+    """
+    Neutral text-only base card for familiar bases that don't have an existing
+    Morpho base-word image. This intentionally does NOT invent a Morpho symbol.
+    """
+    out = GEN_BASE_DIR / f"{base}.png"
+    if out.exists():
+        return out
+
+    size = 900
+    img = Image.new("RGBA", (size, size), (255,255,255,0))
+    d = ImageDraw.Draw(img)
+
+    # cream clay-like card with blue border
+    d.rounded_rectangle((70,70,830,830), radius=95,
+                        fill=(249,244,226,255),
+                        outline=(30,105,170,255), width=28)
+
+    fp = font_path()
+    if fp:
+        big = ImageFont.truetype(str(fp), 115 if len(base) <= 7 else 94)
+        small = ImageFont.truetype(str(fp), 48)
+    else:
+        big = ImageFont.load_default()
+        small = ImageFont.load_default()
+
+    label = base
+    bbox = d.textbbox((0,0), label, font=big)
+    tw = bbox[2]-bbox[0]
+    d.text(((size-tw)/2, 310), label, font=big, fill=(18,83,145,255))
+
+    gloss_text = gloss
+    bbox = d.textbbox((0,0), gloss_text, font=small)
+    tw = bbox[2]-bbox[0]
+    d.text(((size-tw)/2, 510), gloss_text, font=small, fill=(50,70,90,255))
+
+    bbox = d.textbbox((0,0), "BASE WORD", font=small)
+    tw = bbox[2]-bbox[0]
+    d.text(((size-tw)/2, 680), "BASE WORD", font=small, fill=(95,115,130,255))
+    img.save(out)
+    return out
+
 def resolve_tile(kind, key, display, gloss):
-    """Resolve only real tile assets. No generated fallback base cards."""
     if kind == "prefix":
         p = PREFIX_DIR / f"{key}.png"
         if not p.exists():
             raise FileNotFoundError(f"Missing prefix tile: {p}")
         return p
-
     if kind == "suffix":
         p = SUFFIX_DIR / f"{key}.png"
         if not p.exists():
             raise FileNotFoundError(f"Missing suffix tile: {p}")
         return p
-
     if kind == "base":
-        p = WAYPOINT_BASE_DIR / f"{key}.png"
-        if not p.exists():
-            raise FileNotFoundError(
-                f"Missing Flight A clay base tile: {p}\n"
-                f"Expected one of the user-created individual clay tiles."
-            )
-        return p
-
+        # Flight A's approved custom base tiles override the general base-word folder.
+        flight_base = FLIGHT_BASE_DIR / f"{key}.png"
+        if flight_base.exists():
+            return flight_base
+        existing = BASE_DIR / f"{key}.png"
+        if existing.exists():
+            return existing
+        return make_plain_base_tile(display, gloss)
     raise ValueError(kind)
 
 def dims(path):
@@ -325,6 +369,50 @@ def fit_font(text,font,max_size,min_size,maxw,max_lines=1):
         size -= 0.25
     return min_size
 
+
+
+def arrowed_width(text,font,size,arrow_w=18,gap=6):
+    parts=[p.strip() for p in text.split("->")]
+    if len(parts)==1:
+        return stringWidth(text,font,size)
+    return sum(stringWidth(p,font,size) for p in parts) + (len(parts)-1)*(arrow_w+2*gap)
+
+def fit_arrow_font(text,font,max_size,min_size,maxw):
+    size=max_size
+    while size >= min_size:
+        if arrowed_width(text,font,size) <= maxw:
+            return size
+        size -= 0.25
+    return min_size
+
+def draw_vector_arrow(c,x1,y,x2,color=INK,lw=1.7,head=4.2):
+    """Draw a true right arrow as vector artwork, not ASCII characters."""
+    c.setStrokeColor(color)
+    c.setLineWidth(lw)
+    c.line(x1,y,x2,y)
+    c.line(x2,y,x2-head,y+head*0.72)
+    c.line(x2,y,x2-head,y-head*0.72)
+
+def draw_arrowed_line(c,text,y,font,size,color,center_x=None,left_x=None,arrow_w=18,gap=6):
+    parts=[p.strip() for p in text.split("->")]
+    total=arrowed_width(text,font,size,arrow_w,gap)
+    if center_x is not None:
+        x=center_x-total/2
+    elif left_x is not None:
+        x=left_x
+    else:
+        raise ValueError("center_x or left_x is required")
+    c.setFillColor(color)
+    c.setFont(font,size)
+    for i,part in enumerate(parts):
+        c.drawString(x,y,part)
+        x += stringWidth(part,font,size)
+        if i < len(parts)-1:
+            x += gap
+            ay=y+size*0.34
+            draw_vector_arrow(c,x,ay,x+arrow_w,color=color,lw=max(1.35,size*0.10),head=max(3.5,size*0.25))
+            x += arrow_w+gap
+
 def wrapped(c,text,x,y,maxw,font="Helvetica",size=12,leading=None,color=INK,max_lines=None):
     if leading is None: leading=size*1.2
     ls=lines(text,font,size,maxw)
@@ -358,7 +446,12 @@ def build(spec):
     meaning_src = find_meaning(spec["image"])
     cropped = FLIGHT_DIR / "_cropped"
     cropped.mkdir(exist_ok=True)
-    meaning = crop_meaning(meaning_src, cropped / f"{word.lower()}.png")
+    meaning_dest = cropped / f"{word.lower()}.png"
+    # If the approved replacement already lives in _cropped, use it directly.
+    if meaning_src.resolve() == meaning_dest.resolve():
+        meaning = meaning_src
+    else:
+        meaning = crop_meaning(meaning_src, meaning_dest)
 
     tile_paths = [resolve_tile(*t) for t in spec["tiles"]]
 
@@ -407,10 +500,8 @@ def build(spec):
     # Word sum
     sum_y=ty-52
     rbox(c,70,sum_y,W-140,38,LIGHT_BLUE,SOFT_BLUE,11,1)
-    fs=fit_font(spec["sum"],"Helvetica-Bold",16.5,13.0,W-180,1)
-    c.setFillColor(NAVY)
-    c.setFont("Helvetica-Bold",fs)
-    c.drawCentredString(W/2,sum_y+12,spec["sum"])
+    fs=fit_arrow_font(spec["sum"],"Helvetica-Bold",16.5,13.0,W-180)
+    draw_arrowed_line(c,spec["sum"],sum_y+12,"Helvetica-Bold",fs,NAVY,center_x=W/2)
 
     # Meaning image
     img_y=sum_y-151
@@ -426,16 +517,24 @@ def build(spec):
     c.setFont("Helvetica-Bold",11.5)
     c.drawString(86,parts_y+53,"MEANING FROM THE PARTS")
 
-    lit_size=fit_font(spec["parts"],"Helvetica-Bold",13.3,10.8,W-172,1)
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold",lit_size)
-    c.drawString(86,parts_y+31,spec["parts"])
+    if "->" in spec["parts"]:
+        lit_size=fit_arrow_font(spec["parts"],"Helvetica-Bold",13.3,10.8,W-172)
+        draw_arrowed_line(c,spec["parts"],parts_y+31,"Helvetica-Bold",lit_size,INK,left_x=86)
+    else:
+        lit_size=fit_font(spec["parts"],"Helvetica-Bold",13.3,10.8,W-172,1)
+        c.setFillColor(INK)
+        c.setFont("Helvetica-Bold",lit_size)
+        c.drawString(86,parts_y+31,spec["parts"])
 
-    bridge="-> "+spec["bridge"]
-    br_size=fit_font(bridge,"Helvetica-Oblique",11.5,9.5,W-172,1)
+    bridge=spec["bridge"]
+    arrow_x1=86
+    arrow_x2=102
+    br_text_x=111
+    br_size=fit_font(bridge,"Helvetica-Oblique",11.5,9.5,W-br_text_x-86,1)
     c.setFillColor(GREEN)
     c.setFont("Helvetica-Oblique",br_size)
-    c.drawString(86,parts_y+12,bridge)
+    draw_vector_arrow(c,arrow_x1,parts_y+16,arrow_x2,color=GREEN,lw=1.55,head=4.0)
+    c.drawString(br_text_x,parts_y+12,bridge)
 
     # Whole meaning
     means_y=parts_y-73
@@ -475,29 +574,6 @@ def build(spec):
     c.showPage()
     c.save()
     return out
-
-EXPECTED_BASES = [
-    "write", "connect", "view", "power", "even", "use",
-    "fiction", "lead", "soil", "remove", "success"
-]
-
-print("Checking individual Flight A clay base tiles...")
-missing_bases = []
-for base in EXPECTED_BASES:
-    p = WAYPOINT_BASE_DIR / f"{base}.png"
-    if p.exists():
-        print(f"  ✓ {base}.png")
-    else:
-        print(f"  ✗ MISSING {base}.png")
-        missing_bases.append(p)
-
-if missing_bases:
-    print("\nERROR: These clay base tiles are missing:")
-    for p in missing_bases:
-        print(f"  {p}")
-    sys.exit(2)
-
-print("\nRebuilding Flight A PDFs with the real clay base tiles...")
 
 built=[]
 errors=[]
