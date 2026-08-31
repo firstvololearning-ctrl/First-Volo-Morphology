@@ -155,6 +155,54 @@
       "audioPath": "audio/morphemes/tract.m4a",
       "reviewStatus": "approved",
       "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "ven",
+      "audioPath": "audio/morphemes/ven.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "vent",
+      "audioPath": "audio/morphemes/vent.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "voc",
+      "audioPath": "audio/morphemes/voc.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "act",
+      "audioPath": "audio/morphemes/act.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "aud",
+      "audioPath": "audio/morphemes/aud.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "dict",
+      "audioPath": "audio/morphemes/dict.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "derm",
+      "audioPath": "audio/morphemes/derm.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
+    },
+    {
+      "audioKey": "terr",
+      "audioPath": "audio/morphemes/terr.m4a",
+      "reviewStatus": "approved",
+      "reviewSource": "human listening QA"
     }
   ]
 }
