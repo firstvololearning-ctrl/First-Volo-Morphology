@@ -2163,16 +2163,19 @@
         migrationApi
       );
 
-    migrationApi.isMigrationReservedWord =
-      migrationOnly;
-
-    migrationApi.isReservedWord =
-      function isAnyProtectedInstructionalWord(word) {
-        return Boolean(
-          migrationOnly(word) ||
-          registry.isProtectedWord(word)
-        );
-      };
+    window.FirstVoloTransferChallenge =
+      Object.freeze({
+        ...migrationApi,
+        isMigrationReservedWord:
+          migrationOnly,
+        isReservedWord:
+          function isAnyProtectedInstructionalWord(word) {
+            return Boolean(
+              migrationOnly(word) ||
+              registry.isProtectedWord(word)
+            );
+          }
+      });
   }
 
 
