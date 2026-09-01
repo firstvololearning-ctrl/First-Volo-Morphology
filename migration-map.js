@@ -1027,6 +1027,233 @@
     return box;
   }
 
+  function renderWaypointWords(
+    student,
+    flightValue
+  ) {
+    const accessState =
+      window.FirstVoloWaypointAccess
+        ?.getFlightState?.(
+          student,
+          flightValue
+        );
+
+    if (!accessState) {
+      return null;
+    }
+
+    const section =
+      document.createElement("section");
+
+    section.className =
+      "migration-waypoint-section";
+
+    section.setAttribute(
+      "aria-labelledby",
+      "migrationWaypointTitle"
+    );
+
+    const header =
+      document.createElement("div");
+
+    header.className =
+      "migration-waypoint-header";
+
+    const headingWrap =
+      document.createElement("div");
+
+    const heading =
+      document.createElement("h3");
+
+    heading.id =
+      "migrationWaypointTitle";
+
+    heading.textContent =
+      "⭐ Waypoint Words";
+
+    const description =
+      document.createElement("p");
+
+    description.textContent =
+      accessState.availableCount
+        ? "Open any discovered word to review how its meaningful parts work together."
+        : "Waypoint Words appear as Volo reaches new destinations and their word parts are mastered.";
+
+    headingWrap.append(
+      heading,
+      description
+    );
+
+    const total =
+      document.createElement("span");
+
+    total.className =
+      "migration-waypoint-total";
+
+    total.innerHTML =
+      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} discovered`;
+
+    header.append(
+      headingWrap,
+      total
+    );
+
+    const groups =
+      document.createElement("div");
+
+    groups.className =
+      "migration-waypoint-groups";
+
+    accessState.stopGroups
+      .filter((group) => group.total > 0)
+      .forEach((group) => {
+        const groupElement =
+          document.createElement("section");
+
+        groupElement.className =
+          "migration-waypoint-group";
+
+        if (
+          group.availableCount ===
+          group.total
+        ) {
+          groupElement.classList.add(
+            "is-complete"
+          );
+        }
+
+        const groupHeader =
+          document.createElement("div");
+
+        groupHeader.className =
+          "migration-waypoint-group-header";
+
+        const groupTitle =
+          document.createElement("h4");
+
+        groupTitle.textContent =
+          group.label;
+
+        const groupCount =
+          document.createElement("span");
+
+        groupCount.textContent =
+          `${group.availableCount} of ${group.total}`;
+
+        groupHeader.append(
+          groupTitle,
+          groupCount
+        );
+
+        const wordList =
+          document.createElement("div");
+
+        wordList.className =
+          "migration-waypoint-list";
+
+        group.waypoints.forEach(
+          (waypoint) => {
+            if (waypoint.available) {
+              const link =
+                document.createElement("a");
+
+              link.className =
+                "migration-waypoint-word is-available";
+
+              link.href =
+                waypoint.pdfPath;
+
+              link.target =
+                "_blank";
+
+              link.rel =
+                "noopener";
+
+              link.dataset.waypointId =
+                waypoint.id;
+
+              link.setAttribute(
+                "aria-label",
+                `Open the ${waypoint.word} Waypoint Word`
+              );
+
+              const icon =
+                document.createElement("span");
+
+              icon.className =
+                "migration-waypoint-icon";
+
+              icon.setAttribute(
+                "aria-hidden",
+                "true"
+              );
+
+              icon.textContent =
+                "⭐";
+
+              const word =
+                document.createElement("strong");
+
+              word.textContent =
+                waypoint.word;
+
+              const action =
+                document.createElement("small");
+
+              action.textContent =
+                "Review word →";
+
+              link.append(
+                icon,
+                word,
+                action
+              );
+
+              wordList.append(link);
+              return;
+            }
+
+            const locked =
+              document.createElement("span");
+
+            locked.className =
+              "migration-waypoint-word is-locked";
+
+            locked.dataset.waypointId =
+              waypoint.id;
+
+            locked.setAttribute(
+              "aria-label",
+              `${group.label} Waypoint Word not yet discovered`
+            );
+
+            locked.innerHTML =
+              `
+                <span class="migration-waypoint-icon" aria-hidden="true">?</span>
+                <strong>Undiscovered word</strong>
+                <small>Keep learning</small>
+              `;
+
+            wordList.append(locked);
+          }
+        );
+
+        groupElement.append(
+          groupHeader,
+          wordList
+        );
+
+        groups.append(groupElement);
+      });
+
+    section.append(
+      header,
+      groups
+    );
+
+    return section;
+  }
+
   function renderNoFlight() {
     content.innerHTML = "";
 
@@ -1187,12 +1414,24 @@
 
     scroll.append(map);
 
+    const waypointWords =
+      renderWaypointWords(
+        student,
+        flightValue
+      );
+
     content.append(
       summary,
       scroll,
       makeLegend(),
       renderMessage(progress)
     );
+
+    if (waypointWords) {
+      content.append(
+        waypointWords
+      );
+    }
   }
 
   function openModal() {

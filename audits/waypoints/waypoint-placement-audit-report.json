@@ -1,0 +1,149 @@
+{
+  "audit": "First Volo Morphology Waypoint placement and eligibility",
+  "registryVersion": "2026-09-01-v1",
+  "generatedAt": "2026-09-01T18:55:34.123Z",
+  "status": "PASS",
+  "summary": {
+    "activeWaypoints": 33,
+    "heldWaypoints": 2,
+    "delayedForPacing": 5,
+    "errors": 0,
+    "warnings": 0
+  },
+  "byFlight": {
+    "A": {
+      "gradeBand": "2-3",
+      "collection": "Foundation",
+      "tokenSetCount": 4,
+      "instructionalStopCount": 4,
+      "activeWaypointCount": 11,
+      "activePdfCount": 11,
+      "routeStops": [
+        "home-tree",
+        "meadow",
+        "forest",
+        "village",
+        "coast",
+        "destination"
+      ],
+      "placements": {
+        "meadow": [
+          "NONFICTION"
+        ],
+        "forest": [
+          "SUBSOIL"
+        ],
+        "village": [
+          "REWRITING",
+          "PREVIEWS",
+          "OVERUSED",
+          "MISLEADING"
+        ],
+        "coast": [
+          "DISCONNECTION",
+          "EMPOWERMENT",
+          "UNEVENNESS",
+          "COUNTABLE",
+          "SUCCESSFULLY"
+        ]
+      }
+    },
+    "B": {
+      "gradeBand": "4-5",
+      "collection": "Expansion",
+      "tokenSetCount": 7,
+      "instructionalStopCount": 7,
+      "activeWaypointCount": 9,
+      "activePdfCount": 9,
+      "routeStops": [
+        "home-tree",
+        "meadow",
+        "river",
+        "forest",
+        "mountains",
+        "pond",
+        "village",
+        "coast",
+        "destination"
+      ],
+      "placements": {
+        "meadow": [],
+        "river": [],
+        "forest": [
+          "DESCRIPTION"
+        ],
+        "mountains": [],
+        "pond": [
+          "ERUPTION",
+          "INTERACTION"
+        ],
+        "village": [
+          "CONFORMITY",
+          "GEOGRAPHIC",
+          "THERMAL"
+        ],
+        "coast": [
+          "MICROSCOPIC",
+          "PREDICTIVE",
+          "PROSPECTIVE"
+        ]
+      }
+    },
+    "C": {
+      "gradeBand": "6-8",
+      "collection": "Advanced",
+      "tokenSetCount": 5,
+      "instructionalStopCount": 5,
+      "activeWaypointCount": 13,
+      "activePdfCount": 13,
+      "routeStops": [
+        "home-tree",
+        "meadow",
+        "forest",
+        "mountains",
+        "village",
+        "coast",
+        "destination"
+      ],
+      "placements": {
+        "meadow": [],
+        "forest": [
+          "DEDUCTION",
+          "DISTRACTION",
+          "INVERSION"
+        ],
+        "mountains": [
+          "INCREDIBLE",
+          "TENABLE",
+          "VOCALIZE"
+        ],
+        "village": [
+          "INTERJECTION",
+          "SUBMISSION",
+          "INTERVENTION"
+        ],
+        "coast": [
+          "SEQUENCE",
+          "REFERENCE",
+          "ADMITTANCE",
+          "PREVALENT"
+        ]
+      }
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    {
+      "code": "PACING_DELAYS",
+      "message": "5 Waypoints are intentionally displayed later than first eligibility.",
+      "words": [
+        "INTERJECTION",
+        "MICROSCOPIC",
+        "PREDICTIVE",
+        "PROSPECTIVE",
+        "SUBMISSION"
+      ]
+    }
+  ]
+}

@@ -2381,3 +2381,208 @@ body.migration-modal-open {
 }
 
 /* === END FINAL POP-OUT NUDGES === */
+
+/* ========================================
+   WAYPOINT WORDS
+   ======================================== */
+
+.migration-waypoint-section {
+  display: grid;
+  gap: 16px;
+
+  margin-top: 12px;
+  padding: 18px;
+
+  border: 1px solid #c9dce8;
+  border-radius: 18px;
+
+  background: #f7fafc;
+}
+
+.migration-waypoint-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.migration-waypoint-header h3,
+.migration-waypoint-group h4 {
+  margin: 0;
+}
+
+.migration-waypoint-header h3 {
+  color: #244b63;
+  font-size: 1.05rem;
+}
+
+.migration-waypoint-header p {
+  max-width: 720px;
+  margin: 5px 0 0;
+
+  color: #536b7a;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.migration-waypoint-total {
+  flex: none;
+
+  padding: 7px 11px;
+
+  border: 1px solid #c9dce8;
+  border-radius: 999px;
+
+  background: #eaf4fa;
+  color: #244b63;
+
+  font-size: .78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.migration-waypoint-total b {
+  font-size: .92rem;
+}
+
+.migration-waypoint-groups {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(230px, 1fr)
+    );
+  gap: 12px;
+}
+
+.migration-waypoint-group {
+  min-width: 0;
+  padding: 12px;
+
+  border: 1px solid #d4e1e9;
+  border-radius: 14px;
+
+  background: #fff;
+}
+
+.migration-waypoint-group.is-complete {
+  border-color: #c9dce8;
+  background: #fff;
+}
+
+.migration-waypoint-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  margin-bottom: 9px;
+}
+
+.migration-waypoint-group h4 {
+  color: #244b63;
+  font-size: .88rem;
+}
+
+.migration-waypoint-group-header > span {
+  color: #607584;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.migration-waypoint-list {
+  display: grid;
+  gap: 7px;
+}
+
+.migration-waypoint-word {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 7px 9px;
+
+  border: 1px solid #dde4eb;
+  border-radius: 11px;
+
+  font-size: .76rem;
+  text-decoration: none;
+}
+
+.migration-waypoint-word strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.migration-waypoint-word small {
+  font-size: .66rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.migration-waypoint-word.is-available {
+  border-color: #d6e2e9;
+  background: #fff;
+  color: #244b63;
+
+  box-shadow:
+    0 3px 8px
+    rgba(36, 75, 99, .08);
+}
+
+.migration-waypoint-word.is-available:hover,
+.migration-waypoint-word.is-available:focus-visible {
+  border-color: #9fbccc;
+  background: #f7fbfd;
+
+  box-shadow:
+    0 5px 12px
+    rgba(36, 75, 99, .14);
+}
+
+.migration-waypoint-word.is-locked {
+  border-color: #dfe3e6;
+  background: #f3f4f5;
+  color: #7d848a;
+}
+
+.migration-waypoint-icon {
+  display: inline-grid;
+  place-items: center;
+
+  width: 25px;
+  height: 25px;
+
+  border-radius: 50%;
+
+  background: #eef5f8;
+  color: #244b63;
+
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.migration-waypoint-word.is-locked
+.migration-waypoint-icon {
+  background: #e5e8eb;
+  color: #8b9095;
+}
+
+@media (max-width: 700px) {
+  .migration-waypoint-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .migration-waypoint-total {
+    align-self: flex-start;
+  }
+
+  .migration-waypoint-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === END WAYPOINT WORDS === */
