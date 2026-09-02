@@ -78,13 +78,77 @@
     }
   };
 
-  const state = { grade: "foundation", focus: "know", support: "program" };
+  const STANDARDS = {
+    foundation: {
+      summary: "Grades 2–3 standards support using common prefixes, suffixes, bases, and roots in both word reading and meaning-making. The selected target can involve rich analysis, inference, production, or application when the words and support are developmentally calibrated.",
+      codes: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c"
+    },
+    expansion: {
+      summary: "Grades 4–5 standards expect students to use Greek and Latin affixes and roots as clues to meaning, while coordinating morphology with context and reference tools when needed.",
+      codes: "CCSS L.4.4a–c; L.5.4a–c"
+    },
+    advanced: {
+      summary: "Grades 6–8 standards expect increasingly strategic use of Greek and Latin affixes and roots, context, and reference or verification strategies to determine and confirm word meaning.",
+      codes: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d"
+    }
+  };
+
+  const GRADE_RESEARCH = {
+    foundation: "Research supports rich morphological thinking beginning in Grade 2 when instruction uses familiar bases, relatively transparent morphology, controlled word complexity, and explicit support that can be faded. Grade 2 feasibility work has found improved morphology performance following explicit instruction, but it was not a randomized causal trial.",
+    expansion: "Studies indicate that students in the middle elementary grades increasingly coordinate roots, affixes, word families, and context while working with more multimorphemic academic words. Assessment research also suggests that base transparency and task demands meaningfully affect performance.",
+    advanced: "Evidence suggests that older students benefit from strategic morphological problem-solving integrated with context, grammatical information, word-family relationships, and verification. Morphology can support a preliminary meaning hypothesis, but it may not be sufficient by itself for every complex word."
+  };
+
+  const FOCUS_RESEARCH = {
+    know: "For word-part knowledge, research supports explicit instruction in morpheme meanings, repeated examples, and comparison within word families.",
+    analyze: "For analysis, evidence highlights segmentation, base–affix relationships, comparisons among related forms, and careful control of word transparency.",
+    meaning: "For inference, studies support combining known morpheme information with context and treating the result as a meaning hypothesis that may need verification.",
+    build: "For production, instruction can connect inflectional and derivational forms, grammatical or part-of-speech changes, and accurate contextual use within word families.",
+    apply: "For independent application, intervention syntheses support fading assistance and monitoring taught or proximal performance separately from transfer to untrained material, which is less consistent."
+  };
+
+  const SOURCES = {
+    henbest2019: { authors: "Henbest, Apel, & Mitchell", year: "2019", title: "Explicit morphology instruction in Grade 2", type: "Grade 2 feasibility study" },
+    apel2023: { authors: "Apel, Henbest, & Petscher", year: "2023", title: "Morphological awareness across Grades 3–6", type: "Assessment/development evidence" },
+    colenbrander2024: { authors: "Colenbrander et al.", year: "2024", title: "Morphological instruction outcomes and transfer", type: "Systematic review/meta-analysis" },
+    goodwin2020: { authors: "Goodwin, Petscher, & Tock", year: "2020", title: "Morphology, vocabulary, and reading relationships", type: "Development/relationship evidence" },
+    bowers2010: { authors: "Bowers, Kirby, & Deacon", year: "2010", title: "The effects of morphological instruction on literacy skills", type: "Systematic review", url: "https://doi.org/10.3102/0034654309359353" },
+    goodwin2016: { authors: "Goodwin", year: "2016", title: "Morphological problem-solving within comprehension instruction", type: "Grades 5–6 intervention study", url: "https://doi.org/10.1007/s11145-015-9581-0" },
+    wolter2013: { authors: "Wolter & Green", year: "2013", title: "School-age morphological awareness and instruction", type: "SLP tutorial/review" },
+    npr2000: { authors: "National Reading Panel", year: "2000", title: "Teaching children to read", type: "Historical federal synthesis" }
+  };
+
+  const GRADE_SOURCES = {
+    foundation: ["henbest2019", "bowers2010", "colenbrander2024"],
+    expansion: ["apel2023", "goodwin2020", "bowers2010", "goodwin2016"],
+    advanced: ["goodwin2016", "goodwin2020", "colenbrander2024", "wolter2013"]
+  };
+
+  const FOCUS_SOURCES = {
+    know: ["bowers2010", "npr2000"],
+    analyze: ["apel2023", "bowers2010"],
+    meaning: ["apel2023", "goodwin2020"],
+    build: ["henbest2019", "bowers2010"],
+    apply: ["colenbrander2024", "goodwin2016"]
+  };
+
+  const MORPHO_APPLICATIONS = {
+    know: "Morpho explicitly teaches word-part meanings and provides repeated examples across related words.",
+    analyze: "Morpho provides repeated opportunities to locate meaningful boundaries, compare related forms, and explain how bases, roots, and affixes work together.",
+    meaning: "Morpho asks learners to combine morphology and context; non-target meanings may be supplied so vocabulary knowledge does not unnecessarily obscure the morphology target.",
+    build: "Morpho connects word-part meanings with building, changing, and using words while attending to form and grammatical role.",
+    apply: "Morpho fades support toward strategic use and monitors taught-skill performance separately from protected transfer performance."
+  };
+
+  const state = { grade: "foundation", focus: "know", support: "program", evidenceTab: "standards" };
   const planResult = document.getElementById("planResult");
   const supportSelect = document.getElementById("supportSelect");
   const criterionSelect = document.getElementById("criterionSelect");
   const acrossSelect = document.getElementById("acrossSelect");
   const iepPreview = document.getElementById("iepPreview");
   const copyIepButton = document.getElementById("copyIepButton");
+  const evidencePanel = document.getElementById("evidencePanel");
+  const evidenceTabs = document.querySelectorAll("[data-evidence-tab]");
 
   function list(items) {
     return `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
@@ -94,6 +158,62 @@
     const grade = GRADES[state.grade];
     const focus = FOCUSES[state.focus];
     return `The learner will ${focus.action} using ${grade.material}.`;
+  }
+
+  function relevantSources() {
+    return [...new Set([
+      ...GRADE_SOURCES[state.grade],
+      ...FOCUS_SOURCES[state.focus]
+    ])].map((id) => SOURCES[id]);
+  }
+
+  function sourceCards() {
+    return relevantSources().map((source) => `
+      <article class="source-card">
+        <strong>${source.authors} (${source.year})</strong>
+        <span>${source.title}</span>
+        <span>${source.type}</span>
+        ${source.url ? `<a href="${source.url}" target="_blank" rel="noopener noreferrer">Verified source ↗</a>` : ""}
+      </article>
+    `).join("");
+  }
+
+  function evidenceNote() {
+    return "This target is aligned with grade-level language/literacy standards and informed by research supporting explicit morphological awareness instruction. For this grade band, instruction emphasizes developmentally appropriate word complexity, explicit word-part knowledge, and increasing independent application.";
+  }
+
+  function renderEvidence() {
+    const grade = GRADES[state.grade];
+    const focus = FOCUSES[state.focus];
+    const standard = STANDARDS[state.grade];
+    const content = {
+      standards: `
+        <h4>${grade.label}: why this skill is grade-appropriate</h4>
+        <p>${standard.summary}</p>
+        <p class="standards-codes">${standard.codes}</p>
+        <p class="alignment-note">Massachusetts alignment: crosswalk in development</p>
+      `,
+      research: `
+        <h4>What research suggests for ${focus.label}</h4>
+        <p>${GRADE_RESEARCH[state.grade]} ${FOCUS_RESEARCH[state.focus]}</p>
+      `,
+      morpho: `
+        <h4>How Morpho applies this evidence</h4>
+        <ul class="morpho-application-list">
+          <li>${MORPHO_APPLICATIONS[state.focus]}</li>
+          <li>Morpho controls word transparency and complexity developmentally.</li>
+          <li>Teacher-guided work uses independent attempt → identify breakdown → least necessary support → retry the same demand → fade support.</li>
+        </ul>
+        <p class="morpho-evidence-note">First Volo Morphology is research-informed and standards-aligned. These sources support the instructional targets and design principles; they do not constitute direct efficacy evidence for First Volo Morphology itself.</p>
+      `,
+      sources: `
+        <h4>Sources relevant to this selection</h4>
+        <div class="source-list">${sourceCards()}</div>
+      `
+    };
+    const activeTab = [...evidenceTabs].find((tab) => tab.dataset.evidenceTab === state.evidenceTab);
+    evidencePanel.setAttribute("aria-labelledby", activeTab.id);
+    evidencePanel.innerHTML = content[state.evidenceTab];
   }
 
   function renderPlan() {
@@ -146,6 +266,18 @@
     });
     state[key] = button.dataset[key];
     renderPlan();
+    renderEvidence();
+  }
+
+  function selectEvidenceTab(tab, moveFocus = false) {
+    evidenceTabs.forEach((item) => {
+      const selected = item === tab;
+      item.setAttribute("aria-selected", String(selected));
+      item.setAttribute("tabindex", selected ? "0" : "-1");
+    });
+    state.evidenceTab = tab.dataset.evidenceTab;
+    renderEvidence();
+    if (moveFocus) tab.focus();
   }
 
   async function copyText(text, statusElement) {
@@ -180,14 +312,30 @@
     if (button) selectButton(event.currentTarget, button, "focus");
   });
 
+  evidenceTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectEvidenceTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = null;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % evidenceTabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (index - 1 + evidenceTabs.length) % evidenceTabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = evidenceTabs.length - 1;
+      if (nextIndex === null) return;
+      event.preventDefault();
+      selectEvidenceTab(evidenceTabs[nextIndex], true);
+    });
+  });
+
   supportSelect.addEventListener("change", () => {
     state.support = supportSelect.value;
     renderPlan();
   });
   criterionSelect.addEventListener("change", renderIep);
   acrossSelect.addEventListener("change", renderIep);
-  document.getElementById("copyPlanButton").addEventListener("click", () => copyText(planText(), document.getElementById("planCopyStatus")));
+  document.getElementById("copyPlanButton").addEventListener("click", () => copyText(objectiveWording(), document.getElementById("planCopyStatus")));
+  document.getElementById("copyEvidenceButton").addEventListener("click", () => copyText(evidenceNote(), document.getElementById("evidenceCopyStatus")));
   copyIepButton.addEventListener("click", () => copyText(iepText(), document.getElementById("iepCopyStatus")));
 
   renderPlan();
+  renderEvidence();
 })();

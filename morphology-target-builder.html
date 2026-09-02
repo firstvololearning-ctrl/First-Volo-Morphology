@@ -19,7 +19,7 @@
     <div class="title-group">
       <h1>Target &amp; Goal Builder</h1>
       <p class="site-subtitle">A simple morphology planning tool for teachers and SLPs</p>
-      <p class="site-description">Choose who, what, and how much help to generate adaptable instructional language.</p>
+      <p class="site-description">Choose who and what; Morpho connects the target to evidence before you select support.</p>
     </div>
     <div class="header-actions">
       <a class="header-link" href="educator-resources.html">← Educator Resources</a>
@@ -29,8 +29,15 @@
   <main class="target-builder-main">
     <section class="target-builder-intro">
       <p class="target-builder-eyebrow">FIRST VOLO MORPHOLOGY</p>
-      <h2>Build a clear morphology target in three choices.</h2>
+      <h2>Morphology target library + goal builder + evidence map</h2>
       <p>This tool offers planning language, not a clinical prescription. Adapt every target to the learner, setting, and local requirements. No learner information is requested or stored.</p>
+
+      <ol class="builder-orientation" aria-label="Four-step builder sequence">
+        <li><strong>WHO?</strong><span>Grade band</span></li>
+        <li><strong>WHAT?</strong><span>Morphology skill</span></li>
+        <li><strong>WHY?</strong><span>Standards + evidence</span></li>
+        <li><strong>HOW MUCH HELP?</strong><span>Condition/support</span></li>
+      </ol>
     </section>
 
     <section class="target-builder-controls" aria-labelledby="builderControlsTitle">
@@ -56,8 +63,28 @@
         </div>
       </fieldset>
 
+      <section class="why-section" aria-labelledby="whyTitle">
+        <div class="why-heading">
+          <div>
+            <h3 id="whyTitle"><span>3</span> WHY THIS TARGET?</h3>
+            <p>Morpho connects your selections to a concise standards and evidence rationale.</p>
+          </div>
+          <button type="button" class="copy-button copy-button-small" id="copyEvidenceButton">Copy evidence note</button>
+        </div>
+        <p class="copy-status" id="evidenceCopyStatus" role="status"></p>
+
+        <div class="evidence-tabs" role="tablist" aria-label="Target rationale views">
+          <button type="button" role="tab" id="standardsTab" aria-controls="evidencePanel" aria-selected="true" tabindex="0" data-evidence-tab="standards">Standards</button>
+          <button type="button" role="tab" id="researchTab" aria-controls="evidencePanel" aria-selected="false" tabindex="-1" data-evidence-tab="research">Research</button>
+          <button type="button" role="tab" id="morphoTab" aria-controls="evidencePanel" aria-selected="false" tabindex="-1" data-evidence-tab="morpho">In Morpho</button>
+          <button type="button" role="tab" id="sourcesTab" aria-controls="evidencePanel" aria-selected="false" tabindex="-1" data-evidence-tab="sources">Sources</button>
+        </div>
+
+        <div class="evidence-panel" id="evidencePanel" role="tabpanel" aria-labelledby="standardsTab" aria-live="polite"></div>
+      </section>
+
       <div class="choice-group select-group">
-        <label for="supportSelect"><span>3</span> HOW MUCH HELP? Support condition</label>
+        <label for="supportSelect"><span>4</span> HOW MUCH HELP? Support condition</label>
         <select id="supportSelect">
           <option value="program">Program supports available as needed</option>
           <option value="guided">Teacher-guided support as needed</option>
@@ -78,14 +105,14 @@
           <p class="target-builder-eyebrow">SUGGESTED PLAN</p>
           <h2 id="resultsTitle">Your morphology target</h2>
         </div>
-        <button type="button" class="copy-button" id="copyPlanButton">Copy plan</button>
+        <button type="button" class="copy-button" id="copyPlanButton">Copy objective</button>
       </div>
       <p class="copy-status" id="planCopyStatus" role="status"></p>
       <div class="result-grid" id="planResult"></div>
     </section>
 
     <details class="iep-builder" id="iepBuilder">
-      <summary>Optional: Create IEP-style wording</summary>
+      <summary>+ Make this IEP-ready</summary>
       <div class="iep-builder-body">
         <p>Choose a criterion and individualize the result. The criterion is clinician-selected—not prescribed by this tool—and must follow local IEP requirements.</p>
         <div class="iep-fields">
