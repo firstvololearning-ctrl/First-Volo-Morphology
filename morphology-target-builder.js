@@ -25,30 +25,35 @@
   const FOCUSES = {
     know: {
       label: "Know the Parts / Understand word parts",
+      shortLabel: "Know the Parts",
       action: "explain the meaning and role of taught word parts in words",
       activities: ["Meaning", "Word Part", "Find", "Word Hunt"],
       monitor: "Accuracy and specificity when identifying a word part, explaining its meaning, and distinguishing it from the base or other meaningful parts."
     },
     analyze: {
       label: "Analyze Words",
+      shortLabel: "Analyze Words",
       action: "identify meaningful word-part boundaries and explain how the parts work together",
       activities: ["Break It Apart", "Word Part", "Find", "Figure It Out"],
       monitor: "Boundary accuracy, completeness of the analysis, attention to form changes, and whether the learner explains relationships rather than only naming pieces."
     },
     meaning: {
       label: "Figure Out Meaning",
+      shortLabel: "Figure Out Meaning",
       action: "use meaningful word parts and context to infer and explain the meaning of unfamiliar words",
       activities: ["Figure It Out", "Meaning", "Break It Apart", "Word Hunt"],
       monitor: "Use of both morphology and context, quality of the meaning explanation, revision after feedback, and transfer to unfamiliar words."
     },
     build: {
       label: "Build & Use Words",
+      shortLabel: "Build & Use Words",
       action: "build morphologically related words and use them accurately in speaking or writing",
       activities: ["Build", "Use It", "Change It", "Meaning"],
       monitor: "Selection and combination of meaningful parts, spelling or form changes, grammatical fit, meaning, and accurate use in context."
     },
     apply: {
       label: "Apply Independently",
+      shortLabel: "Apply Independently",
       action: "independently apply morphological knowledge to analyze, interpret, build, and use words in new contexts",
       activities: ["Word Hunt", "Figure It Out", "Use It", "Change It"],
       monitor: "Independent strategy initiation, flexible application, explanation of reasoning, self-correction, and generalization beyond practiced words."
@@ -80,8 +85,8 @@
 
   const STANDARD_ALIGNMENT = {
     foundation: {
-      know: { direct: "CCSS RF.2.3d; RF.3.3a–b", related: "CCSS L.2.4b–c; L.3.4b–c" },
-      analyze: { direct: "CCSS RF.2.3d; RF.3.3a–b", related: "CCSS L.2.4b–c; L.3.4b–c" },
+      know: { direct: "No one-to-one CCSS code verified for explaining morpheme meanings and roles.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" },
+      analyze: { direct: "No one-to-one CCSS code verified for morphological segmentation and structural explanation.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" },
       meaning: { direct: "CCSS L.2.4b–c; L.3.4b–c", related: "CCSS RF.2.3d; RF.3.3a–b" },
       build: { direct: "No one-to-one CCSS code verified for this productive target.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" },
       apply: { direct: "No one-to-one CCSS code verified for this broad transfer target.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" }
@@ -245,7 +250,7 @@
         <p class="alignment-note"><b>About standards alignment:</b> Exact codes are shown only when a direct match has been verified. Related standards are labeled as related, and some clinical or instructional targets may not have a one-to-one standards code. Standards alignment establishes instructional relevance; it does not establish efficacy for First Volo Morphology.</p>
       `,
       research: `
-        <h4>What research suggests for ${focus.label}</h4>
+        <h4>What research suggests for ${focus.shortLabel}</h4>
         <p>${RESEARCH_SUMMARIES[state.grade][state.focus]}</p>
       `,
       morpho: `
@@ -320,12 +325,15 @@
     const grade = GRADES[state.grade];
     const focus = FOCUSES[state.focus];
     const support = SUPPORTS[state.support];
+    const supportHeading = state.support === "independent"
+      ? "Access supports that preserve independence"
+      : "Possible supports";
     planResult.innerHTML = `
       <article class="result-card result-card-wide"><h3>Suggested objective wording</h3><p>${objectiveWording()}</p></article>
       <article class="result-card"><h3>Possible condition</h3><p>${support.condition}.</p></article>
       <article class="result-card"><h3>Developmental expectation</h3><p><strong>${grade.label}:</strong> ${grade.expectation}</p></article>
       <article class="result-card"><h3>Recommended Morpho activities</h3>${list(focus.activities)}</article>
-      <article class="result-card"><h3>Possible supports</h3>${list(support.ideas)}</article>
+      <article class="result-card"><h3>${supportHeading}</h3>${list(support.ideas)}</article>
       <article class="result-card result-card-wide"><h3>What to monitor</h3><p>${focus.monitor} Also monitor ${grade.transfer}.</p></article>
     `;
     renderIep();
@@ -336,14 +344,14 @@
     const focus = FOCUSES[state.focus];
     const support = SUPPORTS[state.support];
     return [
-      "FIRST VOLO MORPHOLOGY — SUGGESTED PLAN",
+      "FIRST VOLO MORPHOLOGY — SUGGESTED TARGET",
       `Grade band: ${grade.label}`,
       `Focus: ${focus.label}`,
       `Suggested objective: ${objectiveWording()}`,
       `Possible condition: ${support.condition}.`,
       `Developmental expectation: ${grade.expectation}`,
       `Recommended Morpho activities: ${focus.activities.join(", ")}`,
-      `Possible supports: ${support.ideas.join("; ")}`,
+      `${state.support === "independent" ? "Access supports that preserve independence" : "Possible supports"}: ${support.ideas.join("; ")}`,
       `What to monitor: ${focus.monitor} Also monitor ${grade.transfer}.`
     ].join("\n\n");
   }
