@@ -78,58 +78,91 @@
     }
   };
 
-  const STANDARDS = {
+  const STANDARD_ALIGNMENT = {
     foundation: {
-      summary: "Grades 2–3 standards support using common prefixes, suffixes, bases, and roots in both word reading and meaning-making. The selected target can involve rich analysis, inference, production, or application when the words and support are developmentally calibrated.",
-      codes: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c"
+      know: { direct: "CCSS RF.2.3d; RF.3.3a–b", related: "CCSS L.2.4b–c; L.3.4b–c" },
+      analyze: { direct: "CCSS RF.2.3d; RF.3.3a–b", related: "CCSS L.2.4b–c; L.3.4b–c" },
+      meaning: { direct: "CCSS L.2.4b–c; L.3.4b–c", related: "CCSS RF.2.3d; RF.3.3a–b" },
+      build: { direct: "No one-to-one CCSS code verified for this productive target.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" },
+      apply: { direct: "No one-to-one CCSS code verified for this broad transfer target.", related: "CCSS RF.2.3d; L.2.4b–c; RF.3.3a–b; L.3.4b–c" }
     },
     expansion: {
-      summary: "Grades 4–5 standards expect students to use Greek and Latin affixes and roots as clues to meaning, while coordinating morphology with context and reference tools when needed.",
-      codes: "CCSS L.4.4a–c; L.5.4a–c"
+      know: { direct: "No one-to-one CCSS code verified for isolated morpheme knowledge.", related: "CCSS L.4.4a–c; L.5.4a–c" },
+      analyze: { direct: "No one-to-one CCSS code verified for analysis alone.", related: "CCSS L.4.4a–c; L.5.4a–c" },
+      meaning: { direct: "CCSS L.4.4b; L.5.4b", related: "CCSS L.4.4a, c; L.5.4a, c" },
+      build: { direct: "No one-to-one CCSS code verified for this productive target.", related: "CCSS L.4.4a–c; L.5.4a–c" },
+      apply: { direct: "No one-to-one CCSS code verified for this broad transfer target.", related: "CCSS L.4.4a–c; L.5.4a–c" }
     },
     advanced: {
-      summary: "Grades 6–8 standards expect increasingly strategic use of Greek and Latin affixes and roots, context, and reference or verification strategies to determine and confirm word meaning.",
-      codes: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d"
+      know: { direct: "No one-to-one CCSS code verified for isolated morpheme knowledge.", related: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d" },
+      analyze: { direct: "No one-to-one CCSS code verified for analysis alone.", related: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d" },
+      meaning: { direct: "CCSS L.6.4b; L.7.4b; L.8.4b", related: "CCSS L.6.4a, c–d; L.7.4a, c–d; L.8.4a, c–d" },
+      build: { direct: "No one-to-one CCSS code verified for this productive target.", related: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d" },
+      apply: { direct: "No one-to-one CCSS code verified for this broad transfer target.", related: "CCSS L.6.4a–d; L.7.4a–d; L.8.4a–d" }
     }
   };
 
-  const GRADE_RESEARCH = {
-    foundation: "Research supports rich morphological thinking beginning in Grade 2 when instruction uses familiar bases, relatively transparent morphology, controlled word complexity, and explicit support that can be faded. Grade 2 feasibility work has found improved morphology performance following explicit instruction, but it was not a randomized causal trial.",
-    expansion: "Studies indicate that students in the middle elementary grades increasingly coordinate roots, affixes, word families, and context while working with more multimorphemic academic words. Assessment research also suggests that base transparency and task demands meaningfully affect performance.",
-    advanced: "Evidence suggests that older students benefit from strategic morphological problem-solving integrated with context, grammatical information, word-family relationships, and verification. Morphology can support a preliminary meaning hypothesis, but it may not be sufficient by itself for every complex word."
-  };
-
-  const FOCUS_RESEARCH = {
-    know: "For word-part knowledge, research supports explicit instruction in morpheme meanings, repeated examples, and comparison within word families.",
-    analyze: "For analysis, evidence highlights segmentation, base–affix relationships, comparisons among related forms, and careful control of word transparency.",
-    meaning: "For inference, studies support combining known morpheme information with context and treating the result as a meaning hypothesis that may need verification.",
-    build: "For production, instruction can connect inflectional and derivational forms, grammatical or part-of-speech changes, and accurate contextual use within word families.",
-    apply: "For independent application, intervention syntheses support fading assistance and monitoring taught or proximal performance separately from transfer to untrained material, which is less consistent."
+  const RESEARCH_SUMMARIES = {
+    foundation: {
+      know: "Grade 2 feasibility work shows that young students can participate in explicit, scaffolded morphology instruction. A Grade 3 randomized digital pilot also found gains on affix identification and suffix choice, supporting explicit word-part knowledge as a proximal instructional target.",
+      analyze: "Early morphology instruction can go beyond recognition when the words and supports are appropriate. Grade 2 implementation evidence supports scaffolded morphological thinking, while Grades 3–6 assessment research shows that task demands and base-word transparency strongly affect difficulty.",
+      meaning: "Morphology can help students form a preliminary hypothesis about an unfamiliar word, but difficulty depends on the particular word and task. Early work should favor accessible, transparent relationships, with context used to check or refine rather than replace morphological analysis.",
+      build: "Direct evidence supports teaching students to work with morphological forms, not only memorize definitions. Grade 3 intervention evidence includes gains in suffix choice, while clinical/tutorial and Grade 2 implementation research support scaffolded word construction and manipulation.",
+      apply: "Independence should develop gradually. Research shows that performance on directly taught material is generally stronger than transfer to untaught material, so early supported application and independent transfer should be monitored separately."
+    },
+    expansion: {
+      know: "Grades 4–6 intervention research supports explicit knowledge of morphemes, bases, and affixes as part of structured morphology instruction. Grade 5 impact research also found improvement in real-word decomposition, although broader untaught-word outcomes did not automatically improve.",
+      analyze: "Grades 4–6 intervention work produced gains in morphological awareness, decoding, and analysis, while Grades 3–6 assessment research shows that analysis difficulty varies substantially with the task and transparency of the base-word relationship.",
+      meaning: "Morphological analysis can support unfamiliar-word reasoning, but successful decomposition does not guarantee independent meaning inference. Grade 5 impact research found improvement in decomposition without corresponding effects on untaught derivation or word-meaning inference, supporting the use of morphology plus context and verification.",
+      build: "Intervention research with Grades 4–6 included assembly, deconstruction, and manipulation of morphologically complex words and produced gains on several proximal morphology outcomes. This supports productive word-family work while avoiding claims that word construction alone produces broad standardized literacy gains.",
+      apply: "Near transfer can occur, but broader generalization is less consistent. Increasing independence is appropriate across this band, while fresh-word performance should remain a distinct outcome rather than being inferred from success with taught words."
+    },
+    advanced: {
+      know: "Middle-grade research shows that morphological knowledge is multidimensional, including awareness, semantic knowledge, morphosyntactic knowledge, and form-related knowledge. Intervention studies with adolescents also support explicit work with roots and affixes, although outcomes differ by population and task.",
+      analyze: "Adolescent intervention research provides direct support for morphological analysis. Cross-language morphology instruction produced transfer on a morphological-analysis measure, and language-disorder intervention research found transfer to new roots containing taught affixes, but not to untaught affixes.",
+      meaning: "Morphological problem solving can support academic-word learning and some vocabulary outcomes in middle-grade students. The evidence does not justify assuming broad reading-comprehension effects, so morphology should generate a meaning hypothesis that is then checked against context and other information.",
+      build: "Grades 5–8 assessment research supports treating morphosyntactic knowledge, such as how morphological forms relate to grammatical function, as a distinct dimension. Clinical guidance supports production and form-selection work, but direct intervention evidence for every sentence-level productive task is more limited, so claims should remain targeted.",
+      apply: "Strategic transfer is a legitimate goal, but it should be measured rather than assumed. Adolescent studies show some generalization to new words containing taught morphology, while intervention studies and meta-analytic evidence show clear limits on transfer beyond what was explicitly taught."
+    }
   };
 
   const SOURCES = {
-    henbest2019: { authors: "Henbest, Apel, & Mitchell", year: "2019", title: "Explicit morphology instruction in Grade 2", type: "Grade 2 feasibility study" },
-    apel2023: { authors: "Apel, Henbest, & Petscher", year: "2023", title: "Morphological awareness across Grades 3–6", type: "Assessment/development evidence" },
-    colenbrander2024: { authors: "Colenbrander et al.", year: "2024", title: "Morphological instruction outcomes and transfer", type: "Systematic review/meta-analysis" },
-    goodwin2020: { authors: "Goodwin, Petscher, & Tock", year: "2020", title: "Morphology, vocabulary, and reading relationships", type: "Development/relationship evidence" },
-    bowers2010: { authors: "Bowers, Kirby, & Deacon", year: "2010", title: "The effects of morphological instruction on literacy skills", type: "Systematic review", url: "https://doi.org/10.3102/0034654309359353" },
-    goodwin2016: { authors: "Goodwin", year: "2016", title: "Morphological problem-solving within comprehension instruction", type: "Grades 5–6 intervention study", url: "https://doi.org/10.1007/s11145-015-9581-0" },
-    wolter2013: { authors: "Wolter & Green", year: "2013", title: "School-age morphological awareness and instruction", type: "SLP tutorial/review" },
-    npr2000: { authors: "National Reading Panel", year: "2000", title: "Teaching children to read", type: "Historical federal synthesis" }
+    henbest2019: { authors: "Henbest, Apel, & Mitchell", year: "2019", title: "Grade 2 explicit morphology instruction", type: "Feasibility study", claim: "Two teachers implemented eight weeks of scaffolded explicit morphology instruction with 30 Grade 2 students; morphology scores increased from pretest to posttest.", limitation: "No business-as-usual control group; not causal efficacy evidence." },
+    wood2025: { authors: "Wood et al.", year: "2025", title: "Grade 3 supplemental digital morphology pilot", type: "Randomized intervention", claim: "Significant effects on affix identification and suffix choice.", limitation: "Findings are bounded to the measured proximal morphology outcomes." },
+    apel2023: { authors: "Apel, Henbest, & Petscher", year: "2023", title: "Morphological awareness across Grades 3–6", type: "Design/assessment study", claim: "Task characteristics and base-word transparency affected performance; transparent relationships were generally easier.", limitation: "Assessment evidence; does not prove an instructional sequence or intervention effect." },
+    mendes2024: { authors: "Mendes & Kirby", year: "2024", title: "Morphology intervention for Grades 4–6 students with dyslexia/LD", type: "Intervention study", claim: "Gains in morphological awareness, decoding, analysis, spelling, and some near morphological transfer following decomposition and assembly instruction.", limitation: "Small sample; no significant broad standardized word-reading or fluency effects." },
+    foorman2021: { authors: "Foorman et al.", year: "2021", title: "Grade 5 morphology impact study", type: "Impact/intervention study", claim: "Real-word decomposition improved.", limitation: "No significant effects on untaught derivation, word-meaning inference, vocabulary, or ELA outcomes." },
+    crosson2025: { authors: "Crosson et al.", year: "2025", title: "Cross-language morphology intervention with multilingual adolescents", type: "Intervention study", claim: "Effects on five of six measured outcomes, including morphological-analysis transfer (d = .32).", limitation: "Reading-comprehension effect was small and non-significant." },
+    glisson2026: { authors: "Glisson et al.", year: "2026", title: "Morphology intervention for adolescents with language disorder", type: "Intervention study", claim: "Treatment advantage for taught affixes and transfer to new roots containing taught affixes.", limitation: "No transfer to untaught affixes." },
+    colenbrander2024: { authors: "Colenbrander et al.", year: "2024", title: "Morphological instruction outcomes and transfer", type: "Systematic review/meta-analysis", claim: "Effects were strongest closer to trained material; some reading, spelling, and untrained spelling effects were found.", limitation: "Untrained reading was less clear, and there was no clear reading-comprehension effect." },
+    goodwin2021: { authors: "Goodwin, Petscher, & Tock", year: "2021", title: "Dimensions of morphological knowledge in Grades 5–8", type: "Design/assessment study", claim: "Morphological knowledge included separable awareness, semantic, morphosyntactic, and form-related dimensions plus task variance.", limitation: "Assessment/association evidence; not an intervention effect." },
+    goodwin2016: { authors: "Goodwin", year: "2016", title: "Morphological problem-solving within comprehension instruction", type: "Grades 5–6 intervention study", claim: "Improved some vocabulary and morphological-awareness outcomes.", limitation: "No significant reading-comprehension or word-reading-fluency effect.", url: "https://doi.org/10.1007/s11145-015-9581-0" },
+    collins2023: { authors: "Collins", year: "2023", title: "K–12 clinical morphology instruction", type: "Clinical tutorial/review", claim: "Supports analysis, synthesis, production, word-family work, and attention to form changes as clinical instructional practices.", limitation: "Clinical/tutorial guidance; not intervention-effect evidence." },
+    wolter2013: { authors: "Wolter & Green", year: "2013", title: "School-age morphological awareness and instruction", type: "Clinical review/case-study rationale", claim: "Supports morphology problem solving, word construction, and checking meaning against context.", limitation: "Clinical review and case illustration do not establish broad causal effects." }
   };
 
-  const GRADE_SOURCES = {
-    foundation: ["henbest2019", "bowers2010", "colenbrander2024"],
-    expansion: ["apel2023", "goodwin2020", "bowers2010", "goodwin2016"],
-    advanced: ["goodwin2016", "goodwin2020", "colenbrander2024", "wolter2013"]
-  };
-
-  const FOCUS_SOURCES = {
-    know: ["bowers2010", "npr2000"],
-    analyze: ["apel2023", "bowers2010"],
-    meaning: ["apel2023", "goodwin2020"],
-    build: ["henbest2019", "bowers2010"],
-    apply: ["colenbrander2024", "goodwin2016"]
+  const SOURCE_MAP = {
+    foundation: {
+      know: ["wood2025", "henbest2019"],
+      analyze: ["henbest2019", "apel2023"],
+      meaning: ["apel2023", "wolter2013"],
+      build: ["wood2025", "henbest2019", "collins2023"],
+      apply: ["colenbrander2024", "henbest2019"]
+    },
+    expansion: {
+      know: ["mendes2024", "foorman2021"],
+      analyze: ["mendes2024", "apel2023"],
+      meaning: ["foorman2021", "mendes2024", "wolter2013"],
+      build: ["mendes2024", "collins2023"],
+      apply: ["colenbrander2024", "foorman2021", "mendes2024"]
+    },
+    advanced: {
+      know: ["crosson2025", "glisson2026", "goodwin2021"],
+      analyze: ["crosson2025", "glisson2026"],
+      meaning: ["crosson2025", "goodwin2016", "wolter2013"],
+      build: ["goodwin2021", "collins2023"],
+      apply: ["colenbrander2024", "crosson2025", "glisson2026"]
+    }
   };
 
   const MORPHO_APPLICATIONS = {
@@ -161,10 +194,8 @@
   }
 
   function relevantSources() {
-    return [...new Set([
-      ...GRADE_SOURCES[state.grade],
-      ...FOCUS_SOURCES[state.focus]
-    ])].map((id) => SOURCES[id]);
+    return SOURCE_MAP[state.grade][state.focus]
+      .map((id) => SOURCES[id]);
   }
 
   function sourceCards() {
@@ -172,7 +203,9 @@
       <article class="source-card">
         <strong>${source.authors} (${source.year})</strong>
         <span>${source.title}</span>
-        <span>${source.type}</span>
+        <span><b>Evidence type:</b> ${source.type}</span>
+        <span><b>Supports:</b> ${source.claim}</span>
+        <span><b>Required limitation:</b> ${source.limitation}</span>
         ${source.url ? `<a href="${source.url}" target="_blank" rel="noopener noreferrer">Verified source ↗</a>` : ""}
       </article>
     `).join("");
@@ -182,20 +215,37 @@
     return "This target is aligned with grade-level language/literacy standards and informed by research supporting explicit morphological awareness instruction. For this grade band, instruction emphasizes developmentally appropriate word complexity, explicit word-part knowledge, and increasing independent application.";
   }
 
+  function massachusettsAlignment() {
+    if (state.grade === "expansion" && state.focus === "meaning") {
+      return "Massachusetts direct alignment: MA L.4.4b. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
+    }
+    if (state.grade === "advanced" && state.focus === "meaning") {
+      return "Massachusetts direct alignment: MA L.7.4b. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
+    }
+    return "Massachusetts: no direct code verified for this specific target in the current crosswalk. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
+  }
+
+  function federalGuidance() {
+    const band = state.grade === "foundation" ? "K–3" : "Grades 4–9";
+    return `IES/WWC ${band} guidance includes word-part analysis within broader vocabulary and word-learning recommendations. Any Strong Evidence rating applies to the complete recommendation, not morphology alone.`;
+  }
+
   function renderEvidence() {
     const grade = GRADES[state.grade];
     const focus = FOCUSES[state.focus];
-    const standard = STANDARDS[state.grade];
+    const standard = STANDARD_ALIGNMENT[state.grade][state.focus];
     const content = {
       standards: `
         <h4>${grade.label}: why this skill is grade-appropriate</h4>
-        <p>${standard.summary}</p>
-        <p class="standards-codes">${standard.codes}</p>
-        <p class="alignment-note">Massachusetts alignment: crosswalk in development</p>
+        <p>Standards establish the instructional relevance of ${focus.label.toLowerCase()}; they do not validate a product or imply that every related task is directly specified.</p>
+        <p class="standards-codes"><b>Direct alignment:</b> ${standard.direct}</p>
+        <p class="standards-codes"><b>Related language/literacy expectation:</b> ${standard.related}</p>
+        <p class="alignment-note">${massachusettsAlignment()}</p>
+        <p class="alignment-note">${federalGuidance()}</p>
       `,
       research: `
         <h4>What research suggests for ${focus.label}</h4>
-        <p>${GRADE_RESEARCH[state.grade]} ${FOCUS_RESEARCH[state.focus]}</p>
+        <p>${RESEARCH_SUMMARIES[state.grade][state.focus]}</p>
       `,
       morpho: `
         <h4>How Morpho applies this evidence</h4>
@@ -214,6 +264,55 @@
     const activeTab = [...evidenceTabs].find((tab) => tab.dataset.evidenceTab === state.evidenceTab);
     evidencePanel.setAttribute("aria-labelledby", activeTab.id);
     evidencePanel.innerHTML = content[state.evidenceTab];
+  }
+
+  function buildEvidenceAudit() {
+    return Object.entries(GRADES).flatMap(([gradeId, grade]) =>
+      Object.entries(FOCUSES).map(([focusId, focus]) => {
+        const sources = SOURCE_MAP[gradeId][focusId].map((id) => SOURCES[id]);
+        const standard = STANDARD_ALIGNMENT[gradeId][focusId];
+        return Object.freeze({
+          gradeBand: grade.label,
+          objective: focus.label,
+          researchText: RESEARCH_SUMMARIES[gradeId][focusId],
+          sources: sources.map((source) => `${source.authors} (${source.year})`).join("; "),
+          evidenceTypes: sources.map((source) => source.type).join("; "),
+          claimsSupported: sources.map((source) => source.claim).join(" | "),
+          requiredLimitations: sources.map((source) => source.limitation).join(" | "),
+          directStandards: standard.direct,
+          relatedStandards: standard.related
+        });
+      })
+    );
+  }
+
+  function validateEvidenceAudit(rows) {
+    if (rows.length !== 15) throw new Error("Evidence audit must contain 15 grade/objective rows.");
+    rows.forEach((row) => {
+      if (!row.researchText || !row.sources || !row.evidenceTypes || !row.claimsSupported || !row.requiredLimitations) {
+        throw new Error(`Incomplete evidence audit row: ${row.gradeBand} / ${row.objective}`);
+      }
+    });
+    if (SOURCES.henbest2019.type !== "Feasibility study" || !SOURCES.henbest2019.limitation.includes("No business-as-usual control group")) {
+      throw new Error("Henbest et al. 2019 guardrail failed.");
+    }
+    if (SOURCES.apel2023.type !== "Design/assessment study" || SOURCES.goodwin2021.type !== "Design/assessment study") {
+      throw new Error("Assessment evidence may not be labeled as intervention evidence.");
+    }
+    if (Object.values(SOURCE_MAP).some((band) => Object.values(band).flat().some((id) => id === "nrp2000"))) {
+      throw new Error("NRP may not be primary morphology-specific impact evidence.");
+    }
+    ["foundation", "expansion", "advanced"].forEach((gradeId) => {
+      const directBundles = Object.values(STANDARD_ALIGNMENT[gradeId]).map((item) => item.direct);
+      if (new Set(directBundles).size === 1) throw new Error(`Direct standards were mechanically duplicated for ${gradeId}.`);
+    });
+  }
+
+  const evidenceAudit = Object.freeze(buildEvidenceAudit());
+  validateEvidenceAudit(evidenceAudit);
+  window.FirstVoloTargetEvidenceAudit = evidenceAudit;
+  if (typeof console !== "undefined" && typeof console.table === "function") {
+    console.table(evidenceAudit);
   }
 
   function renderPlan() {
