@@ -55,34 +55,34 @@
 
   const definitions = [
     {
-      id: "volos-sky-catch", flight: "2-3", title: "Volo’s Sky Catch",
+      id: "volos-sky-catch", flight: "2-3", title: "Volo’s Core Word-Part Catch",
       shortDescription: "Catch the right word parts and help Volo ride the wind.",
-      unlockToken: "foundation-prefixes-1", gameType: "sky-catch", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
+      unlockToken: "foundation-core-word-parts", gameType: "sky-catch", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "slow", targetSize: "large", winds: 5 },
       rounds: [
-        { target: "re", meaning: "AGAIN", distractors: ["pre", "un-negation", "mis"] },
-        { target: "pre", meaning: "BEFORE", distractors: ["re", "non", "dis"] },
-        { target: "mis", meaning: "WRONGLY", distractors: ["re", "pre", "non"] },
-        { target: "non", meaning: "NOT", distractors: ["dis", "un-negation", "pre"] },
-        { target: "dis", meaning: "NOT OR OPPOSITE OF", distractors: ["non", "re", "mis"] }
+        { target: "re", meaning: "AGAIN", distractors: ["un-negation", "s-es", "ed"] },
+        { target: "un-negation", meaning: "NOT", distractors: ["re", "ing", "s-es"] },
+        { target: "s-es", meaning: "MORE THAN ONE", distractors: ["ed", "ing", "re"] },
+        { target: "ed", meaning: "HAPPENED IN THE PAST", distractors: ["ing", "s-es", "un-negation"] },
+        { target: "ing", meaning: "ACTION HAPPENING NOW", distractors: ["ed", "s-es", "re"] }
       ]
     },
     {
-      id: "prefix-wind-builder", flight: "2-3", title: "Prefix Wind Builder",
+      id: "prefix-wind-builder", flight: "2-3", title: "Word-Part Wind Builder",
       shortDescription: "Gather familiar pieces and build a real word in the sky.",
-      unlockToken: "foundation-prefixes-2", gameType: "build-word", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
+      unlockToken: "foundation-common-meaning-changes", gameType: "build-word", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "slow", rounds: 4 },
       rounds: [
-        { word: "rebuild", prompt: "build again", pieces: ["re", "build"], targetIds: ["re"], baseHelp: "build = make" },
-        { word: "preview", prompt: "view before", pieces: ["pre", "view"], targetIds: ["pre"], baseHelp: "view = see" },
-        { word: "subsoil", prompt: "soil below", pieces: ["sub", "soil"], targetIds: ["sub"], baseHelp: "soil = earth" },
-        { word: "midpoint", prompt: "middle point", pieces: ["mid", "point"], targetIds: ["mid"], baseHelp: "point = exact place" }
+        { word: "rewrite", prompt: "write again", pieces: ["re", "write"], targetIds: ["re"], baseHelp: "write = put words on a page" },
+        { word: "untie", prompt: "undo a tie", pieces: ["un", "tie"], targetIds: ["un-reversative"], baseHelp: "tie = fasten" },
+        { word: "misread", prompt: "read wrongly", pieces: ["mis", "read"], targetIds: ["mis"], baseHelp: "read = look at and understand words" },
+        { word: "preschool", prompt: "school before kindergarten", pieces: ["pre", "school"], targetIds: ["pre"], baseHelp: "school = a place for learning" }
       ]
     },
     {
-      id: "suffix-meaning-flight", flight: "2-3", title: "Suffix Meaning Flight",
+      id: "suffix-meaning-flight", flight: "2-3", title: "Foundation Meaning Flight",
       shortDescription: "Fly through the meaning that matches each familiar suffix.",
-      unlockToken: "foundation-suffixes-2", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
+      unlockToken: "foundation-grade3-bridge", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "slow", rounds: 5 },
       prompts: ["ness", "able-ible", "er-or", "ion", "ment"]
     },

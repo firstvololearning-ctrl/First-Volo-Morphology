@@ -40,6 +40,20 @@
   }
 
 
+  function getCurrentLearningSetIds() {
+    return new Set(
+      (window.FIRST_VOLO_TOKEN_SETS || [])
+        .map((set) => set.id)
+        .filter(Boolean)
+    );
+  }
+
+
+  function getCurrentLearningSetTotal() {
+    return getCurrentLearningSetIds().size;
+  }
+
+
   function getActiveStudentTokenCount() {
     try {
       const saved =
@@ -55,9 +69,14 @@
             item.id === saved.activeStudentId
         );
 
+      const currentIds =
+        getCurrentLearningSetIds();
+
       return Object.keys(
         student?.voloTokens || {}
-      ).length;
+      )
+        .filter((id) => currentIds.has(id))
+        .length;
     } catch (error) {
       return 0;
     }
@@ -215,7 +234,7 @@
       "volo-token-celebration-counter";
 
     counter.innerHTML =
-      `<strong>${previousEarned}</strong>/16 Tokens`;
+      `<strong>${previousEarned}</strong>/${getCurrentLearningSetTotal()} Tokens`;
 
 
     collection.append(
@@ -367,7 +386,7 @@
       );
 
       counter.innerHTML =
-        `<strong>${currentEarned}</strong>/16 Tokens`;
+        `<strong>${currentEarned}</strong>/${getCurrentLearningSetTotal()} Tokens`;
     }, 1900);
 
 

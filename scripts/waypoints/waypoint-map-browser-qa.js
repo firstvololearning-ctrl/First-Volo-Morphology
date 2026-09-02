@@ -14,10 +14,10 @@ const PROGRESS_KEY =
 
 const SETS = Object.freeze({
   A: [
-    "foundation-prefixes-1",
-    "foundation-prefixes-2",
-    "foundation-suffixes-1",
-    "foundation-suffixes-2"
+    "foundation-core-word-parts",
+    "foundation-common-meaning-changes",
+    "foundation-expanding-system",
+    "foundation-grade3-bridge"
   ],
   B: [
     "expansion-prefixes-1",

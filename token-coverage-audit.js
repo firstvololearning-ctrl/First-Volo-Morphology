@@ -33,14 +33,22 @@ const inventoryById = new Map(
    BASIC TOKEN-SET INTEGRITY
    ======================================== */
 
+const activeAssignedIds = [];
+const pendingAssignedIds = [];
 const assignedIds = [];
 const integrityProblems = [];
 
 for (const set of tokenSets) {
 
-  for (const id of set.morphemeIds) {
+  const memberships = [
+    ...(set.morphemeIds || []).map(id => ({ id, pending: false })),
+    ...(set.pendingMorphemeIds || []).map(id => ({ id, pending: true }))
+  ];
+
+  for (const { id, pending } of memberships) {
 
     assignedIds.push(id);
+    (pending ? pendingAssignedIds : activeAssignedIds).push(id);
 
     const item = inventoryById.get(id);
 
@@ -57,9 +65,14 @@ for (const set of tokenSets) {
       );
     }
 
-    if (item.type !== set.type) {
+    const allowedTypes =
+      set.type === "mixed"
+        ? set.morphemeTypes || []
+        : [set.type];
+
+    if (!allowedTypes.includes(item.type)) {
       integrityProblems.push(
-        `${set.label}: ${id} is type ${item.type}, not ${set.type}`
+        `${set.label}: ${id} is type ${item.type}, not one of ${allowedTypes.join(", ")}`
       );
     }
   }
@@ -222,7 +235,9 @@ console.log("");
 
 console.log(`Inventory morphemes: ${inventory.length}`);
 console.log(`Token sets:          ${tokenSets.length}`);
-console.log(`Assigned IDs:        ${assignedIds.length}`);
+console.log(`Active assigned IDs: ${activeAssignedIds.length}`);
+console.log(`Pending IDs:         ${pendingAssignedIds.length}`);
+console.log(`Assigned IDs total:  ${assignedIds.length}`);
 console.log(`Unassigned:          ${unassigned.length}`);
 console.log(`Duplicate IDs:       ${duplicateIds.length}`);
 console.log("");
@@ -246,7 +261,7 @@ if (integrityProblems.length) {
   );
 
   console.log(
-    "✓ All token-set bands and types match the master inventory."
+    "✓ All learning-set bands and types match the master inventory."
   );
 
   console.log("");
@@ -261,7 +276,11 @@ for (const set of tokenSets) {
   console.log("--------------------------------------------");
   console.log(set.label);
   console.log(
-    `${set.collection} · ${set.type} · introduced ${set.introBand}`
+    `${set.collection} · ${
+      set.type === "mixed"
+        ? set.morphemeTypes.join(" + ")
+        : set.type
+    } · introduced ${set.introBand}`
   );
   console.log("--------------------------------------------");
 
@@ -399,6 +418,13 @@ for (const set of tokenSets) {
     `Set coverage: ${setReady}/${set.morphemeIds.length} ready`
   );
 
+  for (const id of set.pendingMorphemeIds || []) {
+    const item = inventoryById.get(id);
+    console.log(
+      `○ ${item?.label || id}: pending / non-mastery-gating`
+    );
+  }
+
   if (setGaps === 0) {
     console.log("✓ Token set has sufficient activity routes.");
   } else {
@@ -416,7 +442,11 @@ console.log("SUMMARY");
 console.log("============================================");
 
 console.log(
-  `Morphemes ready for token rule: ${totalReady}/${inventory.length}`
+  `Active morphemes ready for token rule: ${totalReady}/${activeAssignedIds.length}`
+);
+
+console.log(
+  `Pending non-mastery-gating:          ${pendingAssignedIds.length}`
 );
 
 console.log(

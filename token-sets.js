@@ -15,69 +15,75 @@ const FIRST_VOLO_TOKEN_SETS = [
      ======================================== */
 
   {
-    id: "foundation-prefixes-1",
+    id: "foundation-core-word-parts",
     collection: "Foundation",
-    label: "Foundation Prefixes I",
+    label: "Foundation I · Core Word Parts",
     introBand: "2-3",
-    type: "prefix",
+    type: "mixed",
+    morphemeTypes: ["prefix", "suffix"],
     morphemeIds: [
       "un-negation",
-      "un-reversative",
       "re",
-      "dis",
-      "pre",
-      "mis",
-      "non"
-    ]
-  },
-
-  {
-    id: "foundation-prefixes-2",
-    collection: "Foundation",
-    label: "Foundation Prefixes II",
-    introBand: "2-3",
-    type: "prefix",
-    morphemeIds: [
-      "en-em",
-      "over",
-      "sub",
-      "fore",
-      "mid",
-      "under"
-    ]
-  },
-
-  {
-    id: "foundation-suffixes-1",
-    collection: "Foundation",
-    label: "Foundation Suffixes I",
-    introBand: "2-3",
-    type: "suffix",
-    morphemeIds: [
       "s-es",
       "ed",
       "ing",
       "er-more",
-      "est",
+      "est"
+    ]
+  },
+
+  {
+    id: "foundation-common-meaning-changes",
+    collection: "Foundation",
+    label: "Foundation II · Common Meaning Changes",
+    introBand: "2-3",
+    type: "mixed",
+    morphemeTypes: ["prefix", "suffix"],
+    morphemeIds: [
+      "er-or",
+      "un-reversative",
+      "dis",
+      "pre",
+      "mis",
       "ful",
       "less"
     ]
   },
 
   {
-    id: "foundation-suffixes-2",
+    id: "foundation-expanding-system",
     collection: "Foundation",
-    label: "Foundation Suffixes II",
+    label: "Foundation III · Expanding the System",
     introBand: "2-3",
-    type: "suffix",
+    type: "mixed",
+    morphemeTypes: ["prefix", "suffix"],
     morphemeIds: [
-      "ness",
-      "able-ible",
-      "er-or",
-      "ion",
+      "non",
+      "over",
+      "sub",
+      "mid",
+      "under",
       "ly-adverb",
-      "ly-adjective",
+      "ness"
+    ]
+  },
+
+  {
+    id: "foundation-grade3-bridge",
+    collection: "Foundation",
+    label: "Foundation IV · Grade 3 Bridge",
+    introBand: "2-3",
+    type: "mixed",
+    morphemeTypes: ["prefix", "suffix"],
+    morphemeIds: [
+      "en-em",
+      "fore",
+      "able-ible",
+      "ion",
       "ment"
+    ],
+    pendingMorphemeIds: [
+      "ly-adjective"
     ]
   },
 

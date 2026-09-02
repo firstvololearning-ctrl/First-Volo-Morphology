@@ -16,7 +16,7 @@
     - displayStop may intentionally be later for pacing, but never earlier.
 */
 
-const FIRST_VOLO_WAYPOINT_REGISTRY_VERSION = "2026-09-01-v1";
+const FIRST_VOLO_WAYPOINT_REGISTRY_VERSION = "2026-09-01-v2-foundation-developmental";
 
 const FIRST_VOLO_WAYPOINT_FLIGHTS = Object.freeze({
   A: Object.freeze({
@@ -24,10 +24,10 @@ const FIRST_VOLO_WAYPOINT_FLIGHTS = Object.freeze({
     collection: "Foundation",
     expectedWaypointCount: 11,
     expectedSetIds: Object.freeze([
-      "foundation-prefixes-1",
-      "foundation-prefixes-2",
-      "foundation-suffixes-1",
-      "foundation-suffixes-2"
+      "foundation-core-word-parts",
+      "foundation-common-meaning-changes",
+      "foundation-expanding-system",
+      "foundation-grade3-bridge"
     ]),
     expectedInstructionalStopIds: Object.freeze([
       "meadow",
@@ -118,9 +118,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["non-", "fiction"],
     componentMorphemeIds: ["non"],
     requiredMorphemeIds: ["non"],
-    requiredSetIds: ["foundation-prefixes-1"],
-    earliestEligibleStop: "meadow",
-    displayStop: "meadow",
+    requiredSetIds: ["foundation-expanding-system"],
+    earliestEligibleStop: "village",
+    displayStop: "village",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-NONFICTION.pdf"
   }),
   waypoint({
@@ -129,9 +129,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["sub-", "soil"],
     componentMorphemeIds: ["sub"],
     requiredMorphemeIds: ["sub"],
-    requiredSetIds: ["foundation-prefixes-2"],
-    earliestEligibleStop: "forest",
-    displayStop: "forest",
+    requiredSetIds: ["foundation-expanding-system"],
+    earliestEligibleStop: "village",
+    displayStop: "village",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-SUBSOIL.pdf"
   }),
   waypoint({
@@ -140,9 +140,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["re-", "write", "-ing"],
     componentMorphemeIds: ["re", "ing"],
     requiredMorphemeIds: ["re", "ing"],
-    requiredSetIds: ["foundation-prefixes-1", "foundation-suffixes-1"],
-    earliestEligibleStop: "village",
-    displayStop: "village",
+    requiredSetIds: ["foundation-core-word-parts"],
+    earliestEligibleStop: "meadow",
+    displayStop: "meadow",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-REWRITING.pdf"
   }),
   waypoint({
@@ -151,9 +151,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["pre-", "view", "-s"],
     componentMorphemeIds: ["pre", "s-es"],
     requiredMorphemeIds: ["pre", "s-es"],
-    requiredSetIds: ["foundation-prefixes-1", "foundation-suffixes-1"],
-    earliestEligibleStop: "village",
-    displayStop: "village",
+    requiredSetIds: ["foundation-core-word-parts", "foundation-common-meaning-changes"],
+    earliestEligibleStop: "forest",
+    displayStop: "forest",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-PREVIEWS.pdf"
   }),
   waypoint({
@@ -162,7 +162,7 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["over-", "use", "-ed"],
     componentMorphemeIds: ["over", "ed"],
     requiredMorphemeIds: ["over", "ed"],
-    requiredSetIds: ["foundation-prefixes-2", "foundation-suffixes-1"],
+    requiredSetIds: ["foundation-core-word-parts", "foundation-expanding-system"],
     earliestEligibleStop: "village",
     displayStop: "village",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-OVERUSED.pdf"
@@ -173,9 +173,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["mis-", "lead", "-ing"],
     componentMorphemeIds: ["mis", "ing"],
     requiredMorphemeIds: ["mis", "ing"],
-    requiredSetIds: ["foundation-prefixes-1", "foundation-suffixes-1"],
-    earliestEligibleStop: "village",
-    displayStop: "village",
+    requiredSetIds: ["foundation-core-word-parts", "foundation-common-meaning-changes"],
+    earliestEligibleStop: "forest",
+    displayStop: "forest",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-MISLEADING.pdf"
   }),
   waypoint({
@@ -184,7 +184,7 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["dis-", "connect", "-ion"],
     componentMorphemeIds: ["dis", "ion"],
     requiredMorphemeIds: ["dis", "ion"],
-    requiredSetIds: ["foundation-prefixes-1", "foundation-suffixes-2"],
+    requiredSetIds: ["foundation-common-meaning-changes", "foundation-grade3-bridge"],
     earliestEligibleStop: "coast",
     displayStop: "coast",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-DISCONNECTION.pdf"
@@ -195,7 +195,7 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["em-", "power", "-ment"],
     componentMorphemeIds: ["en-em", "ment"],
     requiredMorphemeIds: ["en-em", "ment"],
-    requiredSetIds: ["foundation-prefixes-2", "foundation-suffixes-2"],
+    requiredSetIds: ["foundation-grade3-bridge"],
     earliestEligibleStop: "coast",
     displayStop: "coast",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-EMPOWERMENT.pdf"
@@ -206,9 +206,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["un-", "even", "-ness"],
     componentMorphemeIds: ["un-negation", "ness"],
     requiredMorphemeIds: ["un-negation", "ness"],
-    requiredSetIds: ["foundation-prefixes-1", "foundation-suffixes-2"],
-    earliestEligibleStop: "coast",
-    displayStop: "coast",
+    requiredSetIds: ["foundation-core-word-parts", "foundation-expanding-system"],
+    earliestEligibleStop: "village",
+    displayStop: "village",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-UNEVENNESS.pdf"
   }),
   waypoint({
@@ -217,7 +217,7 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["count", "-able"],
     componentMorphemeIds: ["able-ible"],
     requiredMorphemeIds: ["able-ible"],
-    requiredSetIds: ["foundation-suffixes-2"],
+    requiredSetIds: ["foundation-grade3-bridge"],
     earliestEligibleStop: "coast",
     displayStop: "coast",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-COUNTABLE.pdf"
@@ -228,9 +228,9 @@ const FIRST_VOLO_WAYPOINTS = Object.freeze([
     components: ["success", "-ful", "-ly"],
     componentMorphemeIds: ["ful", "ly-adverb"],
     requiredMorphemeIds: ["ful", "ly-adverb"],
-    requiredSetIds: ["foundation-suffixes-1", "foundation-suffixes-2"],
-    earliestEligibleStop: "coast",
-    displayStop: "coast",
+    requiredSetIds: ["foundation-common-meaning-changes", "foundation-expanding-system"],
+    earliestEligibleStop: "village",
+    displayStop: "village",
     pdfPath: "waypoints/flight-a/pdfs/Flight-A-Waypoint-SUCCESSFULLY.pdf"
   }),
 
