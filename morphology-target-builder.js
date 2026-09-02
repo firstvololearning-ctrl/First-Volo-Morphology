@@ -217,10 +217,10 @@
 
   function massachusettsAlignment() {
     if (state.grade === "expansion" && state.focus === "meaning") {
-      return "Massachusetts direct alignment: MA L.4.4b. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
+      return "Verified direct Massachusetts alignment for Grade 4 only: MA L.4.4b. No direct Grade 5 Massachusetts code is verified for this target in the current crosswalk. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
     }
     if (state.grade === "advanced" && state.focus === "meaning") {
-      return "Massachusetts direct alignment: MA L.7.4b. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
+      return "Verified direct Massachusetts alignment for Grade 7 only: MA L.7.4b. No direct Grade 6 or Grade 8 Massachusetts code is verified for this target in the current crosswalk. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
     }
     return "Massachusetts: no direct code verified for this specific target in the current crosswalk. Related state guidance: Massachusetts Mass Literacy — Vocabulary and Morphology.";
   }
@@ -242,6 +242,7 @@
         <p class="standards-codes"><b>Related language/literacy expectation:</b> ${standard.related}</p>
         <p class="alignment-note">${massachusettsAlignment()}</p>
         <p class="alignment-note">${federalGuidance()}</p>
+        <p class="alignment-note"><b>About standards alignment:</b> Exact codes are shown only when a direct match has been verified. Related standards are labeled as related, and some clinical or instructional targets may not have a one-to-one standards code. Standards alignment establishes instructional relevance; it does not establish efficacy for First Volo Morphology.</p>
       `,
       research: `
         <h4>What research suggests for ${focus.label}</h4>
