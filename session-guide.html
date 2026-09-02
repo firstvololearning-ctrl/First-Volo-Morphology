@@ -568,6 +568,7 @@
 }
 
   </style>
+  <link rel="stylesheet" href="morphology-access.css">
 </head>
 <body class="session-guide-page">
   <header class="site-header session-guide-header">
@@ -975,7 +976,11 @@
     <p>© 2026 Alexis Sacco / First Volo Learning. All rights reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
+  <script src="js/auth/morphology-access.js"></script>
   <script>
+window.FirstVoloMorphologyAccess.whenReady().then((context) => {
+if (context.status !== "authorized" || context.mode !== "educator") return;
 "use strict";
 
 const FV_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
@@ -1422,6 +1427,7 @@ renderDuration();
 renderPracticeMode();
 updateCompletionSummary();
 renderSessionLog();
+});
 
   </script>
 </body>

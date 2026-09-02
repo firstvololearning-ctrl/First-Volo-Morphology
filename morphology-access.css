@@ -1,0 +1,45 @@
+html:not([data-morphology-access-status="authorized"])
+  body > :not(#morphologyAccessGate):not(.fv-cloud-modal) {
+  display: none !important;
+}
+
+html[data-morphology-page-allowed="false"]
+  body > :not(#morphologyAccessGate):not(.fv-cloud-modal) {
+  display: none !important;
+}
+
+#morphologyAccessGate {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font: 1rem/1.5 system-ui, sans-serif;
+  text-align: center;
+}
+
+#morphologyAccessGate[hidden],
+html[data-morphology-mode="student"] [data-morphology-educator-only] {
+  display: none !important;
+}
+
+.morphology-student-identity {
+  width: fit-content;
+  margin: 0 0 12px auto;
+  padding: 6px 10px;
+  border: 1px solid rgba(28, 74, 110, 0.2);
+  border-radius: 999px;
+  background: rgba(232, 244, 252, 0.8);
+  color: #1c4a6e;
+  font: 600 0.875rem/1.25 system-ui, sans-serif;
+}
+
+.morphology-student-identity[hidden] {
+  display: none;
+}
+
+html[data-morphology-mode="student"] .transfer-challenge-launch-button,
+html[data-morphology-mode="student"] .transfer-challenge-overlay,
+html[data-morphology-mode="student"] #instructionalGuidancePanel,
+html[data-morphology-mode="student"] #instructionalGuidanceWrap {
+  display: none !important;
+}

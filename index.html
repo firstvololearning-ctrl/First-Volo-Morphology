@@ -75,6 +75,7 @@
 
   <link rel="stylesheet" href="style.css?v=20260820-audio4">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
+  <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
   <link rel="stylesheet" href="reward-games.css?v=20260830-batch1">
 
@@ -133,6 +134,7 @@
       <div
         class="header-resource-groups"
         id="headerResourceGroups"
+        data-morphology-educator-only
       >
 
         <details class="header-resource-group header-resource-dropdown">
@@ -153,6 +155,7 @@
             <a
               class="header-link"
               href="educator-resources.html"
+              data-morphology-educator-only
             >
               🍎 Educator Resources
             </a>
@@ -173,6 +176,7 @@
             <a
         class="header-link"
         href="program-progress.html"
+        data-morphology-educator-only
       >
         📊 Program Progress
       </a>
@@ -223,8 +227,14 @@
 
   <main class="page">
 
+    <p
+      class="morphology-student-identity"
+      id="morphologyStudentIdentity"
+      aria-live="polite"
+      hidden
+    ></p>
 
-    <section class="current-student-bar" id="currentStudentBar">
+    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
 
       <div class="student-bar-intro student-bar-intro-numbered">
 
@@ -261,6 +271,7 @@
 
       <a
         href="program-progress.html"
+        data-morphology-educator-only
         class="manage-students-link"
       >
         Manage Learners
@@ -2118,6 +2129,7 @@
   <script src="waypoint-registry.js?v=20260901-1"></script>
   <script src="waypoint-access.js?v=20260901-1"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
+  <script src="js/auth/morphology-access.js"></script>
   <script src="js/cloud/morphology-cloud.js"></script>
   <script src="activity-progress.js"></script>
   <script src="linguistic-role-registry.js?v=20260820-role1"></script>

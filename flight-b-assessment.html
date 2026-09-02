@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flight B Check-In | First Volo Morphology</title>
   <link rel="stylesheet" href="flight-b-assessment.css">
+  <link rel="stylesheet" href="morphology-access.css">
 </head>
 <body>
   <header class="assessment-header no-print">
@@ -194,6 +195,15 @@
     </section>
   </main>
 
-  <script src="flight-b-assessment.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
+  <script src="js/auth/morphology-access.js"></script>
+  <script>
+    window.FirstVoloMorphologyAccess.whenReady().then((context) => {
+      if (context.status !== "authorized" || context.mode !== "educator") return;
+      const script = document.createElement("script");
+      script.src = "flight-b-assessment.js";
+      document.body.appendChild(script);
+    });
+  </script>
 </body>
 </html>

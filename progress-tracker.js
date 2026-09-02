@@ -1,8 +1,24 @@
 "use strict";
 
-const FV_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
+let FV_PROGRESS_KEY = null;
+
+const FV_REQUESTED_STUDENT_ID =
+  new URLSearchParams(window.location.search)
+    .get("studentId");
+
+const FV_SHARED_STUDENT_ID_PATTERN =
+  /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
+
+let requestedStudentSelectionApplied = false;
 
 function loadProgressData() {
+  if (!FV_PROGRESS_KEY) {
+    return {
+      students: [],
+      activeStudentId: null
+    };
+  }
+
   try {
     const saved = JSON.parse(localStorage.getItem(FV_PROGRESS_KEY));
     if (saved && Array.isArray(saved.students)) {
@@ -18,19 +34,67 @@ function loadProgressData() {
   };
 }
 
-let progressData = loadProgressData();
+let progressData = {
+  students: [],
+  activeStudentId: null
+};
 
-const initialTokenSync =
-  window.FirstVoloTokens
-    ?.updateEarnedTokens(
-      progressData
+function applyRequestedStudentSelection() {
+  const accessContext =
+    window.FirstVoloMorphologyAccess
+      ?.getContext();
+
+  if (
+    requestedStudentSelectionApplied ||
+    accessContext?.status !== "authorized" ||
+    accessContext.mode !== "educator" ||
+    !FV_PROGRESS_KEY ||
+    !FV_SHARED_STUDENT_ID_PATTERN.test(
+      FV_REQUESTED_STUDENT_ID || ""
+    )
+  ) {
+    return;
+  }
+
+  const requestedStudent =
+    progressData.students.find(
+      (student) =>
+        student?.id === FV_REQUESTED_STUDENT_ID
     );
 
-if (initialTokenSync?.changed) {
+  if (!requestedStudent) {
+    return;
+  }
+
+  requestedStudentSelectionApplied = true;
+
+  if (
+    progressData.activeStudentId ===
+    requestedStudent.id
+  ) {
+    return;
+  }
+
+  progressData.activeStudentId =
+    requestedStudent.id;
+
   localStorage.setItem(
     FV_PROGRESS_KEY,
     JSON.stringify(progressData)
   );
+}
+
+function synchronizeInitialTokens() {
+  const initialTokenSync =
+    window.FirstVoloTokens
+      ?.updateEarnedTokens(progressData);
+
+  if (initialTokenSync?.changed && FV_PROGRESS_KEY) {
+    localStorage.setItem(
+      FV_PROGRESS_KEY,
+      JSON.stringify(progressData)
+    );
+  }
 }
 
 const studentSelect =
@@ -88,6 +152,15 @@ const FV_PAPER_PRACTICE_RESOURCES = [
 ];
 
 function saveProgressData() {
+  const context =
+    window.FirstVoloMorphologyAccess?.getContext();
+
+  if (!FV_PROGRESS_KEY ||
+      context?.status !== "authorized" ||
+      context.mode !== "educator") {
+    return;
+  }
+
   localStorage.setItem(
     FV_PROGRESS_KEY,
     JSON.stringify(progressData)
@@ -110,6 +183,13 @@ function getActiveStudent() {
   return progressData.students.find(
     (student) => student.id === progressData.activeStudentId
   ) || null;
+}
+
+function educatorProgressAuthorized() {
+  const context =
+    window.FirstVoloMorphologyAccess?.getContext();
+  return context?.status === "authorized" &&
+    context.mode === "educator";
 }
 
 function makePaperPracticeLogId() {
@@ -395,6 +475,7 @@ renderStudentProgressDetails(student);
 }
 
 addStudentButton.addEventListener("click", () => {
+  if (!educatorProgressAuthorized()) return;
   const name = studentName.value.trim();
 
   if (!name) {
@@ -427,6 +508,7 @@ studentName.addEventListener("keydown", (event) => {
 });
 
 studentSelect.addEventListener("change", () => {
+  if (!educatorProgressAuthorized()) return;
   progressData.activeStudentId =
     studentSelect.value || null;
 
@@ -436,6 +518,7 @@ studentSelect.addEventListener("change", () => {
 });
 
 renameStudentButton.addEventListener("click", () => {
+  if (!educatorProgressAuthorized()) return;
   const student = getActiveStudent();
   if (!student) return;
 
@@ -461,6 +544,7 @@ renameStudentButton.addEventListener("click", () => {
 });
 
 clearStudentProgressButton.addEventListener("click", () => {
+  if (!educatorProgressAuthorized()) return;
   const student = getActiveStudent();
   if (!student) return;
 
@@ -487,6 +571,7 @@ clearStudentProgressButton.addEventListener("click", () => {
 });
 
 deleteStudentButton.addEventListener("click", () => {
+  if (!educatorProgressAuthorized()) return;
   const student = getActiveStudent();
   if (!student) return;
 
@@ -681,7 +766,7 @@ function applyProgressMajorCollapsibles(details) {
   if (!details) return;
 
   [
-    [":scope > .volo-token-progress", "🪙 Volo Tokens"],
+    [":scope > .volo-token-progress", "Morpheme Learning Sets"],
     [":scope > .paper-practice-progress", "🖨️ Paper & Hands-On Practice"]
   ].forEach(([selector, title]) => {
     const section = details.querySelector(selector);
@@ -827,7 +912,7 @@ function renderVoloTokenProgress(
     "volo-token-progress-heading";
 
   heading.textContent =
-    "🪙 Volo Tokens";
+    "Morpheme Learning Sets";
 
   section.append(heading);
 
@@ -838,7 +923,7 @@ function renderVoloTokenProgress(
     "volo-token-summary";
 
   summary.textContent =
-    `${earnedCount}/${statuses.length} Tokens earned`;
+    `${earnedCount}/${statuses.length} learning sets ready`;
 
   section.append(summary);
 
@@ -849,8 +934,8 @@ function renderVoloTokenProgress(
     "volo-token-progress-intro";
 
   intro.textContent =
-    "Tokens recognize evidence across a set of word parts. " +
-    "Once earned, a Token stays earned unless learner progress is cleared.";
+    "Track the student’s evidence across organized sets of morphemes " +
+    "(meaningful word parts).";
 
   section.append(intro);
 
@@ -944,8 +1029,8 @@ function renderVoloTokenProgress(
 
         badge.textContent =
           earned
-            ? "✓ Earned"
-            : "○ In progress";
+            ? "✓ Set ready"
+            : "○ Building evidence";
 
         top.append(
           title,
@@ -969,8 +1054,8 @@ function renderVoloTokenProgress(
 
           earnedLine.textContent =
             dateLabel
-              ? `Volo Token earned ${dateLabel}`
-              : "Volo Token earned";
+              ? `Learning set ready ${dateLabel}`
+              : "Learning set ready";
 
           card.append(earnedLine);
 
@@ -1029,7 +1114,7 @@ function renderVoloTokenProgress(
 
         progressLine.textContent =
           `${morphemesReady} of ${totalMorphemes} ` +
-          `word parts fully ready`;
+          `morphemes ready`;
 
         card.append(progressLine);
 
@@ -1061,7 +1146,7 @@ function renderVoloTokenProgress(
 
         progressTrack.setAttribute(
           "aria-label",
-          `${displayLabel}: ${progressPercent}% toward Token requirements`
+          `${displayLabel}: ${progressPercent}% toward learning-set readiness`
         );
 
         const progressFill =
@@ -1161,7 +1246,7 @@ function renderPaperPracticeProgress(
     "paper-practice-intro";
 
   intro.textContent =
-    "Log educator-guided printable and hands-on practice here. Choose the date and time for each practice session. These logs record practice/exposure only and do not affect accuracy, assessment scores, or Volo Tokens.";
+    "Log educator-guided printable and hands-on practice here. Choose the date and time for each practice session. These logs record practice/exposure only and do not affect accuracy, assessment scores, or Morpheme Learning Set readiness.";
 
   section.append(intro);
 
@@ -2038,11 +2123,32 @@ function renderStudentProgressDetails(student) {
 
 
 function refreshProgressFromStorage() {
+  if (!FV_PROGRESS_KEY) {
+    return;
+  }
   progressData = loadProgressData();
+  applyRequestedStudentSelection();
   renderStudentRoster();
 }
 
-renderStudentRoster();
+window.FirstVoloMorphologyAccess?.subscribe((context) => {
+  if (context.status !== "authorized" ||
+      context.mode !== "educator") {
+    FV_PROGRESS_KEY = null;
+    progressData = {
+      students: [],
+      activeStudentId: null
+    };
+    renderStudentRoster();
+    return;
+  }
+
+  FV_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
+  progressData = loadProgressData();
+  applyRequestedStudentSelection();
+  synchronizeInitialTokens();
+  renderStudentRoster();
+});
 
 window.addEventListener("focus", refreshProgressFromStorage);
 window.addEventListener("storage", (event) => {

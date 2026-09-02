@@ -1,6 +1,7 @@
 "use strict";
 
-const FV_ACTIVITY_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
+let FV_ACTIVITY_PROGRESS_KEY = null;
+let activityAccessContext = null;
 const activityStudentSelect =
   document.getElementById("activityStudentSelect");
 
@@ -8,6 +9,13 @@ const activityStudentChips =
   document.getElementById("activityStudentChips");
 
 function loadActivityProgressData() {
+  if (!FV_ACTIVITY_PROGRESS_KEY) {
+    return {
+      students: [],
+      activeStudentId: null
+    };
+  }
+
   try {
     const saved = JSON.parse(localStorage.getItem(FV_ACTIVITY_PROGRESS_KEY));
 
@@ -24,7 +32,10 @@ function loadActivityProgressData() {
   };
 }
 
-let activityProgressData = loadActivityProgressData();
+let activityProgressData = {
+  students: [],
+  activeStudentId: null
+};
 let currentProgressSession = null;
 
 function notifyActivityProgressChanged() {
@@ -34,6 +45,10 @@ function notifyActivityProgressChanged() {
 }
 
 function saveActivityProgressData() {
+  if (!FV_ACTIVITY_PROGRESS_KEY ||
+      activityAccessContext?.status !== "authorized") {
+    return;
+  }
   const tokenUpdate =
     window.FirstVoloTokens
       ?.updateEarnedTokens(
@@ -276,6 +291,10 @@ function startProgressSession({
     startedAt: new Date().toISOString(),
     completedAt: null,
     activity,
+    provenance:
+      activityAccessContext?.mode === "student"
+        ? "student_independent"
+        : "educator_guided",
     studyMode,
     gradeBand,
     vocabLevel,
@@ -399,6 +418,11 @@ function cancelProgressSession() {
 }
 
 activityStudentSelect.addEventListener("change", () => {
+  if (activityAccessContext?.mode === "student") {
+    activityStudentSelect.value = activityAccessContext.studentId;
+    return;
+  }
+
   activityProgressData.activeStudentId =
     activityStudentSelect.value || null;
 
@@ -418,11 +442,58 @@ window.FirstVoloActivityProgress = {
   save: saveActivityProgressData
 };
 
-renderActivityStudentSelect();
+function initializeActivityProgress(context) {
+  activityAccessContext = context;
+  FV_ACTIVITY_PROGRESS_KEY =
+    window.FirstVoloMorphologyAccess
+      ?.localProgressKey(context) || null;
+
+  if (!FV_ACTIVITY_PROGRESS_KEY) {
+    activityProgressData = {
+      students: [],
+      activeStudentId: null
+    };
+    renderActivityStudentSelect();
+    return;
+  }
+
+  activityProgressData = loadActivityProgressData();
+
+  if (context.mode === "student") {
+    let student = activityProgressData.students.find(
+      (item) => item.id === context.studentId
+    );
+
+    if (!student) {
+      student = {
+        id: context.studentId,
+        name: context.studentName || "Student",
+        createdAt: new Date().toISOString(),
+        sessions: [],
+        paperPractice: [],
+        voloTokens: {}
+      };
+      activityProgressData.students = [student];
+    } else {
+      student.name = context.studentName || "Student";
+      activityProgressData.students = [student];
+    }
+
+    activityProgressData.activeStudentId = context.studentId;
+    saveActivityProgressData();
+  }
+
+  renderActivityStudentSelect();
+  notifyActivityProgressChanged();
+}
+
+window.FirstVoloMorphologyAccess?.subscribe(
+  initializeActivityProgress
+);
 
 
 function refreshActivityProgressFromStorage() {
-  if (currentProgressSession) {
+  if (currentProgressSession || !FV_ACTIVITY_PROGRESS_KEY) {
     return;
   }
 
@@ -432,6 +503,10 @@ function refreshActivityProgressFromStorage() {
 }
 
 window.addEventListener("focus", refreshActivityProgressFromStorage);
+window.addEventListener(
+  "firstvolomorphologystudentstate",
+  refreshActivityProgressFromStorage
+);
 window.addEventListener("storage", (event) => {
   if (event.key === FV_ACTIVITY_PROGRESS_KEY) {
     refreshActivityProgressFromStorage();

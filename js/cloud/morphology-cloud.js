@@ -1,17 +1,6 @@
 (function () {
   "use strict";
 
-  const SUPABASE_URL =
-    "https://apkvvspubolyxlqtlkto.supabase.co";
-
-  /*
-    Publishable browser key.
-    This is not a secret key.
-    Row Level Security protects user data.
-  */
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_0O4rNLfhuW18xYRZSPkLpw_xyXR9d3n";
-
   const PRODUCT_KEY =
     "first-volo-morphology";
 
@@ -21,32 +10,28 @@
   const LOCAL_PROGRESS_KEY =
     "firstVoloMorphologyProgressV1";
 
-  if (
-    !window.supabase ||
-    typeof window.supabase.createClient !== "function"
-  ) {
+  const access =
+    window.FirstVoloMorphologyAccess;
+
+  if (!access?.client) {
     console.warn(
       "First Volo Morphology Cloud: Supabase client unavailable."
     );
     return;
   }
 
-  const client =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
-      }
-    );
+  const client = access.client;
 
   let currentUser = null;
   let syncTimer = null;
   let syncing = false;
+  let accessGeneration = 0;
+  let studentSyncTimer = null;
+  let studentSyncing = false;
+  let studentSyncQueued = false;
+  let studentCloudReadyKey = null;
+  let studentReadAbortController = null;
+  let studentSaveAbortController = null;
 
   let cloudButton = null;
   let cloudModal = null;
@@ -55,12 +40,14 @@
   let signOutButton = null;
   let syncButton = null;
 
-  function readLocalProgress() {
+  function readLocalProgress(
+    storageKey = LOCAL_PROGRESS_KEY
+  ) {
     try {
       const value =
         JSON.parse(
           localStorage.getItem(
-            LOCAL_PROGRESS_KEY
+            storageKey
           ) || "null"
         );
 
@@ -83,12 +70,29 @@
     };
   }
 
+  function educatorCloudAuthorized() {
+    const context = access.getContext();
+    return context.status === "authorized" &&
+      context.mode === "educator" &&
+      context.userId === currentUser?.id;
+  }
+
   function updateUI(message) {
     if (!cloudButton) {
       return;
     }
 
-    if (currentUser) {
+    const context = access.getContext();
+    const studentMode =
+      context.status === "authorized" &&
+      context.mode === "student";
+
+    cloudButton.hidden = studentMode;
+    if (studentMode && cloudModal) {
+      cloudModal.hidden = true;
+    }
+
+    if (educatorCloudAuthorized()) {
       cloudButton.textContent =
         "☁️ Saved Across Devices ✓";
 
@@ -109,17 +113,17 @@
 
     if (signInForm) {
       signInForm.hidden =
-        Boolean(currentUser);
+        educatorCloudAuthorized();
     }
 
     if (signOutButton) {
       signOutButton.hidden =
-        !currentUser;
+        !educatorCloudAuthorized();
     }
 
     if (syncButton) {
       syncButton.hidden =
-        !currentUser;
+        !educatorCloudAuthorized();
     }
 
     if (!cloudMessage) {
@@ -155,7 +159,7 @@
 
   async function ensureLearner(student) {
     if (
-      !currentUser ||
+      !educatorCloudAuthorized() ||
       !student?.id ||
       !student?.name
     ) {
@@ -176,6 +180,9 @@
             owner_user_id:
               currentUser.id,
 
+            product_key:
+              PRODUCT_KEY,
+
             local_profile_id:
               student.id,
 
@@ -187,7 +194,7 @@
           },
           {
             onConflict:
-              "owner_user_id,local_profile_id"
+              "owner_user_id,product_key,local_profile_id"
           }
         )
         .select("id")
@@ -1171,6 +1178,409 @@
   }
 
 
+  function studentContextKey(
+    context
+  ) {
+    if (
+      context?.status !== "authorized" ||
+      context.mode !== "student" ||
+      !context.userId ||
+      !context.studentId ||
+      !context.classId ||
+      !context.educatorId
+    ) {
+      return null;
+    }
+
+    return [
+      context.userId,
+      context.studentId,
+      context.classId,
+      context.educatorId
+    ].join(":");
+  }
+
+
+  function currentStudentContext(
+    expectedKey,
+    expectedGeneration
+  ) {
+    const context = access.getContext();
+
+    if (
+      expectedGeneration !== accessGeneration ||
+      studentContextKey(context) !== expectedKey
+    ) {
+      return null;
+    }
+
+    return context;
+  }
+
+
+  async function recheckStudentAccess(
+    expectedKey,
+    expectedGeneration
+  ) {
+    if (!currentStudentContext(
+      expectedKey,
+      expectedGeneration
+    )) {
+      return;
+    }
+
+    const { data } = await client.auth.getSession();
+
+    if (currentStudentContext(
+      expectedKey,
+      expectedGeneration
+    )) {
+      access.resolveForSession(
+        data?.session || null
+      );
+    }
+  }
+
+
+  function cleanStudentRecord(
+    context,
+    source = {}
+  ) {
+    return {
+      id: context.studentId,
+      name: context.studentName || "Student",
+      createdAt:
+        source.createdAt ||
+        new Date().toISOString(),
+      sessions:
+        Array.isArray(source.sessions)
+          ? source.sessions
+          : [],
+      paperPractice:
+        Array.isArray(source.paperPractice)
+          ? source.paperPractice
+          : [],
+      voloTokens:
+        validTokenStore(source.voloTokens),
+      voloGoals:
+        Array.isArray(source.voloGoals)
+          ? source.voloGoals
+          : [],
+      voloGoalsUpdatedAt:
+        source.voloGoalsUpdatedAt ||
+        null
+    };
+  }
+
+
+  function localStudentForContext(
+    context
+  ) {
+    const storageKey =
+      access.localProgressKey(context);
+    const progress = readLocalProgress(storageKey);
+    const existing = progress.students.find(
+      student => student?.id === context.studentId
+    );
+
+    return cleanStudentRecord(
+      context,
+      existing || {}
+    );
+  }
+
+
+  function mergeAuthorizedStudent(
+    context,
+    localStudent,
+    cloudStudent
+  ) {
+    const local = cleanStudentRecord(
+      context,
+      localStudent
+    );
+    const cloud = cleanStudentRecord(
+      context,
+      cloudStudent
+    );
+    const sessionMerge = mergeMorphologySessions(
+      local.sessions,
+      cloud.sessions
+    );
+    const paperMerge = mergePaperPracticeLogs(
+      local.paperPractice,
+      cloud.paperPractice
+    );
+    const tokenMerge = mergeVoloTokens(
+      local.voloTokens,
+      cloud.voloTokens
+    );
+    const goalMerge = mergeVoloGoals(
+      local,
+      cloud
+    );
+    const merged = {
+      id: context.studentId,
+      name:
+        cloudStudent?.name ||
+        context.studentName ||
+        "Student",
+      createdAt:
+        cloudStudent?.createdAt ||
+        local.createdAt,
+      sessions: sessionMerge.sessions,
+      paperPractice: paperMerge.logs,
+      voloTokens: tokenMerge.tokens,
+      voloGoals: goalMerge.goals,
+      voloGoalsUpdatedAt:
+        goalMerge.updatedAt
+    };
+
+    window.FirstVoloTokens
+      ?.updateEarnedTokens?.({
+        students: [merged]
+      });
+
+    return merged;
+  }
+
+
+  function hasStudentEvidence(
+    student
+  ) {
+    return Boolean(
+      student?.sessions?.length ||
+      student?.paperPractice?.length ||
+      student?.voloGoals?.length ||
+      Object.keys(
+        validTokenStore(student?.voloTokens)
+      ).length
+    );
+  }
+
+
+  function writeAuthorizedStudent(
+    context,
+    student
+  ) {
+    const storageKey =
+      access.localProgressKey(context);
+
+    if (!storageKey) {
+      return;
+    }
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        students: [student],
+        activeStudentId: context.studentId
+      })
+    );
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "firstvolomorphologystudentstate",
+        { detail: { studentId: context.studentId } }
+      )
+    );
+  }
+
+
+  async function restoreStudentState(
+    context,
+    expectedKey,
+    expectedGeneration
+  ) {
+    const localStudent =
+      localStudentForContext(context);
+    const controller = new AbortController();
+    studentReadAbortController = controller;
+    const { data, error } = await client
+      .rpc("get_morphology_student_state")
+      .abortSignal(controller.signal);
+
+    if (studentReadAbortController === controller) {
+      studentReadAbortController = null;
+    }
+
+    const current = currentStudentContext(
+      expectedKey,
+      expectedGeneration
+    );
+
+    if (!current) {
+      return;
+    }
+
+    if (error) {
+      console.warn(
+        "Morphology student cloud restore failed.",
+        error
+      );
+      await recheckStudentAccess(
+        expectedKey,
+        expectedGeneration
+      );
+      return;
+    }
+
+    const rows = Array.isArray(data) ? data : [];
+    const row = rows.length === 1 ? rows[0] : null;
+    const hasCloudState = Boolean(
+      row?.learner_profile_id &&
+      row.data &&
+      typeof row.data === "object" &&
+      !Array.isArray(row.data) &&
+      Object.keys(row.data).length
+    );
+    const merged = hasCloudState
+      ? mergeAuthorizedStudent(
+          current,
+          localStudent,
+          row.data
+        )
+      : cleanStudentRecord(
+          current,
+          localStudent
+        );
+
+    writeAuthorizedStudent(current, merged);
+    studentCloudReadyKey = expectedKey;
+
+    if (
+      hasStudentEvidence(merged) &&
+      (!hasCloudState ||
+       JSON.stringify(merged) !== JSON.stringify(row.data))
+    ) {
+      queueStudentSync();
+    }
+  }
+
+
+  async function saveStudentNow() {
+    const expectedGeneration = accessGeneration;
+    const context = access.getContext();
+    const expectedKey = studentContextKey(context);
+
+    if (
+      !expectedKey ||
+      studentCloudReadyKey !== expectedKey
+    ) {
+      return;
+    }
+
+    if (studentSyncing) {
+      studentSyncQueued = true;
+      return;
+    }
+
+    studentSyncing = true;
+    studentSyncQueued = false;
+
+    try {
+      const student = localStudentForContext(context);
+      const clientUpdatedAt = new Date().toISOString();
+      const controller = new AbortController();
+      studentSaveAbortController = controller;
+      const { data, error } = await client
+        .rpc(
+          "save_morphology_student_state",
+          {
+            p_data: student,
+            p_client_updated_at: clientUpdatedAt
+          }
+        )
+        .abortSignal(controller.signal);
+
+      if (studentSaveAbortController === controller) {
+        studentSaveAbortController = null;
+      }
+      const current = currentStudentContext(
+        expectedKey,
+        expectedGeneration
+      );
+
+      if (!current) {
+        return;
+      }
+
+      if (error) {
+        console.warn(
+          "Morphology student cloud save failed.",
+          error
+        );
+        await recheckStudentAccess(
+          expectedKey,
+          expectedGeneration
+        );
+        return;
+      }
+
+      const rows = Array.isArray(data) ? data : [];
+      const result = rows.length === 1 ? rows[0] : null;
+
+      if (!result?.data ||
+          typeof result.data !== "object" ||
+          Array.isArray(result.data)) {
+        return;
+      }
+
+      /*
+        A false result means the server already held an equal/newer
+        authoritative revision. Adopt its evidence locally and do not
+        immediately enqueue another write.
+      */
+      if (result.write_applied === false) {
+        writeAuthorizedStudent(
+          current,
+          mergeAuthorizedStudent(
+            current,
+            student,
+            result.data
+          )
+        );
+        return;
+      }
+
+      writeAuthorizedStudent(
+        current,
+        mergeAuthorizedStudent(
+          current,
+          student,
+          result.data
+        )
+      );
+    } finally {
+      studentSyncing = false;
+
+      if (studentSyncQueued) {
+        studentSyncQueued = false;
+        queueStudentSync();
+      }
+    }
+  }
+
+
+  function queueStudentSync() {
+    const context = access.getContext();
+    const expectedKey = studentContextKey(context);
+
+    if (
+      !expectedKey ||
+      studentCloudReadyKey !== expectedKey
+    ) {
+      return;
+    }
+
+    clearTimeout(studentSyncTimer);
+    studentSyncTimer = setTimeout(
+      saveStudentNow,
+      700
+    );
+  }
+
+
   function newestProgressClear(
     localClearAt,
     cloudClearAt
@@ -1358,7 +1768,7 @@
   async function syncLocalDeletionTombstones(
     progress
   ) {
-    if (!currentUser) {
+    if (!educatorCloudAuthorized()) {
       return 0;
     }
 
@@ -1402,6 +1812,10 @@
           .eq(
             "owner_user_id",
             currentUser.id
+          )
+          .eq(
+            "product_key",
+            PRODUCT_KEY
           )
           .eq(
             "local_profile_id",
@@ -1480,7 +1894,7 @@
 
 
   async function restoreAndMergeLearners() {
-    if (!currentUser) {
+    if (!educatorCloudAuthorized()) {
       return {
         restored: 0,
         mergedLearners: 0,
@@ -1551,6 +1965,10 @@
         .eq(
           "owner_user_id",
           currentUser.id
+        )
+        .eq(
+          "product_key",
+          PRODUCT_KEY
         );
 
     if (learnerError) {
@@ -2057,7 +2475,7 @@
 
   async function syncNow() {
     if (
-      !currentUser ||
+      !educatorCloudAuthorized() ||
       syncing
     ) {
       return;
@@ -2129,7 +2547,17 @@
   }
 
   function queueSync() {
-    if (!currentUser) {
+    const context = access.getContext();
+
+    if (
+      context.status === "authorized" &&
+      context.mode === "student"
+    ) {
+      queueStudentSync();
+      return;
+    }
+
+    if (!educatorCloudAuthorized()) {
       return;
     }
 
@@ -2568,22 +2996,57 @@
       restoreAndMergeLearners,
     getUser() {
       return currentUser;
+    },
+    pendingSyncTimer() {
+      const timer = syncTimer;
+      clearTimeout(syncTimer);
+      syncTimer = null;
+      return timer;
     }
   };
 
-  client.auth.onAuthStateChange(
-    (event, session) => {
-      currentUser =
-        session?.user || null;
+  access.subscribe(
+    async context => {
+      accessGeneration += 1;
+      const expectedGeneration = accessGeneration;
+
+      clearTimeout(syncTimer);
+      syncTimer = null;
+      clearTimeout(studentSyncTimer);
+      studentSyncTimer = null;
+      studentReadAbortController?.abort();
+      studentReadAbortController = null;
+      studentSaveAbortController?.abort();
+      studentSaveAbortController = null;
+      studentSyncQueued = false;
+      studentCloudReadyKey = null;
+      currentUser = context.status === "authorized"
+        ? access.getUser()
+        : null;
+
 
       updateUI();
 
+      if (context.status !== "authorized") {
+        return;
+      }
+
+
+      if (context.mode === "student") {
+        const expectedKey = studentContextKey(context);
+
+        if (expectedKey) {
+          restoreStudentState(
+            context,
+            expectedKey,
+            expectedGeneration
+          );
+        }
+        return;
+      }
+
       if (
-        currentUser &&
-        (
-          event === "INITIAL_SESSION" ||
-          event === "SIGNED_IN"
-        )
+        context.mode === "educator"
       ) {
         setTimeout(
           async () => {
