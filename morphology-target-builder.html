@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Target &amp; Goal Builder | First Volo Morphology</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="morphology-target-builder.css">
+</head>
+<body class="target-builder-page">
+  <header class="site-header target-builder-header">
+    <div class="brand-block">
+      <a class="brand-logo-link" href="index.html" aria-label="Return to First Volo Morphology">
+        <div class="brand-logo-wrap">
+          <img class="brand-logo" src="images/logo/logo.png" alt="First Volo Learning logo">
+        </div>
+      </a>
+    </div>
+    <div class="title-group">
+      <h1>Target &amp; Goal Builder</h1>
+      <p class="site-subtitle">A simple morphology planning tool for teachers and SLPs</p>
+      <p class="site-description">Choose who, what, and how much help to generate adaptable instructional language.</p>
+    </div>
+    <div class="header-actions">
+      <a class="header-link" href="educator-resources.html">← Educator Resources</a>
+    </div>
+  </header>
+
+  <main class="target-builder-main">
+    <section class="target-builder-intro">
+      <p class="target-builder-eyebrow">FIRST VOLO MORPHOLOGY</p>
+      <h2>Build a clear morphology target in three choices.</h2>
+      <p>This tool offers planning language, not a clinical prescription. Adapt every target to the learner, setting, and local requirements. No learner information is requested or stored.</p>
+    </section>
+
+    <section class="target-builder-controls" aria-labelledby="builderControlsTitle">
+      <h2 id="builderControlsTitle">Choose the target</h2>
+
+      <fieldset class="choice-group">
+        <legend><span>1</span> WHO? Grade band</legend>
+        <div class="choice-row" id="gradeChoices">
+          <button type="button" class="choice-button" data-grade="foundation" aria-pressed="true">Grades 2–3 <small>Foundation</small></button>
+          <button type="button" class="choice-button" data-grade="expansion" aria-pressed="false">Grades 4–5 <small>Expansion</small></button>
+          <button type="button" class="choice-button" data-grade="advanced" aria-pressed="false">Grades 6–8 <small>Advanced</small></button>
+        </div>
+      </fieldset>
+
+      <fieldset class="choice-group">
+        <legend><span>2</span> WHAT? Morphology objective</legend>
+        <div class="choice-row choice-row-five" id="focusChoices">
+          <button type="button" class="choice-button" data-focus="know" aria-pressed="true">Know the Parts <small>Understand word parts</small></button>
+          <button type="button" class="choice-button" data-focus="analyze" aria-pressed="false">Analyze Words</button>
+          <button type="button" class="choice-button" data-focus="meaning" aria-pressed="false">Figure Out Meaning</button>
+          <button type="button" class="choice-button" data-focus="build" aria-pressed="false">Build &amp; Use Words</button>
+          <button type="button" class="choice-button" data-focus="apply" aria-pressed="false">Apply Independently</button>
+        </div>
+      </fieldset>
+
+      <div class="choice-group select-group">
+        <label for="supportSelect"><span>3</span> HOW MUCH HELP? Support condition</label>
+        <select id="supportSelect">
+          <option value="program">Program supports available as needed</option>
+          <option value="guided">Teacher-guided support as needed</option>
+          <option value="independent">Independent</option>
+          <option value="explicit">Explicit teaching / high support</option>
+        </select>
+      </div>
+    </section>
+
+    <aside class="support-principle" aria-label="Support principle">
+      <strong>Support principle</strong>
+      <p>Supports may provide access without solving the target morphology for the student. In teacher-guided work, begin with an independent attempt, provide the least support needed, retry the same demand, and fade support.</p>
+    </aside>
+
+    <section class="target-results" aria-labelledby="resultsTitle" aria-live="polite" aria-atomic="true">
+      <div class="results-heading">
+        <div>
+          <p class="target-builder-eyebrow">SUGGESTED PLAN</p>
+          <h2 id="resultsTitle">Your morphology target</h2>
+        </div>
+        <button type="button" class="copy-button" id="copyPlanButton">Copy plan</button>
+      </div>
+      <p class="copy-status" id="planCopyStatus" role="status"></p>
+      <div class="result-grid" id="planResult"></div>
+    </section>
+
+    <details class="iep-builder" id="iepBuilder">
+      <summary>Optional: Create IEP-style wording</summary>
+      <div class="iep-builder-body">
+        <p>Choose a criterion and individualize the result. The criterion is clinician-selected—not prescribed by this tool—and must follow local IEP requirements.</p>
+        <div class="iep-fields">
+          <div>
+            <label for="criterionSelect">Criterion <span aria-hidden="true">*</span></label>
+            <select id="criterionSelect" required>
+              <option value="">Choose a criterion</option>
+              <option value="80% accuracy">80% accuracy</option>
+              <option value="4 out of 5 opportunities">4 out of 5 opportunities</option>
+              <option value="3 consecutive sessions">criterion met across 3 consecutive sessions</option>
+              <option value="clinician-defined criterion">clinician-defined criterion</option>
+            </select>
+          </div>
+          <div>
+            <label for="acrossSelect">Measured across</label>
+            <select id="acrossSelect">
+              <option value="structured morphology activities">Structured morphology activities</option>
+              <option value="classroom reading and writing tasks">Classroom reading and writing tasks</option>
+              <option value="novel words and connected text">Novel words and connected text</option>
+              <option value="clinician-selected contexts">Clinician-selected contexts</option>
+            </select>
+          </div>
+        </div>
+        <div class="iep-preview" id="iepPreview" aria-live="polite" aria-disabled="true">
+          Choose a criterion to generate optional IEP-style wording.
+        </div>
+        <button type="button" class="copy-button" id="copyIepButton" disabled>Copy IEP-style wording</button>
+        <p class="copy-status" id="iepCopyStatus" role="status"></p>
+      </div>
+    </details>
+
+    <nav class="target-builder-links" aria-label="Related educator tools">
+      <a href="program-progress.html#instructionalGuidanceWrap">Plan a Session →</a>
+      <a href="program-progress.html">View Progress →</a>
+      <a href="progress-monitoring.html">Assessment &amp; Monitoring →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer"><p>© 2026 Alexis Sacco / First Volo Learning. All rights reserved.</p></footer>
+  <script src="morphology-target-builder.js"></script>
+</body>
+</html>
