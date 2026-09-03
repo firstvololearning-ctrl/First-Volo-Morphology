@@ -1,138 +1,3 @@
--- REVIEW ONLY. Do not apply directly to a hosted Supabase project.
---
--- Authorization invariant: a browser-supplied student UUID is only a requested
--- target. Both public entry points derive educator ownership and current access
--- from auth.uid() plus the canonical shared tables. The mutation repeats the
--- same authorization check; it never accepts owner, class, or display identity.
-
-begin;
-
-create schema if not exists private;
-
-create or replace function private.resolve_morphology_educator_student_context(
-  p_student_id uuid
-)
-returns table (
-  educator_user_id uuid,
-  student_id uuid,
-  student_display_name text
-)
-language sql
-stable
-security definer
-set search_path = ''
-as $function$
-  select
-    s.owner_user_id,
-    s.id,
-    s.display_name
-  from public.students as s
-  where p_student_id is not null
-    and auth.uid() is not null
-    and coalesce((auth.jwt()->>'is_anonymous')::boolean, false) = false
-    and s.id = p_student_id
-    and s.owner_user_id = auth.uid()
-    and s.archived_at is null
-    and exists (
-      select 1
-      from public.class_memberships as cm
-      join public.classes as c
-        on c.id = cm.class_id
-       and c.owner_user_id = cm.owner_user_id
-       and c.archived_at is null
-      join public.class_product_access as cpa
-        on cpa.class_id = c.id
-       and cpa.owner_user_id = c.owner_user_id
-       and cpa.product_key = 'first-volo-morphology'
-      where cm.student_id = s.id
-        and cm.owner_user_id = s.owner_user_id
-    )
-    and exists (
-      select 1
-      from public.product_entitlements as pe
-      where pe.owner_user_id = auth.uid()
-        and pe.product_key = 'first-volo-morphology'
-        and pe.status = 'active'
-        and pe.starts_at <= pg_catalog.now()
-        and pe.expires_at > pg_catalog.now()
-    )
-  -- Class identity is intentionally not returned. Membership in any currently
-  -- active Morphology-enabled class owned by this educator is sufficient.
-  limit 1;
-$function$;
-
-create or replace function public.get_morphology_student_state_for_educator(
-  p_student_id uuid
-)
-returns table (
-  educator_user_id uuid,
-  student_id uuid,
-  student_display_name text,
-  learner_profile_id uuid,
-  has_state boolean,
-  data jsonb,
-  client_updated_at timestamptz,
-  updated_at timestamptz
-)
-language plpgsql
-stable
-security definer
-set search_path = ''
-as $function$
-declare
-  v_context record;
-begin
-  if auth.uid() is null
-     or coalesce((auth.jwt()->>'is_anonymous')::boolean, false) = true then
-    raise exception 'Morphology educator student access denied';
-  end if;
-
-  select * into v_context
-  from private.resolve_morphology_educator_student_context(p_student_id);
-
-  if not found then
-    raise exception 'Morphology educator student access denied';
-  end if;
-
-  if exists (
-    select 1
-    from public.learner_profiles as lp
-    join public.learning_state as ls
-      on ls.learner_profile_id = lp.id
-     and ls.product_key = 'first-volo-morphology'
-     and ls.store_key = 'scored-progress'
-    where lp.student_id = v_context.student_id
-      and lp.owner_user_id = v_context.educator_user_id
-      and lp.product_key = 'first-volo-morphology'
-      and lp.deleted_at is null
-      and pg_catalog.jsonb_typeof(ls.data) is distinct from 'object'
-  ) then
-    raise exception 'Morphology educator student state invalid';
-  end if;
-
-  return query
-  select
-    v_context.educator_user_id,
-    v_context.student_id,
-    v_context.student_display_name,
-    lp.id,
-    (ls.id is not null),
-    coalesce(ls.data, '{}'::jsonb),
-    ls.client_updated_at,
-    ls.updated_at
-  from (select 1) as authorized
-  left join public.learner_profiles as lp
-    on lp.student_id = v_context.student_id
-   and lp.owner_user_id = v_context.educator_user_id
-   and lp.product_key = 'first-volo-morphology'
-   and lp.deleted_at is null
-  left join public.learning_state as ls
-    on ls.learner_profile_id = lp.id
-   and ls.product_key = 'first-volo-morphology'
-   and ls.store_key = 'scored-progress';
-end;
-$function$;
-
 create or replace function public.save_morphology_student_state_for_educator(
   p_student_id uuid,
   p_data jsonb,
@@ -369,27 +234,14 @@ begin
 end;
 $function$;
 
-alter function private.resolve_morphology_educator_student_context(uuid)
-  owner to postgres;
-alter function public.get_morphology_student_state_for_educator(uuid)
-  owner to postgres;
 alter function public.save_morphology_student_state_for_educator(
   uuid, jsonb, timestamptz
 ) owner to postgres;
 
-revoke all on function private.resolve_morphology_educator_student_context(uuid)
-  from public, anon, authenticated, service_role;
-
-revoke all on function public.get_morphology_student_state_for_educator(uuid)
-  from public, anon, service_role;
 revoke all on function public.save_morphology_student_state_for_educator(
   uuid, jsonb, timestamptz
 ) from public, anon, service_role;
 
-grant execute on function public.get_morphology_student_state_for_educator(uuid)
-  to authenticated;
 grant execute on function public.save_morphology_student_state_for_educator(
   uuid, jsonb, timestamptz
 ) to authenticated;
-
-commit;

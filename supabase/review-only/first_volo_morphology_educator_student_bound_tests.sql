@@ -35,7 +35,14 @@ insert into public.learner_profiles(id,owner_user_id,local_profile_id,display_na
 values('cccccccc-cccc-cccc-cccc-ccccccccccc1','11111111-1111-1111-1111-111111111111','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1','Student One','2026-01-01','2026-01-01','first-volo-morphology','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1');
 insert into public.learning_state(id,learner_profile_id,product_key,store_key,data,client_updated_at,updated_at)
 select 'dddddddd-dddd-dddd-dddd-ddddddddddd1','cccccccc-cccc-cccc-cccc-ccccccccccc1','first-volo-morphology','scored-progress',
-  jsonb_build_object('id','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1','name','Student One','createdAt',lp.created_at,'sessions','[]'::jsonb),
+  jsonb_build_object(
+    'id','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1',
+    'name','Student One',
+    'createdAt',lp.created_at,
+    'nameUpdatedAt',null,
+    'progressClearedAt',null,
+    'sessions','[]'::jsonb
+  ),
   '2026-08-01','2026-08-01'
 from public.learner_profiles lp where lp.id='cccccccc-cccc-cccc-cccc-ccccccccccc1';
 
@@ -113,6 +120,52 @@ values('dddddddd-dddd-dddd-dddd-ddddddddddd4','cccccccc-cccc-cccc-cccc-ccccccccc
 do $$ begin perform public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4'); raise exception 'corrupt state unexpectedly returned'; exception when others then if sqlerrm='corrupt state unexpectedly returned' then raise; end if; end $$;
 delete from public.learning_state where id='dddddddd-dddd-dddd-dddd-ddddddddddd4';
 delete from public.learner_profiles where id='cccccccc-cccc-cccc-cccc-ccccccccccc4';
+
+-- Legacy nullable protected fields survive reads but normalize away for save
+-- equality. Exact read -> save replay is a true no-op at any client timestamp.
+create temp table legacy_replay_before as
+select lp.updated_at profile_updated_at,
+       ls.updated_at state_updated_at,
+       ls.client_updated_at,
+       md5(ls.data::text) data_fingerprint
+from public.learner_profiles lp
+join public.learning_state ls on ls.learner_profile_id=lp.id
+where lp.id='cccccccc-cccc-cccc-cccc-ccccccccccc1';
+create temp table legacy_read_result as
+select * from public.get_morphology_student_state_for_educator(
+  'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1'
+);
+select pg_temp.assert_true((select result_code='no_change' and not write_applied
+  from public.save_morphology_student_state_for_educator(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1',
+    (select data from legacy_read_result),
+    (select client_updated_at from legacy_read_result)
+  )), 'legacy exact replay is no_change');
+select pg_temp.assert_true((select b.profile_updated_at=lp.updated_at
+    and b.state_updated_at=ls.updated_at
+    and b.client_updated_at=ls.client_updated_at
+    and b.data_fingerprint=md5(ls.data::text)
+  from legacy_replay_before b
+  cross join public.learner_profiles lp
+  join public.learning_state ls on ls.learner_profile_id=lp.id
+  where lp.id='cccccccc-cccc-cccc-cccc-ccccccccccc1'),
+  'legacy exact replay preserves payload and timestamps');
+
+-- JSONB object-key ordering is irrelevant after canonicalization.
+select pg_temp.assert_true((select result_code='no_change' and not write_applied
+  from public.save_morphology_student_state_for_educator(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1',
+    '{"sessions":[],"progressClearedAt":null,"nameUpdatedAt":null,"name":"Student One","id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1","createdAt":"2026-01-01T00:00:00+00:00"}',
+    '2026-08-01'
+  )), 'reordered legacy document is no_change');
+
+-- Caller-controlled protected identity values cannot create a content change.
+select pg_temp.assert_true((select result_code='no_change' and not write_applied
+  from public.save_morphology_student_state_for_educator(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1',
+    '{"sessions":[],"id":"ffffffff-ffff-ffff-ffff-ffffffffffff","name":"Spoofed","studentId":"ffffffff-ffff-ffff-ffff-ffffffffffff","ownerUserId":"ffffffff-ffff-ffff-ffff-ffffffffffff","classId":"ffffffff-ffff-ffff-ffff-ffffffffffff","nameUpdatedAt":"2099-01-01T00:00:00Z","progressClearedAt":"2099-01-01T00:00:00Z"}',
+    '2026-08-01'
+  )), 'protected identity manipulation canonicalizes to no_change');
 
 -- 14 stale changed save is rejected.
 select pg_temp.assert_true((select result_code='stale_revision' and not write_applied
