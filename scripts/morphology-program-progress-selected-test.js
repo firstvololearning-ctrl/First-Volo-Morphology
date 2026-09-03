@@ -19,6 +19,21 @@ const accessCss = fs.readFileSync(
   "utf8"
 );
 
+test("Program Progress declares the existing logo as its favicon", () => {
+  assert.match(
+    html,
+    /rel="icon"[\s\S]*?href="images\/logo\/logo\.png"/
+  );
+  assert.match(
+    html,
+    /rel="apple-touch-icon"[\s\S]*?href="images\/logo\/logo\.png"/
+  );
+  assert.equal(
+    fs.existsSync(path.join(root, "images/logo/logo.png")),
+    true
+  );
+});
+
 test("selected Program Progress identifies the server-backed student", () => {
   assert.match(html, /id="morphologyEducatorSelectedIdentity"/);
   assert.match(
