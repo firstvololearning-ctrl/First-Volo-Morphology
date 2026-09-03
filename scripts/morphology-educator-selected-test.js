@@ -220,6 +220,99 @@ async function bootAccess(search, user, selectedResponse) {
   return { calls, context: window.FirstVoloMorphologyAccess.getContext(), gate };
 }
 
+async function bootStartupAccess(search, user) {
+  const calls = [];
+  let authListener = null;
+  let publishEvents = 0;
+  const gate = {
+    hidden: false,
+    innerHTML: "",
+    querySelector() { return null; }
+  };
+  const client = {
+    rpc(name, args) {
+      calls.push({ name, args });
+      if (name === "get_morphology_access_context") {
+        return Promise.resolve({
+          data: [{
+            access_mode: args?.anonymous ? "student" : "educator",
+            educator_id: user.id
+          }],
+          error: null
+        });
+      }
+      if (name === "get_morphology_student_state_for_educator") {
+        const studentId = args.p_student_id;
+        return {
+          abortSignal() {
+            return Promise.resolve({
+              data: [{
+                educator_user_id: user.id,
+                student_id: studentId,
+                student_display_name: studentId === A ? "Student A" : "Student B",
+                learner_profile_id: `profile-${studentId}`,
+                has_state: true,
+                data: student(studentId),
+                client_updated_at: "2026-09-03T10:00:00.000Z",
+                updated_at: "2026-09-03T10:00:01.000Z"
+              }],
+              error: null
+            });
+          }
+        };
+      }
+      throw new Error(`Unexpected RPC ${name}`);
+    },
+    auth: {
+      onAuthStateChange(listener) { authListener = listener; },
+      getSession() {
+        return Promise.resolve({ data: { session: { user } }, error: null });
+      }
+    }
+  };
+  const document = {
+    readyState: "complete",
+    body: { prepend() {} },
+    documentElement: { dataset: {} },
+    getElementById(id) { return id === "morphologyAccessGate" ? gate : null; },
+    createElement() { return gate; },
+    addEventListener() {}
+  };
+  const window = {
+    supabase: { createClient: () => client },
+    location: { search, pathname: "/index.html" },
+    dispatchEvent(event) {
+      if (event.type === "firstvolomorphologyaccesschange") {
+        publishEvents += 1;
+      }
+    }
+  };
+  vm.runInNewContext(accessSource, {
+    AbortController,
+    CustomEvent: class CustomEvent {
+      constructor(type) { this.type = type; }
+    },
+    URLSearchParams,
+    clearTimeout,
+    console,
+    document,
+    Promise,
+    window
+  });
+  await new Promise(resolve => setImmediate(resolve));
+  await window.FirstVoloMorphologyAccess.whenReady();
+  return {
+    calls,
+    context: () => window.FirstVoloMorphologyAccess.getContext(),
+    publishEvents: () => publishEvents,
+    setSearch(value) { window.location.search = value; },
+    async emit(event, session) {
+      authListener(event, session);
+      await window.FirstVoloMorphologyAccess.whenReady();
+    }
+  };
+}
+
 test("selected existing state hydrates server state with zero boot writes", () => {
   const cached = student(A, "Wrong Local Name", "stale-local");
   const key = `firstVoloMorphologyProgressV1:educator-selected:${A}`;
@@ -375,6 +468,45 @@ test("authorized educator-selected identity comes only from read RPC", async () 
   assert.equal(boot.context.mode, "educator-selected");
   assert.equal(boot.context.studentName, "Canonical Student A");
   assert.equal(boot.calls.filter(call => call.name === "get_morphology_student_state_for_educator").length, 1);
+});
+
+test("getSession plus duplicate INITIAL_SESSION performs one selected read and one hydration publish", async () => {
+  const user = { id: "educator-auth-1", is_anonymous: false };
+  const boot = await bootStartupAccess(`?studentId=${A}`, user);
+  const publishesBeforeDuplicate = boot.publishEvents();
+  await boot.emit("INITIAL_SESSION", { user });
+  assert.equal(
+    boot.calls.filter(call => call.name === "get_morphology_student_state_for_educator").length,
+    1
+  );
+  assert.equal(boot.publishEvents(), publishesBeforeDuplicate);
+  assert.equal(boot.context().studentId, A);
+});
+
+test("later real auth session change performs a fresh selected resolution", async () => {
+  const firstUser = { id: "educator-auth-1", is_anonymous: false };
+  const boot = await bootStartupAccess(`?studentId=${A}`, firstUser);
+  const nextUser = { id: "educator-auth-2", is_anonymous: false };
+  await boot.emit("SIGNED_IN", { user: nextUser });
+  assert.equal(
+    boot.calls.filter(call => call.name === "get_morphology_student_state_for_educator").length,
+    2
+  );
+});
+
+test("same educator changing selected target A to B performs the B read", async () => {
+  const user = { id: "educator-auth-1", is_anonymous: false };
+  const boot = await bootStartupAccess(`?studentId=${A}`, user);
+  boot.setSearch(`?studentId=${B}`);
+  await boot.emit("TOKEN_REFRESHED", { user });
+  const selectedReads = boot.calls.filter(
+    call => call.name === "get_morphology_student_state_for_educator"
+  );
+  assert.deepEqual(
+    selectedReads.map(call => call.args.p_student_id),
+    [A, B]
+  );
+  assert.equal(boot.context().studentId, B);
 });
 
 test("late selected A read is ignored after selected B becomes current", async () => {

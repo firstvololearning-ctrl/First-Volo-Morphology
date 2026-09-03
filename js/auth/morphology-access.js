@@ -374,7 +374,10 @@
     }
   };
 
-  client.auth.onAuthStateChange((_event, session) => {
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "INITIAL_SESSION" && generation > 0) {
+      return;
+    }
     resolveForSession(session);
   });
 
