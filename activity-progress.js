@@ -141,19 +141,23 @@ function renderActivityStudentChips() {
 
   activityStudentChips.innerHTML = "";
 
-  const choices = [
-    {
-      id: "",
-      name: "Not saving",
-      noStudent: true
-    },
-    ...activityProgressData.students
-      .slice()
-      .sort(
-        (a, b) =>
-          a.name.localeCompare(b.name)
+  const choices = activityAccessContext?.mode === "educator-selected"
+    ? activityProgressData.students.filter(
+        student => student.id === activityAccessContext.studentId
       )
-  ];
+    : [
+        {
+          id: "",
+          name: "Not saving",
+          noStudent: true
+        },
+        ...activityProgressData.students
+          .slice()
+          .sort(
+            (a, b) =>
+              a.name.localeCompare(b.name)
+          )
+      ];
 
   choices.forEach((student) => {
     const button =
@@ -418,7 +422,10 @@ function cancelProgressSession() {
 }
 
 activityStudentSelect.addEventListener("change", () => {
-  if (activityAccessContext?.mode === "student") {
+  if (
+    activityAccessContext?.mode === "student" ||
+    activityAccessContext?.mode === "educator-selected"
+  ) {
     activityStudentSelect.value = activityAccessContext.studentId;
     return;
   }
@@ -459,7 +466,10 @@ function initializeActivityProgress(context) {
 
   activityProgressData = loadActivityProgressData();
 
-  if (context.mode === "student") {
+  if (
+    context.mode === "student" ||
+    context.mode === "educator-selected"
+  ) {
     let student = activityProgressData.students.find(
       (item) => item.id === context.studentId
     );
@@ -480,7 +490,9 @@ function initializeActivityProgress(context) {
     }
 
     activityProgressData.activeStudentId = context.studentId;
-    saveActivityProgressData();
+    if (context.mode === "student") {
+      saveActivityProgressData();
+    }
   }
 
   renderActivityStudentSelect();

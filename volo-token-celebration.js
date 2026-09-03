@@ -59,7 +59,9 @@
       const saved =
         JSON.parse(
           localStorage.getItem(
-            "firstVoloMorphologyProgressV1"
+            window.FirstVoloMorphologyAccess
+              ?.localProgressKey?.() ||
+              "firstVoloMorphologyProgressV1"
           )
         );
 

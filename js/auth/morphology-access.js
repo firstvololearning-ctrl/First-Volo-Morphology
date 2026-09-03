@@ -6,6 +6,12 @@
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_0O4rNLfhuW18xYRZSPkLpw_xyXR9d3n";
   const PRODUCT_KEY = "first-volo-morphology";
+  const EDUCATOR_SELECTED_PROGRESS_PREFIX =
+    "firstVoloMorphologyProgressV1:educator-selected:";
+  const FIRST_VOLO_URL =
+    "https://firstvololearning-ctrl.github.io/First-Volo-Account/";
+  const CANONICAL_UUID_PATTERN =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const EDUCATOR_ONLY_PAGES = new Set([
     "program-progress.html",
     "session-materials.html",
@@ -64,6 +70,7 @@
     status: "loading"
   });
   let readyPromise = Promise.resolve(context);
+  let selectedReadAbortController = null;
   const listeners = new Set();
 
   function installAccessShell() {
@@ -83,6 +90,28 @@
     return window.location.pathname.split("/").pop() || "index.html";
   }
 
+  function requestedStudentTarget() {
+    const values = new URLSearchParams(
+      window.location.search
+    ).getAll("studentId");
+
+    if (values.length === 0) {
+      return { present: false, studentId: null, valid: true };
+    }
+
+    const studentId = values.length === 1
+      ? values[0].trim()
+      : "";
+
+    return {
+      present: true,
+      studentId,
+      valid:
+        values.length === 1 &&
+        CANONICAL_UUID_PATTERN.test(studentId)
+    };
+  }
+
   function applyAccessUI(next) {
     const wrongRole = next.mode === "student" &&
       EDUCATOR_ONLY_PAGES.has(currentPageName());
@@ -99,6 +128,18 @@
         : "";
       studentIdentity.hidden = !showStudentIdentity;
     }
+    const educatorSelectedIdentity = document.getElementById(
+      "morphologyEducatorSelectedIdentity"
+    );
+    if (educatorSelectedIdentity) {
+      const showSelectedIdentity =
+        next.status === "authorized" &&
+        next.mode === "educator-selected";
+      educatorSelectedIdentity.textContent = showSelectedIdentity
+        ? `Working with ${next.studentName || "Student"}`
+        : "";
+      educatorSelectedIdentity.hidden = !showSelectedIdentity;
+    }
     const gate = document.getElementById("morphologyAccessGate");
     if (!gate) return;
 
@@ -108,9 +149,13 @@
     }
 
     gate.hidden = false;
-    gate.innerHTML = next.status === "loading"
-      ? '<div><h1>Checking First Volo access…</h1><p>Please wait.</p></div>'
-      : '<div><h1>Morphology is locked</h1><p>This account does not have access to this page.</p><button type="button" id="morphologyAccessSignIn">Educator sign in</button></div>';
+    if (next.status === "loading") {
+      gate.innerHTML = '<div><h1>Checking First Volo access…</h1><p>Please wait.</p></div>';
+    } else if (next.status === "selected-error") {
+      gate.innerHTML = `<div><h1>Student access unavailable</h1><p>This student could not be opened in Morphology. Return to My First Volo and choose a student you can access.</p><a class="morphology-access-return" href="${FIRST_VOLO_URL}">Return to My First Volo</a></div>`;
+    } else {
+      gate.innerHTML = '<div><h1>Morphology is locked</h1><p>This account does not have access to this page.</p><button type="button" id="morphologyAccessSignIn">Educator sign in</button></div>';
+    }
     gate.querySelector("#morphologyAccessSignIn")?.addEventListener("click", () => {
       document.getElementById("morphologyCloudButton")?.click();
     });
@@ -179,6 +224,69 @@
     }
 
     if (expectedMode === "educator") {
+      const target = requestedStudentTarget();
+
+      if (target.present && !target.valid) {
+        return publish({
+          ...LOCKED_CONTEXT,
+          status: "selected-error",
+          mode: "educator-selected",
+          userId: user.id,
+          educatorId: accessRow.educator_id || user.id
+        }, expectedGeneration);
+      }
+
+      if (target.present) {
+        const controller = new AbortController();
+        selectedReadAbortController = controller;
+        const { data: selectedData, error: selectedError } = await client
+          .rpc(
+            "get_morphology_student_state_for_educator",
+            { p_student_id: target.studentId }
+          )
+          .abortSignal(controller.signal);
+
+        if (selectedReadAbortController === controller) {
+          selectedReadAbortController = null;
+        }
+
+        if (expectedGeneration !== generation) {
+          return context;
+        }
+
+        const selectedRows = Array.isArray(selectedData)
+          ? selectedData
+          : [];
+        const selected = selectedRows.length === 1
+          ? selectedRows[0]
+          : null;
+
+        if (selectedError || !selected?.student_id) {
+          return publish({
+            ...LOCKED_CONTEXT,
+            status: "selected-error",
+            mode: "educator-selected",
+            userId: user.id,
+            educatorId: accessRow.educator_id || user.id
+          }, expectedGeneration);
+        }
+
+        return publish({
+          status: "authorized",
+          mode: "educator-selected",
+          userId: user.id,
+          studentId: selected.student_id,
+          studentName: selected.student_display_name || "Student",
+          learnerProfileId: selected.learner_profile_id || null,
+          hasState: selected.has_state === true,
+          stateData: selected.data,
+          clientUpdatedAt: selected.client_updated_at || null,
+          updatedAt: selected.updated_at || null,
+          classId: null,
+          educatorId: selected.educator_user_id || accessRow.educator_id || user.id
+        }, expectedGeneration);
+      }
+
       return publish({
         status: "authorized",
         mode: "educator",
@@ -208,6 +316,8 @@
 
   function resolveForSession(session) {
     const expectedGeneration = ++generation;
+    selectedReadAbortController?.abort();
+    selectedReadAbortController = null;
     const user = session?.user || null;
     const principalChanged =
       currentUser?.id !== user?.id ||
@@ -254,9 +364,13 @@
       if (accessContext.status !== "authorized") {
         return null;
       }
-      return accessContext.mode === "student"
-        ? `firstVoloMorphologyProgressV1:student:${accessContext.studentId}`
-        : "firstVoloMorphologyProgressV1";
+      if (accessContext.mode === "student") {
+        return `firstVoloMorphologyProgressV1:student:${accessContext.studentId}`;
+      }
+      if (accessContext.mode === "educator-selected") {
+        return `${EDUCATOR_SELECTED_PROGRESS_PREFIX}${accessContext.studentId}`;
+      }
+      return "firstVoloMorphologyProgressV1";
     }
   };
 

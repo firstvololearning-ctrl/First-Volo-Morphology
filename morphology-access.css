@@ -26,12 +26,33 @@ html[data-morphology-mode="student"] [data-morphology-educator-only] {
   display: none;
 }
 
+[data-morphology-educator-selected-only] {
+  display: none;
+}
+
 html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
   [data-morphology-student-only] {
   display: flex;
 }
 
+html[data-morphology-access-status="authorized"][data-morphology-mode="educator-selected"]
+  [data-morphology-educator-selected-only] {
+  display: flex;
+}
+
+html[data-morphology-mode="educator-selected"] #currentStudentBar {
+  display: none !important;
+}
+
 .morphology-student-context {
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.morphology-educator-selected-context {
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
@@ -50,8 +71,37 @@ html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
   font: 600 0.875rem/1.25 system-ui, sans-serif;
 }
 
+.morphology-educator-selected-identity {
+  width: fit-content;
+  margin: 0;
+  padding: 7px 12px;
+  border: 1px solid rgba(83, 63, 138, 0.24);
+  border-radius: 999px;
+  background: rgba(244, 240, 252, 0.9);
+  color: #49377d;
+  font: 700 0.875rem/1.25 system-ui, sans-serif;
+}
+
 .morphology-student-identity[hidden] {
   display: none;
+}
+
+.morphology-educator-selected-identity[hidden] {
+  display: none;
+}
+
+.morphology-access-return {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 1px solid rgba(28, 74, 110, 0.3);
+  border-radius: 999px;
+  background: #fff;
+  color: #1c4a6e;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .morphology-student-return-link {
