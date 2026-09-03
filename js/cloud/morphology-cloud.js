@@ -32,6 +32,12 @@
   let studentCloudReadyKey = null;
   let studentReadAbortController = null;
   let studentSaveAbortController = null;
+  let educatorBaselineByStudentId = new Map();
+  let educatorDeletionBaseline = {};
+  let educatorCloudByStudentId = new Map();
+  const educatorDirtyStudentIds = new Set();
+  const educatorDirtyDeletionIds = new Set();
+  let educatorSyncQueued = false;
 
   let cloudButton = null;
   let cloudModal = null;
@@ -211,16 +217,92 @@
     return data;
   }
 
+  function educatorStateData(
+    student = {}
+  ) {
+    return {
+      id:
+        student.id,
+
+      name:
+        student.name,
+
+      nameUpdatedAt:
+        student.nameUpdatedAt ||
+        null,
+
+      createdAt:
+        student.createdAt ||
+        null,
+
+      sessions:
+        Array.isArray(
+          student.sessions
+        )
+          ? student.sessions
+          : [],
+
+      paperPractice:
+        Array.isArray(
+          student.paperPractice
+        )
+          ? student.paperPractice
+          : [],
+
+      voloTokens:
+        student.voloTokens ||
+        {},
+
+      voloGoals:
+        Array.isArray(
+          student.voloGoals
+        )
+          ? student.voloGoals
+          : [],
+
+      voloGoalsUpdatedAt:
+        student.voloGoalsUpdatedAt ||
+        null,
+
+      progressClearedAt:
+        student.progressClearedAt ||
+        null
+    };
+  }
+
+
   async function backupStudent(
     student
   ) {
+    const stateData = educatorStateData(student);
+
+    const cloud = educatorCloudByStudentId.get(
+      student.id
+    );
+
+    if (
+      cloud?.displayName === student.name &&
+      sameJsonValue(
+        educatorStateData(cloud.data),
+        stateData
+      )
+    ) {
+      return {
+        success: true,
+        writeApplied: false
+      };
+    }
+
     const learner =
       await ensureLearner(
         student
       );
 
     if (!learner?.id) {
-      return false;
+      return {
+        success: false,
+        writeApplied: false
+      };
     }
 
     const now =
@@ -242,54 +324,7 @@
             store_key:
               STORE_KEY,
 
-            data: {
-              id:
-                student.id,
-
-              name:
-                student.name,
-
-              nameUpdatedAt:
-                student.nameUpdatedAt ||
-                null,
-
-              createdAt:
-                student.createdAt ||
-                null,
-
-              sessions:
-                Array.isArray(
-                  student.sessions
-                )
-                  ? student.sessions
-                  : [],
-
-              paperPractice:
-                Array.isArray(
-                  student.paperPractice
-                )
-                  ? student.paperPractice
-                  : [],
-
-              voloTokens:
-                student.voloTokens ||
-                {},
-
-              voloGoals:
-                Array.isArray(
-                  student.voloGoals
-                )
-                  ? student.voloGoals
-                  : [],
-
-              voloGoalsUpdatedAt:
-                student.voloGoalsUpdatedAt ||
-                null,
-
-              progressClearedAt:
-                student.progressClearedAt ||
-                null
-            },
+            data: stateData,
 
             client_updated_at:
               now,
@@ -308,10 +343,25 @@
         `Morphology backup failed for ${student.name}.`,
         error
       );
-      return false;
+      return {
+        success: false,
+        writeApplied: false
+      };
     }
 
-    return true;
+    educatorCloudByStudentId.set(
+      student.id,
+      {
+        learnerProfileId: learner.id,
+        displayName: student.name,
+        data: structuredClone(stateData)
+      }
+    );
+
+    return {
+      success: true,
+      writeApplied: true
+    };
   }
 
   function getSessionKey(
@@ -354,7 +404,8 @@
 
   function chooseRicherSession(
     localSession,
-    cloudSession
+    cloudSession,
+    preferCloudOnTie = false
   ) {
     if (!localSession) {
       return cloudSession;
@@ -420,6 +471,15 @@
       This avoids a session bouncing back and
       forth between two equally complete copies.
     */
+    if (preferCloudOnTie) {
+      /*
+        In educator reconciliation, equal completion state and response
+        count do not prove that a cached local copy is newer. Preserve
+        the server copy so an older educator device cannot overwrite it.
+      */
+      return cloudSession;
+    }
+
     return {
       ...cloudSession,
       ...localSession,
@@ -442,7 +502,8 @@
 
   function mergeMorphologySessions(
     localSessions,
-    cloudSessions
+    cloudSessions,
+    preferCloudOnTie = false
   ) {
     const local =
       Array.isArray(
@@ -547,7 +608,8 @@
       const preferred =
         chooseRicherSession(
           existing,
-          cloudSession
+          cloudSession,
+          preferCloudOnTie
         );
 
       if (
@@ -1412,6 +1474,62 @@
   }
 
 
+  function captureEducatorBaseline(
+    progress = readLocalProgress()
+  ) {
+    educatorBaselineByStudentId = new Map(
+      progress.students
+        .filter(student => student?.id)
+        .map(student => [
+          student.id,
+          structuredClone(student)
+        ])
+    );
+
+    educatorDeletionBaseline = structuredClone(
+      validDeletionMap(
+        progress.deletedMorphologyLearners
+      )
+    );
+
+    educatorDirtyStudentIds.clear();
+    educatorDirtyDeletionIds.clear();
+  }
+
+
+  function markEducatorChanges(
+    progress = readLocalProgress()
+  ) {
+    const currentByStudentId = new Map(
+      progress.students
+        .filter(student => student?.id)
+        .map(student => [student.id, student])
+    );
+
+    for (const [studentId, student] of currentByStudentId) {
+      if (!sameJsonValue(
+        student,
+        educatorBaselineByStudentId.get(studentId)
+      )) {
+        educatorDirtyStudentIds.add(studentId);
+      }
+    }
+
+    const deletions = validDeletionMap(
+      progress.deletedMorphologyLearners
+    );
+
+    for (const [studentId, deletedAt] of Object.entries(deletions)) {
+      if (educatorDeletionBaseline[studentId] !== deletedAt) {
+        educatorDirtyDeletionIds.add(studentId);
+        educatorDirtyStudentIds.delete(studentId);
+      }
+    }
+
+    return progress;
+  }
+
+
   function writeAuthorizedStudent(
     context,
     student
@@ -1819,7 +1937,8 @@
 
 
   async function syncLocalDeletionTombstones(
-    progress
+    progress,
+    studentIds = null
   ) {
     if (!educatorCloudAuthorized()) {
       return 0;
@@ -1840,6 +1959,13 @@
       ]
       of Object.entries(deletions)
     ) {
+      if (
+        studentIds &&
+        !studentIds.has(studentId)
+      ) {
+        continue;
+      }
+
       if (
         !studentId ||
         parseCloudTime(
@@ -2037,6 +2163,31 @@
           ]
         )
       );
+
+    educatorCloudByStudentId = new Map();
+
+    for (const learner of (
+      Array.isArray(cloudLearners)
+        ? cloudLearners
+        : []
+    )) {
+      const state = stateByLearnerId.get(learner.id);
+
+      if (
+        learner.local_profile_id &&
+        state?.data &&
+        typeof state.data === "object"
+      ) {
+        educatorCloudByStudentId.set(
+          learner.local_profile_id,
+          {
+            learnerProfileId: learner.id,
+            displayName: learner.display_name,
+            data: structuredClone(state.data)
+          }
+        );
+      }
+    }
 
     const progress =
       readLocalProgress();
@@ -2254,7 +2405,8 @@
             filterSessionsAfterClear(
               cloudStudent.sessions,
               newestClearAt
-            )
+            ),
+            true
           );
 
         const sessionsChanged =
@@ -2526,6 +2678,102 @@
   }
 
 
+  async function syncDirtyEducatorState() {
+    if (
+      !educatorCloudAuthorized() ||
+      syncing
+    ) {
+      if (educatorCloudAuthorized()) {
+        educatorSyncQueued = true;
+      }
+      return;
+    }
+
+    const progress = markEducatorChanges();
+    const dirtyStudentIds = new Set(
+      educatorDirtyStudentIds
+    );
+    const dirtyDeletionIds = new Set(
+      educatorDirtyDeletionIds
+    );
+
+    if (
+      dirtyStudentIds.size === 0 &&
+      dirtyDeletionIds.size === 0
+    ) {
+      return;
+    }
+
+    syncing = true;
+    updateUI("Backing up Morphology progress…");
+
+    try {
+      if (dirtyDeletionIds.size > 0) {
+        await syncLocalDeletionTombstones(
+          progress,
+          dirtyDeletionIds
+        );
+
+        for (const studentId of dirtyDeletionIds) {
+          educatorDeletionBaseline[studentId] =
+            progress.deletedMorphologyLearners[studentId];
+          educatorDirtyDeletionIds.delete(studentId);
+          educatorBaselineByStudentId.delete(studentId);
+        }
+      }
+
+      let saved = 0;
+
+      for (const studentId of dirtyStudentIds) {
+        const student = progress.students.find(
+          item => item?.id === studentId
+        );
+
+        if (!student) {
+          continue;
+        }
+
+        const result = await backupStudent(student);
+
+        if (!result.success) {
+          continue;
+        }
+
+        educatorBaselineByStudentId.set(
+          studentId,
+          structuredClone(student)
+        );
+        educatorDirtyStudentIds.delete(studentId);
+
+        if (result.writeApplied) {
+          saved += 1;
+        }
+      }
+
+      updateUI(
+        saved
+          ? `Cloud backup complete for ${saved} learner${saved === 1 ? "" : "s"}.`
+          : "Cloud backup is current."
+      );
+    } catch (error) {
+      console.warn(
+        "Morphology cloud backup failed.",
+        error
+      );
+      updateUI(
+        "Cloud backup could not complete. Your local progress is still saved."
+      );
+    } finally {
+      syncing = false;
+
+      if (educatorSyncQueued) {
+        educatorSyncQueued = false;
+        queueSync();
+      }
+    }
+  }
+
+
   async function syncNow() {
     if (
       !educatorCloudAuthorized() ||
@@ -2570,15 +2818,17 @@
         const student
         of progress.students
       ) {
-        const success =
+        const result =
           await backupStudent(
             student
           );
 
-        if (success) {
+        if (result.success && result.writeApplied) {
           saved += 1;
         }
       }
+
+      captureEducatorBaseline(progress);
 
       updateUI(
         saved
@@ -2614,13 +2864,27 @@
       return;
     }
 
+    markEducatorChanges();
+
+    if (syncing) {
+      educatorSyncQueued = true;
+      return;
+    }
+
+    if (
+      educatorDirtyStudentIds.size === 0 &&
+      educatorDirtyDeletionIds.size === 0
+    ) {
+      return;
+    }
+
     clearTimeout(
       syncTimer
     );
 
     syncTimer =
       setTimeout(
-        syncNow,
+        syncDirtyEducatorState,
         700
       );
   }
@@ -3073,6 +3337,12 @@
       studentSaveAbortController = null;
       studentSyncQueued = false;
       studentCloudReadyKey = null;
+      educatorBaselineByStudentId = new Map();
+      educatorDeletionBaseline = {};
+      educatorCloudByStudentId = new Map();
+      educatorDirtyStudentIds.clear();
+      educatorDirtyDeletionIds.clear();
+      educatorSyncQueued = false;
       currentUser = context.status === "authorized"
         ? access.getUser()
         : null;
@@ -3138,10 +3408,11 @@
               }
 
               /*
-                Nothing cloud-only needed restoring.
-                Continue the existing backup behavior.
+                Educator authorization and hydration are read-only.
+                Establish the clean baseline used by later genuine
+                user-action change hooks, but do not back up on boot.
               */
-              syncNow();
+              captureEducatorBaseline();
             } catch (error) {
               console.warn(
                 "Morphology cloud restore failed.",
