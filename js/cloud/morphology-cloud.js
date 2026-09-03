@@ -1359,6 +1359,59 @@
   }
 
 
+  function sameJsonValue(
+    left,
+    right
+  ) {
+    if (left === right) {
+      return true;
+    }
+
+    if (
+      Array.isArray(left) ||
+      Array.isArray(right)
+    ) {
+      return Array.isArray(left) &&
+        Array.isArray(right) &&
+        left.length === right.length &&
+        left.every(
+          (value, index) =>
+            sameJsonValue(value, right[index])
+        );
+    }
+
+    if (
+      !left ||
+      !right ||
+      typeof left !== "object" ||
+      typeof right !== "object"
+    ) {
+      return false;
+    }
+
+    const leftKeys = Object.keys(left);
+    const rightKeys = Object.keys(right);
+
+    return leftKeys.length === rightKeys.length &&
+      leftKeys.every(
+        key =>
+          Object.prototype.hasOwnProperty.call(right, key) &&
+          sameJsonValue(left[key], right[key])
+      );
+  }
+
+
+  function studentStateNeedsSync(
+    student,
+    cloudStudent,
+    hasCloudState
+  ) {
+    return hasStudentEvidence(student) &&
+      (!hasCloudState ||
+       !sameJsonValue(student, cloudStudent));
+  }
+
+
   function writeAuthorizedStudent(
     context,
     student
@@ -1448,11 +1501,11 @@
     writeAuthorizedStudent(current, merged);
     studentCloudReadyKey = expectedKey;
 
-    if (
-      hasStudentEvidence(merged) &&
-      (!hasCloudState ||
-       JSON.stringify(merged) !== JSON.stringify(row.data))
-    ) {
+    if (studentStateNeedsSync(
+      merged,
+      row?.data,
+      hasCloudState
+    )) {
       queueStudentSync();
     }
   }
