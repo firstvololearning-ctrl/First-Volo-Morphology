@@ -6438,6 +6438,11 @@ a:focus-visible {
   gap: 10px;
 }
 
+.about-learning-stages {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+}
+
 .about-stage-card {
   min-height: 132px;
   padding: 16px;
@@ -6557,13 +6562,39 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .about-stage-flow {
-    grid-template-columns: 1fr;
+  .about-learning-stages {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .about-learning-stages .about-stage-card {
+    grid-column: span 2;
+  }
+
+  .about-learning-stages .about-stage-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .about-learning-stages .about-stage-card:nth-child(5) {
+    grid-column: 4 / span 2;
   }
 
   .about-stage-arrow {
     transform: rotate(90deg);
     text-align: center;
+  }
+
+}
+
+@media (max-width: 520px) {
+
+  .about-learning-stages {
+    grid-template-columns: 1fr;
+  }
+
+  .about-learning-stages .about-stage-card,
+  .about-learning-stages .about-stage-card:nth-child(4),
+  .about-learning-stages .about-stage-card:nth-child(5) {
+    grid-column: 1;
   }
 
 }
