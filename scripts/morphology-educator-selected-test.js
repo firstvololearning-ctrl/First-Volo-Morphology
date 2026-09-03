@@ -161,6 +161,21 @@ async function bootAccess(search, user, selectedResponse) {
     querySelector() { return null; }
   };
   elements.set("morphologyAccessGate", gate);
+  const anchor = (href) => ({
+    href,
+    getAttribute(name) { return name === "href" ? this.href : null; },
+    setAttribute(name, value) {
+      if (name === "href") this.href = value;
+    }
+  });
+  const links = [
+    anchor("index.html"),
+    anchor("program-progress.html?view=summary#evidence"),
+    anchor("#instructionalGuidancePanel"),
+    anchor("printables/VIEW-flight-A-color.pdf"),
+    anchor("https://firstvololearning.com"),
+    anchor("https://firstvololearning-ctrl.github.io/First-Volo-Account/")
+  ];
   const client = {
     rpc(name, args) {
       calls.push({ name, args });
@@ -195,17 +210,24 @@ async function bootAccess(search, user, selectedResponse) {
     body: { prepend() {} },
     documentElement: { dataset: {} },
     getElementById(id) { return elements.get(id) || null; },
+    querySelectorAll(selector) { return selector === "a[href]" ? links : []; },
     createElement() { return gate; },
     addEventListener() {}
   };
   const window = {
     supabase: { createClient: () => client },
-    location: { search, pathname: "/index.html" },
+    location: {
+      search,
+      pathname: "/First-Volo-Morphology/index.html",
+      href: `https://firstvololearning-ctrl.github.io/First-Volo-Morphology/index.html${search}`,
+      origin: "https://firstvololearning-ctrl.github.io"
+    },
     dispatchEvent() {}
   };
   const sandbox = {
     AbortController,
     CustomEvent: class CustomEvent {},
+    URL,
     URLSearchParams,
     clearTimeout,
     console,
@@ -217,7 +239,12 @@ async function bootAccess(search, user, selectedResponse) {
   await new Promise(resolve => setImmediate(resolve));
   await window.FirstVoloMorphologyAccess.resolveForSession({ user });
   assert.ok(authListener);
-  return { calls, context: window.FirstVoloMorphologyAccess.getContext(), gate };
+  return {
+    calls,
+    context: window.FirstVoloMorphologyAccess.getContext(),
+    gate,
+    links
+  };
 }
 
 async function bootStartupAccess(search, user) {
@@ -468,6 +495,37 @@ test("authorized educator-selected identity comes only from read RPC", async () 
   assert.equal(boot.context.mode, "educator-selected");
   assert.equal(boot.context.studentName, "Canonical Student A");
   assert.equal(boot.calls.filter(call => call.name === "get_morphology_student_state_for_educator").length, 1);
+});
+
+test("educator-selected navigation preserves target only on internal HTML pages", async () => {
+  const user = { id: "educator-auth-1", is_anonymous: false };
+  const boot = await bootAccess(`?studentId=${A}`, user, {
+    data: [{
+      educator_user_id: user.id,
+      student_id: A,
+      student_display_name: "Student A",
+      learner_profile_id: `profile-${A}`,
+      has_state: true,
+      data: student(A)
+    }],
+    error: null
+  });
+
+  assert.equal(
+    boot.links[0].href,
+    `https://firstvololearning-ctrl.github.io/First-Volo-Morphology/index.html?studentId=${A}`
+  );
+  assert.equal(
+    boot.links[1].href,
+    `https://firstvololearning-ctrl.github.io/First-Volo-Morphology/program-progress.html?view=summary&studentId=${A}#evidence`
+  );
+  assert.equal(boot.links[2].href, "#instructionalGuidancePanel");
+  assert.equal(boot.links[3].href, "printables/VIEW-flight-A-color.pdf");
+  assert.equal(boot.links[4].href, "https://firstvololearning.com");
+  assert.equal(
+    boot.links[5].href,
+    "https://firstvololearning-ctrl.github.io/First-Volo-Account/"
+  );
 });
 
 test("getSession plus duplicate INITIAL_SESSION performs one selected read and one hydration publish", async () => {

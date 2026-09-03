@@ -112,6 +112,51 @@
     };
   }
 
+  function preserveSelectedStudentNavigation(next) {
+    if (
+      next.status !== "authorized" ||
+      next.mode !== "educator-selected" ||
+      !next.studentId
+    ) {
+      return;
+    }
+
+    const pagePath = window.location.pathname;
+    const appBasePath = pagePath.slice(
+      0,
+      pagePath.lastIndexOf("/") + 1
+    );
+    const links = document.querySelectorAll?.("a[href]") || [];
+
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+
+      if (!href || href.startsWith("#")) {
+        return;
+      }
+
+      let url;
+      try {
+        url = new URL(href, window.location.href);
+      } catch (_error) {
+        return;
+      }
+
+      const isInternalPage =
+        url.origin === window.location.origin &&
+        url.pathname.startsWith(appBasePath) &&
+        (url.pathname.endsWith("/") ||
+          url.pathname.endsWith(".html"));
+
+      if (!isInternalPage) {
+        return;
+      }
+
+      url.searchParams.set("studentId", next.studentId);
+      link.setAttribute("href", url.href);
+    });
+  }
+
   function applyAccessUI(next) {
     const wrongRole = next.mode === "student" &&
       EDUCATOR_ONLY_PAGES.has(currentPageName());
@@ -140,6 +185,7 @@
         : "";
       educatorSelectedIdentity.hidden = !showSelectedIdentity;
     }
+    preserveSelectedStudentNavigation(next);
     const gate = document.getElementById("morphologyAccessGate");
     if (!gate) return;
 
