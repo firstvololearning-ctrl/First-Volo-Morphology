@@ -15,8 +15,7 @@ create or replace function private.resolve_morphology_educator_student_context(
 returns table (
   educator_user_id uuid,
   student_id uuid,
-  student_display_name text,
-  class_id uuid
+  student_display_name text
 )
 language sql
 stable
@@ -26,20 +25,8 @@ as $function$
   select
     s.owner_user_id,
     s.id,
-    s.display_name,
-    c.id
+    s.display_name
   from public.students as s
-  join public.class_memberships as cm
-    on cm.student_id = s.id
-   and cm.owner_user_id = s.owner_user_id
-  join public.classes as c
-    on c.id = cm.class_id
-   and c.owner_user_id = cm.owner_user_id
-   and c.archived_at is null
-  join public.class_product_access as cpa
-    on cpa.class_id = c.id
-   and cpa.owner_user_id = c.owner_user_id
-   and cpa.product_key = 'first-volo-morphology'
   where p_student_id is not null
     and auth.uid() is not null
     and coalesce((auth.jwt()->>'is_anonymous')::boolean, false) = false
@@ -48,16 +35,29 @@ as $function$
     and s.archived_at is null
     and exists (
       select 1
+      from public.class_memberships as cm
+      join public.classes as c
+        on c.id = cm.class_id
+       and c.owner_user_id = cm.owner_user_id
+       and c.archived_at is null
+      join public.class_product_access as cpa
+        on cpa.class_id = c.id
+       and cpa.owner_user_id = c.owner_user_id
+       and cpa.product_key = 'first-volo-morphology'
+      where cm.student_id = s.id
+        and cm.owner_user_id = s.owner_user_id
+    )
+    and exists (
+      select 1
       from public.product_entitlements as pe
       where pe.owner_user_id = auth.uid()
         and pe.product_key = 'first-volo-morphology'
         and pe.status = 'active'
-        and pe.starts_at <= now()
-        and pe.expires_at > now()
+        and pe.starts_at <= pg_catalog.now()
+        and pe.expires_at > pg_catalog.now()
     )
-  -- A student may be a member of multiple eligible classes. The oldest active
-  -- eligible class, then its UUID, is the stable context returned to the client.
-  order by c.created_at, c.id
+  -- Class identity is intentionally not returned. Membership in any currently
+  -- active Morphology-enabled class owned by this educator is sufficient.
   limit 1;
 $function$;
 
@@ -68,7 +68,6 @@ returns table (
   educator_user_id uuid,
   student_id uuid,
   student_display_name text,
-  class_id uuid,
   learner_profile_id uuid,
   has_state boolean,
   data jsonb,
@@ -95,12 +94,27 @@ begin
     raise exception 'Morphology educator student access denied';
   end if;
 
+  if exists (
+    select 1
+    from public.learner_profiles as lp
+    join public.learning_state as ls
+      on ls.learner_profile_id = lp.id
+     and ls.product_key = 'first-volo-morphology'
+     and ls.store_key = 'scored-progress'
+    where lp.student_id = v_context.student_id
+      and lp.owner_user_id = v_context.educator_user_id
+      and lp.product_key = 'first-volo-morphology'
+      and lp.deleted_at is null
+      and pg_catalog.jsonb_typeof(ls.data) is distinct from 'object'
+  ) then
+    raise exception 'Morphology educator student state invalid';
+  end if;
+
   return query
   select
     v_context.educator_user_id,
     v_context.student_id,
     v_context.student_display_name,
-    v_context.class_id,
     lp.id,
     (ls.id is not null),
     coalesce(ls.data, '{}'::jsonb),
@@ -140,10 +154,11 @@ declare
   v_context record;
   v_profile_id uuid;
   v_profile_created_at timestamptz;
+  v_profile_was_deleted boolean := false;
   v_existing_data jsonb;
   v_existing_client_updated_at timestamptz;
   v_existing_updated_at timestamptz;
-  v_now timestamptz := now();
+  v_now timestamptz := pg_catalog.now();
   v_data jsonb;
 begin
   if auth.uid() is null
@@ -152,7 +167,7 @@ begin
   end if;
 
   if p_data is null
-     or jsonb_typeof(p_data) is distinct from 'object' then
+     or pg_catalog.jsonb_typeof(p_data) is distinct from 'object' then
     raise exception 'Morphology state must be a JSON object';
   end if;
 
@@ -192,6 +207,27 @@ begin
     and lp.deleted_at is null
   for update;
 
+  if v_profile_id is null then
+    select lp.id, lp.created_at
+      into v_profile_id, v_profile_created_at
+    from public.learner_profiles as lp
+    where lp.owner_user_id = v_context.educator_user_id
+      and lp.product_key = 'first-volo-morphology'
+      and lp.deleted_at is not null
+      and (
+        lp.student_id = v_context.student_id
+        or lp.local_profile_id = v_context.student_id::text
+      )
+    order by
+      (lp.student_id = v_context.student_id) desc,
+      lp.deleted_at desc,
+      lp.id
+    limit 1
+    for update;
+
+    v_profile_was_deleted := v_profile_id is not null;
+  end if;
+
   if v_profile_id is not null then
     select ls.data, ls.client_updated_at, ls.updated_at
       into v_existing_data, v_existing_client_updated_at,
@@ -222,7 +258,9 @@ begin
     raise exception 'Morphology state exceeds the 5 MiB limit';
   end if;
 
-  if v_existing_data is not null and v_data = v_existing_data then
+  if not v_profile_was_deleted
+     and v_existing_data is not null
+     and v_data = v_existing_data then
     learner_profile_id := v_profile_id;
     data := v_existing_data;
     client_updated_at := v_existing_client_updated_at;
@@ -246,54 +284,39 @@ begin
   end if;
 
   if v_profile_id is null then
-    select lp.id, lp.created_at
-      into v_profile_id, v_profile_created_at
-    from public.learner_profiles as lp
-    where lp.owner_user_id = v_context.educator_user_id
-      and lp.product_key = 'first-volo-morphology'
-      and lp.deleted_at is not null
-      and (
-        lp.student_id = v_context.student_id
-        or lp.local_profile_id = v_context.student_id::text
-      )
-    order by
-      (lp.student_id = v_context.student_id) desc,
-      lp.deleted_at desc,
-      lp.id
-    limit 1
-    for update;
-
-    if v_profile_id is not null then
-      update public.learner_profiles
-      set student_id = v_context.student_id,
-          display_name = v_context.student_display_name,
-          deleted_at = null,
-          updated_at = v_now
-      where id = v_profile_id;
-    else
-      insert into public.learner_profiles (
-        owner_user_id, local_profile_id, display_name, product_key, student_id
-      ) values (
-        v_context.educator_user_id,
-        v_context.student_id::text,
-        v_context.student_display_name,
-        'first-volo-morphology',
-        v_context.student_id
-      )
-      on conflict (owner_user_id, product_key, local_profile_id)
-      do update set
-        student_id = excluded.student_id,
-        display_name = excluded.display_name,
-        deleted_at = null,
-        updated_at = v_now
-      returning id, created_at
-        into v_profile_id, v_profile_created_at;
-    end if;
+    insert into public.learner_profiles (
+      owner_user_id, local_profile_id, display_name, product_key, student_id
+    ) values (
+      v_context.educator_user_id,
+      v_context.student_id::text,
+      v_context.student_display_name,
+      'first-volo-morphology',
+      v_context.student_id
+    )
+    on conflict (owner_user_id, product_key, local_profile_id)
+    do update set
+      student_id = excluded.student_id,
+      display_name = excluded.display_name,
+      deleted_at = null,
+      updated_at = v_now
+    returning id, created_at
+      into v_profile_id, v_profile_created_at;
 
     -- createdAt is server-authoritative and is known only after profile create.
     v_data := (v_data - 'createdAt') || pg_catalog.jsonb_build_object(
       'createdAt', v_profile_created_at
     );
+
+    if pg_catalog.octet_length(v_data::text) > 5242880 then
+      raise exception 'Morphology state exceeds the 5 MiB limit';
+    end if;
+  elsif v_profile_was_deleted then
+    update public.learner_profiles
+    set student_id = v_context.student_id,
+        display_name = v_context.student_display_name,
+        deleted_at = null,
+        updated_at = v_now
+    where id = v_profile_id;
   else
     update public.learner_profiles
     set display_name = v_context.student_display_name,

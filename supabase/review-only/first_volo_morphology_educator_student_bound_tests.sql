@@ -39,9 +39,9 @@ select 'dddddddd-dddd-dddd-dddd-ddddddddddd1','cccccccc-cccc-cccc-cccc-ccccccccc
   '2026-08-01','2026-08-01'
 from public.learner_profiles lp where lp.id='cccccccc-cccc-cccc-cccc-ccccccccccc1';
 
--- 1 + deterministic multiple-class resolution.
-select pg_temp.assert_true((select class_id='bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb1'::uuid
-  from public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1')), 'valid educator and deterministic class');
+-- 1 + multiple-class resolution returns one canonical student, not a class.
+select pg_temp.assert_true((select count(*)=1 and (array_agg(student_id))[1]='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1'::uuid
+  from public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1')), 'valid educator without class coupling');
 
 -- 2 anonymous JWT rejected.
 select set_config('request.jwt.claims', '{"is_anonymous":true}', false);
@@ -94,16 +94,40 @@ update public.product_entitlements set status='revoked' where owner_user_id='111
 do $$ begin perform public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1'); raise exception 'revoked entitlement accepted'; exception when others then if sqlerrm='revoked entitlement accepted' then raise; end if; end $$;
 update public.product_entitlements set status='active',starts_at=now()-interval '2 days',expires_at=now()-interval '1 day' where owner_user_id='11111111-1111-1111-1111-111111111111';
 do $$ begin perform public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1'); raise exception 'expired entitlement accepted'; exception when others then if sqlerrm='expired entitlement accepted' then raise; end if; end $$;
-update public.product_entitlements set expires_at=now()+interval '1 day' where owner_user_id='11111111-1111-1111-1111-111111111111';
+update public.product_entitlements set starts_at=now()+interval '1 day',expires_at=now()+interval '2 days' where owner_user_id='11111111-1111-1111-1111-111111111111';
+do $$ begin perform public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1'); raise exception 'future entitlement accepted'; exception when others then if sqlerrm='future entitlement accepted' then raise; end if; end $$;
+update public.product_entitlements set starts_at=now()-interval '1 day' where owner_user_id='11111111-1111-1111-1111-111111111111';
 
 -- 12 authorized no-state read is a true no-op; 13 existing state is canonical.
 select pg_temp.assert_true((select not has_state and data='{}'::jsonb from public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4')), 'authorized no-state response');
 select pg_temp.assert_true((select count(*)=1 from public.learner_profiles), 'read created no profile');
 select pg_temp.assert_true((select has_state and data->>'name'='Student One' from public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1')), 'existing state returned');
 
+-- Valid profile/no-state is distinct and read-only; corrupt non-object state fails closed.
+insert into public.learner_profiles(id,owner_user_id,local_profile_id,display_name,created_at,updated_at,product_key,student_id)
+values('cccccccc-cccc-cccc-cccc-ccccccccccc4','11111111-1111-1111-1111-111111111111','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4','No State Student','2026-01-01','2026-01-01','first-volo-morphology','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4');
+select pg_temp.assert_true((select learner_profile_id='cccccccc-cccc-cccc-cccc-ccccccccccc4'::uuid and not has_state
+  from public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4')), 'profile without state remains no-state');
+insert into public.learning_state(id,learner_profile_id,product_key,store_key,data,client_updated_at,updated_at)
+values('dddddddd-dddd-dddd-dddd-ddddddddddd4','cccccccc-cccc-cccc-cccc-ccccccccccc4','first-volo-morphology','scored-progress','[]','2026-08-15','2026-08-15');
+do $$ begin perform public.get_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4'); raise exception 'corrupt state unexpectedly returned'; exception when others then if sqlerrm='corrupt state unexpectedly returned' then raise; end if; end $$;
+delete from public.learning_state where id='dddddddd-dddd-dddd-dddd-ddddddddddd4';
+delete from public.learner_profiles where id='cccccccc-cccc-cccc-cccc-ccccccccccc4';
+
 -- 14 stale changed save is rejected.
 select pg_temp.assert_true((select result_code='stale_revision' and not write_applied
   from public.save_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1','{"sessions":[{"id":"stale"}]}','2026-07-01')), 'stale save rejected');
+
+-- A deleted profile's retained newer state participates in conflict checks.
+insert into public.learner_profiles(id,owner_user_id,local_profile_id,display_name,created_at,updated_at,product_key,deleted_at,student_id)
+values('cccccccc-cccc-cccc-cccc-ccccccccccc4','11111111-1111-1111-1111-111111111111','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4','No State Student','2026-01-01','2026-08-15','first-volo-morphology','2026-08-15','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4');
+insert into public.learning_state(id,learner_profile_id,product_key,store_key,data,client_updated_at,updated_at)
+values('dddddddd-dddd-dddd-dddd-ddddddddddd4','cccccccc-cccc-cccc-cccc-ccccccccccc4','first-volo-morphology','scored-progress','{"deletedAt":"2026-08-15T00:00:00Z"}','2026-08-15','2026-08-15');
+select pg_temp.assert_true((select result_code='stale_revision' and not write_applied
+  from public.save_morphology_student_state_for_educator('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4','{"sessions":[{"id":"stale-resurrection"}]}','2026-08-01')), 'deleted-profile stale save rejected');
+select pg_temp.assert_true((select lp.deleted_at is not null and ls.data ? 'deletedAt'
+  from public.learner_profiles lp join public.learning_state ls on ls.learner_profile_id=lp.id
+  where lp.id='cccccccc-cccc-cccc-cccc-ccccccccccc4'), 'stale save did not reactivate or overwrite deleted state');
 
 -- 15 semantically identical save with a newer timestamp changes no timestamps.
 create temp table before_noop as select lp.updated_at profile_updated_at,ls.updated_at state_updated_at,ls.client_updated_at
@@ -146,5 +170,7 @@ select pg_temp.assert_true(not exists(
 ), 'PUBLIC RPC execute revoked');
 select pg_temp.assert_true(not has_function_privilege('anon','public.get_morphology_student_state_for_educator(uuid)','EXECUTE'), 'anon read revoked');
 select pg_temp.assert_true(not has_function_privilege('anon','public.save_morphology_student_state_for_educator(uuid,jsonb,timestamp with time zone)','EXECUTE'), 'anon save revoked');
+select pg_temp.assert_true(not has_function_privilege('service_role','public.get_morphology_student_state_for_educator(uuid)','EXECUTE'), 'service read revoked');
+select pg_temp.assert_true(not has_function_privilege('service_role','public.save_morphology_student_state_for_educator(uuid,jsonb,timestamp with time zone)','EXECUTE'), 'service save revoked');
 
 rollback;
