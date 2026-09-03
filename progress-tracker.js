@@ -39,6 +39,38 @@ let progressData = {
   activeStudentId: null
 };
 
+let progressAccessContext = null;
+
+function normalizeSelectedProgress(context) {
+  if (
+    context?.status !== "authorized" ||
+    context.mode !== "educator-selected" ||
+    !context.studentId
+  ) {
+    return;
+  }
+
+  let student = progressData.students.find(
+    (item) => item?.id === context.studentId
+  );
+
+  if (!student) {
+    student = {
+      id: context.studentId,
+      name: context.studentName || "Student",
+      createdAt: new Date().toISOString(),
+      sessions: [],
+      paperPractice: [],
+      voloTokens: {}
+    };
+  } else {
+    student.name = context.studentName || "Student";
+  }
+
+  progressData.students = [student];
+  progressData.activeStudentId = context.studentId;
+}
+
 function applyRequestedStudentSelection() {
   const accessContext =
     window.FirstVoloMorphologyAccess
@@ -2127,13 +2159,21 @@ function refreshProgressFromStorage() {
     return;
   }
   progressData = loadProgressData();
-  applyRequestedStudentSelection();
+  normalizeSelectedProgress(progressAccessContext);
+  if (progressAccessContext?.mode === "educator") {
+    applyRequestedStudentSelection();
+  }
   renderStudentRoster();
 }
 
 window.FirstVoloMorphologyAccess?.subscribe((context) => {
-  if (context.status !== "authorized" ||
-      context.mode !== "educator") {
+  progressAccessContext = context;
+
+  if (
+    context.status !== "authorized" ||
+    (context.mode !== "educator" &&
+      context.mode !== "educator-selected")
+  ) {
     FV_PROGRESS_KEY = null;
     progressData = {
       students: [],
@@ -2143,10 +2183,14 @@ window.FirstVoloMorphologyAccess?.subscribe((context) => {
     return;
   }
 
-  FV_PROGRESS_KEY = "firstVoloMorphologyProgressV1";
+  FV_PROGRESS_KEY = window.FirstVoloMorphologyAccess
+    ?.localProgressKey(context) || null;
   progressData = loadProgressData();
-  applyRequestedStudentSelection();
-  synchronizeInitialTokens();
+  normalizeSelectedProgress(context);
+  if (context.mode === "educator") {
+    applyRequestedStudentSelection();
+    synchronizeInitialTokens();
+  }
   renderStudentRoster();
 });
 
@@ -2156,3 +2200,7 @@ window.addEventListener("storage", (event) => {
     refreshProgressFromStorage();
   }
 });
+window.addEventListener(
+  "firstvolomorphologystudentstate",
+  refreshProgressFromStorage
+);

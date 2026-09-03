@@ -30,6 +30,18 @@ html[data-morphology-mode="student"] [data-morphology-educator-only] {
   display: none;
 }
 
+html[data-morphology-mode="educator-selected"]
+  [data-morphology-generic-educator-only] {
+  display: none !important;
+}
+
+html[data-morphology-mode="educator-selected"]
+  .paper-practice-log-controls,
+html[data-morphology-mode="educator-selected"]
+  .paper-practice-history {
+  display: none !important;
+}
+
 html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
   [data-morphology-student-only] {
   display: flex;

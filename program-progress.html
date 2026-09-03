@@ -62,6 +62,18 @@
 
 
     <div class="header-actions">
+      <div
+        class="morphology-educator-selected-context"
+        data-morphology-educator-selected-only
+      >
+        <p
+          class="morphology-educator-selected-identity"
+          id="morphologyEducatorSelectedIdentity"
+          aria-live="polite"
+          hidden
+        ></p>
+      </div>
+
       <a
         class="header-link"
         href="#instructionalGuidancePanel"
@@ -86,9 +98,20 @@
 
     <section class="student-tracker" id="studentTracker">
   <h2>📊 Learner Progress</h2>
-  <p>Create or select a learner to track performance within First Volo Morphology.</p>
+  <p data-morphology-generic-educator-only>Create or select a learner to track performance within First Volo Morphology.</p>
 
-  <p class="progress-teacher-session-intro">
+  <p
+    class="progress-teacher-session-intro"
+    data-morphology-educator-selected-only
+  >
+    Review this student’s saved Morphology evidence and use it to plan the
+    next teacher-led session.
+  </p>
+
+  <p
+    class="progress-teacher-session-intro"
+    data-morphology-generic-educator-only
+  >
     Select a learner to see a suggested teacher-led session with
     interactive digital materials and matching print options.
   </p>
@@ -100,14 +123,27 @@
     automatically advance the learner.
   </p>
 
-  <div class="tracker-local-note">
+  <div
+    class="tracker-local-note"
+    data-morphology-generic-educator-only
+  >
     🔒 Progress is stored locally in this browser.
     If you choose <strong>Save Across Devices</strong>
     and sign in, learner and Morphology progress data
     are also saved to your First Volo Cloud account.
   </div>
+  <div
+    class="tracker-local-note tracker-selected-note"
+    data-morphology-educator-selected-only
+  >
+    🔒 You are viewing this student’s saved Morphology progress from
+    First Volo Cloud. Opening this page does not change progress.
+  </div>
   <p class="progress-evidence-legend"><strong>How to read the evidence:</strong> <strong>Direct</strong> = the word part itself was tested. <strong>Application</strong> = the word part was used while analyzing, building, or using a word. <strong>Independent</strong> = a Build word was completed correctly on the first check.</p>
-  <div class="tracker-controls">
+  <div
+    class="tracker-controls"
+    data-morphology-generic-educator-only
+  >
 
     <div class="progress-student-picker">
       <span class="progress-student-picker-label">
@@ -175,7 +211,10 @@
         </p>
       </div>
 
-      <div class="progress-student-actions">
+      <div
+        class="progress-student-actions"
+        data-morphology-generic-educator-only
+      >
         <button
           id="renameStudentButton"
           class="progress-student-action"
@@ -262,7 +301,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
   <script src="js/auth/morphology-access.js"></script>
   <script src="js/cloud/morphology-cloud.js"></script>
-  <script src="progress-tracker.js?v=20260820-collapse2"></script>
+  <script src="progress-tracker.js?v=20260903-selected1"></script>
   <!-- FIRST_VOLO_FAMILY_PRINTABLE_READINESS_V1_1 -->
   <script src="family-printable-readiness.js"></script>
   <script src="family-printable-readiness-ui.js"></script>
