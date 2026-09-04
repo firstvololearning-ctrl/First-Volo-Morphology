@@ -16,6 +16,11 @@
 
   const celebrationQueue = [];
   let celebrationOpen = false;
+  const collectionFlightLabels = {
+    Foundation: "Flight A",
+    Expansion: "Flight B",
+    Advanced: "Flight C"
+  };
 
 
   function getDisplayLabel(token) {
@@ -269,7 +274,7 @@
       "volo-token-celebration-eyebrow";
 
     eyebrow.textContent =
-      `${newestToken.collection} Token`;
+      `${collectionFlightLabels[newestToken.collection] || newestToken.collection} Token`;
 
 
     const heading =

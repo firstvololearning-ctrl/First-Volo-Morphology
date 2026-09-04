@@ -80,7 +80,7 @@
       ]
     },
     {
-      id: "suffix-meaning-flight", flight: "2-3", title: "Foundation Meaning Flight",
+      id: "suffix-meaning-flight", flight: "2-3", title: "Flight A Meaning Flight",
       shortDescription: "Fly through the meaning that matches each familiar suffix.",
       unlockToken: "foundation-grade3-bridge", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "slow", rounds: 5 },
@@ -106,22 +106,22 @@
       ]
     },
     {
-      id: "expansion-meaning-flight", flight: "4-5", title: "Expansion Meaning Flight",
+      id: "expansion-meaning-flight", flight: "4-5", title: "Flight B Meaning Flight",
       shortDescription: "Catch meanings for familiar Flight B roots and suffixes.",
       unlockToken: "expansion-suffixes-2", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 5 },
       prompts: ["bio", "geo", "tele", "ology", "ify"]
     },
     {
-      id: "advanced-prefix-flight", flight: "6-8", title: "Advanced Prefix Flight",
-      shortDescription: "Navigate meanings for advanced prefixes already introduced.",
+      id: "advanced-prefix-flight", flight: "6-8", title: "Flight C Prefix Flight",
+      shortDescription: "Navigate meanings for more complex prefixes already introduced.",
       unlockToken: "advanced-prefixes", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 3 },
       prompts: ["ab", "a-ad", "retro"]
     },
     {
-      id: "advanced-root-builder", flight: "6-8", title: "Advanced Root Builder",
-      shortDescription: "Assemble words from advanced roots and familiar affixes.",
+      id: "advanced-root-builder", flight: "6-8", title: "Flight C Root Builder",
+      shortDescription: "Assemble words from more complex roots and familiar affixes.",
       unlockToken: "advanced-roots-2", gameType: "build-word", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 4 },
       rounds: [
@@ -132,8 +132,8 @@
       ]
     },
     {
-      id: "advanced-meaning-flight", flight: "6-8", title: "Advanced Meaning Flight",
-      shortDescription: "Ride the wind through advanced root and suffix meanings.",
+      id: "advanced-meaning-flight", flight: "6-8", title: "Flight C Meaning Flight",
+      shortDescription: "Ride the wind through more complex root and suffix meanings.",
       unlockToken: "advanced-suffixes", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 5 },
       prompts: ["duct", "sequ", "cred", "ance", "ant-ent-adjective"]

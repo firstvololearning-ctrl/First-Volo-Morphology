@@ -75,7 +75,7 @@
       id: "A",
       label: "Flight A",
       collection: "Foundation",
-      badgeLabel: "Foundation Badge",
+      badgeLabel: "Flight A Badge",
       activeStopIds: [
         "home-tree", "meadow", "forest", "village", "coast", "destination"
       ]
@@ -85,7 +85,7 @@
       id: "B",
       label: "Flight B",
       collection: "Expansion",
-      badgeLabel: "Expansion Badge",
+      badgeLabel: "Flight B Badge",
       activeStopIds: [
         "home-tree", "meadow", "river", "forest", "mountains",
         "pond", "village", "coast", "destination"
@@ -96,7 +96,7 @@
       id: "C",
       label: "Flight C",
       collection: "Advanced",
-      badgeLabel: "Advanced Badge",
+      badgeLabel: "Flight C Badge",
       activeStopIds: [
         "home-tree", "meadow", "forest", "mountains", "village", "coast", "destination"
       ]

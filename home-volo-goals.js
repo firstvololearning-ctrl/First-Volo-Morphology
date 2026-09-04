@@ -1,5 +1,10 @@
 (() => {
   const LEVELS = ["Foundation", "Expansion", "Advanced"];
+  const FLIGHT_LABELS = {
+    Foundation: "Flight A",
+    Expansion: "Flight B",
+    Advanced: "Flight C"
+  };
 
   const studentBar =
     document.getElementById("currentStudentBar");
@@ -140,7 +145,7 @@
     badge.textContent =
       badgeEarned
         ? "✓"
-        : level.charAt(0);
+        : (FLIGHT_LABELS[level] || level).slice(-1);
 
     const content =
       document.createElement("div");
@@ -163,7 +168,7 @@
       document.createElement("h3");
 
     title.textContent =
-      `${level} Badge`;
+      `${FLIGHT_LABELS[level] || level} Badge`;
 
     const count =
       document.createElement("div");

@@ -977,6 +977,12 @@ function renderVoloTokenProgress(
     "Advanced"
   ];
 
+  const collectionLabels = {
+    Foundation: "Flight A — Typically Grades 2–3",
+    Expansion: "Flight B — Typically Grades 4–5",
+    Advanced: "Flight C — Typically Grades 6–8"
+  };
+
   collections.forEach((collection) => {
 
     const collectionStatuses =
@@ -1000,6 +1006,7 @@ function renderVoloTokenProgress(
       document.createElement("h5");
 
     groupHeading.textContent =
+      collectionLabels[collection] ||
       collection;
 
     group.append(groupHeading);

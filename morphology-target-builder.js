@@ -3,19 +3,19 @@
 (function () {
   const GRADES = {
     foundation: {
-      label: "Grades 2–3 · Foundation",
+      label: "Flight A · Typically Grades 2–3",
       expectation: "Work across all five morphology objectives with familiar, transparent prefixes and suffixes first, then grow toward more derivational and less transparent forms. Increase the number of meaningful parts, spelling or sound changes, lexical load, independence, and transfer gradually.",
       material: "transparent, familiar words with one or two meaningful parts, growing toward less transparent derivational forms",
       transfer: "supported transfer to new transparent words and short reading or writing contexts"
     },
     expansion: {
-      label: "Grades 4–5 · Expansion",
+      label: "Flight B · Typically Grades 4–5",
       expectation: "Coordinate prefixes, roots, and suffixes in words with multiple meaningful parts. Expect increasing tolerance for spelling, sound, and form changes, broader vocabulary load, and transfer to academic text.",
       material: "words with multiple affixes and roots, including moderate spelling, sound, or form changes",
       transfer: "increasingly independent transfer to unfamiliar words and curriculum-related text"
     },
     advanced: {
-      label: "Grades 6–8 · Advanced",
+      label: "Flight C · Typically Grades 6–8",
       expectation: "Analyze complex and less transparent morphological families, including classical roots and derivational patterns. Emphasize flexible reasoning, lexical precision, independence, and generalization across academic disciplines.",
       material: "complex, less transparent, and academically useful words with several meaningful parts",
       transfer: "independent generalization across novel words, connected text, writing, and content areas"

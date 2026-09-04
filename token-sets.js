@@ -17,7 +17,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "foundation-core-word-parts",
     collection: "Foundation",
-    label: "Foundation I · Core Word Parts",
+    label: "Flight A Set 1 · Core Word Parts",
     introBand: "2-3",
     type: "mixed",
     morphemeTypes: ["prefix", "suffix"],
@@ -35,7 +35,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "foundation-common-meaning-changes",
     collection: "Foundation",
-    label: "Foundation II · Common Meaning Changes",
+    label: "Flight A Set 2 · Common Meaning Changes",
     introBand: "2-3",
     type: "mixed",
     morphemeTypes: ["prefix", "suffix"],
@@ -53,7 +53,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "foundation-expanding-system",
     collection: "Foundation",
-    label: "Foundation III · Expanding the System",
+    label: "Flight A Set 3 · Expanding the System",
     introBand: "2-3",
     type: "mixed",
     morphemeTypes: ["prefix", "suffix"],
@@ -71,7 +71,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "foundation-grade3-bridge",
     collection: "Foundation",
-    label: "Foundation IV · Grade 3 Bridge",
+    label: "Flight A Set 4 · Grade 3 Bridge",
     introBand: "2-3",
     type: "mixed",
     morphemeTypes: ["prefix", "suffix"],
@@ -96,7 +96,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-prefixes-1",
     collection: "Expansion",
-    label: "Expansion Prefixes I",
+    label: "Flight B Prefixes 1",
     introBand: "4-5",
     type: "prefix",
     morphemeIds: [
@@ -112,7 +112,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-prefixes-2",
     collection: "Expansion",
-    label: "Expansion Prefixes II",
+    label: "Flight B Prefixes 2",
     introBand: "4-5",
     type: "prefix",
     morphemeIds: [
@@ -128,7 +128,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-roots-1",
     collection: "Expansion",
-    label: "Expansion Roots I",
+    label: "Flight B Roots 1",
     introBand: "4-5",
     type: "root",
     morphemeIds: [
@@ -145,7 +145,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-roots-2",
     collection: "Expansion",
-    label: "Expansion Roots II",
+    label: "Flight B Roots 2",
     introBand: "4-5",
     type: "root",
     morphemeIds: [
@@ -162,7 +162,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-roots-3",
     collection: "Expansion",
-    label: "Expansion Roots III",
+    label: "Flight B Roots 3",
     introBand: "4-5",
     type: "root",
     morphemeIds: [
@@ -178,7 +178,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-suffixes-1",
     collection: "Expansion",
-    label: "Expansion Suffixes I",
+    label: "Flight B Suffixes 1",
     introBand: "4-5",
     type: "suffix",
     morphemeIds: [
@@ -193,7 +193,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "expansion-suffixes-2",
     collection: "Expansion",
-    label: "Expansion Suffixes II",
+    label: "Flight B Suffixes 2",
     introBand: "4-5",
     type: "suffix",
     morphemeIds: [
@@ -213,7 +213,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "advanced-prefixes",
     collection: "Advanced",
-    label: "Advanced Prefixes",
+    label: "Flight C Prefixes",
     introBand: "6-8",
     type: "prefix",
     evidenceProfiles: {
@@ -229,7 +229,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "advanced-roots-1",
     collection: "Advanced",
-    label: "Advanced Roots I",
+    label: "Flight C Roots 1",
     introBand: "6-8",
     type: "root",
     morphemeIds: [
@@ -246,7 +246,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "advanced-roots-2",
     collection: "Advanced",
-    label: "Advanced Roots II",
+    label: "Flight C Roots 2",
     introBand: "6-8",
     type: "root",
     morphemeIds: [
@@ -263,7 +263,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "advanced-roots-3",
     collection: "Advanced",
-    label: "Advanced Roots III",
+    label: "Flight C Roots 3",
     introBand: "6-8",
     type: "root",
     evidenceProfiles: {
@@ -283,7 +283,7 @@ const FIRST_VOLO_TOKEN_SETS = [
   {
     id: "advanced-suffixes",
     collection: "Advanced",
-    label: "Advanced Suffixes",
+    label: "Flight C Suffixes",
     introBand: "6-8",
     type: "suffix",
     morphemeIds: [
