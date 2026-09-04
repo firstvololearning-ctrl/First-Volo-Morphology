@@ -181,7 +181,7 @@
         next.status === "authorized" &&
         next.mode === "educator-selected";
       educatorSelectedIdentity.textContent = showSelectedIdentity
-        ? `Working with ${next.studentName || "Student"}`
+        ? `${/\/program-progress\.html$/.test(window.location.pathname) ? "Looking at" : "Working with"} ${next.studentName || "Student"}`
         : "";
       educatorSelectedIdentity.hidden = !showSelectedIdentity;
     }
