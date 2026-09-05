@@ -416,7 +416,9 @@
       if (accessContext.mode === "educator-selected") {
         return `${EDUCATOR_SELECTED_PROGRESS_PREFIX}${accessContext.studentId}`;
       }
-      return "firstVoloMorphologyProgressV1";
+      return accessContext.userId
+        ? `firstVoloMorphologyProgressV1:educator:${accessContext.userId}`
+        : null;
     }
   };
 

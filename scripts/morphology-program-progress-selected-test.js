@@ -18,6 +18,10 @@ const accessCss = fs.readFileSync(
   path.join(root, "morphology-access.css"),
   "utf8"
 );
+const accessSource = fs.readFileSync(
+  path.join(root, "js/auth/morphology-access.js"),
+  "utf8"
+);
 
 test("Program Progress declares the existing logo as its favicon", () => {
   assert.match(
@@ -87,5 +91,16 @@ test("selected initialization excludes generic startup writes", () => {
   assert.doesNotMatch(
     tracker,
     /normalizeSelectedProgress\([^)]*\)[\s\S]{0,120}localStorage\.setItem/
+  );
+});
+
+test("generic educator progress is scoped to the signed-in educator", () => {
+  assert.match(
+    accessSource,
+    /firstVoloMorphologyProgressV1:educator:\$\{accessContext\.userId\}/
+  );
+  assert.doesNotMatch(
+    accessSource,
+    /return "firstVoloMorphologyProgressV1";/
   );
 });
