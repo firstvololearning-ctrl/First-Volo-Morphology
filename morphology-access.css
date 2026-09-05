@@ -22,6 +22,46 @@ html[data-morphology-mode="student"] [data-morphology-educator-only] {
   display: none !important;
 }
 
+.morphology-access-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.morphology-access-sign-in {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 22px;
+  border: 1px solid #b9cce2;
+  border-radius: 999px;
+  background: #fff;
+  color: #173a64;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.morphology-access-sign-in:hover,
+.morphology-access-sign-in:focus-visible {
+  border-color: #173a64;
+  background: #eef5fc;
+}
+
+.morphology-access-sign-in-primary {
+  border-color: #173a64;
+  background: #173a64;
+  color: #fff;
+}
+
+.morphology-access-sign-in-primary:hover,
+.morphology-access-sign-in-primary:focus-visible {
+  background: #245487;
+  color: #fff;
+}
+
 [data-morphology-student-only] {
   display: none;
 }

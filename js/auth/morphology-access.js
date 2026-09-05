@@ -10,6 +10,10 @@
     "firstVoloMorphologyProgressV1:educator-selected:";
   const FIRST_VOLO_URL =
     "https://firstvololearning-ctrl.github.io/First-Volo-Account/";
+  const EDUCATOR_SIGN_IN_URL =
+    `${FIRST_VOLO_URL}?returnTo=morphology`;
+  const STUDENT_SIGN_IN_URL =
+    `${FIRST_VOLO_URL}student-login.html?returnTo=morphology`;
   const CANONICAL_UUID_PATTERN =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const EDUCATOR_ONLY_PAGES = new Set([
@@ -200,11 +204,8 @@
     } else if (next.status === "selected-error") {
       gate.innerHTML = `<div><h1>Student access unavailable</h1><p>This student could not be opened in Morphology. Return to My First Volo and choose a student you can access.</p><a class="morphology-access-return" href="${FIRST_VOLO_URL}">Return to My First Volo</a></div>`;
     } else {
-      gate.innerHTML = '<div><h1>Morphology is locked</h1><p>This account does not have access to this page.</p><button type="button" id="morphologyAccessSignIn">Educator sign in</button></div>';
+      gate.innerHTML = `<div><h1>Morphology is locked</h1><p>Sign in through My First Volo to continue.</p><div class="morphology-access-actions"><a class="morphology-access-sign-in morphology-access-sign-in-primary" href="${EDUCATOR_SIGN_IN_URL}">Educator sign in</a><a class="morphology-access-sign-in" href="${STUDENT_SIGN_IN_URL}">Student sign in</a></div></div>`;
     }
-    gate.querySelector("#morphologyAccessSignIn")?.addEventListener("click", () => {
-      document.getElementById("morphologyCloudButton")?.click();
-    });
   }
 
   installAccessShell();
