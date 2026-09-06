@@ -175,12 +175,9 @@
       </select>
     </div>
 
-    <div class="tracker-local-note">
-      <strong>Learner name or code</strong><br>
-      Use initials or a non-identifying code unless storing
-      learner names is permitted by your school, district,
-      practice, organization, and applicable privacy
-      requirements.
+    <div class="tracker-local-note" id="learnerPrivacyNote">
+      <strong>Use a made-up nickname or label, not a real name.</strong><br>
+      For example, Owl 7. Do not use real names, initials, school student IDs, email addresses, or birth dates. Keep any list linking labels to students securely outside First Volo.
     </div>
 
     <div class="progress-add-student">
@@ -188,8 +185,8 @@
         id="studentName"
         type="text"
         maxlength="80"
-        placeholder="Initials or learner code"
-        aria-label="Learner name or code"
+        placeholder="Example: Owl 7"
+        aria-label="Learner nickname or label" aria-describedby="learnerPrivacyNote"
       >
 
       <button
@@ -197,7 +194,7 @@
         class="progress-add-student-button"
         type="button"
       >
-        ＋ Add Learner
+        ＋ Add Learner with Label
       </button>
     </div>
 
