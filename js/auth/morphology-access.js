@@ -35,6 +35,7 @@
 
   const LOCKED_CONTEXT = Object.freeze({
     status: "locked",
+    accessReason: null,
     mode: null,
     userId: null,
     studentId: null,
@@ -203,6 +204,8 @@
       gate.innerHTML = '<div><h1>Checking First Volo access…</h1><p>Please wait.</p></div>';
     } else if (next.status === "selected-error") {
       gate.innerHTML = `<div><h1>Student access unavailable</h1><p>This student could not be opened in Morphology. Return to My First Volo and choose a student you can access.</p><a class="morphology-access-return" href="${FIRST_VOLO_URL}">Return to My First Volo</a></div>`;
+    } else if (next.accessReason === "no-entitlement") {
+      gate.innerHTML = `<div><h1>Morphology access is not active</h1><p>Your account does not have active Morphology access.</p><a class="morphology-access-return" href="${FIRST_VOLO_URL}">View My First Volo</a></div>`;
     } else {
       gate.innerHTML = `<div><h1>Morphology is locked</h1><p>Sign in through My First Volo to continue.</p><div class="morphology-access-actions"><a class="morphology-access-sign-in morphology-access-sign-in-primary" href="${EDUCATOR_SIGN_IN_URL}">Educator sign in</a><a class="morphology-access-sign-in" href="${STUDENT_SIGN_IN_URL}">Student sign in</a></div></div>`;
     }
@@ -217,6 +220,7 @@
   function sameEffectiveContext(left, right) {
     return [
       "status",
+      "accessReason",
       "mode",
       "userId",
       "studentId",
@@ -267,7 +271,11 @@
     const expectedMode = isAnonymous(user) ? "student" : "educator";
 
     if (error || accessRow?.access_mode !== expectedMode) {
-      return publish({ ...LOCKED_CONTEXT, userId: user.id }, expectedGeneration);
+      return publish({
+        ...LOCKED_CONTEXT,
+        userId: user.id,
+        accessReason: !error && expectedMode === "educator" ? "no-entitlement" : null
+      }, expectedGeneration);
     }
 
     if (expectedMode === "educator") {
