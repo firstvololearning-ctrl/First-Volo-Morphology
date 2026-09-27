@@ -1,0 +1,444 @@
+{
+  "pdfs_checked": 40,
+  "pdfs_updated": 39,
+  "embedded_tiles_replaced": 147,
+  "rendered_pages_reviewed": 39,
+  "unchanged": "STRUCT packet contains no matching tile art; held Waypoints and research PDF are outside this artwork update.",
+  "verification": "Original text, page dimensions, crop boxes, rotation, page drawing streams, and form fields match before/after. All local source PDFs matched repository originals before replacement.",
+  "files": [
+    {
+      "file": "printables/COOK-flight-A-color.pdf",
+      "status": "updated",
+      "pages": 4,
+      "replaced_images": 8,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "a1600c89d9e9cddb7dd574dcdf75f9f700db0a5a4ad9c1c4a0c7839dccab0744"
+    },
+    {
+      "file": "printables/COOK-roll-and-build.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 8,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "b346725b5d43ce025930bbb9ac71f00e45d61b3df20a6bcd98cc4d4837d781b8"
+    },
+    {
+      "file": "printables/PORT-flight-B-color.pdf",
+      "status": "updated",
+      "pages": 4,
+      "replaced_images": 15,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "bdb842cd6582b953fd8edfd53c05ff2ffbd858c90c929d754cf3afedb290c914"
+    },
+    {
+      "file": "printables/PORT-roll-and-build.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 13,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "1cb14a08000797210b6b73d22d014b06435b66a2ee13aeb7a99064dd41526728"
+    },
+    {
+      "file": "printables/STRUCT-flight-B-color.pdf",
+      "status": "unchanged: no matching tile artwork",
+      "pages": 4
+    },
+    {
+      "file": "printables/TRACT-flight-B-color.pdf",
+      "status": "updated",
+      "pages": 4,
+      "replaced_images": 14,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "a0b1ea31c952e592529c074c6902590c001a58396d0eae4e5ef241d26bc4423d"
+    },
+    {
+      "file": "printables/VIEW-flight-A-color.pdf",
+      "status": "updated",
+      "pages": 4,
+      "replaced_images": 7,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "be62e6448e9109590789d29822d8f9e2c00a43ef94ffd7fc16efea1a27a0166d"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-COUNTABLE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 1,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "0a0642c69ad80ed712c70ac884300852985a76331bd2df7ea0a510cdb94ae956"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-DISCONNECTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "b5d43a7504e5d07297b521eeb620e15f757bf67a996b428a5f0b4327e2aeaca8"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-EMPOWERMENT.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "ebf5b55ac6232b402cbecd994899507655ae3f88d5071b983ecdde46ca01a3cc"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-MISLEADING.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "afc6d861b7ee36d78e671e8b1a1cb2cb6c4396decec5d74d042d972333e31b00"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-NONFICTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 1,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "192f6b843c701553bf2470cf9dc71a43d1d15a5ca4049795c8758bcd8e3e40f3"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-OVERUSED.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "481345e472ced3aea2659158a5681b1652e63e329c140a171f166d0ed6ed99af"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-PREVIEWS.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "746d14ed454208e6dd8bc2a5fa4dc53c6ae0f275da84e044eddd0724196a311b"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-REWRITING.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "37345db871e2999d45539fadc731f291338686d467e9268beac5a75de3061f35"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-SUBSOIL.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 1,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "c2ef7d9f438098258fb8f84f96d3a6c187ad7d685d66e47d189fb834509d5291"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-SUCCESSFULLY.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "99ed3b33b5c3899ca054d55a8b34b3d0d21c5cfff007d8f9fba81441c39fc3a1"
+    },
+    {
+      "file": "waypoints/flight-a/pdfs/Flight-A-Waypoint-UNEVENNESS.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "34a35fc6cba74ec72ef33b112a8450310da6aff56291f7e388a21904df2a05c7"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-CONFORMITY.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "cf2a6c73ceae26e9a9f762a8daf5bbab82d1a0c3399433d429e060c89cddcf4e"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-DESCRIPTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "5dfece965ff04832ea89fc0e24cbc69b3ae69c37bf4f73570f31c63f06b6f910"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-ERUPTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "a2f6dcf58abc475c02fead99bd64065733347ae0e734a1b749db0f0a387413ab"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-GEOGRAPHIC.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "fbddb8d0082f377a052ddd21dcfb1f4150840ea39c0aefb810a1316d5d3dea91"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-INTERACTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "05f43ad70005a062f246fccc13c9773b224056ea9b9ba9c1bce5d7e75d0025c6"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-MICROSCOPIC.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "da545b0ce6654d7ffde15555478340d0f03cf9c6d3a7e11e7b93bd0f5cc12c4d"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-PREDICTIVE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "1f075944cec781d49b44ab0fb4fcffd2d4c36cb1cb944fcd515bbadea2a95d16"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-PROSPECTIVE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "e1731893c92bdcc57455c6f845048d590e6442ddf637261f7d431425e9a0434e"
+    },
+    {
+      "file": "waypoints/flight-b/pdfs/Flight-B-Waypoint-THERMAL.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "6efa467f3e2be4995969b0457cd9132fd32456df7f0d0987e18185b01b12cac8"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-ADMITTANCE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "42d2d120b17b2bc8921d456a359b2517d0ec312dc13a197b40cf73a2423a69e4"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-DEDUCTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "1b541cd7aa2a70ee1395369ae48c27bb1fc3f744251629e90e73efa54bde276e"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-DISTRACTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "18b11cc216f4bf661df661ec8ba295eb1608d3e477a396a4ea9088a6ed37a038"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-INCREDIBLE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "e7aac24f874bca0844fafebca97ac46fd8afcc1a67f46292b7362d034f0f2dbe"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-INTERJECTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "daa16d1df9c6872a1f505799828d422d3d33be126b1a2c332cb0904ecb3723d9"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-INTERVENTION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "b88c640efaf05faa2304c679c29e58e1bf04748c8d37635c1ae3a78ee95e66d2"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-INVERSION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "dadaa4047c90ef66715910d57e867fa7a71c0ab9650325386053faa83a1a8ffc"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-PREVALENT.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "766e4ee4e7f93350793fdc950f98379e56323384bb58c5c75fc52c295fabcd3c"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-REFERENCE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "bb2272f552cd2135b78eb116a30ddb116824350e8e26c3095188d84c36051d28"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-SEQUENCE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "9d2a88e9a2a6368c85845d3af85e61ee3d38e3e424fa97ecf540d82b19e08417"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-SUBMISSION.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "b80ab80edc52029b22077536a0feb30371b0a6fe27ea9ff0069099f6ccc1b9bf"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-TENABLE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 2,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "34ee371ecc632141b52cef495220ae18d747c91ec2ad7ef2838a13330610a2a1"
+    },
+    {
+      "file": "waypoints/flight-c/pdfs/Flight-C-Waypoint-VOCALIZE.pdf",
+      "status": "updated",
+      "pages": 1,
+      "replaced_images": 3,
+      "changed_pages": [
+        1
+      ],
+      "text_layout_and_page_streams_unchanged": true,
+      "sha256": "7d9deacdbf8a88bb28b0297a3ea97865d5dd1f0257662ffb1c6c2cafbc131b9c"
+    }
+  ]
+}
