@@ -1,0 +1,2774 @@
+[
+  {
+    "file": "images/prefixes/a.png",
+    "sha256": "8e123785d7e55aea9827f2ef56105c24504a91fd2e55cd780c48ca012a34a70b",
+    "before_cream": [
+      248.0,
+      233.0,
+      212.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 530485,
+    "outside_pixels_removed": 24704
+  },
+  {
+    "file": "images/prefixes/ab.png",
+    "sha256": "ea6cf92632ce0c59aa26207b9dfc98ecc011bd15a2abfb0f354d311e5480baff",
+    "before_cream": [
+      249.0,
+      235.0,
+      209.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 523636,
+    "outside_pixels_removed": 19575
+  },
+  {
+    "file": "images/prefixes/ad.png",
+    "sha256": "1994cc2c33a3fad7a07e805583ed5a98b9492341d3abfa9096dd38c7cbec4123",
+    "before_cream": [
+      247.0,
+      232.0,
+      211.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 521763,
+    "outside_pixels_removed": 23931
+  },
+  {
+    "file": "images/prefixes/anti.png",
+    "sha256": "5bba0b994e3be49f8ff84f1fa9945e1f6216af88be42aeb32b0dad3e037ca514",
+    "before_cream": [
+      247.0,
+      231.0,
+      207.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 487572,
+    "outside_pixels_removed": 21620
+  },
+  {
+    "file": "images/prefixes/circum.png",
+    "sha256": "b8263b55a55e4b5f79080713eb33b3e5e2edae9a25accc145ae1758be4e06a15",
+    "before_cream": [
+      250.0,
+      228.0,
+      181.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 576003,
+    "outside_pixels_removed": 3203
+  },
+  {
+    "file": "images/prefixes/com-com.png",
+    "sha256": "fdc94e2d8002fa8727810e3989b54e233a9f841cd2b7ae690fbf69b0ad30346f",
+    "before_cream": [
+      249.0,
+      236.0,
+      212.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 324384,
+    "outside_pixels_removed": 15766
+  },
+  {
+    "file": "images/prefixes/com.png",
+    "sha256": "1e951121990049018bcb47afed32be45a6e0e22a2e180b65ffd3b71341bf0497",
+    "before_cream": [
+      247.0,
+      231.0,
+      203.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 472929,
+    "outside_pixels_removed": 490
+  },
+  {
+    "file": "images/prefixes/con.png",
+    "sha256": "f4d08d9b43e03f4bf34a761d88a59750efa998c065074b9c3435d59c3798174f",
+    "before_cream": [
+      245.0,
+      229.0,
+      202.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 469888,
+    "outside_pixels_removed": 19931
+  },
+  {
+    "file": "images/prefixes/de.png",
+    "sha256": "da5a54b4a7139597b13df643bdbea1a568eb8b70907ef6622dff6db70814884c",
+    "before_cream": [
+      247.0,
+      231.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 533118,
+    "outside_pixels_removed": 25222
+  },
+  {
+    "file": "images/prefixes/dis.png",
+    "sha256": "f014abba7246f03c57b703254fdb5bf76e763baec22e0574c77f3b39c57ae5da",
+    "before_cream": [
+      247.0,
+      232.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 575222,
+    "outside_pixels_removed": 12797
+  },
+  {
+    "file": "images/prefixes/e-ex.png",
+    "sha256": "27b6259871f6140f79a25553b155c95506163e2858866865528fdf51d217a23f",
+    "before_cream": [
+      249.0,
+      236.0,
+      209.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 484082,
+    "outside_pixels_removed": 21569
+  },
+  {
+    "file": "images/prefixes/e.png",
+    "sha256": "4eceeca94c12a90be32dc09ab31be6a85ff541f3c8dfad9c95902606dc6fd1d4",
+    "before_cream": [
+      246.0,
+      228.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 496134,
+    "outside_pixels_removed": 19251
+  },
+  {
+    "file": "images/prefixes/em.png",
+    "sha256": "f6f42000c72c78a26c0b40aecb0b9485ce80eaf600d15f77e8be6530ea87ac87",
+    "before_cream": [
+      249.0,
+      234.0,
+      214.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 571784,
+    "outside_pixels_removed": 20520
+  },
+  {
+    "file": "images/prefixes/en-em.png",
+    "sha256": "d94261d2b40e080b977adf564151d418a9c2deaf861f57e88b9efabfa0fa82de",
+    "before_cream": [
+      246.0,
+      232.0,
+      201.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 641983,
+    "outside_pixels_removed": 21874
+  },
+  {
+    "file": "images/prefixes/en.png",
+    "sha256": "8ae1618d6a3b1a3bf00bf5a7e93f1227ed74bc7c96cc91e4f14d50d4f8c332ae",
+    "before_cream": [
+      247.0,
+      232.0,
+      207.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 523896,
+    "outside_pixels_removed": 24596
+  },
+  {
+    "file": "images/prefixes/ex.png",
+    "sha256": "3241a33b0604b03d98e2d9d82c6f75b7e8e973364a1bcf6d5493fe28f15a6b1b",
+    "before_cream": [
+      247.0,
+      230.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 555795,
+    "outside_pixels_removed": 19746
+  },
+  {
+    "file": "images/prefixes/fore.png",
+    "sha256": "a53fb3363a8bbb9653b862e94513e73fe016b67741510c9ffb06f8ce99b4538e",
+    "before_cream": [
+      250.0,
+      234.0,
+      209.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 489952,
+    "outside_pixels_removed": 22877
+  },
+  {
+    "file": "images/prefixes/il.png",
+    "sha256": "f72a63715a3c7a22fddda1537918ea2bb9b4f6bdb282609ace9fde5feff7b118",
+    "before_cream": [
+      245.0,
+      231.0,
+      211.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 485738,
+    "outside_pixels_removed": 35985
+  },
+  {
+    "file": "images/prefixes/im-in.png",
+    "sha256": "81d4b6bfe0f3527f6eb00f6e112cb1d00905e5ce731720a624bc89cacfa5f07e",
+    "before_cream": [
+      247.0,
+      231.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 536220,
+    "outside_pixels_removed": 27139
+  },
+  {
+    "file": "images/prefixes/im-not.png",
+    "sha256": "c6d1c2fa97a2b30de8cd8cad172afc6ab529ba0458db22823cb67e465a4f1eb1",
+    "before_cream": [
+      245.0,
+      231.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 568291,
+    "outside_pixels_removed": 24100
+  },
+  {
+    "file": "images/prefixes/in-im-01.png",
+    "sha256": "a9a12da2e9b3618395d52616131dbad387b56b684499d8be78eb52f43f2be26a",
+    "before_cream": [
+      244.0,
+      233.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 675656,
+    "outside_pixels_removed": 34773
+  },
+  {
+    "file": "images/prefixes/in-im-il-ir.png",
+    "sha256": "a9ce8016ee4e8750cb26b86361240e229c011c33ce2d3b6a2da4b7046a2aac2a",
+    "before_cream": [
+      248.0,
+      234.0,
+      207.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 630384,
+    "outside_pixels_removed": 15226
+  },
+  {
+    "file": "images/prefixes/in-in.png",
+    "sha256": "cfe7e32c8b4d4e13ebc85c44b0f6be5a3f1ddf0c6ba043bf790564ab3d25dae5",
+    "before_cream": [
+      247.0,
+      232.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 530626,
+    "outside_pixels_removed": 31761
+  },
+  {
+    "file": "images/prefixes/in-not.png",
+    "sha256": "1778eb714981094b2eb3a4d4c393fbe3d9b8d0f821990bc05ed6d7a4800d29ec",
+    "before_cream": [
+      246.0,
+      233.0,
+      213.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 561594,
+    "outside_pixels_removed": 24101
+  },
+  {
+    "file": "images/prefixes/inter.png",
+    "sha256": "9477ebd1c832b48d2482f103e7be66063c572b20bd39a7812ce9f5b945bedfcb",
+    "before_cream": [
+      248.0,
+      231.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 543206,
+    "outside_pixels_removed": 20848
+  },
+  {
+    "file": "images/prefixes/ir.png",
+    "sha256": "5066e0d560ac3342abad401d0b93125467bfd8ee734b05efffd1c0bec5267a33",
+    "before_cream": [
+      245.0,
+      228.0,
+      199.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 638244,
+    "outside_pixels_removed": 13298
+  },
+  {
+    "file": "images/prefixes/mid.png",
+    "sha256": "0126ce2a3bbec0fce3df1933c621a780f9182ecc0e774f18a55aee3a1f1c62ce",
+    "before_cream": [
+      248.0,
+      232.0,
+      207.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 597995,
+    "outside_pixels_removed": 23138
+  },
+  {
+    "file": "images/prefixes/mis.png",
+    "sha256": "0ffa2afb234ffacbec4d2fcef1d016b08ee610ac30a322f1ce4079c778a0b72e",
+    "before_cream": [
+      247.0,
+      228.0,
+      193.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 597291,
+    "outside_pixels_removed": 14663
+  },
+  {
+    "file": "images/prefixes/non.png",
+    "sha256": "5fb75d7d6837cb239c58fc44a6f84ca40f5c2ff3c17b9d4425eaf720b3bec2b1",
+    "before_cream": [
+      251.0,
+      236.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 635789,
+    "outside_pixels_removed": 8238
+  },
+  {
+    "file": "images/prefixes/over.png",
+    "sha256": "b1c7aaa0ae00c76f09d1dee5e1b583a420cdb2c1055e8f5d4510d998113ada3c",
+    "before_cream": [
+      249.0,
+      233.0,
+      196.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 619859,
+    "outside_pixels_removed": 21400
+  },
+  {
+    "file": "images/prefixes/pre.png",
+    "sha256": "fbe63514e469bb1c49e5d62748341ac9e43f14a98d4802d2034491c95ced46c1",
+    "before_cream": [
+      249.0,
+      234.0,
+      211.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 506072,
+    "outside_pixels_removed": 23733
+  },
+  {
+    "file": "images/prefixes/pro.png",
+    "sha256": "3769aaa23f33ba85b8a35c7fe49d4623a5c7bd45142baed610c4e434785134be",
+    "before_cream": [
+      248.0,
+      232.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 549494,
+    "outside_pixels_removed": 468
+  },
+  {
+    "file": "images/prefixes/re.png",
+    "sha256": "46273c892e0f5e4fc66e1e0eaa7fe2189becf4488744f2a2cf208073e439839f",
+    "before_cream": [
+      246.0,
+      232.0,
+      201.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 610167,
+    "outside_pixels_removed": 1203
+  },
+  {
+    "file": "images/prefixes/retro.png",
+    "sha256": "8327feb3a8d696198b2a4be5c49c0a98be77f584e79b361d231f62efd1031da6",
+    "before_cream": [
+      249.0,
+      227.0,
+      186.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 570640,
+    "outside_pixels_removed": 2090
+  },
+  {
+    "file": "images/prefixes/semi.png",
+    "sha256": "b5bf09a6b4cf917a313ce29d9bb4d836f93ea1cdcc770195117d9c7419884548",
+    "before_cream": [
+      249.0,
+      232.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 564683,
+    "outside_pixels_removed": 23702
+  },
+  {
+    "file": "images/prefixes/sub.png",
+    "sha256": "d319c00dbb4766ccaf2bfdd0d7da0e8933eae6ead193c170d6a0af8cd15e5bbc",
+    "before_cream": [
+      248.0,
+      235.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 605581,
+    "outside_pixels_removed": 24045
+  },
+  {
+    "file": "images/prefixes/super.png",
+    "sha256": "d8691ab4e9b3b4b9a2077642c1ac44e82296cf77ce0c450312b3d5fc921ce367",
+    "before_cream": [
+      248.0,
+      235.0,
+      213.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 599332,
+    "outside_pixels_removed": 18793
+  },
+  {
+    "file": "images/prefixes/trans.png",
+    "sha256": "b19d954e2c77b8ba289edddd347ea601c7a1cbd9141197a25b8f344ad3335fa9",
+    "before_cream": [
+      249.0,
+      234.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 483354,
+    "outside_pixels_removed": 24363
+  },
+  {
+    "file": "images/prefixes/un-negation.png",
+    "sha256": "ac0a8df32f43a255449cff53d25016dda303673ca9b7d5b9670e03c0d239fb31",
+    "before_cream": [
+      247.0,
+      231.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 640544,
+    "outside_pixels_removed": 13005
+  },
+  {
+    "file": "images/prefixes/un-reversative.png",
+    "sha256": "49c7b77d23a04b30ea2f3d363adcb96d346c23179eaca58d81609f5d08eb5ce4",
+    "before_cream": [
+      245.0,
+      230.0,
+      199.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 986653,
+    "outside_pixels_removed": 4839
+  },
+  {
+    "file": "images/prefixes/un.png",
+    "sha256": "ac0a8df32f43a255449cff53d25016dda303673ca9b7d5b9670e03c0d239fb31",
+    "before_cream": [
+      247.0,
+      231.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 640544,
+    "outside_pixels_removed": 13005
+  },
+  {
+    "file": "images/prefixes/under.png",
+    "sha256": "100df4e65c1500b73a08b429995edfc0c30b1a014174d61204ebf23cbd34e376",
+    "before_cream": [
+      248.0,
+      233.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 607369,
+    "outside_pixels_removed": 21739
+  },
+  {
+    "file": "images/roots/act.png",
+    "sha256": "1f76b207ae0421df1d084b16b0e81f218803ad63f22ce4ff1939f3346c8b4353",
+    "before_cream": [
+      247.0,
+      222.0,
+      177.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 504281,
+    "outside_pixels_removed": 35289
+  },
+  {
+    "file": "images/roots/aud.png",
+    "sha256": "10a139f46e9ebc7fd99f1f71b995ff7600107b75a1680c13813810165eff79fd",
+    "before_cream": [
+      237.0,
+      207.0,
+      166.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 424408,
+    "outside_pixels_removed": 1594
+  },
+  {
+    "file": "images/roots/auto.png",
+    "sha256": "18d9586a95b888d32390f79c214de4902d9270012bacca9c6cfef46cc5f5724c",
+    "before_cream": [
+      234.0,
+      215.0,
+      191.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 593903,
+    "outside_pixels_removed": 982
+  },
+  {
+    "file": "images/roots/biblio.png",
+    "sha256": "86e88f55ce798fbfa11b1f92d7a639524ff327f7ec5c17f7144b8bef3758a693",
+    "before_cream": [
+      235.0,
+      218.0,
+      194.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 525996,
+    "outside_pixels_removed": 1700
+  },
+  {
+    "file": "images/roots/bio.png",
+    "sha256": "8e7161898d868046a39a6e4da614a2ffccdd18d31ecd737eacdb1c287914a330",
+    "before_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 0,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/roots/chron.png",
+    "sha256": "66824dd56e4a08874c27db2607cd0cb847f472279171b1df53ecf1194e0d4673",
+    "before_cream": [
+      236.0,
+      227.0,
+      216.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 582532,
+    "outside_pixels_removed": 19244
+  },
+  {
+    "file": "images/roots/cred.png",
+    "sha256": "07435465368f8b73cce3e2569e2914485537376e9cf8dff3c6c1c0db4aaa61b9",
+    "before_cream": [
+      233.0,
+      217.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 514873,
+    "outside_pixels_removed": 1280
+  },
+  {
+    "file": "images/roots/derma.png",
+    "sha256": "2be31eb794e2d31e77c1b31692ddf7f8aaa29409ca4c4c2aa199898c1e50193d",
+    "before_cream": [
+      239.0,
+      221.0,
+      194.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 805596,
+    "outside_pixels_removed": 477
+  },
+  {
+    "file": "images/roots/dict.png",
+    "sha256": "0b5ab8522bdafe6c64069f20428174a046ecd2d6073acf9d76af2715fd9d3da5",
+    "before_cream": [
+      233.0,
+      218.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 516932,
+    "outside_pixels_removed": 1591
+  },
+  {
+    "file": "images/roots/duct-duce.png",
+    "sha256": "7b6448ab9f21ca33be1c10fdef3281de23274627af950634d25f46d88fa27dc1",
+    "before_cream": [
+      235.0,
+      221.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 613629,
+    "outside_pixels_removed": 16547
+  },
+  {
+    "file": "images/roots/fer.png",
+    "sha256": "72d37a2775f41b3d46c51c7b10792974b7638cf1ffc38c61a96999cb929ce5c7",
+    "before_cream": [
+      233.0,
+      222.0,
+      209.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      222.0,
+      209.0
+    ],
+    "adjusted_pixels": 0,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/roots/form.png",
+    "sha256": "a4a54c4f680a1aff0caa425f061684228373c9c389e32b64650801c9708755a6",
+    "before_cream": [
+      234.0,
+      218.0,
+      199.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 510869,
+    "outside_pixels_removed": 2089
+  },
+  {
+    "file": "images/roots/geo.png",
+    "sha256": "6304491c9cd50b7be9b5170ed48d7da669e13d96230eedcf8a34443ed75c4dc0",
+    "before_cream": [
+      235.0,
+      218.0,
+      193.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 557754,
+    "outside_pixels_removed": 1752
+  },
+  {
+    "file": "images/roots/graph.png",
+    "sha256": "eec15a8898fc726c1bbabb90f959a5d85b8578067949d5d8e0b5ff4b4804ed89",
+    "before_cream": [
+      234.0,
+      219.0,
+      201.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 451406,
+    "outside_pixels_removed": 1334
+  },
+  {
+    "file": "images/roots/ject.png",
+    "sha256": "aaf59e6e38e9f8f7777b89d904f40e1bcc03ce69472ccdfa01270e6b3ef83cd6",
+    "before_cream": [
+      236.0,
+      225.0,
+      205.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 690293,
+    "outside_pixels_removed": 7991
+  },
+  {
+    "file": "images/roots/meter.png",
+    "sha256": "2bbf31215a73019052007ec145fc346bc962dc040f4da1d3270993ef2322d4c1",
+    "before_cream": [
+      244.0,
+      226.0,
+      197.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 472928,
+    "outside_pixels_removed": 2304
+  },
+  {
+    "file": "images/roots/metr-meter.png",
+    "sha256": "afece59cbd5051d74d46e32770712611e6c9748c172cbff78ee16112fc570662",
+    "before_cream": [
+      238.0,
+      220.0,
+      191.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 514773,
+    "outside_pixels_removed": 3156
+  },
+  {
+    "file": "images/roots/metr.png",
+    "sha256": "3a6f1b76dfb61d42fea8d4e48ab31fc8e3649512644f6791f7ea2503cd74a18f",
+    "before_cream": [
+      237.0,
+      222.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 538344,
+    "outside_pixels_removed": 2999
+  },
+  {
+    "file": "images/roots/micro.png",
+    "sha256": "42fa79f6a4d5a80be47748a31d0e61957a579332c5188ed11040463d1f91dd3c",
+    "before_cream": [
+      235.0,
+      217.0,
+      191.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 535168,
+    "outside_pixels_removed": 1205
+  },
+  {
+    "file": "images/roots/mit.png",
+    "sha256": "d8d7aec2f4eaff9ea31e05e8d7629bfafff665578941ca8d6a35c7b42f75c7eb",
+    "before_cream": [
+      237.0,
+      225.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 1060763,
+    "outside_pixels_removed": 2772
+  },
+  {
+    "file": "images/roots/mot-mov.png",
+    "sha256": "f1ebc149f2275eb94fb8c38c372e9dd7591fd9a8bccde8930311f4c868dfe8fe",
+    "before_cream": [
+      232.0,
+      216.0,
+      197.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 536909,
+    "outside_pixels_removed": 1497
+  },
+  {
+    "file": "images/roots/mot.png",
+    "sha256": "45a5e22c63ea1a2eb5d8170311315b4333928886f9f4170c1ae84649515676b6",
+    "before_cream": [
+      236.0,
+      220.0,
+      197.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 521088,
+    "outside_pixels_removed": 2345
+  },
+  {
+    "file": "images/roots/mov.png",
+    "sha256": "6d2a150732187fdaf77cfc0bbd1ab06eccb4918342b11fffc1fb36b5bd2a15f7",
+    "before_cream": [
+      234.0,
+      219.0,
+      198.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 509193,
+    "outside_pixels_removed": 1534
+  },
+  {
+    "file": "images/roots/pel.png",
+    "sha256": "aa206d3e33b3a76083e29f149992965917a6bf7d06c7a07dc7610a66fc14d498",
+    "before_cream": [
+      234.0,
+      223.0,
+      205.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 598114,
+    "outside_pixels_removed": 948
+  },
+  {
+    "file": "images/roots/pend-pens.png",
+    "sha256": "f15052bc4eb69c4bef2eae11b79bd58736a698d3ab8b81bd0c293b4ec011208b",
+    "before_cream": [
+      248.0,
+      212.0,
+      151.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      222.0,
+      209.0
+    ],
+    "adjusted_pixels": 748336,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/roots/phon-phone.png",
+    "sha256": "c7a1d4d9a78721eb53448f182b5cbebf9fb98405fccaecf8289279b25efddfa8",
+    "before_cream": [
+      236.0,
+      217.0,
+      188.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 531702,
+    "outside_pixels_removed": 1761
+  },
+  {
+    "file": "images/roots/phon.png",
+    "sha256": "a2c922dec83511fbb5261c53a817258315829095224805f73f799f933a156445",
+    "before_cream": [
+      236.0,
+      218.0,
+      190.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 530646,
+    "outside_pixels_removed": 1692
+  },
+  {
+    "file": "images/roots/phone.png",
+    "sha256": "0a7af6a4f9108fb73d6645c6d954b44f94ca598e92370426ef785dbe29b4fdf5",
+    "before_cream": [
+      236.0,
+      217.0,
+      187.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 519837,
+    "outside_pixels_removed": 2121
+  },
+  {
+    "file": "images/roots/port.png",
+    "sha256": "1558de11399613dd37eaa71962444f1104042811a20d179eb4710fc1522d02a7",
+    "before_cream": [
+      233.0,
+      223.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      210.0
+    ],
+    "adjusted_pixels": 0,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/roots/pos.png",
+    "sha256": "f9cb29b6cd96c2bf05611996e89fbb817bc4d7dd76eaa5effa8d902bb104817b",
+    "before_cream": [
+      239.0,
+      225.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 957493,
+    "outside_pixels_removed": 2111
+  },
+  {
+    "file": "images/roots/put.png",
+    "sha256": "5b62f38e80ca190466d823a76049bea507af3f421a29270f9ef51e881b6a5bbe",
+    "before_cream": [
+      237.0,
+      224.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 1005490,
+    "outside_pixels_removed": 265
+  },
+  {
+    "file": "images/roots/rupt.png",
+    "sha256": "9122995db5513937b560715f3d7fe274f9fbefdee9911c47b163268b148d75ee",
+    "before_cream": [
+      238.0,
+      224.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 617704,
+    "outside_pixels_removed": 600
+  },
+  {
+    "file": "images/roots/scop-scope.png",
+    "sha256": "eaf59eb5216b8a92a23f33b0576f39fcc5bee0db3ccfce04b2e4a760698a952f",
+    "before_cream": [
+      240.0,
+      223.0,
+      196.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 539551,
+    "outside_pixels_removed": 1773
+  },
+  {
+    "file": "images/roots/scop.png",
+    "sha256": "3d9855207cd315bbc1635ca1519978611ed06f4020956ca26df913f422c7e955",
+    "before_cream": [
+      241.0,
+      222.0,
+      189.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 577368,
+    "outside_pixels_removed": 2439
+  },
+  {
+    "file": "images/roots/scope.png",
+    "sha256": "cd41cbce84e4e7a35b310fe531fb32b61ebda37de442b135505f4dc050263f7a",
+    "before_cream": [
+      242.0,
+      226.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 543637,
+    "outside_pixels_removed": 1951
+  },
+  {
+    "file": "images/roots/scrib-script.png",
+    "sha256": "afdc13c107cc4f4220f2ec2c58692112de7a2772cf0775dd814adad43a8c8f02",
+    "before_cream": [
+      236.0,
+      225.0,
+      208.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 573454,
+    "outside_pixels_removed": 378
+  },
+  {
+    "file": "images/roots/sequ.png",
+    "sha256": "ad82abf9a911e892d240ca70e70b3c4b8e4442edcc94f2b20751124e95d6f7e5",
+    "before_cream": [
+      235.0,
+      228.0,
+      216.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 679299,
+    "outside_pixels_removed": 24367
+  },
+  {
+    "file": "images/roots/spect.png",
+    "sha256": "1cc13e4bf0081725509ef32a076857ba8440651b4f39d0f6aa0bece29722f208",
+    "before_cream": [
+      236.0,
+      224.0,
+      204.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 656761,
+    "outside_pixels_removed": 655
+  },
+  {
+    "file": "images/roots/struct.png",
+    "sha256": "f8091ae20b4de6fd88448180daa049f9ceb9a3b7ab0370844d5ffd3e906ac727",
+    "before_cream": [
+      238.0,
+      227.0,
+      210.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 567740,
+    "outside_pixels_removed": 1006
+  },
+  {
+    "file": "images/roots/tele.png",
+    "sha256": "458a2c3acc5e649fe5ec4203b665bcc6ac22cca9c042b67825d8a2037ed317ab",
+    "before_cream": [
+      230.0,
+      217.0,
+      199.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 552422,
+    "outside_pixels_removed": 1283
+  },
+  {
+    "file": "images/roots/ten.png",
+    "sha256": "c6f915f3898de5217ff0047d7d8b40133f48955dde6e05232bd7f46ac5ce7e07",
+    "before_cream": [
+      237.0,
+      224.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 575883,
+    "outside_pixels_removed": 6928
+  },
+  {
+    "file": "images/roots/terr.png",
+    "sha256": "36aa43c2811b7116f69983d2cacea2109df2f78b53166c05e43d48510bbb2e96",
+    "before_cream": [
+      234.0,
+      219.0,
+      195.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 526419,
+    "outside_pixels_removed": 1448
+  },
+  {
+    "file": "images/roots/therm.png",
+    "sha256": "1dde3e3f1b82f2970546c249118dfaa041ce062e9b6ea353e7dc377d935139c2",
+    "before_cream": [
+      235.0,
+      218.0,
+      192.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 531769,
+    "outside_pixels_removed": 2684
+  },
+  {
+    "file": "images/roots/tract.png",
+    "sha256": "f433c01d5ed03d9aba66d29c14a7cd276c223ee5f10c682cd39a2cbfe093e530",
+    "before_cream": [
+      237.0,
+      226.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 671812,
+    "outside_pixels_removed": 20575
+  },
+  {
+    "file": "images/roots/val.png",
+    "sha256": "8492a220276876eae376d11ed65ee2fd2a2695a81d37e15a5338ae00bae8e6d0",
+    "before_cream": [
+      236.0,
+      222.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 603473,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/roots/ven-vent.png",
+    "sha256": "78dcaa49cc87bbe787e5d50baf67e7c111f386717a5e829ccbbd27552f1782e9",
+    "before_cream": [
+      232.0,
+      217.0,
+      195.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 618420,
+    "outside_pixels_removed": 28897
+  },
+  {
+    "file": "images/roots/vert.png",
+    "sha256": "8ad78b80b3678eccca81c7be9724e28f858171ab1f424c774d47d399a6868a8a",
+    "before_cream": [
+      239.0,
+      225.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 1015846,
+    "outside_pixels_removed": 1871
+  },
+  {
+    "file": "images/roots/vid.png",
+    "sha256": "f3ebeb3283b8af035eb019b9b65530035f21ba6625bcc72f6cd20f2c88e0d700",
+    "before_cream": [
+      240.0,
+      224.0,
+      196.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 490279,
+    "outside_pixels_removed": 1886
+  },
+  {
+    "file": "images/roots/vis-vid.png",
+    "sha256": "ec244ee8f1d060a650eae621beb1a5eeca06a90db821d712fbfa8ce067e9eece",
+    "before_cream": [
+      232.0,
+      217.0,
+      196.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 519732,
+    "outside_pixels_removed": 945
+  },
+  {
+    "file": "images/roots/vis.png",
+    "sha256": "138f36d98554a09214706de9c5a56672c6cd7769a580dd44022007b5fc7f2165",
+    "before_cream": [
+      236.0,
+      218.0,
+      191.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 483710,
+    "outside_pixels_removed": 1857
+  },
+  {
+    "file": "images/roots/voc.png",
+    "sha256": "7eeafda5beea5f6af0650ad59284064b6c02702fbfdf2d5c9d24296ba641875c",
+    "before_cream": [
+      239.0,
+      225.0,
+      206.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 1005018,
+    "outside_pixels_removed": 1219
+  },
+  {
+    "file": "images/suffixes/able-ible.png",
+    "sha256": "6cdc3251138c512ffbd83f6480d1bc367b49f823e000a5b6be631bf581cccc2e",
+    "before_cream": [
+      249.0,
+      224.0,
+      182.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 460529,
+    "outside_pixels_removed": 19377
+  },
+  {
+    "file": "images/suffixes/able.png",
+    "sha256": "dd336f2a236caab991a0d26c984f8cbcaacc4fbe157193be2dc97fbb750fe59b",
+    "before_cream": [
+      249.0,
+      221.0,
+      173.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 474254,
+    "outside_pixels_removed": 24351
+  },
+  {
+    "file": "images/suffixes/al.png",
+    "sha256": "45b47ad1d7bf485b7027e8fee5abc4638693679742fc7c829918ae76b0a3d0a9",
+    "before_cream": [
+      246.0,
+      211.0,
+      168.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      222.0,
+      207.0
+    ],
+    "adjusted_pixels": 539801,
+    "outside_pixels_removed": 2417
+  },
+  {
+    "file": "images/suffixes/ance-ence.png",
+    "sha256": "533935ec7d049080502343cdfb8e7c1875a20888809604ba2ef46543c54560d1",
+    "before_cream": [
+      248.0,
+      221.0,
+      171.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 978819,
+    "outside_pixels_removed": 20625
+  },
+  {
+    "file": "images/suffixes/ance.png",
+    "sha256": "21c8f870a351af2ee896ff2cc3446215237f790a9a6362369e6e7ebc033e3587",
+    "before_cream": [
+      238.0,
+      203.0,
+      159.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 663119,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ant-ent-adjective.png",
+    "sha256": "2c579b8f8c5c25629cc286197229e750eb320b92baa42f578ba2b87e44df46ee",
+    "before_cream": [
+      249.0,
+      212.0,
+      162.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 935108,
+    "outside_pixels_removed": 24150
+  },
+  {
+    "file": "images/suffixes/ant-ent-agent.png",
+    "sha256": "6a1b822b038ad0e610f9532917c784f9594c34f4673e3bace65cc3a82f308c7f",
+    "before_cream": [
+      251.0,
+      223.0,
+      173.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 863276,
+    "outside_pixels_removed": 16477
+  },
+  {
+    "file": "images/suffixes/ant-ent.png",
+    "sha256": "35f9ab2c94075665528a10509c8c8538c63bdd25608b1d61c87ce4fa8a3149c6",
+    "before_cream": [
+      244.0,
+      204.0,
+      150.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      222.0,
+      208.0
+    ],
+    "adjusted_pixels": 566916,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ant.png",
+    "sha256": "39ec5ab0ae6af981050f3d955ec603cc2847841e27ee21ceb978c4cec750df48",
+    "before_cream": [
+      241.0,
+      202.0,
+      151.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 578280,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ed.png",
+    "sha256": "06bdabdb46a3fced603b87996824020fd92a96e85d1a87521c6c076f89cf5ac6",
+    "before_cream": [
+      246.0,
+      229.0,
+      201.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 571278,
+    "outside_pixels_removed": 1532
+  },
+  {
+    "file": "images/suffixes/ence.png",
+    "sha256": "dbd3e6d9373ccfee0b2b5cbb2f5792ec3845b954b4bd5b14bdeeabdae9a1e86f",
+    "before_cream": [
+      238.0,
+      205.0,
+      163.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 672907,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ent.png",
+    "sha256": "f833dd60193607dbeab022bd5a2485bab910ac5e417c941c13ad1e0330359f3f",
+    "before_cream": [
+      243.0,
+      204.0,
+      154.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 580814,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/er-agent.png",
+    "sha256": "fd2fcea363bfb86d359c81a26599c3833b124794d4d389492d2e26904ade71ff",
+    "before_cream": [
+      240.0,
+      203.0,
+      152.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 858190,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/er-more.png",
+    "sha256": "e29786e55ed61af4a1277141be8b34a64b000b07caac54537fcfb7ef20f13c9e",
+    "before_cream": [
+      238.0,
+      204.0,
+      151.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 858585,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/er-or.png",
+    "sha256": "1bd009af2c77a08fd6be94e585de16f1597fa751a77ac80fd1c6cc9a8214abc0",
+    "before_cream": [
+      239.0,
+      206.0,
+      162.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 834629,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/es.png",
+    "sha256": "752a4aeec5d94e9290f58ccd8c413f267b3a9d04d9accefbb25e17c893c4305d",
+    "before_cream": [
+      248.0,
+      221.0,
+      177.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 542939,
+    "outside_pixels_removed": 18938
+  },
+  {
+    "file": "images/suffixes/est.png",
+    "sha256": "3ec0261197133616fc53fcf4b52fc53725cc1c30aca4eeb7ee6576d5e304c182",
+    "before_cream": [
+      248.0,
+      222.0,
+      181.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 480694,
+    "outside_pixels_removed": 21455
+  },
+  {
+    "file": "images/suffixes/ful.png",
+    "sha256": "277bc37864f88db6a8c017baef8dada045f7f6b75d5fa72f909748a624aa7039",
+    "before_cream": [
+      248.0,
+      225.0,
+      187.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 463572,
+    "outside_pixels_removed": 21560
+  },
+  {
+    "file": "images/suffixes/ible.png",
+    "sha256": "c5df769a081676f27e72a1101ef876fb31c5d78a059caef996f94e4dd44c824b",
+    "before_cream": [
+      250.0,
+      220.0,
+      168.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 511046,
+    "outside_pixels_removed": 20596
+  },
+  {
+    "file": "images/suffixes/ic.png",
+    "sha256": "bc2a9f59b2961fe474803da5d05bc3cb57250b5b7de3e5e3da04cda8895a964c",
+    "before_cream": [
+      243.0,
+      205.0,
+      158.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 616112,
+    "outside_pixels_removed": 1760
+  },
+  {
+    "file": "images/suffixes/ify.png",
+    "sha256": "bb51e7a45462b3c183c5ad5005e5e36f5a5351d05e3192d16555cdb8fa282da4",
+    "before_cream": [
+      246.0,
+      213.0,
+      168.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 533792,
+    "outside_pixels_removed": 2996
+  },
+  {
+    "file": "images/suffixes/ing.png",
+    "sha256": "f391b63892b40b5d869d68a0f773ae94b3b8ba7c02141716dbbada70b145b30a",
+    "before_cream": [
+      240.0,
+      224.0,
+      200.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 642386,
+    "outside_pixels_removed": 21469
+  },
+  {
+    "file": "images/suffixes/ion.png",
+    "sha256": "c03197094a227e40c709b57f5dd91c1464ad34a3b4c940e5a8789e119b818aba",
+    "before_cream": [
+      246.0,
+      230.0,
+      201.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 567269,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ist.png",
+    "sha256": "3302f56cc2055b3b7ce462a53349554bfb94d37819d5f4490d19ff2fe0e716e0",
+    "before_cream": [
+      237.0,
+      211.0,
+      174.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 562124,
+    "outside_pixels_removed": 31212
+  },
+  {
+    "file": "images/suffixes/ity.png",
+    "sha256": "36528a124439602c11404c55804cfc3704aa38275de3440794150757811c676e",
+    "before_cream": [
+      242.0,
+      205.0,
+      160.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 496884,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ive.png",
+    "sha256": "74ef948b5a7e69449022f2e2007cef47abbbdc808bd0ab491c46ab7362009843",
+    "before_cream": [
+      243.0,
+      203.0,
+      154.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      222.0,
+      208.0
+    ],
+    "adjusted_pixels": 627171,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ize.png",
+    "sha256": "1b89259860d2f64bc8f6c226e0ab5eb68e602f85aacb5703c574db125eaa51a1",
+    "before_cream": [
+      243.0,
+      211.0,
+      169.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      207.0
+    ],
+    "adjusted_pixels": 478711,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/less.png",
+    "sha256": "b9ad2f6e605f5b1ddfbe9a959102516547b5a5d78608ab82f4c22d4db789d7ee",
+    "before_cream": [
+      248.0,
+      223.0,
+      182.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 396000,
+    "outside_pixels_removed": 19723
+  },
+  {
+    "file": "images/suffixes/ly-adjective.png",
+    "sha256": "fb3959572425737c4a4a9fc85b47386ba62f1ad6a64596b2dce50512cfa75a9c",
+    "before_cream": [
+      249.0,
+      221.0,
+      173.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 898165,
+    "outside_pixels_removed": 15194
+  },
+  {
+    "file": "images/suffixes/ly-adverb.png",
+    "sha256": "9a87acea6776756b6558daf1578051c9546a1f090d95766aac8446151a0720e6",
+    "before_cream": [
+      247.0,
+      224.0,
+      188.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 872548,
+    "outside_pixels_removed": 6354
+  },
+  {
+    "file": "images/suffixes/ly.png",
+    "sha256": "9a87acea6776756b6558daf1578051c9546a1f090d95766aac8446151a0720e6",
+    "before_cream": [
+      247.0,
+      224.0,
+      188.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 872548,
+    "outside_pixels_removed": 6354
+  },
+  {
+    "file": "images/suffixes/ment.png",
+    "sha256": "9fee91551a7f0d9276953a951cedc9a4f3b0e2e0eb1c7c779406de15706fb39e",
+    "before_cream": [
+      250.0,
+      221.0,
+      177.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 637020,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/ness.png",
+    "sha256": "6edc993f3a5ad74676a549dc85b271f545541bea75840e273f0cd81d474538ac",
+    "before_cream": [
+      244.0,
+      208.0,
+      163.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 562301,
+    "outside_pixels_removed": 2746
+  },
+  {
+    "file": "images/suffixes/ology.png",
+    "sha256": "225f6e66c30491df0228397a0becdbdfa50dc78cfe6bc99314dd77484127956b",
+    "before_cream": [
+      242.0,
+      208.0,
+      166.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      208.0
+    ],
+    "adjusted_pixels": 537523,
+    "outside_pixels_removed": 2943
+  },
+  {
+    "file": "images/suffixes/or-agent.png",
+    "sha256": "b0e626534c4edbbd3ce89c8c8f7d6c3692545c42afcfe06e91ad06ef68066ef4",
+    "before_cream": [
+      239.0,
+      205.0,
+      158.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 849405,
+    "outside_pixels_removed": 0
+  },
+  {
+    "file": "images/suffixes/or.png",
+    "sha256": "33dfe0da208200458673a31786297c06cf48b3dc951755ce2599082c21d3e11a",
+    "before_cream": [
+      248.0,
+      218.0,
+      169.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 535894,
+    "outside_pixels_removed": 22735
+  },
+  {
+    "file": "images/suffixes/ous.png",
+    "sha256": "cb4312b51266b819cbd315fa99d4ddbcf59abbb66bae41b55a98c247e5543931",
+    "before_cream": [
+      249.0,
+      220.0,
+      173.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 532342,
+    "outside_pixels_removed": 20524
+  },
+  {
+    "file": "images/suffixes/s-es.png",
+    "sha256": "d3ced0b9188b490859c3f1b725aa6076c79f15a6f48d1f2ce40ba58bfa390b49",
+    "before_cream": [
+      248.0,
+      223.0,
+      184.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 514804,
+    "outside_pixels_removed": 21764
+  },
+  {
+    "file": "images/suffixes/s.png",
+    "sha256": "1dc519a3bafcd970e066b0008355f91b09d143a180cbb53e77ca0fbda814e363",
+    "before_cream": [
+      249.0,
+      220.0,
+      172.0
+    ],
+    "reference_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "after_cream": [
+      233.0,
+      223.0,
+      209.0
+    ],
+    "adjusted_pixels": 538605,
+    "outside_pixels_removed": 19323
+  }
+]
