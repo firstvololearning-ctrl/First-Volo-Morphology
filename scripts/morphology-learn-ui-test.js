@@ -74,7 +74,7 @@ for (const id of Object.keys(w.FirstVoloLearnContent.worked)) {
   const lessons=w.FirstVoloLearnContent.lessons(item);
   w.renderLearnDetail(item);
   for (let i=0;i<lessons.length;i++) {
-    const lesson=lessons[i], practice=w.FirstVoloLearnContent.practice[lesson.word];
+    const lesson=lessons[i], practice=w.FirstVoloLearnContent.practiceFor(lesson,w.isLearnWordEligible);
     assert.ok(w.document.querySelector('.learn-worked-example h5').textContent.includes(lesson.word));
     assert.equal(w.document.querySelector('.learn-practice').hidden,true);
     assert.equal(w.document.querySelector('.learn-complete').hidden,true);
@@ -96,6 +96,15 @@ for (const id of Object.keys(w.FirstVoloLearnContent.worked)) {
     }
   }
 }
+// Filtering a paired word removes it from the follow-up, contrast and navigation.
+const pairedEligibility = w.isLearnWordEligible;
+w.isLearnWordEligible = word => word !== 'subway' && pairedEligibility(word);
+w.renderLearnDetail(w.prefixes.find(i => i.id === 'sub'));
+assert.ok(!w.document.querySelector('.learn-worked-example').textContent.toLowerCase().includes('subway'));
+assert.equal(w.document.querySelector('.learn-contrast'), null);
+assert.ok(!w.lastAudioText.toLowerCase().includes('subway'), 'filtered comparison cannot leak into audio');
+assert.equal(w.document.querySelector('.learn-continue').textContent, 'Try a new sentence');
+w.isLearnWordEligible = pairedEligibility;
 // A newly reserved secondary lesson must disappear, including its navigation label.
 const baseEligibility=w.isLearnWordEligible;
 w.isLearnWordEligible=word=>word!=='unroll' && baseEligibility(word);

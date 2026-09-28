@@ -97,7 +97,7 @@ for (const flight of ["2-3", "4-5", "6-8"]) {
     const rounds = content.buildRounds(mode, arrays[mode], eligibleItem, context.isLearnWordEligible);
     const targets = new Set(rounds.flatMap(r => r.targets.map(t => t.id)));
     for (const item of arrays[mode].filter(eligibleItem)) {
-      assert.ok(context.getLearnExamplesForSelectedVocabulary(item).length, `${flight}/${item.id}: empty card`);
+      assert.ok(context.getLearnExamplesForSelectedVocabulary(item).length >= 2, `${flight}/${item.id}: needs two examples`);
       const lessons = content.lessons(item).filter(l => context.isLearnWordEligible(l.word));
       assert.ok(lessons.length || targets.has(item.id), `${flight}/${item.id}: reference only`);
     }
@@ -105,6 +105,20 @@ for (const flight of ["2-3", "4-5", "6-8"]) {
   }
 }
 context.gradeBand = "all"; context.vocabLevel = "all";
+// Paired application remains inside the same flight and respects protected words.
+for (const id of ['sub','ion','ment','circum','spect','mit','biblio']) {
+  const item = Object.values(arrays).flat().find(x => x.id === id);
+  context.gradeBand = morphemes.find(m => m.id === id).introBand;
+  context.vocabLevel = 'standard';
+  const lessons = content.lessons(item).filter(l => context.isLearnWordEligible(l.word));
+  assert.ok(lessons.length >= 2, `${id}: two worked examples`);
+  const first = lessons[0], application = content.practiceFor(first, context.isLearnWordEligible);
+  assert.ok(application.word && application.word !== first.word, `${id}: different-word application`);
+  assert.ok(!protectedWords.isProtected(application.word));
+  assert.ok(application.sentence.toLowerCase().includes(application.word));
+  assert.equal(content.practiceFor(first, w => w !== application.word).word, undefined, 'filtered transfer falls back to original practice');
+}
+context.gradeBand='all';context.vocabLevel='all';
 // Ambiguous words and newly reserved words disappear, including their empty targets.
 const duplicateItems = [
   { id: "struct", type: "root", label: "struct", examples: ["construct", "structure"] },

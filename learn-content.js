@@ -1972,5 +1972,269 @@
   ],
   "completion": "You used the sentence meanings to distinguish away from backward or opposing motion."
 });
-  window.FirstVoloLearnContent = { meaningSorts, buildMeaningRounds, additions, metadata, worked, additionalWorked, practice, lessons, roundGroups, sortContexts, examples, buildRounds };
+
+  // Paired lessons and supported application to a different word.
+  worked.sub = {"word": "submarine", "parts": "sub- (under) + marine (sea)", "explanation": "A submarine is a vessel designed to travel under water. Sub- contributes under; marine connects with the sea.", "sentence": "The submarine traveled below the waves.", "question": "What does sub- contribute?", "choices": ["Under", "Before"], "answer": 0};
+  Object.assign(metadata, {
+  "subway": {
+    "practiceBand": "2-3",
+    "vocabLevel": "familiar",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/subway"
+  },
+  "payment": {
+    "practiceBand": "2-3",
+    "vocabLevel": "familiar",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/payment"
+  },
+  "subtraction": {
+    "practiceBand": "2-3",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/subtraction"
+  },
+  "circumstance": {
+    "practiceBand": "4-5",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/circumstance"
+  },
+  "aspect": {
+    "practiceBand": "4-5",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/aspect"
+  },
+  "remit": {
+    "practiceBand": "6-8",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/remit"
+  },
+  "bibliographer": {
+    "practiceBand": "6-8",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/bibliographer"
+  }
+});
+  const deeperExamples = {"sub": ["subway"], "ment": ["payment"], "ion": ["subtraction"], "circum": ["circumstance"], "spect": ["aspect"], "mit": ["remit"], "biblio": ["bibliographer"]};
+  for (const [id, words] of Object.entries(deeperExamples)) additions[id] = [...new Set([...(additions[id] || []), ...words])];
+  const deeperLessons = {
+  "sub": {
+    "word": "subway",
+    "parts": "sub- + way \u2192 subway",
+    "explanation": "Sub- means under. A subway is an underground passage or railway. Here it names the railway. Parts of a subway system can run above ground.",
+    "sentence": "We ride the subway through a tunnel under the street.",
+    "question": "What does sub- help explain?",
+    "choices": [
+      "The railway goes underground",
+      "The train travels through the air"
+    ],
+    "answer": 0
+  },
+  "ment": {
+    "word": "payment",
+    "parts": "pay + -ment \u2192 payment",
+    "explanation": "-Ment helps make a noun. Payment can name the act of paying or the amount paid. Here it names the money given.",
+    "sentence": "The shop received a payment for the book.",
+    "question": "What does payment name here?",
+    "choices": [
+      "A person who sells books",
+      "Money given for the book"
+    ],
+    "answer": 1
+  },
+  "ion": {
+    "word": "subtraction",
+    "parts": "Word family: subtract \u2194 subtraction",
+    "explanation": "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb.",
+    "sentence": "We use subtraction to find how many blocks remain.",
+    "question": "What does subtraction name?",
+    "choices": [
+      "The process of taking away in a calculation",
+      "A person counting blocks"
+    ],
+    "answer": 0
+  },
+  "circum": {
+    "word": "circumstance",
+    "parts": "Historical prefix focus: circum- in circumstance",
+    "explanation": "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+    "sentence": "Heavy rain was a circumstance that changed our picnic plan.",
+    "question": "What does circumstance name here?",
+    "choices": [
+      "The distance around the picnic blanket",
+      "A condition affecting the picnic"
+    ],
+    "answer": 1
+  },
+  "spect": {
+    "word": "aspect",
+    "parts": "Historical root focus: spect in aspect",
+    "explanation": "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+    "sentence": "Color is one aspect of the painting we will discuss.",
+    "question": "What does aspect mean here?",
+    "choices": [
+      "A feature to consider",
+      "A person who painted it"
+    ],
+    "answer": 0
+  },
+  "mit": {
+    "word": "remit",
+    "parts": "Historical root focus: mit in remit",
+    "explanation": "Mit/miss connects with send. In this sentence remit means send money to someone, usually as a payment. Remit has other senses, so check the context.",
+    "sentence": "The club will remit the fee to the organizer.",
+    "question": "What will the club do?",
+    "choices": [
+      "Keep the fee without sending it",
+      "Send the fee"
+    ],
+    "answer": 1
+  },
+  "biblio": {
+    "word": "bibliographer",
+    "parts": "Word family: bibliography \u2194 bibliographer",
+    "explanation": "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+    "sentence": "The bibliographer prepared a list of books about oceans.",
+    "question": "Who is the bibliographer?",
+    "choices": [
+      "The person preparing the source list",
+      "The list of books itself"
+    ],
+    "answer": 0
+  }
+};
+  for (const [id, lesson] of Object.entries(deeperLessons)) additionalWorked[id] = [...(additionalWorked[id] || []), lesson];
+  Object.assign(practice, {
+  "subway": {
+    "sentence": "The subway carries us beneath the city.",
+    "question": "Which meaning fits sub- here?",
+    "choices": [
+      "Before",
+      "Under"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Sub- means under. A subway is an underground passage or railway. Here it names the railway. Parts of a subway system can run above ground.",
+      "Sub- means under. A subway is an underground passage or railway. Here it names the railway. Parts of a subway system can run above ground."
+    ]
+  },
+  "payment": {
+    "sentence": "The payment for the ticket was five dollars.",
+    "question": "What does payment name in this sentence?",
+    "choices": [
+      "The money paid",
+      "How quickly someone walked"
+    ],
+    "answer": 0,
+    "feedback": [
+      "-Ment helps make a noun. Payment can name the act of paying or the amount paid. Here it names the money given.",
+      "-Ment helps make a noun. Payment can name the act of paying or the amount paid. Here it names the money given."
+    ]
+  },
+  "subtraction": {
+    "sentence": "Use subtraction to find the difference between nine and six.",
+    "question": "What process should you use?",
+    "choices": [
+      "Joining the numbers into a larger total",
+      "Taking one number away from another"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb.",
+      "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb."
+    ]
+  },
+  "circumstance": {
+    "sentence": "A road closure was a circumstance that delayed the bus.",
+    "question": "Which condition affected the trip?",
+    "choices": [
+      "The closed road",
+      "The round shape of a wheel"
+    ],
+    "answer": 0,
+    "feedback": [
+      "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+      "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure."
+    ]
+  },
+  "aspect": {
+    "sentence": "Safety is an important aspect of planning the trip.",
+    "question": "What does aspect name?",
+    "choices": [
+      "The entire trip and every detail at once",
+      "One feature of the planning"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+      "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking."
+    ]
+  },
+  "remit": {
+    "sentence": "Please remit the entry fee before the event.",
+    "question": "Which meaning fits remit here?",
+    "choices": [
+      "Send the money that is due",
+      "Cancel the event"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Mit/miss connects with send. In this sentence remit means send money to someone, usually as a payment. Remit has other senses, so check the context.",
+      "Mit/miss connects with send. In this sentence remit means send money to someone, usually as a payment. Remit has other senses, so check the context."
+    ]
+  },
+  "bibliographer": {
+    "sentence": "The bibliographer checked the authors and titles for the source list.",
+    "question": "What job is this person doing?",
+    "choices": [
+      "Writing every book in the list",
+      "Preparing accurate information about sources"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself."
+    ]
+  },
+  "submarine": {
+    "sentence": "The submarine moved beneath the water.",
+    "question": "Which position fits sub- here?",
+    "choices": [
+      "Above the water",
+      "Under the water"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Sub- contributes under.",
+      "Sub- contributes under."
+    ]
+  }
+});
+  const contrasts = {
+  "sub": "Submarine connects under with the sea; subway connects under with a route. The rest of each word changes the whole meaning.",
+  "ment": "Enjoyment names a feeling; payment can name an act or money paid. Both are nouns, but -ment does not give every noun the same meaning.",
+  "ion": "Action and subtraction both name doing or a process. The base tells us which process; the ending alone cannot tell us.",
+  "circum": "Circumference is a measurable distance around a circle. Circumstance names a surrounding condition. A word part gives a clue, but the sentence chooses the meaning.",
+  "spect": "Perspective is a point of view; an aspect is a feature considered. Their shared history of looking does not make them interchangeable.",
+  "mit": "Submit a design means hand it in for consideration; remit a fee means send the payment. Mit suggests sending, but the whole word and sentence matter.",
+  "biblio": "A bibliography is a list of sources; a bibliographer is a person who compiles such lists or studies bibliography. Shared parts do not make the two nouns name the same thing."
+};
+  for (const [id, lesson] of Object.entries(deeperLessons)) {
+    worked[id].contrast = contrasts[id];
+    worked[id].contrastWords = [worked[id].word, lesson.word];
+    lesson.contrastWords = [worked[id].word, lesson.word];
+    lesson.contrast = contrasts[id];
+    // Keep the same-word question as a fallback when the paired word is filtered.
+    const followup = practice[lesson.word];
+    practice[worked[id].word].transfer = { ...followup, word: lesson.word };
+  }
+  function practiceFor(lesson, eligibleWord) {
+    const base = practice[lesson.word];
+    return base?.transfer && eligibleWord(base.transfer.word) ? base.transfer : base;
+  }
+  window.FirstVoloLearnContent = { practiceFor, meaningSorts, buildMeaningRounds, additions, metadata, worked, additionalWorked, practice, lessons, roundGroups, sortContexts, examples, buildRounds };
 })();

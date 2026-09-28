@@ -7830,7 +7830,9 @@ const suffixFunctionMarkup =
   const lessons = (window.FirstVoloLearnContent?.lessons(item) || []).filter(entry => isLearnWordEligible(entry.word));
   const selectedIndex = Math.min(Math.max(0, lessonIndex), Math.max(0, lessons.length - 1));
   const lesson = lessons[selectedIndex] || null;
-  const practice = lesson && window.FirstVoloLearnContent?.practice[lesson.word];
+  const practice = lesson && window.FirstVoloLearnContent?.practiceFor(lesson, isLearnWordEligible);
+  const contrast = lesson?.contrast && (!lesson.contrastWords || lesson.contrastWords.every(isLearnWordEligible)) ? lesson.contrast : "";
+  const practiceLabel = practice?.word ? "Try a different word" : "Try a new sentence";
   detail.hidden = false;
   detail.className = "feedback-panel correct-feedback";
 
@@ -7870,14 +7872,15 @@ ${suffixFunctionMarkup}
             ${lessons.length > 1 ? `<p class="learn-example-count">Example ${selectedIndex + 1} of ${lessons.length}</p>` : ""}
             <p class="learn-word-equation">${escapeHTML(lesson.parts)}</p>
             <p>${escapeHTML(lesson.explanation)}</p>
+            ${contrast ? `<p class="learn-contrast"><strong>Compare meanings:</strong> ${escapeHTML(contrast)}</p>` : ""}
             <p><strong>In a sentence:</strong> ${escapeHTML(lesson.sentence)}</p>
             <fieldset class="learn-check"><legend>${escapeHTML(lesson.question)}</legend>
               ${lesson.choices.map((choice, i) => `<button type="button" class="learn-check-choice" data-learn-choice="${i}">${escapeHTML(choice)}</button>`).join("")}
             </fieldset>
             <p class="learn-check-feedback" aria-live="polite"></p>
-            ${practice ? `<button type="button" class="learn-continue learn-check-choice" hidden>Try a new sentence</button>
-              <section class="learn-practice" hidden aria-label="Try a new sentence">
-                <h6 tabindex="-1">Try a new sentence</h6>
+            ${practice ? `<button type="button" class="learn-continue learn-check-choice" hidden>${escapeHTML(practiceLabel)}</button>
+              <section class="learn-practice" hidden aria-label="${escapeHTML(practiceLabel)}">
+                <h6 tabindex="-1">${escapeHTML(practiceLabel)}</h6>
                 <p>${escapeHTML(practice.sentence)}</p>
                 <fieldset class="learn-check"><legend>${escapeHTML(practice.question)}</legend>
                   ${practice.choices.map((choice, i) => `<button type="button" class="learn-check-choice" data-learn-practice="${i}">${escapeHTML(choice)}</button>`).join("")}
@@ -7949,7 +7952,7 @@ ${suffixFunctionMarkup}
   setAudioButton(
     detail,
     `${item.speech} means ${item.meaning}. ` +
-    audioExampleText + (lesson ? ` ${lesson.explanation} ${lesson.sentence}${practice ? ` Practice sentence: ${practice.sentence} ${practice.question}` : ""}` : ""),
+    audioExampleText + (lesson ? ` ${lesson.explanation} ${lesson.sentence} ${contrast}${practice ? ` Practice sentence: ${practice.sentence} ${practice.question}` : ""}` : ""),
     [instructionalAudioDescriptor(item.id, item.speech)]
   );
 
