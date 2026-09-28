@@ -7717,3 +7717,38 @@ header p {
     grid-template-columns: 1fr;
   }
 }
+
+/* Guided Learn examples */
+.learn-worked-example { margin-top: 1.25rem; padding: 1rem; border: 1px solid #cbd5e1; border-radius: 12px; background: #f8fafc; color: #172033; }
+.learn-worked-example h5 { margin: 0 0 .75rem; font-size: 1.1rem; }
+.learn-word-equation { font-weight: 700; overflow-wrap: anywhere; }
+.learn-check { margin-top: 1rem; padding: .75rem; border: 1px solid #94a3b8; border-radius: 8px; }
+.learn-check legend { font-weight: 600; padding: 0 .25rem; }
+.learn-check-choice { display: block; width: 100%; margin: .5rem 0; padding: .75rem; text-align: left; background: white; color: #172033; border: 1px solid #64748b; border-radius: 8px; font: inherit; cursor: pointer; }
+.learn-check-choice:focus-visible { outline: 3px solid #2563eb; outline-offset: 2px; }
+.learn-check-choice:hover { background: #e2e8f0; }
+.learn-check-feedback { min-height: 1.5em; }
+.learn-worked-example [hidden] { display: none !important; }
+.learn-worked-example h6 { font-size: 1.1rem; margin: 1rem 0 .5rem; }
+.learn-check-choice:disabled { cursor: default; opacity: .8; }
+.learn-example-count { font-size: .9rem; }
+.learn-complete { font-weight: 600; }
+
+.sort-word-context { display: block; margin-top: .45rem; font-size: .85em; font-weight: 400; line-height: 1.45; }
+
+/* Meaning labels lead the supported Learn contrast, with word parts visible. */
+.sort-meaning-heading { font-size: 1.2rem; font-weight: 800; line-height: 1.35; margin: 0 0 .55rem; }
+
+.meaning-sort-root { border-color: var(--root-dark); background: var(--root-soft); color: var(--root-dark); }
+
+/* Separate listen controls never submit a sorting choice. */
+.sort-target-option, .sort-word-option { min-width: 0; display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+.sort-word-option { flex: 0 1 310px; }
+.sort-word-option[hidden] { display: none; }
+.sort-word-option .sort-word-card { flex: 1; }
+.sort-target-option > .audio-button, .sort-word-option > .audio-button { margin: 0; align-self: center; }
+.sort-audio-instructions { margin-top: 12px; }
+.sort-audio-stop, .sort-audio-feedback { font: inherit; border: 1px solid #64748b; border-radius: 10px; background: white; color: #24364b; padding: 8px 12px; cursor: pointer; }
+.sort-audio-stop { margin: 8px; }
+.sort-audio-feedback { display: block; margin: -10px auto 20px; }
+.sort-target-option button:focus-visible, .sort-word-option button:focus-visible, .sort-audio-stop:focus-visible, .sort-audio-feedback:focus-visible { outline: 3px solid #c78a18; outline-offset: 3px; }

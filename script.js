@@ -206,25 +206,18 @@ function getVocabularyLevelLabel() {
   return labels[vocabLevel] || "Standard Words";
 }
 
+function isLearnWordEligible(word) {
+  if (isReservedTransferWord(word)) return false;
+  const metadata = getWordMetadata(word) || window.FirstVoloLearnContent?.metadata[word];
+  if (gradeBand !== "all" && metadata?.practiceBand !== gradeBand) return false;
+  if (vocabLevel === "all") return true;
+  const level = metadata?.vocabLevel;
+  return vocabLevel === "standard" ? ["familiar", "academic"].includes(level) : level === vocabLevel;
+}
+
 function getLearnExamplesForSelectedVocabulary(item) {
-  /*
-    Do not expose reserved Transfer Challenge
-    words on Learn cards either.
-  */
-  const examples =
-    (item?.examples || []).filter(
-      (word) =>
-        !isReservedTransferWord(word)
-    );
-
-  if (vocabLevel === "all") {
-    return examples;
-  }
-
-  return examples.filter(
-    (word) =>
-      isWordEligibleForSelectedVocabulary(word)
-  );
+  const examples = window.FirstVoloLearnContent?.examples(item) || item.examples || [];
+  return examples.filter(isLearnWordEligible);
 }
 
 function getLearnExampleLabel() {
@@ -7088,22 +7081,6 @@ function renderSortItActivity() {
   workspaceSubtitle.textContent =
     "Sort words and word parts into meaningful groups.";
 
-  if (studyMode !== "prefixes") {
-    learnSortWorkspace.innerHTML = `
-      <div class="sort-it-shell">
-        <div class="sort-it-heading">
-          <div class="sort-it-kicker">🗂️ Sort It</div>
-          <h3>Prefix sorting is ready</h3>
-          <p>
-            Choose <strong>Prefixes</strong> above to play the
-            first Sort It learning rounds.
-          </p>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
   function getPrefix(id) {
     return prefixes.find((item) => item.id === id);
   }
@@ -7351,7 +7328,7 @@ function renderSortItActivity() {
     };
   }
 
-  const rounds = [
+  const prefixRounds = studyMode === "prefixes" ? [
     makeWordFamilyRound(
       ["pre", "re", "sub"],
       "Which prefix is in each word?"
@@ -7362,7 +7339,17 @@ function renderSortItActivity() {
     ),
     makeChameleonRound(),
     makeMeaningContrastRound()
-  ].filter(Boolean);
+  ].filter(Boolean).map((round) => {
+    const cards = round.cards.filter(card => isLearnWordEligible(card.word));
+    const targets = round.targets.filter(target => cards.some(card => card.targetId === target.id));
+    return { ...round, cards, targets, completion: `You sorted ${cards.length} words into ${targets.length} groups.` };
+  }).filter(round => round.targets.length >= 2 && round.cards.length >= 4) : [];
+  const contentRounds = (window.FirstVoloLearnContent?.buildRounds(studyMode,
+    studyMode === "roots" ? roots : studyMode === "prefixes" ? prefixes : suffixes,
+    isMorphemeEligibleForSelectedGrade, isLearnWordEligible) || []);
+  const rounds = (studyMode === "prefixes" && prefixRounds.length
+    ? [...contentRounds.filter(round => round.type === "meaning-sort"), ...prefixRounds]
+    : contentRounds).map(round => ({ ...round, cards: shuffle(round.cards) }));
 
   if (rounds.length === 0) {
     learnSortWorkspace.innerHTML = `
@@ -7371,7 +7358,7 @@ function renderSortItActivity() {
           <div class="sort-it-kicker">🗂️ Sort It</div>
           <h3>No Sort It rounds are available</h3>
           <p>
-            Try a different practice flight or choose All Flights.
+            Try another flight or vocabulary level, or choose Prefixes, Roots, or Suffixes.
           </p>
         </div>
       </div>
@@ -7423,6 +7410,8 @@ function renderSortItActivity() {
             `
             : ""
         }
+        <div class="sort-audio-instructions"><button type="button" class="audio-button">🔊 Hear instructions</button></div>
+        <button type="button" class="sort-audio-stop">Stop audio</button>
       </div>
 
       <div
@@ -7433,13 +7422,15 @@ function renderSortItActivity() {
         Choose a word card to begin.
       </div>
 
+      <button type="button" class="sort-audio-feedback">🔊 Hear feedback</button>
       <div class="sort-target-grid ${gridClass}">
         ${targets.map((target) => `
+          <div class="sort-target-option" data-sort-audio-target="${escapeHTML(target.id)}">
           <button
-            class="sort-target prefix-sort-target"
+            class="sort-target prefix-sort-target${round.type === "meaning-sort" ? ` meaning-sort-target meaning-sort-${target.type}` : ""}"
             type="button"
             data-sort-target="${escapeHTML(target.id)}"
-            aria-label="${escapeHTML(target.label)}, ${escapeHTML(target.meaning)}"
+            aria-label="${escapeHTML(target.heading ? `${target.heading}: ${target.label}, ${target.meaning}` : `${target.label}, ${target.meaning}`)}"
           >
             <img
               class="sort-target-image"
@@ -7447,6 +7438,7 @@ function renderSortItActivity() {
               alt=""
             >
 
+            ${target.heading ? `<div class="sort-meaning-heading">${escapeHTML(target.heading)}</div>` : ""}
             <div class="sort-target-label">
               ${escapeHTML(target.label)}
             </div>
@@ -7460,18 +7452,25 @@ function renderSortItActivity() {
               id="sortPlaced-${escapeHTML(target.id)}"
             ></div>
           </button>
+          <button type="button" class="audio-button" aria-label="Hear ${escapeHTML(target.label)} and its meaning">🔊 Hear meaning</button>
+          </div>
         `).join("")}
       </div>
 
       <div class="sort-word-bank">
         ${cards.map((card) => `
+          <div class="sort-word-option" data-sort-audio-card="${escapeHTML(card.cardId)}">
           <button
             class="sort-word-card"
             type="button"
             data-sort-card="${escapeHTML(card.cardId)}"
           >
             ${escapeHTML(card.word)}
+            ${card.context ? `<span class="sort-word-context">${escapeHTML(card.context)}</span>` : ""}
+            ${card.hint ? `<span class="sort-word-context">${escapeHTML(card.hint)}</span>` : ""}
           </button>
+          <button type="button" class="audio-button" aria-label="Hear ${escapeHTML(card.word)}${card.context ? ' and its sentence' : ''}">🔊 Hear word${card.context ? ' and sentence' : ''}</button>
+          </div>
         `).join("")}
       </div>
 
@@ -7494,6 +7493,34 @@ function renderSortItActivity() {
 
   const feedback =
     document.getElementById("sortItFeedback");
+  const descriptors = targets.map(target => instructionalAudioDescriptor(target.id, target.label));
+  setAudioButton(learnSortWorkspace.querySelector('.sort-audio-instructions'),
+    `${round.title} ${round.instructions} ${round.teachingNote || ""}`, descriptors);
+  learnSortWorkspace.querySelectorAll('[data-sort-audio-target]').forEach(container => {
+    const target = targets.find(item => item.id === container.dataset.sortAudioTarget);
+    setAudioButton(container, `${target.heading ? target.heading + '. ' : ''}${target.label} means ${target.meaning}.`,
+      [instructionalAudioDescriptor(target.id, target.label)]);
+  });
+  learnSortWorkspace.querySelectorAll('[data-sort-audio-card]').forEach(container => {
+    const card = cards.find(item => item.cardId === container.dataset.sortAudioCard);
+    setAudioButton(container, `${card.word}. ${card.context || ""}`);
+  });
+  learnSortWorkspace.querySelector('.sort-audio-feedback').addEventListener('click', () => {
+    const audio = window.FirstVoloInstructionalAudio;
+    if (audio?.speakWithControlledMorphemes) {
+      audio.speakWithControlledMorphemes(feedback.textContent, descriptors, { gradeBand });
+    } else speak(feedback.textContent);
+  });
+  learnSortWorkspace.querySelector('.sort-audio-stop').addEventListener('click', () => {
+    if (window.FirstVoloInstructionalAudio?.stop) window.FirstVoloInstructionalAudio.stop();
+    else window.speechSynthesis?.cancel();
+  });
+  const audioAvailable = window.FirstVoloInstructionalAudio?.available?.()
+    || ("speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === 'function');
+  if (!audioAvailable) learnSortWorkspace.querySelectorAll('.audio-button, .sort-audio-feedback, .sort-audio-stop').forEach(button => {
+    button.disabled = true;
+    button.title = 'Speech playback is not available in this browser.';
+  });
 
   const actions =
     document.getElementById("sortItActions");
@@ -7524,6 +7551,10 @@ function renderSortItActivity() {
   }
 
   function getWrongMessage(card) {
+    if (round.type === "meaning-sort") {
+      const target = targets.find(item => item.id === card.targetId);
+      return `${card.explanation} Try the ${target.meaning} group. You can use the picture and meaning to help.`;
+    }
     if (round.type === "chameleon") {
       return `Look at the beginning of the base in ${card.word}. Try another form of in-.`;
     }
@@ -7532,10 +7563,17 @@ function renderSortItActivity() {
       return `Think about what in- or im- means in ${card.word}. Try the other meaning.`;
     }
 
+    if (round.type === "root-family" || round.type === "suffix-family") {
+      const target = targets.find(item => item.id === card.targetId);
+      return `${card.word} belongs with ${target.label}: ${target.meaning}. ${card.hint || card.context || ""} Use that clue to try again.`;
+    }
     return `Look at the beginning of ${card.word}. Try another group.`;
   }
 
-  function getCorrectMessage(target) {
+  function getCorrectMessage(target, card) {
+    if (round.type === "meaning-sort") {
+      return `Yes. ${card.explanation} Choose another word to explore.`;
+    }
     if (round.type === "chameleon") {
       return `${target.label} — ${target.meaning}. Choose another word.`;
     }
@@ -7544,7 +7582,7 @@ function renderSortItActivity() {
       return `Yes. Here the prefix means ${target.meaning}. Choose another word.`;
     }
 
-    return `Nice! ${target.label} means ${target.meaning}. Choose another word.`;
+    return `Yes. In this example, ${target.label} connects with ${target.meaning}. Choose another word.`;
   }
 
   cardButtons.forEach((button) => {
@@ -7619,6 +7657,7 @@ function renderSortItActivity() {
       placedArea.append(placedWord);
 
       selectedCard.button.hidden = true;
+      selectedCard.button.closest('.sort-word-option').hidden = true;
 
       clearCardSelection();
 
@@ -7638,11 +7677,12 @@ function renderSortItActivity() {
         `;
 
         actions.hidden = false;
+        nextRoundButton.focus();
         return;
       }
 
-      feedback.textContent =
-        getCorrectMessage(target);
+      feedback.textContent = getCorrectMessage(target, card);
+      cardButtons.find(cardButton => !cardButton.hidden)?.focus();
     });
   });
 
@@ -7657,6 +7697,10 @@ function renderSortItActivity() {
 
 function renderLearnActivity() {
   panels.learn.hidden = false;
+  const introduction = document.getElementById("learnIntroduction");
+  if (introduction) introduction.textContent = learnMode === "sort"
+    ? "Choose a word, then sort it by its word part and meaning."
+    : "Select a card to hear its meaning, explore examples, and try a worked example where available.";
 
   workspaceTitle.textContent = "Learn";
   workspaceSubtitle.textContent =
@@ -7741,7 +7785,7 @@ function renderLearnActivity() {
   learningGrid.append(detail);
 }
 
-function renderLearnDetail(item) {
+function renderLearnDetail(item, lessonIndex = 0) {
   const detail = document.getElementById("learnDetailPanel");
 
   if (!detail) {
@@ -7783,6 +7827,10 @@ const suffixFunctionMarkup =
         </div>
       `
     : "";
+  const lessons = (window.FirstVoloLearnContent?.lessons(item) || []).filter(entry => isLearnWordEligible(entry.word));
+  const selectedIndex = Math.min(Math.max(0, lessonIndex), Math.max(0, lessons.length - 1));
+  const lesson = lessons[selectedIndex] || null;
+  const practice = lesson && window.FirstVoloLearnContent?.practice[lesson.word];
   detail.hidden = false;
   detail.className = "feedback-panel correct-feedback";
 
@@ -7816,6 +7864,29 @@ ${suffixFunctionMarkup}
         <div class="feedback-value">
           ${escapeHTML(examples)}
         </div>
+        ${lesson ? `
+          <section class="learn-worked-example" aria-label="Worked example">
+            <h5 tabindex="-1">See how the meaning works: ${escapeHTML(lesson.word)}</h5>
+            ${lessons.length > 1 ? `<p class="learn-example-count">Example ${selectedIndex + 1} of ${lessons.length}</p>` : ""}
+            <p class="learn-word-equation">${escapeHTML(lesson.parts)}</p>
+            <p>${escapeHTML(lesson.explanation)}</p>
+            <p><strong>In a sentence:</strong> ${escapeHTML(lesson.sentence)}</p>
+            <fieldset class="learn-check"><legend>${escapeHTML(lesson.question)}</legend>
+              ${lesson.choices.map((choice, i) => `<button type="button" class="learn-check-choice" data-learn-choice="${i}">${escapeHTML(choice)}</button>`).join("")}
+            </fieldset>
+            <p class="learn-check-feedback" aria-live="polite"></p>
+            ${practice ? `<button type="button" class="learn-continue learn-check-choice" hidden>Try a new sentence</button>
+              <section class="learn-practice" hidden aria-label="Try a new sentence">
+                <h6 tabindex="-1">Try a new sentence</h6>
+                <p>${escapeHTML(practice.sentence)}</p>
+                <fieldset class="learn-check"><legend>${escapeHTML(practice.question)}</legend>
+                  ${practice.choices.map((choice, i) => `<button type="button" class="learn-check-choice" data-learn-practice="${i}">${escapeHTML(choice)}</button>`).join("")}
+                </fieldset>
+                <p class="learn-practice-feedback" aria-live="polite"></p>
+              </section>` : ""}
+            <p class="learn-complete" role="status" hidden>Guided practice complete. You used the word part and sentence clues together.</p>
+            ${selectedIndex + 1 < lessons.length ? `<button type="button" class="learn-next-example learn-check-choice" hidden>Next example: ${escapeHTML(lessons[selectedIndex + 1].word)}</button>` : ""}
+          </section>` : ""}
 
         <button
           class="audio-button"
@@ -7829,6 +7900,47 @@ ${suffixFunctionMarkup}
     </div>
   `;
 
+  detail.querySelectorAll("[data-learn-choice]").forEach(button => {
+    button.addEventListener("click", () => {
+      const correct = Number(button.dataset.learnChoice) === lesson.answer;
+      button.setAttribute("aria-pressed", String(correct));
+      detail.querySelector(".learn-check-feedback").textContent = correct
+        ? `Yes. ${lesson.explanation}` : `Try again. ${lesson.explanation}`;
+      if (correct) {
+        detail.querySelectorAll("[data-learn-choice]").forEach(choice => { choice.disabled = true; });
+        if (practice) {
+          const next = detail.querySelector(".learn-continue");
+          next.hidden = false;
+          next.focus();
+        } else finishLearnExample();
+      }
+    });
+  });
+  function finishLearnExample() {
+    detail.querySelector(".learn-complete").hidden = false;
+    const next = detail.querySelector(".learn-next-example");
+    if (next) next.hidden = false;
+  }
+  detail.querySelector(".learn-continue")?.addEventListener("click", (event) => {
+    event.currentTarget.hidden = true;
+    detail.querySelector(".learn-practice").hidden = false;
+    detail.querySelector(".learn-practice h6").focus();
+  });
+  detail.querySelectorAll("[data-learn-practice]").forEach(button => {
+    button.addEventListener("click", () => {
+      const answer = Number(button.dataset.learnPractice);
+      const correct = answer === practice.answer;
+      detail.querySelector(".learn-practice-feedback").textContent = `${correct ? "Yes." : "Try again."} ${practice.feedback[answer]}`;
+      if (correct) {
+        detail.querySelectorAll("[data-learn-practice]").forEach(choice => { choice.disabled = true; });
+        finishLearnExample();
+      }
+    });
+  });
+  detail.querySelector(".learn-next-example")?.addEventListener("click", () => {
+    renderLearnDetail(item, selectedIndex + 1);
+    detail.querySelector(".learn-worked-example h5").focus();
+  });
   const audioExampleText =
     filteredExamples.length > 0
       ? `Examples include ${filteredExamples.join(", ")}.`
@@ -7837,12 +7949,12 @@ ${suffixFunctionMarkup}
   setAudioButton(
     detail,
     `${item.speech} means ${item.meaning}. ` +
-    audioExampleText,
+    audioExampleText + (lesson ? ` ${lesson.explanation} ${lesson.sentence}${practice ? ` Practice sentence: ${practice.sentence} ${practice.question}` : ""}` : ""),
     [instructionalAudioDescriptor(item.id, item.speech)]
   );
 
   detail.scrollIntoView({
-    behavior: "smooth",
+    behavior: "instant",
     block: "nearest"
   });
 }
