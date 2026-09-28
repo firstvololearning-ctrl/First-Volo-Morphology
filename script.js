@@ -7358,11 +7358,17 @@ function renderSortItActivity() {
           <div class="sort-it-kicker">🗂️ Sort It</div>
           <h3>No Sort It rounds are available</h3>
           <p>
-            Try another flight or vocabulary level, or choose Prefixes, Roots, or Suffixes.
+            Choose Explore to learn a word part, or try Standard + Stretch Words for more guided examples.
           </p>
+          <button type="button" class="learn-check-choice" id="learnExploreEmpty">Explore word parts</button>
         </div>
       </div>
     `;
+    document.getElementById("learnExploreEmpty").addEventListener("click", () => {
+      learnMode = "explore";
+      renderLearnActivity();
+      learningGrid.querySelector("button")?.focus();
+    });
     return;
   }
 
@@ -7798,7 +7804,7 @@ function renderLearnDetail(item, lessonIndex = 0) {
 const examples =
   filteredExamples.length > 0
     ? filteredExamples.join(" · ")
-    : `No ${getVocabularyLevelLabel().toLowerCase()} examples are currently included for this word part.`;
+    : `No examples are available with these word settings. Try Standard + Stretch Words for guided examples.`;
 
 const exampleLabel =
   getLearnExampleLabel();
@@ -7872,6 +7878,8 @@ ${suffixFunctionMarkup}
             ${lessons.length > 1 ? `<p class="learn-example-count">Example ${selectedIndex + 1} of ${lessons.length}</p>` : ""}
             <p class="learn-word-equation">${escapeHTML(lesson.parts)}</p>
             <p>${escapeHTML(lesson.explanation)}</p>
+            ${lesson.steps ? `<section class="learn-build-steps" aria-label="Build the meaning"><h6>Build the meaning</h6><ol>${lesson.steps.map(step => `<li>${escapeHTML(step)}</li>`).join("")}</ol></section>` : ""}
+            ${lesson.spellingNote ? `<p class="learn-spelling-note"><strong>Notice the spelling:</strong> ${escapeHTML(lesson.spellingNote)}</p>` : ""}
             ${contrast ? `<p class="learn-contrast"><strong>Compare meanings:</strong> ${escapeHTML(contrast)}</p>` : ""}
             <p><strong>In a sentence:</strong> ${escapeHTML(lesson.sentence)}</p>
             <fieldset class="learn-check"><legend>${escapeHTML(lesson.question)}</legend>
@@ -7887,6 +7895,7 @@ ${suffixFunctionMarkup}
                 </fieldset>
                 <p class="learn-practice-feedback" aria-live="polite"></p>
               </section>` : ""}
+            ${lesson.reflection ? `<section class="learn-reflection" hidden aria-label="Explain it yourself"><h6>Explain it yourself</h6><p>${escapeHTML(lesson.reflection.question)}</p><p>Say your answer aloud or think it through, then compare.</p><details><summary>Show an example explanation</summary><p>${escapeHTML(lesson.reflection.model)}</p></details></section>` : ""}
             <p class="learn-complete" role="status" hidden>Guided practice complete. You used the word part and sentence clues together.</p>
             ${selectedIndex + 1 < lessons.length ? `<button type="button" class="learn-next-example learn-check-choice" hidden>Next example: ${escapeHTML(lessons[selectedIndex + 1].word)}</button>` : ""}
           </section>` : ""}
@@ -7921,6 +7930,8 @@ ${suffixFunctionMarkup}
   });
   function finishLearnExample() {
     detail.querySelector(".learn-complete").hidden = false;
+    const reflection = detail.querySelector(".learn-reflection");
+    if (reflection) reflection.hidden = false;
     const next = detail.querySelector(".learn-next-example");
     if (next) next.hidden = false;
   }
@@ -7947,12 +7958,12 @@ ${suffixFunctionMarkup}
   const audioExampleText =
     filteredExamples.length > 0
       ? `Examples include ${filteredExamples.join(", ")}.`
-      : `No ${getVocabularyLevelLabel().toLowerCase()} examples are currently included for this word part.`;
+      : `No examples are available with these word settings. Try Standard + Stretch Words for guided examples.`;
 
   setAudioButton(
     detail,
     `${item.speech} means ${item.meaning}. ` +
-    audioExampleText + (lesson ? ` ${lesson.explanation} ${lesson.sentence} ${contrast}${practice ? ` Practice sentence: ${practice.sentence} ${practice.question}` : ""}` : ""),
+    audioExampleText + (lesson ? ` ${lesson.explanation} ${(lesson.steps || []).join(" ")} ${lesson.spellingNote || ""} ${lesson.sentence} ${contrast}${practice ? ` Practice sentence: ${practice.sentence} ${practice.question}` : ""}` : ""),
     [instructionalAudioDescriptor(item.id, item.speech)]
   );
 

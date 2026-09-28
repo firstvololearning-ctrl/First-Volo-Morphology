@@ -7752,3 +7752,12 @@ header p {
 .sort-audio-stop { margin: 8px; }
 .sort-audio-feedback { display: block; margin: -10px auto 20px; }
 .sort-target-option button:focus-visible, .sort-word-option button:focus-visible, .sort-audio-stop:focus-visible, .sort-audio-feedback:focus-visible { outline: 3px solid #c78a18; outline-offset: 3px; }
+
+/* Guided Learn: readable steps and optional self-explanation. */
+.learn-build-steps, .learn-reflection { margin-block: 1rem; padding: 1rem; border: 1px solid currentColor; border-radius: 12px; }
+.learn-build-steps h6, .learn-reflection h6 { font-size: 1rem; margin: 0 0 .6rem; }
+.learn-build-steps ol { padding-inline-start: 1.5rem; margin-bottom: 0; }
+.learn-build-steps li + li { margin-top: .6rem; }
+.learn-spelling-note { line-height: 1.6; }
+.learn-reflection summary { cursor: pointer; padding-block: .6rem; font-weight: 600; }
+.learn-reflection summary:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }

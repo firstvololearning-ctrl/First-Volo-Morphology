@@ -50,7 +50,7 @@ for (const flight of ["all", "2-3", "4-5", "6-8"]) {
 // Each curated contrast must survive its intended Standard flight filters.
 for (const spec of content.meaningSorts) {
   const flight = morphemes.find(m => m.id === spec.groups[0].id).introBand;
-  context.gradeBand = flight; context.vocabLevel = "standard";
+  context.gradeBand = flight; context.vocabLevel = spec.recommendedVocabulary || "standard";
   const eligibleItem = item => morphemes.find(m => m.id === item.id).introBand === flight;
   const round = content.buildMeaningRounds(spec.mode, arrays[spec.mode], eligibleItem, context.isLearnWordEligible).find(r => r.id === spec.id);
   assert.ok(round, `${spec.id}: missing from intended flight`);
@@ -89,7 +89,16 @@ for (const item of Object.values(arrays).flat()) {
     assert.ok(practice.answer >= 0 && practice.answer < practice.choices.length);
   }
 }
-// Every card needs a usable example and active teaching at its own Standard flight.
+// Honest coverage: reviewed specialized words do not satisfy Standard quotas.
+const limitedStandard = new Set(['ab', 'retro', 'circum', 'spect', 'mit', 'biblio']);
+const reviewedChallenge = ['ablate','retro-rocket','retrofire','circumstance','aspect','remit','bibliographer'];
+for (const word of reviewedChallenge) {
+  context.gradeBand = 'all'; context.vocabLevel = 'standard';
+  assert.equal(context.isLearnWordEligible(word), false, `${word}: must not appear in Standard`);
+  context.vocabLevel = 'all';
+  assert.equal(context.isLearnWordEligible(word), true, `${word}: guided Stretch remains available`);
+}
+// All other families retain their existing two-example Standard coverage.
 for (const flight of ["2-3", "4-5", "6-8"]) {
   context.gradeBand = flight; context.vocabLevel = "standard";
   const eligibleItem = item => morphemes.find(m => m.id === item.id).introBand === flight;
@@ -97,11 +106,11 @@ for (const flight of ["2-3", "4-5", "6-8"]) {
     const rounds = content.buildRounds(mode, arrays[mode], eligibleItem, context.isLearnWordEligible);
     const targets = new Set(rounds.flatMap(r => r.targets.map(t => t.id)));
     for (const item of arrays[mode].filter(eligibleItem)) {
-      assert.ok(context.getLearnExamplesForSelectedVocabulary(item).length >= 2, `${flight}/${item.id}: needs two examples`);
+      if (!limitedStandard.has(item.id)) assert.ok(context.getLearnExamplesForSelectedVocabulary(item).length >= 2, `${flight}/${item.id}: needs two examples`);
       const lessons = content.lessons(item).filter(l => context.isLearnWordEligible(l.word));
-      assert.ok(lessons.length || targets.has(item.id), `${flight}/${item.id}: reference only`);
+      if (item.id !== 'retro') assert.ok(lessons.length || targets.has(item.id), `${flight}/${item.id}: reference only`);
     }
-    if (flight === "6-8" && mode === "prefixes") assert.ok(rounds.length, "Flight C prefix practice");
+    if (flight === "6-8" && mode === "prefixes") assert.ok(!rounds.some(r => r.id === 'away-backward'), "specialized sort is excluded from Standard");
   }
 }
 context.gradeBand = "all"; context.vocabLevel = "all";
@@ -109,7 +118,7 @@ context.gradeBand = "all"; context.vocabLevel = "all";
 for (const id of ['sub','ion','ment','circum','spect','mit','biblio']) {
   const item = Object.values(arrays).flat().find(x => x.id === id);
   context.gradeBand = morphemes.find(m => m.id === id).introBand;
-  context.vocabLevel = 'standard';
+  context.vocabLevel = ['circum','spect','mit','biblio'].includes(id) ? 'all' : 'standard';
   const lessons = content.lessons(item).filter(l => context.isLearnWordEligible(l.word));
   assert.ok(lessons.length >= 2, `${id}: two worked examples`);
   const first = lessons[0], application = content.practiceFor(first, context.isLearnWordEligible);
@@ -146,3 +155,18 @@ content.meaningSorts[0].groups[0].cards.push(content.meaningSorts[0].groups[1].c
 assert.equal(meaningRounds(context.isLearnWordEligible).length,0);
 content.meaningSorts[0].groups[0].cards.pop();
 console.log(JSON.stringify({ passed: true, filterCombinations: combinations, workedExamples: Object.keys(content.worked).length, addedWords: Object.values(content.additions).flat().length, coverage }, null, 2));
+
+// New lessons use approved examples, genuine different-word practice and oral review.
+for (const id of ['un-negation','re','pre','mis','dis','over','ed','ing','s-es','ful','less','est']) {
+  const lesson = content.worked[id];
+  assert.equal(lesson.steps.length, 3);
+  assert.ok(lesson.spellingNote && lesson.reflection.question && lesson.reflection.model);
+  const followup = content.practice[lesson.word];
+  assert.notEqual(followup.sentence, lesson.sentence);
+  assert.ok(!protectedWords.isProtected(followup.transfer.word));
+  assert.notEqual(followup.transfer.word, lesson.word);
+  context.gradeBand = '2-3'; context.vocabLevel = 'standard';
+  assert.ok(context.isLearnWordEligible(lesson.word));
+  assert.ok(context.isLearnWordEligible(followup.transfer.word));
+  assert.equal(content.practiceFor(lesson, () => false).word, undefined);
+}

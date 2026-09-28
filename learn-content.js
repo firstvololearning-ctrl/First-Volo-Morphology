@@ -2232,6 +2232,667 @@
     const followup = practice[lesson.word];
     practice[worked[id].word].transfer = { ...followup, word: lesson.word };
   }
+  // Difficulty review: retain supported Stretch access without moving words
+  // away from the introduction flight of their morpheme cards.
+  for (const word of ["ablate", "retro-rocket", "retrofire", "circumstance", "aspect", "remit", "bibliographer"]) {
+    metadata[word].vocabLevel = "challenge";
+    metadata[word].placementStatus = "Reviewed 2026-09-28: guided Challenge; editorial, not norm-validated";
+  }
+  // This contrast requires specialized vocabulary and is available in Stretch.
+  meaningSorts.find(round => round.id === "away-backward").recommendedVocabulary = "all";
+  Object.assign(worked, {
+  "un-negation": {
+    "word": "unsafe",
+    "parts": "un- + safe → unsafe",
+    "steps": [
+      "Start with safe: free from danger in this situation.",
+      "Add un-: here it means not.",
+      "Unsafe means not safe. Use the sentence to identify the danger."
+    ],
+    "explanation": "Unsafe means not safe. Use the sentence to identify the danger.",
+    "sentence": "The broken ladder is unsafe to climb.",
+    "question": "Why should we avoid the ladder?",
+    "choices": [
+      "It is not safe.",
+      "It is safe again."
+    ],
+    "answer": 0,
+    "spellingNote": "Keep the spelling of safe when adding un-.",
+    "contrast": "Unsafe describes a lack of safety; unclear describes a lack of clarity. Un- contributes not, while the base supplies the quality.",
+    "contrastWords": [
+      "unsafe",
+      "unclear"
+    ],
+    "reflection": {
+      "question": "Explain how un- changes safe in the ladder sentence.",
+      "model": "It changes safe to not safe; the broken ladder could be dangerous."
+    }
+  },
+  "re": {
+    "word": "rewash",
+    "parts": "re- + wash → rewash",
+    "steps": [
+      "Start with wash: clean with water.",
+      "Add re-: in this word it means again.",
+      "Rewash means wash again, because the first wash was not enough."
+    ],
+    "explanation": "Rewash means wash again, because the first wash was not enough.",
+    "sentence": "I rewash the muddy shirt because it is still dirty.",
+    "question": "What am I doing?",
+    "choices": [
+      "Washing for the first time",
+      "Washing again"
+    ],
+    "answer": 1,
+    "spellingNote": "Keep wash unchanged after re-.",
+    "contrast": "Rewash repeats washing; retell repeats telling. Check the whole word: letters re do not always mean again.",
+    "contrastWords": [
+      "rewash",
+      "retell"
+    ],
+    "reflection": {
+      "question": "What clue tells you the shirt needs another wash?",
+      "model": "It is still dirty. Re- tells us the washing is repeated."
+    }
+  },
+  "pre": {
+    "word": "precook",
+    "parts": "pre- + cook → precook",
+    "steps": [
+      "Start with cook: prepare food using heat.",
+      "Add pre-: it means before.",
+      "Precook means cook in advance of a later preparation or use."
+    ],
+    "explanation": "Precook means cook in advance of a later preparation or use.",
+    "sentence": "We precook the rice before adding it to the dish.",
+    "question": "When do we cook the rice?",
+    "choices": [
+      "Before adding it to the dish",
+      "Only after eating the dish"
+    ],
+    "answer": 0,
+    "spellingNote": "Keep cook unchanged after pre-.",
+    "contrast": "Precook refers to an action done in advance; preschool names an educational stage before primary school.",
+    "contrastWords": [
+      "precook",
+      "preschool"
+    ],
+    "reflection": {
+      "question": "Explain the order of actions in the rice sentence.",
+      "model": "First we cook the rice; then we add it to the dish. Pre- contributes before."
+    }
+  },
+  "mis": {
+    "word": "misread",
+    "parts": "mis- + read → misread",
+    "steps": [
+      "Start with read: get meaning from written words.",
+      "Add mis-: in this word it means wrongly.",
+      "Misread means read or understand incorrectly."
+    ],
+    "explanation": "Misread means read or understand incorrectly.",
+    "sentence": "I misread the sign and go to the wrong room.",
+    "question": "What went wrong?",
+    "choices": [
+      "I read the sign correctly.",
+      "I understood the sign incorrectly."
+    ],
+    "answer": 1,
+    "spellingNote": "Keep read unchanged after mis-. Its pronunciation depends on whether the sentence is present or past tense.",
+    "contrast": "Misread concerns reading incorrectly; misspell concerns writing the letters incorrectly.",
+    "contrastWords": [
+      "misread",
+      "misspell"
+    ],
+    "reflection": {
+      "question": "What evidence shows that the sign was misread?",
+      "model": "Going to the wrong room shows the message was understood incorrectly."
+    }
+  },
+  "dis": {
+    "word": "disconnect",
+    "parts": "dis- + connect → disconnect",
+    "steps": [
+      "Start with connect: join or link.",
+      "Add dis-: here it reverses the connection.",
+      "Disconnect means separate things that were connected."
+    ],
+    "explanation": "Disconnect means separate things that were connected.",
+    "sentence": "We disconnect the two toy train cars.",
+    "question": "What happens to the cars?",
+    "choices": [
+      "They are separated.",
+      "They are joined again."
+    ],
+    "answer": 0,
+    "spellingNote": "Keep connect unchanged after dis-.",
+    "contrast": "Disconnect reverses a connection; disobey means not obey. The whole word tells us which sense of dis- fits.",
+    "contrastWords": [
+      "disconnect",
+      "disobey"
+    ],
+    "reflection": {
+      "question": "How does dis- change connect in the train sentence?",
+      "model": "Connect means join; disconnect means separate what was joined."
+    }
+  },
+  "over": {
+    "word": "overuse",
+    "parts": "over- + use → overuse",
+    "steps": [
+      "Start with use: put something to a purpose.",
+      "Add over-: here it means too much.",
+      "Overuse means use excessively, not simply use once."
+    ],
+    "explanation": "Overuse means use excessively, not simply use once.",
+    "sentence": "If we overuse the markers, they may run dry.",
+    "question": "What does over- mean here?",
+    "choices": [
+      "Above our heads",
+      "Too much"
+    ],
+    "answer": 1,
+    "spellingNote": "Keep use unchanged after over-.",
+    "contrast": "Overuse means use too much; overhead means above. The same prefix can contribute different meanings.",
+    "contrastWords": [
+      "overuse",
+      "overhead"
+    ],
+    "reflection": {
+      "question": "Why does too much fit better than above in overuse?",
+      "model": "The sentence concerns how much the markers are used, not where they are."
+    }
+  },
+  "ed": {
+    "word": "walked",
+    "parts": "walk + -ed → walked",
+    "steps": [
+      "Start with walk: move on foot.",
+      "Add -ed: here it marks a past action.",
+      "Walked tells us the walking happened earlier."
+    ],
+    "explanation": "Walked tells us the walking happened earlier.",
+    "sentence": "Yesterday we walked to the park.",
+    "question": "When did the walking happen?",
+    "choices": [
+      "Earlier, yesterday",
+      "Tomorrow"
+    ],
+    "answer": 0,
+    "spellingNote": "Add -ed to walk without changing the base. The ending is pronounced /t/ here, not as an extra syllable.",
+    "contrast": "Walked and jumped describe different actions, but both endings mark past time.",
+    "contrastWords": [
+      "walked",
+      "jumped"
+    ],
+    "reflection": {
+      "question": "Which two clues show past time in the park sentence?",
+      "model": "Yesterday gives the time; -ed in walked marks the past action."
+    }
+  },
+  "ing": {
+    "word": "running",
+    "parts": "run + -ing → running",
+    "steps": [
+      "Start with run: move quickly on foot.",
+      "Add -ing and adjust the spelling: running.",
+      "In is running, the two words together show an action in progress."
+    ],
+    "explanation": "In is running, the two words together show an action in progress.",
+    "sentence": "The dog is running across the field.",
+    "question": "What is the dog doing in this sentence?",
+    "choices": [
+      "It finished long ago.",
+      "It is in the middle of the action."
+    ],
+    "answer": 1,
+    "spellingNote": "Run ends in one vowel letter followed by one consonant in a one-syllable word. Double n before -ing: running.",
+    "contrast": "Running doubles the final n; writing drops the final e. Both can appear with is to show an action in progress.",
+    "contrastWords": [
+      "running",
+      "writing"
+    ],
+    "reflection": {
+      "question": "Does -ing alone always mean right now? Use the sentence to explain.",
+      "model": "No. Here is running shows an action in progress. The surrounding words help establish time."
+    }
+  },
+  "s-es": {
+    "word": "books",
+    "parts": "book + -s → books",
+    "steps": [
+      "Start with book: one item.",
+      "Add -s: here it marks more than one.",
+      "Books is a plural noun in this sentence."
+    ],
+    "explanation": "Books is a plural noun in this sentence.",
+    "sentence": "Three books are on the shelf.",
+    "question": "What does -s tell us here?",
+    "choices": [
+      "More than one book",
+      "Something happened yesterday"
+    ],
+    "answer": 0,
+    "spellingNote": "Add -s to book. Other nouns need a different plural spelling; this is not a rule for every noun.",
+    "contrast": "Books uses -s; boxes uses -es. Both endings mark plural nouns in these sentences.",
+    "contrastWords": [
+      "books",
+      "boxes"
+    ],
+    "reflection": {
+      "question": "How do the number and ending work together in three books?",
+      "model": "Three gives the exact number. The -s ending tells us the noun is plural."
+    }
+  },
+  "ful": {
+    "word": "careful",
+    "parts": "care + -ful → careful",
+    "steps": [
+      "Start with care: attention to avoid problems or harm.",
+      "Add -ful: here it helps form a describing word.",
+      "Careful describes someone who takes care with an action."
+    ],
+    "explanation": "Careful describes someone who takes care with an action.",
+    "sentence": "The careful painter keeps the paint off the floor.",
+    "question": "What does careful describe?",
+    "choices": [
+      "A person taking care",
+      "A person ignoring the task"
+    ],
+    "answer": 0,
+    "spellingNote": "Keep the final e in care before -ful. The suffix -ful has one l.",
+    "contrast": "Careful concerns taking care; playful concerns wanting to play. The ending alone does not supply the whole meaning.",
+    "contrastWords": [
+      "careful",
+      "playful"
+    ],
+    "reflection": {
+      "question": "What action shows the painter is careful?",
+      "model": "Keeping paint off the floor shows attention to the task."
+    }
+  },
+  "less": {
+    "word": "cloudless",
+    "parts": "cloud + -less → cloudless",
+    "steps": [
+      "Start with cloud: a cloud in the sky.",
+      "Add -less: here it means without.",
+      "Cloudless describes a sky without clouds."
+    ],
+    "explanation": "Cloudless describes a sky without clouds.",
+    "sentence": "We see the stars in the cloudless sky.",
+    "question": "What is missing from the sky?",
+    "choices": [
+      "Stars",
+      "Clouds"
+    ],
+    "answer": 1,
+    "spellingNote": "Keep cloud unchanged and add -less.",
+    "contrast": "Cloudless concerns the absence of clouds; harmless concerns the absence of harm. The base tells us what is absent.",
+    "contrastWords": [
+      "cloudless",
+      "harmless"
+    ],
+    "reflection": {
+      "question": "How does cloudless help explain the view of the stars?",
+      "model": "Without clouds covering the sky, the stars can be seen."
+    }
+  },
+  "est": {
+    "word": "tallest",
+    "parts": "tall + -est → tallest",
+    "steps": [
+      "Start with tall: a measure of height.",
+      "Add -est: it marks the greatest degree within a group.",
+      "Tallest means greater in height than the others in the group being compared."
+    ],
+    "explanation": "Tallest means greater in height than the others in the group being compared.",
+    "sentence": "This is the tallest of the three plants.",
+    "question": "Which plant is described?",
+    "choices": [
+      "The one with the greatest height",
+      "Any plant taller than one other plant"
+    ],
+    "answer": 0,
+    "spellingNote": "Keep tall unchanged and add -est. We do not add -est to every describing word.",
+    "contrast": "Tallest compares height; fastest compares speed. Both compare one member with the whole stated group.",
+    "contrastWords": [
+      "tallest",
+      "fastest"
+    ],
+    "reflection": {
+      "question": "Why does the phrase of the three plants matter?",
+      "model": "It identifies the group being compared; tallest does not mean tallest everywhere."
+    }
+  }
+});
+  Object.assign(practice, {
+  "unsafe": {
+    "sentence": "The broken ladder is unsafe to climb.",
+    "question": "Why should we avoid the ladder?",
+    "choices": [
+      "It is not safe.",
+      "It is safe again."
+    ],
+    "answer": 0,
+    "feedback": [
+      "Unsafe means not safe. Use the sentence to identify the danger.",
+      "Unsafe means not safe. Use the sentence to identify the danger."
+    ],
+    "transfer": {
+      "word": "unclear",
+      "sentence": "The smudged sign is unclear, so I cannot read its message.",
+      "question": "What does unclear mean here?",
+      "choices": [
+        "Not easy to understand",
+        "Clear again"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Un- means not here; the smudges make the message hard to understand.",
+        "Un- means not here; the smudges make the message hard to understand."
+      ]
+    }
+  },
+  "rewash": {
+    "sentence": "I rewash the muddy shirt because it is still dirty.",
+    "question": "What am I doing?",
+    "choices": [
+      "Washing for the first time",
+      "Washing again"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Rewash means wash again, because the first wash was not enough.",
+      "Rewash means wash again, because the first wash was not enough."
+    ],
+    "transfer": {
+      "word": "retell",
+      "sentence": "After hearing the story, I retell it to my brother.",
+      "question": "What does retell mean?",
+      "choices": [
+        "Tell it again",
+        "Refuse to tell it"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Re- means again in retell; the story is told another time.",
+        "Re- means again in retell; the story is told another time."
+      ]
+    }
+  },
+  "precook": {
+    "sentence": "We precook the rice before adding it to the dish.",
+    "question": "When do we cook the rice?",
+    "choices": [
+      "Before adding it to the dish",
+      "Only after eating the dish"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Precook means cook in advance of a later preparation or use.",
+      "Precook means cook in advance of a later preparation or use."
+    ],
+    "transfer": {
+      "word": "preschool",
+      "sentence": "Before primary school, my sister attended preschool.",
+      "question": "What time relationship does pre- suggest?",
+      "choices": [
+        "Before primary school",
+        "After primary school"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Pre- contributes before. Preschool is education before primary school.",
+        "Pre- contributes before. Preschool is education before primary school."
+      ]
+    }
+  },
+  "misread": {
+    "sentence": "I misread the sign and go to the wrong room.",
+    "question": "What went wrong?",
+    "choices": [
+      "I read the sign correctly.",
+      "I understood the sign incorrectly."
+    ],
+    "answer": 1,
+    "feedback": [
+      "Misread means read or understand incorrectly.",
+      "Misread means read or understand incorrectly."
+    ],
+    "transfer": {
+      "word": "misspell",
+      "sentence": "I misspell the name, then check its letters.",
+      "question": "What needs correcting?",
+      "choices": [
+        "The spelling of the name",
+        "The size of the page"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Mis- contributes wrongly. To misspell is to spell incorrectly.",
+        "Mis- contributes wrongly. To misspell is to spell incorrectly."
+      ]
+    }
+  },
+  "disconnect": {
+    "sentence": "We disconnect the two toy train cars.",
+    "question": "What happens to the cars?",
+    "choices": [
+      "They are separated.",
+      "They are joined again."
+    ],
+    "answer": 0,
+    "feedback": [
+      "Disconnect means separate things that were connected.",
+      "Disconnect means separate things that were connected."
+    ],
+    "transfer": {
+      "word": "disobey",
+      "sentence": "The character chooses to disobey the rule.",
+      "question": "What does the character do?",
+      "choices": [
+        "Follow the rule",
+        "Not follow the rule"
+      ],
+      "answer": 1,
+      "feedback": [
+        "In disobey, dis- contributes not: the character does not obey.",
+        "In disobey, dis- contributes not: the character does not obey."
+      ]
+    }
+  },
+  "overuse": {
+    "sentence": "If we overuse the markers, they may run dry.",
+    "question": "What does over- mean here?",
+    "choices": [
+      "Above our heads",
+      "Too much"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Overuse means use excessively, not simply use once.",
+      "Overuse means use excessively, not simply use once."
+    ],
+    "transfer": {
+      "word": "overhead",
+      "sentence": "A plane passes overhead as we look up.",
+      "question": "What does over- suggest here?",
+      "choices": [
+        "A position above us",
+        "Too much flying"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Overhead means above our heads. Here over- concerns position, not excess.",
+        "Overhead means above our heads. Here over- concerns position, not excess."
+      ]
+    }
+  },
+  "walked": {
+    "sentence": "Yesterday we walked to the park.",
+    "question": "When did the walking happen?",
+    "choices": [
+      "Earlier, yesterday",
+      "Tomorrow"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Walked tells us the walking happened earlier.",
+      "Walked tells us the walking happened earlier."
+    ],
+    "transfer": {
+      "word": "jumped",
+      "sentence": "Yesterday the frog jumped into the pond.",
+      "question": "What does -ed tell us?",
+      "choices": [
+        "The jump happened earlier.",
+        "There are several frogs."
+      ],
+      "answer": 0,
+      "feedback": [
+        "-Ed marks a past action here; yesterday supports that meaning.",
+        "-Ed marks a past action here; yesterday supports that meaning."
+      ]
+    }
+  },
+  "running": {
+    "sentence": "The dog is running across the field.",
+    "question": "What is the dog doing in this sentence?",
+    "choices": [
+      "It finished long ago.",
+      "It is in the middle of the action."
+    ],
+    "answer": 1,
+    "feedback": [
+      "In is running, the two words together show an action in progress.",
+      "In is running, the two words together show an action in progress."
+    ],
+    "transfer": {
+      "word": "writing",
+      "sentence": "Maya is writing a note at her desk.",
+      "question": "What is happening?",
+      "choices": [
+        "The writing is in progress.",
+        "The writing will never begin."
+      ],
+      "answer": 0,
+      "feedback": [
+        "Is writing describes an action in progress. Drop the final e in write before adding -ing.",
+        "Is writing describes an action in progress. Drop the final e in write before adding -ing."
+      ]
+    }
+  },
+  "books": {
+    "sentence": "Three books are on the shelf.",
+    "question": "What does -s tell us here?",
+    "choices": [
+      "More than one book",
+      "Something happened yesterday"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Books is a plural noun in this sentence.",
+      "Books is a plural noun in this sentence."
+    ],
+    "transfer": {
+      "word": "boxes",
+      "sentence": "Two boxes are beside the door.",
+      "question": "What does -es tell us here?",
+      "choices": [
+        "More than one box",
+        "One very small box"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Boxes is plural. Add -es to box to name more than one.",
+        "Boxes is plural. Add -es to box to name more than one."
+      ]
+    }
+  },
+  "careful": {
+    "sentence": "The careful painter keeps the paint off the floor.",
+    "question": "What does careful describe?",
+    "choices": [
+      "A person taking care",
+      "A person ignoring the task"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Careful describes someone who takes care with an action.",
+      "Careful describes someone who takes care with an action."
+    ],
+    "transfer": {
+      "word": "playful",
+      "sentence": "The playful puppy chases a toy.",
+      "question": "What does playful describe?",
+      "choices": [
+        "An interest in playing",
+        "An inability to move"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Playful describes someone or something inclined to play. -Ful helps form this adjective.",
+        "Playful describes someone or something inclined to play. -Ful helps form this adjective."
+      ]
+    }
+  },
+  "cloudless": {
+    "sentence": "We see the stars in the cloudless sky.",
+    "question": "What is missing from the sky?",
+    "choices": [
+      "Stars",
+      "Clouds"
+    ],
+    "answer": 1,
+    "feedback": [
+      "Cloudless describes a sky without clouds.",
+      "Cloudless describes a sky without clouds."
+    ],
+    "transfer": {
+      "word": "harmless",
+      "sentence": "In this story, the strange noise is harmless.",
+      "question": "What does harmless mean here?",
+      "choices": [
+        "Not causing harm",
+        "Causing much harm"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Harmless means not causing harm. -Less contributes without.",
+        "Harmless means not causing harm. -Less contributes without."
+      ]
+    }
+  },
+  "tallest": {
+    "sentence": "This is the tallest of the three plants.",
+    "question": "Which plant is described?",
+    "choices": [
+      "The one with the greatest height",
+      "Any plant taller than one other plant"
+    ],
+    "answer": 0,
+    "feedback": [
+      "Tallest means greater in height than the others in the group being compared.",
+      "Tallest means greater in height than the others in the group being compared."
+    ],
+    "transfer": {
+      "word": "fastest",
+      "sentence": "Of the four runners, Jo is the fastest.",
+      "question": "What does -est show?",
+      "choices": [
+        "Jo is faster than everyone else in this group.",
+        "Jo has run before."
+      ],
+      "answer": 0,
+      "feedback": [
+        "Fastest identifies the greatest speed within the stated group.",
+        "Fastest identifies the greatest speed within the stated group."
+      ]
+    }
+  }
+});
+  for (const [word, sentence] of Object.entries({"unsafe": "The loose step makes this ladder unsafe to climb.", "rewash": "The shirt still has mud on it, so I rewash it.", "precook": "We precook some rice now to add to the dish later.", "misread": "I misread the room number on the sign and enter the wrong room.", "disconnect": "After playing, we disconnect the toy train cars and put them away.", "overuse": "We overuse the markers by using them much more than necessary.", "walked": "Yesterday I walked home with my friend.", "running": "The dog is running toward the gate.", "books": "Several books are in my bag.", "careful": "The careful painter works slowly to avoid spilling paint.", "cloudless": "Tonight the cloudless sky gives us a clear view of the stars.", "tallest": "Of these three plants, this one is the tallest."})) practice[word].sentence = sentence;
   function practiceFor(lesson, eligibleWord) {
     const base = practice[lesson.word];
     return base?.transfer && eligibleWord(base.transfer.word) ? base.transfer : base;

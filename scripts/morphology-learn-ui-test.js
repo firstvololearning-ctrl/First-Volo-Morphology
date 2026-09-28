@@ -78,6 +78,7 @@ for (const id of Object.keys(w.FirstVoloLearnContent.worked)) {
     assert.ok(w.document.querySelector('.learn-worked-example h5').textContent.includes(lesson.word));
     assert.equal(w.document.querySelector('.learn-practice').hidden,true);
     assert.equal(w.document.querySelector('.learn-complete').hidden,true);
+    if (lesson.reflection) assert.equal(w.document.querySelector('.learn-reflection').hidden,true);
     w.document.querySelector(`[data-learn-choice="${1-lesson.answer}"]`).click();
     assert.equal(w.document.querySelector('.learn-continue').hidden,true,'wrong answer cannot advance');
     w.document.querySelector(`[data-learn-choice="${lesson.answer}"]`).click();
@@ -88,6 +89,12 @@ for (const id of Object.keys(w.FirstVoloLearnContent.worked)) {
     assert.ok(w.document.querySelector('.learn-practice-feedback').textContent.includes(practice.feedback[1-practice.answer]));
     w.document.querySelector(`[data-learn-practice="${practice.answer}"]`).click();
     assert.equal(w.document.querySelector('.learn-complete').hidden,false);
+    if (lesson.reflection) {
+      assert.equal(w.document.querySelector('.learn-reflection').hidden,false);
+      assert.equal(w.document.querySelector('.learn-reflection details').open,false);
+      assert.equal(w.document.querySelectorAll('.learn-build-steps li').length,3);
+      assert.ok(w.lastAudioText.includes(lesson.spellingNote));
+    }
     applicationsTested++;
     assert.ok(w.lastAudioText.includes(practice.sentence));
     if(i+1<lessons.length) {
@@ -111,6 +118,26 @@ w.isLearnWordEligible=word=>word!=='unroll' && baseEligibility(word);
 w.renderLearnDetail(w.prefixes.find(i=>i.id==='un-reversative'));
 assert.equal(w.document.querySelector('.learn-next-example'),null);
 w.isLearnWordEligible=baseEligibility;
+// Every new comparison and different-word question respects later exclusions.
+for (const id of ['un-negation','re','pre','mis','dis','over','ed','ing','s-es','ful','less','est']) {
+  const item=[...w.prefixes,...w.suffixes].find(item=>item.id===id);
+  const lesson=w.FirstVoloLearnContent.worked[id];
+  const paired=w.FirstVoloLearnContent.practice[lesson.word].transfer.word;
+  w.isLearnWordEligible=word=>word!==paired && baseEligibility(word);
+  w.renderLearnDetail(item);
+  assert.equal(w.document.querySelector('.learn-contrast'),null, `${id}: filtered comparison`);
+  assert.equal(w.document.querySelector('.learn-continue').textContent,'Try a new sentence');
+  assert.ok(!new RegExp('\\b'+paired+'\\b','i').test(w.lastAudioText), `${id}: audio excludes paired word`);
+}
+w.isLearnWordEligible=baseEligibility;
+w.gradeBand='6-8';w.vocabLevel='standard';w.studyMode='prefixes';w.learnMode='sort';w.renderLearnActivity();
+assert.equal(w.document.querySelector('[data-sort-card]'),null,'specialist sort hidden from Standard');
+w.document.getElementById('learnExploreEmpty').click();
+assert.equal(w.learnMode,'explore');
+w.renderLearnDetail(w.prefixes.find(i=>i.id==='retro'));
+assert.equal(w.document.querySelector('.learn-worked-example'),null);
+assert.match(w.document.getElementById('learnDetailPanel').textContent,/Standard \+ Stretch/);
+w.gradeBand='all';w.vocabLevel='all';
 w.studyMode='prefixes';w.learnMode='sort';w.renderLearnActivity();
 assert.ok(w.document.querySelector('[data-sort-card]'), 'existing prefix sorting remains available');
 for (const card of w.document.querySelectorAll('[data-sort-card]')) assert.ok(!w.FirstVoloInstructionalProtection.isProtected(card.textContent.trim()));

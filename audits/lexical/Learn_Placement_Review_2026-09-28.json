@@ -1,0 +1,314 @@
+{
+  "review_date": "2026-09-28",
+  "source_commit": "af5ad66dd64a2c7acf4c901b5404df209546e95c",
+  "status": "Implemented in Learn supplement: seven words changed to guided Challenge; nine retained in Standard. Master workbook unchanged.",
+  "placements_are": "Editorial recommendations, not norm-validated placements",
+  "awf_query_grades": [
+    1,
+    4,
+    9,
+    12
+  ],
+  "words": [
+    {
+      "word": "enlarge",
+      "wvi": [],
+      "headings": [
+        "en\u00b7large",
+        "enlarge"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard",
+      "rationale": "Teach make larger with a before/after picture; connect en- with large.",
+      "awf_reported_grade_ranges": [
+        "2\u20132"
+      ],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=enlarge",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/enlarge"
+    },
+    {
+      "word": "endanger",
+      "wvi": [],
+      "headings": [
+        "en\u00b7dan\u00b7ger",
+        "endanger"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard, supported",
+      "rationale": "Explain danger first and use put in danger in a concrete sentence. Familiarity is not verified; do not assume independent recognition.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=endanger",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/endanger"
+    },
+    {
+      "word": "lovable",
+      "wvi": [],
+      "headings": [
+        "lov\u00b7a\u00b7ble",
+        "lovable"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard",
+      "rationale": "Use easy to love; explicitly model love \u2192 lovable and the spelling change.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=lovable",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/lovable"
+    },
+    {
+      "word": "enjoyable",
+      "wvi": [
+        "2"
+      ],
+      "headings": [
+        "en\u00b7joy\u00b7a\u00b7ble",
+        "enjoyable"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard, supported",
+      "rationale": "Check enjoy first, then explain enjoyable. WVI 2 supports caution about treating this as already familiar to every younger learner.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=enjoyable",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/enjoyable"
+    },
+    {
+      "word": "transplant",
+      "wvi": [],
+      "headings": [
+        "trans\u00b7plant",
+        "transplant"
+      ],
+      "ngsl": null,
+      "nawl_exact": true,
+      "current_placement": "B academic",
+      "recommendation": "Keep B Standard, supported",
+      "rationale": "Use moving a plant to another place, with a picture. Teach that sense before medical uses; NAWL membership does not establish grade.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=transplant",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/transplant"
+    },
+    {
+      "word": "exclude",
+      "wvi": [
+        "2"
+      ],
+      "headings": [
+        "ex\u00b7clude",
+        "exclude"
+      ],
+      "ngsl": {
+        "Lemma": "exclude",
+        "SFI Rank": "2088",
+        "SFI": "55.25",
+        "Adjusted Frequency per Million (U)": "34"
+      },
+      "nawl_exact": false,
+      "current_placement": "B academic",
+      "recommendation": "Keep B Standard",
+      "rationale": "Use leave out / keep out in a concrete grouping example. Explain the whole word; clude is not an independent English base.",
+      "awf_reported_grade_ranges": [
+        "4\u20134"
+      ],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=exclude",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/exclude"
+    },
+    {
+      "word": "ablate",
+      "wvi": [],
+      "headings": [
+        "ab\u00b7late",
+        "ablate"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "C academic",
+      "recommendation": "C guided Challenge",
+      "rationale": "Technical process vocabulary and an opaque base make this a poor default example of ab-. Explain the whole process before discussing the prefix.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=ablate",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/ablate"
+    },
+    {
+      "word": "retro-rocket",
+      "wvi": [],
+      "headings": [
+        "ret\u00b7ro\u00b7rock\u00b7et",
+        "retrorocket"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "C academic",
+      "recommendation": "C guided Challenge",
+      "rationale": "Requires knowledge of thrust and opposing motion. A diagram and explicit explanation are needed; not general Standard vocabulary.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=retro-rocket",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/retro-rocket"
+    },
+    {
+      "word": "retrofire",
+      "wvi": [],
+      "headings": [
+        "ret\u00b7ro\u00b7fire",
+        "retrofire"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "C academic",
+      "recommendation": "C guided Challenge",
+      "rationale": "Explain firing a retrorocket, rather than inviting a guess from fire backward. Paired with retro-rocket it mostly repeats one technical concept.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=retrofire",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/retrofire"
+    },
+    {
+      "word": "subway",
+      "wvi": [
+        "1"
+      ],
+      "headings": [
+        "sub\u00b7way",
+        "subway"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard, supported",
+      "rationale": "WVI 1 and AWF 4\u20136 disagree. Use a picture of an underground railway and establish the intended sense; regional experience matters. A is an instructional judgment, not a verified grade norm.",
+      "awf_reported_grade_ranges": [
+        "4\u20136"
+      ],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=subway",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/subway"
+    },
+    {
+      "word": "payment",
+      "wvi": [
+        "2"
+      ],
+      "headings": [
+        "pay\u00b7ment",
+        "payment"
+      ],
+      "ngsl": {
+        "Lemma": "payment",
+        "SFI Rank": "1268",
+        "SFI": "58.34",
+        "Adjusted Frequency per Million (U)": "68"
+      },
+      "nawl_exact": false,
+      "current_placement": "A familiar",
+      "recommendation": "Keep A Standard, supported",
+      "rationale": "Use paying for an everyday item; model pay \u2192 payment. WVI 2 means early familiarity should be checked, despite general frequency evidence.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=payment",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/payment"
+    },
+    {
+      "word": "subtraction",
+      "wvi": [],
+      "headings": [
+        "sub\u00b7trac\u00b7tion",
+        "subtraction"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "A academic",
+      "recommendation": "Keep A Standard, supported",
+      "rationale": "Connect to a known taking-away calculation and subtract \u2192 subtraction. Knowing the arithmetic does not establish knowledge of the suffix.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=subtraction",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/subtraction"
+    },
+    {
+      "word": "circumstance",
+      "wvi": [
+        "2"
+      ],
+      "headings": [
+        "cir\u00b7cum\u00b7stance",
+        "circumstance"
+      ],
+      "ngsl": {
+        "Lemma": "circumstance",
+        "SFI Rank": "1229",
+        "SFI": "58.52",
+        "Adjusted Frequency per Million (U)": "71"
+      },
+      "nawl_exact": false,
+      "current_placement": "B academic",
+      "recommendation": "B guided Challenge; revisit in C",
+      "rationale": "Abstract meaning and AWF grade 7 weigh against default B exposure, despite WVI 2 and general frequency. Teach a situation example; surrounding conditions is a historical meaning connection, not a transparent decoding rule.",
+      "awf_reported_grade_ranges": [
+        "7\u20137"
+      ],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=circumstance",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/circumstance"
+    },
+    {
+      "word": "aspect",
+      "wvi": [
+        "3"
+      ],
+      "headings": [
+        "as\u00b7pect",
+        "aspect"
+      ],
+      "ngsl": null,
+      "nawl_exact": true,
+      "current_placement": "B academic",
+      "recommendation": "B guided Challenge; revisit in C",
+      "rationale": "WVI 3 and AWF grade 6 support later, supported teaching. Teach one feature or side of something first; spect/look is a historical connection and does not let a beginner infer the modern meaning reliably.",
+      "awf_reported_grade_ranges": [
+        "6\u20136"
+      ],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=aspect",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/aspect"
+    },
+    {
+      "word": "remit",
+      "wvi": [
+        "4"
+      ],
+      "headings": [
+        "re\u00b7mit",
+        "remit"
+      ],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "C academic",
+      "recommendation": "C guided Challenge",
+      "rationale": "WVI 4 and multiple meanings warrant explicit teaching. Restrict the lesson to sending money; do not expect learners to derive that sense from the parts alone.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=remit",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/remit"
+    },
+    {
+      "word": "bibliographer",
+      "wvi": [],
+      "headings": [],
+      "ngsl": null,
+      "nawl_exact": false,
+      "current_placement": "C academic",
+      "recommendation": "C guided Challenge",
+      "rationale": "Teach bibliography first, then the person who compiles/studies bibliographies. No verified accessibility level was captured; word-family complexity and specialist use justify caution.",
+      "awf_reported_grade_ranges": [],
+      "wordsmyth_url": "https://www.wordsmyth.net/?ent=bibliographer",
+      "dictionary_url": "https://www.merriam-webster.com/dictionary/bibliographer"
+    }
+  ],
+  "limits": [
+    "An empty WVI array means no explicit label captured, not confirmed absence. Bibliographer had no verified entry captured.",
+    "NGSL and NAWL checks were exact headword checks, not family coverage checks.",
+    "AWF reports sense rows; repeated rows are not independent evidence. Query grades are not reported word grades.",
+    "AWL family membership was not freshly verified.",
+    "No learner trial or placement validation was performed."
+  ],
+  "implementation_note": "Circumstance and aspect retain Flight B for optional Stretch access because morpheme cards are introduction-flight filtered. Review recommendations remain editorial."
+}
