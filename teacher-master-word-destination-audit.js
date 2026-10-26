@@ -29,7 +29,7 @@ const vm = require("vm");
 global.window = global;
 
 const ROOT = process.cwd();
-const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.4";
+const AUDIT_VERSION = "master-word-destination-decision-audit-v1.3.5";
 
 function fail(message) {
   console.error(`STOP: ${message}`);
@@ -379,7 +379,14 @@ for (const set of tokenSets) {
     collectionToFlight[set.collection] ||
     bandToFlight(set.introBand);
 
-  for (const id of asArray(set.morphemeIds)) {
+  // Pending targets retain their curriculum Flight without becoming active
+  // token/mastery requirements. Count both lists so duplicates still fail.
+  const memberships = [
+    ...asArray(set.morphemeIds).map(id => ({ id, pending: false })),
+    ...asArray(set.pendingMorphemeIds).map(id => ({ id, pending: true }))
+  ];
+
+  for (const { id, pending } of memberships) {
     if (!targetSetMembership.has(id)) {
       targetSetMembership.set(id, []);
     }
@@ -387,7 +394,8 @@ for (const set of tokenSets) {
       flight,
       collection: set.collection,
       setId: set.id,
-      introBand: set.introBand
+      introBand: set.introBand,
+      pending
     });
 
     if (flight) {
@@ -407,6 +415,15 @@ for (const target of targets) {
       word: "",
       destination: "",
       message: `${target.id} has ${memberships.length} Flight memberships; expected exactly 1.`
+    });
+  } else if (memberships[0].pending) {
+    const membership = memberships[0];
+    findings.push({
+      severity: "INFO",
+      category: "target-flight-pending",
+      word: "",
+      destination: `Flight ${membership.flight} · ${membership.setId}`,
+      message: `${target.id} is assigned as pending / non-mastery-gating; this Flight mapping does not activate it.`
     });
   }
 }
