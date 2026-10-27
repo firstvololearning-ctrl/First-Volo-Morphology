@@ -12,7 +12,8 @@ const source = fs.readFileSync(
 
 function extractFunction(name) {
   const marker = `  function ${name}(`;
-  const start = source.indexOf(marker);
+  const regularStart = source.indexOf(marker);
+  const start = regularStart >= 0 ? regularStart : source.indexOf(`  async function ${name}(`);
   assert.notEqual(start, -1, `${name} must exist in production source`);
 
   const bodyStart = source.indexOf("{", start);
@@ -155,11 +156,16 @@ async function bootCloud({ localStudent, cloudStudent }) {
 
 async function bootEducator({ localStudents, cloudStudents }) {
   const calls = [];
-  const storageKey = "firstVoloMorphologyProgressV1";
+  const storageKey = "firstVoloMorphologyProgressV1:educator:educator-1";
   const storage = new Map([[
     storageKey,
     JSON.stringify({ students: localStudents, activeStudentId: localStudents[0]?.id || null })
   ]]);
+  const legacyKey = "firstVoloMorphologyProgressV1";
+  const otherKey = "firstVoloMorphologyProgressV1:educator:other-educator";
+  const unrelated = JSON.stringify({ students: [student({id:"unrelated",name:"Unrelated"})] });
+  storage.set(legacyKey, unrelated);
+  storage.set(otherKey, unrelated);
   const profileByStudentId = new Map(
     cloudStudents.map((entry, index) => [
       entry.id,
@@ -235,6 +241,7 @@ async function bootEducator({ localStudents, cloudStudents }) {
     client,
     getContext: () => context,
     getUser: () => ({ id: "educator-1", is_anonymous: false }),
+    localProgressKey: ctx => ctx.status === "authorized" ? `firstVoloMorphologyProgressV1:educator:${ctx.userId}` : null,
     subscribe(listener) { listener(context); return () => {}; }
   };
   const localStorage = {
@@ -265,6 +272,7 @@ async function bootEducator({ localStudents, cloudStudents }) {
   return {
     calls,
     progress: () => JSON.parse(storage.get(storageKey)),
+    unrelatedStores: () => [storage.get(legacyKey), storage.get(otherKey)],
     mutateStudent(studentId, mutate) {
       const progress = JSON.parse(storage.get(storageKey));
       mutate(progress.students.find(entry => entry.id === studentId));
@@ -501,4 +509,49 @@ test("a genuine progress mutation after hydration still invokes the save RPC", a
     boot.calls.map(call => call.name),
     ["get_morphology_student_state", "save_morphology_student_state"]
   );
+});
+
+
+test("explicit backup reads scoped educator learners and never uploads legacy or another educator data", async () => {
+  const local = student({id:"new-qa",name:"MORPHOLOGY QA"});
+  const boot = await bootEducator({localStudents:[local],cloudStudents:[]});
+  const before = boot.unrelatedStores();
+  await boot.syncNow();
+  const writes = boot.calls.filter(call => call.operation === "upsert");
+  assert.deepEqual(writes.map(call => call.table), ["learner_profiles","learning_state"]);
+  assert.equal(writes[0].payload.local_profile_id,"new-qa");
+  assert.equal(writes[1].payload.data.id,"new-qa");
+  assert.deepEqual(boot.unrelatedStores(),before);
+});
+
+test("cloud-only restoration writes the active educator store without changing legacy or other educator data", async () => {
+  const cloud=student({id:"restored-qa",name:"MORPHOLOGY QA"});
+  const boot=await bootEducator({localStudents:[],cloudStudents:[cloud]});
+  assert.equal(boot.progress().students[0].id,"restored-qa");
+  assert.ok(boot.unrelatedStores().every(raw=>JSON.parse(raw).students[0].id==="unrelated"));
+  assert.equal(boot.calls.filter(call=>call.operation==="upsert").length,0);
+});
+
+
+test("late cloud restore after an educator switch cannot write or query the next educator", async () => {
+  let resolveRead;
+  let reads=0;
+  let writes=0;
+  const ctx={status:"authorized",mode:"educator",userId:"educator-a"};
+  const sandbox={
+    accessGeneration:1,
+    PRODUCT_KEY:"first-volo-morphology",
+    STORE_KEY:"scored-progress",
+    access:{getContext:()=>ctx,localProgressKey:c=>`scope:${c.userId}`},
+    educatorCloudAuthorized:()=>true,
+    localStorage:{setItem(){writes++;}},
+    client:{from(){reads++;const query={select(){return query;},eq(){return query;},then(resolve){return new Promise(r=>{resolveRead=r;}).then(resolve);}};return query;}}
+  };
+  vm.runInNewContext(extractFunction("restoreAndMergeLearners")+"\nthis.restore=restoreAndMergeLearners;",sandbox);
+  const pending=sandbox.restore();
+  await new Promise(resolve=>setImmediate(resolve));
+  ctx.userId="educator-b";sandbox.accessGeneration++;
+  resolveRead({data:[{learner_profile_id:"a",data:{}}],error:null});
+  await assert.rejects(pending,/Educator changed/);
+  assert.equal(reads,1);assert.equal(writes,0);
 });

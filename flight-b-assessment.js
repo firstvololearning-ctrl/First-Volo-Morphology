@@ -1,7 +1,20 @@
 "use strict";
 
-const PROGRESS_KEY = "firstVoloMorphologyProgressV1";
-const ASSESSMENT_KEY = "firstVoloMorphologyAssessmentV1";
+// Bind this page to the educator authorized by the shared access runtime.
+const assessmentAccess = window.FirstVoloMorphologyAccess;
+const assessmentContext = assessmentAccess?.getContext();
+const PROGRESS_KEY = assessmentContext?.status === "authorized" &&
+  assessmentContext.mode === "educator"
+    ? assessmentAccess.localProgressKey(assessmentContext)
+    : null;
+if (!PROGRESS_KEY) throw new Error("Educator authorization is required for assessments.");
+function assessmentStorageAuthorized() {
+  const current = assessmentAccess.getContext();
+  return current.status === "authorized" && current.mode === "educator" &&
+    current.userId === assessmentContext.userId &&
+    assessmentAccess.localProgressKey(current) === PROGRESS_KEY;
+}
+const ASSESSMENT_KEY = `firstVoloMorphologyAssessmentV1:educator:${assessmentContext.userId}`;
 
 const FORMS = {
   pre: {
@@ -497,6 +510,7 @@ let currentDraft = null;
 let currentSession = null;
 
 function loadJSON(key, fallback) {
+  if (!assessmentStorageAuthorized()) return fallback;
   try {
     const parsed = JSON.parse(localStorage.getItem(key));
     return parsed || fallback;
@@ -519,6 +533,7 @@ function getAssessmentData() {
 }
 
 function saveAssessmentData(data) {
+  if (!assessmentStorageAuthorized()) throw new Error("Educator changed. Reopen the assessment.");
   localStorage.setItem(ASSESSMENT_KEY, JSON.stringify(data));
 }
 

@@ -7,9 +7,6 @@
   const STORE_KEY =
     "scored-progress";
 
-  const LOCAL_PROGRESS_KEY =
-    "firstVoloMorphologyProgressV1";
-
   const access =
     window.FirstVoloMorphologyAccess;
 
@@ -55,8 +52,9 @@
   let syncButton = null;
 
   function readLocalProgress(
-    storageKey = LOCAL_PROGRESS_KEY
+    storageKey = access.localProgressKey(access.getContext())
   ) {
+    if (!storageKey) return { students: [], activeStudentId: null };
     try {
       const value =
         JSON.parse(
@@ -295,6 +293,8 @@
   async function backupStudent(
     student
   ) {
+    const expectedGeneration = accessGeneration;
+    if (!educatorCloudAuthorized()) return { success: false, writeApplied: false };
     const stateData = educatorStateData(student);
 
     const cloud = educatorCloudByStudentId.get(
@@ -319,7 +319,7 @@
         student
       );
 
-    if (!learner?.id) {
+    if (!learner?.id || expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) {
       return {
         success: false,
         writeApplied: false
@@ -370,6 +370,9 @@
       };
     }
 
+    if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) {
+      return { success: false, writeApplied: false };
+    }
     educatorCloudByStudentId.set(
       student.id,
       {
@@ -2216,6 +2219,7 @@
       return 0;
     }
 
+    const expectedGeneration = accessGeneration;
     const deletions =
       validDeletionMap(
         progress
@@ -2231,6 +2235,7 @@
       ]
       of Object.entries(deletions)
     ) {
+      if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return synced;
       if (
         studentIds &&
         !studentIds.has(studentId)
@@ -2278,6 +2283,7 @@
         throw learnerError;
       }
 
+      if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return synced;
       const learner =
         Array.isArray(learners)
           ? learners[0]
@@ -2355,6 +2361,14 @@
       };
     }
 
+    const restoreContext = access.getContext();
+    const restoreGeneration = accessGeneration;
+    const storageKey = access.localProgressKey(restoreContext);
+    const stillAuthorized = () => educatorCloudAuthorized() &&
+      accessGeneration === restoreGeneration &&
+      access.localProgressKey(access.getContext()) === storageKey;
+    if (!storageKey) throw new Error("Authorized educator storage is unavailable.");
+
     /*
       Step 1:
       Restore learners that do not exist
@@ -2388,6 +2402,7 @@
     if (stateError) {
       throw stateError;
     }
+    if (!stillAuthorized()) throw new Error("Educator changed during cloud restore.");
 
     if (
       !Array.isArray(
@@ -2425,6 +2440,7 @@
     if (learnerError) {
       throw learnerError;
     }
+    if (!stillAuthorized()) throw new Error("Educator changed during cloud restore.");
 
     const stateByLearnerId =
       new Map(
@@ -2933,7 +2949,7 @@
       deletedLearners > 0
     ) {
       localStorage.setItem(
-        LOCAL_PROGRESS_KEY,
+        storageKey,
         JSON.stringify(
           progress
         )
@@ -2961,6 +2977,7 @@
       return;
     }
 
+    const expectedGeneration = accessGeneration;
     const progress = markEducatorChanges();
     const dirtyStudentIds = new Set(
       educatorDirtyStudentIds
@@ -2986,6 +3003,7 @@
           dirtyDeletionIds
         );
 
+        if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return;
         for (const studentId of dirtyDeletionIds) {
           educatorDeletionBaseline[studentId] =
             progress.deletedMorphologyLearners[studentId];
@@ -3007,6 +3025,7 @@
 
         const result = await backupStudent(student);
 
+        if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return;
         if (!result.success) {
           continue;
         }
@@ -3061,6 +3080,7 @@
       return;
     }
 
+    const expectedGeneration = accessGeneration;
     syncing = true;
 
     updateUI(
@@ -3086,12 +3106,15 @@
         Then pull and combine the remaining
         Morphology state normally.
       */
+      if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return;
       await restoreAndMergeLearners();
+      if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return;
 
       const progress =
         readLocalProgress();
 
       let saved = 0;
+      let failed = 0;
 
       for (
         const student
@@ -3102,6 +3125,8 @@
             student
           );
 
+        if (expectedGeneration !== accessGeneration || !educatorCloudAuthorized()) return;
+        if (!result.success) failed += 1;
         if (result.success && result.writeApplied) {
           saved += 1;
         }
@@ -3110,9 +3135,13 @@
       captureEducatorBaseline(progress);
 
       updateUI(
-        saved
+        failed
+          ? "Cloud backup could not complete for every learner. Your local progress is still saved."
+          : saved
           ? `Cloud backup complete for ${saved} learner${saved === 1 ? "" : "s"}.`
-          : "Cloud backup is on. There are no saved learners to back up yet."
+          : progress.students.length
+            ? "Cloud backup is current."
+            : "Cloud backup is on. There are no saved learners to back up yet."
       );
     } catch (error) {
       console.warn(
