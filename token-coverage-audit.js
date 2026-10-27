@@ -208,7 +208,7 @@ const knowledgeActivities = [
 const applicationActivities = [
   "Break It Apart",
   "Figure It Out",
-  "Build",
+  "Build Words",
   "Use It",
   "Change It"
 ];
@@ -324,7 +324,7 @@ for (const set of tokenSets) {
       [
         "Break It Apart",
         "Figure It Out",
-        "Build",
+        "Build Words",
         "Use It",
         "Change It"
       ].reduce(
@@ -471,8 +471,10 @@ if (
   );
 
   console.log(
-    "No token earning logic has been turned on."
+    "This preflight counts unprotected authored practice routes; run scripts/token-practice-reachability-test.js to verify live scoring IDs and Flight eligibility."
   );
 }
 
 console.log("");
+
+if (integrityProblems.length || totalGaps) process.exitCode = 1;

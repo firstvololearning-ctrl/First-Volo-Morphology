@@ -170,6 +170,9 @@ function normalize(value) {
    LOAD BANKS
    ======================================== */
 
+const protectionContext = { window: {} };
+vm.runInNewContext(fs.readFileSync("instructional-protection-registry.js", "utf8"), protectionContext);
+const protection = protectionContext.window.FirstVoloInstructionalProtection;
 const metadata = loadMasterMetadata();
 const morphemes = metadata.morphemes;
 const words = metadata.words;
@@ -408,6 +411,7 @@ function addPracticeRow({
   vocabBasis = "",
   details = ""
 }) {
+  if (word && protection.isProtected(word)) return;
   practiceRows.push({
     Activity: activity,
     Word: word,
@@ -475,6 +479,7 @@ findItems.forEach((item) => {
    rather than inventing one vocabulary level. */
 
 hunt.forEach((item) => {
+  if ((item.words || []).some(entry => protection.isProtected(entry.word))) return;
   const morph =
     morphemeById.get(item.itemId) ||
     morphemeFromLabel(item.label, item.type) ||
@@ -754,7 +759,7 @@ infer.forEach((item) => {
   const meta = wordMeta(item.word);
 
   const morph =
-    morphemeFromLabel(
+    morphemeById.get(item.itemId) || morphemeFromLabel(
       item.knownLabel,
       item.type
     ) || {};

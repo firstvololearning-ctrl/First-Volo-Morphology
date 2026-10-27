@@ -2870,6 +2870,633 @@ const wordHuntQuestions = [
    ======================================== */
 
 const inferQuestions = [
+{
+  "type": "prefix",
+  "itemId": "non",
+  "knownLabel": "non-",
+  "knownMeaning": "not",
+  "word": "nonstop",
+  "correct": "without stopping",
+  "choices": [
+    "without stopping",
+    "stopping again",
+    "stopping before the city",
+    "stopping more often"
+  ],
+  "definition": "without stopping",
+  "literal": "not",
+  "context": "The train makes a nonstop trip to the city.",
+  "image": "images/prefixes/non.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "en-em",
+  "knownLabel": "en-, em-",
+  "knownMeaning": "put into; cause to become",
+  "word": "enclose",
+  "correct": "to put something inside a surrounding space",
+  "choices": [
+    "to put something inside a surrounding space",
+    "to take the note out",
+    "to write the note again",
+    "to move the note farther away"
+  ],
+  "definition": "to put something inside a surrounding space",
+  "literal": "put into; cause to become",
+  "context": "Please enclose the note in the envelope.",
+  "image": "images/prefixes/en-em.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "able-ible",
+  "knownLabel": "-able, -ible",
+  "knownMeaning": "can be; able to be",
+  "word": "bendable",
+  "correct": "able to be bent",
+  "choices": [
+    "able to be bent",
+    "already bent yesterday",
+    "a person who bends wire",
+    "without any bends"
+  ],
+  "definition": "able to be bent",
+  "literal": "can be; able to be",
+  "context": "The bendable wire can be shaped into a loop.",
+  "image": "images/suffixes/able-ible.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ion",
+  "knownLabel": "-ion, -tion, -sion",
+  "knownMeaning": "an action, process, or result",
+  "word": "celebration",
+  "correct": "an event or act of celebrating",
+  "choices": [
+    "an event or act of celebrating",
+    "a person who celebrates",
+    "able to celebrate",
+    "celebrating again tomorrow"
+  ],
+  "definition": "an event or act of celebrating",
+  "literal": "an action, process, or result",
+  "context": "The team held a celebration after finishing the project.",
+  "image": "images/suffixes/ion.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ment",
+  "knownLabel": "-ment",
+  "knownMeaning": "an action, process, result, or state",
+  "word": "enjoyment",
+  "correct": "the state or experience of enjoying something",
+  "choices": [
+    "the state or experience of enjoying something",
+    "a person who makes games",
+    "able to play a game",
+    "playing a game again"
+  ],
+  "definition": "the state or experience of enjoying something",
+  "literal": "an action, process, result, or state",
+  "context": "Their enjoyment of the game showed in their smiles.",
+  "image": "images/suffixes/ment.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "inter",
+  "knownLabel": "inter-",
+  "knownMeaning": "between; among",
+  "word": "interact",
+  "correct": "to act with or affect one another",
+  "choices": [
+    "to act with or affect one another",
+    "to act before anyone else",
+    "to stop acting entirely",
+    "to act alone without others"
+  ],
+  "definition": "to act with or affect one another",
+  "literal": "between; among",
+  "context": "The partners interact while solving the puzzle together.",
+  "image": "images/prefixes/inter.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "pro",
+  "knownLabel": "pro-",
+  "knownMeaning": "forward; for",
+  "word": "proceed",
+  "correct": "to move forward or continue",
+  "choices": [
+    "to move forward or continue",
+    "to go backward",
+    "to stay still",
+    "to break the path apart"
+  ],
+  "definition": "to move forward or continue",
+  "literal": "forward; for",
+  "context": "When the path is clear, we proceed to the next station.",
+  "image": "images/prefixes/pro.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ize",
+  "knownLabel": "-ize",
+  "knownMeaning": "make; become",
+  "word": "organize",
+  "correct": "to arrange into an orderly system",
+  "choices": [
+    "to arrange into an orderly system",
+    "to scatter things randomly",
+    "to carry things backward",
+    "to study only their sounds"
+  ],
+  "definition": "to arrange into an orderly system",
+  "literal": "make; become",
+  "context": "We organize the books by topic so readers can find them.",
+  "image": "images/suffixes/ize.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "un-negation",
+  "knownLabel": "un-",
+  "knownMeaning": "not",
+  "word": "unsafe",
+  "correct": "not safe",
+  "choices": [
+    "not safe",
+    "safe again",
+    "safer than before",
+    "a person who keeps others safe"
+  ],
+  "definition": "not safe",
+  "literal": "not",
+  "context": "The loose railing makes the stairs unsafe.",
+  "image": "images/prefixes/un-negation.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "un-reversative",
+  "knownLabel": "un-",
+  "knownMeaning": "reverse or remove",
+  "word": "untie",
+  "correct": "to undo a tie or knot",
+  "choices": [
+    "to undo a tie or knot",
+    "to make a new knot",
+    "to tie the knot again",
+    "a knot that is not neat"
+  ],
+  "definition": "to undo a tie or knot",
+  "literal": "reverse or remove",
+  "context": "We untie the knot to open the bag.",
+  "image": "images/prefixes/un-reversative.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "er-or",
+  "knownLabel": "-er, -or",
+  "knownMeaning": "a person or thing that does something",
+  "word": "narrator",
+  "correct": "a person who tells the story",
+  "choices": [
+    "a person who tells the story",
+    "a more detailed story",
+    "a story told again",
+    "the act of ending a story"
+  ],
+  "definition": "a person who tells the story",
+  "literal": "a person or thing that does something",
+  "context": "The narrator tells us what happens in the story.",
+  "image": "images/suffixes/er-or.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "location-in-family",
+  "knownLabel": "in-, im-",
+  "knownMeaning": "in; into; inside",
+  "word": "inset",
+  "correct": "to set something into a larger surface",
+  "choices": [
+    "to set something into a larger surface",
+    "to set something outside the surface",
+    "to take the tabletop apart",
+    "to make the tabletop unsafe"
+  ],
+  "definition": "to set something into a larger surface",
+  "literal": "in; into; inside",
+  "context": "The craft worker will inset a small tile into the tabletop.",
+  "image": "images/prefixes/in-im-01.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ant-ent-agent",
+  "knownLabel": "-ant, -ent",
+  "knownMeaning": "a person or thing that does something",
+  "word": "claimant",
+  "correct": "a person who makes a claim",
+  "choices": [
+    "a person who makes a claim",
+    "the act of making a claim",
+    "something that cannot be claimed",
+    "a claim made a second time"
+  ],
+  "definition": "a person who makes a claim",
+  "literal": "a person or thing that does something",
+  "context": "The claimant says that the lost bag belongs to her.",
+  "image": "images/suffixes/ant-ent-agent.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ant-ent-adjective",
+  "knownLabel": "-ant, -ent",
+  "knownMeaning": "describes what someone or something is like or tends to do",
+  "word": "resistant",
+  "correct": "tending to withstand something",
+  "choices": [
+    "tending to withstand something",
+    "a person who repairs material",
+    "the act of making water",
+    "unable to withstand anything"
+  ],
+  "definition": "tending to withstand something",
+  "literal": "describes what someone or something is like or tends to do",
+  "context": "The resistant material withstands damage from water.",
+  "image": "images/suffixes/ant-ent-adjective.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ness",
+  "knownLabel": "-ness",
+  "knownMeaning": "a state or quality someone or something has",
+  "word": "darkness",
+  "correct": "the state of being dark",
+  "choices": [
+    "the state of being dark",
+    "a person who makes lights",
+    "to make something darker",
+    "able to shine brightly"
+  ],
+  "literal": "a state or quality someone or something has",
+  "definition": "the state of being dark",
+  "context": "The lights went out, leaving the room in darkness.",
+  "image": "images/suffixes/ness.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ness",
+  "knownLabel": "-ness",
+  "knownMeaning": "a state or quality someone or something has",
+  "word": "happiness",
+  "correct": "the state of being happy",
+  "choices": [
+    "the state of being happy",
+    "a person who helps others",
+    "to make someone hurry",
+    "able to move quickly"
+  ],
+  "literal": "a state or quality someone or something has",
+  "definition": "the state of being happy",
+  "context": "Her happiness showed in her smile.",
+  "image": "images/suffixes/ness.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "dict",
+  "knownLabel": "dict",
+  "knownMeaning": "say; tell",
+  "word": "predict",
+  "correct": "to say what may happen before it happens",
+  "choices": [
+    "to say what may happen before it happens",
+    "to describe only a past event",
+    "to speak against an idea",
+    "to copy words exactly"
+  ],
+  "literal": "say; tell",
+  "definition": "to say what may happen before it happens",
+  "context": "Using the clouds as clues, we predict rain.",
+  "image": "images/roots/dict.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "spect",
+  "knownLabel": "spect",
+  "knownMeaning": "look; watch",
+  "word": "inspecting",
+  "correct": "looking at something closely",
+  "choices": [
+    "looking at something closely",
+    "carrying something away",
+    "writing a message again",
+    "listening from far away"
+  ],
+  "literal": "look; watch",
+  "definition": "looking at something closely",
+  "context": "The mechanic is inspecting the brakes before the trip.",
+  "image": "images/roots/spect.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "vis",
+  "knownLabel": "vis/vid",
+  "knownMeaning": "see",
+  "word": "visual",
+  "correct": "related to seeing",
+  "choices": [
+    "related to seeing",
+    "related to hearing",
+    "related to carrying",
+    "related to time"
+  ],
+  "literal": "see",
+  "definition": "related to seeing",
+  "context": "The chart is a visual guide to the route.",
+  "image": "images/roots/vis-vid.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "phon",
+  "knownLabel": "phon/phone",
+  "knownMeaning": "sound",
+  "word": "telephone",
+  "correct": "a device that carries sound over a distance",
+  "choices": [
+    "a device that carries sound over a distance",
+    "a tool for measuring time",
+    "a device for drawing tiny objects",
+    "a book about written words"
+  ],
+  "literal": "sound",
+  "definition": "a device that carries sound over a distance",
+  "context": "They used a telephone to talk from different towns.",
+  "image": "images/roots/phon-phone.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ic",
+  "knownLabel": "-ic",
+  "knownMeaning": "related to",
+  "word": "historic",
+  "correct": "important in history",
+  "choices": [
+    "important in history",
+    "a person who writes stories",
+    "without any importance",
+    "able to happen again"
+  ],
+  "literal": "related to",
+  "definition": "important in history",
+  "context": "The first moon landing was a historic event.",
+  "image": "images/suffixes/ic.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ify",
+  "knownLabel": "-ify",
+  "knownMeaning": "make; cause to become",
+  "word": "clarify",
+  "correct": "to make something clear",
+  "choices": [
+    "to make something clear",
+    "to make something smaller",
+    "to take something away",
+    "to do something a second time"
+  ],
+  "literal": "make; cause to become",
+  "definition": "to make something clear",
+  "context": "Please clarify the directions so we can understand them.",
+  "image": "images/suffixes/ify.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ify",
+  "knownLabel": "-ify",
+  "knownMeaning": "make; cause to become",
+  "word": "simplify",
+  "correct": "to make something simpler",
+  "choices": [
+    "to make something simpler",
+    "to make something more difficult",
+    "to look back at a task",
+    "to describe a person who works"
+  ],
+  "literal": "make; cause to become",
+  "definition": "to make something simpler",
+  "context": "We can simplify the task by using fewer steps.",
+  "image": "images/suffixes/ify.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "suffix",
+  "itemId": "ology",
+  "knownLabel": "-ology",
+  "knownMeaning": "study of",
+  "word": "geology",
+  "correct": "the study of Earth and its rocks",
+  "choices": [
+    "the study of Earth and its rocks",
+    "the study of sound",
+    "a tool for seeing far away",
+    "a person who draws maps"
+  ],
+  "literal": "study of",
+  "definition": "the study of Earth and its rocks",
+  "context": "In geology, the class examines rocks and layers of Earth.",
+  "image": "images/suffixes/ology.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "ab",
+  "knownLabel": "ab-",
+  "knownMeaning": "away; from",
+  "word": "absent",
+  "correct": "not present in the expected place",
+  "choices": [
+    "not present in the expected place",
+    "present before everyone else",
+    "standing beside another person",
+    "returning for a second visit"
+  ],
+  "literal": "away; from",
+  "definition": "not present in the expected place",
+  "context": "The class meets today, but one learner is absent.",
+  "image": "images/prefixes/ab.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "ab",
+  "knownLabel": "ab-",
+  "knownMeaning": "away; from",
+  "word": "absentee",
+  "correct": "a person who is not present where expected",
+  "choices": [
+    "a person who is not present where expected",
+    "a person who leads the meeting",
+    "a person who attends every meeting",
+    "a person who writes the meeting notes"
+  ],
+  "literal": "away; from",
+  "definition": "a person who is not present where expected",
+  "context": "I will absentee from voting because I have not read the proposal.",
+  "image": "images/prefixes/ab.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "prefix",
+  "itemId": "retro",
+  "knownLabel": "retro-",
+  "knownMeaning": "backward; back",
+  "word": "retrofit",
+  "correct": "to add newer equipment to something already built",
+  "choices": [
+    "to add newer equipment to something already built",
+    "to build a bus for the first time",
+    "to remove all equipment from a bus",
+    "to predict which bus will arrive"
+  ],
+  "literal": "backward; back",
+  "definition": "to add newer equipment to something already built",
+  "context": "Workers retrofit the old bus with new safety equipment.",
+  "image": "images/prefixes/retro.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "mit",
+  "knownLabel": "mit",
+  "knownMeaning": "send",
+  "word": "submit",
+  "correct": "to send something for consideration",
+  "choices": [
+    "to send something for consideration",
+    "to keep a project hidden",
+    "to take a project apart",
+    "to read a project aloud twice"
+  ],
+  "literal": "send",
+  "definition": "to send something for consideration",
+  "context": "We submit our project to the judges for review.",
+  "image": "images/roots/mit.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "mit",
+  "knownLabel": "mit",
+  "knownMeaning": "send",
+  "word": "transmitted",
+  "correct": "sent from one place to another",
+  "choices": [
+    "sent from one place to another",
+    "kept in one place",
+    "broken into smaller pieces",
+    "looked at again"
+  ],
+  "literal": "send",
+  "definition": "sent from one place to another",
+  "context": "The radio transmitted the message to the ship.",
+  "image": "images/roots/mit.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "aud",
+  "knownLabel": "aud",
+  "knownMeaning": "hear",
+  "word": "audio",
+  "correct": "sound that is recorded, sent, or reproduced",
+  "choices": [
+    "sound that is recorded, sent, or reproduced",
+    "a written list of events",
+    "a drawing of a small object",
+    "a measure of distance"
+  ],
+  "literal": "hear",
+  "definition": "sound that is recorded, sent, or reproduced",
+  "context": "The video has a picture track and an audio track.",
+  "image": "images/roots/aud.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "aud",
+  "knownLabel": "aud",
+  "knownMeaning": "hear",
+  "word": "audience",
+  "correct": "a group of people listening to or watching a performance",
+  "choices": [
+    "a group of people listening to or watching a performance",
+    "the people repairing the stage",
+    "the instruments making the music",
+    "a written plan for a performance"
+  ],
+  "literal": "hear",
+  "definition": "a group of people listening to or watching a performance",
+  "context": "The audience listened quietly as the musicians played.",
+  "image": "images/roots/aud.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "chron",
+  "knownLabel": "chron",
+  "knownMeaning": "time",
+  "word": "chronological",
+  "correct": "arranged in time order",
+  "choices": [
+    "arranged in time order",
+    "arranged from smallest to largest",
+    "arranged by the sound of each name",
+    "arranged without a pattern"
+  ],
+  "literal": "time",
+  "definition": "arranged in time order",
+  "context": "Place the events in chronological order, from earliest to latest.",
+  "image": "images/roots/chron.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
+{
+  "type": "root",
+  "itemId": "chron",
+  "knownLabel": "chron",
+  "knownMeaning": "time",
+  "word": "synchronize",
+  "correct": "to make things happen at the same time",
+  "choices": [
+    "to make things happen at the same time",
+    "to move the clocks farther apart",
+    "to make the clocks run backward",
+    "to record the clocks in a list"
+  ],
+  "literal": "time",
+  "definition": "to make things happen at the same time",
+  "context": "We synchronize the clocks before starting the race.",
+  "image": "images/roots/chron.png",
+  "practiceRevision": "2026-10-27-protected-content-gap"
+},
   {
     type: "prefix",
     knownLabel: "pre-",
@@ -9809,6 +10436,7 @@ function renderInferQuestion(question) {
     <strong>${escapeHTML(question.knownLabel)}</strong>
   `;
 inferPrompt.textContent =
+  (question.context ? question.context + " " : "") +
   "Based on the word part, what might this word mean?";
 
   inferWord.textContent = question.word;
@@ -9832,6 +10460,12 @@ inferPrompt.textContent =
   });
 }
 
+function getInferProgressTargetId(question) {
+  // Authored semantic IDs distinguish identical spellings with different meanings.
+  return getCanonicalProgressMorphemeId(question.itemId, { type: question.type }) ||
+    getCanonicalProgressMorphemeId(question.knownLabel, { type: question.type, meaning: question.knownMeaning });
+}
+
 function answerInferQuestion(button, choice, question) {
   if (quizState.answered) {
     return;
@@ -9850,13 +10484,7 @@ function answerInferQuestion(button, choice, question) {
     correct: isCorrect,
     primaryTarget: question.knownLabel,
     primaryTargetId:
-      getCanonicalProgressMorphemeId(
-        question.knownLabel,
-        {
-          type: question.type,
-          meaning: question.knownMeaning
-        }
-      ),
+      getInferProgressTargetId(question),
     targetType: question.type,
     word: question.word,
     response: choice,

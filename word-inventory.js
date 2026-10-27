@@ -1414,6 +1414,109 @@ window.FIRST_VOLO_MORPHEME_INVENTORY = [
 window.FIRST_VOLO_WORD_INVENTORY_VERSION = "v10-protection-clean-build";
 
 window.FIRST_VOLO_WORD_INVENTORY = [
+{
+  "word": "enclose",
+  "status": "current",
+  "morphemes": [
+    "en-em"
+  ],
+  "morphemeIntroBand": "2-3",
+  "practiceBand": "2-3",
+  "accessibilityBand": "2-3",
+  "vocabLevel": "familiar",
+  "transparency": "high",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "to put something inside a surrounding space",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "sources": "https://www.merriam-webster.com/dictionary/enclose"
+},
+{
+  "word": "bendable",
+  "status": "current",
+  "morphemes": [
+    "able-ible"
+  ],
+  "morphemeIntroBand": "2-3",
+  "practiceBand": "2-3",
+  "accessibilityBand": "2-3",
+  "vocabLevel": "familiar",
+  "transparency": "high",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "able to be bent",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "sources": "https://www.merriam-webster.com/dictionary/bendable"
+},
+{
+  "word": "celebration",
+  "status": "current",
+  "morphemes": [
+    "ion"
+  ],
+  "morphemeIntroBand": "2-3",
+  "practiceBand": "2-3",
+  "accessibilityBand": "2-3",
+  "vocabLevel": "familiar",
+  "transparency": "high",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "an event or act of celebrating",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "sources": "https://www.merriam-webster.com/dictionary/celebration"
+},
+{
+  "word": "inset",
+  "status": "current",
+  "morphemes": [
+    "location-in-family"
+  ],
+  "morphemeIntroBand": "4-5",
+  "practiceBand": "4-5",
+  "accessibilityBand": "4-5",
+  "vocabLevel": "academic",
+  "transparency": "medium",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "to set something into a larger surface",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "sources": "https://www.merriam-webster.com/dictionary/inset"
+},
+{
+  "word": "claimant",
+  "status": "current",
+  "morphemes": [
+    "ant-ent-agent"
+  ],
+  "morphemeIntroBand": "6-8",
+  "practiceBand": "6-8",
+  "accessibilityBand": "6-8",
+  "vocabLevel": "academic",
+  "transparency": "medium",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "a person who makes a claim",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "sources": "https://www.merriam-webster.com/dictionary/claimant"
+},
+{
+  "word": "absentee",
+  "status": "current",
+  "morphemes": [
+    "ab-"
+  ],
+  "morphemeIntroBand": "6-8",
+  "practiceBand": "6-8",
+  "accessibilityBand": "4-5",
+  "vocabLevel": "academic",
+  "transparency": "medium",
+  "gradeConfidence": "medium",
+  "vocabConfidence": "medium",
+  "definition": "a person who is not present where expected",
+  "recommendedActivityUse": "Figure It Out with sentence context",
+  "reviewCaution": "Use the absent word family as support; do not present sent as an independent base or score the ending as a separate taught target.",
+  "sources": "https://www.merriam-webster.com/dictionary/absentee"
+},
   {
     "word": "abduct",
     "status": "current",
