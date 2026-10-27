@@ -9,3 +9,9 @@ Figure It Out now uses a validated authored canonical itemId first, falling back
 Run scripts/token-practice-reachability-test.js with jsdom 26 on NODE_PATH. It loads the production activity source, all eligibility functions, and the unchanged production token engine. It verifies all 16 sets in All Flights and each set in its own Flight (32 set/Flight combinations), using only available scored activity items. Stretch Words may be required for advanced vocabulary. Synthetic correct first-attempt evidence is test-only and is never inserted into a live learner. Repeat evaluation and JSON save/reopen must not duplicate awards. Every one of the 33 new items is rendered, answered through its real button handler, checked for exact semantic evidence ID, and checked against duplicate scoring on a second click.
 
 This establishes reachable reward content under sufficient correct practice. It does not establish live earned-token/cloud synchronization, printing or Safari QA completion, nor complete clinical validation of the broader curriculum.
+
+## Spreadsheet reconciliation
+
+The master lexical audit and Learn/Activity inventory are reconciled with all 33 added questions and six new runtime inventory entries. Existing source gates and historical occurrence counts remain intact. The current master workbook retains its legacy repository filename; internal checkpoint notes identify the October 27 update. Updated activity and master workbooks are also delivered as dated copies. An exact 33-row practice reconciliation CSV sits beside the master audit.
+
+Carried forward the established base-support conditions for absent/absentee, clarify, simplify and retrofit into the displayed question context. Corrected absentee to a noun in its example sentence. These are context-supported scored practice items, not new independent-transfer items. Software checks do not complete the external source or clinical review queues.

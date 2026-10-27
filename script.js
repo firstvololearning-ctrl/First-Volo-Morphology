@@ -3284,7 +3284,7 @@ const inferQuestions = [
   ],
   "literal": "make; cause to become",
   "definition": "to make something clear",
-  "context": "Please clarify the directions so we can understand them.",
+  "context": "Base support: clar- relates to clear. Please clarify the directions so we can understand them.",
   "image": "images/suffixes/ify.png",
   "practiceRevision": "2026-10-27-protected-content-gap"
 },
@@ -3303,7 +3303,7 @@ const inferQuestions = [
   ],
   "literal": "make; cause to become",
   "definition": "to make something simpler",
-  "context": "We can simplify the task by using fewer steps.",
+  "context": "Base support: simple changes to simpl- before this ending. We can simplify the task by using fewer steps.",
   "image": "images/suffixes/ify.png",
   "practiceRevision": "2026-10-27-protected-content-gap"
 },
@@ -3341,7 +3341,7 @@ const inferQuestions = [
   ],
   "literal": "away; from",
   "definition": "not present in the expected place",
-  "context": "The class meets today, but one learner is absent.",
+  "context": "Base support: the historical base means to be; sent here does not mean send. The class meets today, but one learner is absent.",
   "image": "images/prefixes/ab.png",
   "practiceRevision": "2026-10-27-protected-content-gap"
 },
@@ -3360,7 +3360,7 @@ const inferQuestions = [
   ],
   "literal": "away; from",
   "definition": "a person who is not present where expected",
-  "context": "I will absentee from voting because I have not read the proposal.",
+  "context": "Word-family support: absentee is related to absent; the historical base means to be. The meeting has one absentee; everyone else is in the room.",
   "image": "images/prefixes/ab.png",
   "practiceRevision": "2026-10-27-protected-content-gap"
 },
@@ -3377,9 +3377,9 @@ const inferQuestions = [
     "to remove all equipment from a bus",
     "to predict which bus will arrive"
   ],
-  "literal": "backward; back",
+  "literal": "equip an already-built thing with newer features",
   "definition": "to add newer equipment to something already built",
-  "context": "Workers retrofit the old bus with new safety equipment.",
+  "context": "Base support: fit means to equip with what is suitable. Workers retrofit the old bus with new safety equipment.",
   "image": "images/prefixes/retro.png",
   "practiceRevision": "2026-10-27-protected-content-gap"
 },

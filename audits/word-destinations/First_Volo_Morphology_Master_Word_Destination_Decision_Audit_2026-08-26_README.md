@@ -59,3 +59,7 @@ Generated: 2026-08-26T20:20:35.671Z
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Findings.csv`
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Runtime_Pool_Health.csv`
 - `First_Volo_Morphology_Master_Word_Destination_Decision_Audit_2026-08-26_Protected_Source_Cleanup.csv`
+
+## October 27 practice update
+
+The CSV/JSON tables in this folder remain the dated historical audit. Current practice additions are recorded in `../lexical/Practice_Additions_2026-10-27.csv` and the master lexical workbook's Post-Checkpoint Updates. Run `curriculum-map.js` and the token practice reachability test for current protected-word-safe runtime coverage. Do not interpret the old snapshot as containing the October additions.

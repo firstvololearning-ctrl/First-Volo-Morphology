@@ -42,6 +42,11 @@ for(const flight of ['all','2-3','4-5','6-8']){
  checks+=statuses.length;console.log(`PASS ${flight}: ${statuses.length} token sets reachable; repeat/save/reopen do not duplicate awards.`);
 }
 assert.equal(w.addedPractice.length,33);
+for (const word of ['absent','absentee','clarify','simplify','retrofit']) {
+ const item=w.addedPractice.find(q=>q.word===word);
+ assert.match(item.context,/support:/i,`${word}: retain the master audit's base/word-family support condition`);
+}
+assert.match(w.addedPractice.find(q=>q.word==='absentee').context,/one absentee/,'absentee must be used as a noun');
 for(const item of w.addedPractice){
  assert.equal(new Set(item.choices).size,4,item.word);
  assert.ok(item.choices.includes(item.correct),item.word);
