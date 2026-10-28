@@ -126,7 +126,7 @@ Next: Educator fine review of Story prompts; finish outstanding Morphology lexic
 2. Finish remaining Morphology responsive/navigation and assessment paths; basic earning and two-way sync now passed.
 3. Run authorized fictional Story Builder student save/reopen for picture/label/goal/help choices.
 4. Complete outstanding clinical/source review, including the older segmentation queue.
-5. Prepare district meeting demonstration, product scope and limitations, sample instructional report and pilot proposal; complete security/privacy and accessibility acceptance before real student rollout.
+5. Reconcile the original September readiness checklist; no meeting is assumed.
 
 ## Older four-project checklist
 
@@ -186,22 +186,112 @@ No live learners: use fictional QA only. Basic round-trip success is not conflic
 - October 26 remaining-work.html and official-release-summary.html, latest saved revision 21:27, from Audit four project repositories — broader carry-forward queue. These older open items were reconciled, not newly re-audited today.
 - Current October 27 repository handoffs, test logs, publishing checks and exact Morphology accessibility audit.
 
-## School-district meeting and full product readiness
 
-Meeting preparation (recommended next work, not completed):
+# First Volo — original September checklist status, October 27
 
-1. Choose the scope: demonstrate Story Builder and Morphology as current instructional tools; include Primo or Sentence Builder only with their own outstanding work disclosed.
-2. Prepare a short educator-to-learner demonstration with fictional records, a sample story teaching cycle, one Morphology practice-to-report example, and a backup demonstration path.
-3. Prepare a concise product packet: intended learners, instructional purpose, educator judgment, research/source references, sample materials, technical requirements, current limitations, pricing/licensing proposal if offering a pilot, and support contact/process.
-4. Propose a small educator-supervised pilot with success criteria, feedback process, duration, training and a review point. Do not describe assessment scores or rewards as standardized diagnostic results or proof of efficacy.
+This compares the original September 7 checklist, September 9 R6 update, September 23 reconciliation, and September 26–28 preparation checklist with October 26–27 evidence. It is an evidence reconciliation, not a new live infrastructure, legal or security audit. No district meeting is assumed. “Open” means no later completion evidence was established here, not proof that nothing was done elsewhere.
 
-Acceptance before real student rollout (open, not certified by today's checks):
+## Deletion and failure alerts — Completed within recorded tests
 
-- Complete authorized educator/student role and permission tests, account switching, cross-educator isolation, shared groups and explicit learner evidence saves.
-- Complete sync conflict, stale/offline reconnection, deletion/recovery and backup/restore checks. Browser-local assessments need a documented retention/backup workflow.
-- Review the actual data collected, access controls, retention/deletion, incident/support process and district-required agreements with the district's responsible reviewers. Today's QA is not legal, privacy or security certification.
-- Complete keyboard and assistive-technology checks, contrast/focus/readability review, responsive coverage and student-form/answer-key print checks.
-- Finish outstanding clinical/content/source review, segmentation decisions and clear scope/limitations for any included product.
-- Reconcile the older four-project queue: Sentence hosted acceptance, Primo assets/layout/source decisions, Morphology local divergence, reproducible tests and delivery headers. Distinguish launch blockers from cosmetic backlog.
+Evidence: September 7 ordinary deletion/access revocation, recovery window and failure-alert receipt recorded.
 
-Readiness judgment: basic two-way Morphology synchronization and a real reward path now have live evidence. A carefully scoped meeting demonstration can be prepared; a full district deployment or finished multi-product pilot is not yet signed off.
+Remaining: Keep completed. Broader provider copies, contract-specific handling and current operational health were not rechecked today.
+
+## Parent records and retention tools — Built; operational release still partial
+
+Evidence: Encrypted delivery/operator tools, notice transport and later receipt confirmation recorded.
+
+Remaining: Actual authority verification/fulfillment, mailbox cleanup, remaining retention periods and controlled automatic product-deletion release are not established as complete.
+
+## Independent deletion-history archives — Recorded staging completion
+
+Evidence: September 15 independent cloud archive and hourly schedules; September 21/26 verification receipts.
+
+Remaining: This supersedes the early September “no unattended upload verified” item for that staging scope. Full production recovery and alert/key operations remain separate.
+
+## Full database backup and off-device copy — File verification completed September 26
+
+Evidence: Encrypted full logical backup plus private Google Cloud copy downloaded, decrypted, hash checked and decoded; spare-key availability owner confirmed.
+
+Remaining: Do not redo this achievement. A successful complete restore using the spare key and later-deletion reconciliation still needs evidence.
+
+## Safe staging and reproducible setup — Open in latest September evidence
+
+Evidence: Separate staging exists; diagnosis completed. September 28 still records MIGRATIONS_FAILED and six placeholder services.
+
+Remaining: Clean install/upgrade/rollback and actual isolated services; no later completion evidence found in today’s comparison.
+
+## Collection permission everywhere — Open in latest September evidence
+
+Evidence: Selected ownership/withdrawal paths tested; specific direct-table/educator gaps identified September 28.
+
+Remaining: Prove withdrawal stops ordinary reads/writes, educator-on-behalf collection and delayed/offline saves. Today’s Story setting RPCs do not close the system-wide gap.
+
+## Complete authenticated product journey — Partial; improved today
+
+Evidence: Morphology actual earning, saving/reopening and basic Chrome↔Safari progress/reward sync now passed. Story educator draft and mocked student settings passed.
+
+Remaining: Story actual authorized fictional-student path; Primo full path; account isolation, withdrawal, export/delete, offline/conflict/recovery and production acceptance across included products.
+
+## Sentence Structure staging acceptance — Recorded selected completion; later release work open
+
+Evidence: September 22–23 Google/second educator, individual/group save, cue separation, withdrawal and isolation tests passed on staging.
+
+Remaining: Keep those checked off. October 26 still carries hosted candidate/recovery/deletion and database fixture acceptance; do not call the whole product newly untested.
+
+## Browser security release — Completed for dated release
+
+Evidence: September 26 four repositories, successful deployments and 74 matching files; September 28 source checks recorded.
+
+Remaining: Current/new surfaces, response-layer framing protections and linked resources still need their stated checks. Today’s navigation changes are not a fresh security audit.
+
+## Repository release safeguards — Open / not reverified today
+
+Evidence: September 28 identified main-branch protections, Story scanning/push protection, dependency and linked-page work.
+
+Remaining: Verify/configure required checks and repository safeguards; resolve linked-page decisions and exact dependency versions. Do not assume resolved from a successful push.
+
+## Morphology Learn expansion and protected words — Substantial implementation; final review partial
+
+Evidence: Current product includes Learn expansion; current 72 automated checks and protection/coverage evidence. 120 authored examples reviewed, 32 wording revisions; 33 practice contexts added and inventories updated.
+
+Remaining: Match all original per-flight sorting/card promises against current release; finish external/clinical source queue and older 49 candidate segmentation decisions. 95 active word parts differs from September’s 96-card baseline; reconcile retired/pending scope rather than assume equivalence.
+
+## Morphology full UI/print acceptance — Partial
+
+Evidence: Actual token path and basic two-way sync passed. Flight A digital Pre/paper Post and B/C representative paper results reopen; inspected four-page educator report.
+
+Remaining: Student forms/answer-key separation, remaining digital form paths, navigation and interactive responsive/keyboard/audio coverage. One tested reward path does not prove all sets.
+
+## Accessibility, devices and support — Partial
+
+Evidence: Simpler Learn wording, Story UI/material updates and selected phone/tablet checks completed; About overflow fixed.
+
+Remaining: Full keyboard/assistive-technology, vision/hearing/mobility/cognitive checks; managed Chromebook/network testing; consistent training and support commitments.
+
+## Consent, notices, providers and retention decisions — Prepared / not established complete
+
+Evidence: September program/draft notices, provider questions and selected gates exist. No new legal/operational approval evidence reviewed today.
+
+Remaining: Resolve actual learner-use authority, consent method, exact inventory/provider assurances, final notices, retention/copy handling and practical requests. Historical disabled controls must be rechecked before describing current state.
+
+## Institutional identity, roles, interoperability and agreements — Open in recorded checklist
+
+Evidence: Selected Google authentication tested on Sentence staging. This is not district provisioning, role hierarchy or roster integration.
+
+Remaining: Original institutional track remains conditional on intended scope: accepted SSO/roster route, admin/staff/student permissions, agreements and purchasing when applicable. No meeting is scheduled or assumed.
+
+## Operations, incidents and paid-file protection — Open / partial evidence
+
+Evidence: Written program, some administrator recovery/MFA confirmations and backup foundations recorded.
+
+Remaining: Current device/admin evidence, provider/security findings, incident/privacy-request exercise, service/secret recovery, and decision on public static paid assets. A browser sign-in gate does not make public files private.
+
+## Source checkpoints
+
+- September 7 Complete Progress and Checklists R3; September 9 Progress and Readiness R6.
+- September 23 Earlier Checklist Reconciliation and Progress/Remaining Work.
+- September 26 Preparation Checklist; September 28 First Volo Next Steps (six security and six Morpho workstreams).
+- October 26 four-repository remaining work; current October 27 handoff and live QA evidence.
+
+These source files remain preserved in their original local folders. Completed dated tests stay complete for their stated version and scope.
