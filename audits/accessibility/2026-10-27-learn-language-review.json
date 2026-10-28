@@ -1,0 +1,1405 @@
+{
+  "scope": "52 primary worked lessons, 8 additional worked lessons, 60 authored practice checks in learn-content.js. This is not a complete review of every Morphology activity or assessment bank.",
+  "reviewed": 120,
+  "changed": 32,
+  "words": [
+    "submit",
+    "compute",
+    "valid",
+    "autobiography",
+    "organize",
+    "enjoyable",
+    "enjoyment",
+    "submarine",
+    "overuse",
+    "subtraction",
+    "circumstance",
+    "aspect",
+    "remit",
+    "bibliographer",
+    "unpack",
+    "proceed",
+    "circumference",
+    "perspective",
+    "bibliography",
+    "action"
+  ],
+  "rows": [
+    {
+      "kind": "worked",
+      "key": "un-reversative",
+      "word": "unpack",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ly-adjective",
+      "word": "friendly",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ant-ent-agent",
+      "word": "contestant",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ant-ent-adjective",
+      "word": "persistent",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "tele",
+      "word": "telescope",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "micro",
+      "word": "microscope",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "geo",
+      "word": "geology",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "struct",
+      "word": "structure",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ness",
+      "word": "darkness",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "er-more",
+      "word": "taller",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "er-or",
+      "word": "writer",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ly-adverb",
+      "word": "slowly",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "en-em",
+      "word": "enlarge",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "trans",
+      "word": "transplant",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "semi",
+      "word": "semisweet",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "anti",
+      "word": "antifreeze",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ab",
+      "word": "absent",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "a-ad",
+      "word": "adhere",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "con-com",
+      "word": "connect",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "e-ex",
+      "word": "exclude",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "pro",
+      "word": "proceed",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "retro",
+      "word": "retro-rocket",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "circum",
+      "word": "circumference",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "duct",
+      "word": "conduct",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ject",
+      "word": "project",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "mit",
+      "word": "submit",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context.",
+          "after": "Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning."
+        },
+        "choices": {
+          "before": [
+            "Keep it hidden",
+            "Send it for consideration"
+          ],
+          "after": [
+            "Keep it hidden",
+            "Hand it in so someone can read it"
+          ]
+        },
+        "contrast": {
+          "before": "Submit a design means hand it in for consideration; remit a fee means send the payment. Mit suggests sending, but the whole word and sentence matter.",
+          "after": "Submit a design means hand it in so someone can check it; remit a fee means send the money that is due. Mit suggests sending, but the whole word and sentence matter."
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "port",
+      "word": "porter",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "pos",
+      "word": "deposit",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "put",
+      "word": "compute",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place.",
+          "after": "This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place."
+        },
+        "choices": {
+          "before": [
+            "Calculating the cost",
+            "Putting tickets in a box"
+          ],
+          "after": [
+            "Working out how much the tickets cost",
+            "Putting tickets in a box"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "rupt",
+      "word": "rupture",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "spect",
+      "word": "perspective",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "val",
+      "word": "valid",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason.",
+          "after": "Val has a historical connection to strength or worth. A valid reason makes sense and helps explain why a choice is right. It does not mean a reason about strong muscles."
+        },
+        "sentence": {
+          "before": "She gave a valid reason for changing the plan.",
+          "after": "“A storm is coming, so we should move the picnic indoors,” she said. She gave a valid reason for changing the plan."
+        },
+        "question": {
+          "before": "What kind of reason did she give?",
+          "after": "What does valid mean here?"
+        },
+        "choices": {
+          "before": [
+            "A reason about lifting heavy things",
+            "A sound reason that supports the change"
+          ],
+          "after": [
+            "A reason that does not explain the change",
+            "A reason that makes sense"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "act",
+      "word": "active",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "auto",
+      "word": "autobiography",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else.",
+          "after": "Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else."
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "biblio",
+      "word": "bibliography",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ize",
+      "word": "organize",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "-Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added.",
+          "after": "-Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word."
+        },
+        "choices": {
+          "before": [
+            "Describing how tall the books are",
+            "Arranging the books"
+          ],
+          "after": [
+            "Describing how tall the books are",
+            "Putting the books in order"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "able-ible",
+      "word": "enjoyable",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "-Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending.",
+          "after": "-Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending."
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "ion",
+      "word": "action",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ment",
+      "word": "enjoyment",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "-Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb.",
+          "after": "-Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb."
+        },
+        "choices": {
+          "before": [
+            "The pleasure we felt",
+            "The person playing music"
+          ],
+          "after": [
+            "The good feeling we had",
+            "The person playing music"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "sub",
+      "word": "submarine",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "A submarine is a vessel designed to travel under water. Sub- contributes under; marine connects with the sea.",
+          "after": "A submarine is a kind of ship that can travel under water. Sub- means under; marine connects with the sea."
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "un-negation",
+      "word": "unsafe",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "re",
+      "word": "rewash",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "pre",
+      "word": "precook",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "mis",
+      "word": "misread",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "dis",
+      "word": "disconnect",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "over",
+      "word": "overuse",
+      "changed": true,
+      "fields": {
+        "steps": {
+          "before": [
+            "Start with use: put something to a purpose.",
+            "Add over-: here it means too much.",
+            "Overuse means use excessively, not simply use once."
+          ],
+          "after": [
+            "Start with use: put something to a purpose.",
+            "Add over-: here it means too much.",
+            "Overuse means use too much, not just use once."
+          ]
+        },
+        "explanation": {
+          "before": "Overuse means use excessively, not simply use once.",
+          "after": "Overuse means use too much, not just use once."
+        }
+      }
+    },
+    {
+      "kind": "worked",
+      "key": "ed",
+      "word": "walked",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ing",
+      "word": "running",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "s-es",
+      "word": "books",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "ful",
+      "word": "careful",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "less",
+      "word": "cloudless",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "worked",
+      "key": "est",
+      "word": "tallest",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "un-reversative",
+      "word": "unroll",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "sub",
+      "word": "subway",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "ment",
+      "word": "payment",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "ion",
+      "word": "subtraction",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "The process of taking away in a calculation",
+            "A person counting blocks"
+          ],
+          "after": [
+            "Taking one number away from another",
+            "A person counting blocks"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "circum",
+      "word": "circumstance",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+          "after": "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle."
+        },
+        "choices": {
+          "before": [
+            "The distance around the picnic blanket",
+            "A condition affecting the picnic"
+          ],
+          "after": [
+            "The distance around the picnic blanket",
+            "Something that changes what happens at the picnic"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "spect",
+      "word": "aspect",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+          "after": "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking."
+        },
+        "choices": {
+          "before": [
+            "A feature to consider",
+            "A person who painted it"
+          ],
+          "after": [
+            "One part to think about",
+            "A person who painted it"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "mit",
+      "word": "remit",
+      "changed": true,
+      "fields": {
+        "contrast": {
+          "before": "Submit a design means hand it in for consideration; remit a fee means send the payment. Mit suggests sending, but the whole word and sentence matter.",
+          "after": "Submit a design means hand it in so someone can check it; remit a fee means send the money that is due. Mit suggests sending, but the whole word and sentence matter."
+        }
+      }
+    },
+    {
+      "kind": "additionalWorked",
+      "key": "biblio",
+      "word": "bibliographer",
+      "changed": true,
+      "fields": {
+        "explanation": {
+          "before": "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+          "after": "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself."
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "unpack",
+      "word": "unpack",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "Putting things into it",
+            "Taking its contents out"
+          ],
+          "after": [
+            "Putting things into it",
+            "Taking things out of it"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "unroll",
+      "word": "unroll",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "friendly",
+      "word": "friendly",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "enlarge",
+      "word": "enlarge",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "transplant",
+      "word": "transplant",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "semisweet",
+      "word": "semisweet",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "antifreeze",
+      "word": "antifreeze",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "absent",
+      "word": "absent",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "adhere",
+      "word": "adhere",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "connect",
+      "word": "connect",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "exclude",
+      "word": "exclude",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "proceed",
+      "word": "proceed",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "They remain still",
+            "They continue walking"
+          ],
+          "after": [
+            "They stay where they are",
+            "They continue walking"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "retro-rocket",
+      "word": "retro-rocket",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "circumference",
+      "word": "circumference",
+      "changed": true,
+      "fields": {
+        "transfer": {
+          "before": {
+            "sentence": "A road closure was a circumstance that delayed the bus.",
+            "question": "Which condition affected the trip?",
+            "choices": [
+              "The closed road",
+              "The round shape of a wheel"
+            ],
+            "answer": 0,
+            "feedback": [
+              "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+              "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure."
+            ],
+            "word": "circumstance"
+          },
+          "after": {
+            "sentence": "A road closure was a circumstance that delayed the bus.",
+            "question": "Which condition affected the trip?",
+            "choices": [
+              "The closed road",
+              "The round shape of a wheel"
+            ],
+            "answer": 0,
+            "feedback": [
+              "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle.",
+              "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle."
+            ],
+            "word": "circumstance"
+          }
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "conduct",
+      "word": "conduct",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "project",
+      "word": "project",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "submit",
+      "word": "submit",
+      "changed": true,
+      "fields": {
+        "feedback": {
+          "before": [
+            "It is handed in for judging. Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context.",
+            "Use the sentence clue: It is handed in for judging. Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context."
+          ],
+          "after": [
+            "It is handed in for judging. Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning.",
+            "Use the sentence clue: It is handed in for judging. Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "porter",
+      "word": "porter",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "deposit",
+      "word": "deposit",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "compute",
+      "word": "compute",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "Choose a place to stand",
+            "Calculate the distance"
+          ],
+          "after": [
+            "Choose a place to stand",
+            "Work out how far someone traveled"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Use the sentence clue: Calculate the distance. This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place.",
+            "Calculate the distance. This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place."
+          ],
+          "after": [
+            "Use the sentence clue: Work out how far someone traveled. This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place.",
+            "Work out how far someone traveled. This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "rupture",
+      "word": "rupture",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "perspective",
+      "word": "perspective",
+      "changed": true,
+      "fields": {
+        "transfer": {
+          "before": {
+            "sentence": "Safety is an important aspect of planning the trip.",
+            "question": "What does aspect name?",
+            "choices": [
+              "The entire trip and every detail at once",
+              "One feature of the planning"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+              "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking."
+            ],
+            "word": "aspect"
+          },
+          "after": {
+            "sentence": "Safety is an important aspect of planning the trip.",
+            "question": "What does aspect name?",
+            "choices": [
+              "The entire trip and every detail at once",
+              "One part of the planning"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking.",
+              "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking."
+            ],
+            "word": "aspect"
+          }
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "valid",
+      "word": "valid",
+      "changed": true,
+      "fields": {
+        "sentence": {
+          "before": "The evidence supports a valid conclusion.",
+          "after": "The plants with water grew, but the plants without water died. It is valid to say that these plants needed water to live."
+        },
+        "choices": {
+          "before": [
+            "Well supported by the evidence",
+            "Written in very large letters"
+          ],
+          "after": [
+            "Makes sense because it fits what we saw",
+            "Does not fit what we saw"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Well supported by the evidence. Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason.",
+            "Use the sentence clue: Well supported by the evidence. Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason."
+          ],
+          "after": [
+            "Makes sense because it fits what we saw. Valid means the idea makes sense and fits what we saw. The plants without water died, so the sentence gives us a reason to say they needed water.",
+            "Use the sentence clue: Makes sense because it fits what we saw. Valid means the idea makes sense and fits what we saw. The plants without water died, so the sentence gives us a reason to say they needed water."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "active",
+      "word": "active",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "autobiography",
+      "word": "autobiography",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "The dancer",
+            "An unrelated historian"
+          ],
+          "after": [
+            "The dancer",
+            "Someone else writing about the dancer"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "The dancer. Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else.",
+            "Use the sentence clue: The dancer. Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else."
+          ],
+          "after": [
+            "The dancer. Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else.",
+            "Use the sentence clue: The dancer. Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "bibliography",
+      "word": "bibliography",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "It proves every fact is correct by itself",
+            "It identifies the source"
+          ],
+          "after": [
+            "It proves every fact is correct by itself",
+            "It shows which book or website was used"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Use the sentence clue: It identifies the source. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too.",
+            "It identifies the source. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too."
+          ],
+          "after": [
+            "Use the sentence clue: It shows which book or website was used. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too.",
+            "It shows which book or website was used. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too."
+          ]
+        },
+        "transfer": {
+          "before": {
+            "sentence": "The bibliographer checked the authors and titles for the source list.",
+            "question": "What job is this person doing?",
+            "choices": [
+              "Writing every book in the list",
+              "Preparing accurate information about sources"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+              "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself."
+            ],
+            "word": "bibliographer"
+          },
+          "after": {
+            "sentence": "The bibliographer checked the authors and titles for the source list.",
+            "question": "What job is this person doing?",
+            "choices": [
+              "Writing every book in the list",
+              "Making a list of the books and other sources used"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself.",
+              "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself."
+            ],
+            "word": "bibliographer"
+          }
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "organize",
+      "word": "organize",
+      "changed": true,
+      "fields": {
+        "feedback": {
+          "before": [
+            "Put the supplies in order. -Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added.",
+            "Use the sentence clue: Put the supplies in order. -Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added."
+          ],
+          "after": [
+            "Put the supplies in order. -Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word.",
+            "Use the sentence clue: Put the supplies in order. -Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "enjoyable",
+      "word": "enjoyable",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "One that could not be enjoyed",
+            "One that gave us pleasure"
+          ],
+          "after": [
+            "One that could not be enjoyed",
+            "One we liked"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Use the sentence clue: One that gave us pleasure. -Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending.",
+            "One that gave us pleasure. -Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending."
+          ],
+          "after": [
+            "Use the sentence clue: One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending.",
+            "One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "action",
+      "word": "action",
+      "changed": true,
+      "fields": {
+        "transfer": {
+          "before": {
+            "sentence": "Use subtraction to find the difference between nine and six.",
+            "question": "What process should you use?",
+            "choices": [
+              "Joining the numbers into a larger total",
+              "Taking one number away from another"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb.",
+              "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb."
+            ],
+            "word": "subtraction"
+          },
+          "after": {
+            "sentence": "Use subtraction to find the difference between nine and six.",
+            "question": "What should you do with the numbers?",
+            "choices": [
+              "Joining the numbers into a larger total",
+              "Taking one number away from another"
+            ],
+            "answer": 1,
+            "feedback": [
+              "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb.",
+              "Subtract means take away in a calculation. Subtraction names that process. In this word family, -ion helps form the noun; do not add the ending to every verb."
+            ],
+            "word": "subtraction"
+          }
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "enjoyment",
+      "word": "enjoyment",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "A command to read faster",
+            "Pleasure"
+          ],
+          "after": [
+            "A command to read faster",
+            "A good feeling"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Use the sentence clue: Pleasure. -Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb.",
+            "Pleasure. -Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb."
+          ],
+          "after": [
+            "Use the sentence clue: A good feeling. -Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb.",
+            "A good feeling. -Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "contestant",
+      "word": "contestant",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "persistent",
+      "word": "persistent",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "telescope",
+      "word": "telescope",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "microscope",
+      "word": "microscope",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "geology",
+      "word": "geology",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "structure",
+      "word": "structure",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "darkness",
+      "word": "darkness",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "taller",
+      "word": "taller",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "writer",
+      "word": "writer",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "slowly",
+      "word": "slowly",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "subway",
+      "word": "subway",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "payment",
+      "word": "payment",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "subtraction",
+      "word": "subtraction",
+      "changed": true,
+      "fields": {
+        "question": {
+          "before": "What process should you use?",
+          "after": "What should you do with the numbers?"
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "circumstance",
+      "word": "circumstance",
+      "changed": true,
+      "fields": {
+        "feedback": {
+          "before": [
+            "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+            "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure."
+          ],
+          "after": [
+            "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle.",
+            "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "aspect",
+      "word": "aspect",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "The entire trip and every detail at once",
+            "One feature of the planning"
+          ],
+          "after": [
+            "The entire trip and every detail at once",
+            "One part of the planning"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+            "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking."
+          ],
+          "after": [
+            "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking.",
+            "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "remit",
+      "word": "remit",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "bibliographer",
+      "word": "bibliographer",
+      "changed": true,
+      "fields": {
+        "choices": {
+          "before": [
+            "Writing every book in the list",
+            "Preparing accurate information about sources"
+          ],
+          "after": [
+            "Writing every book in the list",
+            "Making a list of the books and other sources used"
+          ]
+        },
+        "feedback": {
+          "before": [
+            "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+            "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself."
+          ],
+          "after": [
+            "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself.",
+            "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "submarine",
+      "word": "submarine",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "unsafe",
+      "word": "unsafe",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "rewash",
+      "word": "rewash",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "precook",
+      "word": "precook",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "misread",
+      "word": "misread",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "disconnect",
+      "word": "disconnect",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "overuse",
+      "word": "overuse",
+      "changed": true,
+      "fields": {
+        "feedback": {
+          "before": [
+            "Overuse means use excessively, not simply use once.",
+            "Overuse means use excessively, not simply use once."
+          ],
+          "after": [
+            "Overuse means use too much, not just use once.",
+            "Overuse means use too much, not just use once."
+          ]
+        }
+      }
+    },
+    {
+      "kind": "practice",
+      "key": "walked",
+      "word": "walked",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "running",
+      "word": "running",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "books",
+      "word": "books",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "careful",
+      "word": "careful",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "cloudless",
+      "word": "cloudless",
+      "changed": false,
+      "fields": {}
+    },
+    {
+      "kind": "practice",
+      "key": "tallest",
+      "word": "tallest",
+      "changed": false,
+      "fields": {}
+    }
+  ]
+}

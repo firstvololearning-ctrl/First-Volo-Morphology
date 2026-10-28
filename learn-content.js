@@ -36,7 +36,7 @@
     "un-reversative": [{ word: "unroll", parts: "un- + roll → unroll", explanation: "Here un- reverses rolling. To unroll something, open it out from its rolled-up shape.", sentence: "We unroll the rug so it lies flat.", question: "What happens when we unroll the rug?", choices: ["We open the rolled rug out", "We roll the rug up"], answer: 0 }]
   };
   const practice = {
-    unpack: { sentence: "After lunch, I unpack the picnic basket.", question: "What am I doing to the basket?", choices: ["Putting things into it", "Taking its contents out"], answer: 1, feedback: ["That would be packing the basket. Un- reverses the packing action.", "Unpacking the basket means taking out what was packed inside."] },
+    unpack: { sentence: "After lunch, I unpack the picnic basket.", question: "What am I doing to the basket?", choices: ["Putting things into it", "Taking things out of it"], answer: 1, feedback: ["That would be packing the basket. Un- reverses the packing action.", "Unpacking the basket means taking out what was packed inside."] },
     unroll: { sentence: "We unroll the poster before hanging it on the wall.", question: "What does unroll mean here?", choices: ["Open the poster out from a roll", "Put the poster into a roll"], answer: 0, feedback: ["The poster was rolled up. Unrolling opens it out so we can hang it.", "That would be rolling it up. Un- tells us to reverse that action."] },
     friendly: { sentence: "The friendly guide welcomed us.", question: "What does friendly describe here?", choices: ["The way we moved", "What the guide was like"], answer: 1, feedback: ["Look for the person described as friendly. Here it describes the guide, not an action.", "Friendly describes the guide as kind and welcoming. Here -ly helps form an adjective."] }
   };
@@ -1279,12 +1279,12 @@
   "mit": {
     "word": "submit",
     "parts": "Root focus: mit in submit",
-    "explanation": "Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context.",
+    "explanation": "Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning.",
     "sentence": "Please submit your story to the editor.",
     "question": "What should you do with the story?",
     "choices": [
       "Keep it hidden",
-      "Send it for consideration"
+      "Hand it in so someone can read it"
     ],
     "answer": 1
   },
@@ -1315,11 +1315,11 @@
   "put": {
     "word": "compute",
     "parts": "Root focus: put in compute",
-    "explanation": "This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place.",
+    "explanation": "This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place.",
     "sentence": "We compute the total cost of the tickets.",
     "question": "What are we doing?",
     "choices": [
-      "Calculating the cost",
+      "Working out how much the tickets cost",
       "Putting tickets in a box"
     ],
     "answer": 0
@@ -1351,12 +1351,12 @@
   "val": {
     "word": "valid",
     "parts": "Root focus: val in valid",
-    "explanation": "Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason.",
-    "sentence": "She gave a valid reason for changing the plan.",
-    "question": "What kind of reason did she give?",
+    "explanation": "Val has a historical connection to strength or worth. A valid reason makes sense and helps explain why a choice is right. It does not mean a reason about strong muscles.",
+    "sentence": "“A storm is coming, so we should move the picnic indoors,” she said. She gave a valid reason for changing the plan.",
+    "question": "What does valid mean here?",
     "choices": [
-      "A reason about lifting heavy things",
-      "A sound reason that supports the change"
+      "A reason that does not explain the change",
+      "A reason that makes sense"
     ],
     "answer": 1
   },
@@ -1375,7 +1375,7 @@
   "auto": {
     "word": "autobiography",
     "parts": "auto- (self) + biography (life account)",
-    "explanation": "Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else.",
+    "explanation": "Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else.",
     "sentence": "The athlete wrote an autobiography.",
     "question": "Whose life did the athlete write about?",
     "choices": [
@@ -1399,19 +1399,19 @@
   "ize": {
     "word": "organize",
     "parts": "Suffix focus: -ize in organize",
-    "explanation": "-Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added.",
+    "explanation": "-Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word.",
     "sentence": "We organize the books by subject.",
     "question": "What are we doing?",
     "choices": [
       "Describing how tall the books are",
-      "Arranging the books"
+      "Putting the books in order"
     ],
     "answer": 1
   },
   "able-ible": {
     "word": "enjoyable",
     "parts": "enjoy + -able → enjoyable",
-    "explanation": "-Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending.",
+    "explanation": "-Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending.",
     "sentence": "The game was enjoyable.",
     "question": "What does enjoyable describe?",
     "choices": [
@@ -1435,11 +1435,11 @@
   "ment": {
     "word": "enjoyment",
     "parts": "enjoy + -ment → enjoyment",
-    "explanation": "-Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb.",
+    "explanation": "-Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb.",
     "sentence": "The music gave us enjoyment.",
     "question": "What does enjoyment name?",
     "choices": [
-      "The pleasure we felt",
+      "The good feeling we had",
       "The person playing music"
     ],
     "answer": 0
@@ -1554,7 +1554,7 @@
     "sentence": "When the light changes, the walkers proceed.",
     "question": "What happens next?",
     "choices": [
-      "They remain still",
+      "They stay where they are",
       "They continue walking"
     ],
     "answer": 1,
@@ -1624,8 +1624,8 @@
     ],
     "answer": 0,
     "feedback": [
-      "It is handed in for judging. Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context.",
-      "Use the sentence clue: It is handed in for judging. Mit/miss carries the idea send. In this sentence submit means send or hand in for someone to consider. Other senses, such as giving in, need their own context."
+      "It is handed in for judging. Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning.",
+      "Use the sentence clue: It is handed in for judging. Mit/miss carries the idea send. Here submit means send or hand in so someone can read or check it. In another sentence it can mean give in; use the sentence to choose the meaning."
     ]
   },
   "porter": {
@@ -1659,12 +1659,12 @@
     "question": "What does compute ask you to do?",
     "choices": [
       "Choose a place to stand",
-      "Calculate the distance"
+      "Work out how far someone traveled"
     ],
     "answer": 1,
     "feedback": [
-      "Use the sentence clue: Calculate the distance. This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place.",
-      "Calculate the distance. This Latin root carries the idea think or reckon. Compute means calculate. It is not the everyday English word put meaning place."
+      "Use the sentence clue: Work out how far someone traveled. This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place.",
+      "Work out how far someone traveled. This Latin root connects with thinking and working out numbers. Compute means work out an answer using numbers. It is not the everyday English word put meaning place."
     ]
   },
   "rupture": {
@@ -1694,16 +1694,16 @@
     ]
   },
   "valid": {
-    "sentence": "The evidence supports a valid conclusion.",
+    "sentence": "The plants with water grew, but the plants without water died. It is valid to say that these plants needed water to live.",
     "question": "What does valid mean here?",
     "choices": [
-      "Well supported by the evidence",
-      "Written in very large letters"
+      "Makes sense because it fits what we saw",
+      "Does not fit what we saw"
     ],
     "answer": 0,
     "feedback": [
-      "Well supported by the evidence. Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason.",
-      "Use the sentence clue: Well supported by the evidence. Val has a historical connection to strength or worth. A valid reason is sound: it supports the claim. It does not mean a physically strong reason."
+      "Makes sense because it fits what we saw. Valid means the idea makes sense and fits what we saw. The plants without water died, so the sentence gives us a reason to say they needed water.",
+      "Use the sentence clue: Makes sense because it fits what we saw. Valid means the idea makes sense and fits what we saw. The plants without water died, so the sentence gives us a reason to say they needed water."
     ]
   },
   "active": {
@@ -1724,12 +1724,12 @@
     "question": "Who is telling their own life story?",
     "choices": [
       "The dancer",
-      "An unrelated historian"
+      "Someone else writing about the dancer"
     ],
     "answer": 0,
     "feedback": [
-      "The dancer. Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else.",
-      "Use the sentence clue: The dancer. Auto- means self. An autobiography is an account of a person’s life written by that person. A biography may be written by someone else."
+      "The dancer. Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else.",
+      "Use the sentence clue: The dancer. Auto- means self. An autobiography tells a person’s life story, written by that person. A biography may be written by someone else."
     ]
   },
   "bibliography": {
@@ -1737,12 +1737,12 @@
     "question": "How can the bibliography help?",
     "choices": [
       "It proves every fact is correct by itself",
-      "It identifies the source"
+      "It shows which book or website was used"
     ],
     "answer": 1,
     "feedback": [
-      "Use the sentence clue: It identifies the source. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too.",
-      "It identifies the source. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too."
+      "Use the sentence clue: It shows which book or website was used. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too.",
+      "It shows which book or website was used. Biblio- connects with books. A bibliography lists books or other sources used for a piece of work. Today it can include websites, too."
     ]
   },
   "organize": {
@@ -1754,8 +1754,8 @@
     ],
     "answer": 0,
     "feedback": [
-      "Put the supplies in order. -Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added.",
-      "Use the sentence clue: Put the supplies in order. -Ize often helps form verbs. Organize means arrange or put in order. This established word cannot be explained by treating organ as an ordinary base to which any ending can be added."
+      "Put the supplies in order. -Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word.",
+      "Use the sentence clue: Put the supplies in order. -Ize often helps form verbs. Organize means put in order. Learn organize as a whole word. Do not make new words by adding -ize to any word."
     ]
   },
   "enjoyable": {
@@ -1763,12 +1763,12 @@
     "question": "What kind of afternoon was it?",
     "choices": [
       "One that could not be enjoyed",
-      "One that gave us pleasure"
+      "One we liked"
     ],
     "answer": 1,
     "feedback": [
-      "Use the sentence clue: One that gave us pleasure. -Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending.",
-      "One that gave us pleasure. -Able helps form an adjective. Enjoyable describes something that gives pleasure or can be enjoyed. Not every adjective can take this ending."
+      "Use the sentence clue: One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending.",
+      "One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending."
     ]
   },
   "action": {
@@ -1789,12 +1789,12 @@
     "question": "What does reading bring?",
     "choices": [
       "A command to read faster",
-      "Pleasure"
+      "A good feeling"
     ],
     "answer": 1,
     "feedback": [
-      "Use the sentence clue: Pleasure. -Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb.",
-      "Pleasure. -Ment can help form a noun. Enjoyment names the pleasure of enjoying something. We cannot add -ment to every verb."
+      "Use the sentence clue: A good feeling. -Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb.",
+      "A good feeling. -Ment can help form a noun. Enjoyment names the good feeling you get from something you like. We cannot add -ment to every verb."
     ]
   },
   "contestant": {
@@ -1974,7 +1974,7 @@
 });
 
   // Paired lessons and supported application to a different word.
-  worked.sub = {"word": "submarine", "parts": "sub- (under) + marine (sea)", "explanation": "A submarine is a vessel designed to travel under water. Sub- contributes under; marine connects with the sea.", "sentence": "The submarine traveled below the waves.", "question": "What does sub- contribute?", "choices": ["Under", "Before"], "answer": 0};
+  worked.sub = {"word": "submarine", "parts": "sub- (under) + marine (sea)", "explanation": "A submarine is a kind of ship that can travel under water. Sub- means under; marine connects with the sea.", "sentence": "The submarine traveled below the waves.", "question": "What does sub- contribute?", "choices": ["Under", "Before"], "answer": 0};
   Object.assign(metadata, {
   "subway": {
     "practiceBand": "2-3",
@@ -2053,7 +2053,7 @@
     "sentence": "We use subtraction to find how many blocks remain.",
     "question": "What does subtraction name?",
     "choices": [
-      "The process of taking away in a calculation",
+      "Taking one number away from another",
       "A person counting blocks"
     ],
     "answer": 0
@@ -2061,23 +2061,23 @@
   "circum": {
     "word": "circumstance",
     "parts": "Historical prefix focus: circum- in circumstance",
-    "explanation": "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
+    "explanation": "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle.",
     "sentence": "Heavy rain was a circumstance that changed our picnic plan.",
     "question": "What does circumstance name here?",
     "choices": [
       "The distance around the picnic blanket",
-      "A condition affecting the picnic"
+      "Something that changes what happens at the picnic"
     ],
     "answer": 1
   },
   "spect": {
     "word": "aspect",
     "parts": "Historical root focus: spect in aspect",
-    "explanation": "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
+    "explanation": "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking.",
     "sentence": "Color is one aspect of the painting we will discuss.",
     "question": "What does aspect mean here?",
     "choices": [
-      "A feature to consider",
+      "One part to think about",
       "A person who painted it"
     ],
     "answer": 0
@@ -2097,7 +2097,7 @@
   "biblio": {
     "word": "bibliographer",
     "parts": "Word family: bibliography \u2194 bibliographer",
-    "explanation": "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
+    "explanation": "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself.",
     "sentence": "The bibliographer prepared a list of books about oceans.",
     "question": "Who is the bibliographer?",
     "choices": [
@@ -2137,7 +2137,7 @@
   },
   "subtraction": {
     "sentence": "Use subtraction to find the difference between nine and six.",
-    "question": "What process should you use?",
+    "question": "What should you do with the numbers?",
     "choices": [
       "Joining the numbers into a larger total",
       "Taking one number away from another"
@@ -2157,8 +2157,8 @@
     ],
     "answer": 0,
     "feedback": [
-      "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure.",
-      "A circumstance is a condition surrounding an event. Circum- has a historical connection to around. Here surrounding is figurative, not a circle you can measure."
+      "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle.",
+      "A circumstance is something about a situation that affects what happens. Circum- has an older connection to around. Here it is about the situation, not a circle."
     ]
   },
   "aspect": {
@@ -2166,12 +2166,12 @@
     "question": "What does aspect name?",
     "choices": [
       "The entire trip and every detail at once",
-      "One feature of the planning"
+      "One part of the planning"
     ],
     "answer": 1,
     "feedback": [
-      "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking.",
-      "Spect connects historically with looking. An aspect can be a feature or side of something that we consider. Here it does not mean an eye or a person looking."
+      "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking.",
+      "Spect has an older connection to looking. An aspect is one part of something that we think about. Here it does not mean an eye or a person looking."
     ]
   },
   "remit": {
@@ -2192,12 +2192,12 @@
     "question": "What job is this person doing?",
     "choices": [
       "Writing every book in the list",
-      "Preparing accurate information about sources"
+      "Making a list of the books and other sources used"
     ],
     "answer": 1,
     "feedback": [
-      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself.",
-      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person compiling the list, not the list itself."
+      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself.",
+      "Biblio- connects with books. A bibliographer may prepare lists of books and other sources. Here it names the person making the list, not the list itself."
     ]
   },
   "submarine": {
@@ -2220,7 +2220,7 @@
   "ion": "Action and subtraction both name doing or a process. The base tells us which process; the ending alone cannot tell us.",
   "circum": "Circumference is a measurable distance around a circle. Circumstance names a surrounding condition. A word part gives a clue, but the sentence chooses the meaning.",
   "spect": "Perspective is a point of view; an aspect is a feature considered. Their shared history of looking does not make them interchangeable.",
-  "mit": "Submit a design means hand it in for consideration; remit a fee means send the payment. Mit suggests sending, but the whole word and sentence matter.",
+  "mit": "Submit a design means hand it in so someone can check it; remit a fee means send the money that is due. Mit suggests sending, but the whole word and sentence matter.",
   "biblio": "A bibliography is a list of sources; a bibliographer is a person who compiles such lists or studies bibliography. Shared parts do not make the two nouns name the same thing."
 };
   for (const [id, lesson] of Object.entries(deeperLessons)) {
@@ -2382,9 +2382,9 @@
     "steps": [
       "Start with use: put something to a purpose.",
       "Add over-: here it means too much.",
-      "Overuse means use excessively, not simply use once."
+      "Overuse means use too much, not just use once."
     ],
-    "explanation": "Overuse means use excessively, not simply use once.",
+    "explanation": "Overuse means use too much, not just use once.",
     "sentence": "If we overuse the markers, they may run dry.",
     "question": "What does over- mean here?",
     "choices": [
@@ -2711,8 +2711,8 @@
     ],
     "answer": 1,
     "feedback": [
-      "Overuse means use excessively, not simply use once.",
-      "Overuse means use excessively, not simply use once."
+      "Overuse means use too much, not just use once.",
+      "Overuse means use too much, not just use once."
     ],
     "transfer": {
       "word": "overhead",
