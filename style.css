@@ -1402,7 +1402,7 @@ a:focus-visible {
 .about-card {
   position: relative;
 
-  width: min(760px, 96vw);
+  width: min(760px, 100%);
   max-height: 88vh;
   overflow-y: auto;
 
@@ -1869,7 +1869,7 @@ a:focus-visible {
    ======================================== */
 
 .about-card {
-  width: min(980px, 96vw);
+  width: min(980px, 100%);
 }
 
 .about-lead {
@@ -2130,7 +2130,7 @@ a:focus-visible {
 @media (max-width: 760px) {
 
   .about-card {
-    width: min(96vw, 680px);
+    width: min(680px, 100%);
     padding: 28px 20px;
   }
 
