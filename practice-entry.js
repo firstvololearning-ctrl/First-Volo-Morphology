@@ -55,7 +55,7 @@
     const target = chosen ? document.getElementById("workspaceTitle") : document.getElementById("practiceSetup");
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
     if (chosen && target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
-    else flight.focus({ preventScroll: true });
+    else document.querySelector("[data-study-mode]")?.focus({ preventScroll: true });
   });
   window.FirstVoloPracticeChoices = { apply(plan) {
     if (!plan || ![...flight.options].some(o => o.value === plan.flight)) return false;

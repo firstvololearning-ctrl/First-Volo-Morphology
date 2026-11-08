@@ -75,11 +75,12 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=20261108-learn1">
+  <link rel="stylesheet" href="style.css?v=20261108-hoops-20261108-learn1">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
   <link rel="stylesheet" href="reward-games.css?v=20260830-batch1">
+  <link rel="stylesheet" href="reward-hoops.css?v=20261108b">
 
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
 <link rel="stylesheet" href="practice-plan.css?v=20261107-plan1">
@@ -177,7 +178,7 @@
         <details class="header-resource-group header-resource-dropdown">
 
           <summary class="header-resource-label">
-            TRACK &amp; SAVE
+            LEARNERS &amp; PROGRESS
           </summary>
 
           <div class="header-resource-dropdown-body" id="headerTrackSaveGroup">
@@ -187,7 +188,7 @@
         href="program-progress.html"
         data-morphology-educator-only
       >
-        📊 Program Progress
+        📊 Learners &amp; progress
       </a>
 
           </div>
@@ -240,10 +241,9 @@
       <p>Review what the learner needs, choose practice, or return to their progress.</p></div>
       <nav class="practice-entry-actions" aria-label="Educator starting points">
         <a id="educatorPracticeStart" class="entry-primary" href="#currentStudentBar">Practice with a learner</a>
-        <a href="program-progress.html">Learners &amp; progress</a>
+        </nav><details class="entry-assess"><summary>Planning, records &amp; resources</summary><nav class="practice-entry-actions" aria-label="Educator planning and records"><a href="program-progress.html">Learners &amp; progress</a>
         <button type="button" id="openPracticePlan">Set a practice plan</button>
-        <a href="educator-resources.html">Educator resources &amp; guide</a>
-      </nav>
+        <a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
       <details class="entry-assess"><summary>Start or review an assessment</summary>
         <p>Choose a Flight to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
         <div class="practice-entry-actions"><a href="flight-a-assessment.html">Flight A assessment</a><a href="flight-b-assessment.html">Flight B assessment</a><a href="flight-c-assessment.html">Flight C assessment</a></div>
@@ -290,11 +290,11 @@
 
         <span class="student-bar-intro-copy">
           <span class="student-bar-label">
-            Optional: Choose your learner
+            1. Choose a learner (optional)
           </span>
 
           <span class="student-bar-note">
-            Choose a learner if you want activity progress saved in this browser.
+            Choose a learner to keep practice attached to their record.
             Use Manage Learners to add or edit learners.
           </span>
         </span>
@@ -332,6 +332,8 @@
       aria-label="Practice setup"
     >
 
+      <button type="button" id="openMyGames" class="entry-primary">🎮 My Games</button>
+      <p class="entry-note">Optional games use your unlocked word parts. Open My Games to see what is ready.</p>
       <div class="practice-setup-heading">
         <div>
           <span class="practice-setup-kicker">
@@ -339,100 +341,14 @@
           </span>
 
           <h2>
-            Choose your practice
+            <span data-morphology-educator-only>2. </span>Choose word parts
           </h2>
 
           <p>
-            Choose a Practice Flight, what you want to study, and whether to add Stretch Words.
+            Choose prefixes, roots, or suffixes. Open Adjust practice when you need a specific Flight or Stretch Words.
           </p>
         </div>
       </div>
-
-      <div class="filter-control practice-flight-control">
-
-    <label
-      class="selector-label filter-label numbered-filter-label"
-      for="gradeBandSelect"
-    >
-
-
-      <span>
-        Practice Flight
-
-        <small>
-          Choose the morphology level you want to practice.
-        </small>
-      </span>
-    </label>
-
-    <details
-      class="practice-flight-help"
-      id="practiceFlightHelp"
-    >
-      <summary>
-        ⓘ What is a Practice Flight?
-      </summary>
-
-      <div class="practice-flight-help-panel">
-        <p>
-          Practice Flights describe the complexity of the word-part
-          content. They are not fixed student grade placements.
-        </p>
-
-        <p class="practice-flight-help-levels">
-          <b>Flight A</b><br>
-          <span><b>Typically Grades 2–3</b></span><br>
-          Familiar bases and high-frequency prefixes and suffixes.
-        </p>
-
-        <p class="practice-flight-help-levels">
-          <b>Flight B · Word Families</b><br>
-          <span><b>Typically Grades 4–5</b></span><br>
-          Transparent roots, related academic words, and word families.
-        </p>
-
-        <p class="practice-flight-help-levels">
-          <b>Flight C · Complex Morphology</b><br>
-          <span><b>Typically Grades 6–8</b></span><br>
-          More complex word families, layered morphology,
-          and increasingly independent analysis.
-        </p>
-
-        <p>
-          Students can work flexibly across Flights when that better
-          matches their instructional needs. Word Challenge is separate from Practice Flight. Standard Words combine Familiar and Academic vocabulary; Stretch Words can be added for additional challenge.
-        </p>
-      </div>
-    </details>
-
-    <div class="select-wrap">
-
-      <select
-        class="study-select"
-        id="gradeBandSelect"
-      >
-
-        <option value="all" selected>
-          All Flights · Full range
-        </option>
-
-        <option value="2-3">
-          Flight A · Beginning word-part knowledge
-        </option>
-
-        <option value="4-5">
-          Flight B · Building word-part knowledge
-        </option>
-
-        <option value="6-8">
-          Flight C · More complex word-part knowledge
-        </option>
-
-      </select>
-
-    </div>
-
-  </div>
 
       <label
         class="selector-label"
@@ -555,6 +471,92 @@
           </option>
         </optgroup>
       </select>
+
+<details class="practice-adjustments"><summary>Adjust practice · Flight &amp; Stretch Words</summary>      <div class="filter-control practice-flight-control">
+
+    <label
+      class="selector-label filter-label numbered-filter-label"
+      for="gradeBandSelect"
+    >
+
+
+      <span>
+        Practice Flight
+
+        <small>
+          Choose the morphology level you want to practice.
+        </small>
+      </span>
+    </label>
+
+    <details
+      class="practice-flight-help"
+      id="practiceFlightHelp"
+    >
+      <summary>
+        ⓘ What is a Practice Flight?
+      </summary>
+
+      <div class="practice-flight-help-panel">
+        <p>
+          Practice Flights describe the complexity of the word-part
+          content. They are not fixed student grade placements.
+        </p>
+
+        <p class="practice-flight-help-levels">
+          <b>Flight A</b><br>
+          <span><b>Typically Grades 2–3</b></span><br>
+          Familiar bases and high-frequency prefixes and suffixes.
+        </p>
+
+        <p class="practice-flight-help-levels">
+          <b>Flight B · Word Families</b><br>
+          <span><b>Typically Grades 4–5</b></span><br>
+          Transparent roots, related academic words, and word families.
+        </p>
+
+        <p class="practice-flight-help-levels">
+          <b>Flight C · Complex Morphology</b><br>
+          <span><b>Typically Grades 6–8</b></span><br>
+          More complex word families, layered morphology,
+          and increasingly independent analysis.
+        </p>
+
+        <p>
+          Students can work flexibly across Flights when that better
+          matches their instructional needs. Word Challenge is separate from Practice Flight. Standard Words combine Familiar and Academic vocabulary; Stretch Words can be added for additional challenge.
+        </p>
+      </div>
+    </details>
+
+    <div class="select-wrap">
+
+      <select
+        class="study-select"
+        id="gradeBandSelect"
+      >
+
+        <option value="all" selected>
+          All Flights · Full range
+        </option>
+
+        <option value="2-3">
+          Flight A · Beginning word-part knowledge
+        </option>
+
+        <option value="4-5">
+          Flight B · Building word-part knowledge
+        </option>
+
+        <option value="6-8">
+          Flight C · More complex word-part knowledge
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
 
 <div class="filter-control vocabulary-control word-challenge-control">
 
@@ -687,6 +689,7 @@
 
 
 
+</details>
       <p
         class="study-availability"
         id="studyAvailability"
@@ -728,10 +731,10 @@
 
 
         <span>
-          Choose an activity
+          <span data-morphology-educator-only>3. </span>Choose a practice activity
 
           <small>
-            Now choose how you want to practice.
+            Start with Learn to introduce a word part, or choose an activity for your teaching goal.
           </small>
         </span>
 
@@ -739,7 +742,7 @@
 
       <div
         class="word-builder-path"
-        id="wordBuilderPath"
+        id="wordBuilderPath" data-morphology-student-only
       >
         <div class="word-builder-path-heading">
           <div>
@@ -2258,7 +2261,8 @@
   <script src="transfer-challenge-ui.js?v=20260819-1755"></script>
   <script src="reward-registry.js?v=20260830-batch1"></script>
   <script src="reward-config-games.js?v=20260830-batch1"></script>
-  <script src="reward-games.js?v=20260830-batch1"></script>
+  <script src="reward-hoops.js?v=20261108"></script>
+  <script src="reward-games.js?v=20261108-hoops"></script>
   <script src="migration-map.js?v=20260901-waypoints1"></script>
   <script src="volo-token-celebration.js"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>
@@ -2266,7 +2270,7 @@
   <script src="script.js?v=20261108-learn1"></script>
   <script src="use-it.js?v=standard-20261107"></script>
   <script src="change-it.js?v=standard-20261107"></script>
-  <script src="practice-entry.js?v=20261107-plan1"></script>
+  <script src="practice-entry.js?hoops20261108-v=20261107-plan1"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
 <script src="practice-plan.js?v=20261107-plan1"></script>
 </body>

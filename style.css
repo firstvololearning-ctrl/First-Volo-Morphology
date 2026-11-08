@@ -7788,3 +7788,6 @@ html[data-morphology-mode="student"] .about-stage-note { display: none; }
 .sort-explanation .learn-check { display: flex; flex-wrap: wrap; gap: .6rem; }
 .sort-explanation button { white-space: normal; }
 @media(max-width:600px) { .sort-explanation .learn-check { display: grid; } .sort-explanation button { width:100%; } }
+
+/* Keep optional setup choices behind one plain-language disclosure. */
+.practice-adjustments{margin:18px 0;padding:16px;border:1px solid #c6d8e5;border-radius:14px;background:#f5f9fc}.practice-adjustments>summary{cursor:pointer;font-weight:700;color:#173a64;min-height:32px}.practice-adjustments[open]>summary{margin-bottom:18px}

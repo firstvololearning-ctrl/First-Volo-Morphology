@@ -347,6 +347,9 @@
     }
     const list = myGamesOverlay.querySelector(".reward-my-games-list");
     list.innerHTML = "";
+    const help = document.createElement("p");
+    help.textContent = student ? "Games unlock with Migration Map tokens. Points stay in the game and do not change learning progress." : "Choose a learner to see their unlocked games. Games unlock with Migration Map tokens; game points do not change learning progress.";
+    list.append(help);
     [["2-3", "Flight A"], ["4-5", "Flight B"], ["6-8", "Flight C"]].forEach(([flight, label]) => {
       const group = document.createElement("section");
       group.className = "reward-my-games-group";
@@ -363,6 +366,12 @@
         button.disabled = !unlocked;
         button.addEventListener("click", () => launchReward(reward, button));
         item.append(button);
+        if (unlocked && window.FirstVoloHoops) {
+          const hoops = document.createElement("button");
+          hoops.type = "button"; hoops.textContent = "Shoot hoops";
+          hoops.addEventListener("click", () => window.FirstVoloHoops.open(reward, hoops));
+          item.append(hoops);
+        }
         cards.append(item);
       });
       list.append(group);
@@ -370,6 +379,10 @@
     myGamesOverlay.hidden = false;
     myGamesOverlay.querySelector(".reward-my-games-close").focus();
   }
+
+  document.getElementById("openMyGames")?.addEventListener("click", (event) => {
+    openMyGames(window.FirstVoloActivityProgress?.getActiveStudent?.(), event.currentTarget);
+  });
 
   window.FirstVoloRewards = { registry: REWARDS, getTestState, isUnlocked,
     createJourneyAccess, createJourneyAccesses, launch: launchReward,
