@@ -28,6 +28,7 @@
     const $ = s => overlay.querySelector(s);
     let round=0, score=0, selected=null, busy=false, frame=null, closed=false;
     let velocity={x:560,y:-700}, drag=null, targets=[], dragShot=false;
+    let startSide=Math.random()<.5?-1:1;
     const gravity=900, startPoint={x:160,y:425};
     function crossing(v){const disc=v.y*v.y-2*gravity*200;return disc<0?null:(-v.y+Math.sqrt(disc))/gravity;}
     function hitX(v){const t=crossing(v);return t===null?null:160+v.x*t;}
@@ -63,8 +64,11 @@
       ball.setAttribute('transform','translate(160 425)');
       $('.hoops-round').textContent=`Round ${round+1} of ${deck.length}`;
       $('.hoops-prompt').textContent=`Which word part means \u201c${R.displayMeaning(deck[round].id)}\u201d?`;
-      feedback.textContent=toss?'Aim at the matching word-part target, then pull back and release the ball.':'Choose your word-part ball.';
-      aim.value=$('.hoops-hard').checked ? 700+Math.floor(Math.random()*40)*5 : 820;setAim();
+      feedback.textContent=toss?'Aim at the matching word-part target, then pull back and release the ball.':'Choose your word-part ball, then aim a fresh shot. Each round starts off target.';
+      // Each basketball round needs a fresh aim; assistance is an explicit choice.
+      startSide *= -1;
+      aim.value=toss ? 820 : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
+      setAim();
       targets=deck[round].choices.slice().sort(()=>Math.random()-.5).map((id,i)=>({id,x:deck[round].choices.length===2?700+i*200:610+i*160}));
       labels.replaceChildren();
       if(toss) targets.forEach((target,i)=>{const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','toss-target');const c=document.createElementNS(g.namespaceURI,'circle');c.setAttribute('cx',target.x);c.setAttribute('cy',225);c.setAttribute('r',64);c.setAttribute('fill',['#9c63ed','#13b9c0','#f7ad3d'][i]);const t=document.createElementNS(g.namespaceURI,'text');t.setAttribute('x',target.x);t.setAttribute('y',233);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','34');t.setAttribute('font-weight','bold');const pieces=R.promptLabel(target.id).split(/,\s*|\/\s*/);const lines=pieces.length>2?[pieces.slice(0,2).join(', '),pieces.slice(2).join(', ')]:pieces;t.setAttribute('font-size',String(Math.min(34,230/Math.max(...lines.map(v=>v.length)))));t.setAttribute('y',String(233-(lines.length-1)*16));lines.forEach((line,n)=>{const span=document.createElementNS(g.namespaceURI,'tspan');span.setAttribute('x',target.x);span.setAttribute('dy',n?'32':'0');span.textContent=line;t.append(span);});g.append(c,t);labels.append(g);});
