@@ -172,4 +172,12 @@ assert.equal(w.document.querySelector('.learn-worked-example'),null,'lesson cann
 assert.ok(html.indexOf('learn-content.js')<html.indexOf('<script src="script.js'));
 assert.equal(w.document.querySelectorAll('[onclick]').length,0);
 console.log(`PASS: ${roundsTested} complete sorting rounds, ${Object.keys(w.FirstVoloLearnContent.worked).length} worked families, ${applicationsTested} two-step lessons, retry/completion/navigation, audio text, reserved secondary lesson exclusion, empty filters, focus and CSP-compatible handlers.`);
+w.gradeBand='all';w.vocabLevel='all';w.learnMode='explore';
+for (const mode of ['prefixes','roots','suffixes']) {
+  w.studyMode=mode;w.renderLearnActivity();
+  assert.equal(w.document.querySelectorAll('.learning-card').length,w[mode].length,'all cards appear exactly once after grouping');
+  assert.match(w.learningGrid.textContent,/Your next steps/);
+}
+w.studyMode='prefixes';w.renderLearnActivity();assert.match(w.learningGrid.textContent,/Wrongly or badly/);assert.match(w.learningGrid.textContent,/Not, opposite, or undo/);
+w.studyMode='roots';w.renderLearnActivity();assert.match(w.learningGrid.textContent,/Moving, carrying, and sending/);assert.match(w.learningGrid.textContent,/separate families/);
 w.close();

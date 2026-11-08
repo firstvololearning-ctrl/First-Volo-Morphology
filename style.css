@@ -7799,3 +7799,10 @@ html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
 html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) #practiceSetup,html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) .activity-selector-section,html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) .workspace,html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) #currentPracticeSummary{display:none!important}html[data-morphology-mode="educator"]:not([data-educator-path="setup"]) .educator-entry>.practice-plan-panel{display:none!important}.educator-secondary-actions{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.educator-secondary-actions button{background:#f2f7fc;border:1px solid #afc5db;color:#173a64;padding:10px 16px;min-height:44px;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}.educator-secondary-actions [hidden]{display:none}.educator-main-actions>button{font:inherit;font-weight:750;cursor:pointer}
 #learnerNextStep,#practiceNextHint{font-weight:700;color:#173a64}#learnerNextStep{padding:12px;background:#edf6fa;border-radius:10px}
 .educator-main-actions>#openPracticePlan strong,.learner-practice-entry>summary strong{display:block}.educator-main-actions>#openPracticePlan small,.learner-practice-entry>summary small{display:block;font:500 .87rem/1.4 system-ui,sans-serif;margin-top:5px;max-width:290px}.learner-practice-entry>summary::before{float:left;margin-right:6px}.educator-main-actions>#openPracticePlan{text-align:left}.educator-main-actions>.learner-practice-entry{flex:1}.educator-main-actions>.educator-progress-link{max-width:340px}
+
+/* Meaning/function groups segment Learn without changing eligibility or progress. */
+.learn-meaning-group { grid-column: 1 / -1; border: 1px solid #cbdbe8; border-radius: 14px; padding: 16px; background: #f8fbfe; }
+.learn-meaning-group > summary { cursor: pointer; color: #173f68; font-size: 1.1rem; font-weight: 800; }
+.learn-meaning-group > summary span { font-size: .85rem; font-weight: 500; }
+.learn-meaning-group > p { margin: 14px 0; }
+.learn-meaning-group > .learning-grid { margin-top: 16px; }

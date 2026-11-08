@@ -966,8 +966,8 @@ function renderVoloTokenProgress(
     "volo-token-progress-intro";
 
   intro.textContent =
-    "Track the student’s evidence across organized sets of morphemes " +
-    "(meaningful word parts).";
+    "These Flight collections track practice evidence and game access. " +
+    "In Learn, meaning groups organize instruction. Collection numbers are not prerequisites or a required teaching order.";
 
   section.append(intro);
 

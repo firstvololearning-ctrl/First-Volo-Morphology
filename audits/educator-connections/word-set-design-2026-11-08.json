@@ -1,0 +1,219 @@
+{
+  "status": "First Volo research-informed design, not a validated universal sequence",
+  "scope": "Learn card grouping; existing Flight/game evidence collections retain membership and IDs",
+  "basis": [
+    {
+      "decision": "coverage",
+      "source": "White, Sowell, Yanagihara 1989 Tables 1–2",
+      "use": "Common-affix coverage priorities",
+      "limit": "Historical school-English corpus; not a grade-specific root list"
+    },
+    {
+      "decision": "meaning/function grouping",
+      "source": "White et al. Table 3; Park et al. 2020; AdLit/TEA conceptual instruction",
+      "use": "Group related meanings, contrast alternatives, explain connections",
+      "limit": "Exact category names and memberships are First Volo design choices; thematic root groups are not single morphological families"
+    },
+    {
+      "decision": "progression",
+      "source": "Brimo & Henbest 2020; reviewed Mendes & Kirby 2024 methods",
+      "use": "Familiar transparent examples before more changes; guided practice then untaught words",
+      "limit": "No optimal order proven; adapt based on explanations, support and fresh-word use"
+    },
+    {
+      "decision": "grade connection",
+      "source": "CCSS and Massachusetts 2017 ELA frameworks; Green & Wolter 2025",
+      "use": "Grade expectations and classroom applications",
+      "limit": "Standards do not mandate our individual morpheme lists; Flight is separate from school grade"
+    },
+    {
+      "decision": "word difficulty",
+      "source": "Wordsmyth WVI",
+      "use": "Approximate example-word difficulty when a badge is verified",
+      "limit": "No badge is missing classification, not level zero. Official grade-band descriptions differ; do not assign exact grade from WVI alone."
+    }
+  ],
+  "instructional_next_step": "Meet one part, inspect examples, sort/explain, then apply to an untaught word in context; revisit with support when meaning cannot be explained independently",
+  "practitioner_sources": [
+    {
+      "url": "https://www.readingrockets.org/topics/vocabulary/articles/word-analysis-expand-vocabulary-development",
+      "role": "Modeled analysis, repeated practice, content-area application"
+    },
+    {
+      "url": "https://www.adlit.org/topics/vocabulary/teaching-word-meanings-concepts",
+      "role": "Concept relationships, examples/nonexamples, word-part plus context"
+    },
+    {
+      "url": "https://www.adlit.org/topics/phonics-word-study-decoding/key-literacy-component-morphology",
+      "role": "Sentence meaning, content vocabulary, interdisciplinary teaching; definitions/examples critically reviewed"
+    },
+    {
+      "url": "https://www.shanahanonliteracy.com/blog/what-should-morphology-instruction-look-like",
+      "role": "Expert discussion of frequency lists alongside family investigations, not a trial"
+    }
+  ],
+  "groups": [
+    {
+      "title": "Not, opposite, or undo",
+      "purpose": "Compare negative meanings with undoing an action. Explain which meaning fits each word.",
+      "ids": [
+        "un-negation",
+        "un-reversative",
+        "dis",
+        "non",
+        "negative-in-family"
+      ]
+    },
+    {
+      "title": "Again, before, or back",
+      "purpose": "Notice how a prefix changes when an action happens or its direction. Check the whole word in context.",
+      "ids": [
+        "re",
+        "pre",
+        "fore",
+        "retro"
+      ]
+    },
+    {
+      "title": "Wrongly or badly",
+      "purpose": "Explain how mis- changes the meaning of a familiar base.",
+      "ids": [
+        "mis"
+      ]
+    },
+    {
+      "title": "Place, direction, and degree",
+      "purpose": "Compare where something is, where it moves, or how much. Related ideas can have different meanings.",
+      "ids": [
+        "location-in-family",
+        "inter",
+        "trans",
+        "sub",
+        "super",
+        "over",
+        "under",
+        "mid",
+        "circum",
+        "de",
+        "ab",
+        "a-ad",
+        "e-ex",
+        "pro"
+      ]
+    },
+    {
+      "title": "Number, time, and comparison",
+      "purpose": "Explain what the part changes: amount, tense, an ongoing action, or comparison.",
+      "ids": [
+        "s-es",
+        "ed",
+        "ing",
+        "er-more",
+        "est",
+        "semi"
+      ]
+    },
+    {
+      "title": "Together or against",
+      "purpose": "Contrast joining with opposing. Explain the exact relationship in each whole word.",
+      "ids": [
+        "con-com",
+        "anti"
+      ]
+    },
+    {
+      "title": "Causing a change",
+      "purpose": "Explain what the base means and what changes when en- or em- is added.",
+      "ids": [
+        "en-em"
+      ]
+    },
+    {
+      "title": "People and what they do",
+      "purpose": "Compare endings that name a person or agent. Explain the base and what the person does.",
+      "ids": [
+        "er-or",
+        "ist",
+        "ant-ent-agent"
+      ]
+    },
+    {
+      "title": "Qualities and ways of doing",
+      "purpose": "Compare qualities, ability, and manner. Check whether the whole word describes a thing or how an action happens.",
+      "ids": [
+        "ful",
+        "less",
+        "ly-adverb",
+        "ly-adjective",
+        "able-ible",
+        "al",
+        "ic",
+        "ous",
+        "ive",
+        "ant-ent-adjective"
+      ]
+    },
+    {
+      "title": "Actions, states, and new word forms",
+      "purpose": "Compare each base with its new form. Explain both the meaning and the word’s job in a sentence.",
+      "ids": [
+        "ness",
+        "ion",
+        "ment",
+        "ity",
+        "ize",
+        "ify",
+        "ology",
+        "ance",
+        "ence"
+      ]
+    },
+    {
+      "title": "Moving, carrying, and sending",
+      "purpose": "Explore one root family at a time, then compare these movement ideas. Related meanings do not make these the same root.",
+      "ids": [
+        "port",
+        "duct",
+        "ject",
+        "mit",
+        "fer",
+        "tract",
+        "mot",
+        "pel",
+        "ven",
+        "vert",
+        "sequ"
+      ]
+    },
+    {
+      "title": "Communicating and noticing",
+      "purpose": "Explore separate families about saying, writing, hearing, and seeing. Explain the precise connection in each word.",
+      "ids": [
+        "dict",
+        "scrib",
+        "graph",
+        "phon",
+        "voc",
+        "aud",
+        "spect",
+        "vis",
+        "scop"
+      ]
+    },
+    {
+      "title": "Investigating the world",
+      "purpose": "Explore separate families used in content words. Connect each word to its own root’s meaning and check the whole-word definition.",
+      "ids": [
+        "bio",
+        "geo",
+        "therm",
+        "metr",
+        "chron",
+        "derm",
+        "terr",
+        "micro",
+        "tele"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,19 @@
 /* User-supplied papers reviewed for relevance; public summaries only. */
 window.FirstVoloReviewedEvidence = Object.freeze([
+{
+  "id": "white1989",
+  "authors": "White, Sowell, & Yanagihara",
+  "year": "1989",
+  "title": "Teaching elementary students to use word-part clues",
+  "type": "Historical frequency analysis / instructional report",
+  "population": "Grades 3\u20139 school-text corpus; small Grade 3 instructional comparison",
+  "claim": "Prioritizes common affixes, proposes meaning-grouped prefix lessons, teaches nonexamples and contextual meaning checks, and reports transfer to unfamiliar words.",
+  "limitation": "Grade 4\u20135 placements are historical suggestions, not a comparison establishing the best sequence. Prefix definition is restricted to familiar detachable bases; do not generalize it to bound-base morphology.",
+  "tags": "Frequency; meaning groups; examples/nonexamples; transfer",
+  "url": "https://www.jstor.org/stable/20200115",
+  "reviewed": "2026-11-08",
+  "existing_entry": false
+},
   {
     "id": "park2020",
     "authors": "Park et al.",

@@ -8450,7 +8450,45 @@ function renderLearnActivity() {
 
   learningGrid.innerHTML = "";
 
-  items.forEach((item) => {
+  const groups = [
+    { title: "Not, opposite, or undo", purpose: "Compare negative meanings with undoing an action. Explain which meaning fits each word.", ids: ["un-negation", "un-reversative", "dis", "non", "negative-in-family"] },
+    { title: "Again, before, or back", purpose: "Notice how a prefix changes when an action happens or its direction. Check the whole word in context.", ids: ["re", "pre", "fore", "retro"] },
+    { title: "Wrongly or badly", purpose: "Explain how mis- changes the meaning of a familiar base.", ids: ["mis"] },
+    { title: "Place, direction, and degree", purpose: "Compare where something is, where it moves, or how much. Related ideas can have different meanings.", ids: ["location-in-family", "inter", "trans", "sub", "super", "over", "under", "mid", "circum", "de", "ab", "a-ad", "e-ex", "pro"] },
+    { title: "Number, time, and comparison", purpose: "Explain what the part changes: amount, tense, an ongoing action, or comparison.", ids: ["s-es", "ed", "ing", "er-more", "est", "semi"] },
+    { title: "Together or against", purpose: "Contrast joining with opposing. Explain the exact relationship in each whole word.", ids: ["con-com", "anti"] },
+    { title: "Causing a change", purpose: "Explain what the base means and what changes when en- or em- is added.", ids: ["en-em"] },
+    { title: "People and what they do", purpose: "Compare endings that name a person or agent. Explain the base and what the person does.", ids: ["er-or", "ist", "ant-ent-agent"] },
+    { title: "Qualities and ways of doing", purpose: "Compare qualities, ability, and manner. Check whether the whole word describes a thing or how an action happens.", ids: ["ful", "less", "ly-adverb", "ly-adjective", "able-ible", "al", "ic", "ous", "ive", "ant-ent-adjective"] },
+    { title: "Actions, states, and new word forms", purpose: "Compare each base with its new form. Explain both the meaning and the word’s job in a sentence.", ids: ["ness", "ion", "ment", "ity", "ize", "ify", "ology", "ance", "ence"] },
+    { title: "Moving, carrying, and sending", purpose: "Explore one root family at a time, then compare these movement ideas. Related meanings do not make these the same root.", ids: ["port", "duct", "ject", "mit", "fer", "tract", "mot", "pel", "ven", "vert", "sequ"] },
+    { title: "Communicating and noticing", purpose: "Explore separate families about saying, writing, hearing, and seeing. Explain the precise connection in each word.", ids: ["dict", "scrib", "graph", "phon", "voc", "aud", "spect", "vis", "scop"] },
+    { title: "Investigating the world", purpose: "Explore separate families used in content words. Connect each word to its own root’s meaning and check the whole-word definition.", ids: ["bio", "geo", "therm", "metr", "chron", "derm", "terr", "micro", "tele"] }
+  ];
+  const placed = new Set();
+  const ordered = [];
+  const addGroup = (title, purpose, members) => {
+    if (!members.length) return;
+    const heading = document.createElement("details");
+    heading.className = "learn-meaning-group";
+    heading.open = ordered.length === 0;
+    heading.innerHTML = `<summary>${escapeHTML(title)} <span>· ${members.length} word ${members.length === 1 ? "part" : "parts"}</span></summary><p>${escapeHTML(purpose)}</p><div class="learning-grid"></div>`;
+    ordered.push(heading);
+    members.forEach(item => { placed.add(item.id); ordered.push(item); });
+  };
+  groups.forEach(group => addGroup(group.title, group.purpose, items.filter(item => group.ids.includes(item.id))));
+  const roots = items.filter(item => !placed.has(item.id) && item.type === "root");
+  addGroup("Explore a root family", "Choose one root. Find the shared meaning across its example words, then try a new word. Different roots shown here are separate families.", roots);
+  addGroup("More meaning connections", "Explore one part at a time. Compare its examples and explain what it contributes to each whole word.", items.filter(item => !placed.has(item.id)));
+  const route = document.createElement("section");
+  route.style.gridColumn = "1 / -1";
+  route.innerHTML = '<h4>Your next steps</h4><p>Choose a meaning group below → meet one word part → sort and explain → try a new word in context.</p><details><summary>How are these groups chosen?</summary><p>Groups connect meanings or grammatical functions; they are not a fixed grade order. Begin with familiar words whose parts are easy to see. Add spelling or sound changes and less familiar words as understanding grows. A shared meaning does not mean two words share the same root. If you can explain the connection, try a new word in a sentence. If you need help, revisit the examples and explain one together.</p><a href="morphology-target-builder.html">Educators: research, grade standards, and example objectives →</a></details>';
+  const context = window.FirstVoloMorphologyAccess?.getContext?.();
+  if (!context || !["educator", "educator-selected"].includes(context.mode)) route.querySelector("a")?.remove();
+  learningGrid.append(route);
+  let groupGrid = learningGrid;
+  ordered.forEach((item) => {
+    if (item instanceof HTMLElement) { learningGrid.append(item); groupGrid = item.querySelector(".learning-grid"); return; }
     const typeClass = getTypeClass(item.type);
 
     const card = document.createElement("button");
@@ -8480,7 +8518,7 @@ function renderLearnActivity() {
       renderLearnDetail(item);
     });
 
-    learningGrid.append(card);
+    groupGrid.append(card);
   });
 
   const detail = document.createElement("div");
