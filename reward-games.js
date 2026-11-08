@@ -345,10 +345,12 @@
       });
       document.body.append(myGamesOverlay);
     }
+    const educatorPreview = ["educator", "educator-selected"].includes(window.FirstVoloMorphologyAccess?.getContext?.()?.mode);
     const list = myGamesOverlay.querySelector(".reward-my-games-list");
     list.innerHTML = "";
     const help = document.createElement("p");
     help.textContent = student ? "Games unlock with Migration Map tokens. Points stay in the game and do not change learning progress." : "Choose a learner to see their unlocked games. Games unlock with Migration Map tokens; game points do not change learning progress.";
+    if (educatorPreview) help.textContent = "Educator preview: try any game below. Previewing does not unlock learner rewards or change saved progress. Select a learner to see their earned games.";
     list.append(help);
     [["2-3", "Flight A"], ["4-5", "Flight B"], ["6-8", "Flight C"]].forEach(([flight, label]) => {
       const group = document.createElement("section");
@@ -365,10 +367,13 @@
         button.textContent = unlocked ? "Play" : "Locked";
         button.disabled = !unlocked;
         button.addEventListener("click", () => launchReward(reward, button));
+        if (!unlocked && educatorPreview) {
+          button.disabled = false; button.textContent = "Preview game";
+        }
         item.append(button);
-        if (unlocked && window.FirstVoloHoops) {
+        if ((unlocked || educatorPreview) && window.FirstVoloHoops) {
           const hoops = document.createElement("button");
-          hoops.type = "button"; hoops.textContent = "Shoot hoops";
+          hoops.type = "button"; hoops.textContent = !unlocked && educatorPreview ? "Preview hoops" : "Shoot hoops";
           hoops.addEventListener("click", () => window.FirstVoloHoops.open(reward, hoops));
           item.append(hoops);
         }

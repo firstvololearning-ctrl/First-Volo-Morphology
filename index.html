@@ -75,7 +75,7 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=20261108-hoops2">
+  <link rel="stylesheet" href="style.css?v=20261108-simple4">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
@@ -237,52 +237,9 @@
 
   <main class="page">
     <section class="practice-entry educator-entry" data-morphology-educator-only aria-labelledby="educatorEntryTitle">
-      <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">What would you like to do?</h2>
-      <p>Review what the learner needs, choose practice, or return to their progress.</p></div>
-      <nav class="practice-entry-actions" aria-label="Educator starting points">
-        <a id="educatorPracticeStart" class="entry-primary" href="#currentStudentBar">Practice with a learner</a>
-        </nav><details class="entry-assess"><summary>Planning, records &amp; resources</summary><nav class="practice-entry-actions" aria-label="Educator planning and records"><a href="program-progress.html">Learners &amp; progress</a>
-        <button type="button" id="openPracticePlan">Set a practice plan</button>
-        <a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
-      <details class="entry-assess"><summary>Start or review an assessment</summary>
-        <p>Choose a Flight to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
-        <div class="practice-entry-actions"><a href="flight-a-assessment.html">Flight A assessment</a><a href="flight-b-assessment.html">Flight B assessment</a><a href="flight-c-assessment.html">Flight C assessment</a></div>
-      </details>
-    </section>
-    <section class="practice-entry student-entry" data-morphology-student-only aria-labelledby="studentEntryTitle">
-      <p class="entry-eyebrow">YOUR PRACTICE</p><h2 id="studentEntryTitle">Ready to work with word parts?</h2>
-      <p>Use the Flight and word parts your teacher chose. If you are not sure, ask your teacher before starting.</p>
-      <button type="button" id="studentPracticeStart" class="entry-primary">Choose practice</button>
-      <p id="studentPracticeResume" class="entry-note">Choose your Flight and word parts below, then choose an activity.</p>
-    </section>
-
-    <div class="morphology-educator-selected-context" data-morphology-educator-selected-only>
-      <p
-        class="morphology-educator-selected-identity"
-        id="morphologyEducatorSelectedIdentity"
-        aria-live="polite"
-        hidden
-      ></p>
-      <a
-        class="morphology-student-return-link"
-        href="https://firstvololearning-ctrl.github.io/First-Volo-Account/"
-      >Return to My First Volo</a>
-    </div>
-
-    <div class="morphology-student-context" data-morphology-student-only>
-      <p
-        class="morphology-student-identity"
-        id="morphologyStudentIdentity"
-        aria-live="polite"
-        hidden
-      ></p>
-      <a
-        class="morphology-student-return-link"
-        href="https://firstvololearning-ctrl.github.io/First-Volo-Account/student-login.html"
-      >Return to First Volo</a>
-    </div>
-
-    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
+      <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">Ready to practice?</h2>
+      <p>Choose a learner, choose word parts, then open practice.</p></div>
+      <div class="educator-main-actions"><details class="learner-practice-entry"><summary>Practice with a learner</summary>    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
 
       <div class="student-bar-intro student-bar-intro-numbered">
 
@@ -323,7 +280,47 @@
         Manage Learners
       </a>
 
+    </section><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details><a class="educator-progress-link" href="program-progress.html">Learners &amp; progress</a></div>
+      <details class="entry-assess"><summary>Planning &amp; resources</summary><nav class="practice-entry-actions" aria-label="Educator planning and resources"><button type="button" id="openPracticePlan">Set a practice plan</button><a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
+      <details class="entry-assess"><summary>Start or review an assessment</summary>
+        <p>Choose a Flight to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
+        <div class="practice-entry-actions"><a href="flight-a-assessment.html">Flight A assessment</a><a href="flight-b-assessment.html">Flight B assessment</a><a href="flight-c-assessment.html">Flight C assessment</a></div>
+      </details>
     </section>
+    <section class="practice-entry student-entry" data-morphology-student-only aria-labelledby="studentEntryTitle">
+      <p class="entry-eyebrow">YOUR PRACTICE</p><h2 id="studentEntryTitle">Ready to work with word parts?</h2>
+      <p>Use the Flight and word parts your teacher chose. If you are not sure, ask your teacher before starting.</p>
+      <button type="button" id="studentPracticeStart" class="entry-primary">Choose practice</button>
+      <p id="studentPracticeResume" class="entry-note">Choose your Flight and word parts below, then choose an activity.</p>
+    </section>
+
+    <div class="morphology-educator-selected-context" data-morphology-educator-selected-only>
+      <p
+        class="morphology-educator-selected-identity"
+        id="morphologyEducatorSelectedIdentity"
+        aria-live="polite"
+        hidden
+      ></p>
+      <a
+        class="morphology-student-return-link"
+        href="https://firstvololearning-ctrl.github.io/First-Volo-Account/"
+      >Return to My First Volo</a>
+    </div>
+
+    <div class="morphology-student-context" data-morphology-student-only>
+      <p
+        class="morphology-student-identity"
+        id="morphologyStudentIdentity"
+        aria-live="polite"
+        hidden
+      ></p>
+      <a
+        class="morphology-student-return-link"
+        href="https://firstvololearning-ctrl.github.io/First-Volo-Account/student-login.html"
+      >Return to First Volo</a>
+    </div>
+
+
 
     <!-- PRACTICE SETUP -->
 
@@ -332,7 +329,7 @@
       aria-label="Practice setup"
     >
 
-      <button type="button" id="openMyGames" class="entry-primary">🎮 My Games</button>
+      <button type="button" id="openMyGames" class="entry-primary">🎮 Open games</button>
       <p class="entry-note">Optional games use your unlocked word parts. Open My Games to see what is ready.</p>
       <div class="practice-setup-heading">
         <div>
@@ -359,10 +356,10 @@
 
 
         <span>
-          What do you want to study?
+          Practice focus
 
           <small>
-            Choose one word-part type or a word-building combination.
+            Start with one type. Combine word parts when you are ready.
           </small>
         </span>
 
@@ -407,7 +404,10 @@
           <small>Practice suffixes</small>
         </button>
 
-        <button
+
+      </div>
+
+      <details class="practice-combinations"><summary>Combine word parts</summary><div class="study-choice-grid">        <button
           class="study-choice-button combined-choice"
           data-study-mode="prefix-root"
           type="button"
@@ -439,9 +439,7 @@
           <strong>Prefixes + Roots + Suffixes</strong>
           <small>Practice all three together</small>
         </button>
-
-      </div>
-
+</div></details>
       <!--
         Keep the original select as the internal state control
         while the visible button interface is introduced.
@@ -734,7 +732,7 @@
           <span data-morphology-educator-only>3. </span>Choose a practice activity
 
           <small>
-            Start with Learn to introduce a word part, or choose an activity for your teaching goal.
+            Learn introduces each word part. You can switch activities below.
           </small>
         </span>
 
@@ -785,7 +783,9 @@
         ></div>
       </div>
 
-      <nav
+      <button type="button" id="openChosenPractice" class="practice-open-button" disabled>Open Learn</button>
+      <p id="practiceNextHint">Choose word parts above to begin.</p>
+      <details class="practice-activity-options"><summary>Choose another activity</summary>      <nav
         class="activity-menu"
         aria-label="Choose an activity"
       >
@@ -958,7 +958,7 @@
           <span class="activity-name">Change It</span>
           <small>Choose the right word form</small>
         </button>
-      </nav>
+      </nav></details>
 
     </section>
 
@@ -1017,7 +1017,7 @@
         </div>
 
         <h3>
-          Choose what you want to study.
+          Choose word parts to begin.
         </h3>
 
         <p>
@@ -2262,7 +2262,7 @@
   <script src="reward-registry.js?v=20260830-batch1"></script>
   <script src="reward-config-games.js?v=20260830-batch1"></script>
   <script src="reward-hoops.js?v=20261108"></script>
-  <script src="reward-games.js?v=20261108-hoops"></script>
+  <script src="reward-games.js?v=20261108-preview3"></script>
   <script src="migration-map.js?v=20260901-waypoints1"></script>
   <script src="volo-token-celebration.js"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>
@@ -2270,7 +2270,7 @@
   <script src="script.js?v=20261108-learn1"></script>
   <script src="use-it.js?v=standard-20261107"></script>
   <script src="change-it.js?v=standard-20261107"></script>
-  <script src="practice-entry.js?hoops20261108-v=20261107-plan1"></script>
+  <script src="practice-entry.js?v=20261108-simple3"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
 <script src="practice-plan.js?v=20261107-plan1"></script>
 </body>

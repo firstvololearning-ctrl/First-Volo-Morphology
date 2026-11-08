@@ -11,10 +11,14 @@
   let key = null;
   let restoring = false;
   const activity = () => document.querySelector('.activity-button[aria-pressed="true"]');
+  const openChosen = document.getElementById("openChosenPractice");
   function updateStart() {
     const chosen = study.value && activity() && !activity().disabled;
     const names = {learn:"Learn",find:"Find",hunt:"Word Hunt",meaning:"Meaning",morpheme:"Word Part",break:"Break It Apart",infer:"Figure It Out",build:"Build Words",use:"Use It",change:"Change It"};
     const label = names[activity()?.dataset.mode] || "practice";
+    if (openChosen) { openChosen.disabled = !chosen; openChosen.textContent = `Open ${label}`; }
+    const hint = document.getElementById("practiceNextHint");
+    if (hint) hint.textContent = chosen ? "Ready. Open practice, or choose another activity." : "Choose word parts above to begin.";
     start.textContent = chosen ? `Continue ${label}` : "Choose practice";
     note.textContent = chosen ? "Your most recent choices are ready. Change them below whenever you need to." : "Choose your Flight and word parts below, then choose an activity.";
   }
@@ -26,7 +30,7 @@
   function restore(context) {
     if (context?.status !== "authorized") { key = null; return; }
     const educatorStart = document.getElementById("educatorPracticeStart");
-    if (educatorStart) educatorStart.href = context.mode === "educator-selected" ? "#practiceSetup" : "#currentStudentBar";
+    if (educatorStart) educatorStart.href = "#practiceSetup";
     const nextKey = access.localProgressKey(context) + ":practice-choices-v1";
     if (nextKey === key) return;
     key = nextKey;
@@ -56,6 +60,12 @@
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
     if (chosen && target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
     else document.querySelector("[data-study-mode]")?.focus({ preventScroll: true });
+  });
+  openChosen?.addEventListener("click", () => {
+    activity()?.click();
+    const target = document.getElementById("workspaceTitle");
+    target?.scrollIntoView({behavior:"smooth",block:"start"});
+    target?.setAttribute("tabindex", "-1"); target?.focus({preventScroll:true});
   });
   window.FirstVoloPracticeChoices = { apply(plan) {
     if (!plan || ![...flight.options].some(o => o.value === plan.flight)) return false;
