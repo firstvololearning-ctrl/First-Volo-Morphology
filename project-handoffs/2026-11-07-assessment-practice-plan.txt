@@ -1,0 +1,28 @@
+Morphology assessment-to-practice handoff — November 7, 2026 Eastern
+
+Implemented
+- All three assessment report pages offer Choose practice from these results. Report items/scores remain available for educator review; no automatic score cutoffs or placement.
+- Educator confirms a shared learner, Practice Flight, word-part category/combination, activity and Standard/Stretch choice. An existing plan is loaded first. A local assessment profile is preselected only when its UUID matches an eligible shared learner. No new learner is created from the report.
+- The main educator workspace can set, change or clear the plan. Save success requires a confirmed backend response. A stale or uncertain save requires reloading the latest revision. Open practice with this learner applies the saved choices for educator-selected/shared-screen use.
+- Student sees Start today’s practice and Change practice. Starting applies the plan; Change practice reveals flexible activity choices without changing the plan. No saved plan preserves the prior choose/continue path. Returning to an unchanged plan does not interrupt the open activity. Updated plans are checked on open/return, not pushed in real time.
+- Plans persist until educator changes/clears them. They select the existing Flight/category/activity pools, not an individual word-part filter or a locked sequence.
+- Quick Start Guide updated, including saving scope and limits. Phone assessment item-detail overflow contained so the page and plan form fit 390 px.
+
+Storage and access
+- Separate private morphology_practice_plans table: canonical student/owner IDs, four enum/boolean practice choices, revision, active flag and timestamp. No assessment responses, Student Code, free-text notes or assessment score uploaded.
+- Direct anon/authenticated table access denied; RLS enabled. Public entry points require authenticated execution plus server-checked current session, canonical ownership or student link, active class/product access and current learner permission. Students can read only their own plan and cannot save/clear any plan.
+- Existing student progress saves cannot overwrite the separate teacher plan. Optimistic revision checks reject stale writes.
+- Migration applied to staging and production. No student release, anonymous Auth, parent-permission release or existing entitlement settings enabled. Both plan tables empty after tests.
+
+Validation
+- All 82 automated checks pass, including six new UI/contract checks.
+- Hosted staging rollback QA passed: no-permission denial, valid save/read, invalid choices/unexpected fields rejected, stale revision rejection, direct table denial, student read-only, cross-learner/cross-owner denial, clear/replan revisions, withdrawal denial, expired-session denial and no anonymous grant. Fixtures rolled back.
+- Browser QA used isolated local auth/RPC fixtures with actual frontend code: educator edit/save and confirmation, student Start/Change, saved assessment report handoff and 390 px report/form layout. This is not a new real integrated Auth/browser rehearsal for this feature.
+- Read-only production verification: five function-definition hashes exactly match tested staging; private table RLS enabled, direct client read/write false, anon RPC false, zero plan rows.
+- Automatic approval review rejected production auth/consent fixture creation, even inside rollback, because authorization covered staging fixtures. That production fixture test did not run and was not retried. Read-only production metadata verification used instead.
+- Advisor notices for this design: RLS table with no direct policies is intentional default deny; authenticated SECURITY DEFINER entry points are intentional guarded RPCs. Ownership, current-session, permission and grant behavior tested in staging. References: https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy and https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable
+
+Still open
+- Real end-to-end educator-to-student plan across independent authenticated browser/device sessions, plan refresh during offline/delayed conditions, broader all-product acceptance.
+- Formal assessment task/form comparability, transfer sample size and exposure-wording review remain distinct. No assessment validation, mastery claim or automatic diagnosis introduced.
+- Live student sign-in remains intentionally disabled. This feature does not authorize live learner release.

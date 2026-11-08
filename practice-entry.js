@@ -57,6 +57,18 @@
     if (chosen && target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
     else flight.focus({ preventScroll: true });
   });
+  window.FirstVoloPracticeChoices = { apply(plan) {
+    if (!plan || ![...flight.options].some(o => o.value === plan.flight)) return false;
+    flight.value = plan.flight; flight.dispatchEvent(new Event("change", {bubbles:true}));
+    const choice = [...document.querySelectorAll('[data-study-mode]')].find(b => b.dataset.studyMode === plan.study && !b.disabled);
+    if (!choice) return false;
+    choice.click();
+    if (challenge) { challenge.value = plan.challenge ? "all" : "standard"; challenge.dispatchEvent(new Event("change", {bubbles:true})); }
+    const mode = [...document.querySelectorAll('.activity-button')].find(b => b.dataset.mode === plan.activity && !b.disabled);
+    if (!mode) return false;
+    mode.click();
+    return document.getElementById("startPanel")?.hidden !== false;
+  }};
   access?.subscribe(restore);
   if (access?.getContext) restore(access.getContext());
   updateStart();

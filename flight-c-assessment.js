@@ -1296,6 +1296,7 @@ function renderReport() {
   renderConstructedResponses();
   renderAppProgressSummary();
   renderItemDetail();
+  window.dispatchEvent(new CustomEvent("firstvoloassessmentreport", {detail: {studentId: currentSession.linkedStudentId, flight: "6-8"}}));
 }
 
 printStudentFormButton.addEventListener("click", printStudentForm);
