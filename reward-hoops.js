@@ -30,20 +30,24 @@
     let velocity={x:560,y:-700}, drag=null, targets=[], dragShot=false;
     let startSide=Math.random()<.5?-1:1;
     const gravity=900, startPoint={x:160,y:425};
-    function crossing(v){const disc=v.y*v.y-2*gravity*200;return disc<0?null:(-v.y+Math.sqrt(disc))/gravity;}
-    function hitX(v){const t=crossing(v);return t===null?null:160+v.x*t;}
-    function setAim(){dragShot=false;velocity.y=-700;velocity.x=(Number(aim.value)-160)/crossing(velocity);guide();}
+    let launchPoint={...startPoint};
+    function crossing(v){const disc=v.y*v.y-2*gravity*(launchPoint.y-225);return disc<0?null:(-v.y+Math.sqrt(disc))/gravity;}
+    function hitX(v){const t=crossing(v);return t===null?null:launchPoint.x+v.x*t;}
+    function setAim(){launchPoint={...startPoint};dragShot=false;velocity.y=-700;velocity.x=(Number(aim.value)-launchPoint.x)/crossing(velocity);guide();}
     const court=$(".hoops-court"), svg=court.querySelector("svg");
     court.setAttribute("tabindex","0");court.setAttribute("aria-label","Drag back from the ball and release to shoot. Keyboard users can use the aim slider and Shoot button.");
     const labels=document.createElementNS("http://www.w3.org/2000/svg","g");labels.setAttribute("class","toss-targets");svg.append(labels);
     if(toss) svg.setAttribute("aria-label","Arcade target range with three word-part targets");
     const aim=$('.hoops-aim'), ball=$('.hoops-ball'), feedback=$('.hoops-feedback');
+    const stretch=document.createElementNS('http://www.w3.org/2000/svg','line');
+    stretch.setAttribute('stroke','#ffe599');stretch.setAttribute('stroke-width','9');stretch.setAttribute('stroke-linecap','round');stretch.setAttribute('opacity','.8');stretch.style.display='none';svg.insertBefore(stretch,ball);
+    function resetPull(){stretch.style.display='none';ball.setAttribute('transform','translate(160 425)');}
     const close=()=>{closed=true;cancelAnimationFrame(frame);overlay.remove();source?.focus();};
     $('.hoops-close').onclick=close;
     overlay.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); if(e.key==='Tab'){const nodes=[...overlay.querySelectorAll('button:not([disabled]):not([hidden]),input:not([disabled])')]; const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}} });
     function guide(){
       const time=Math.max(.8,-2*velocity.y/gravity), points=[];
-      for(let i=0;i<=30;i++){const t=i/30*time;points.push(`${160+velocity.x*t},${425+velocity.y*t+.5*gravity*t*t}`);}
+      for(let i=0;i<=30;i++){const t=i/30*time;points.push(`${launchPoint.x+velocity.x*t},${launchPoint.y+velocity.y*t+.5*gravity*t*t}`);}
       $('.hoops-guide').setAttribute('d','M'+points.join(' L'));
     }
     aim.oninput=setAim;
@@ -53,15 +57,15 @@
       if(busy)return;
       if(!selected){feedback.textContent='Choose your word-part ball first.';return;}
       const p=point(event);if(Math.hypot(p.x-160,p.y-425)>105){feedback.textContent='Start on the ball, pull back and down, then release.';return;}
-      drag={x:p.x,y:p.y};court.setPointerCapture?.(event.pointerId);court.classList.add('is-aiming');event.preventDefault();
+      launchPoint={...startPoint};drag={x:p.x,y:p.y};court.setPointerCapture?.(event.pointerId);court.classList.add('is-aiming');event.preventDefault();
     });
-    court.addEventListener('pointermove',event=>{if(!drag)return;const p=point(event);dragShot=true;velocity={x:Math.max(50,Math.min(1000,(drag.x-p.x)*5)),y:-Math.max(250,Math.min(1050,(p.y-drag.y)*7))};const x=hitX(velocity);if(x!==null)aim.value=Math.max(550,Math.min(950,x));guide();feedback.textContent='Release to launch! Pull farther down for a higher shot.';});
-    court.addEventListener('pointerup',event=>{if(!drag)return;drag=null;court.classList.remove('is-aiming');court.releasePointerCapture?.(event.pointerId);$('.hoops-shoot').click();});
-    court.addEventListener('pointercancel',()=>{drag=null;court.classList.remove('is-aiming');feedback.textContent='Shot cancelled. Aim and try again.';});
+    court.addEventListener('pointermove',event=>{if(!drag)return;const p=point(event);dragShot=true;launchPoint={x:160+Math.max(-125,Math.min(0,p.x-drag.x)),y:425+Math.max(0,Math.min(75,p.y-drag.y))};ball.setAttribute('transform',`translate(${launchPoint.x} ${launchPoint.y})`);stretch.style.display='';stretch.setAttribute('x1','160');stretch.setAttribute('y1','425');stretch.setAttribute('x2',launchPoint.x);stretch.setAttribute('y2',launchPoint.y);velocity={x:Math.max(50,Math.min(1000,(drag.x-p.x)*5)),y:-Math.max(250,Math.min(1050,(p.y-drag.y)*8))};const x=hitX(velocity);if(x!==null)aim.value=Math.max(550,Math.min(950,x));guide();feedback.textContent=`Pull power: ${Math.round(Math.min(1,Math.hypot(drag.x-p.x,p.y-drag.y)/170)*100)}%. Release to launch! Pull farther down for a higher shot.`;});
+    court.addEventListener('pointerup',event=>{if(!drag)return;drag=null;stretch.style.display='none';court.classList.remove('is-aiming');court.releasePointerCapture?.(event.pointerId);$('.hoops-shoot').click();});
+    court.addEventListener('pointercancel',()=>{drag=null;resetPull();setAim();court.classList.remove('is-aiming');feedback.textContent='Shot cancelled. Aim and try again.';});
     function render(){
       selected=toss?'toss':null;busy=false;aim.disabled=false;court.classList.remove('is-basket');$('.hoops-assist').disabled=false;
       $('.hoops-next').hidden=true;$('.hoops-shoot').disabled=!toss;
-      ball.setAttribute('transform','translate(160 425)');
+      resetPull();
       $('.hoops-round').textContent=`Round ${round+1} of ${deck.length}`;
       $('.hoops-prompt').textContent=`Which word part means \u201c${R.displayMeaning(deck[round].id)}\u201d?`;
       feedback.textContent=toss?'Aim at the matching word-part target, then pull back and release the ball.':'Choose your word-part ball, then aim a fresh shot. Each round starts off target.';
@@ -83,9 +87,9 @@
       const x=hitX(velocity), tolerance=$('.hoops-hard').checked?22:42;
       const hit=toss&&x!==null?targets.find(t=>Math.abs(t.x-x)<=tolerance):null;
       const made=toss?Boolean(hit&&hit.id===deck[round].id):x!==null&&Math.abs(x-820)<=tolerance;
-      const wrongTarget=Boolean(hit&&!made), landing=-2*velocity.y/gravity;
+      const wrongTarget=Boolean(hit&&!made), landing=(-velocity.y+Math.sqrt(Math.max(0,velocity.y*velocity.y-2*gravity*(launchPoint.y-425))))/gravity;
       const stop=made?crossing(velocity)+.09:landing+.25, start=performance.now(), duration=matchMedia('(prefers-reduced-motion: reduce)').matches?100:Math.max(850,stop*850);
-      function animate(now){if(closed)return;const t=Math.min(1,(now-start)/duration), elapsed=t*stop, flight=Math.min(elapsed,landing), bx=160+velocity.x*flight, by=elapsed<=landing?425+velocity.y*elapsed+.5*gravity*elapsed*elapsed:425-Math.sin((elapsed-landing)/.25*Math.PI)*42;ball.setAttribute('transform',`translate(${bx} ${by}) rotate(${t*650})`);if(t<1){frame=requestAnimationFrame(animate);return;}
+      function animate(now){if(closed)return;const t=Math.min(1,(now-start)/duration), elapsed=t*stop, flight=Math.min(elapsed,landing), bx=launchPoint.x+velocity.x*flight, by=elapsed<=landing?launchPoint.y+velocity.y*elapsed+.5*gravity*elapsed*elapsed:425-Math.sin((elapsed-landing)/.25*Math.PI)*42;ball.setAttribute('transform',`translate(${bx} ${by}) rotate(${t*650})`);if(t<1){frame=requestAnimationFrame(animate);return;}
         if(made){court.classList.add('is-basket');score+=2;$('.hoops-score').textContent=`${score} points`;feedback.textContent=`${toss?'Target hit!':'Basket!'} ${R.promptLabel(deck[round].id)} means \u201c${R.displayMeaning(deck[round].id)}\u201d. Two points!`;$('.hoops-next').hidden=false;$('.hoops-next').textContent=round===deck.length-1?'See results':'Next word part';$('.hoops-next').focus();}
         else{feedback.textContent=wrongTarget?`${R.promptLabel(hit.id)} means “${R.displayMeaning(hit.id)}”. Aim for the target meaning “${R.displayMeaning(deck[round].id)}”.`:toss?'Missed the targets. Adjust the flight and try again.': 'Right word part—try your shot again! Adjust aim or choose Line up shot.';busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;ball.setAttribute('transform','translate(160 425)');}
       }frame=requestAnimationFrame(animate);
