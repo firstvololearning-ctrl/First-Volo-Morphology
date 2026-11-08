@@ -17,3 +17,5 @@ November 8 published-site reconciliation:
 - `Vocabulary_Review_Queue_2026-11-08.csv` lists these 26 words plus friendly, misspell, retell, rewash, unpack and unroll, whose definition-review queue entries were missing.
 - The CSV is a pending-review list, not completed etymology, dictionary, WVI or utility verification. Recorded website/dictionary links do not establish a completed source review. Existing editorial placements are not normed measurements.
 - Thirteen live Pages source files matched commit 6069141. All 177 distinct words in the generated core-practice map appear in Activities. Full item-by-item Learn/teacher-material/assessment reconciliation remains open. Historical snapshot metrics and unrelated workbook cells are preserved.
+
+November 8 evidence consolidation and Learn release: the dated Wordsmyth, Etymonline and NGSL/NAWL records are now merged into the master workbook's 32 corresponding words and review-queue rows. Keep source-specific access/verification statuses and user-supplied provenance distinct. See project-handoffs/20261108-learn-and-evidence-release.md for gameplay, wording review and validation scope.

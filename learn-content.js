@@ -1411,7 +1411,7 @@
   "able-ible": {
     "word": "enjoyable",
     "parts": "enjoy + -able → enjoyable",
-    "explanation": "-Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending.",
+    "explanation": "-Able helps form an adjective. Enjoyable describes something you like doing or being part of. We cannot add this ending to every word.",
     "sentence": "The game was enjoyable.",
     "question": "What does enjoyable describe?",
     "choices": [
@@ -1767,8 +1767,8 @@
     ],
     "answer": 1,
     "feedback": [
-      "Use the sentence clue: One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending.",
-      "One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. Not every adjective can take this ending."
+      "Use the sentence clue: One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. We cannot add this ending to every word.",
+      "One we liked. -Able helps form an adjective. Enjoyable describes something you like doing or being part of. We cannot add this ending to every word."
     ]
   },
   "action": {
@@ -2274,9 +2274,9 @@
     "steps": [
       "Start with wash: clean with water.",
       "Add re-: in this word it means again.",
-      "Rewash means wash again, because the first wash was not enough."
+      "Rewash means wash again. In this sentence, the shirt needs another wash because it is still dirty."
     ],
-    "explanation": "Rewash means wash again, because the first wash was not enough.",
+    "explanation": "Rewash means wash again. In this sentence, the shirt needs another wash because it is still dirty.",
     "sentence": "I rewash the muddy shirt because it is still dirty.",
     "question": "What am I doing?",
     "choices": [
@@ -2603,8 +2603,8 @@
     ],
     "answer": 1,
     "feedback": [
-      "Rewash means wash again, because the first wash was not enough.",
-      "Rewash means wash again, because the first wash was not enough."
+      "Rewash means wash again. In this sentence, the shirt needs another wash because it is still dirty.",
+      "Rewash means wash again. In this sentence, the shirt needs another wash because it is still dirty."
     ],
     "transfer": {
       "word": "retell",

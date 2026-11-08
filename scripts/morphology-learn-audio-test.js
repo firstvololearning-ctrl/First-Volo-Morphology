@@ -48,5 +48,14 @@ card.click();doc.querySelector('[data-sort-target="graph"]').click();doc.querySe
 doc.querySelector('[data-sort-target="geo"]').click();assert.equal(card.closest('.sort-word-option').hidden,true);
 doc.querySelector('.sort-audio-stop').click();assert.equal(calls.at(-1).stop,true);
 assert.equal(doc.querySelectorAll('button button').length,0);
-w.FirstVoloInstructionalAudio={available:()=>false};w.renderSortItActivity();assert.ok([...doc.querySelectorAll('.audio-button,.sort-audio-feedback,.sort-audio-stop')].every(b=>b.disabled));
+// Explain-the-connection playback uses the actual feedback, without submitting an answer.
+for (const [word,target] of [['geology','geo'],['geothermal','geo'],['autograph','graph'],['biography','graph']]) {
+  doc.querySelector(`[data-sort-card="earth-writing-${word}"]`)?.click();
+  if (!doc.querySelector(`[data-sort-card="earth-writing-${word}"]`)?.hidden) doc.querySelector(`[data-sort-target="${target}"]`).click();
+}
+doc.querySelector('[data-explain-hear]').click();assert.match(calls.at(-1).text,/What meaning connects/);
+doc.querySelector('[data-explain-oral]').click();doc.querySelector('[data-explain-hear]').click();assert.match(calls.at(-1).text,/Compare your explanation/);
+w.studyMode='prefixes';w.gradeBand='2-3';w.learnMode='explore';w.renderLearnActivity();w.renderLearnDetail(w.prefixes.find(p=>p.id==='pre'));
+doc.querySelector('[data-learn-hear-meaning]').click();assert.match(calls.at(-1).text,/means before/);assert.equal(calls.at(-1).parts[0].id,'pre');
+w.FirstVoloInstructionalAudio={available:()=>false};w.renderSortItActivity();assert.ok([...doc.querySelectorAll('#learnSortWorkspace .audio-button,#learnSortWorkspace .sort-audio-feedback,#learnSortWorkspace .sort-audio-stop')].every(b=>b.disabled));
 console.log('PASS: instruction/meaning/word/sentence/feedback playback routing, controlled descriptors, no answer submission when listening, hidden placed controls, stop, unavailable state, no nested buttons.');

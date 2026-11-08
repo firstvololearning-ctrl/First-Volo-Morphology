@@ -8183,6 +8183,81 @@ function renderSortItActivity() {
     });
   }
 
+  function explainSortedGroups(groupIndex = 0) {
+    const target = targets[groupIndex];
+    const groupCards = cards.filter(card => card.targetId === target?.id);
+    // A spelling-variant round does not have contrasting meanings to explain.
+    const meanings = [...new Set(targets.map(t => t.meaning))];
+    if (!target || groupCards.length < 2 || meanings.length < 2) {
+      learnSortWorkspace.querySelector('.sort-explanation')?.remove();
+      if (target && groupIndex + 1 < targets.length) return explainSortedGroups(groupIndex + 1);
+      actions.hidden = false;
+      nextRoundButton.focus();
+      return;
+    }
+    let panel = learnSortWorkspace.querySelector('.sort-explanation');
+    if (!panel) {
+      panel = document.createElement('section');
+      panel.className = 'sort-explanation';
+      actions.before(panel);
+    }
+    const words = groupCards.map(card => card.word).join(', ');
+    panel.dataset.explainTarget = target.id;
+    panel.innerHTML = `<h4 tabindex="-1">Explain the connection</h4>
+      <p><strong>${escapeHTML(words)}</strong></p>
+      <p>What meaning connects these words? Say “They all have to do with…” or choose a meaning.</p>
+      <div class="learn-check">${shuffle(meanings).map((meaning, i) => `<button type="button" class="learn-check-choice" data-explain-choice="${i}">${escapeHTML(meaning)}</button>`).join('')}</div>
+      <button type="button" class="learn-check-choice" data-explain-oral>I explained it aloud — show a comparison</button>
+      <p class="sort-explain-feedback" role="status"></p>
+      <button type="button" class="learn-check-choice" data-explain-hear>Hear the question or feedback</button>
+      <button type="button" class="learn-check-choice" data-explain-next hidden>${groupIndex + 1 < targets.length ? 'Explain the next group' : 'Try another word'}</button>
+      <button type="button" class="learn-check-choice" data-explain-skip>Skip this explanation</button>
+      <p class="learn-example-count">These explanations are practice, not an automatic mastery rating.</p>`;
+    const listen = panel.querySelector('[data-explain-hear]');
+    listen.disabled = !audioAvailable;
+    listen.addEventListener('click', () => {
+      const text = panel.querySelector('.sort-explain-feedback').textContent || `${words}. What meaning connects these words? They all have to do with what?`;
+      const audio = window.FirstVoloInstructionalAudio;
+      if (audio?.speakWithControlledMorphemes) audio.speakWithControlledMorphemes(text, descriptors, {gradeBand});
+      else speak(text);
+    });
+    const choices = panel.querySelectorAll('[data-explain-choice]');
+    function compare(correct, oral = false) {
+      const message = panel.querySelector('.sort-explain-feedback');
+      if (!correct && !oral) {
+        message.textContent = `Look at the sentences again. How does ${target.label} help with their meanings? Try another meaning or explain aloud.`;
+        return;
+      }
+      message.textContent = `${oral ? 'Compare your explanation: ' : 'Yes. '}${target.label} connects with ${target.meaning}. ${groupCards.map(card => card.explanation || card.hint || card.context || '').join(' ')}`;
+      choices.forEach(button => { button.disabled = true; });
+      panel.querySelector('[data-explain-oral]').disabled = true;
+      panel.querySelector('[data-explain-next]').hidden = false;
+      panel.querySelector('[data-explain-next]').focus();
+    }
+    choices.forEach(button => button.addEventListener('click', () => compare(button.textContent === target.meaning)));
+    panel.querySelector('[data-explain-oral]').addEventListener('click', () => compare(false, true));
+    function advance() {
+      if (groupIndex + 1 < targets.length) return explainSortedGroups(groupIndex + 1);
+      // Only offer a new, eligible, unambiguous word with existing authored context.
+      const pool = rounds.flatMap(r => r.cards);
+      const next = pool.find(card => card.targetId === target.id && card.context && !cards.some(c => c.word === card.word)
+        && new Set(pool.filter(c => c.word === card.word).map(c => c.targetId)).size === 1);
+      if (next) {
+        panel.innerHTML = `<h4 tabindex="-1">Try another word: ${escapeHTML(next.word)}</h4><p>${escapeHTML(next.context)}</p>
+          <p>What meaning does ${escapeHTML(target.label)} contribute here? Say your idea aloud, then compare.</p>
+          <details><summary>Compare an explanation</summary><p>${escapeHTML(next.explanation || next.hint || `${target.label} connects with ${target.meaning}. ${next.context}`)}</p></details>`;
+        panel.querySelector('h4').focus();
+      } else {
+        panel.innerHTML = '<p>You explained the groups. Choose another round to explore more words.</p>';
+      }
+      actions.hidden = false;
+      if (!next) nextRoundButton.focus();
+    }
+    panel.querySelector('[data-explain-next]').addEventListener('click', advance);
+    panel.querySelector('[data-explain-skip]').addEventListener('click', advance);
+    panel.querySelector('h4').focus();
+  }
+
   function getWrongMessage(card) {
     if (round.type === "meaning-sort") {
       const target = targets.find(item => item.id === card.targetId);
@@ -8309,8 +8384,7 @@ function renderSortItActivity() {
           ${escapeHTML(round.completion)}
         `;
 
-        actions.hidden = false;
-        nextRoundButton.focus();
+        explainSortedGroups();
         return;
       }
 
@@ -8333,7 +8407,7 @@ function renderLearnActivity() {
   const introduction = document.getElementById("learnIntroduction");
   if (introduction) introduction.textContent = learnMode === "sort"
     ? "Choose a word, then sort it by its word part and meaning."
-    : "Select a card to hear its meaning, explore examples, and try a worked example where available.";
+    : "Meet a word part, reveal its meaning, see an example, then try it. Choose Sort and explain when you are ready.";
 
   workspaceTitle.textContent = "Learn";
   workspaceSubtitle.textContent =
@@ -8484,14 +8558,20 @@ const suffixFunctionMarkup =
           ${escapeHTML(item.label)}
         </h4>
 
-        <div class="feedback-label">
-          Meaning
-        </div>
+        <section class="learn-meet" aria-label="Meet the word part">
+        <h5>1. Meet the word part</h5>
+        <button type="button" class="learn-check-choice" data-learn-hear-meaning>Hear the word part and meaning</button>
+        <p>Look at the picture. What idea does it show? Say a word you know that might connect, or reveal the meaning to get started.</p>
+        <details class="learn-meaning-reveal"><summary>Reveal the meaning</summary>
+        <div class="feedback-label">Meaning</div>
 
         <div class="feedback-value">
           <strong>${escapeHTML(item.meaning)}</strong>
         </div>
 ${suffixFunctionMarkup}
+        </details>
+        <p>Use the sound button to connect the word part with its meaning. This first look is not scored.</p>
+        </section>
         <div class="feedback-label">
           ${escapeHTML(exampleLabel)}
         </div>
@@ -8500,7 +8580,7 @@ ${suffixFunctionMarkup}
           ${escapeHTML(examples)}
         </div>
         ${lesson ? `
-          <section class="learn-worked-example" aria-label="Worked example">
+          <details class="learn-worked-example" aria-label="Worked example"><summary>2. See it in a word</summary>
             <h5 tabindex="-1">See how the meaning works: ${escapeHTML(lesson.word)}</h5>
             ${lessons.length > 1 ? `<p class="learn-example-count">Example ${selectedIndex + 1} of ${lessons.length}</p>` : ""}
             <p class="learn-word-equation">${escapeHTML(lesson.parts)}</p>
@@ -8515,7 +8595,7 @@ ${suffixFunctionMarkup}
             <p class="learn-check-feedback" aria-live="polite"></p>
             ${practice ? `<button type="button" class="learn-continue learn-check-choice" hidden>${escapeHTML(practiceLabel)}</button>
               <section class="learn-practice" hidden aria-label="${escapeHTML(practiceLabel)}">
-                <h6 tabindex="-1">${escapeHTML(practiceLabel)}</h6>
+                <h6 tabindex="-1">3. ${escapeHTML(practiceLabel)}</h6>
                 <p>${escapeHTML(practice.sentence)}</p>
                 <fieldset class="learn-check"><legend>${escapeHTML(practice.question)}</legend>
                   ${practice.choices.map((choice, i) => `<button type="button" class="learn-check-choice" data-learn-practice="${i}">${escapeHTML(choice)}</button>`).join("")}
@@ -8525,8 +8605,9 @@ ${suffixFunctionMarkup}
             ${lesson.reflection ? `<section class="learn-reflection" hidden aria-label="Explain it yourself"><h6>Explain it yourself</h6><p>${escapeHTML(lesson.reflection.question)}</p><p>Say your answer aloud or think it through, then compare.</p><details><summary>Show an example explanation</summary><p>${escapeHTML(lesson.reflection.model)}</p></details></section>` : ""}
             <p class="learn-complete" role="status" hidden>Guided practice complete. You used the word part and sentence clues together.</p>
             ${selectedIndex + 1 < lessons.length ? `<button type="button" class="learn-next-example learn-check-choice" hidden>Next example: ${escapeHTML(lessons[selectedIndex + 1].word)}</button>` : ""}
-          </section>` : ""}
-
+          </details>` : ""}
+        <button type="button" class="learn-check-choice learn-go-sort">4. Sort and explain</button>
+        <p class="learn-example-count">Choose the sections you need. Sorting may offer a fifth step: try another word.</p>
         <button
           class="audio-button"
           type="button"
@@ -8539,6 +8620,17 @@ ${suffixFunctionMarkup}
     </div>
   `;
 
+  const hearMeaning = detail.querySelector('[data-learn-hear-meaning]');
+  hearMeaning.disabled = !(window.FirstVoloInstructionalAudio?.available?.() || ('speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function'));
+  hearMeaning.addEventListener('click', () => {
+    const text = `${item.speech} means ${item.meaning}.`;
+    if (window.FirstVoloInstructionalAudio?.speakWithControlledMorphemes) window.FirstVoloInstructionalAudio.speakWithControlledMorphemes(text, [instructionalAudioDescriptor(item.id, item.speech)], {gradeBand});
+    else speak(text);
+  });
+  detail.querySelector('.learn-go-sort').addEventListener('click', () => {
+    learnMode = 'sort'; sortRoundIndex = 0; renderLearnActivity();
+    document.getElementById('learnSortButton')?.focus();
+  });
   detail.querySelectorAll("[data-learn-choice]").forEach(button => {
     button.addEventListener("click", () => {
       const correct = Number(button.dataset.learnChoice) === lesson.answer;
@@ -8580,6 +8672,7 @@ ${suffixFunctionMarkup}
   });
   detail.querySelector(".learn-next-example")?.addEventListener("click", () => {
     renderLearnDetail(item, selectedIndex + 1);
+    detail.querySelector(".learn-worked-example").open = true;
     detail.querySelector(".learn-worked-example h5").focus();
   });
   const audioExampleText =

@@ -7781,3 +7781,10 @@ html[data-morphology-mode="student"] .student-entry { flex-direction: column; al
 html[data-morphology-mode="student"] .about-stage-note { display: none; }
 .practice-entry .entry-note { color: #4e6479; font-size: .95rem; margin-bottom: 0; }
 @media (max-width: 600px) { .practice-entry { padding: 18px; } .practice-entry-actions { flex-direction: column; } .practice-entry-actions a { width: 100%; box-sizing: border-box; } }
+
+/* Learn: clear, optional sections and meaning explanations. */
+.learn-meet, .sort-explanation { padding: 1rem; margin-block: 1rem; border: 1px solid #c7d7e6; border-radius: 14px; background: #f5f9fc; }
+.learn-meaning-reveal summary, .learn-worked-example > summary { cursor: pointer; font-weight: 700; padding: .75rem; color: #193e68; }
+.sort-explanation .learn-check { display: flex; flex-wrap: wrap; gap: .6rem; }
+.sort-explanation button { white-space: normal; }
+@media(max-width:600px) { .sort-explanation .learn-check { display: grid; } .sort-explanation button { width:100%; } }

@@ -52,7 +52,25 @@ for (const mode of ['roots','suffixes','prefixes']) {
       assert.equal(w.document.querySelector(`[data-sort-card="${card.cardId}"]`).hidden,true);
     }
     assert.match(w.document.getElementById('sortItFeedback').textContent,/Round complete/);
-    assert.equal(w.document.activeElement.id,'sortNextRoundButton');
+    let explanationCount = 0;
+    while (w.document.querySelector('[data-explain-skip]')) {
+      const panel = w.document.querySelector('.sort-explanation');
+      const target = round.targets.find(t => t.id === panel.dataset.explainTarget);
+      const wrong = [...panel.querySelectorAll('[data-explain-choice]')].find(b => b.textContent !== target.meaning);
+      if (wrong) { wrong.click(); assert.match(panel.querySelector('[role="status"]').textContent,/Try another meaning/); }
+      const correct = [...panel.querySelectorAll('[data-explain-choice]')].find(b => b.textContent === target.meaning);
+      if (explanationCount === 0) {
+        panel.querySelector('[data-explain-oral]').click();
+        assert.match(panel.querySelector('[role="status"]').textContent,/Compare your explanation/);
+      } else {
+        correct.click(); assert.match(panel.querySelector('[role="status"]').textContent,/Yes/);
+      }
+      assert.equal(panel.querySelector('[data-explain-next]').hidden,false);
+      panel.querySelector('[data-explain-next]').click(); explanationCount++;
+      assert.ok(explanationCount <= round.targets.length);
+    }
+    if (new Set(round.targets.map(t => t.meaning)).size > 1) assert.equal(explanationCount,round.targets.filter(t => round.cards.filter(c => c.targetId===t.id).length>=2).length);
+    assert.equal(w.document.getElementById('sortItActions').hidden,false);
     w.document.getElementById('sortNextRoundButton').click();
     roundsTested++;
   }
@@ -61,6 +79,12 @@ for (const mode of ['roots','suffixes','prefixes']) {
 for (const [id,lesson] of Object.entries(w.FirstVoloLearnContent.worked)) {
   const item=[...w.prefixes,...w.roots,...w.suffixes].find(item=>item.id===id);
   w.studyMode=item.type==='prefix'?'prefixes':item.type==='root'?'roots':'suffixes'; w.learnMode='explore';w.renderLearnActivity();w.renderLearnDetail(item);
+  assert.equal(w.document.querySelector('.learn-meaning-reveal').open,false);
+  w.document.querySelector('.learn-meaning-reveal summary').click();
+  assert.equal(w.document.querySelector('.learn-meaning-reveal').open,true);
+  assert.equal(w.document.querySelector('.learn-worked-example').open,false);
+  w.document.querySelector('.learn-worked-example > summary').click();
+  assert.equal(w.document.querySelector('.learn-worked-example').open,true);
   assert.ok(w.document.querySelector('.learn-worked-example').textContent.toLowerCase().includes(lesson.word), 'worked example names its word');
   w.document.querySelector(`[data-learn-choice="${1-lesson.answer}"]`).click();
   assert.match(w.document.querySelector('.learn-check-feedback').textContent,/Try again/);
