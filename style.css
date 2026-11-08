@@ -7761,3 +7761,23 @@ header p {
 .learn-spelling-note { line-height: 1.6; }
 .learn-reflection summary { cursor: pointer; padding-block: .6rem; font-weight: 600; }
 .learn-reflection summary:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+
+/* Clear role-specific starting points, November 2026. */
+.morphology-practice-page .site-header { padding-block: 24px; }
+.morphology-practice-page .brand-logo-wrap { width: 88px; height: 88px; }
+.morphology-practice-page .title-group h1 { font-size: clamp(2rem, 4vw, 3.25rem); }
+.morphology-practice-page .site-description { font-size: 1.05rem; max-width: 65ch; }
+.practice-entry { background: #fff; border: 1px solid #cbd9e7; border-radius: 18px; padding: 24px; margin: 0 0 22px; text-align: left; }
+.practice-entry h2 { font-size: 1.5rem; margin: 4px 0 10px; }
+.practice-entry p { line-height: 1.55; margin: 8px 0 14px; }
+.practice-entry .entry-eyebrow { font-size: .8rem; letter-spacing: .08em; font-weight: 800; color: #476484; }
+.practice-entry-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.practice-entry-actions a, .practice-entry .entry-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 17px; border: 1px solid #afc5db; border-radius: 10px; background: #f2f7fc; color: #173a64; text-decoration: none; font: inherit; font-weight: 700; cursor: pointer; }
+.practice-entry-actions .entry-primary, .practice-entry .entry-primary { color: white; background: #173a64; border-color: #173a64; }
+.practice-entry a:focus-visible, .practice-entry button:focus-visible { outline: 3px solid #147a92; outline-offset: 3px; }
+.entry-assess { margin-top: 18px; padding-top: 14px; border-top: 1px solid #dae4ed; }
+.entry-assess summary { cursor: pointer; font-weight: 700; }
+html[data-morphology-mode="student"] .student-entry { flex-direction: column; align-items: flex-start; }
+html[data-morphology-mode="student"] .about-stage-note { display: none; }
+.practice-entry .entry-note { color: #4e6479; font-size: .95rem; margin-bottom: 0; }
+@media (max-width: 600px) { .practice-entry { padding: 18px; } .practice-entry-actions { flex-direction: column; } .practice-entry-actions a { width: 100%; box-sizing: border-box; } }

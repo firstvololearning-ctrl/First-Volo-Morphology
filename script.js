@@ -7663,7 +7663,7 @@ function renderCurrentActivity() {
   ) {
     showStartMessage(
       "Choose a word-building set.",
-      "Select a word-building pattern in Step 1 to use Build Words."
+      "Choose a word-building combination in Practice choices to use this activity."
     );
 
     return;

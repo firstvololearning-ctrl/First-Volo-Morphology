@@ -75,7 +75,7 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=responsive-20261027">
+  <link rel="stylesheet" href="style.css?v=entry-20261107">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
@@ -84,7 +84,7 @@
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
 </head>
 
-<body>
+<body class="morphology-practice-page">
 <nav class="first-volo-site-nav" aria-label="First Volo website and account">
   <a href="https://firstvololearning.com/">First Volo website</a>
   <a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/">My First Volo / Sign in</a>
@@ -234,6 +234,25 @@
        ======================================== -->
 
   <main class="page">
+    <section class="practice-entry educator-entry" data-morphology-educator-only aria-labelledby="educatorEntryTitle">
+      <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">What would you like to do?</h2>
+      <p>Review what the learner needs, choose practice, or return to their progress.</p></div>
+      <nav class="practice-entry-actions" aria-label="Educator starting points">
+        <a id="educatorPracticeStart" class="entry-primary" href="#currentStudentBar">Practice with a learner</a>
+        <a href="program-progress.html">Learners &amp; progress</a>
+        <a href="educator-resources.html">Educator resources &amp; guide</a>
+      </nav>
+      <details class="entry-assess"><summary>Start or review an assessment</summary>
+        <p>Choose a Flight to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
+        <div class="practice-entry-actions"><a href="flight-a-assessment.html">Flight A assessment</a><a href="flight-b-assessment.html">Flight B assessment</a><a href="flight-c-assessment.html">Flight C assessment</a></div>
+      </details>
+    </section>
+    <section class="practice-entry student-entry" data-morphology-student-only aria-labelledby="studentEntryTitle">
+      <p class="entry-eyebrow">YOUR PRACTICE</p><h2 id="studentEntryTitle">Ready to work with word parts?</h2>
+      <p>Use the Flight and word parts your teacher chose. If you are not sure, ask your teacher before starting.</p>
+      <button type="button" id="studentPracticeStart" class="entry-primary">Choose practice</button>
+      <p id="studentPracticeResume" class="entry-note">Choose your Flight and word parts below, then choose an activity.</p>
+    </section>
 
     <div class="morphology-educator-selected-context" data-morphology-educator-selected-only>
       <p
@@ -265,9 +284,7 @@
 
       <div class="student-bar-intro student-bar-intro-numbered">
 
-        <span class="step-number" aria-hidden="true">
-          1
-        </span>
+
 
         <span class="student-bar-intro-copy">
           <span class="student-bar-label">
@@ -309,18 +326,18 @@
     <!-- PRACTICE SETUP -->
 
     <section
-      class="selector-section practice-setup-compact"
+      id="practiceSetup" class="selector-section practice-setup-compact"
       aria-label="Practice setup"
     >
 
       <div class="practice-setup-heading">
         <div>
           <span class="practice-setup-kicker">
-            Steps 2–4
+            PRACTICE CHOICES
           </span>
 
           <h2>
-            Set up your practice
+            Choose your practice
           </h2>
 
           <p>
@@ -335,9 +352,7 @@
       class="selector-label filter-label numbered-filter-label"
       for="gradeBandSelect"
     >
-      <span class="step-number" aria-hidden="true">
-        2
-      </span>
+
 
       <span>
         Practice Flight
@@ -423,12 +438,7 @@
         for="studySelect"
       >
 
-        <span
-          class="step-number"
-          aria-hidden="true"
-        >
-          3
-        </span>
+
 
         <span>
           What do you want to study?
@@ -551,9 +561,7 @@
     <div
       class="selector-label filter-label numbered-filter-label"
     >
-      <span class="step-number" aria-hidden="true">
-        4
-      </span>
+
 
       <span>
         Word Challenge
@@ -715,12 +723,7 @@
         id="activitySelectorLabel"
       >
 
-        <span
-          class="step-number"
-          aria-hidden="true"
-        >
-          5
-        </span>
+
 
         <span>
           Choose an activity
@@ -766,9 +769,7 @@
         </div>
 
         <p class="about-stage-note">
-          This progression represents increasingly complex morphology demands,
-          not prerequisite completion or locked advancement. Choose activities
-          according to the learner’s performance and current practice goal.
+          Choose an activity for the current teaching goal. Activities are not prerequisites, and tried does not mean mastered.
         </p>
 
         <div
@@ -2261,8 +2262,9 @@
   <script src="instructional-audio.js?v=20260830-segments1"></script>
   <script src="learn-content.js?v=plain-language-20261027"></script>
   <script src="script.js?v=20261027-practice2"></script>
-  <script src="use-it.js"></script>
-  <script src="change-it.js"></script>
+  <script src="use-it.js?v=standard-20261107"></script>
+  <script src="change-it.js?v=standard-20261107"></script>
+  <script src="practice-entry.js?v=20261107"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
 </body>
 </html>

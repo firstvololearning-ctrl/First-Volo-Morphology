@@ -1,0 +1,18 @@
+Morphology interface and Standard Words repair — November 7, 2026
+
+Changes
+- Standard Words now includes familiar and academic content in Use It and Change It. Stretch remains opt-in; protected transfer/assessment exclusions retained. Use It fallback answer choices respect vocabulary eligibility too.
+- Educator opening offers Practice with a learner, Learners & progress, Educator resources & guide, and an expandable three-Flight assessment chooser. Generic educator practice starts at learner selection; selected-learner mode starts at practice choices.
+- Student opening explains how to choose with the teacher and offers Choose practice / Continue [activity]. Most recent choices are stored by existing authorized access-context key in this browser. Continue starts the selected activity; it does not resume an unanswered question or create a teacher assignment. Choices do not sync across devices.
+- Removed inherited step numbering and educator-only progression wording from the student view; compacted main heading.
+- Quick Start Guide updated for both entry paths, assessment/practice distinction, browser-only choices, latest-practice-response guidance and local assessment saving scope.
+
+Verification
+- All 76 automated checks passed, including four new Standard Words regressions and existing target Flight tests.
+- Browser QA used isolated local auth fixtures with real page/app code for educator and student views. Confirmed educator links, assessment chooser, Standard Use It/Change It questions and correct feedback, saved choices after reload, Continue focus action, guide content and 390 px layouts without horizontal document overflow.
+- This UI verification does not claim a new live student Auth acceptance. Separate real staging student Auth/permission/browser rehearsal passed earlier, settings then restored disabled. No Auth/database changes in this release.
+
+Still open
+- Educator-side browser reporting and independent-device sync, complete delayed/offline collection-path acceptance, broader printing/accessibility acceptance.
+- Assessment form comparability/report wording, phone assessment item-table overflow and readiness-audit discrepancy from the separate review remain open.
+- Initial assessment does not automatically assign student practice. No new clinical cutoffs, mastery claims or automated placement introduced.

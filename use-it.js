@@ -217,7 +217,7 @@ function getUseItEligibleWords() {
 
     const matchesVocabulary =
       vocabLevel === "all" ||
-      inventoryItem.vocabLevel === vocabLevel;
+      isWordEligibleForSelectedVocabulary(item.word);
 
     const hasSentence =
       Object.prototype.hasOwnProperty.call(
@@ -271,11 +271,6 @@ function makeUseItChoices(
     "6-8": 3
   };
 
-  const vocabRanks = {
-    familiar: 1,
-    academic: 2
-  };
-
   const distractorPool =
     getActiveBuildWords().filter((item) => {
       if (item.word === correctItem.word) {
@@ -310,9 +305,7 @@ function makeUseItChoices(
       const vocabOkay =
         vocabLevel === "all" ||
         (
-          vocabRanks[inventoryItem.vocabLevel] &&
-          vocabRanks[inventoryItem.vocabLevel] <=
-            vocabRanks[vocabLevel]
+          isWordEligibleForSelectedVocabulary(item.word)
         );
 
       return gradeOkay && vocabOkay;
@@ -330,6 +323,7 @@ function makeUseItChoices(
           (item) =>
             item.word !== correctItem.word &&
             !isReservedTransferWord(item.word) &&
+            isWordEligibleForSelectedVocabulary(item.word) &&
             !distractors.includes(item.word)
         )
       );

@@ -277,7 +277,7 @@ function getChangeItEligibleQuestions() {
 
     const matchesVocabulary =
       vocabLevel === "all" ||
-      item.vocabLevel === vocabLevel;
+      (vocabLevel === "standard" ? ["familiar", "academic"].includes(item.vocabLevel) : item.vocabLevel === vocabLevel);
 
     return matchesGrade && matchesVocabulary;
   });
