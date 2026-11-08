@@ -75,7 +75,7 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=20261108-simple4">
+  <link rel="stylesheet" href="style.css?v=20261108-routes5">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
@@ -238,8 +238,8 @@
   <main class="page">
     <section class="practice-entry educator-entry" data-morphology-educator-only aria-labelledby="educatorEntryTitle">
       <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">Ready to practice?</h2>
-      <p>Choose a learner, choose word parts, then open practice.</p></div>
-      <div class="educator-main-actions"><details class="learner-practice-entry"><summary>Practice with a learner</summary>    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
+      <p>Choose what you need to do first.</p></div>
+      <div class="educator-main-actions"><button type="button" id="openPracticePlan" class="educator-progress-link">Set up learning</button><details class="learner-practice-entry"><summary>Practice with a learner</summary>    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
 
       <div class="student-bar-intro student-bar-intro-numbered">
 
@@ -280,8 +280,9 @@
         Manage Learners
       </a>
 
-    </section><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details><a class="educator-progress-link" href="program-progress.html">Learners &amp; progress</a></div>
-      <details class="entry-assess"><summary>Planning &amp; resources</summary><nav class="practice-entry-actions" aria-label="Educator planning and resources"><button type="button" id="openPracticePlan">Set a practice plan</button><a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
+    </section><p id="learnerNextStep" role="status">Next: Choose a learner, or continue without saving to a learner.</p><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details><a class="educator-progress-link" href="program-progress.html">Learners &amp; progress</a></div>
+      <details class="entry-assess"><summary>Resources &amp; guide</summary><nav class="practice-entry-actions" aria-label="Educator planning and resources"><a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
+      <div class="educator-secondary-actions"><button type="button" id="educatorPreviewGames">🎮 Preview games</button><button type="button" id="educatorStartOver" hidden>Back to start</button></div>
       <details class="entry-assess"><summary>Start or review an assessment</summary>
         <p>Choose a Flight to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
         <div class="practice-entry-actions"><a href="flight-a-assessment.html">Flight A assessment</a><a href="flight-b-assessment.html">Flight B assessment</a><a href="flight-c-assessment.html">Flight C assessment</a></div>
@@ -2270,7 +2271,7 @@
   <script src="script.js?v=20261108-learn1"></script>
   <script src="use-it.js?v=standard-20261107"></script>
   <script src="change-it.js?v=standard-20261107"></script>
-  <script src="practice-entry.js?v=20261108-simple3"></script>
+  <script src="practice-entry.js?v=20261108-routes5"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
 <script src="practice-plan.js?v=20261107-plan1"></script>
 </body>

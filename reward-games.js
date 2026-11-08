@@ -389,6 +389,10 @@
     openMyGames(window.FirstVoloActivityProgress?.getActiveStudent?.(), event.currentTarget);
   });
 
+  document.getElementById("educatorPreviewGames")?.addEventListener("click", (event) => {
+    openMyGames(window.FirstVoloActivityProgress?.getActiveStudent?.(), event.currentTarget);
+  });
+
   window.FirstVoloRewards = { registry: REWARDS, getTestState, isUnlocked,
     createJourneyAccess, createJourneyAccesses, launch: launchReward,
     openMyGames, open: openSkyCatch, close: closeGame };

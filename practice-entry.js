@@ -11,6 +11,15 @@
   let key = null;
   let restoring = false;
   const activity = () => document.querySelector('.activity-button[aria-pressed="true"]');
+  const learnerEntry = document.querySelector('.learner-practice-entry');
+  const startOver = document.getElementById('educatorStartOver');
+  function setEducatorPath(path) {
+    document.documentElement.dataset.educatorPath = path;
+    if (startOver) startOver.hidden = !path;
+  }
+  learnerEntry?.addEventListener('toggle', () => { if (learnerEntry.open) setEducatorPath('practice'); });
+  document.getElementById('openPracticePlan')?.addEventListener('click', () => setEducatorPath('setup'));
+  startOver?.addEventListener('click', () => { setEducatorPath(''); if (learnerEntry) learnerEntry.open=false; document.getElementById('educatorEntryTitle')?.scrollIntoView({block:'start'}); });
   const openChosen = document.getElementById("openChosenPractice");
   function updateStart() {
     const chosen = study.value && activity() && !activity().disabled;
@@ -18,7 +27,13 @@
     const label = names[activity()?.dataset.mode] || "practice";
     if (openChosen) { openChosen.disabled = !chosen; openChosen.textContent = `Open ${label}`; }
     const hint = document.getElementById("practiceNextHint");
-    if (hint) hint.textContent = chosen ? "Ready. Open practice, or choose another activity." : "Choose word parts above to begin.";
+    const learner = window.FirstVoloActivityProgress?.getActiveStudent?.();
+    const who = learner?.name ? ` for ${learner.name}` : "";
+    const studyName = study.selectedOptions[0]?.textContent?.trim() || "word parts";
+    const flightName = flight.selectedOptions[0]?.textContent?.trim() || "";
+    if (hint) hint.textContent = chosen ? `Next${who}: Open ${label} · ${studyName} · ${flightName}.` : `Next: Choose word parts${who} above, then open practice.`;
+    const learnerNext = document.getElementById("learnerNextStep");
+    if (learnerNext) learnerNext.textContent = chosen ? `Next${who}: Open ${label} below.` : learner ? `Next: Choose word parts for ${learner.name}.` : "Next: Choose a learner, or continue without saving to a learner.";
     start.textContent = chosen ? `Continue ${label}` : "Choose practice";
     note.textContent = chosen ? "Your most recent choices are ready. Change them below whenever you need to." : "Choose your Flight and word parts below, then choose an activity.";
   }
@@ -81,5 +96,6 @@
   }};
   access?.subscribe(restore);
   if (access?.getContext) restore(access.getContext());
+  window.addEventListener("firstvoloprogresschange", updateStart);
   updateStart();
 }());
