@@ -1,0 +1,7 @@
+{
+ "checked":"2026-11-08",
+ "standards":{"ccss":"https://www.thecorestandards.org/ELA-Literacy/L/","massachusetts_current_frameworks":"https://www.doe.mass.edu/frameworks/current.html","massachusetts_framework":"https://www.doe.mass.edu/frameworks/ela/2017-06.pdf","massachusetts_navigator":"https://www.doe.mass.edu/frameworks/search/SubjectSearch.aspx?L1=ELA&L2=All","scope":"Grades 2–8, L.grade.4b; Grades 2–3 also 4c; context 4a for meaning/transfer objectives. Paraphrases, conditional task connections, not endorsements or mastery decisions."},
+ "sequence":{"existing_bank_source":"Mendes & Kirby (2024)","url":"https://doi.org/10.1177/07319487241259775","verified_section":"Intervention Program","summary":"Inflections preceded derivations; transparent forms preceded sound/spelling shifts; free bases preceded bound bases; taught bases preceded untaught bases for transfer.","limit":"Study-specific intervention order in Grades 4–6 children with dyslexia; not a universal optimal sequence or an official grade-by-grade morpheme list."},
+ "objective_authorship":"First Volo examples rewritten around observable target responses; no copied goal-bank paragraphs. Criterion, schedule, supports and date require individualization.",
+ "research_bank_scope":"Existing 15 Flight/objective research mappings retained. This release did not independently re-audit every prior intervention claim. Standards and the named sequence section were checked against primary sources."
+}

@@ -18,3 +18,4 @@ html[data-morphology-mode="student"] [data-plan-choices-hidden],html[data-morpho
 #itemDetail { max-width:100%; overflow-x:auto; }
 @media print { #itemDetail { overflow:visible; } }
 .practice-plan-panel [role="status"]:empty { display:none; }
+.plan-choice-helper{padding:16px;margin:16px 0;background:#fff;border:1px solid #b6cfdf;border-radius:12px}.plan-choice-helper summary{cursor:pointer;font-weight:750;min-height:36px}.plan-choice-helper label{display:block;font-weight:700;margin:12px 0 6px}.plan-choice-helper select{width:100%;min-height:44px}.plan-choice-helper button{padding:12px 18px;min-height:44px;background:#173a64;color:white;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}.plan-choice-helper button:disabled{opacity:.5}

@@ -26,35 +26,35 @@
     know: {
       label: "Know the Parts / Understand word parts",
       shortLabel: "Know the Parts",
-      action: "explain the meaning and role of taught word parts in words",
-      activities: ["Meaning", "Word Part", "Find", "Word Hunt"],
+      action: "locate a taught morpheme in a word and explain the meaning it contributes",
+      activities: ["Learn", "Meaning", "Word Part", "Find", "Word Hunt"],
       monitor: "Accuracy and specificity when identifying a word part, explaining its meaning, and distinguishing it from the base or other meaningful parts."
     },
     analyze: {
       label: "Analyze Words",
       shortLabel: "Analyze Words",
-      action: "identify meaningful word-part boundaries and explain how the parts work together",
+      action: "separate a selected word into meaningful parts and explain one part’s contribution to the whole word",
       activities: ["Break It Apart", "Word Part", "Find", "Figure It Out"],
       monitor: "Boundary accuracy, completeness of the analysis, attention to form changes, and whether the learner explains relationships rather than only naming pieces."
     },
     meaning: {
       label: "Figure Out Meaning",
       shortLabel: "Figure Out Meaning",
-      action: "use meaningful word parts and context to infer and explain the meaning of unfamiliar words",
+      action: "propose a meaning for an unfamiliar word from its meaningful parts and check that interpretation against the surrounding sentence",
       activities: ["Figure It Out", "Meaning", "Break It Apart", "Word Hunt"],
       monitor: "Use of both morphology and context, quality of the meaning explanation, revision after feedback, and transfer to unfamiliar words."
     },
     build: {
       label: "Build & Use Words",
       shortLabel: "Build & Use Words",
-      action: "build morphologically related words and use them accurately in speaking or writing",
-      activities: ["Build", "Use It", "Change It", "Meaning"],
+      action: "form a requested member of a word family and use it in a sentence that shows its meaning",
+      activities: ["Build Words", "Use It", "Change It", "Meaning"],
       monitor: "Selection and combination of meaningful parts, spelling or form changes, grammatical fit, meaning, and accurate use in context."
     },
     apply: {
       label: "Apply Independently",
       shortLabel: "Apply Independently",
-      action: "independently apply morphological knowledge to analyze, interpret, build, and use words in new contexts",
+      action: "independently explain an unpracticed word’s meaning and identify the morpheme and context clues used",
       activities: ["Word Hunt", "Figure It Out", "Use It", "Change It"],
       monitor: "Independent strategy initiation, flexible application, explanation of reasoning, self-correction, and generalization beyond practiced words."
     }
@@ -132,17 +132,17 @@
   };
 
   const SOURCES = {
-    henbest2019: { authors: "Henbest, Apel, & Mitchell", year: "2019", title: "Grade 2 explicit morphology instruction", type: "Feasibility study", claim: "Two teachers implemented eight weeks of scaffolded explicit morphology instruction with 30 Grade 2 students; morphology scores increased from pretest to posttest.", limitation: "No business-as-usual control group; not causal efficacy evidence." },
+    henbest2019: { url: "https://doi.org/10.1044/2019_PERS-SIG1-2019-0003", authors: "Henbest, Apel, & Mitchell", year: "2019", title: "Grade 2 explicit morphology instruction", type: "Feasibility study", claim: "Two teachers implemented eight weeks of scaffolded explicit morphology instruction with 30 Grade 2 students; morphology scores increased from pretest to posttest.", limitation: "No business-as-usual control group; not causal efficacy evidence." },
     wood2025: { authors: "Wood et al.", year: "2025", title: "Grade 3 supplemental digital morphology pilot", type: "Randomized intervention", claim: "Significant effects on affix identification and suffix choice.", limitation: "Findings are bounded to the measured proximal morphology outcomes." },
     apel2023: { authors: "Apel, Henbest, & Petscher", year: "2023", title: "Morphological awareness across Grades 3–6", type: "Design/assessment study", claim: "Task characteristics and base-word transparency affected performance; transparent relationships were generally easier.", limitation: "Assessment evidence; does not prove an instructional sequence or intervention effect." },
-    mendes2024: { authors: "Mendes & Kirby", year: "2024", title: "Morphology intervention for Grades 4–6 students with dyslexia/LD", type: "Intervention study", claim: "Gains in morphological awareness, decoding, analysis, spelling, and some near morphological transfer following decomposition and assembly instruction.", limitation: "Small sample; no significant broad standardized word-reading or fluency effects." },
+    mendes2024: { url: "https://doi.org/10.1177/07319487241259775", authors: "Mendes & Kirby", year: "2024", title: "Morphology intervention for Grades 4–6 students with dyslexia/LD", type: "Intervention study", claim: "Gains in morphological awareness, decoding, analysis, spelling, and some near morphological transfer following decomposition and assembly instruction.", limitation: "Small sample; no significant broad standardized word-reading or fluency effects." },
     foorman2021: { authors: "Foorman et al.", year: "2021", title: "Grade 5 morphology impact study", type: "Impact/intervention study", claim: "Real-word decomposition improved.", limitation: "No significant effects on untaught derivation, word-meaning inference, vocabulary, or ELA outcomes." },
     crosson2025: { authors: "Crosson et al.", year: "2025", title: "Cross-language morphology intervention with multilingual adolescents", type: "Intervention study", claim: "Effects on five of six measured outcomes, including morphological-analysis transfer (d = .32).", limitation: "Reading-comprehension effect was small and non-significant." },
     glisson2026: { authors: "Glisson et al.", year: "2026", title: "Morphology intervention for adolescents with language disorder", type: "Intervention study", claim: "Treatment advantage for taught affixes and transfer to new roots containing taught affixes.", limitation: "No transfer to untaught affixes." },
     colenbrander2024: { authors: "Colenbrander et al.", year: "2024", title: "Morphological instruction outcomes and transfer", type: "Systematic review/meta-analysis", claim: "Effects were strongest closer to trained material; some reading, spelling, and untrained spelling effects were found.", limitation: "Untrained reading was less clear, and there was no clear reading-comprehension effect." },
     goodwin2021: { authors: "Goodwin, Petscher, & Tock", year: "2021", title: "Dimensions of morphological knowledge in Grades 5–8", type: "Design/assessment study", claim: "Morphological knowledge included separable awareness, semantic, morphosyntactic, and form-related dimensions plus task variance.", limitation: "Assessment/association evidence; not an intervention effect." },
     goodwin2016: { authors: "Goodwin", year: "2016", title: "Morphological problem-solving within comprehension instruction", type: "Grades 5–6 intervention study", claim: "Improved some vocabulary and morphological-awareness outcomes.", limitation: "No significant reading-comprehension or word-reading-fluency effect.", url: "https://doi.org/10.1007/s11145-015-9581-0" },
-    collins2023: { authors: "Collins", year: "2023", title: "K–12 clinical morphology instruction", type: "Clinical tutorial/review", claim: "Supports analysis, synthesis, production, word-family work, and attention to form changes as clinical instructional practices.", limitation: "Clinical/tutorial guidance; not intervention-effect evidence." },
+    collins2023: { url: "https://doi.org/10.1044/2023_PERSP-23-00059", authors: "Collins", year: "2023", title: "K–12 clinical morphology instruction", type: "Clinical tutorial/review", claim: "Supports analysis, synthesis, production, word-family work, and attention to form changes as clinical instructional practices.", limitation: "Clinical/tutorial guidance; not intervention-effect evidence." },
     wolter2013: { authors: "Wolter & Green", year: "2013", title: "School-age morphological awareness and instruction", type: "Clinical review/case-study rationale", claim: "Supports morphology problem solving, word construction, and checking meaning against context.", limitation: "Clinical review and case illustration do not establish broad causal effects." }
   };
 
@@ -170,6 +170,12 @@
     }
   };
 
+  // Merge verified bibliographic entries without duplicating Collins (2023).
+  (window.FirstVoloReviewedEvidence || []).forEach(source => { SOURCES[source.id] = {...SOURCES[source.id], ...source}; });
+  const additions={foundation:{know:['park2020','apel2022'],analyze:['brimo2020','apel2022'],meaning:['brimo2020','ram2013'],build:['brimo2020','apelwerfel2014'],apply:['park2020']},expansion:{know:['apel2022'],analyze:['apel2022','brimo2020'],meaning:['greenwolter2025','ram2013'],build:['krimm2019','greenwolter2025','apelwerfel2014'],apply:['gellert2023']},advanced:{know:['brimo2020'],analyze:['brimo2020'],meaning:['woltergreen2021'],build:['woltergreen2021'],apply:['woltergreen2021']}};
+  Object.entries(additions).forEach(([band,focuses])=>Object.entries(focuses).forEach(([focus,ids])=>SOURCE_MAP[band][focus].push(...ids.filter(id=>SOURCES[id]))));
+  function reviewedLibrary(){return `<details class="reviewed-evidence-library"><summary>Reviewed article library · ${(window.FirstVoloReviewedEvidence||[]).length} supplied papers</summary><p>Background sources may cover different grades, populations or languages from the current selection. Study type and limits are shown to support educator judgment.</p><div class="source-list">${(window.FirstVoloReviewedEvidence||[]).map(s=>`<article class="source-card"><strong>${s.authors} (${s.year})</strong><span>${s.title}</span><span><b>Type:</b> ${s.type}</span><span><b>Population:</b> ${s.population}</span><span>${s.claim}</span><span><b>Limit:</b> ${s.limitation}</span><a href="${s.url}" target="_blank" rel="noopener">Read source / citation →</a></article>`).join('')}</div><p><b>Professional perspectives (not intervention trials):</b> <a href="https://www.shanahanonliteracy.com/blog/what-should-morphology-instruction-look-like" target="_blank" rel="noopener">Shanahan / Bowers discussion of families and affix lists</a> · <a href="https://jenniferfindley.com/morphology_scope_and_sequence/" target="_blank" rel="noopener">Findley’s suggested classroom sequence</a>. These are discussion/practitioner resources, not official grade-level morpheme requirements.</p></details>`;}
+
   const MORPHO_APPLICATIONS = {
     know: "Morpho explicitly teaches word-part meanings and provides repeated examples across related words.",
     analyze: "Morpho provides repeated opportunities to locate meaningful boundaries, compare related forms, and explain how bases, roots, and affixes work together.",
@@ -178,6 +184,10 @@
     apply: "Morpho fades support toward strategic use and monitors taught-skill performance separately from protected transfer performance."
   };
 
+  const schoolGrade = document.getElementById("standardsGrade");
+  const standardsSystem = document.getElementById("standardsSystem");
+  const builderStudy = document.getElementById("builderStudy");
+  const sessionsSelect = document.getElementById("sessionsSelect");
   const state = { grade: "foundation", focus: "know", support: "program", evidenceTab: "standards" };
   const planResult = document.getElementById("planResult");
   const supportSelect = document.getElementById("supportSelect");
@@ -211,13 +221,14 @@
         <span><b>Evidence type:</b> ${source.type}</span>
         <span><b>Supports:</b> ${source.claim}</span>
         <span><b>Required limitation:</b> ${source.limitation}</span>
-        ${source.url ? `<a href="${source.url}" target="_blank" rel="noopener noreferrer">Verified source ↗</a>` : ""}
+        ${source.url ? `<a href="${source.url}" target="_blank" rel="noopener noreferrer">Read source / citation ↗</a>` : ""}
       </article>
     `).join("");
   }
 
   function evidenceNote() {
-    return "This target is aligned with grade-level language/literacy standards and informed by research supporting explicit morphological awareness instruction. For this grade band, instruction emphasizes developmentally appropriate word complexity, explicit word-part knowledge, and increasing independent application.";
+    const row=window.FirstVoloGradeStandards.connections(schoolGrade.value,state.focus,standardsSystem.value);
+    return `${FOCUSES[state.focus].shortLabel}: ${row?row.system+' Grade '+row.grade+' ('+row.codes.join('; ')+'). '+row.connection:'Choose an actual grade before citing a grade-specific standard.'} Research references for ${GRADES[state.grade].label}: ${relevantSources().map(s=>s.authors+' ('+s.year+')').join('; ')}. These sources inform instruction, not product efficacy or an individual mastery decision.`;
   }
 
   function massachusettsAlignment() {
@@ -235,26 +246,34 @@
     return `IES/WWC ${band} guidance includes word-part analysis within broader vocabulary and word-learning recommendations. Any Strong Evidence rating applies to the complete recommendation, not morphology alone.`;
   }
 
+  function gradeStandardsHtml() {
+    const row=window.FirstVoloGradeStandards.connections(schoolGrade.value,state.focus,standardsSystem.value);
+    if(!row)return '<h4>Choose the learner’s actual grade</h4><p>Practice Flight sets instructional complexity. It does not assign a school grade or standards level.</p>';
+    return `<h4>${row.system} · Grade ${row.grade}</h4><p><b>${row.codes.join('; ')}</b> — ${row.summary}</p><p>${row.connection}</p><p>${row.condition}</p>${row.context?`<p><b>${row.context.code}</b> — ${row.context.summary}</p>`:''}<p><a href="${row.url}" target="_blank" rel="noopener">Read the official grade standards</a> · <a href="https://www.doe.mass.edu/frameworks/ela/2017-06.pdf" target="_blank" rel="noopener">MA framework</a></p><p class="alignment-note">Paraphrased connections checked November 8, 2026. Standards describe curriculum expectations; they do not establish an IEP need, mastery, or efficacy for this app.</p>`;
+  }
+  const ACTIVITY_MODES={'Learn':'learn','Meaning':'meaning','Word Part':'morpheme','Find':'find','Word Hunt':'hunt','Break It Apart':'break','Figure It Out':'infer','Build Words':'build','Use It':'use','Change It':'change'};
+  const PROBES={know:'After a recognition response, ask the learner to explain the morpheme’s meaning without seeing answer choices.',analyze:'Ask for an explanation of each boundary and check a new word separately from the practiced examples.',meaning:'Ask for an oral or written meaning explanation and the sentence clue used; score this separately from choosing an answer.',build:'The app provides construction or word-form choices. Add a learner-generated sentence to measure productive use.',apply:'Use a fresh word or short text without word-part cues. Record cue level and transfer separately from practiced-item accuracy.'};
+  function activityLinks(){
+    const band={foundation:'2-3',expansion:'4-5',advanced:'6-8'}[state.grade], combo=builderStudy.value.includes('-');
+    return FOCUSES[state.focus].activities.map(name=>{
+      const mode=ACTIVITY_MODES[name];if(['build','use','change'].includes(mode)&&!combo)return `<li>${name}: choose a combined word-part set above to open this activity.</li>`;
+      if(mode==='change'&&builderStudy.value==='prefix-root')return '<li>Change It: choose a set containing suffixes.</li>';
+      if(state.grade==='foundation'&&builderStudy.value.includes('root'))return `<li>${name}: roots/combined root sets require Flight B or C.</li>`;
+      const query=new URLSearchParams({from:'target-builder',flight:band,study:builderStudy.value,activity:mode});return `<li><a href="index.html?${query}">Open ${name} →</a></li>`;
+    }).join('');
+  }
   function renderEvidence() {
     const grade = GRADES[state.grade];
     const focus = FOCUSES[state.focus];
     const standard = STANDARD_ALIGNMENT[state.grade][state.focus];
     const content = {
-      standards: `
-        <h4>${grade.label}: why this skill is grade-appropriate</h4>
-        <p>Standards establish the instructional relevance of ${focus.label.toLowerCase()}; they do not validate a product or imply that every related task is directly specified.</p>
-        <p class="standards-codes"><b>Direct alignment:</b> ${standard.direct}</p>
-        <p class="standards-codes"><b>Related language/literacy expectation:</b> ${standard.related}</p>
-        <p class="alignment-note">${massachusettsAlignment()}</p>
-        <p class="alignment-note">${federalGuidance()}</p>
-        <p class="alignment-note"><b>About standards alignment:</b> Exact codes are shown only when a direct match has been verified. Related standards are labeled as related, and some clinical or instructional targets may not have a one-to-one standards code. Standards alignment establishes instructional relevance; it does not establish efficacy for First Volo Morphology.</p>
-      `,
+      standards: gradeStandardsHtml(),
       research: `
-        <h4>What research suggests for ${focus.shortLabel}</h4>
-        <p>${RESEARCH_SUMMARIES[state.grade][state.focus]}</p>
+        <h4>What research suggests for ${focus.shortLabel}</h4><p><b>Target selection:</b> Brimo &amp; Henbest (2020) recommends transparent relationships before less transparent shifts. Green &amp; Wolter (2025) illustrates connecting learner needs, standards and classroom vocabulary. These are clinical guidance, not validated placement rules.</p>
+        <p>${RESEARCH_SUMMARIES[state.grade][state.focus]}</p><details><summary>Does the research describe a teaching order?</summary><p>Mendes &amp; Kirby (2024) taught inflections before derivations, transparent forms before spelling/sound shifts, and free bases before bound bases. They checked application to unpracticed bases after taught ones. This is a study-specific sequence, not a proven universal order or a grade-level morpheme list.</p><p>Moats &amp; Smith (1992), Appendix A, offers an older proposed scope and sequence. The authors call it speculative. Use its transparency/complexity principles as historical context, not current grade placement rules.</p><a href="https://doi.org/10.1177/07319487241259775" target="_blank" rel="noopener">Read the intervention methods →</a></details>
       `,
       morpho: `
-        <h4>How Morpho applies this evidence</h4>
+        <h4>How Morpho applies this evidence</h4><details><summary>Tier 1 classroom connection</summary><p>Collins &amp; Wolter (2019) describes a Grade 3 teacher–SLP collaboration model tied to curriculum vocabulary, reading and writing.</p><ol><li>Agree on a classroom language goal and a small curriculum-linked word family.</li><li>Model how its parts contribute meaning; use a shared sort or word-building example.</li><li>Have learners explain and use a related word in classroom reading or writing.</li><li>Review independent and supported responses to decide what to reteach or practice in a smaller group.</li></ol><p>First Volo activities can support these steps. The source is a collaboration framework, not proof of efficacy for this app or a rule for assigning intervention tiers.</p><a href="https://doi.org/10.1044/2019_PERS-SIG1-2019-0006" target="_blank" rel="noopener">Tier 1 source →</a></details>
         <ul class="morpho-application-list">
           <li>${MORPHO_APPLICATIONS[state.focus]}</li>
           <li>Morpho controls word transparency and complexity developmentally.</li>
@@ -264,7 +283,7 @@
       `,
       sources: `
         <h4>Sources relevant to this selection</h4>
-        <div class="source-list">${sourceCards()}</div>
+        <div class="source-list">${sourceCards()}</div>${reviewedLibrary()}
       `
     };
     const activeTab = [...evidenceTabs].find((tab) => tab.dataset.evidenceTab === state.evidenceTab);
@@ -332,7 +351,7 @@
       <article class="result-card result-card-wide"><h3>Suggested objective wording</h3><p>${objectiveWording()}</p></article>
       <article class="result-card"><h3>Possible condition</h3><p>${support.condition}.</p></article>
       <article class="result-card"><h3>Developmental expectation</h3><p><strong>${grade.label}:</strong> ${grade.expectation}</p></article>
-      <article class="result-card"><h3>Recommended Morpho activities</h3>${list(focus.activities)}</article>
+      <article class="result-card"><h3>Recommended Morpho activities</h3><ul>${activityLinks()}</ul><p>${PROBES[state.focus]}</p><p>Opening applies session choices only. It does not save an independent-learning plan or mark an objective as met.</p></article>
       <article class="result-card"><h3>${supportHeading}</h3>${list(support.ideas)}</article>
       <article class="result-card result-card-wide"><h3>What to monitor</h3><p>${focus.monitor} Also monitor ${grade.transfer}.</p></article>
     `;
@@ -357,15 +376,15 @@
   }
 
   function iepText() {
-    if (!criterionSelect.value) return "";
-    return `${SUPPORTS[state.support].condition}, the learner will ${FOCUSES[state.focus].action} using ${GRADES[state.grade].material}, with ${criterionSelect.value}, measured across ${acrossSelect.value}.`;
+    if (!criterionSelect.value || !sessionsSelect.value) return "";
+    return `${SUPPORTS[state.support].condition}, the learner will ${FOCUSES[state.focus].action} using ${GRADES[state.grade].material}, ${criterionSelect.value === "4 out of 5 opportunities" ? "in " : "with "}${criterionSelect.value}, in ${acrossSelect.value}, sampled with ${sessionsSelect.value}, by [review date]. Record each response component and the cue level separately.`;
   }
 
   function renderIep() {
     const text = iepText();
     copyIepButton.disabled = !text;
     iepPreview.setAttribute("aria-disabled", String(!text));
-    iepPreview.textContent = text || "Choose a criterion to generate optional IEP-style wording.";
+    iepPreview.textContent = text || "Choose a performance criterion and measurement schedule to generate an example objective.";
   }
 
   function selectButton(container, button, key) {
@@ -438,6 +457,9 @@
     state.support = supportSelect.value;
     renderPlan();
   });
+  [schoolGrade,standardsSystem].forEach(control=>control.addEventListener("change",renderEvidence));
+  builderStudy.addEventListener("change",renderPlan);
+  sessionsSelect.addEventListener("change",renderIep);
   criterionSelect.addEventListener("change", renderIep);
   acrossSelect.addEventListener("change", renderIep);
   document.getElementById("copyPlanButton").addEventListener("click", () => copyText(objectiveWording(), document.getElementById("planCopyStatus")));

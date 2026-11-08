@@ -21,6 +21,7 @@
     "session-materials.html",
     "session-guide.html",
     "educator-resources.html",
+    "morphology-target-builder.html",
     "progress-monitoring.html",
     "flight-a-assessment.html",
     "flight-b-assessment.html",

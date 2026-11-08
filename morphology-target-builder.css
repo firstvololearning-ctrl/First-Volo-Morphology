@@ -481,3 +481,4 @@ select:focus-visible,
     flex-direction: column;
   }
 }
+.grade-standard-controls{display:grid;grid-template-columns:minmax(160px,1fr) minmax(140px,1fr);gap:12px;margin:20px 0;padding:18px;background:#edf6fa;border-radius:14px}.grade-standard-controls label{font-weight:700}.result-card a{display:inline-block;padding:8px 0;font-weight:700}.result-card li{margin-bottom:8px}@media(max-width:600px){.grade-standard-controls{grid-template-columns:1fr}}

@@ -376,6 +376,10 @@
           hoops.type = "button"; hoops.textContent = !unlocked && educatorPreview ? "Preview hoops" : "Shoot hoops";
           hoops.addEventListener("click", () => window.FirstVoloHoops.open(reward, hoops));
           item.append(hoops);
+          const toss = document.createElement("button"); toss.type="button";
+          toss.textContent = !unlocked && educatorPreview ? "Preview target toss" : "Target toss";
+          toss.addEventListener("click",()=>window.FirstVoloHoops.open(reward,toss,{mode:"toss"}));
+          item.append(toss);
         }
         cards.append(item);
       });
