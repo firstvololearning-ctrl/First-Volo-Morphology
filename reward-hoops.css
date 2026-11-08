@@ -3,7 +3,7 @@
 .hoops-overlay{background:radial-gradient(ellipse at top,#40337b,#08182e 65%)}.hoops{border:3px solid #73edf0;box-shadow:0 0 24px #38cdd64d,0 20px 80px #0008;background:linear-gradient(145deg,#21284d,#102b42)}.hoops header{background:linear-gradient(100deg,#593c9b,#163e64);border-bottom:2px solid #8c75db}.hoops-hud{color:#ffe599;letter-spacing:.4px}.hoops-court{position:relative;width:calc(100% - 40px);max-width:76vh;margin:0 auto;touch-action:none;cursor:grab;box-shadow:0 0 15px #33d8e14d}.hoops-court svg{width:100%;height:auto;max-height:none}.hoops-court.is-aiming{cursor:grabbing;outline:3px solid #ffe599}.hoops-guide{stroke:#a6ffff;stroke-width:5;filter:drop-shadow(0 0 4px #5febff)}.hoops-choice{box-shadow:inset 0 -6px 0 #a24920,0 5px 0 #08182e}.hoops-court.is-basket:after{content:'★ NICE SHOT! ★';position:absolute;inset:15% 0 auto;text-align:center;font-size:clamp(20px,4vw,40px);font-weight:900;color:#fff3a6;text-shadow:0 3px 0 #50307b;animation:hoopsPop .4s ease-out}.is-target-toss .hoops-basket{display:none}.toss-target{stroke:white;stroke-width:5;filter:drop-shadow(0 4px 3px #0006)}.toss-target text{stroke:none;fill:#102238;font-family:system-ui,sans-serif}.hoops-court:focus-visible{outline:4px solid #ffe599;outline-offset:3px}@keyframes hoopsPop{from{transform:scale(.6)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.hoops-court.is-basket:after{animation:none}}
 
 /* Shot feedback stays within the court so aiming coordinates stay steady. */
-.hoops-overlay:not(.is-target-toss) .hoops-court.is-aiming::before {
+.hoops-overlay .hoops-court.is-aiming::before {
   content: '';
   position: absolute;
   z-index: 1;
@@ -15,7 +15,7 @@
   pointer-events: none;
 }
 
-.hoops-overlay:not(.is-target-toss) .is-in-flight .hoops-guide { opacity: 0; }
+.hoops-overlay .is-in-flight .hoops-guide { opacity: 0; }
 .hoops-overlay:not(.is-target-toss) .is-in-flight .hoops-ball {
   filter: drop-shadow(0 0 12px #ffc878);
 }
@@ -63,4 +63,31 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 8px;
+}
+
+.hoops-overlay.is-target-toss {
+  background: radial-gradient(ellipse at top, #245b86, #08182e 68%);
+}
+.is-target-toss .hoops-backdrop { fill: #1c4b75; }
+.is-target-toss .hoops-floor { fill: #207b88; }
+.is-target-toss .hoops-floor-lines { display: none; }
+.is-target-toss .toss-target { stroke: none; }
+.is-target-toss .toss-balloon { stroke: #ebfcff; stroke-width: 4; }
+.is-target-toss .toss-splash { fill: #c2faff; opacity: 0; }
+.is-target-toss .is-popped .toss-balloon { opacity: 0; }
+.is-target-toss .is-popped .toss-splash { opacity: 1; }
+.is-target-toss .hoops-court.is-basket::after { content: '★ SPLASH! ★'; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-target-toss .is-popped .toss-splash { animation: hoopsPop .35s ease-out; }
+}
+
+.is-target-toss .hoops-ball circle { fill: #6fe5da; stroke: #15585d; }
+.is-target-toss .hoops-ball path { stroke: #e1fffb; stroke-width: 5; stroke-linecap: round; }
+.is-target-toss .hoops .hoops-choice {
+  border-radius: 16px;
+  background: #a9eee8;
+  border-color: #4fa8ad;
+  box-shadow: inset 0 -4px 0 #7bc7c9, 0 4px 0 #08182e;
+  color: #11353d;
 }

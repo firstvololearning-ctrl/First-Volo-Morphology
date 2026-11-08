@@ -1,7 +1,7 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
 const dom=new JSDOM('<button id="source">Games</button>',{runScripts:'outside-only',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window,d=w.document;w.matchMedia=()=>({matches:true});
-for(const f of ['word-inventory.js','token-sets.js','reward-registry.js','reward-hoops.js'])w.eval(fs.readFileSync(f,'utf8'));const R=w.FirstVoloRewardRegistry,$=s=>d.querySelector(s);
+for(const f of ['word-inventory.js','token-sets.js','reward-registry.js','reward-word-choices.js','reward-hoops.js'])w.eval(fs.readFileSync(f,'utf8'));const R=w.FirstVoloRewardRegistry,$=s=>d.querySelector(s);
 const target=()=>R.definitions[0].eligibleContent.morphemeIds.find(id=>$('.hoops-prompt').textContent===`Which word part means “${R.displayMeaning(id)}”?`);
 const button=id=>[...d.querySelectorAll('.hoops-choice')].find(b=>b.textContent===R.promptLabel(id));
 const wait=()=>new Promise(r=>setTimeout(r,190));

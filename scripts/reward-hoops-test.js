@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
 const dom=new JSDOM('<button id="source">Games</button>',{runScripts:'outside-only',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
 w.matchMedia=()=>({matches:true});
-for(const file of ['word-inventory.js','token-sets.js','reward-registry.js','reward-hoops.js'])w.eval(fs.readFileSync(file,'utf8'));
+for(const file of ['word-inventory.js','token-sets.js','reward-registry.js','reward-word-choices.js','reward-hoops.js'])w.eval(fs.readFileSync(file,'utf8'));
 const R=w.FirstVoloRewardRegistry;
 let count=0;
 for(const reward of R.definitions){const qs=w.FirstVoloHoops.questions(reward);assert(qs.length>=5);for(const q of qs){count++;assert(q.choices.includes(q.id));assert(q.choices.every(id=>reward.eligibleContent.morphemeIds.includes(id)));assert.equal(new Set(q.choices.map(R.promptLabel)).size,q.choices.length);}}

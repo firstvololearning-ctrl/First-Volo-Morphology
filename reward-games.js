@@ -377,9 +377,16 @@
           hoops.addEventListener("click", () => window.FirstVoloHoops.open(reward, hoops));
           item.append(hoops);
           const toss = document.createElement("button"); toss.type="button";
-          toss.textContent = !unlocked && educatorPreview ? "Preview target toss" : "Target toss";
+          toss.textContent = !unlocked && educatorPreview ? "Preview balloon pop" : "Water Balloon Pop";
           toss.addEventListener("click",()=>window.FirstVoloHoops.open(reward,toss,{mode:"toss"}));
           item.append(toss);
+        }
+        if ((unlocked || educatorPreview) && window.FirstVoloWordJump) {
+          const jump = document.createElement("button");
+          jump.type = "button";
+          jump.textContent = !unlocked && educatorPreview ? "Preview word jump" : "Word Jump";
+          jump.addEventListener("click", () => window.FirstVoloWordJump.open(reward, jump));
+          item.append(jump);
         }
         cards.append(item);
       });

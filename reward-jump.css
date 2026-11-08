@@ -1,0 +1,82 @@
+.word-jump { max-width: 850px; }
+.word-jump .hoops-prompt { margin: 14px 0; }
+
+.jump-course {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 12 / 5;
+  margin: 0 18px;
+  overflow: hidden;
+  border: 2px solid #a1dddb;
+  border-radius: 16px;
+  background: linear-gradient(#28629c, #6bb6cc 74%, #296446 74%, #173d31);
+}
+
+.jump-course:focus-visible { outline: 4px solid #ffe599; outline-offset: 3px; }
+.jump-hills {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 7% 6% at 24% 25%, #d5f7ff 95%, transparent),
+    radial-gradient(ellipse 9% 6% at 71% 17%, #d5f7ff 95%, transparent),
+    radial-gradient(ellipse 23% 40% at 15% 95%, #377f69 98%, transparent),
+    radial-gradient(ellipse 29% 45% at 81% 104%, #428771 98%, transparent);
+}
+
+.jump-course::after {
+  content: '';
+  position: absolute;
+  inset: 87% 0 0;
+  border-top: 5px solid #91cf76;
+  background: repeating-linear-gradient(90deg, #224c38 0 7%, #2a573b 7% 14%);
+}
+
+.jump-volo {
+  position: absolute;
+  z-index: 2;
+  width: 7%;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.jump-tile {
+  position: absolute;
+  top: 44%;
+  width: 24%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  min-height: 15%;
+  padding: 3px;
+  border: 2px solid #a66d2b;
+  border-radius: 9px;
+  background: #ffe7a4;
+  box-shadow: inset 0 -4px 0 #e6af53, 0 5px 0 #1e4b6970;
+  color: #362613;
+  font-size: clamp(.7rem, 2.5vw, 1.2rem);
+  font-weight: 800;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.jump-tile.is-passed { visibility: hidden; }
+.jump-tile.is-collected { background: #c9ffc8; border-color: #21824c; }
+
+.jump-controls, .jump-answers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 12px;
+}
+.jump-controls button { touch-action: none; }
+.jump-controls .jump-up, .jump-controls .jump-next { background: #bdf3df; }
+
+.jump-alternate { margin: 8px 16px; text-align: center; color: #b8d4e0; }
+.jump-alternate summary { cursor: pointer; }
+.jump-alternate summary:focus-visible { outline: 3px solid #ffe599; outline-offset: 3px; }
+
+@media (max-width: 500px) {
+  .jump-course { margin-inline: 8px; }
+  .jump-tile { border-width: 1px; }
+}

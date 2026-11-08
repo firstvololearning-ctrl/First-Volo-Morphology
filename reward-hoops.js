@@ -3,27 +3,14 @@
   'use strict';
   const R = window.FirstVoloRewardRegistry;
   const el = (tag, text) => { const n = document.createElement(tag); if (text) n.textContent = text; return n; };
-  function questions(reward) {
-    const pool = reward.eligibleContent.morphemeIds.filter(id => R.morpheme(id));
-    const tokens = id => new Set(R.displayMeaning(id).toLowerCase().match(/[a-z]+/g).filter(x => !['a','an','the','of','to','or','and','in','is','that','with','being'].includes(x)));
-    return pool.map(id => {
-      const seen = new Set([R.promptLabel(id)]), used = tokens(id), choices = [id];
-      for (const other of pool) {
-        const label = R.promptLabel(other), words = tokens(other);
-        if (seen.has(label) || [...words].some(x => used.has(x))) continue;
-        choices.push(other); seen.add(label); words.forEach(x => used.add(x));
-        if (choices.length === 3) break;
-      }
-      return {id, choices};
-    }).filter(q => q.choices.length >= 2);
-  }
+  const Q = window.FirstVoloGameQuestions;
   function open(reward, source, options = {}) {
     const toss=options.mode === "toss";
-    const deck = questions(reward).sort(() => Math.random() - .5).slice(0,5);
+    const deck = Q.deck(reward);
     if (!deck.length) return;
     const overlay = el('div'); overlay.className = 'hoops-overlay';
-    overlay.innerHTML = `<section class="hoops" role="dialog" aria-modal="true" aria-labelledby="hoopsTitle"><header><div><small>WORD-PART ARCADE</small><h2 id="hoopsTitle">Word-Part Hoops</h2></div><button class="hoops-close">Close</button></header><div class="hoops-hud"><span class="hoops-round"></span><span class="hoops-score">0 points</span><label><input type="checkbox" class="hoops-hard"> Harder shots</label></div><p class="hoops-prompt"></p><div class="hoops-court"><svg viewBox="0 0 1000 540" role="img" aria-label="Basketball court with a hoop on the right"><defs><linearGradient id="hoopsWall" x2="0" y2="1"><stop stop-color="#10263e"/><stop offset="1" stop-color="#315b72"/></linearGradient><pattern id="hoopsWood" width="180" height="44" patternUnits="userSpaceOnUse"><rect width="180" height="44" fill="#d6a568"/><path d="M0 0H180 M0 22H180 M45 0V22 M135 22V44" stroke="#a77b48" opacity=".55" fill="none"/></pattern></defs><rect width="1000" height="540" fill="url(#hoopsWall)"/><path d="M0 340H1000V540H0Z" fill="url(#hoopsWood)"/><g transform="matrix(1 0 -.10 .31 25 348)" fill="none" stroke="#fff4dc" opacity=".72"><path d="M55 0H935V550H55Z" stroke-width="3" vector-effect="non-scaling-stroke"/><path d="M935 180H680V370H935 M680 180C570 180 570 370 680 370" stroke-width="2" vector-effect="non-scaling-stroke"/></g><text x="70" y="95" fill="#9bd9e0" font-size="35" font-weight="bold">FIRST VOLO</text><text x="70" y="135" fill="white" font-size="18">FIND THE MEANING. TAKE YOUR SHOT.</text><g class="hoops-basket"><path d="M900 125V395" stroke="#b4c4cd" stroke-width="14"/><rect x="768" y="100" width="146" height="105" rx="5" fill="#e9f5fa" stroke="#8ca6b5" stroke-width="7"/><rect x="801" y="142" width="62" height="47" fill="none" stroke="#d45032" stroke-width="5"/><path d="M775 225L790 285H850L865 225 M785 230L840 283 M805 230L850 270 M855 230L800 283 M835 230L790 270" stroke="white" stroke-width="3" fill="none"/><ellipse cx="820" cy="225" rx="45" ry="9" fill="none" stroke="#ff713d" stroke-width="10"/></g><path class="hoops-guide" fill="none" stroke="#fff" stroke-dasharray="8 12" opacity=".45" stroke-width="3"/><g class="hoops-ball" transform="translate(160 425)"><circle r="30" fill="#ed842d" stroke="#442911" stroke-width="3"/><path d="M-30 0H30M0-30V30M-22-21Q12 0-22 21M22-21Q-12 0 22 21" stroke="#623716" fill="none" stroke-width="2"/></g></svg></div><div class="hoops-choices" aria-label="Choose a word-part ball"></div><p class="hoops-feedback" role="status" aria-live="polite"></p><div class="hoops-controls"><label>Aim: left \u2194 right <input class="hoops-aim" type="range" min="550" max="950" value="820" step="5"></label><button class="hoops-assist">Line up shot</button><button class="hoops-shoot" disabled>Shoot!</button><button class="hoops-next" hidden>Next word part</button></div><p class="hoops-help">Choose a ball by its meaning. Adjust aim with touch or arrow keys, then shoot. No timer. Points are just for this game.</p></section>`;
-    if(toss){overlay.classList.add('is-target-toss');overlay.querySelector('#hoopsTitle').textContent='Meaning Target Toss';}
+    overlay.innerHTML = `<section class="hoops" role="dialog" aria-modal="true" aria-labelledby="hoopsTitle"><header><div><small>WORD-PART ARCADE</small><h2 id="hoopsTitle">Word-Part Hoops</h2></div><button class="hoops-close">Close</button></header><div class="hoops-hud"><span class="hoops-round"></span><span class="hoops-score">0 points</span><label><input type="checkbox" class="hoops-hard"> Harder shots</label></div><p class="hoops-prompt"></p><div class="hoops-court"><svg viewBox="0 0 1000 540" role="img" aria-label="Basketball court with a hoop on the right"><defs><linearGradient id="hoopsWall" x2="0" y2="1"><stop stop-color="#10263e"/><stop offset="1" stop-color="#315b72"/></linearGradient><pattern id="hoopsWood" width="180" height="44" patternUnits="userSpaceOnUse"><rect width="180" height="44" fill="#d6a568"/><path d="M0 0H180 M0 22H180 M45 0V22 M135 22V44" stroke="#a77b48" opacity=".55" fill="none"/></pattern></defs><rect class="hoops-backdrop" width="1000" height="540" fill="url(#hoopsWall)"/><path class="hoops-floor" d="M0 340H1000V540H0Z" fill="url(#hoopsWood)"/><g class="hoops-floor-lines" transform="matrix(1 0 -.10 .31 25 348)" fill="none" stroke="#fff4dc" opacity=".72"><path d="M55 0H935V550H55Z" stroke-width="3" vector-effect="non-scaling-stroke"/><path d="M935 180H680V370H935 M680 180C570 180 570 370 680 370" stroke-width="2" vector-effect="non-scaling-stroke"/></g><text x="70" y="95" fill="#9bd9e0" font-size="35" font-weight="bold">FIRST VOLO</text><text x="70" y="135" fill="white" font-size="18">FIND THE MEANING. TAKE YOUR SHOT.</text><g class="hoops-basket"><path d="M900 125V395" stroke="#b4c4cd" stroke-width="14"/><rect x="768" y="100" width="146" height="105" rx="5" fill="#e9f5fa" stroke="#8ca6b5" stroke-width="7"/><rect x="801" y="142" width="62" height="47" fill="none" stroke="#d45032" stroke-width="5"/><path d="M775 225L790 285H850L865 225 M785 230L840 283 M805 230L850 270 M855 230L800 283 M835 230L790 270" stroke="white" stroke-width="3" fill="none"/><ellipse cx="820" cy="225" rx="45" ry="9" fill="none" stroke="#ff713d" stroke-width="10"/></g><path class="hoops-guide" fill="none" stroke="#fff" stroke-dasharray="8 12" opacity=".45" stroke-width="3"/><g class="hoops-ball" transform="translate(160 425)"><circle r="30" fill="#ed842d" stroke="#442911" stroke-width="3"/><path d="M-30 0H30M0-30V30M-22-21Q12 0-22 21M22-21Q-12 0 22 21" stroke="#623716" fill="none" stroke-width="2"/></g></svg></div><div class="hoops-choices" aria-label="Choose a word-part ball"></div><p class="hoops-feedback" role="status" aria-live="polite"></p><div class="hoops-controls"><label>Aim: left \u2194 right <input class="hoops-aim" type="range" min="550" max="950" value="820" step="5"></label><button class="hoops-assist">Line up shot</button><button class="hoops-shoot" disabled>Shoot!</button><button class="hoops-next" hidden>Next word part</button></div><p class="hoops-help">Choose a ball by its meaning. Adjust aim with touch or arrow keys, then shoot. No timer. Points are just for this game.</p></section>`;
+    if(toss){overlay.classList.add('is-target-toss');overlay.querySelector('#hoopsTitle').textContent='Water Balloon Pop';}
     document.body.append(overlay);
     const $ = s => overlay.querySelector(s);
     let round=0, score=0, selected=null, busy=false, frame=null, closed=false;
@@ -37,17 +24,22 @@
     const court=$(".hoops-court"), svg=court.querySelector("svg");
     court.setAttribute("tabindex","0");court.setAttribute("aria-label","Drag back from the ball and release to shoot. Keyboard users can use the aim slider and Shoot button.");
     const labels=document.createElementNS("http://www.w3.org/2000/svg","g");labels.setAttribute("class","toss-targets");svg.append(labels);
-    if(toss) svg.setAttribute("aria-label","Arcade target range with three word-part targets");
-    const aim=$('.hoops-aim'), ball=$('.hoops-ball'), feedback=$('.hoops-feedback');
-    if (!toss) {
-      const options = el('details');
-      options.className = 'hoops-manual-options';
-      const controls = el('div');
-      controls.className = 'hoops-manual-controls';
-      $('.hoops-controls').prepend(options);
-      controls.append(aim.closest('label'), $('.hoops-assist'), $('.hoops-shoot'));
-      options.append(el('summary', 'Keyboard and assisted shooting'), controls);
+    if (toss) {
+      svg.setAttribute('aria-label', 'Water balloon range with labeled targets');
+      svg.querySelectorAll(':scope > text')[1].textContent = 'PULL BACK. POP THE MATCH.';
     }
+    const aim=$('.hoops-aim'), ball=$('.hoops-ball'), feedback=$('.hoops-feedback');
+    if (toss) {
+      ball.querySelector('path').setAttribute('d', 'M-18 -8Q-16 -18 -6 -20');
+    }
+    const manualOptions = el('details');
+    manualOptions.className = 'hoops-manual-options';
+    const manualControls = el('div');
+    manualControls.className = 'hoops-manual-controls';
+    $('.hoops-controls').prepend(manualOptions);
+    manualControls.append(aim.closest('label'), $('.hoops-assist'), $('.hoops-shoot'));
+    manualOptions.append(el('summary', 'Keyboard and assisted shooting'), manualControls);
+    $('.hoops-assist').hidden = toss;
 
     const stretch=document.createElementNS('http://www.w3.org/2000/svg','line');
     stretch.setAttribute('stroke','#ffe599');stretch.setAttribute('stroke-width','9');stretch.setAttribute('stroke-linecap','round');stretch.setAttribute('opacity','.8');stretch.style.display='none';svg.insertBefore(stretch,ball);
@@ -56,8 +48,8 @@
     $('.hoops-close').onclick=close;
     overlay.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); if(e.key==='Tab'){const nodes=[...overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),summary,[tabindex="0"]')].filter(node => !node.closest('[hidden]') && (!node.closest('details:not([open])') || node.matches('summary'))); const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}} });
     function guide(){
-      // Preview the launch without revealing where the basketball crosses the rim.
-      const time = toss ? Math.max(.8, -2 * velocity.y / gravity) : .32;
+      // Show the early curve without previewing the impact.
+      const time = .32;
       const points = [];
       for(let i=0;i<=30;i++){const t=i/30*time;points.push(`${launchPoint.x+velocity.x*t},${launchPoint.y+velocity.y*t+.5*gravity*t*t}`);}
       $('.hoops-guide').setAttribute('d','M'+points.join(' L'));
@@ -83,39 +75,83 @@
       $('.hoops-next').hidden=true;$('.hoops-shoot').disabled=!toss;
       resetPull();
       $('.hoops-round').textContent=`Round ${round+1} of ${deck.length}`;
-      $('.hoops-prompt').textContent=`Which word part means \u201c${R.displayMeaning(deck[round].id)}\u201d?`;
-      feedback.textContent=toss?'Aim at the matching word-part target, then pull back and release the ball.':'Choose your word-part ball, then aim a fresh shot. Each round starts off target.';
+      const question = deck[round];
+      $('.hoops-prompt').textContent = question.prompt;
+      feedback.textContent=toss?'Aim at the matching water balloon, then pull back and release.':'Choose the ball that answers the prompt, then aim a fresh shot. Each round starts off target.';
       // Each basketball round needs a fresh aim; assistance is an explicit choice.
       startSide *= -1;
-      aim.value=toss ? 820 : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
+      aim.value=toss ? 550 : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
       setAim();
       targets=deck[round].choices.slice().sort(()=>Math.random()-.5).map((id,i)=>({id,x:deck[round].choices.length===2?700+i*200:610+i*160}));
       labels.replaceChildren();
-      if(toss) targets.forEach((target,i)=>{const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','toss-target');const c=document.createElementNS(g.namespaceURI,'circle');c.setAttribute('cx',target.x);c.setAttribute('cy',225);c.setAttribute('r',64);c.setAttribute('fill',['#9c63ed','#13b9c0','#f7ad3d'][i]);const t=document.createElementNS(g.namespaceURI,'text');t.setAttribute('x',target.x);t.setAttribute('y',233);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','34');t.setAttribute('font-weight','bold');const pieces=R.promptLabel(target.id).split(/,\s*|\/\s*/);const lines=pieces.length>2?[pieces.slice(0,2).join(', '),pieces.slice(2).join(', ')]:pieces;t.setAttribute('font-size',String(Math.min(34,230/Math.max(...lines.map(v=>v.length)))));t.setAttribute('y',String(233-(lines.length-1)*16));lines.forEach((line,n)=>{const span=document.createElementNS(g.namespaceURI,'tspan');span.setAttribute('x',target.x);span.setAttribute('dy',n?'32':'0');span.textContent=line;t.append(span);});g.append(c,t);labels.append(g);});
-      const choices=$('.hoops-choices');choices.setAttribute('aria-label',toss?'Choose a target to aim at':'Choose a word-part ball');choices.replaceChildren();
-      deck[round].choices.slice().sort(()=>Math.random()-.5).forEach(id=>{const b=el('button',R.promptLabel(id));b.className='hoops-choice';b.setAttribute('aria-pressed','false');b.onclick=()=>{if(busy)return;if(toss){aim.value=targets.find(t=>t.id===id).x;setAim();feedback.textContent=`Aimed at ${R.promptLabel(id)}. Throw when ready.`;return;}selected=id;choices.querySelectorAll('button').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));$('.hoops-shoot').disabled=false;feedback.textContent=`${R.promptLabel(id)} selected. Take your shot!`;};choices.append(b);});
+      if (toss) targets.forEach((target, index) => {
+        const svgNode = tag => document.createElementNS(svg.namespaceURI, tag);
+        const group = svgNode('g');
+        group.setAttribute('class', 'toss-target');
+        group.setAttribute('transform', `translate(${target.x} 225)`);
+        const balloon = svgNode('path');
+        balloon.setAttribute('class', 'toss-balloon');
+        balloon.setAttribute('d', 'M0 -60 C-70 -61 -74 20 -25 46 L-8 55 L-13 65 L13 65 L8 55 L25 46 C74 20 70 -61 0 -60Z');
+        balloon.setAttribute('fill', ['#b48bf2', '#65dce7', '#ffc479'][index]);
+        const splash = svgNode('path');
+        splash.setAttribute('class', 'toss-splash');
+        splash.setAttribute('d', 'M0 -20L-19 -61L-25 -31L-63 -44L-43 -10L-77 4L-34 18L-43 51L-13 38L0 67L17 34L51 52L37 18L77 4L40 -12L56 -48L22 -31L17 -61Z');
+        const label = svgNode('text');
+        const labelText = Q.label(question, target.id);
+        const lines = labelText.split(/,\s*|\/\s*/);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('font-size', String(Math.min(30, 165 / Math.max(...lines.map(line => line.length)))));
+        label.setAttribute('y', String(9 - (lines.length - 1) * 13));
+        lines.forEach((line, lineIndex) => {
+          const span = svgNode('tspan');
+          span.setAttribute('x', '0');
+          span.setAttribute('dy', lineIndex ? '26' : '0');
+          span.textContent = line;
+          label.append(span);
+        });
+        group.append(balloon, splash, label);
+        labels.append(group);
+        target.element = group;
+      });
+      const choices=$('.hoops-choices');choices.setAttribute('aria-label',toss?'Choose a target to aim at':'Choose a ball');choices.replaceChildren();
+      Q.shuffled(question.choices).forEach(id=>{const b=el('button',Q.label(question,id));b.className='hoops-choice';b.setAttribute('aria-pressed','false');b.onclick=()=>{if(busy)return;if(toss){aim.value=targets.find(t=>t.id===id).x;setAim();feedback.textContent=`Aimed at ${Q.label(question, id)}. Throw when ready.`;return;}selected=id;choices.querySelectorAll('button').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));$('.hoops-shoot').disabled=false;feedback.textContent=`${Q.label(question,id)} selected. Take your shot!`;};choices.append(b);});
     }
     $('.hoops-shoot').onclick=()=>{
       if(busy||!selected)return;
-      if(!toss && selected!==deck[round].id){feedback.textContent=`${R.promptLabel(selected)} means \u201c${R.displayMeaning(selected)}\u201d. Find the ball meaning \u201c${R.displayMeaning(deck[round].id)}\u201d, then try again.`;return;}
+      const question = deck[round];
+      if (!toss && selected !== question.answer) {
+        feedback.textContent = question.explanations
+          ? `${Q.explain(question, selected)} Try the other word.`
+          : `${Q.explain(question, selected)} Find the ball meaning “${R.displayMeaning(question.id)}”, then try again.`;
+        return;
+      }
       if(!dragShot)setAim();
       busy=true;aim.disabled=true;$('.hoops-assist').disabled=true;$('.hoops-shoot').disabled=true;
       court.classList.add('is-in-flight');
       const x=hitX(velocity), tolerance=$('.hoops-hard').checked?22:42;
       const hit=toss&&x!==null?targets.find(t=>Math.abs(t.x-x)<=tolerance):null;
-      const made=toss?Boolean(hit&&hit.id===deck[round].id):x!==null&&Math.abs(x-820)<=tolerance;
+      const made=toss?Boolean(hit&&hit.id===question.answer):x!==null&&Math.abs(x-820)<=tolerance;
       const wrongTarget=Boolean(hit&&!made), landing=(-velocity.y+Math.sqrt(Math.max(0,velocity.y*velocity.y-2*gravity*(launchPoint.y-425))))/gravity;
       const stop=made?crossing(velocity)+.09:landing+.25, start=performance.now(), duration=matchMedia('(prefers-reduced-motion: reduce)').matches?100:Math.max(850,stop*850);
       function animate(now){if(closed)return;const t=Math.min(1,(now-start)/duration), elapsed=t*stop, flight=Math.min(elapsed,landing), bx=launchPoint.x+velocity.x*flight, by=elapsed<=landing?launchPoint.y+velocity.y*elapsed+.5*gravity*elapsed*elapsed:425-Math.sin((elapsed-landing)/.25*Math.PI)*42;ball.setAttribute('transform',`translate(${bx} ${by}) rotate(${t*650})`);if(t<1){frame=requestAnimationFrame(animate);return;}
         court.classList.remove('is-in-flight');
-        if(made){court.classList.add('is-basket');score+=2;$('.hoops-score').textContent=`${score} points`;feedback.textContent=`${toss?'Target hit!':'Basket!'} ${R.promptLabel(deck[round].id)} means \u201c${R.displayMeaning(deck[round].id)}\u201d. Two points!`;$('.hoops-next').hidden=false;$('.hoops-next').textContent=round===deck.length-1?'See results':'Next word part';$('.hoops-next').focus();}
-        else{feedback.textContent=wrongTarget?`${R.promptLabel(hit.id)} means “${R.displayMeaning(hit.id)}”. Aim for the target meaning “${R.displayMeaning(deck[round].id)}”.`:toss?'Missed the targets. Adjust the flight and try again.': 'Right word part—try your shot again! Adjust aim or choose Line up shot.';busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;ball.setAttribute('transform','translate(160 425)');}
+        if(made){hit?.element.classList.add('is-popped');court.classList.add('is-basket');score+=2;$('.hoops-score').textContent=`${score} points`;feedback.textContent=`${toss?'Splash!':'Basket!'} ${Q.explain(question, question.answer)} Two points!`;$('.hoops-next').hidden=false;$('.hoops-next').textContent=round===deck.length-1?'See results':'Next word part';$('.hoops-next').focus();}
+        else {
+          if (wrongTarget) {
+            const retry = question.explanations ? 'Aim for the other balloon.' : `Aim for the target meaning “${R.displayMeaning(question.id)}”.`;
+            feedback.textContent = `${Q.explain(question, hit.id)} ${retry}`;
+          } else {
+            feedback.textContent = toss
+              ? 'Missed the balloons. Adjust your aim and try again.'
+              : 'Right word part or word. Adjust your aim and try the shot again.';
+          }
+          busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;ball.setAttribute('transform','translate(160 425)');}
       }frame=requestAnimationFrame(animate);
     };
     $('.hoops-next').onclick=()=>{round++;if(round<deck.length){render();$('.hoops-choice').focus();}else{$('.hoops-prompt').textContent=`Final score: ${score} points!`;
       $('.hoops-choices').replaceChildren();$('.hoops-controls').hidden=true;feedback.textContent='You matched word parts with their meanings. Your learning progress has not changed.';const replay=el('button','Play again');replay.onclick=()=>{close();open(reward,source,options);};$('.hoops-choices').append(replay);replay.focus();}};
-    $('.hoops-help').textContent=toss?'Read the meaning. Pull the ball back and down with a mouse or touch, then release toward the matching target. Keyboard: choose an aiming target and use Shoot. No timer.':'Choose a meaning-matching ball. Pull the court ball back and down with a mouse or touch, then release! Open Keyboard and assisted shooting for the aim slider, alignment help, and Shoot. No timer.';
+    $('.hoops-help').textContent=toss?'Pull back and release the ball to pop the matching water balloon. For keyboard play, select a balloon and open Keyboard and assisted shooting. No timer.':'Choose the ball that answers the prompt. Pull the court ball back and down with a mouse or touch, then release! Open Keyboard and assisted shooting for the aim slider, alignment help, and Shoot. No timer.';
     render();$('.hoops-close').focus();
   }
-  window.FirstVoloHoops={open,questions};
+  window.FirstVoloHoops={open,questions: Q.morphemeQuestions};
 })();
