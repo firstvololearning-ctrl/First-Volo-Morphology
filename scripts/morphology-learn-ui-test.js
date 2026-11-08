@@ -180,4 +180,9 @@ for (const mode of ['prefixes','roots','suffixes']) {
 }
 w.studyMode='prefixes';w.renderLearnActivity();assert.match(w.learningGrid.textContent,/Wrongly or badly/);assert.match(w.learningGrid.textContent,/Not, opposite, or undo/);
 w.studyMode='roots';w.renderLearnActivity();assert.match(w.learningGrid.textContent,/Moving, carrying, and sending/);assert.match(w.learningGrid.textContent,/separate families/);
+const firstGroup=w.document.querySelector('.learn-meaning-group');
+firstGroup.querySelector('.learn-set-start').click();
+assert.equal(firstGroup.nextElementSibling.id,'learnDetailPanel','opening a part places its lesson next to its group');
+assert.equal(w.document.getElementById('learnDetailPanel').hidden,false);
+assert.match(firstGroup.textContent,/Goal:/);
 w.close();

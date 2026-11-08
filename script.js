@@ -8465,6 +8465,11 @@ function renderLearnActivity() {
     { title: "Communicating and noticing", purpose: "Explore separate families about saying, writing, hearing, and seeing. Explain the precise connection in each word.", ids: ["dict", "scrib", "graph", "phon", "voc", "aud", "spect", "vis", "scop"] },
     { title: "Investigating the world", purpose: "Explore separate families used in content words. Connect each word to its own root’s meaning and check the whole-word definition.", ids: ["bio", "geo", "therm", "metr", "chron", "derm", "terr", "micro", "tele"] }
   ];
+  const openPart = (item, group) => {
+    const detail = document.getElementById("learnDetailPanel");
+    if (detail && group) group.after(detail);
+    renderLearnDetail(item);
+  };
   const placed = new Set();
   const ordered = [];
   const addGroup = (title, purpose, members) => {
@@ -8472,7 +8477,10 @@ function renderLearnActivity() {
     const heading = document.createElement("details");
     heading.className = "learn-meaning-group";
     heading.open = ordered.length === 0;
-    heading.innerHTML = `<summary>${escapeHTML(title)} <span>· ${members.length} word ${members.length === 1 ? "part" : "parts"}</span></summary><p>${escapeHTML(purpose)}</p><div class="learning-grid"></div>`;
+    const starter = members.find(item => (window.FirstVoloLearnContent?.lessons(item) || []).some(lesson => isLearnWordEligible(lesson.word))) || members[0];
+    const preview = getLearnExamplesForSelectedVocabulary(starter).slice(0, 3);
+    heading.innerHTML = `<summary>${escapeHTML(title)} <span>· ${members.length} word ${members.length === 1 ? "part" : "parts"}</span></summary><p><strong>Goal:</strong> ${escapeHTML(purpose)}</p>${preview.length ? `<p><strong>Example words for ${escapeHTML(starter.label)}:</strong> ${preview.map(escapeHTML).join(" · ")}</p>` : ""}<button type="button" class="learn-set-start">Start with ${escapeHTML(starter.label)} →</button><div class="learning-grid"></div>`;
+    heading.querySelector(".learn-set-start").addEventListener("click", () => openPart(starter, heading));
     ordered.push(heading);
     members.forEach(item => { placed.add(item.id); ordered.push(item); });
   };
@@ -8482,7 +8490,7 @@ function renderLearnActivity() {
   addGroup("More meaning connections", "Explore one part at a time. Compare its examples and explain what it contributes to each whole word.", items.filter(item => !placed.has(item.id)));
   const route = document.createElement("section");
   route.style.gridColumn = "1 / -1";
-  route.innerHTML = '<h4>Your next steps</h4><p>Choose a meaning group below → meet one word part → sort and explain → try a new word in context.</p><details><summary>How are these groups chosen?</summary><p>Groups connect meanings or grammatical functions; they are not a fixed grade order. Begin with familiar words whose parts are easy to see. Add spelling or sound changes and less familiar words as understanding grows. A shared meaning does not mean two words share the same root. If you can explain the connection, try a new word in a sentence. If you need help, revisit the examples and explain one together.</p><a href="morphology-target-builder.html">Educators: research, grade standards, and example objectives →</a></details>';
+  route.innerHTML = '<h4>Your next steps</h4><p>Choose a meaning group below → meet one word part → sort and explain → try a new word in context.</p><p><strong>Need more help?</strong> Revisit one example and explain it together. <strong>Ready for more?</strong> Explain the connection, then try a new word in a sentence.</p><details><summary>How are these groups chosen?</summary><p>Groups connect meanings or grammatical functions; they are not a fixed grade order. Begin with familiar words whose parts are easy to see. Add spelling or sound changes and less familiar words as understanding grows. A shared meaning does not mean two words share the same root. If you can explain the connection, try a new word in a sentence. If you need help, revisit the examples and explain one together.</p><a href="morphology-target-builder.html">Educators: research, grade standards, and example objectives →</a></details>';
   const context = window.FirstVoloMorphologyAccess?.getContext?.();
   if (!context || !["educator", "educator-selected"].includes(context.mode)) route.querySelector("a")?.remove();
   learningGrid.append(route);
@@ -8515,7 +8523,7 @@ function renderLearnActivity() {
     `;
 
     card.addEventListener("click", () => {
-      renderLearnDetail(item);
+      openPart(item, card.closest(".learn-meaning-group"));
     });
 
     groupGrid.append(card);

@@ -9,3 +9,5 @@ White, Sowell & Yanagihara (1989) original seven-page scanned article visually r
 Existing game/progress collections are labelled as evidence collections rather than required teaching order. New grouping does not change token set membership, game locks, plans, or mastery.
 
 Validation: all 19 existing test suites pass, with added checks for complete nonduplicated cards and thematic group headings. Local fictional educator browser preview inspected; no production account/learner writes. Screenshot retained in chat workspace outputs/20261108-hoops/learn-meaning-groups.png.
+
+Quick follow-up: each group now labels its goal, previews up to three eligible example words for its suggested first part, and offers a working Start button. It favors a part with an eligible authored lesson, otherwise the first eligible part; this is a starting suggestion, not a learner-based recommendation. Opening any card places its lesson directly below that group. Revisit/extend guidance is visible without expanding the source explanation.
