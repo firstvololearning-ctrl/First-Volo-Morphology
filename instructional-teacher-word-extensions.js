@@ -13,6 +13,7 @@
   const WORD_PART = Object.freeze(["morpheme"]);
   const USE = Object.freeze(["use"]);
   const WORD_PART_AND_USE = Object.freeze(["morpheme", "use"]);
+  const LEARN_AND_PRACTICE = Object.freeze(["learn", "morpheme", "use"]);
 
   // These examples have their own teaching sentences for guided practice and Part B.
   function applicationExamples(practiceBand, morpheme, activities, examples) {
@@ -35,6 +36,16 @@
 
   const CANDIDATES_BY_TARGET =
       Object.freeze({
+        "ly-adjective": applicationExamples("2-3", "-ly", LEARN_AND_PRACTICE, [
+          ["friendly", "kind and welcoming", "The friendly neighbor waved and invited us to play."],
+          ["neighborly", "kind and helpful toward neighbors", "It was neighborly of Mia to clear snow from the next house's steps."],
+          ["costly", "having a high cost", "Fixing the broken roof was costly, so the family saved up to pay for it."]
+        ]),
+        "ant-ent-agent": applicationExamples("6-8", "-ant, -ent", LEARN_AND_PRACTICE, [
+          ["contestant", "a person who takes part in a contest", "Each contestant answered a question in the school quiz contest."],
+          ["claimant", "a person who says they have a right to something", "Each claimant had to show proof that the lost bag was theirs."],
+          ["attendant", "a worker who helps people or looks after a place", "A parking attendant showed us where to leave the car."]
+        ]),
         "en-em": applicationExamples("2-3", "en-, em-", WORD_PART_AND_USE, [
           ["enlarge", "to make something larger", "We can enlarge the photo so everyone can see it."],
           ["encircle", "to form a circle around something", "The dancers will encircle the drum and take each other's hands."]

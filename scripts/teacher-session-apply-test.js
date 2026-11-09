@@ -97,11 +97,11 @@ test("previously uncovered teacher targets have a fresh Part B at their introduc
   const targetsByActivity = {
     morpheme: [
       "en-em", "sub", "a-ad", "e-ex", "retro", "circum", "mit", "sequ", "ten",
-      "vert", "therm", "ance", "able-ible", "er-or", "ant-ent-adjective"
+      "vert", "therm", "ance", "able-ible", "er-or", "ly-adjective", "ant-ent-agent", "ant-ent-adjective"
     ],
     use: [
       "en-em", "sub", "a-ad", "e-ex", "retro", "mit", "sequ", "ten", "vert", "phon",
-      "therm", "ance", "ity", "ify", "ology", "able-ible", "er-or", "ant-ent-adjective"
+      "therm", "ance", "ity", "ify", "ology", "able-ible", "er-or", "ly-adjective", "ant-ent-agent", "ant-ent-adjective"
     ]
   };
 
