@@ -34,7 +34,7 @@
         <details class="jump-alternate">
           <summary>Choose without jumping</summary><div class="jump-answers" aria-label="Answer choices"></div>
         </details>
-        <p class="hoops-help">Press Run to keep Volo moving, then jump for the matching tile. Use the arrow keys or direction buttons to steer. Space or Up jumps on the course.</p>
+        <p class="hoops-help">Press Run to keep Volo moving, then jump to catch the matching tile. Use the arrow keys or direction buttons to steer. Space or Up jumps on the course.</p>
       </section>`;
     document.body.append(overlay);
     const find = selector => overlay.querySelector(selector);
@@ -70,7 +70,7 @@
       if (!active) player.classList.remove('is-running');
     }
 
-    function choose(choice) {
+    function choose(choice, caughtInAir = false) {
       if (finished || choice.used) return;
       const question = deck[round];
       choice.used = true;
@@ -83,10 +83,17 @@
         collected++;
         find('.jump-score').textContent = `${collected} collected`;
         choice.tile.classList.add('is-collected');
-        feedback.textContent = `Collected! ${questions.explain(question, choice.id)}`;
+        if (caughtInAir) {
+          choice.tile.style.setProperty('--catch-x', `${(x - choice.center) * course.clientWidth / width}px`);
+          choice.tile.style.setProperty('--catch-y', `${(y - 22 - 132) * course.clientHeight / 300}px`);
+          choice.tile.classList.add('is-caught-in-air');
+        }
+        feedback.textContent = `${caughtInAir ? 'Caught!' : 'Collected!'} ${questions.explain(question, choice.id)}`;
         next.textContent = round + 1 === deck.length ? 'See results' : 'Next round';
-        next.hidden = false;
-        next.focus();
+        if (!caughtInAir) {
+          next.hidden = false;
+          next.focus();
+        }
       } else {
         choice.tile.classList.add('is-passed');
         feedback.textContent = `${questions.explain(question, choice.id)} Try another.`;
@@ -111,7 +118,7 @@
       next.hidden = true;
       find('.jump-round').textContent = `Round ${round + 1} of ${deck.length}`;
       find('.jump-prompt').textContent = question.prompt;
-      feedback.textContent = 'Jump for the matching word or word part.';
+      feedback.textContent = 'Jump to catch the matching word or word part.';
       tiles.replaceChildren();
       answers.replaceChildren();
       choices = questions.shuffled(question.choices).map((id, index, list) => {
@@ -134,6 +141,7 @@
     function animate(now) {
       const dt = Math.min(.04, (now - (lastTime ?? now)) / 1000);
       lastTime = now;
+      const previousX = x;
       if (!finished) {
         const steering = Number(held.has('right')) - Number(held.has('left'));
         if (steering && steering !== facing) {
@@ -141,20 +149,24 @@
           player.style.setProperty('--facing', facing);
         }
         const direction = held.size ? steering : running ? facing : 0;
-        const previousX = x;
         x = Math.max(26, Math.min(width - 26, x + direction * 250 * dt));
         const reachedEdge = (direction < 0 && x === 26) || (direction > 0 && x === width - 26);
         if (running && reachedEdge) setRunning(false);
-        if (y < floor || velocity < 0) {
-          velocity += 1200 * dt;
-          y = Math.min(floor, y + velocity * dt);
-          if (y === floor) velocity = 0;
-        }
-        positionPlayer();
-        player.classList.toggle('is-running', x !== previousX && y === floor);
+      }
+      if (y < floor || velocity < 0) {
+        velocity += 1200 * dt;
+        y = Math.min(floor, y + velocity * dt);
+        if (y === floor) velocity = 0;
+      }
+      positionPlayer();
+      player.classList.toggle('is-running', x !== previousX && y === floor);
+      if (!finished) {
         const hit = choices.find(choice => !choice.used &&
           Math.abs(choice.center - x) < 68 && Math.abs(132 - (y - 22)) < 24);
-        if (hit) choose(hit);
+        if (hit) choose(hit, true);
+      } else if (y === floor && next.hidden) {
+        next.hidden = false;
+        next.focus();
       }
       frame = requestAnimationFrame(animate);
     }

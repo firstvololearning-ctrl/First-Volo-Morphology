@@ -93,3 +93,15 @@
 @keyframes voloStride {
   50% { transform: translate(-50%, -109%) scaleX(var(--facing, 1)) rotate(-7deg); }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .jump-tile.is-caught-in-air { animation: voloTileCatch .36s ease-in both; }
+}
+
+@keyframes voloTileCatch {
+  25% { box-shadow: 0 0 17px #e6ffb4; }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--catch-x)), calc(-50% + var(--catch-y))) scale(.25);
+  }
+}
