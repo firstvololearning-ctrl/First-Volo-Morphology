@@ -22,7 +22,7 @@ function setup(mode='educator',saved=null,failSave=false,mapRoute=''){
   select.value = mapRoute;
   w.document.getElementById('studentMapContent').append(select);
  }
- for (const file of ['word-inventory.js','lesson-choices.js','earlier-word-parts.js','practice-plan.js']) w.eval(fs.readFileSync(file,'utf8'));
+ for (const file of ['word-inventory.js','token-sets.js','lesson-choices.js','earlier-word-parts.js','practice-plan.js']) w.eval(fs.readFileSync(file,'utf8'));
  return {w,calls,publish:c=>{context=c;listeners.forEach(fn=>fn(c));},close:()=>dom.window.close()};
 }
 test('educator confirms enum choices; save has learner and revision but no assessment responses',async()=>{
@@ -86,30 +86,33 @@ test('a student starts an exact lesson and can reveal other practice choices', a
 });
 
 
-test('the earlier-part picker follows the viewed route and the warm-up follows the assigned lesson', async () => {
+test('the set picker follows the viewed route and the warm-up follows the assigned lesson', async () => {
   const assigned = { flight:'6-8', study:'roots', activity:'learn', challenge:false, lesson:'tract' };
   const {w, calls, close} = setup('student', assigned, false, '6-8');
   await tick();
   const d = w.document;
   const map = d.getElementById('studentMapRoute');
   const review = d.getElementById('earlierWordParts');
-  const chooser = d.getElementById('earlierPartChoice');
-  assert.ok([...chooser.options].some(option => option.value === 'pre'));
-  assert.ok([...chooser.options].some(option => option.value === 'port'));
+  const chooser = d.getElementById('earlierSetChoice');
+  assert.equal(chooser.options.length - 1, 11);
   map.value = '4-5';
   map.dispatchEvent(new w.Event('change'));
-  assert.ok(![...chooser.options].some(option => option.value === 'port'));
-  d.getElementById('checkEarlierParts').click();
-  for (let i = 1; i <= 3; i++) {
-    assert.match(d.getElementById('earlierCheckPrompt').textContent, new RegExp(`^${i} of 3`));
+  assert.equal(chooser.options.length - 1, 4);
+  chooser.value = 'foundation-core-word-parts';
+  chooser.dispatchEvent(new w.Event('change'));
+  assert.match(d.getElementById('earlierSetParts').textContent, /^7 parts to check/);
+  d.getElementById('checkEarlierSet').click();
+  for (let i = 1; i <= 7; i++) {
+    assert.match(d.getElementById('earlierCheckPrompt').textContent, new RegExp(`^${i} of 7`));
     d.querySelector('#earlierCheckOptions button').click();
     assert.ok(d.getElementById('earlierCheckFeedback').textContent);
     d.getElementById('earlierCheckNext').click();
   }
-  assert.equal(d.getElementById('earlierPartsCheck').hidden, true);
+  assert.match(d.getElementById('earlierCheckTitle').textContent, /parts right|parts you missed/);
   assert.equal(w.applied, undefined);
   map.value = '2-3';
   map.dispatchEvent(new w.Event('change'));
+  assert.equal(d.getElementById('earlierPartsCheck').hidden, true);
   assert.equal(review.hidden, true);
   d.querySelector('.student-entry .plan-primary').click();
   assert.equal(map.value, '6-8');
@@ -117,6 +120,67 @@ test('the earlier-part picker follows the viewed route and the warm-up follows t
   assert.equal(w.applied, undefined);
   d.getElementById('earlierCheckClose').click();
   assert.deepEqual(w.applied, assigned);
+  assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
+  close();
+});
+
+
+test('saved knowledge or application evidence can take a student directly to the assigned lesson', async () => {
+  const assigned = { flight:'6-8', study:'roots', activity:'learn', challenge:false, lesson:'tract' };
+  const {w, close} = setup('student', assigned, false, '6-8');
+  await tick();
+  w.FirstVoloActivityProgress = { getActiveStudent: () => ({}) };
+  w.FirstVoloTokens = {
+    evaluateStudent: () => [{ morphemes: w.FIRST_VOLO_MORPHEME_INVENTORY.map((part, index) => ({
+      id: part.id, profile: 'standard', knowledgeReady: index % 2 === 0, applicationReady: index % 2 === 1
+    })) }]
+  };
+  w.document.querySelector('.student-entry .plan-primary').click();
+  assert.deepEqual(w.applied, assigned);
+  assert.equal(w.document.getElementById('earlierPartsCheck').hidden, true);
+  close();
+});
+
+
+test('educator can save a set review by itself or alongside a lesson', async () => {
+  for (const withLesson of [false, true]) {
+    const {w, calls, close} = setup();
+    const d = w.document;
+    d.getElementById('openPracticePlan').click();
+    await tick();
+    const learner = d.getElementById('planLearner');
+    learner.value = id;
+    learner.dispatchEvent(new w.Event('change'));
+    await tick();
+    const route = d.getElementById('planFlight');
+    route.value = '6-8';
+    route.dispatchEvent(new w.Event('change'));
+    if (withLesson) {
+      const lesson = d.getElementById('planLesson');
+      lesson.value = 'tract';
+      lesson.dispatchEvent(new w.Event('change'));
+    }
+    d.getElementById('planReviewSet').value = 'foundation-core-word-parts';
+    d.querySelector('form.practice-plan-form').dispatchEvent(new w.Event('submit', {cancelable: true}));
+    await tick();
+    const plan = calls.find(call => call.name === 'save_morphology_practice_plan').args.p_plan;
+    assert.deepEqual(JSON.parse(JSON.stringify(plan)), withLesson
+      ? { flight:'6-8', study:'roots', activity:'learn', challenge:false, lesson:'tract', reviewSet:'foundation-core-word-parts' }
+      : { flight:'6-8', reviewSet:'foundation-core-word-parts' });
+    close();
+  }
+});
+
+test('an assigned Route 1 review opens even without an earlier route or assigned lesson', async () => {
+  const assigned = { flight:'2-3', reviewSet:'foundation-grade3-bridge' };
+  const {w, calls, close} = setup('student', assigned, false, '2-3');
+  await tick();
+  const d = w.document;
+  assert.equal(d.getElementById('studentAssignedPracticeStart'), null);
+  assert.equal(d.getElementById('earlierWordParts').hidden, true);
+  d.getElementById('studentAssignedReviewStart').click();
+  assert.equal(d.getElementById('earlierWordParts').hidden, false);
+  assert.match(d.getElementById('earlierCheckPrompt').textContent, /^1 of 5/);
   assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
   close();
 });

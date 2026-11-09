@@ -23,7 +23,9 @@ do $$ declare r record;x jsonb; begin
  select * into r from public.get_morphology_practice_plan('82222222-2222-4222-8222-222222222222');if r.revision<>0 or r.plan is not null then raise exception 'Empty plan incorrect';end if;
  select * into r from public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222','{"flight":"2-3","study":"prefixes","activity":"meaning","challenge":false}',0);if r.revision<>1 or r.plan->>'activity'<>'meaning' then raise exception 'Plan save failed';end if;
  begin perform public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222',r.plan,0);raise exception 'Stale save accepted';exception when serialization_failure then null;end;
- for x in select value from jsonb_array_elements('[{"flight":"2-3","study":"roots","activity":"meaning","challenge":false},{"flight":"4-5","study":"roots","activity":"build","challenge":false},{"flight":"4-5","study":"root-suffix","activity":"use","challenge":false,"note":"must not collect"},{"flight":"4-5","study":"root-suffix","activity":"use","challenge":"false"}]') loop
+ for x in select value from jsonb_array_elements('[{"flight":"2-3","study":"roots","activity":"meaning","challenge":false},{"flight":"4-5","study":"roots","activity":"build","challenge":false},{"flight":"4-5","study":"root-suffix","activity":"use","challenge":false,"note":"must not collect"},{"flight":"4-5","study":"root-suffix","activity":"use","challenge":"false"},
+  {"flight":"4-5","reviewSet":"advanced-roots-1"},{"flight":"6-8","reviewSet":"unknown"},
+  {"flight":"6-8","reviewSet":null},{"flight":"6-8","reviewSet":"foundation-core-word-parts","answers":[true]}]') loop
   begin perform public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222',x,1);raise exception 'Invalid choice accepted';exception when invalid_parameter_value then null;end;
  end loop;
  begin perform 1 from private.morphology_practice_plans;raise exception 'Direct table read accepted';exception when insufficient_privilege then null;end;
@@ -50,13 +52,26 @@ set local role authenticated;
 do $$ declare r record;begin
  select * into r from public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222',null,1);if r.revision<>2 or r.plan is not null then raise exception 'Clear failed';end if;
  select * into r from public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222','{"flight":"4-5","study":"root-suffix","activity":"use","challenge":false}',2);if r.revision<>3 then raise exception 'Replan revision failed';end if;
+ select * into r from public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222','{"flight":"4-5","reviewSet":"foundation-core-word-parts"}',3);
+ if r.revision<>4 or r.plan->>'reviewSet' is distinct from 'foundation-core-word-parts' then raise exception 'Standalone review did not save';end if;
+ select * into r from public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222','{"flight":"6-8","study":"roots","activity":"learn","challenge":false,"lesson":"tract","reviewSet":"expansion-roots-1"}',4);
+ if r.revision<>5 or r.plan->>'lesson' is distinct from 'tract' or r.plan->>'reviewSet' is distinct from 'expansion-roots-1' then raise exception 'Lesson and review did not save together';end if;
 end $$;
 reset role;
+select set_config('request.jwt.claim.sub','85555555-5555-4555-8555-555555555555',true),set_config('request.jwt.claims','{"sub":"85555555-5555-4555-8555-555555555555","session_id":"87777777-7777-4777-8777-777777777777","is_anonymous":true,"role":"authenticated"}',true);
+set local role authenticated;
+do $$ declare r record;begin
+ select * into r from public.get_morphology_practice_plan();
+ if r.plan->>'reviewSet' is distinct from 'expansion-roots-1' then raise exception 'Assigned review could not be read';end if;
+ begin perform public.save_morphology_practice_plan(r.student_id,r.plan,5);raise exception 'Student changed assigned review';exception when insufficient_privilege then null;end;
+end $$;
+reset role;
+select set_config('request.jwt.claim.sub','81111111-1111-4111-8111-111111111111',true),set_config('request.jwt.claims','{"sub":"81111111-1111-4111-8111-111111111111","session_id":"86666666-6666-4666-8666-666666666666","is_anonymous":false,"role":"authenticated"}',true);
 update private.parent_consent_cases set state='withdrawn',withdrawn_at=now() where token_hash=repeat('9',64) and owner_user_id='81111111-1111-4111-8111-111111111111';
 set local role authenticated;
 do $$ begin
  begin perform public.get_morphology_practice_plan('82222222-2222-4222-8222-222222222222');raise exception 'Withdrawn read accepted';exception when insufficient_privilege then null;end;
- begin perform public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222',null,3);raise exception 'Withdrawn write accepted';exception when insufficient_privilege then null;end;
+ begin perform public.save_morphology_practice_plan('82222222-2222-4222-8222-222222222222',null,5);raise exception 'Withdrawn write accepted';exception when insufficient_privilege then null;end;
 end $$;
 reset role;
 update auth.sessions set not_after=now()-interval '1 second' where id='86666666-6666-4666-8666-666666666666';
@@ -69,4 +84,4 @@ do $$ begin
  if has_table_privilege('authenticated','private.morphology_practice_plans','select') or has_function_privilege('anon','public.get_morphology_practice_plan(uuid)','execute') then raise exception 'Direct or anonymous grant exposed';end if;
 end $$;
 rollback;
-select 'PASS: plan authorization, validation, revisions, student read-only, isolation, withdrawal, expired-session and grant checks; fixtures rolled back' as result;
+select 'PASS: assigned set reviews, plan authorization, validation, revisions, student read-only, isolation, withdrawal, expired-session and grant checks; fixtures rolled back' as result;

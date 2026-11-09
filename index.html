@@ -76,7 +76,7 @@
   >
 
   <link rel="stylesheet" href="style.css?v=20261109-about-links">
-  <link rel="stylesheet" href="migration-map.css?v=20261109-earlier-parts">
+  <link rel="stylesheet" href="migration-map.css?v=20261109-assigned-review">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
   <link rel="stylesheet" href="reward-games.css?v=20261109-map-home">
@@ -266,17 +266,15 @@
         <p id="studentPracticeResume" class="entry-note">Choose your Route and word parts below, then choose an activity.</p>
       </div>
       <details id="earlierWordParts" class="practice-plan-panel earlier-parts" hidden>
-        <summary>Review earlier word parts</summary>
+        <summary>Review earlier sets</summary>
         <div id="earlierPartsChoices">
           <p id="earlierPartsIntro"></p>
+          <label for="earlierSetChoice">Choose a Route and set</label>
           <div class="practice-plan-actions">
-            <label for="earlierPartChoice">Choose a part to review
-              <select id="earlierPartChoice"></select>
-            </label>
-            <button type="button" id="openEarlierPart" disabled>Open in Learn</button>
-            <button type="button" id="checkEarlierParts">Try a mixed check</button>
+            <select id="earlierSetChoice"></select>
+            <button type="button" id="checkEarlierSet" disabled>Check this set</button>
           </div>
-          <p id="earlierPartStatus" role="status"></p>
+          <p id="earlierSetParts"></p>
         </div>
         <section id="earlierPartsCheck" aria-labelledby="earlierCheckTitle" hidden>
           <h3 id="earlierCheckTitle" tabindex="-1"></h3>
@@ -1912,6 +1910,8 @@
           <p>In Student Mode, <strong>My Migration Map</strong> is where students start practice,
             see their progress, and play games at unlocked stops. Saved practice earns tokens for sets
             of word parts. Each token moves Volo one stop closer to Winter Home.</p>
+          <p>Students can check earlier sets on Routes 2 and 3, or open a set review their educator assigned.
+            A check points students to Learn for parts they miss. Map progress reflects saved practice across activities.</p>
           <p><a href="quick-start.html#guideMigrationMap">How practice, tokens, and game stops fit together</a></p>
         </section>
 
@@ -1984,7 +1984,7 @@
   <script src="reward-maze.js?v=20261108-maze-retry"></script>
   <script src="reward-memory.js?v=20261108-memory"></script>
   <script src="reward-games.js?v=20261109-map-home"></script>
-  <script src="migration-map.js?v=20261109-earlier-parts"></script>
+  <script src="migration-map.js?v=20261109-assigned-review"></script>
   <script src="volo-token-celebration.js?v=20261108-route-names"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>
   <script src="learn-content.js?v=20261108-evidence1"></script>
@@ -1994,8 +1994,8 @@
   <script src="lesson-choices.js"></script>
   <script src="practice-entry.js?v=20261109-lesson-and-activity-links"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
-<script src="earlier-word-parts.js?v=20261109"></script>
-<script src="practice-plan.js?v=20261109-earlier-parts"></script>
+<script src="earlier-word-parts.js?v=20261109-assigned-review"></script>
+<script src="practice-plan.js?v=20261109-assigned-review"></script>
   <script src="target-builder-bridge.js?v=20261108"></script>
 </body>
 </html>

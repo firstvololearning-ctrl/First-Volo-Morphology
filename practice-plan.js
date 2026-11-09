@@ -7,6 +7,9 @@
   const activities = {learn:"Learn — explore word parts",find:"Find — identify a word part",hunt:"Word Hunt — find matching words",meaning:"Meaning — recall word-part meanings",morpheme:"Word Part — match meaning to a part",break:"Break It Apart — analyze parts",infer:"Figure It Out — infer a word’s meaning",build:"Build Words — combine parts",use:"Use It — fit a word to a sentence",change:"Change It — choose a word form"};
   const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const lessonChoices = window.FirstVoloLessonChoices;
+  const reviewSets = window.FIRST_VOLO_TOKEN_SETS || [];
+  const routeKeys = Object.keys(flights);
+  const availableReviews = route => reviewSets.filter(set => routeKeys.indexOf(set.introBand) <= routeKeys.indexOf(route));
   const first = data => Array.isArray(data) ? data[0] : data;
   const identity = c => [c?.status,c?.mode,c?.userId,c?.studentId].join(":");
   let report = {}, editor, request = 0, revision = null, saving = false;
@@ -15,7 +18,7 @@
     if (editor) return editor;
     editor=document.createElement('section');editor.className='practice-plan-panel no-print';editor.hidden=true;
     editor.setAttribute('data-morphology-educator-only','');
-    editor.innerHTML='<h2>Set up independent learning</h2><p><a href="morphology-target-builder.html">Explore example objectives, grade standards &amp; research before choosing a plan →</a></p><p>Choose a learner, Route, and Learn lesson. To assign a review of a specific part, select the Route where it was introduced. Route 2 and 3 lessons include an optional earlier-part warm-up. Use Other practice choices to assign a different activity.</p><details class="plan-choice-helper"><summary>Help me choose a starting point</summary><p>Choose a teaching need for an activity suggestion. This is a starting point to review, not a placement result.</p><label for="planTeachingNeed">What does the learner need to work on?</label><select id="planTeachingNeed"><option value="">Choose a teaching need</option><option value="learn">Learn new word-part meanings</option><option value="break">Find meaningful parts in a word</option><option value="infer">Use parts to explain whole-word meaning</option><option value="use">Use a word form in a sentence</option><option value="change">Choose the right grammatical word form</option><option value="transfer">Apply known parts to a new word</option></select><p id="planTeachingAdvice" role="status">Choose a need to see suggested practice.</p><button type="button" id="useTeachingFocus" disabled>Use this focus</button><p><b>Need a quick starting check?</b> Use two familiar words: ask the learner to locate a meaningful part and explain its contribution. Then try one unpracticed word with the same part. Note the explanation before help, then try context or a minimal prompt and record the supported response separately. This informal check does not establish mastery or provide a standardized assessment score.</p><p><b>Choosing a Route:</b> Route 1 emphasizes familiar prefixes and suffixes. Route 2 adds root families and related academic words. Route 3 increases layering, complexity, and independence. Use the level that fits the word-analysis demand, not age alone. Begin with Standard Words.</p><a href="morphology-target-builder.html">Compare example objectives, grade standards, and research →</a></details><form class="practice-plan-form"><label>Learner<select id="planLearner" required></select></label><label>Migration Route<select id="planFlight" required>'+options(flights,'Choose a Route')+'</select></label><label id="planLessonLabel" hidden>Learn lesson<select id="planLesson"></select></label><details class="plan-other-activities"><summary>Other practice choices</summary><div class="practice-plan-form"><label>Word parts<select id="planStudy">'+options(studies,'Choose word parts')+'</select></label><label>Practice focus<select id="planActivity">'+options(activities,'Choose a focus')+'</select></label><label>Word challenge<select id="planChallenge"><option value="standard">Standard Words</option><option value="all">Standard + Stretch Words</option></select></label></div></details><div class="practice-plan-actions"><button class="plan-primary" id="savePracticePlan" type="submit" disabled>Save learner’s practice plan</button><button id="clearPracticePlan" type="button" disabled>Clear plan</button></div></form><p role="status" id="planStatus"></p><a id="openPlannedPractice" hidden>Open practice with this learner</a>';
+    editor.innerHTML='<h2>Set up independent learning</h2><p><a href="morphology-target-builder.html">Explore example objectives, grade standards &amp; research before choosing a plan →</a></p><p>Choose a learner, Route, and Learn lesson. You can assign a lesson, a set review, or both. For a review by itself, leave the lesson and other practice choices blank.</p><details class="plan-choice-helper"><summary>Help me choose a starting point</summary><p>Choose a teaching need for an activity suggestion. This is a starting point to review, not a placement result.</p><label for="planTeachingNeed">What does the learner need to work on?</label><select id="planTeachingNeed"><option value="">Choose a teaching need</option><option value="learn">Learn new word-part meanings</option><option value="break">Find meaningful parts in a word</option><option value="infer">Use parts to explain whole-word meaning</option><option value="use">Use a word form in a sentence</option><option value="change">Choose the right grammatical word form</option><option value="transfer">Apply known parts to a new word</option></select><p id="planTeachingAdvice" role="status">Choose a need to see suggested practice.</p><button type="button" id="useTeachingFocus" disabled>Use this focus</button><p><b>Need a quick starting check?</b> Use two familiar words: ask the learner to locate a meaningful part and explain its contribution. Then try one unpracticed word with the same part. Note the explanation before help, then try context or a minimal prompt and record the supported response separately. This informal check does not establish mastery or provide a standardized assessment score.</p><p><b>Choosing a Route:</b> Route 1 emphasizes familiar prefixes and suffixes. Route 2 adds root families and related academic words. Route 3 increases layering, complexity, and independence. Use the level that fits the word-analysis demand, not age alone. Begin with Standard Words.</p><a href="morphology-target-builder.html">Compare example objectives, grade standards, and research →</a></details><form class="practice-plan-form"><label>Learner<select id="planLearner" required></select></label><label>Migration Route<select id="planFlight" required>'+options(flights,'Choose a Route')+'</select></label><label id="planLessonLabel" hidden>Learn lesson<select id="planLesson"></select></label><label>Set review (optional)<select id="planReviewSet"></select></label><details class="plan-other-activities"><summary>Other practice choices</summary><div class="practice-plan-form"><label>Word parts<select id="planStudy">'+options(studies,'Choose word parts')+'</select></label><label>Practice focus<select id="planActivity">'+options(activities,'Choose a focus')+'</select></label><label>Word challenge<select id="planChallenge"><option value="standard">Standard Words</option><option value="all">Standard + Stretch Words</option></select></label></div></details><div class="practice-plan-actions"><button class="plan-primary" id="savePracticePlan" type="submit" disabled>Save learner’s practice plan</button><button id="clearPracticePlan" type="button" disabled>Clear plan</button></div></form><p role="status" id="planStatus"></p><a id="openPlannedPractice" hidden>Open practice with this learner</a>';
     const host=document.getElementById('reportScreen') || document.querySelector('.educator-entry');host?.append(editor);
     const advice={learn:'Start with Learn: introduce a meaning, model a related word, and ask for an explanation.',break:'Try Break It Apart with transparent words. Check whether the learner can explain the parts as well as locate them.',infer:'Try Figure It Out. Ask for a meaning explanation and how the morpheme and context support it.',use:'Try Use It with a combined word-part set. Add a learner-generated sentence to check productive use.',change:'Try Change It with a suffix-containing combined set. Ask why the selected form fits the sentence.',transfer:'Try Figure It Out with a fresh word containing familiar parts, then check a new short text without answer choices. This is a suggested transfer check, not an app mastery score.'};
     editor.querySelector('#planTeachingNeed').addEventListener('change',()=>{const need=editor.querySelector('#planTeachingNeed').value;editor.querySelector('#planTeachingAdvice').textContent=advice[need]||'Choose a need to see suggested practice.';editor.querySelector('#useTeachingFocus').disabled=!need;});
@@ -25,12 +28,14 @@
     editor.querySelector('#clearPracticePlan').addEventListener('click',()=>write(true));
     editor.querySelector('#planLearner').addEventListener('change',loadSelected);
     field('planLessonLabel').hidden = !lessonChoices;
+    populateReviews();
     field('planFlight').addEventListener('change', () => {
       if (field('planLesson').value) {
         field('planStudy').value = "";
         field('planActivity').value = "";
       }
       populateLessons();
+      populateReviews(field("planReviewSet").value);
       availability();
     });
     field('planLesson').addEventListener('change', selectLesson);
@@ -43,6 +48,13 @@
   const field = id => editor.querySelector('#'+id);
   function populateLessons(selected = "") {
     lessonChoices?.populate(field('planLesson'), field('planFlight').value, selected);
+  }
+  function populateReviews(selected = "") {
+    const select = field("planReviewSet");
+    const sets = availableReviews(field("planFlight").value);
+    select.replaceChildren(new Option("No set review", ""));
+    for (const set of sets) select.add(new Option(`${set.label} (${set.morphemeIds.length} parts)`, set.id));
+    select.value = sets.some(set => set.id === selected) ? selected : "";
   }
   function selectLesson() {
     const plan = lessonChoices?.plan(field('planFlight').value, field('planLesson').value);
@@ -73,38 +85,48 @@
     if(result.error){field('planStatus').textContent='Learners could not be checked. Try opening the plan again. Nothing was saved.';return;}
     (result.data||[]).forEach(s=>{if(uuid.test(s.student_id))field('planLearner').add(new Option(s.display_name,s.student_id));});
     const linked=c.studentId || report.studentId;if(uuid.test(linked||'') && [...field('planLearner').options].some(o=>o.value===linked))field('planLearner').value=linked;
-    field('planStatus').textContent=(result.data||[]).length?'Choose a learner, then pick a Route and a lesson or another activity.':'No learners currently have enabled Morphology permission and class access. Review access in My First Volo. Nothing was saved.';
+    field('planStatus').textContent=(result.data||[]).length?'Choose a learner, then pick a Route and what to assign.':'No learners currently have enabled Morphology permission and class access. Review access in My First Volo. Nothing was saved.';
     if(field('planLearner').value)await loadSelected();
   }
   async function loadSelected() {
     const selected=field('planLearner').value,c=access.getContext(),expected=identity(c),ticket=++request;
     revision=null;field('savePracticePlan').disabled=true;field('clearPracticePlan').disabled=true;field('openPlannedPractice').hidden=true;
-    field('planFlight').value=report.flight||'2-3';field('planStudy').value='';field('planActivity').value='';field('planChallenge').value='standard';populateLessons();availability();
+    field('planFlight').value=report.flight||'2-3';field('planStudy').value='';field('planActivity').value='';field('planChallenge').value='standard';populateLessons();populateReviews();availability();
     if(!uuid.test(selected))return;
     field('planStatus').textContent='Checking the current plan…';
     let r;try{r=await access.client.rpc('get_morphology_practice_plan',{p_student_id:selected});}catch{r={error:true};}
     if(ticket!==request||identity(access.getContext())!==expected||field('planLearner').value!==selected)return;
     const row=first(r.data);if(r.error||!row){field('planStatus').textContent='The plan could not be checked. Reopen it before saving.';return;}
     revision=row.revision;
-    if(row.plan){field('planFlight').value=row.plan.flight;field('planStudy').value=row.plan.study;field('planActivity').value=row.plan.activity;field('planChallenge').value=row.plan.challenge?'all':'standard';}
+    if(row.plan){field('planFlight').value=row.plan.flight;field('planStudy').value=row.plan.study||'';field('planActivity').value=row.plan.activity||'';field('planChallenge').value=row.plan.challenge?'all':'standard';}
+    populateReviews(row.plan?.reviewSet);
     const starter = !row.plan && !report.flight ? lessonChoices?.starter(field('planFlight').value) : "";
     populateLessons(row.plan?.lesson || starter);
     if (starter) selectLesson();
-    editor.querySelector('.plan-other-activities').open = Boolean(row.plan && !row.plan.lesson) || !lessonChoices;
-    availability();field('savePracticePlan').disabled=false;field('clearPracticePlan').disabled=!row.plan;field('planStatus').textContent=row.plan?'Current plan loaded. Review and adjust it.':'Choose a lesson or open Other practice choices.';
+    editor.querySelector('.plan-other-activities').open = Boolean(row.plan?.activity && !row.plan.lesson) || !lessonChoices;
+    availability();field('savePracticePlan').disabled=false;field('clearPracticePlan').disabled=!row.plan;field('planStatus').textContent=row.plan?'Current plan loaded. Review and adjust it.':'Choose a lesson, a set review, or another practice activity.';
   }
   async function write(clear) {
     if(saving||revision===null)return;
     const c=access.getContext(),expected=identity(c),selected=field('planLearner').value;
     if(c.status!=='authorized'||c.mode==='student'||!uuid.test(selected))return;
-    const plan=clear?null:{flight:field('planFlight').value,study:field('planStudy').value,activity:field('planActivity').value,challenge:field('planChallenge').value==='all'};
+    let plan=clear?null:{flight:field('planFlight').value,study:field('planStudy').value,activity:field('planActivity').value,challenge:field('planChallenge').value==='all'};
     if (plan && field('planLesson').value) {
       const selectedLesson = lessonChoices?.plan(plan.flight, field('planLesson').value);
       if (selectedLesson?.study === plan.study && plan.activity === 'learn') plan.lesson = selectedLesson.lesson;
     }
-    if (!clear && (!flights[plan.flight] || !studies[plan.study] || !activities[plan.activity])) {
-      field('planStatus').textContent = 'Choose a lesson, or choose word parts and an activity under Other practice choices.';
-      return;
+    if (plan) {
+      const reviewSet = availableReviews(plan.flight).find(set => set.id === field("planReviewSet").value);
+      if (reviewSet) plan.reviewSet = reviewSet.id;
+      if (!studies[plan.study] && !activities[plan.activity] && plan.reviewSet) {
+        plan = { flight: plan.flight, reviewSet: plan.reviewSet };
+      }
+      if (!flights[plan.flight] || (!plan.reviewSet && !plan.activity) ||
+        (plan.activity && (!studies[plan.study] || !activities[plan.activity])) ||
+        (!plan.activity && plan.study)) {
+        field('planStatus').textContent = 'Choose a lesson, a set review, or a complete activity under Other practice choices.';
+        return;
+      }
     }
     saving=true;editor.querySelectorAll('select,button').forEach(n=>{n.disabled=true;});field('planStatus').textContent='Saving…';
     let r;try{r=await access.client.rpc('save_morphology_practice_plan',{p_student_id:selected,p_plan:plan,p_expected_revision:revision});}catch{r={error:true};}
@@ -114,7 +136,7 @@
     const row=first(r.data);
     if(r.error||!row){revision=null;field('planStatus').textContent='The save was not confirmed. Reopen the plan to check access and the latest version before trying again.';return;}
     revision=row.revision;field('savePracticePlan').disabled=false;field('clearPracticePlan').disabled=!row.plan;field('planStatus').textContent=row.plan?'Practice plan saved for this learner. It will appear when they next open or return to Morphology.':'Plan cleared. The learner can choose practice with your guidance.';
-    const link=field('openPlannedPractice');link.href='index.html?studentId='+encodeURIComponent(selected)+'&practicePlan=1';link.hidden=!row.plan;
+    const link=field('openPlannedPractice');link.href='index.html?studentId='+encodeURIComponent(selected)+'&practicePlan=1';link.hidden=!row.plan?.activity;
     if(document.getElementById('studentEntryTitle'))window.dispatchEvent(new CustomEvent('firstvolopracticeplanupdated'));
   }
   window.addEventListener('firstvoloassessmentreport',e=>{
@@ -150,14 +172,37 @@
     studentPanel=document.createElement('div');studentPanel.className='practice-plan-panel';
     studentPanel.dataset.planRoute = plan.flight;
     const lesson = lessonChoices?.choices(plan.flight).find(item => item.id === plan.lesson);
+    const review = availableReviews(plan.flight).find(set => set.id === plan.reviewSet);
     const summary=document.createElement('p');
     summary.textContent=lesson
       ? `Your lesson: ${lesson.label} · ${lesson.meaning} · ${flights[plan.flight]}`
       : 'Your teacher chose: '+flights[plan.flight]+' · '+studies[plan.study]+' · '+(activities[plan.activity]||'Practice')+' · '+(plan.challenge?'Standard + Stretch Words':'Standard Words');
     const start=document.createElement('button');start.type='button';start.className='plan-primary';start.textContent=lesson?'Start today’s lesson':'Start today’s practice';
+    if (lesson) start.id = 'studentAssignedPracticeStart';
+    const reviewStart = document.createElement('button');
+    reviewStart.type = 'button';
+    reviewStart.id = 'studentAssignedReviewStart';
+    reviewStart.textContent = 'Check assigned set';
+    if (!plan.activity) reviewStart.className = 'plan-primary';
+    const reviewSummary = document.createElement('p');
+    if (review) reviewSummary.textContent = `Your review: ${review.label} · ${review.morphemeIds.length} parts`;
     const change=document.createElement('button');change.type='button';change.textContent=lesson?'Adjust practice':'Change practice';
     const status=document.createElement('p');status.setAttribute('role','status');
-    const actions=document.createElement('div');actions.className='practice-plan-actions';actions.append(start,change);studentPanel.append(summary,actions,status);host.append(studentPanel);
+    const actions = document.createElement('div');
+    actions.className = 'practice-plan-actions';
+    if (plan.activity) {
+      actions.append(start, change);
+      studentPanel.append(summary, actions);
+    }
+    if (review) {
+      const reviewActions = document.createElement('div');
+      reviewActions.className = 'practice-plan-actions';
+      reviewActions.append(reviewStart);
+      if (!plan.activity) reviewActions.append(change);
+      studentPanel.append(reviewSummary, reviewActions);
+    }
+    studentPanel.append(status);
+    host.append(studentPanel);
     choices().forEach(n=>n.setAttribute('data-plan-choices-hidden',''));document.querySelector('.workspace')?.setAttribute('data-plan-workspace-hidden','');document.getElementById('currentPracticeSummary')?.setAttribute('data-plan-workspace-hidden','');
     window.dispatchEvent(new Event('firstvolopracticeplanroutechange'));
     let warmedUp = false;
@@ -169,8 +214,18 @@
       const title=document.getElementById(lesson?'learnDetailPanel':'workspaceTitle');title?.scrollIntoView({behavior:'smooth',block:'start'});title?.setAttribute('tabindex','-1');title?.focus({preventScroll:true});
     }
     start.addEventListener('click', () => {
-      if (lesson && !warmedUp && window.FirstVoloEarlierWordParts?.warmUp(plan, openPlan)) return;
+      if (lesson && !review && !warmedUp && window.FirstVoloEarlierWordParts?.warmUp(plan, openPlan)) {
+        warmedUp = true;
+        return;
+      }
       openPlan();
+    });
+    start.addEventListener('firstvoloopenreviewedlesson', openPlan);
+    reviewStart.addEventListener('click', () => {
+      if (identity(access.getContext()) !== expected) return;
+      if (!window.FirstVoloEarlierWordParts?.openAssigned(plan)) {
+        status.textContent = 'The assigned review could not open. Reload to try again.';
+      }
     });
     change.addEventListener('click',()=>{revealChoices();document.getElementById('practiceSetup')?.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('gradeBandSelect')?.focus({preventScroll:true});});
   }

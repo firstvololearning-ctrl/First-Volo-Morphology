@@ -739,36 +739,11 @@
       return false;
     }
 
-    const routeRatio =
-      destination.routeRatio;
-
-    const routePath =
-      map.querySelector(
-        ".migration-map-route-base"
-      );
-
-    if (!routePath?.getTotalLength) {
-      return false;
-    }
-
-    const point =
-      routePath.getPointAtLength(
-        routePath.getTotalLength() *
-        routeRatio
-      );
-
-    rewardAccess.style.left =
-      `${point.x}%`;
-
-    rewardAccess.style.top =
-      `${point.y}%`;
-
-    rewardAccess.dataset.routePosition =
-      String(destinationIndex);
-
-    rewardAccess.dataset.routeRatio =
-      String(routeRatio);
-
+    const place = map.querySelector(`.migration-place-${destination.id}`);
+    if (!place) return false;
+    rewardAccess.style.left = place.style.left;
+    rewardAccess.style.top = place.style.top;
+    rewardAccess.dataset.routePosition = String(destinationIndex);
     return true;
   }
 
@@ -870,9 +845,9 @@
         ? "⌂"
         : stop.id === "destination"
           ? "★"
-          : reached && !current
-            ? "✓"
-            : String(index);
+          : current
+            ? "•"
+            : reached ? "✓" : "";
 
     marker.setAttribute(
       "aria-hidden",
