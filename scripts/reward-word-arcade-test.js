@@ -66,7 +66,7 @@ w.FirstVoloHoops.open(prefixReward, source);
 choice('insert').click();
 $('.hoops-shoot').click();
 assert.match($('.hoops-feedback').textContent, /into a place/);
-assert.equal(frame, undefined);
+assert(!frame, "a wrong word does not launch the ball");
 choice('invisible').click();
 $('.hoops-assist').click();
 $('.hoops-shoot').click();
@@ -98,6 +98,20 @@ const impactY = Number($('.hoops-ball').getAttribute('transform').match(/transla
 assert(impactY > 185, 'the shot stops on the upward approach to the balloon');
 assert.match($('.hoops-feedback').textContent, /Splash!.*not able to be seen/);
 $('.hoops-close').click();
+
+w.matchMedia = () => ({ matches: false });
+w.FirstVoloHoops.open(prefixReward, source, { mode: 'toss' });
+const movingBalloon = $('.toss-target');
+const initialPosition = movingBalloon.getAttribute('transform');
+frame(w.performance.now() + 650);
+assert.notEqual(movingBalloon.getAttribute('transform'), initialPosition);
+choice('invisible').click();
+$('.hoops-shoot').click();
+frame(w.performance.now() + 2200);
+assert.equal($('.toss-target.is-popped text').textContent, 'invisible');
+$('.hoops-close').click();
+assert.equal(frame, null, 'closing the game stops balloon animation');
+w.matchMedia = () => ({ matches: true });
 
 const core = buildDeck(rewards[0]).find(question => question.answer === 'jumped');
 assert(core);
@@ -199,10 +213,11 @@ function follow(path) {
 }
 const wrongCell = cellIndex($('.maze-token[data-color="1"]').parentElement);
 follow(pathTo(origin, wrongCell));
-assert.match($('.maze-feedback').textContent, /Try another tile/);
+assert.match($('.maze-feedback').textContent, /Try another tile from the center/);
+assert.equal(mazePosition(), startCell, 'a wrong tile returns Volo to the center');
 assert.equal($('.maze-score').textContent, '0 collected');
 const rightCell = cellIndex($('.maze-token[data-color="0"]').parentElement);
-follow(pathTo(wrongCell, rightCell));
+follow(pathTo(startCell, rightCell));
 assert.equal($('.maze-score').textContent, '1 collected');
 $('.maze-next').click();
 assert.match($('.maze-prompt').textContent, /Maze complete/);

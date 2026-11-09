@@ -83,6 +83,15 @@
       player.style.top = `${(y + .5) * 100 / map.length}%`;
     }
 
+    function returnToCenter() {
+      x = 6;
+      y = 5;
+      player.classList.add('is-resetting');
+      player.style.setProperty('--maze-facing', 1);
+      cells[y][x].classList.add('is-visited');
+      positionPlayer();
+    }
+
     function canMove(nextDirection) {
       if (!nextDirection) return false;
       const [dx, dy] = directions[nextDirection];
@@ -135,7 +144,8 @@
         next.hidden = false;
         next.focus();
       } else {
-        feedback.textContent = `${questions.explain(question, choice.id)} Try another tile.`;
+        returnToCenter();
+        feedback.textContent = `${questions.explain(question, choice.id)} Try another tile from the center.`;
         if (document.activeElement === choice.button) choices.find(item => !item.used)?.button.focus();
       }
     }
@@ -144,8 +154,6 @@
       const question = deck[round];
       complete = false;
       stopMoving();
-      x = 6;
-      y = 5;
       next.hidden = true;
       find('.maze-round').textContent = `Round ${round + 1} of ${deck.length}`;
       find('.maze-prompt').textContent = question.prompt;
@@ -155,10 +163,7 @@
         cell.replaceChildren();
         cell.classList.remove('is-visited', 'is-collected');
       }
-      cells[y][x].classList.add('is-visited');
-      player.classList.add('is-resetting');
-      player.style.setProperty('--maze-facing', 1);
-      positionPlayer();
+      returnToCenter();
       board.append(player);
       const positions = questions.shuffled(endpoints);
       choices = questions.shuffled(question.choices).map((id, index) => {

@@ -19,6 +19,9 @@
     const gravity = 900;
     const startPoint = toss ? { x: 500, y: 440 } : { x: 160, y: 425 };
     const balloonY = 185;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let balloonTime = 0;
+    let balloonFrame;
     let launchPoint={...startPoint};
     function crossing(v) {
       const height = toss ? balloonY : 225;
@@ -48,11 +51,42 @@
       guide();
     }
 
-    function firstBalloonContact(landing) {
-      // Sample the flight in order so a foreground balloon intercepts the ball.
+    function balloonAt(target, time) {
+      const phase = time * 1.8 + target.phase;
+      return {
+        x: target.x + (reducedMotion ? 0 : 36 * Math.sin(phase)),
+        y: balloonY + (reducedMotion ? 0 : 10 * Math.sin(phase + 1))
+      };
+    }
+
+    function positionBalloons(time) {
+      balloonTime = time;
+      for (const target of targets) {
+        const point = balloonAt(target, time);
+        target.element.setAttribute('transform', `translate(${point.x} ${point.y})`);
+      }
+    }
+
+    function driftBalloons() {
+      if (!toss || reducedMotion) return;
+      const start = performance.now();
+      const offset = balloonTime;
+      function drift(now) {
+        if (closed || busy) return;
+        positionBalloons(offset + (now - start) / 1000);
+        balloonFrame = requestAnimationFrame(drift);
+      }
+      balloonFrame = requestAnimationFrame(drift);
+    }
+
+    function firstBalloonContact(landing, startTime) {
+      // Check the moving balloon positions in the same time frame as the ball.
       for (let time = 0; time <= landing; time += .008) {
         const point = flightAt(time);
-        const target = targets.find(item => Math.hypot((point.x - item.x) / 90, (point.y - balloonY) / 83) <= 1);
+        const target = targets.find(item => {
+          const center = balloonAt(item, startTime + time);
+          return Math.hypot((point.x - center.x) / 90, (point.y - center.y) / 83) <= 1;
+        });
         if (target) return { target, time };
       }
       return null;
@@ -90,7 +124,7 @@
       stretch.style.display = 'none';
       ball.setAttribute('transform', `translate(${startPoint.x} ${startPoint.y})`);
     }
-    const close=()=>{closed=true;cancelAnimationFrame(frame);overlay.remove();source?.focus();};
+    const close=()=>{closed=true;cancelAnimationFrame(frame);cancelAnimationFrame(balloonFrame);overlay.remove();source?.focus();};
     $('.hoops-close').onclick=close;
     overlay.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); if(e.key==='Tab'){const nodes=[...overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),summary,[tabindex="0"]')].filter(node => !node.closest('[hidden]') && (!node.closest('details:not([open])') || node.matches('summary'))); const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}} });
     function guide(){
@@ -139,6 +173,7 @@
     court.addEventListener('pointerup',event=>{if(!drag)return;drag=null;stretch.style.display='none';court.classList.remove('is-aiming');court.releasePointerCapture?.(event.pointerId);$('.hoops-shoot').click();});
     court.addEventListener('pointercancel',()=>{drag=null;resetPull();setAim();court.classList.remove('is-aiming');feedback.textContent='Shot cancelled. Aim and try again.';});
     function render(){
+      cancelAnimationFrame(balloonFrame);
       selected=toss?'toss':null;busy=false;aim.disabled=false;court.classList.remove('is-basket');$('.hoops-assist').disabled=false;
       $('.hoops-next').hidden=true;$('.hoops-shoot').disabled=!toss;
       resetPull();
@@ -151,7 +186,7 @@
       aim.value=toss ? (question.choices.length === 2 ? 500 : 360) : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
       setAim();
       const balloonPositions = question.choices.length === 2 ? [300, 700] : [220, 500, 780];
-      targets = toss ? Q.shuffled(question.choices).map((id, index) => ({ id, x: balloonPositions[index] })) : [];
+      targets = toss ? Q.shuffled(question.choices).map((id, index) => ({ id, x: balloonPositions[index], phase: index * 2.1 })) : [];
       labels.replaceChildren();
       if (toss) targets.forEach((target, index) => {
         const svgNode = tag => document.createElementNS(svg.namespaceURI, tag);
@@ -191,6 +226,10 @@
         labels.append(group);
         target.element = group;
       });
+      if (toss) {
+        positionBalloons(0);
+        driftBalloons();
+      }
       const choices=$('.hoops-choices');choices.setAttribute('aria-label',toss?'Choose a target to aim at':'Choose a ball');choices.replaceChildren();
       Q.shuffled(question.choices).forEach(id=>{const b=el('button',Q.label(question,id));b.className='hoops-choice';b.setAttribute('aria-pressed','false');b.onclick=()=>{if(busy)return;if(toss){aim.value=targets.find(t=>t.id===id).x;setAim();feedback.textContent=`Aimed at ${Q.label(question, id)}. Throw when ready.`;return;}selected=id;choices.querySelectorAll('button').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));$('.hoops-shoot').disabled=false;feedback.textContent=`${Q.label(question,id)} selected. Take your shot!`;};choices.append(b);});
     }
@@ -209,20 +248,28 @@
       labels.querySelector('.is-bumped')?.classList.remove('is-bumped');
       const landing = (-velocity.y + Math.sqrt(Math.max(0, velocity.y ** 2 -
         2 * gravity * (launchPoint.y - startPoint.y)))) / gravity;
-      const contact = toss ? firstBalloonContact(landing) : null;
+      const shotBalloonTime = balloonTime;
+      cancelAnimationFrame(balloonFrame);
+      const contact = toss ? firstBalloonContact(landing, shotBalloonTime) : null;
       const hit = contact?.target;
       const rimX = toss ? null : hitX();
-      const tolerance = $('.hoops-hard').checked ? 22 : 42;
+      const hard = $('.hoops-hard').checked;
+      const nearRimAssist = !toss && dragShot && !hard;
+      const tolerance = hard ? 22 : nearRimAssist ? 95 : 42;
       const made = toss ? hit?.id === question.answer : rimX !== null && Math.abs(rimX - 820) <= tolerance;
+      if (made && nearRimAssist) {
+        velocity.x += (820 - rimX) / crossing(velocity);
+      }
       const wrongTarget = hit && !made;
       const stop = contact?.time ?? (made ? crossing(velocity) + .09 : landing + .25);
       const start = performance.now();
-      const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : Math.max(toss ? 270 : 850, stop * 850);
+      const duration = reducedMotion ? 100 : Math.max(toss ? 270 : 850, stop * 850);
 
       function animate(now) {
         if (closed) return;
         const progress = Math.min(1, (now - start) / duration);
         const elapsed = progress * stop;
+        if (toss) positionBalloons(shotBalloonTime + elapsed);
         const point = flightAt(Math.min(elapsed, landing));
         if (elapsed > landing) point.y = startPoint.y - Math.sin((elapsed - landing) / .25 * Math.PI) * 42;
         ball.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${progress * 650})`);
@@ -240,9 +287,11 @@
           } else {
             feedback.textContent = toss
               ? 'Missed the balloons. Adjust your aim and try again.'
-              : 'Right word part or word. Adjust your aim and try the shot again.';
+              : rimX === null
+                ? 'Right answer. Pull farther down for a higher shot.'
+                : 'Right answer. Adjust left or right and try the shot again.';
           }
-          busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;resetPull();}
+          busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;resetPull();driftBalloons();}
       }frame=requestAnimationFrame(animate);
     };
     $('.hoops-next').onclick=()=>{round++;if(round<deck.length){render();$('.hoops-choice').focus();}else{$('.hoops-prompt').textContent=`Final score: ${score} points!`;
