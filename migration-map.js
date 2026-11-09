@@ -1069,7 +1069,7 @@
       "migrationWaypointTitle";
 
     heading.textContent =
-      "⭐ Words to Review";
+      "⭐ Review to Remember";
 
     const description =
       document.createElement("p");
