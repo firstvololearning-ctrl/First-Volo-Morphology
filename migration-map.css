@@ -2586,3 +2586,104 @@ body.migration-modal-open {
 }
 
 /* === END WAYPOINT WORDS === */
+
+/* Student progress entry beside the practice start. */
+.student-migration-map {
+  grid-template-columns: minmax(150px, 26%) minmax(0, 1fr);
+  align-items: stretch;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 22px;
+  overflow: hidden;
+  border: 1px solid #a9c4e1;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 4px 12px #173a6412;
+  color: #173a64;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+html[data-morphology-mode="student"] .migration-flight-actions {
+  grid-template-columns: 1fr;
+}
+
+html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
+#studentMigrationMap {
+  display: grid;
+}
+
+.student-migration-map:hover {
+  background: #f2f7fc;
+  border-color: #6d9bc8;
+}
+
+.student-migration-map:focus-visible {
+  outline: 3px solid #147a92;
+  outline-offset: 3px;
+}
+
+.student-migration-art {
+  position: relative;
+  display: grid;
+  min-height: 116px;
+  place-items: center;
+  background: #f5e5c0 url("images/migration/migration-map-underlay.png") center / cover;
+}
+
+.student-migration-art svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: #173a64;
+  stroke: #173a64;
+  stroke-width: 2.5px;
+}
+
+.student-migration-art path {
+  fill: none;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+}
+
+.student-migration-art img {
+  position: relative;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 3px #34210d38);
+}
+
+.student-migration-copy {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 16px 20px;
+}
+
+.student-migration-copy strong { font-size: 1.2rem; }
+.student-migration-copy b { text-decoration: underline; text-underline-offset: 3px; }
+
+.migration-map-route-control:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 20px 0;
+  font-weight: 700;
+}
+
+.migration-map-route-control select {
+  min-height: 44px;
+  padding: 4px 10px;
+  border: 1px solid #a9c4e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #173a64;
+  font: inherit;
+}
+
+@media (max-width: 480px) {
+  .student-migration-map { grid-template-columns: minmax(90px, 28%) minmax(0, 1fr); }
+  .student-migration-copy { padding: 12px; }
+}

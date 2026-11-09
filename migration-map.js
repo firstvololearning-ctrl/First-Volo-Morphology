@@ -140,6 +140,8 @@
     document.createElement("button");
 
   launchButton.type = "button";
+  launchButton.setAttribute("data-morphology-educator-only", "");
+  launchButton.setAttribute("aria-haspopup", "dialog");
 
   launchButton.className =
     "migration-map-launch-button";
@@ -242,6 +244,17 @@
     closeButton
   );
 
+  const routeControl = document.createElement("label");
+  routeControl.className = "migration-map-route-control";
+  routeControl.textContent = "View route";
+  const routeSelect = document.createElement("select");
+  for (const option of gradeBandSelect.options) {
+    const route = window.FirstVoloMigration.getFlight(option.value);
+    if (route) routeSelect.add(new Option(route.label, option.value));
+  }
+  routeControl.append(routeSelect);
+  routeSelect.addEventListener("change", render);
+
   const content =
     document.createElement("div");
 
@@ -250,6 +263,7 @@
 
   dialog.append(
     dialogHeader,
+    routeControl,
     content
   );
 
@@ -1254,26 +1268,6 @@
     return section;
   }
 
-  function renderNoFlight() {
-    content.innerHTML = "";
-
-    const message =
-      document.createElement("div");
-
-    message.className =
-      "migration-map-empty";
-
-    message.innerHTML =
-      `
-        <strong>Choose a Migration Route.</strong>
-        <span>
-          Choose Migration Route 1, 2, or 3 to see Volo's migration journey.
-        </span>
-      `;
-
-    content.append(message);
-  }
-
   function renderNoStudent() {
     content.innerHTML = "";
 
@@ -1297,19 +1291,7 @@
   function render() {
     content.innerHTML = "";
 
-    const flightValue =
-      gradeBandSelect.value;
-
-    const flight =
-      window.FirstVoloMigration
-        .getFlight(
-          flightValue
-        );
-
-    if (!flight) {
-      renderNoFlight();
-      return;
-    }
+    const flightValue = routeSelect.value;
 
     let student =
       getStudent();
@@ -1325,6 +1307,7 @@
       };
     }
 
+    routeControl.hidden = !student;
     if (!student) {
       renderNoStudent();
       return;
@@ -1434,7 +1417,19 @@
     }
   }
 
+  function chooseInitialRoute() {
+    const assignedRoute = document.querySelector(".student-entry [data-plan-route]")?.dataset.planRoute;
+    const practiceRoute = document.querySelector("[data-plan-workspace-hidden]")
+      ? assignedRoute
+      : gradeBandSelect.value;
+    const route = [practiceRoute, assignedRoute].find(
+      (value) => window.FirstVoloMigration.getFlight(value)
+    );
+    routeSelect.value = route || routeSelect.options[0].value;
+  }
+
   function openModal() {
+    chooseInitialRoute();
     returnFocus =
       document.activeElement;
 
@@ -1465,6 +1460,8 @@
     "click",
     openModal
   );
+
+  document.getElementById("studentMigrationMap")?.addEventListener("click", openModal);
 
   closeButton.addEventListener(
     "click",
@@ -1498,6 +1495,7 @@
     "change",
     () => {
       if (!overlay.hidden) {
+        chooseInitialRoute();
         render();
       }
     }

@@ -145,6 +145,7 @@
     if(!plan)return;
     original.hidden=true;note.hidden=true;
     studentPanel=document.createElement('div');studentPanel.className='practice-plan-panel';
+    studentPanel.dataset.planRoute = plan.flight;
     const lesson = lessonChoices?.choices(plan.flight).find(item => item.id === plan.lesson);
     const summary=document.createElement('p');
     summary.textContent=lesson
