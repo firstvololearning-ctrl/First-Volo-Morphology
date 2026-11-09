@@ -1069,15 +1069,15 @@
       "migrationWaypointTitle";
 
     heading.textContent =
-      "⭐ Waypoint Words";
+      "⭐ Words to Explore";
 
     const description =
       document.createElement("p");
 
     description.textContent =
       accessState.availableCount
-        ? "Open any discovered word to review how its meaningful parts work together."
-        : "Waypoint Words appear as Volo reaches new destinations and their word parts are mastered.";
+        ? "Open a word to see how its parts work together."
+        : "Earn the needed tokens and reach the matching map stop to open these words.";
 
     headingWrap.append(
       heading,
@@ -1174,7 +1174,7 @@
 
               link.setAttribute(
                 "aria-label",
-                `Open the ${waypoint.word} Waypoint Word`
+                `Open ${waypoint.word} for review`
               );
 
               const icon =
@@ -1224,7 +1224,7 @@
 
             locked.setAttribute(
               "aria-label",
-              `${group.label} Waypoint Word not yet discovered`
+              `Word at ${group.label} is still locked`
             );
 
             locked.innerHTML =

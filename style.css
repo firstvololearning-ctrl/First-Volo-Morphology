@@ -6260,122 +6260,32 @@ a:focus-visible {
   padding-top: 20px;
 }
 
-.about-disclosure {
-  margin-bottom: 9px;
-  overflow: hidden;
+.about-resource-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+.about-resource-links li {
+  padding: 12px 14px;
   border: 1px solid #d8e3ee;
   border-radius: 12px;
-  background: #fff;
-}
-
-.about-disclosure summary {
-  position: relative;
-  padding: 15px 46px 15px 16px;
-  cursor: pointer;
-  list-style: none;
-  font-weight: 700;
-  color: #173f70;
   background: #f7fafc;
 }
-
-.about-disclosure summary::-webkit-details-marker {
-  display: none;
-}
-
-.about-disclosure summary::after {
-  content: "⌄";
-  position: absolute;
-  top: 50%;
-  right: 17px;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  transition: transform 0.18s ease;
-}
-
-.about-disclosure[open] summary::after {
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.about-disclosure[open] summary {
-  border-bottom: 1px solid #e0e8f0;
-}
-
-.about-disclosure-body {
-  padding: 15px 18px 18px;
-}
-
-.about-disclosure-body > :first-child {
-  margin-top: 0;
-}
-
-.about-disclosure-body > :last-child {
-  margin-bottom: 0;
-}
-
-.about-flight {
-  margin: 12px 0;
-  padding: 12px 14px;
-  border-left: 4px solid #d3a64a;
-  background: #fafbfc;
-}
-
-.about-flight strong,
-.about-flight small {
-  display: block;
-}
-
-.about-flight strong {
+.about-resource-links a {
   color: #173f70;
-}
-
-.about-flight small {
-  margin-top: 2px;
   font-weight: 700;
-  color: #66768a;
 }
-
-.about-flight p {
-  margin: 7px 0 0;
-}
-
-.about-word-parts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.about-word-parts > div {
-  padding: 13px 14px;
-  border: 1px solid #dce6f0;
-  border-radius: 12px;
-  background: #f8fafc;
-}
-
-.about-word-parts strong {
-  color: #173f70;
-}
-
-.about-word-parts p {
-  margin: 6px 0 0;
+.about-resource-links span {
+  display: block;
+  margin-top: 4px;
 }
 
 @media (max-width: 700px) {
-  .about-principles,
-  .about-word-parts {
-    grid-template-columns: 1fr;
-  }
-
-  .about-activity-flow {
-    font-size: 0.92rem;
-  }
-
-  .about-disclosure summary {
-    padding-top: 13px;
-    padding-bottom: 13px;
-  }
+  .about-principles { grid-template-columns: 1fr; }
+  .about-activity-flow { font-size: 0.92rem; }
 }
-
 
 /* === ABOUT VISUAL USE CASES · 2026-08-26 === */
 
