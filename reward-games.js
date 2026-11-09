@@ -388,6 +388,13 @@
           jump.addEventListener("click", () => window.FirstVoloWordJump.open(reward, jump));
           item.append(jump);
         }
+        if ((unlocked || educatorPreview) && window.FirstVoloWordMaze) {
+          const maze = document.createElement("button");
+          maze.type = "button";
+          maze.textContent = !unlocked && educatorPreview ? "Preview word maze" : "Word Maze";
+          maze.addEventListener("click", () => window.FirstVoloWordMaze.open(reward, maze));
+          item.append(maze);
+        }
         cards.append(item);
       });
       list.append(group);

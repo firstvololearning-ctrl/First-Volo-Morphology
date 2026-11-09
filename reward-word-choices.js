@@ -57,6 +57,42 @@
       prompt: 'Which word contains tract, meaning “pull” or “draw”?',
       answer: 'tractor',
       explanations: { tractor: 'Tract means pull. A tractor can pull heavy equipment.', track: 'A track can be a path or a trail. It has a different root.' }
+    },
+    {
+      parts: ['under', 'pre'],
+      prompt: 'Which word means cook too little?',
+      answer: 'undercook',
+      explanations: { undercook: 'Under- means too little here. Undercook means cook too little.', precook: 'Pre- means before. Precook means cook ahead of time.' }
+    },
+    {
+      parts: ['able-ible', 'ed'],
+      prompt: 'Which word means able to be folded?',
+      answer: 'foldable',
+      explanations: { foldable: 'The ending -able means able to be. Foldable means able to be folded.', folded: 'Folded describes something that has already been folded.' }
+    },
+    {
+      parts: ['graph', 'phon'],
+      prompt: 'Which word contains a root connected with writing?',
+      answer: 'autograph',
+      explanations: { autograph: 'Graph relates to writing. An autograph is a signature someone writes.', earphone: 'Phone relates to sound. An earphone delivers sound to the ear.' }
+    },
+    {
+      parts: ['ist'],
+      prompt: 'Which word names a person who plays the piano?',
+      answer: 'pianist',
+      explanations: { pianist: 'The ending -ist can name a person connected with an activity. A pianist plays the piano.', piano: 'Piano names the instrument.' }
+    },
+    {
+      parts: ['retro', 'pre'],
+      prompt: 'Which word has a prefix that means “backward”?',
+      answer: 'retrofire',
+      explanations: { retrofire: 'Retro- means backward. Retrofiring uses backward thrust to slow a spacecraft.', precook: 'Pre- means before. Precook means cook ahead of time.' }
+    },
+    {
+      parts: ['ant-ent-agent'],
+      prompt: 'Which word names a person taking part in a contest?',
+      answer: 'contestant',
+      explanations: { contestant: 'Here -ant names a person who takes part. A contestant takes part in a contest.', contest: 'Contest names the competition.' }
     }
   ];
 
@@ -101,12 +137,17 @@
     ) : [];
     const focusRounds = words.filter(round => round.parts.some(id => current.has(id)));
     const reviewRounds = words.filter(round => !focusRounds.includes(round));
-    const selected = [...focusRounds, ...shuffled(reviewRounds)].slice(0, 3)
+    const selected = [...shuffled(focusRounds), ...shuffled(reviewRounds)].slice(0, 3)
       .map(round => ({ ...round, choices: Object.keys(round.explanations) }));
-    const generic = shuffled(morphemeQuestions(reward)).sort((a, b) =>
-      Number(current.has(b.id)) - Number(current.has(a.id))
-    );
-    return shuffled([...selected, ...generic.slice(0, 5 - selected.length)]);
+
+    const generic = shuffled(morphemeQuestions(reward));
+    const focusQuestions = generic.filter(question => current.has(question.id));
+    const reviewQuestions = generic.filter(question => !current.has(question.id));
+    // Give an earlier word part a review slot even when the current set can fill the round.
+    const reviewSlot = reviewQuestions.slice(0, 1);
+    const wordPartRounds = [...reviewSlot, ...focusQuestions, ...reviewQuestions.slice(1)]
+      .slice(0, 5 - selected.length);
+    return shuffled([...selected, ...wordPartRounds]);
   }
 
   function label(question, choice) {

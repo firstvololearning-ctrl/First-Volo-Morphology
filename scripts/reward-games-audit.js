@@ -63,7 +63,7 @@ const report = registry.definitions.map((reward) => {
     totalTokens: flightTokens.length, tokenRatio, routePosition, pathRatio, eligibleCount: expectedPool.length };
 });
 
-const rewardFiles = ["reward-registry.js", "reward-config-games.js", "reward-games.js"];
+const rewardFiles = ["reward-registry.js", "reward-config-games.js", "reward-games.js", "reward-word-choices.js", "reward-hoops.js", "reward-jump.js", "reward-maze.js"];
 const forbiddenCalls = [
   /\brecordAttempt\s*\(/, /\brecordResponse\s*\(/, /\bstartSession\s*\(/, /\bfinishSession\s*\(/,
   /\bupdateEarnedTokens\s*\(/, /\blocalStorage\s*\.\s*(?:setItem|removeItem|clear)\s*\(/

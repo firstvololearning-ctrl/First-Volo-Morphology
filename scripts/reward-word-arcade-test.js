@@ -15,7 +15,7 @@ w.requestAnimationFrame = callback => { frame = callback; return 1; };
 w.cancelAnimationFrame = () => { frame = null; };
 for (const file of [
   'word-inventory.js', 'token-sets.js', 'instructional-protection-registry.js',
-  'reward-registry.js', 'reward-word-choices.js', 'reward-hoops.js', 'reward-jump.js'
+  'reward-registry.js', 'reward-word-choices.js', 'reward-hoops.js', 'reward-jump.js', 'reward-maze.js'
 ]) w.eval(fs.readFileSync(file, 'utf8'));
 
 const rewards = w.FirstVoloRewardRegistry.definitions;
@@ -35,6 +35,25 @@ for (const reward of rewards) {
     }
   }
 }
+let seed = 20261108;
+w.Math.random = () => {
+  seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+  return seed / 2 ** 32;
+};
+const directAnswers = new Set();
+const wordAnswers = new Set();
+for (const reward of rewards) {
+  for (let replay = 0; replay < 1500; replay++) {
+    for (const question of buildDeck(reward)) {
+      (question.explanations ? wordAnswers : directAnswers).add(question.answer);
+    }
+  }
+}
+const assignedParts = new Set(w.FIRST_VOLO_TOKEN_SETS.flatMap(set => set.morphemeIds));
+assert.deepEqual(directAnswers, assignedParts, 'all assigned parts are reachable in dealt rounds');
+assert.equal(wordAnswers.size, 15);
+w.Math.random = () => .999;
+
 const prefixReward = rewards.find(reward => reward.id === 'prefix-meaning-flight');
 const prefixes = buildDeck(prefixReward);
 assert(prefixes.some(question => question.answer === 'impolite'));
@@ -88,6 +107,46 @@ assert.match($('.jump-prompt').textContent, /Course complete/);
 $('.jump-close').click();
 assert.equal(frame, null);
 assert.equal(d.activeElement, source);
+w.FirstVoloWordMaze.open(rewards[0], source);
+const board = $('.maze-board');
+const mazeKey = name => board.dispatchEvent(new w.KeyboardEvent('keydown', { key: name, bubbles: true }));
+const startCell = $('.maze-volo').parentElement;
+mazeKey('ArrowUp');
+assert.equal($('.maze-volo').parentElement, startCell, 'walls stop movement');
+
+const moves = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+function pathTo(start, end) {
+  const queue = [[start, []]];
+  const seen = new Set([start]);
+  while (queue.length) {
+    const [cell, path] = queue.shift();
+    if (cell === end) return path;
+    const column = cell % 15;
+    const row = Math.floor(cell / 15);
+    for (const [key, [dx, dy]] of Object.entries(moves)) {
+      const next = (row + dy) * 15 + column + dx;
+      if (seen.has(next) || !board.children[next]?.classList.contains('maze-path')) continue;
+      queue.push([next, [...path, key]]);
+      seen.add(next);
+    }
+  }
+  return null;
+}
+const cellIndex = cell => [...board.children].indexOf(cell);
+const origin = cellIndex(startCell);
+const endpoints = [16, 28, 118];
+assert(endpoints.every(cell => pathTo(origin, cell)), 'every endpoint is reachable');
+const wrongCell = cellIndex($('.maze-token[data-marker="B"]').parentElement);
+for (const step of pathTo(origin, wrongCell)) mazeKey(step);
+assert.match($('.maze-feedback').textContent, /Try another token/);
+assert.equal($('.maze-score').textContent, '0 collected');
+const rightCell = cellIndex($('.maze-token[data-marker="A"]').parentElement);
+for (const step of pathTo(wrongCell, rightCell)) mazeKey(step);
+assert.equal($('.maze-score').textContent, '1 collected');
+$('.maze-next').click();
+assert.match($('.maze-prompt').textContent, /Maze complete/);
+$('.maze-close').click();
+assert.equal(d.activeElement, source);
 assert.equal(w.localStorage.length, 0);
 w.close();
-console.log('PASS: eligible, unprotected word rounds, basketball meaning feedback, balloon splash, physical jump collection, and session-only scores');
+console.log('PASS: eligible, unprotected word rounds, basketball meaning feedback, balloon splash, physical jump collection, maze walls and collection, all 95 parts, 15 word rounds, and session-only scores');
