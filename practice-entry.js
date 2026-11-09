@@ -51,7 +51,7 @@
     });
   }
   learnerEntry?.addEventListener("toggle", () => {
-    if (learnerEntry.open) setEducatorPath("lesson");
+    if (learnerEntry.open && document.documentElement.dataset.educatorPath !== "practice") setEducatorPath("lesson");
   });
   document.getElementById("educatorPracticeStart")?.addEventListener("click", () => {
     delete document.documentElement.dataset.sharedLessonOpen;
