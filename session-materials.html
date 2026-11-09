@@ -22,7 +22,7 @@
 
   <link
     rel="stylesheet"
-    href="session-materials.css?v=20260823-print3"
+    href="session-materials.css?v=20261108-session-entry"
   >
   <link rel="stylesheet" href="morphology-access.css">
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
@@ -198,36 +198,33 @@
         aria-labelledby="sessionSourceChooserHeading"
       >
         <h2 id="sessionSourceChooserHeading">
-          Two ways to start a teacher-led session
+          Choose what to teach
         </h2>
 
+        <div class="session-source-grid">
         <section
           id="recommendedSessionChoice"
           aria-labelledby="recommendedSessionHeading"
         >
           <span class="session-eyebrow">
-            Adaptive recommendation
+            BASED ON SAVED PRACTICE
           </span>
 
           <h3 id="recommendedSessionHeading">
-            Recommended Session
+            Use the suggested next step
           </h3>
 
           <p>
-            First Volo chooses the next target and activity from the
-            student's recent performance. This remains the student's
-            adaptive recommendation unless new performance is actually saved.
+            Start with the word part and activity suggested from the learner’s recent saved practice.
           </p>
 
           <button
             type="button"
             id="useRecommendedSessionButton"
           >
-            Use recommended session
+            Open suggested session
           </button>
         </section>
-
-        <hr>
 
         <section
           id="teacherSelectedSessionChoice"
@@ -238,15 +235,11 @@
           </span>
 
           <h3 id="teacherSelectedSessionHeading">
-            Teacher-Selected Session
+            Choose a word part and activity
           </h3>
 
           <p>
-            You choose the word part and activity for a specific
-            instructional reason. Opening this session does not rewrite
-            the student's recommended next target. If performance from
-            this session is later saved, record its source as
-            <strong>Teacher selected</strong>.
+            Use this option when you have a target in mind or the learner has no saved practice yet. Choose from activities that have suitable teaching examples for the part.
           </p>
 
           <p>
@@ -276,15 +269,14 @@
             type="button"
             id="buildTeacherSelectedSessionButton"
           >
-            Build teacher-selected session
+            Build this session
           </button>
 
           <p>
-            After the session is built, First Volo shows only the
-            10-, 15-, or 30-minute lengths that can construct the
-            required session sequence for that target and activity.
+            After building the session, choose an available length. The options depend on the teaching and application tasks available for this word part.
           </p>
         </section>
+        </div>
       </section>
 
 
@@ -360,10 +352,7 @@
         </h2>
 
         <p>
-          The instructional target is known, but it can
-          occur in more than one reusable material family.
-          Choose the family you intend to use rather than
-          having First Volo guess.
+          More than one word family is available for this part. Choose the one you want to use for the lesson.
         </p>
 
         <div
@@ -1054,7 +1043,7 @@
     src="word-part-family-contrast.js?v=20260822-family1"
   ></script>
   <script
-    src="session-materials-ui.js?v=20260821-sessionux1"
+    src="session-materials-ui.js?v=20261108-session-entry"
   ></script>
 
   <!-- FIRST_VOLO_SESSION_CLOUD_SYNC_V1 -->

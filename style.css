@@ -7810,3 +7810,46 @@ html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) #prac
 .learn-set-start { cursor: pointer; border: 2px solid #1c4c77; border-radius: 10px; background: #1c4c77; color: white; padding: 10px 16px; font: inherit; font-weight: 700; }
 .learn-set-start:hover { background: #123858; }
 .learn-set-start:focus-visible { outline: 3px solid #d18b00; outline-offset: 3px; }
+
+
+/* Put the two practice paths first, with educator tools in their own row. */
+.educator-entry .educator-main-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.educator-entry .educator-main-actions > button,
+.educator-entry .learner-practice-entry > summary {
+  min-height: 94px;
+  text-align: left;
+}
+.educator-tools-title {
+  margin: 20px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #dce6ed;
+  font-size: 1rem;
+}
+.educator-secondary-actions > a {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #afc5db;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: #f2f7fc;
+  color: #173a64;
+  min-height: 44px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.educator-resources-main .educator-resource-card {
+  min-height: 0;
+}
+.educator-resource-card h3 {
+  margin: 0;
+  color: #173d67;
+}
+.educator-resource-card .educator-resource-link {
+  margin-top: auto;
+}
+@media (max-width: 600px) {
+  .educator-entry .educator-main-actions { grid-template-columns: 1fr; }
+}

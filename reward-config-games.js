@@ -36,7 +36,7 @@
     document.body.append(overlay);
   }
 
-  function open(reward, source) {
+  function open(reward, source, playNow = false) {
     ensureOverlay();
     activeReward = reward;
     returnFocus = source || document.activeElement;
@@ -61,7 +61,8 @@
       if (qaFeedback === "gentle") feedback("Gentle turn—try another wind puff.", "gentle");
       return;
     }
-    renderIntro();
+    if (playNow) startStage();
+    else renderIntro();
   }
 
   function buildStages(reward) {

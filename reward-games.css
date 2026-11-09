@@ -61,3 +61,65 @@ body.reward-game-open{overflow:hidden}.reward-game-overlay{position:fixed;inset:
 @media (max-width: 420px) {
   .reward-my-game > .reward-game-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.hoops.reward-memory {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(720px, calc(100% - 20px));
+  padding: 0;
+}
+
+.reward-memory::backdrop {
+  background: radial-gradient(ellipse at top, #40337bed, #08182ef5 65%);
+}
+
+.reward-memory .hoops-help {
+  margin: 14px 0 0;
+  font-size: 1rem;
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 24px;
+}
+
+.reward-memory .memory-card {
+  min-height: 100px;
+  padding: 8px;
+  overflow-wrap: anywhere;
+  font: inherit;
+  font-weight: 750;
+  background: #302764;
+  border-color: #b7a3f2;
+  color: white;
+}
+
+.reward-memory .memory-card[data-kind="Meaning"] {
+  background: #164e66;
+  border-color: #80d8d3;
+}
+
+.reward-memory .memory-card[aria-pressed="true"] {
+  background: #ffdf9b;
+  border-color: #ffeab9;
+  color: #213449;
+}
+
+.reward-memory .memory-card.is-matched {
+  background: #a6efda;
+  border-color: #65bba4;
+  color: #153c36;
+  opacity: 1;
+}
+
+@media (max-width: 520px) {
+  .memory-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 12px;
+    gap: 8px;
+  }
+  .reward-memory .memory-card { min-height: 72px; }
+}

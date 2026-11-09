@@ -1173,7 +1173,7 @@
       return {
         applicable: false,
         reason:
-          `First Volo could not find enough suitable instructional words to build an accurate ${ACTIVITY_LABELS[activity] || activity} Part A + Apply sequence for this target. This is a linguistic-safety or coverage limit, not a missing reusable-material rule.`
+          `There are too few suitable examples for both guided practice and application in ${ACTIVITY_LABELS[activity] || activity}.`
       };
     }
 
@@ -1240,8 +1240,8 @@
       ).length
     ) {
       host.innerHTML = `
-        <strong>No teacher-selected activity is instructionally appropriate for this word part.</strong>
-        These choices are blocked by explicit target/activity rules, not by the absence of a prebuilt material family.
+        <strong>Choose another word part.</strong>
+        This part has no available teacher-led activities.
       `;
       return;
     }
@@ -1372,53 +1372,23 @@
         suffix: "Suffixes"
       };
 
-      [
-        "prefix",
-        "root",
-        "suffix"
-      ].forEach(
-        type => {
-          const group =
-            document
-              .createElement(
-                "optgroup"
-              );
+      const routes = [["2-3", "Route 1"], ["4-5", "Route 2"], ["6-8", "Route 3"]];
+      for (const [band, route] of routes) {
+        for (const [type, label] of Object.entries(groupLabels)) {
+          const items = morphemeInventory().filter(item => item?.introBand === band && item.type === type);
+          if (!items.length) continue;
 
-          group.label =
-            groupLabels[type];
-
-          morphemeInventory()
-            .filter(
-              item =>
-                item?.type === type
-            )
-            .forEach(
-              item => {
-                const option =
-                  document
-                    .createElement(
-                      "option"
-                    );
-
-                option.value =
-                  item.id;
-
-                option.textContent =
-                  `${item.label} — ${item.meaning || "meaning not listed"}`;
-
-                group
-                  .appendChild(
-                    option
-                  );
-              }
-            );
-
-          targetSelect
-            .appendChild(
-              group
-            );
+          const group = document.createElement("optgroup");
+          group.label = `${route} · ${label}`;
+          for (const item of items) {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = `${item.label} — ${item.meaning}`;
+            group.append(option);
+          }
+          targetSelect.append(group);
         }
-      );
+      }
     }
 
     if (!activitySelect.options.length) {
@@ -1506,16 +1476,16 @@
       sourceLine.textContent =
         teacherSelected
           ? (
-              "Session source: Teacher selected · Opening this session has not replaced the adaptive recommendation."
+              "You chose this word part and activity."
             )
           : (
-              "Session source: Recommended · First Volo selected this next step from the student's recent work."
+              "Suggested from the learner’s recent saved practice."
             );
     }
 
     if (recommendedButton) {
-      recommendedButton.disabled =
-        !teacherSelected;
+      recommendedButton.disabled = !teacherSelected;
+      recommendedButton.textContent = teacherSelected ? "Open suggested session" : "Suggested session selected";
     }
   }
 
@@ -15524,7 +15494,7 @@ function ensureReadyMaterialContainer() {
 
     readyV13ReplaceTextEverywhere(
       "Begin each new demand with an independent attempt. If a barrier appears, use the least support needed, retry the same demand, then fade support.",
-      "Let the student try the activity's morphology demand first. If decoding, word knowledge, retrieval, or sentence generation gets in the way, give only the access help needed. If the morphology itself is difficult, use the least support shown, retry the same demand, and fade the support after success."
+      "Let the student try the word-part task first. Help with reading or directions as needed. If the word-part reasoning is difficult, give a small cue, let the student try again, and give less help next time."
     );
 
     readyV13ReplaceTextEverywhere(
@@ -17088,11 +17058,11 @@ function ensureReadyMaterialContainer() {
       <p>
         <strong>Session source:</strong>
         ${state.sessionSource === "teacher-selected" ? "Teacher selected" : "Recommended"}.
-        ${state.sessionSource === "teacher-selected" ? "This educator-selected session does not replace the student's adaptive recommendation merely because it was opened." : "First Volo selected this next step from the student's recent performance."}
+        ${state.sessionSource === "teacher-selected" ? "You chose the word part and activity." : "The suggestion comes from recent saved practice."}
       </p>
 
       <p>
-        Let the student try each new morphology demand first. If decoding, word knowledge, retrieval, or sentence generation gets in the way, give only the access help needed. If the morphology itself is difficult, use the least support shown, retry the same demand, and fade the support after success.
+        Let the student try each word-part task first. If they need help, give one cue, then ask them to try again.
       </p>
 
       <ol>
@@ -19307,7 +19277,7 @@ function ensureReadyMaterialContainer() {
           )
           .join(" · ")}
       </strong>
-      Other lengths are unavailable because the system-generated ${esc(currentActivityLabel())} Part A + Apply sequence does not yet have enough valid material for that duration.
+      Choose one of the lengths shown. This activity has enough suitable examples for those lengths.
     `;
   }
 
@@ -19495,12 +19465,10 @@ function ensureReadyMaterialContainer() {
 
       warning.innerHTML = `
         <strong>
-          No adaptive recommendation yet.
+          No suggested session yet.
         </strong>
 
-        There is no saved instructional target for this student yet.
-        Choose a Teacher-Selected Session below, or save instructional
-        performance first. First Volo will not invent a recommended target.
+        Choose a word part and activity below to get started. Recent saved practice will help First Volo suggest a next step.
       `;
     } else {
       warning.hidden =

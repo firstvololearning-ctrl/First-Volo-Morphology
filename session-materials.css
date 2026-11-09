@@ -2317,3 +2317,29 @@
     page-break-inside: avoid !important;
   }
 }
+
+.session-source-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.session-source-grid > section {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #cedce7;
+  border-radius: 14px;
+  background: #fff;
+}
+.session-source-grid select {
+  width: 100%;
+  max-width: 100%;
+  min-height: 44px;
+  font: inherit;
+}
+.session-source-grid button {
+  min-height: 44px;
+}
+@media (max-width: 680px) {
+  .session-source-grid { grid-template-columns: 1fr; }
+}

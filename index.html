@@ -75,11 +75,11 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=20261108-set-start">
+  <link rel="stylesheet" href="style.css?v=20261108-educator-hub">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
-  <link rel="stylesheet" href="reward-games.css?v=20261108-game-tiles">
+  <link rel="stylesheet" href="reward-games.css?v=20261108-memory">
   <link rel="stylesheet" href="reward-hoops.css?v=20261108-water-splash">
   <link rel="stylesheet" href="reward-jump.css?v=20261108-catch">
   <link rel="stylesheet" href="reward-maze.css?v=20261108-maze-steer">
@@ -239,9 +239,9 @@
 
   <main class="page">
     <section class="practice-entry educator-entry" data-morphology-educator-only aria-labelledby="educatorEntryTitle">
-      <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">Ready to practice?</h2>
-      <p>Choose what you need to do first.</p></div>
-      <div class="educator-main-actions"><button type="button" id="openPracticePlan" class="educator-progress-link"><strong>Set up independent learning</strong><small>Choose practice for the learner’s student mode.</small></button><details class="learner-practice-entry"><summary><strong>Work with a learner</strong><small>Run practice together here in the educator workspace.</small></summary>    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
+      <div><p class="entry-eyebrow">EDUCATOR WORKSPACE</p><h2 id="educatorEntryTitle">Plan or lead morphology practice</h2>
+      <p>Practice together here or choose what the learner will work on independently.</p></div>
+      <div class="educator-main-actions"><button type="button" id="openPracticePlan" class="educator-progress-link"><strong>Set up independent learning</strong><small>Save a practice plan the learner can open in Student Mode.</small></button><details class="learner-practice-entry"><summary><strong>Work with a learner</strong><small>Choose a learner and start a shared practice session.</small></summary>    <section class="current-student-bar" id="currentStudentBar" data-morphology-educator-only>
 
       <div class="student-bar-intro student-bar-intro-numbered">
 
@@ -282,16 +282,21 @@
         Manage Learners
       </a>
 
-    </section><a href="morphology-target-builder.html" class="educator-progress-link">Example objectives, standards &amp; research →</a><p id="learnerNextStep" role="status">Next: Choose a learner, or continue without saving to a learner.</p><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details><a class="educator-progress-link" href="program-progress.html">Learners &amp; progress</a></div>
-      <details class="entry-assess"><summary>Resources &amp; guide</summary><a href="morphology-target-builder.html">Objectives, grade standards &amp; evidence</a><nav class="practice-entry-actions" aria-label="Educator planning and resources"><a href="educator-resources.html">Educator resources &amp; guide</a></nav></details>
-      <div class="educator-secondary-actions"><button type="button" id="educatorPreviewGames">🎮 Preview games</button><button type="button" id="educatorStartOver" hidden>Back to start</button></div>
-      <details class="entry-assess"><summary>Start or review an assessment</summary>
-        <p>Choose a Route to open its informal Pre/Post assessment and saved reports. Use the results with other evidence to choose practice; assessment results do not automatically assign activities.</p>
+    </section><a href="morphology-target-builder.html" class="educator-progress-link">Example objectives, standards &amp; research →</a><p id="learnerNextStep" role="status">Next: Choose a learner, or continue without saving to a learner.</p><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details></div>
+      <h3 class="educator-tools-title">Educator tools</h3>
+      <div class="educator-secondary-actions">
+        <a href="program-progress.html">Learners &amp; progress</a>
+        <a href="educator-resources.html">Educator guide &amp; resources</a>
+        <button type="button" id="educatorPreviewGames">🎮 Preview games</button>
+        <button type="button" id="educatorStartOver" hidden>Back to start</button>
+      </div>
+      <details class="entry-assess"><summary>Pre/Post assessments</summary>
+        <p>Choose a route to give an informal assessment or review saved reports. Use the results to decide what to teach next.</p>
         <div class="practice-entry-actions"><a href="flight-a-assessment.html">Migration Route 1 assessment</a><a href="flight-b-assessment.html">Migration Route 2 assessment</a><a href="flight-c-assessment.html">Migration Route 3 assessment</a></div>
       </details>
     </section>
     <section class="practice-entry student-entry" data-morphology-student-only aria-labelledby="studentEntryTitle">
-      <p class="entry-eyebrow">YOUR PRACTICE</p><h2 id="studentEntryTitle">Ready to work with word parts?</h2>
+      <p class="entry-eyebrow">YOUR PRACTICE</p><h2 id="studentEntryTitle">Ready to practice?</h2>
       <p>Use the Route and word parts your teacher chose. If you are not sure, ask your teacher before starting.</p>
       <button type="button" id="studentPracticeStart" class="entry-primary">Choose practice</button>
       <p id="studentPracticeResume" class="entry-note">Choose your Route and word parts below, then choose an activity.</p>
@@ -2274,12 +2279,13 @@
   <script src="instructional-check-transfer.js?v=20260820-transfer1"></script>
   <script src="transfer-challenge-ui.js?v=20261108-route-names"></script>
   <script src="reward-registry.js?v=20261108-route-names"></script>
-  <script src="reward-config-games.js?v=20260830-batch1"></script>
+  <script src="reward-config-games.js?v=20261108-direct"></script>
   <script src="reward-word-choices.js?v=20261108-maze"></script>
   <script src="reward-hoops.js?v=20261108-route-names"></script>
   <script src="reward-jump.js?v=20261108-catch"></script>
   <script src="reward-maze.js?v=20261108-maze-retry"></script>
-  <script src="reward-games.js?v=20261108-route-names"></script>
+  <script src="reward-memory.js?v=20261108-memory"></script>
+  <script src="reward-games.js?v=20261108-memory"></script>
   <script src="migration-map.js?v=20261108-route-names"></script>
   <script src="volo-token-celebration.js?v=20261108-route-names"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>

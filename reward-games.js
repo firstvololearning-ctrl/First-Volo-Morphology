@@ -96,10 +96,10 @@
     return stop;
   }
 
-  function launchReward(reward, source) {
+  function launchReward(reward, source, playNow = false) {
     if (!reward) return;
-    if (reward.gameType === "sky-catch") return openSkyCatch(source, reward);
-    return window.FirstVoloConfigGames?.open?.(reward, source);
+    if (reward.gameType === "sky-catch") return openSkyCatch(source, reward, playNow);
+    return window.FirstVoloConfigGames?.open?.(reward, source, playNow);
   }
 
   function ensureDialog() {
@@ -111,7 +111,7 @@
       <section class="reward-game-dialog" role="dialog" aria-modal="true" aria-labelledby="rewardGameTitle">
         <header class="reward-game-header"><div><span>Optional reward</span>
           <h2 id="rewardGameTitle">Volo’s Sky Catch</h2></div>
-          <button type="button" class="reward-game-exit">← Back to Journey</button></header>
+          <button type="button" class="reward-game-exit">Close</button></header>
         <div class="reward-game-body"></div>
       </section>`;
     gameBody = gameOverlay.querySelector(".reward-game-body");
@@ -120,7 +120,7 @@
     document.addEventListener("keydown", handleKeydown);
     document.body.append(gameOverlay);
   }
-  function openSkyCatch(source, reward = REWARDS[0]) {
+  function openSkyCatch(source, reward = REWARDS[0], playNow = false) {
     ensureDialog();
     returnFocus = source || document.activeElement;
     gameOverlay.dataset.theme = typeof reward.theme === "string" ? reward.theme : reward.theme.id;
@@ -129,7 +129,8 @@
     activeReward = reward;
     gameOverlay.hidden = false;
     document.body.classList.add("reward-game-open");
-    renderRoundIntro();
+    if (playNow) startRound();
+    else renderRoundIntro();
   }
   function closeGame() {
     stopRound();
@@ -332,6 +333,7 @@
     hoops: '<path d="M17 5h13v11H17z" fill="#e4f5ff"/><path d="m17 17 3 9h7l3-9m-12 0 8 9m3-9-8 9" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M16 17h15" stroke="#ffac72" stroke-width="2.5"/><circle cx="9" cy="21" r="7" fill="#ffae63"/><path d="M2 21h14M9 14v14m-5-12q7 5 0 10m10-10q-7 5 0 10" fill="none" stroke="#80411d" stroke-width="1"/>',
     balloon: '<path d="M16 3C3 3 2 19 13 23l-2 4h10l-2-4C30 19 29 3 16 3Z" fill="#91f1e8" stroke="#e7fffb" stroke-width="1.5"/><path d="M9 12q0-4 5-5m2 20v4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>',
     jump: '<path d="M4 26h9v4H4zm15-7h9v4h-9z" fill="#a9efb5"/><path d="M8 21Q9 6 24 7m-6-4 7 4-5 5" fill="none" stroke="#ffe99a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+    memory: '<rect x="4" y="8" width="13" height="20" rx="3" fill="#a1ece2"/><rect x="14" y="4" width="14" height="20" rx="3" fill="#ffd99a"/><path d="m21 8 1.4 3.6 3.7.3-2.8 2.4.9 3.8-3.2-2-3.2 2 .9-3.8-2.8-2.4 3.7-.3Z" fill="#6d486e"/>',
     maze: '<path d="M4 4h24v24H4zM4 12h9v9h8v7M13 4v8h8v7h7" fill="none" stroke="#d5c1ff" stroke-width="3" stroke-linejoin="round"/><circle cx="21" cy="8" r="2" fill="#ffe99a"/><circle cx="8" cy="23" r="2" fill="#ffe99a"/>'
   };
 
@@ -386,9 +388,15 @@
         const actions = document.createElement("div");
         actions.className = "reward-game-actions";
         const preview = !unlocked && educatorPreview;
-        addArcadeAction(actions, "flight", preview ? "Preview game" : unlocked ? "Play" : "Locked",
-          source => launchReward(reward, source), !unlocked && !preview);
+        const cloudLabel = reward.gameType === "sky-catch" ? "Cloud Catch"
+          : reward.gameType === "build-word" ? "Cloud Builder" : "Meaning Flight";
+        addArcadeAction(actions, "flight", preview ? `Preview ${cloudLabel}` : unlocked ? cloudLabel : "Locked",
+          source => launchReward(reward, source, true), !unlocked && !preview);
         if (unlocked || preview) {
+          if (window.FirstVoloMemoryMatch) {
+            addArcadeAction(actions, "memory", preview ? "Preview Memory Match" : "Memory Match",
+              source => window.FirstVoloMemoryMatch.open(reward, source));
+          }
           if (window.FirstVoloHoops) {
             addArcadeAction(actions, "hoops", preview ? "Preview hoops" : "Shoot hoops",
               source => window.FirstVoloHoops.open(reward, source));
