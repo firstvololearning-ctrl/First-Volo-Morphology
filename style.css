@@ -7819,8 +7819,19 @@ html[data-morphology-mode="educator"]:not([data-educator-path="practice"]) #prac
 }
 .educator-entry .educator-main-actions > button,
 .educator-entry .learner-practice-entry > summary {
+  width: 100%;
+  max-width: none;
   min-height: 94px;
+  margin: 0;
+  border: 1px solid #afc5db;
+  background: #f2f7fc;
+  color: #173a64;
   text-align: left;
+}
+.educator-entry .learner-practice-entry[open] > summary,
+html[data-educator-path="setup"] .educator-entry .educator-main-actions > button {
+  background: #173a64;
+  color: #fff;
 }
 .educator-tools-title {
   margin: 20px 0 0;
