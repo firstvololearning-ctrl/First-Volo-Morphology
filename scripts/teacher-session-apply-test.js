@@ -33,6 +33,7 @@ async function openSession(parameters, { omitTeacherExtensions = false } = {}) {
   }
   return {
     byId: id => document.getElementById(id),
+    window: dom.window,
     transfer: () => document.querySelector(".session-transfer-card"),
     close() {
       for (const observer of observers) observer.disconnect();
@@ -86,6 +87,43 @@ test("a session with no eligible fresh Word Part example marks Part B unavailabl
     assert.match(overview, /No application task is available for this session/);
     assert.doesNotMatch(overview, /1 fresh application item/);
     assert.match(byId("nextTaskButton").textContent, /Continue to Check Transfer/);
+  } finally {
+    close();
+  }
+});
+
+test("previously uncovered teacher targets have a fresh Part B at their introduction band", async () => {
+  const { close, window } = await openSession({ demo: "TRACT", minutes: "10" });
+  const targetsByActivity = {
+    morpheme: ["en-em", "sub", "a-ad", "e-ex", "retro", "circum", "able-ible", "er-or", "ant-ent-adjective"],
+    use: [
+      "en-em", "sub", "e-ex", "retro", "mit", "sequ", "ten", "vert", "phon",
+      "therm", "ance", "ity", "ify", "ology", "able-ible", "er-or", "ant-ent-adjective"
+    ]
+  };
+
+  try {
+    for (const [activity, targetIds] of Object.entries(targetsByActivity)) {
+      for (const targetId of targetIds) {
+        const target = window.FIRST_VOLO_MORPHEME_INVENTORY.find(item => item.id === targetId);
+        const plan = window.FirstVoloInstructionalSessionPlanner.buildPlan({
+          student: { gradeBand: target.introBand, vocabLevel: "standard" },
+          sessionMinutes: 10,
+          sessionSelection: { source: "teacher-selected", targetId, activity }
+        });
+        const label = `${activity} / ${targetId} / ${target.introBand}`;
+        const recipes = plan.sessionMaterial.recipes;
+        assert.equal(plan.sessionMaterial.ready, true, label);
+        assert.ok(plan.apply.item?.word, label);
+        assert.ok(recipes.length >= 2, label);
+        for (const { word, applyKind, applyWord } of recipes) {
+          assert.equal(applyKind, "specific-new-item", label);
+          assert.ok(applyWord, label);
+          assert.notEqual(applyWord, word, label);
+          assert.equal(window.FirstVoloInstructionalProtection.isProtected(applyWord), false, label);
+        }
+      }
+    }
   } finally {
     close();
   }

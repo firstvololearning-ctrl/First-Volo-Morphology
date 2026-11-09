@@ -10,8 +10,105 @@
 */
 
 (function initializeFirstVoloTeacherWordExtensions() {
+  const WORD_PART = Object.freeze(["morpheme"]);
+  const USE = Object.freeze(["use"]);
+  const WORD_PART_AND_USE = Object.freeze(["morpheme", "use"]);
+
+  // These examples have their own teaching sentences for guided practice and Part B.
+  function applicationExamples(practiceBand, morpheme, activities, examples) {
+    const morphemes = Object.freeze([morpheme]);
+    return Object.freeze(examples.map(([word, definition, teachingContext]) =>
+      Object.freeze({
+        word,
+        definition,
+        teachingContext,
+        morphemes,
+        practiceBand,
+        accessibilityBand: practiceBand,
+        vocabLevel: "academic",
+        transparency: "medium",
+        teacherLedOnly: true,
+        activities
+      })
+    ));
+  }
+
   const CANDIDATES_BY_TARGET =
       Object.freeze({
+        "en-em": applicationExamples("2-3", "en-, em-", WORD_PART_AND_USE, [
+          ["enlarge", "to make something larger", "We can enlarge the photo so everyone can see it."],
+          ["encircle", "to form a circle around something", "The dancers will encircle the drum and take each other's hands."]
+        ]),
+        sub: applicationExamples("2-3", "sub-", WORD_PART_AND_USE, [
+          ["subway", "a city train system that often runs underground", "The subway train ran beneath the river."],
+          ["subheading", "a smaller heading under a main heading", "The subheading ‘Food’ came below the main heading."]
+        ]),
+        "a-ad": applicationExamples("6-8", "a-, ad-", WORD_PART, [
+          ["adhere", "to stick to something", "The label will adhere to the clean glass."],
+          ["adjoin", "to be next to and touch something", "The two gardens adjoin each other along a low stone wall."]
+        ]),
+        "e-ex": applicationExamples("4-5", "e-, ex-", WORD_PART_AND_USE, [
+          ["excrete", "to release waste from the body", "The kidneys help the body excrete waste through urine."],
+          ["excavate", "to dig out earth or rock", "Workers will excavate the soil to make room for the new pool."]
+        ]),
+        retro: applicationExamples("6-8", "retro-", WORD_PART_AND_USE, [
+          ["retroreflector", "a device that sends light back toward its source", "A bicycle retroreflector sends light back toward a car's headlights."],
+          ["retrofit", "to add new parts to something already in use", "The crew will retrofit the old school bus with seat belts."]
+        ]),
+        circum: applicationExamples("4-5", "circum-", WORD_PART, [
+          ["circumnavigate", "to travel all the way around something", "They planned to circumnavigate the island by boat and finish at the same dock."]
+        ]),
+        "able-ible": applicationExamples("2-3", "-able, -ible", WORD_PART_AND_USE, [
+          ["foldable", "able to be folded", "We put the foldable chair away after folding it flat."],
+          ["edible", "safe or suitable to eat", "The flowers on the cake are edible, so we can eat them."]
+        ]),
+        "er-or": applicationExamples("2-3", "-er, -or", WORD_PART_AND_USE, [
+          ["baker", "a person who bakes", "The baker took the bread out of the oven."],
+          ["painter", "a person who paints", "The painter used a brush to color the door blue."]
+        ]),
+        "ant-ent-adjective": applicationExamples("6-8", "-ant, -ent", WORD_PART_AND_USE, [
+          ["hesitant", "slow to act because of uncertainty", "Unsure whether the ice was thick enough, Sam felt hesitant to step onto it."],
+          ["tolerant", "willing to accept beliefs or ways different from one's own", "Club members were tolerant of differing opinions and gave everyone a chance to speak."]
+        ]),
+        mit: applicationExamples("6-8", "mit", USE, [
+          ["submit", "to send or give something for review", "Please submit your report by Friday so the editor can review it."],
+          ["remit", "to send money as payment", "The club asked members to remit the fee by mailing a check."]
+        ]),
+        sequ: applicationExamples("6-8", "sequ", USE, [
+          ["consequence", "a result that follows an action or event", "Missing the bus was a consequence of leaving late."]
+        ]),
+        ten: applicationExamples("6-8", "ten", USE, [
+          ["retention", "the act or ability of holding onto something", "The clay soil's water retention kept it damp for days."],
+          ["detention", "the act of keeping someone in a place for a time", "During detention, Kai had to stay in the classroom after school."]
+        ]),
+        vert: applicationExamples("6-8", "vert", USE, [
+          ["invert", "to turn something upside down", "Invert the empty cup so its opening faces the table."],
+          ["divert", "to turn something in a different direction", "Workers used a barrier to divert the stream away from the road."]
+        ]),
+        phon: applicationExamples("4-5", "phon/phone", USE, [
+          ["microphone", "a device that picks up sound", "The speaker used a microphone so people in the back could hear."],
+          ["megaphone", "a device that makes a voice sound louder", "The coach called through a megaphone so the team could hear across the field."]
+        ]),
+        therm: applicationExamples("4-5", "therm", USE, [
+          ["thermal", "relating to heat", "The thermal blanket helped keep the runner warm."],
+          ["geothermal", "relating to heat from inside Earth", "The town uses geothermal heat from deep underground to warm its buildings."]
+        ]),
+        ance: applicationExamples("6-8", "-ance", USE, [
+          ["attendance", "the act of being present", "The coach recorded attendance by checking who was at practice."],
+          ["importance", "how much something matters", "The guide explained the importance of clean water for the town."]
+        ]),
+        ity: applicationExamples("4-5", "-ity", USE, [
+          ["clarity", "the quality of being clear", "The clarity of her directions made each step easy to understand."],
+          ["equality", "the state of being equal", "The rule supports equality by giving every player the same chance to join."]
+        ]),
+        ify: applicationExamples("4-5", "-ify", USE, [
+          ["clarify", "to make something clearer", "Please clarify the rule by showing us what a fair turn looks like."],
+          ["purify", "to make something purer by removing unwanted substances", "The lab used a special filter to help purify the water by removing unwanted particles."]
+        ]),
+        ology: applicationExamples("4-5", "-ology", USE, [
+          ["ecology", "the study of how living things interact with their surroundings", "In ecology, the class studied how the plants and animals in a pond depend on one another."],
+          ["zoology", "the scientific study of animals", "In zoology, students study animals such as bats, frogs, and whales."]
+        ]),
         tract: Object.freeze([
           Object.freeze({
             word: "tractor",
