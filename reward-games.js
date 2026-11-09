@@ -327,6 +327,26 @@
 
   let myGamesOverlay = null;
   let myGamesReturnFocus = null;
+  const arcadeIcons = {
+    flight: '<path d="M5 23c10 0 9-14 22-17-1 12-9 19-22 17Z" fill="#aee8ff"/><path d="m7 24 14-11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>',
+    hoops: '<path d="M17 5h13v11H17z" fill="#e4f5ff"/><path d="m17 17 3 9h7l3-9m-12 0 8 9m3-9-8 9" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M16 17h15" stroke="#ffac72" stroke-width="2.5"/><circle cx="9" cy="21" r="7" fill="#ffae63"/><path d="M2 21h14M9 14v14m-5-12q7 5 0 10m10-10q-7 5 0 10" fill="none" stroke="#80411d" stroke-width="1"/>',
+    balloon: '<path d="M16 3C3 3 2 19 13 23l-2 4h10l-2-4C30 19 29 3 16 3Z" fill="#91f1e8" stroke="#e7fffb" stroke-width="1.5"/><path d="M9 12q0-4 5-5m2 20v4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>',
+    jump: '<path d="M4 26h9v4H4zm15-7h9v4h-9z" fill="#a9efb5"/><path d="M8 21Q9 6 24 7m-6-4 7 4-5 5" fill="none" stroke="#ffe99a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+    maze: '<path d="M4 4h24v24H4zM4 12h9v9h8v7M13 4v8h8v7h7" fill="none" stroke="#d5c1ff" stroke-width="3" stroke-linejoin="round"/><circle cx="21" cy="8" r="2" fill="#ffe99a"/><circle cx="8" cy="23" r="2" fill="#ffe99a"/>'
+  };
+
+  function addArcadeAction(actions, icon, label, launch, disabled = false) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.disabled = disabled;
+    button.innerHTML = `<svg class="reward-arcade-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${arcadeIcons[icon]}</svg>`;
+    const text = document.createElement("span");
+    text.textContent = label;
+    button.append(text);
+    button.addEventListener("click", () => launch(button));
+    actions.append(button);
+  }
+
   function openMyGames(student, source) {
     myGamesReturnFocus = source || document.activeElement;
     if (!myGamesOverlay) {
@@ -362,39 +382,28 @@
         const item = document.createElement("article");
         item.className = `reward-my-game ${unlocked ? "is-unlocked" : "is-locked"}`;
         item.innerHTML = `<div><strong>${unlocked ? "🎮" : "🔒"} ${reward.title}</strong><p>${reward.shortDescription}</p></div>`;
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = unlocked ? "Play" : "Locked";
-        button.disabled = !unlocked;
-        button.addEventListener("click", () => launchReward(reward, button));
-        if (!unlocked && educatorPreview) {
-          button.disabled = false; button.textContent = "Preview game";
+        const actions = document.createElement("div");
+        actions.className = "reward-game-actions";
+        const preview = !unlocked && educatorPreview;
+        addArcadeAction(actions, "flight", preview ? "Preview game" : unlocked ? "Play" : "Locked",
+          source => launchReward(reward, source), !unlocked && !preview);
+        if (unlocked || preview) {
+          if (window.FirstVoloHoops) {
+            addArcadeAction(actions, "hoops", preview ? "Preview hoops" : "Shoot hoops",
+              source => window.FirstVoloHoops.open(reward, source));
+            addArcadeAction(actions, "balloon", preview ? "Preview balloon pop" : "Water Balloon Pop",
+              source => window.FirstVoloHoops.open(reward, source, { mode: "toss" }));
+          }
+          if (window.FirstVoloWordJump) {
+            addArcadeAction(actions, "jump", preview ? "Preview word jump" : "Word Jump",
+              source => window.FirstVoloWordJump.open(reward, source));
+          }
+          if (window.FirstVoloWordMaze) {
+            addArcadeAction(actions, "maze", preview ? "Preview word maze" : "Word Maze",
+              source => window.FirstVoloWordMaze.open(reward, source));
+          }
         }
-        item.append(button);
-        if ((unlocked || educatorPreview) && window.FirstVoloHoops) {
-          const hoops = document.createElement("button");
-          hoops.type = "button"; hoops.textContent = !unlocked && educatorPreview ? "Preview hoops" : "Shoot hoops";
-          hoops.addEventListener("click", () => window.FirstVoloHoops.open(reward, hoops));
-          item.append(hoops);
-          const toss = document.createElement("button"); toss.type="button";
-          toss.textContent = !unlocked && educatorPreview ? "Preview balloon pop" : "Water Balloon Pop";
-          toss.addEventListener("click",()=>window.FirstVoloHoops.open(reward,toss,{mode:"toss"}));
-          item.append(toss);
-        }
-        if ((unlocked || educatorPreview) && window.FirstVoloWordJump) {
-          const jump = document.createElement("button");
-          jump.type = "button";
-          jump.textContent = !unlocked && educatorPreview ? "Preview word jump" : "Word Jump";
-          jump.addEventListener("click", () => window.FirstVoloWordJump.open(reward, jump));
-          item.append(jump);
-        }
-        if ((unlocked || educatorPreview) && window.FirstVoloWordMaze) {
-          const maze = document.createElement("button");
-          maze.type = "button";
-          maze.textContent = !unlocked && educatorPreview ? "Preview word maze" : "Word Maze";
-          maze.addEventListener("click", () => window.FirstVoloWordMaze.open(reward, maze));
-          item.append(maze);
-        }
+        item.append(actions);
         cards.append(item);
       });
       list.append(group);
