@@ -43,7 +43,7 @@
           ["subway", "a city train system that often runs underground", "The subway train ran beneath the river."],
           ["subheading", "a smaller heading under a main heading", "The subheading ‘Food’ came below the main heading."]
         ]),
-        "a-ad": applicationExamples("6-8", "a-, ad-", WORD_PART, [
+        "a-ad": applicationExamples("6-8", "a-, ad-", WORD_PART_AND_USE, [
           ["adhere", "to stick to something", "The label will adhere to the clean glass."],
           ["adjoin", "to be next to and touch something", "The two gardens adjoin each other along a low stone wall."]
         ]),
@@ -70,18 +70,18 @@
           ["hesitant", "slow to act because of uncertainty", "Unsure whether the ice was thick enough, Sam felt hesitant to step onto it."],
           ["tolerant", "willing to accept beliefs or ways different from one's own", "Club members were tolerant of differing opinions and gave everyone a chance to speak."]
         ]),
-        mit: applicationExamples("6-8", "mit", USE, [
+        mit: applicationExamples("6-8", "mit", WORD_PART_AND_USE, [
           ["submit", "to send or give something for review", "Please submit your report by Friday so the editor can review it."],
           ["remit", "to send money as payment", "The club asked members to remit the fee by mailing a check."]
         ]),
-        sequ: applicationExamples("6-8", "sequ", USE, [
+        sequ: applicationExamples("6-8", "sequ", WORD_PART_AND_USE, [
           ["consequence", "a result that follows an action or event", "Missing the bus was a consequence of leaving late."]
         ]),
-        ten: applicationExamples("6-8", "ten", USE, [
+        ten: applicationExamples("6-8", "ten", WORD_PART_AND_USE, [
           ["retention", "the act or ability of holding onto something", "The clay soil's water retention kept it damp for days."],
           ["detention", "the act of keeping someone in a place for a time", "During detention, Kai had to stay in the classroom after school."]
         ]),
-        vert: applicationExamples("6-8", "vert", USE, [
+        vert: applicationExamples("6-8", "vert", WORD_PART_AND_USE, [
           ["invert", "to turn something upside down", "Invert the empty cup so its opening faces the table."],
           ["divert", "to turn something in a different direction", "Workers used a barrier to divert the stream away from the road."]
         ]),
@@ -89,11 +89,11 @@
           ["microphone", "a device that picks up sound", "The speaker used a microphone so people in the back could hear."],
           ["megaphone", "a device that makes a voice sound louder", "The coach called through a megaphone so the team could hear across the field."]
         ]),
-        therm: applicationExamples("4-5", "therm", USE, [
+        therm: applicationExamples("4-5", "therm", WORD_PART_AND_USE, [
           ["thermal", "relating to heat", "The thermal blanket helped keep the runner warm."],
           ["geothermal", "relating to heat from inside Earth", "The town uses geothermal heat from deep underground to warm its buildings."]
         ]),
-        ance: applicationExamples("6-8", "-ance", USE, [
+        ance: applicationExamples("6-8", "-ance", WORD_PART_AND_USE, [
           ["attendance", "the act of being present", "The coach recorded attendance by checking who was at practice."],
           ["importance", "how much something matters", "The guide explained the importance of clean water for the town."]
         ]),

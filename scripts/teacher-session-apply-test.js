@@ -95,9 +95,12 @@ test("a session with no eligible fresh Word Part example marks Part B unavailabl
 test("previously uncovered teacher targets have a fresh Part B at their introduction band", async () => {
   const { close, window } = await openSession({ demo: "TRACT", minutes: "10" });
   const targetsByActivity = {
-    morpheme: ["en-em", "sub", "a-ad", "e-ex", "retro", "circum", "able-ible", "er-or", "ant-ent-adjective"],
+    morpheme: [
+      "en-em", "sub", "a-ad", "e-ex", "retro", "circum", "mit", "sequ", "ten",
+      "vert", "therm", "ance", "able-ible", "er-or", "ant-ent-adjective"
+    ],
     use: [
-      "en-em", "sub", "e-ex", "retro", "mit", "sequ", "ten", "vert", "phon",
+      "en-em", "sub", "a-ad", "e-ex", "retro", "mit", "sequ", "ten", "vert", "phon",
       "therm", "ance", "ity", "ify", "ology", "able-ible", "er-or", "ant-ent-adjective"
     ]
   };
