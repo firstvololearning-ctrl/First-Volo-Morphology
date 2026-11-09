@@ -50,6 +50,37 @@
     .guide-dropdown[open] > summary {
       margin-bottom: 12px;
     }
+    .guide-card-grid {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 14px 0;
+      list-style: none;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--guide-card-width, 15rem)), 1fr));
+    }
+    .guide-card-grid > li {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid #cbd9e7;
+      border-radius: 12px;
+      background: #f5f9fc;
+    }
+    .guide-card-grid strong { color: #173a64; }
+    .guide-card-grid p { margin: 6px 0 0; }
+    .guide-stages { --guide-card-width: 10rem; counter-reset: guide-stage; }
+    .guide-stages > li { counter-increment: guide-stage; }
+    .guide-stage-number {
+      display: inline-grid;
+      place-items: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      margin-bottom: 6px;
+      border-radius: 50%;
+      background: #173a64;
+      color: #fff;
+    }
+    .guide-stage-number::before { content: counter(guide-stage); }
+    .guide-support { --guide-card-width: 17rem; }
   </style>
 </head>
 
@@ -126,14 +157,35 @@
 
     <section class="practice-entry" aria-labelledby="guideTeachingTitle">
       <h2 id="guideTeachingTitle">Choose how to teach today</h2>
-      <ul class="guide-start-steps">
-        <li><strong>Independent student practice.</strong> In the educator workspace, select <strong>Set up independent learning</strong>. Choose the learner, Route, and lesson, then save. The learner selects <strong>Start today’s lesson</strong> in Student Mode.</li>
-        <li><strong>Work together on screen.</strong> Select <strong>Work with a learner</strong>, choose the Route and lesson, and start it together. <a href="index.html#educatorEntryTitle">Open the educator workspace</a>.</li>
-        <li><strong>Teacher-led session with prompts or print materials.</strong> In <strong>Learners &amp; progress</strong>, select a learner and open the <strong>Next Session Guide</strong> for a suggested focus based on saved practice. Use it on screen or with printable materials. To teach a selected word part away from the screen, open the route’s teaching pack. <a href="program-progress.html#instructionalGuidanceWrap">Next Session Guide</a> · <a href="printables.html#routeTeachingPacks">Printable teaching packs</a>.</li>
-        <li><strong>Combine formats.</strong> Introduce a word part together, on screen or offline. Then use <strong>Set up independent learning</strong> to save practice on the same part for the learner to try on their own.</li>
+      <ul class="guide-card-grid" role="list">
+        <li>
+          <strong>Computer-based learning and practice</strong>
+          <p>To practice together, open <strong>Work with a learner</strong>. For independent practice, open <strong>Set up independent learning</strong>, choose a learner, Route, and lesson, and save. The learner opens it with <strong>Start today’s lesson</strong>. <a href="index.html#educatorEntryTitle">Educator workspace</a>.</p>
+        </li>
+        <li>
+          <strong>Teacher-led 1:1 sessions</strong>
+          <p>In <strong>Learners &amp; progress</strong>, select a learner and open the <strong>Next Session Guide</strong> for a suggested focus based on saved practice. Use the prompts and materials on screen or in print. <a href="program-progress.html#instructionalGuidanceWrap">Next Session Guide</a>.</p>
+        </li>
+        <li>
+          <strong>Printables and hands-on lessons</strong>
+          <p>Use teaching packs, word-part cards, and practice pages to teach a selected word part offline with one learner or a small group. <a href="printables.html#routeTeachingPacks">Printable teaching packs</a>.</p>
+        </li>
       </ul>
+      <p><strong>Combine formats.</strong> Introduce a word part together, on screen or offline. Then save practice on that same part for the learner to try independently.</p>
       <p>Use the same word part in whole-class instruction, small-group practice, or individualized intervention. <a href="extend-learning.html#classroom-and-intervention">See an example across Tiers 1–3</a>.</p>
       <p><strong>In a lesson.</strong> Model the part in a familiar word, sort and explain related words when the comparison fits, then try the part in a new word. Route 3 adds a sentence check in <strong>Figure It Out</strong> before the learner keeps or revises their answer.</p>
+    </section>
+
+    <section class="practice-entry" aria-labelledby="guideSkillStagesTitle">
+      <h2 id="guideSkillStagesTitle">How the skills build</h2>
+      <ol class="guide-card-grid guide-stages" role="list">
+        <li><span class="guide-stage-number" aria-hidden="true"></span><br><strong>Know the parts</strong><p>Learn what meaningful word parts mean or do.</p></li>
+        <li><span class="guide-stage-number" aria-hidden="true"></span><br><strong>Notice how words work</strong><p>Find patterns and explain what related words have in common.</p></li>
+        <li><span class="guide-stage-number" aria-hidden="true"></span><br><strong>Reason with the parts</strong><p>Break apart or build words and explain what each part contributes.</p></li>
+        <li><span class="guide-stage-number" aria-hidden="true"></span><br><strong>Put the parts to work</strong><p>Use word parts to choose a meaning or form that fits a sentence.</p></li>
+        <li><span class="guide-stage-number" aria-hidden="true"></span><br><strong>Use it somewhere new</strong><p>Apply the strategy to an unfamiliar word or a new context.</p></li>
+      </ol>
+      <p>These stages describe increasingly independent work. Start where the learner needs practice and return to <strong>Learn</strong> whenever they need an example or a refresher.</p>
     </section>
 
     <section class="practice-entry" aria-labelledby="guideUsingTitle">
@@ -154,6 +206,14 @@
       <details class="guide-dropdown">
         <summary>Open a Session Guide or find materials</summary>
         <p>Choose a learner in <strong>Learners &amp; progress</strong> and open the <strong>Session Guide</strong>. It uses saved practice to suggest a teaching focus, prompts, and a follow-up check. Review the suggestion before teaching.</p>
+        <h3>How teacher-led support works</h3>
+        <p>When checking a skill the learner has already been taught, begin with an independent attempt. For a new skill, model it first.</p>
+        <ul class="guide-card-grid guide-support" role="list">
+          <li><strong>Try independently.</strong> See what the learner can do before adding a cue.</li>
+          <li><strong>Use the least support needed.</strong> Match the prompt to the difficulty, such as finding the part, reading the word, or explaining the meaning.</li>
+          <li><strong>Retry the same task.</strong> After support, ask the learner to try the same skill again and reduce help as they’re ready.</li>
+          <li><strong>Try a fresh example.</strong> Check whether the learner can use the skill with a new word or in a new sentence.</li>
+        </ul>
         <p><a href="program-progress.html#instructionalGuidanceWrap">Open the Session Guide</a> · <a href="session-materials.html">Open interactive and printable Session Materials</a> · <a href="educator-resources.html">Browse Educator Resources</a>.</p>
       </details>
 
