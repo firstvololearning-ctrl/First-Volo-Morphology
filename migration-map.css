@@ -2229,7 +2229,8 @@ body.migration-modal-open {
 }
 
 /* Draw the trail behind the stop markers and their labels. */
-.migration-map-place {
+.migration-map-place,
+.migration-map-place.is-current {
   z-index: 8;
 }
 
