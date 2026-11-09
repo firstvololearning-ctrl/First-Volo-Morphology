@@ -33,7 +33,7 @@
     analyze: {
       label: "Analyze Words",
       shortLabel: "Analyze Words",
-      action: "break a word into meaningful parts and explain how one part helps explain the word",
+      action: "break a word into meaningful parts and describe what one part contributes to its meaning",
       activities: ["Break It Apart", "Word Part", "Find", "Figure It Out"],
       monitor: "Boundary accuracy, completeness of the analysis, attention to form changes, and whether the learner explains relationships rather than only naming pieces."
     },
@@ -404,7 +404,7 @@
     const schedule = sessionsSelect.value === "three probes on separate days"
       ? "three brief probes given on separate days"
       : sessionsSelect.value;
-    return `By [review date], during ${acrossSelect.value}, the learner will ${focus.action} using ${grade.material}. The learner will meet this goal ${criterion}, ${support.measureWith}. Measure progress using ${schedule}. Record accuracy and any cues used.`;
+    return `By [review date], during ${acrossSelect.value}, the learner will ${focus.action} ${criterion}. Assess with ${grade.material}, ${support.measureWith}. Measure progress using ${schedule}. Record accuracy and any cues used.`;
   }
 
   function renderIep() {
