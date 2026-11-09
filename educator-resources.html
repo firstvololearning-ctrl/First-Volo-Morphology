@@ -17,6 +17,58 @@
   <link rel="stylesheet" href="style.css?v=20261108-educator-hub">
   <link rel="stylesheet" href="morphology-access.css">
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
+  <style>
+    .educator-resource-primary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      text-align: left;
+    }
+    .educator-resource-primary .educator-resource-card {
+      gap: 8px;
+      min-height: 0;
+      padding: 16px;
+      border-radius: 14px;
+    }
+    .educator-resource-primary .educator-resource-card p {
+      margin: 0;
+    }
+    .educator-resource-more {
+      margin: 24px 0;
+    }
+    .educator-resource-more details {
+      margin: 10px 0;
+      padding: 12px 16px;
+      border: 1px solid #cbd9e7;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .educator-resource-more summary {
+      padding: 4px 0;
+      cursor: pointer;
+      font-weight: 750;
+      color: #173a64;
+    }
+    .educator-resource-more summary:focus-visible {
+      outline: 3px solid #147a92;
+      outline-offset: 4px;
+    }
+    .educator-resource-more ul {
+      margin: 10px 0 4px;
+      padding-inline-start: 20px;
+    }
+    .educator-resource-more li {
+      margin: 8px 0;
+    }
+    .educator-resource-more li span {
+      display: block;
+      line-height: 1.5;
+    }
+    @media (max-width: 560px) {
+      .educator-resource-primary { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body class="educator-resources-page">
@@ -78,70 +130,52 @@
         FIRST VOLO MORPHOLOGY
       </p>
 
-      <h2>Plan, teach, and review</h2>
-      <p>Choose what you need for your next morphology lesson.</p>
-    </section>
-    <section aria-labelledby="educatorResourceGroup1">
-      <h2 id="educatorResourceGroup1">Plan instruction</h2>
-      <div class="educator-resource-grid">
+      <h2>Start here</h2>
+      <p>Read the teaching routine or see exactly what each route covers.</p>
+      <div class="educator-resource-primary">
         <a class="educator-resource-card" href="quick-start.html#learnStepsGuide">
-          <h3>Educator guide</h3>
-          <p>See how the routes are built and how to teach a word part. Each step links to its supporting research.</p>
-          <span class="educator-resource-link">Read the teaching guide →</span>
+          <h3>Educator Guide</h3>
+          <p>Choose what to teach, model the part, and help students try a new word.</p>
+          <span class="educator-resource-link">Open the guide →</span>
         </a>
         <a class="educator-resource-card" href="curriculum-map.html#scope-and-sequence">
-          <h3>Scope and sequence</h3>
-          <p>See what each route introduces, with a word and context sentence for every target.</p>
+          <h3>Scope and Sequence</h3>
+          <p>See all three routes, with an example word and sentence for each of the 96 word-part meanings and functions.</p>
           <span class="educator-resource-link">See the three routes →</span>
         </a>
-        <a class="educator-resource-card" href="morphology-target-builder.html">
-          <h3>Objectives, standards, and evidence</h3>
-          <p>Choose a grade and focus to find example objectives, standards connections, and activity ideas.</p>
-          <span class="educator-resource-link">Build an objective →</span>
-        </a>
       </div>
     </section>
 
-    <section aria-labelledby="educatorResourceGroup2">
-      <h2 id="educatorResourceGroup2">Teach a session</h2>
-      <div class="educator-resource-grid">
-        <a class="educator-resource-card" href="program-progress.html#instructionalGuidanceWrap">
-          <h3>Session Guide</h3>
-          <p>Select a learner in Learners &amp; progress and review the suggested next target and activity.</p>
-          <span class="educator-resource-link">Choose a learner and review their next step →</span>
-        </a>
-        <a class="educator-resource-card" href="session-materials.html">
-          <h3>Session Materials</h3>
-          <p>Open a learner’s guided activities and prompts for use on screen or in print. Choose the target yourself when needed.</p>
-          <span class="educator-resource-link">Open session materials →</span>
-        </a>
-        <a class="educator-resource-card" href="printables.html#routeTeachingPacks">
-          <h3>Printables and anchor charts</h3>
-          <p>Download route teaching packs, student practice sheets, word-building mats, and cards.</p>
-          <span class="educator-resource-link">Browse printables →</span>
-        </a>
-      </div>
-    </section>
-
-    <section aria-labelledby="educatorResourceGroup3">
-      <h2 id="educatorResourceGroup3">Check progress and extend learning</h2>
-      <div class="educator-resource-grid">
-        <a class="educator-resource-card" href="progress-monitoring.html">
-          <h3>Assessment and progress monitoring</h3>
-          <p>Use route-specific pre/post assessments and review what the learner can do independently or with support.</p>
-          <span class="educator-resource-link">Open assessment and progress tools →</span>
-        </a>
-        <a class="educator-resource-card" href="glossary.html">
-          <h3>Word-Part Glossary</h3>
-          <p>Look up a prefix, root, or suffix by route, type, or meaning.</p>
-          <span class="educator-resource-link">Open the glossary →</span>
-        </a>
-        <a class="educator-resource-card" href="extend-learning.html">
-          <h3>Extend the learning</h3>
-          <p>Apply word-part knowledge to vocabulary and texts from other subjects.</p>
-          <span class="educator-resource-link">See extension ideas →</span>
-        </a>
-      </div>
+    <section class="educator-resource-more" aria-labelledby="educatorMoreTitle">
+      <h2 id="educatorMoreTitle">More educator tools</h2>
+      <details>
+        <summary>Plan instruction</summary>
+        <ul>
+          <li><a href="morphology-target-builder.html">Objectives, standards, and evidence</a><span>Choose a grade and word-part focus to find example objectives and activities.</span></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Teach a session</summary>
+        <ul>
+          <li><a href="program-progress.html#instructionalGuidanceWrap">Session Guide</a><span>Select a learner and review the suggested next target and activity.</span></li>
+          <li><a href="session-materials.html">Session Materials</a><span>Open guided prompts and activities for a learner. Use them on screen or print them.</span></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Assess and review progress</summary>
+        <ul>
+          <li><a href="progress-monitoring.html">Pre/Post assessments and progress tools</a><span>Choose a route assessment and review what the learner can do with or without support.</span></li>
+          <li><a href="program-progress.html">Learners &amp; progress</a><span>Review saved practice and manage learner records.</span></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Printables, reference, and extension</summary>
+        <ul>
+          <li><a href="printables.html#routeTeachingPacks">Printables and anchor charts</a><span>Find route teaching packs, student pages, word-building mats, and cards.</span></li>
+          <li><a href="glossary.html">Word-Part Glossary</a><span>Look up prefixes, roots, and suffixes by route, type, or meaning.</span></li>
+          <li><a href="extend-learning.html">Extend the learning</a><span>Apply word-part knowledge to vocabulary and texts from other subjects.</span></li>
+        </ul>
+      </details>
     </section>
 
   </main>
