@@ -4,20 +4,20 @@
   const GRADES = {
     foundation: {
       label: "Migration Route 1 · Typically Grades 2–3",
-      expectation: "Work across all five morphology objectives with familiar, transparent prefixes and suffixes first, then grow toward more derivational and less transparent forms. Increase the number of meaningful parts, spelling or sound changes, lexical load, independence, and transfer gradually.",
-      material: "transparent, familiar words with one or two meaningful parts, growing toward less transparent derivational forms",
+      expectation: "Start with familiar words whose parts are easy to see and explain. Add more complex word forms as the learner is ready.",
+      material: "familiar words with clear word parts",
       transfer: "supported transfer to new transparent words and short reading or writing contexts"
     },
     expansion: {
       label: "Migration Route 2 · Typically Grades 4–5",
-      expectation: "Coordinate prefixes, roots, and suffixes in words with multiple meaningful parts. Expect increasing tolerance for spelling, sound, and form changes, broader vocabulary load, and transfer to academic text.",
-      material: "words with multiple affixes and roots, including moderate spelling, sound, or form changes",
+      expectation: "Compare words that share a root or affix. Include spelling and sound changes as the learner is ready.",
+      material: "words with common roots and affixes",
       transfer: "increasingly independent transfer to unfamiliar words and curriculum-related text"
     },
     advanced: {
       label: "Migration Route 3 · Typically Grades 6–8",
-      expectation: "Analyze complex and less transparent morphological families, including classical roots and derivational patterns. Emphasize flexible reasoning, lexical precision, independence, and generalization across academic disciplines.",
-      material: "complex, less transparent, and academically useful words with several meaningful parts",
+      expectation: "Analyze more complex academic words. Ask the learner to check how their interpretation fits the sentence.",
+      material: "more complex academic words",
       transfer: "independent generalization across novel words, connected text, writing, and content areas"
     }
   };
@@ -26,35 +26,35 @@
     know: {
       label: "Know the Parts / Understand word parts",
       shortLabel: "Know the Parts",
-      action: "locate a taught morpheme in a word and explain the meaning it contributes",
+      action: "identify a taught word part and explain what it means or does",
       activities: ["Learn", "Meaning", "Word Part", "Find", "Word Hunt"],
       monitor: "Accuracy and specificity when identifying a word part, explaining its meaning, and distinguishing it from the base or other meaningful parts."
     },
     analyze: {
       label: "Analyze Words",
       shortLabel: "Analyze Words",
-      action: "separate a selected word into meaningful parts and explain one part’s contribution to the whole word",
+      action: "break a word into meaningful parts and explain how one part helps explain the word",
       activities: ["Break It Apart", "Word Part", "Find", "Figure It Out"],
       monitor: "Boundary accuracy, completeness of the analysis, attention to form changes, and whether the learner explains relationships rather than only naming pieces."
     },
     meaning: {
       label: "Figure Out Meaning",
       shortLabel: "Figure Out Meaning",
-      action: "propose a meaning for an unfamiliar word from its meaningful parts and check that interpretation against the surrounding sentence",
+      action: "use word parts to suggest a meaning for an unfamiliar word and check it against the sentence",
       activities: ["Figure It Out", "Meaning", "Break It Apart", "Word Hunt"],
       monitor: "Use of both morphology and context, quality of the meaning explanation, revision after feedback, and transfer to unfamiliar words."
     },
     build: {
       label: "Build & Use Words",
       shortLabel: "Build & Use Words",
-      action: "form a requested member of a word family and use it in a sentence that shows its meaning",
+      action: "build a word and use it in a sentence that shows its meaning",
       activities: ["Build Words", "Use It", "Change It", "Meaning"],
       monitor: "Selection and combination of meaningful parts, spelling or form changes, grammatical fit, meaning, and accurate use in context."
     },
     apply: {
       label: "Apply Independently",
       shortLabel: "Apply Independently",
-      action: "independently explain an unpracticed word’s meaning and identify the morpheme and context clues used",
+      action: "explain the meaning of a new word and name the word-part and context clues used",
       activities: ["Word Hunt", "Figure It Out", "Use It", "Change It"],
       monitor: "Independent strategy initiation, flexible application, explanation of reasoning, self-correction, and generalization beyond practiced words."
     }
@@ -177,11 +177,11 @@
   function reviewedLibrary(){return `<details class="reviewed-evidence-library"><summary>Reviewed article library · ${(window.FirstVoloReviewedEvidence||[]).length} supplied papers</summary><p>Background sources may cover different grades, populations or languages from the current selection. Study type and limits are shown to support educator judgment.</p><div class="source-list">${(window.FirstVoloReviewedEvidence||[]).map(s=>`<article class="source-card"><strong>${s.authors} (${s.year})</strong><span>${s.title}</span><span><b>Type:</b> ${s.type}</span><span><b>Population:</b> ${s.population}</span><span>${s.claim}</span><span><b>Limit:</b> ${s.limitation}</span><a href="${s.url}" target="_blank" rel="noopener">Read source / citation →</a></article>`).join('')}</div><p><b>Professional perspectives (not intervention trials):</b> <a href="https://www.shanahanonliteracy.com/blog/what-should-morphology-instruction-look-like" target="_blank" rel="noopener">Shanahan / Bowers discussion of families and affix lists</a> · <a href="https://jenniferfindley.com/morphology_scope_and_sequence/" target="_blank" rel="noopener">Findley’s suggested classroom sequence</a>. These are discussion/practitioner resources, not official grade-level morpheme requirements.</p></details>`;}
 
   const MORPHO_APPLICATIONS = {
-    know: "Morpho explicitly teaches word-part meanings and provides repeated examples across related words.",
-    analyze: "Morpho provides repeated opportunities to locate meaningful boundaries, compare related forms, and explain how bases, roots, and affixes work together.",
-    meaning: "Morpho asks learners to combine morphology and context; non-target meanings may be supplied so vocabulary knowledge does not unnecessarily obscure the morphology target.",
-    build: "Morpho connects word-part meanings with building, changing, and using words while attending to form and grammatical role.",
-    apply: "Morpho fades support toward strategic use and monitors taught-skill performance separately from protected transfer performance."
+    know: "First Volo explicitly teaches word-part meanings and provides repeated examples across related words.",
+    analyze: "First Volo provides repeated opportunities to locate meaningful boundaries, compare related forms, and explain how bases, roots, and affixes work together.",
+    meaning: "First Volo asks learners to combine morphology and context; non-target meanings may be supplied so vocabulary knowledge does not unnecessarily obscure the morphology target.",
+    build: "First Volo connects word-part meanings with building, changing, and using words while attending to form and grammatical role.",
+    apply: "First Volo reduces support toward strategic use and monitors taught-skill performance separately from protected transfer performance."
   };
 
   const schoolGrade = document.getElementById("standardsGrade");
@@ -273,10 +273,10 @@
         <p>${RESEARCH_SUMMARIES[state.grade][state.focus]}</p><details><summary>Does the research describe a teaching order?</summary><p>Mendes &amp; Kirby (2024) taught inflections before derivations, transparent forms before spelling/sound shifts, and free bases before bound bases. They checked application to unpracticed bases after taught ones. This is a study-specific sequence, not a proven universal order or a grade-level morpheme list.</p><p>Moats &amp; Smith (1992), Appendix A, offers an older proposed scope and sequence. The authors call it speculative. Use its transparency/complexity principles as historical context, not current grade placement rules.</p><a href="https://doi.org/10.1177/07319487241259775" target="_blank" rel="noopener">Read the intervention methods →</a></details>
       `,
       morpho: `
-        <h4>How Morpho applies this evidence</h4><details><summary>Tier 1 classroom connection</summary><p>Collins &amp; Wolter (2019) describes a Grade 3 teacher–SLP collaboration model tied to curriculum vocabulary, reading and writing.</p><ol><li>Agree on a classroom language goal and a small curriculum-linked word family.</li><li>Model how its parts contribute meaning; use a shared sort or word-building example.</li><li>Have learners explain and use a related word in classroom reading or writing.</li><li>Review independent and supported responses to decide what to reteach or practice in a smaller group.</li></ol><p>First Volo activities can support these steps. The source is a collaboration framework, not proof of efficacy for this app or a rule for assigning intervention tiers.</p><a href="https://doi.org/10.1044/2019_PERS-SIG1-2019-0006" target="_blank" rel="noopener">Tier 1 source →</a></details>
+        <h4>How First Volo applies this evidence</h4><details><summary>Tier 1 classroom connection</summary><p>Collins &amp; Wolter (2019) describes a Grade 3 teacher–SLP collaboration model tied to curriculum vocabulary, reading and writing.</p><ol><li>Agree on a classroom language goal and a small curriculum-linked word family.</li><li>Model how its parts contribute meaning; use a shared sort or word-building example.</li><li>Have learners explain and use a related word in classroom reading or writing.</li><li>Review independent and supported responses to decide what to reteach or practice in a smaller group.</li></ol><p>First Volo activities can support these steps. The source is a collaboration framework, not proof of efficacy for this app or a rule for assigning intervention tiers.</p><a href="https://doi.org/10.1044/2019_PERS-SIG1-2019-0006" target="_blank" rel="noopener">Tier 1 source →</a></details>
         <ul class="morpho-application-list">
           <li>${MORPHO_APPLICATIONS[state.focus]}</li>
-          <li>Morpho controls word transparency and complexity developmentally.</li>
+          <li>First Volo varies word transparency and complexity developmentally.</li>
           <li>Teacher-guided work uses independent attempt → identify breakdown → least necessary support → retry the same demand → fade support.</li>
         </ul>
         <p class="morpho-evidence-note">First Volo Morphology is research-informed and standards-aligned. These sources support the instructional targets and design principles; they do not constitute direct efficacy evidence for First Volo Morphology itself.</p>
@@ -347,13 +347,22 @@
     const supportHeading = state.support === "independent"
       ? "Access supports that preserve independence"
       : "Possible supports";
+    const detailsOpen = planResult.querySelector("details")?.open;
     planResult.innerHTML = `
-      <article class="result-card result-card-wide"><h3>Suggested objective wording</h3><p>${objectiveWording()}</p></article>
-      <article class="result-card"><h3>Possible condition</h3><p>${support.condition}.</p></article>
-      <article class="result-card"><h3>Developmental expectation</h3><p><strong>${grade.label}:</strong> ${grade.expectation}</p></article>
-      <article class="result-card"><h3>Recommended Morpho activities</h3><ul>${activityLinks()}</ul><p>${PROBES[state.focus]}</p><p>Opening applies session choices only. It does not save an independent-learning plan or mark an objective as met.</p></article>
-      <article class="result-card"><h3>${supportHeading}</h3>${list(support.ideas)}</article>
-      <article class="result-card result-card-wide"><h3>What to monitor</h3><p>${focus.monitor} Also monitor ${grade.transfer}.</p></article>
+      <article class="result-card result-card-wide" aria-live="polite">
+        <p>${objectiveWording()}</p>
+        <p><strong>Practice condition</strong> ${support.condition}.</p>
+      </article>
+      <article class="result-card result-card-wide"><h3>Try these activities</h3><p>Open an activity with your selected route and word parts.</p><ul>${activityLinks()}</ul></article>
+      <details class="result-card result-card-wide builder-details"${detailsOpen ? " open" : ""}>
+        <summary>Teaching tips, supports, and what to monitor</summary>
+        <div class="builder-detail-body">
+          <p><strong>${grade.label}</strong> ${grade.expectation}</p>
+          <p>${PROBES[state.focus]}</p>
+          <h3>${supportHeading}</h3>${list(support.ideas)}
+          <h3>What to monitor</h3><p>${focus.monitor} Also monitor ${grade.transfer}.</p>
+        </div>
+      </details>
     `;
     renderIep();
   }
@@ -369,7 +378,7 @@
       `Suggested objective: ${objectiveWording()}`,
       `Possible condition: ${support.condition}.`,
       `Developmental expectation: ${grade.expectation}`,
-      `Recommended Morpho activities: ${focus.activities.join(", ")}`,
+      `Suggested activities: ${focus.activities.join(", ")}`,
       `${state.support === "independent" ? "Access supports that preserve independence" : "Possible supports"}: ${support.ideas.join("; ")}`,
       `What to monitor: ${focus.monitor} Also monitor ${grade.transfer}.`
     ].join("\n\n");
