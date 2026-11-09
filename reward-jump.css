@@ -35,7 +35,7 @@
   position: absolute;
   z-index: 2;
   width: 7%;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -100%) scaleX(var(--facing, 1));
   pointer-events: none;
 }
 
@@ -79,4 +79,17 @@
 @media (max-width: 500px) {
   .jump-course { margin-inline: 8px; }
   .jump-tile { border-width: 1px; }
+}
+
+.jump-controls .jump-run[aria-pressed="true"] {
+  background: #ffe7a4;
+  border-color: #e6af53;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .jump-volo.is-running { animation: voloStride .24s ease-in-out infinite; }
+}
+
+@keyframes voloStride {
+  50% { transform: translate(-50%, -109%) scaleX(var(--facing, 1)) rotate(-7deg); }
 }

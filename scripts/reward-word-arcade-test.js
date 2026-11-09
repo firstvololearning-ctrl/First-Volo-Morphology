@@ -95,12 +95,25 @@ function step(count) {
   for (let i = 0; i < count; i++) frame(now += 20);
 }
 key('keydown', 'ArrowRight');
-step(33);
+step(5);
 key('keyup', 'ArrowRight');
+const volo = $('.jump-volo');
+const beforeRun = parseFloat(volo.style.left);
+$('.jump-run').click();
+step(14);
+assert(parseFloat(volo.style.left) > beforeRun, 'Run continues moving without a held direction');
+assert(volo.classList.contains('is-running'));
+$('.jump-run').click();
+const pausedAt = volo.style.left;
+step(4);
+assert.equal(volo.style.left, pausedAt, 'Pause run stops horizontal movement');
+$('.jump-run').click();
+step(14);
 assert.equal($('.jump-score').textContent, '0 collected', 'walking below a tile does not collect it');
 key('keydown', ' ', 'Space');
 step(25);
 assert.equal($('.jump-score').textContent, '1 collected');
+assert.equal($('.jump-run').getAttribute('aria-pressed'), 'false');
 assert($('.jump-tile.is-collected'));
 $('.jump-next').click();
 assert.match($('.jump-prompt').textContent, /Course complete/);

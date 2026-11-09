@@ -26,6 +26,7 @@
         <div class="jump-controls" aria-label="Movement controls">
           <button type="button" class="jump-left" aria-label="Move left">←</button>
           <button type="button" class="jump-right" aria-label="Move right">→</button>
+          <button type="button" class="jump-run" aria-pressed="false">Run</button>
           <button type="button" class="jump-up">Jump ↑</button>
           <button type="button" class="jump-next" hidden>Next round</button>
         </div>
@@ -33,13 +34,14 @@
         <details class="jump-alternate">
           <summary>Choose without jumping</summary><div class="jump-answers" aria-label="Answer choices"></div>
         </details>
-        <p class="hoops-help">Move beneath the word that answers the prompt, then jump to collect it. Use the buttons or arrow keys and Space. No timer.</p>
+        <p class="hoops-help">Press Run to keep Volo moving, then jump for the matching tile. Use the arrow keys or direction buttons to steer. Space or Up jumps on the course.</p>
       </section>`;
     document.body.append(overlay);
     const find = selector => overlay.querySelector(selector);
     const player = find('.jump-volo');
     const course = find('.jump-course');
     const next = find('.jump-next');
+    const runButton = find('.jump-run');
     const feedback = find('.jump-feedback');
     const tiles = find('.jump-tiles');
     const answers = find('.jump-answers');
@@ -50,6 +52,8 @@
     let x = 60;
     let y = floor;
     let velocity = 0;
+    let running = false;
+    let facing = 1;
     let frame;
     let lastTime;
     let choices = [];
@@ -57,6 +61,13 @@
     function positionPlayer() {
       player.style.left = `${100 * x / width}%`;
       player.style.top = `${100 * y / 300}%`;
+    }
+
+    function setRunning(active) {
+      running = active;
+      runButton.setAttribute('aria-pressed', String(active));
+      runButton.textContent = active ? 'Pause run' : 'Run';
+      if (!active) player.classList.remove('is-running');
     }
 
     function choose(choice) {
@@ -67,6 +78,8 @@
       if (choice.id === question.answer) {
         finished = true;
         held.clear();
+        setRunning(false);
+        runButton.disabled = true;
         collected++;
         find('.jump-score').textContent = `${collected} collected`;
         choice.tile.classList.add('is-collected');
@@ -87,6 +100,10 @@
       const question = deck[round];
       finished = false;
       held.clear();
+      setRunning(false);
+      runButton.disabled = false;
+      facing = 1;
+      player.style.setProperty('--facing', facing);
       x = 60;
       y = floor;
       velocity = 0;
@@ -118,14 +135,23 @@
       const dt = Math.min(.04, (now - (lastTime ?? now)) / 1000);
       lastTime = now;
       if (!finished) {
-        const direction = Number(held.has('right')) - Number(held.has('left'));
+        const steering = Number(held.has('right')) - Number(held.has('left'));
+        if (steering && steering !== facing) {
+          facing = steering;
+          player.style.setProperty('--facing', facing);
+        }
+        const direction = held.size ? steering : running ? facing : 0;
+        const previousX = x;
         x = Math.max(26, Math.min(width - 26, x + direction * 250 * dt));
+        const reachedEdge = (direction < 0 && x === 26) || (direction > 0 && x === width - 26);
+        if (running && reachedEdge) setRunning(false);
         if (y < floor || velocity < 0) {
           velocity += 1200 * dt;
           y = Math.min(floor, y + velocity * dt);
           if (y === floor) velocity = 0;
         }
         positionPlayer();
+        player.classList.toggle('is-running', x !== previousX && y === floor);
         const hit = choices.find(choice => !choice.used &&
           Math.abs(choice.center - x) < 68 && Math.abs(132 - (y - 22)) < 24);
         if (hit) choose(hit);
@@ -144,7 +170,10 @@
       source?.focus();
     }
 
-    function release() { held.clear(); }
+    function release() {
+      held.clear();
+      setRunning(false);
+    }
     window.addEventListener('blur', release);
     overlay.addEventListener('focusout', event => {
       if (!overlay.contains(event.relatedTarget)) release();
@@ -187,11 +216,17 @@
       }
       button.addEventListener('click', event => {
         if (!finished && event.detail === 0) {
-          x = Math.max(26, Math.min(width - 26, x + (direction === 'left' ? -1 : 1) * 36));
+          facing = direction === 'left' ? -1 : 1;
+          player.style.setProperty('--facing', facing);
+          x = Math.max(26, Math.min(width - 26, x + facing * 36));
           positionPlayer();
         }
       });
     }
+    runButton.addEventListener('click', () => {
+      setRunning(!running);
+      if (running) course.focus({ preventScroll: true });
+    });
     find('.jump-up').addEventListener('click', jump);
     find('.jump-close').addEventListener('click', close);
     next.addEventListener('click', () => {
