@@ -131,3 +131,25 @@ test("previously uncovered teacher targets have a fresh Part B at their introduc
     close();
   }
 });
+
+test("Word Part and Use It open fresh Part B before transfer from the actual session controls", async () => {
+  for (const [demo, teacherTarget, teacherActivity] of [
+    ["COOK", "sub", "morpheme"], ["PORT", "therm", "use"]
+  ]) {
+    const { byId, close, transfer } = await openSession({
+      demo, minutes: "10", sessionSource: "teacher-selected", teacherTarget, teacherActivity
+    });
+    try {
+      const next = byId("nextTaskButton");
+      assert.match(next.textContent, /Part B/);
+      assert.equal(transfer().hidden, true);
+      next.click();
+      assert.match(byId("sessionStep3Mount").textContent, /subway|submarine|geothermal|thermostat/i);
+      assert.equal(transfer().hidden, true);
+      next.click();
+      assert.equal(transfer().hidden, false);
+    } finally {
+      close();
+    }
+  }
+});

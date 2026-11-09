@@ -474,11 +474,11 @@
           )
         );
 
+    const requiresTiles =
+      activity === "build";
+
     const inventoryBuildMode =
-      (
-        !familyRecipes.length &&
-        activity === "build"
-      );
+      requiresTiles && !familyRecipes.length;
 
     const requiredParts = [
       ...new Set(
@@ -604,12 +604,7 @@
           : "system-generated-validated-word-universe",
 
       displayMode:
-        (
-          familyRecipes.length ||
-          activity === "build"
-        )
-          ? "build"
-          : "prompt",
+        requiresTiles ? "build" : "prompt",
 
       targetResolution,
 
@@ -686,7 +681,7 @@
         Boolean(
           primary &&
           selectedRecipes.length &&
-          selectedTiles.length &&
+          (!requiresTiles || selectedTiles.length > 0) &&
           missingParts.length === 0
         )
     };
