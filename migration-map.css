@@ -2498,9 +2498,9 @@ body.migration-modal-open {
 
 .migration-waypoint-word {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 2px 8px;
 
   min-height: 42px;
   padding: 7px 9px;
@@ -2518,9 +2518,13 @@ body.migration-modal-open {
 }
 
 .migration-waypoint-word small {
+  grid-column: 2;
   font-size: .66rem;
   font-weight: 800;
-  white-space: nowrap;
+}
+
+.migration-waypoint-word .migration-waypoint-icon {
+  grid-row: span 2;
 }
 
 .migration-waypoint-word.is-available {
@@ -2641,6 +2645,14 @@ html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
   color: #173a64;
   font-weight: 800;
   cursor: pointer;
+}
+
+.migration-home-review-hint {
+  display: block;
+  margin: 4px 0 0 1.2em;
+  color: #476484;
+  font-size: .875rem;
+  font-weight: 500;
 }
 
 .migration-return-link {

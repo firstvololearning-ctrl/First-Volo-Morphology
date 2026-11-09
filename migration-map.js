@@ -1061,15 +1061,15 @@
       "migrationWaypointTitle";
 
     heading.textContent =
-      "⭐ Review to Remember";
+      "Word cards by map stop";
 
     const description =
       document.createElement("p");
 
     description.textContent =
       accessState.availableCount
-        ? "Open a word to review how its parts work together."
-        : "Earn the needed tokens and reach the matching map stop to open these words.";
+        ? "Open a word card to see how its parts help explain the whole word."
+        : "Your word cards open when you earn the needed tokens and reach their map stops.";
 
     headingWrap.append(
       heading,
@@ -1083,7 +1083,7 @@
       "migration-waypoint-total";
 
     total.innerHTML =
-      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} unlocked`;
+      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} word cards unlocked`;
 
     header.append(
       headingWrap,
@@ -1166,7 +1166,7 @@
 
               link.setAttribute(
                 "aria-label",
-                `Open ${waypoint.word} for review`
+                `Open the ${waypoint.word} word card (PDF, new tab)`
               );
 
               const icon =
@@ -1193,7 +1193,7 @@
                 document.createElement("small");
 
               action.textContent =
-                "Review word →";
+                "Open word card (PDF) ↗";
 
               link.append(
                 icon,
@@ -1222,8 +1222,8 @@
             locked.innerHTML =
               `
                 <span class="migration-waypoint-icon" aria-hidden="true">?</span>
-                <strong>Locked word</strong>
-                <small>Keep learning</small>
+                <strong>Word card locked</strong>
+                <small>${waypoint.status === "waiting-for-display-stop" ? "Reach this map stop" : "Earn the needed tokens"}</small>
               `;
 
             wordList.append(locked);
@@ -1270,6 +1270,8 @@
     const flightValue = routeSelect.value;
     const previousMap = content.querySelector(".migration-map-scroll");
     const scrollLeft = previousMap?.dataset.route === flightValue ? previousMap.scrollLeft : 0;
+    const reviewOpen = previousMap?.dataset.route === flightValue &&
+      Boolean(content.querySelector(".migration-home-review[open]"));
     content.innerHTML = "";
 
     let student =
@@ -1397,8 +1399,13 @@
       if (isStudentMap()) {
         const review = document.createElement("details");
         review.className = "migration-home-review";
+        review.open = reviewOpen;
         const label = document.createElement("summary");
         label.textContent = "Review to Remember";
+        const hint = document.createElement("span");
+        hint.className = "migration-home-review-hint";
+        hint.textContent = "Whole-word cards you unlock along this route";
+        label.append(hint);
         review.append(label, waypointWords);
         content.append(review);
       } else {
