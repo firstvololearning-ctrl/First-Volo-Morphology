@@ -17,7 +17,46 @@
     document.documentElement.dataset.educatorPath = path;
     if (startOver) startOver.hidden = !path;
   }
-  learnerEntry?.addEventListener('toggle', () => { if (learnerEntry.open) setEducatorPath('practice'); });
+  const lessonChoices = window.FirstVoloLessonChoices;
+  const sharedRoute = document.getElementById("sharedLessonRoute");
+  const sharedPart = document.getElementById("sharedLessonPart");
+  const sharedStart = document.getElementById("sharedLessonStart");
+  function updateSharedLesson() {
+    lessonChoices.populate(sharedPart, sharedRoute.value, lessonChoices.starter(sharedRoute.value));
+    updateSharedStart();
+  }
+  function updateSharedStart() {
+    sharedStart.disabled = !sharedPart.value;
+    sharedStart.textContent = sharedPart.value === lessonChoices.starter(sharedRoute.value)
+      ? "Start first lesson" : "Start lesson";
+  }
+  if (lessonChoices && sharedRoute && sharedPart && sharedStart) {
+    updateSharedLesson();
+    sharedRoute.addEventListener("change", updateSharedLesson);
+    sharedPart.addEventListener("change", updateSharedStart);
+    sharedStart.addEventListener("click", () => {
+      const plan = lessonChoices.plan(sharedRoute.value, sharedPart.value);
+      if (!plan) return;
+      setEducatorPath("practice");
+      document.documentElement.dataset.sharedLessonOpen = "";
+      const target = window.FirstVoloPracticeChoices.apply(plan) && document.querySelector("#learnDetailPanel");
+      if (!target) {
+        delete document.documentElement.dataset.sharedLessonOpen;
+        document.getElementById("learnerNextStep").textContent = "This lesson is unavailable. Choose a different activity below.";
+        return;
+      }
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+  learnerEntry?.addEventListener("toggle", () => {
+    if (learnerEntry.open) setEducatorPath("lesson");
+  });
+  document.getElementById("educatorPracticeStart")?.addEventListener("click", () => {
+    delete document.documentElement.dataset.sharedLessonOpen;
+    setEducatorPath("practice");
+  });
   document.getElementById('openPracticePlan')?.addEventListener('click', () => setEducatorPath('setup'));
   startOver?.addEventListener('click', () => { setEducatorPath(''); if (learnerEntry) learnerEntry.open=false; document.getElementById('educatorEntryTitle')?.scrollIntoView({block:'start'}); });
   const openChosen = document.getElementById("openChosenPractice");
@@ -33,7 +72,7 @@
     const flightName = flight.selectedOptions[0]?.textContent?.trim() || "";
     if (hint) hint.textContent = chosen ? `Next${who}: Open ${label} · ${studyName} · ${flightName}.` : `Next: Choose word parts${who} above, then open practice.`;
     const learnerNext = document.getElementById("learnerNextStep");
-    if (learnerNext) learnerNext.textContent = chosen ? `Next${who}: Open ${label} below.` : learner ? `Next: Choose word parts for ${learner.name}.` : "Next: Choose a learner, or continue without saving to a learner.";
+    if (learnerNext) learnerNext.textContent = learner ? `Practice will be saved for ${learner.name}.` : "Choose a learner to save progress, or teach without saving to a learner.";
     start.textContent = chosen ? `Continue ${label}` : "Choose practice";
     note.textContent = chosen ? "Your most recent choices are ready. Change them below whenever you need to." : "Choose your Route and word parts below, then choose an activity.";
   }
@@ -92,6 +131,15 @@
     const mode = [...document.querySelectorAll('.activity-button')].find(b => b.dataset.mode === plan.activity && !b.disabled);
     if (!mode) return false;
     mode.click();
+    if (plan.lesson) {
+      const explore = document.getElementById("learnExploreButton");
+      if (explore?.getAttribute("aria-pressed") === "false") explore.click();
+      const card = [...document.querySelectorAll("[data-lesson-part]")].find(button => button.dataset.lessonPart === plan.lesson);
+      if (!card) return false;
+      const group = card.closest("details");
+      if (group) group.open = true;
+      card.click();
+    }
     return document.getElementById("startPanel")?.hidden !== false;
   }};
   access?.subscribe(restore);

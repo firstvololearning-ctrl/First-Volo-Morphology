@@ -7859,3 +7859,12 @@ html[data-educator-path="setup"] .educator-entry .educator-main-actions > button
 @media (max-width: 600px) {
   .educator-entry .educator-main-actions { grid-template-columns: 1fr; }
 }
+
+/* A guided lesson opens directly, with the full chooser available on demand. */
+html[data-educator-path="practice"][data-shared-lesson-open] #practiceSetup,
+html[data-educator-path="practice"][data-shared-lesson-open] .activity-selector-section {
+  display: none;
+}
+.shared-lesson-choices { display: grid; gap: .65rem; }
+.shared-lesson-choices label { display: grid; gap: .25rem; }
+.shared-lesson-choices select { min-height: 2.75rem; font: inherit; max-width: 100%; }

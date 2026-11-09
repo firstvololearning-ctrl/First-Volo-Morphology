@@ -15,7 +15,7 @@ function setup(mode='educator',saved=null,failSave=false){
   return {error:true};
  }}};
  w.FirstVoloPracticeChoices={apply:p=>{w.applied=JSON.parse(JSON.stringify(p));return true;}};
- w.eval(fs.readFileSync('practice-plan.js','utf8'));
+ for (const file of ['word-inventory.js','lesson-choices.js','practice-plan.js']) w.eval(fs.readFileSync(file,'utf8'));
  return {w,calls,publish:c=>{context=c;listeners.forEach(fn=>fn(c));},close:()=>dom.window.close()};
 }
 test('educator confirms enum choices; save has learner and revision but no assessment responses',async()=>{
@@ -39,4 +39,41 @@ test('no saved plan preserves guided flexible practice',async()=>{const {w,close
 test('assessment report adds one handoff action without transmitting assessment data',async()=>{
  const {w,calls,close}=setup();const screen=w.document.createElement('section');screen.id='reportScreen';screen.innerHTML='<div class="toolbar-actions"></div>';w.document.body.append(screen);
  for(let i=0;i<2;i++)w.dispatchEvent(new w.CustomEvent('firstvoloassessmentreport',{detail:{studentId:id,flight:'2-3'}}));assert.equal(w.document.querySelectorAll('#openAssessmentPracticePlan').length,1);assert.equal(calls.length,0);w.document.getElementById('openAssessmentPracticePlan').click();await tick();assert.equal(w.document.getElementById('planLearner').value,id);assert.equal(w.document.getElementById('planFlight').value,'2-3');assert.equal(w.document.getElementById('planActivity').value,'');close();
+});
+
+test('an educator can save an exact Learn lesson for the selected route', async () => {
+  const {w, calls, close} = setup();
+  const d = w.document;
+  d.getElementById('openPracticePlan').click();
+  await tick();
+  const learner = d.getElementById('planLearner');
+  learner.value = id;
+  learner.dispatchEvent(new w.Event('change'));
+  await tick();
+  const route = d.getElementById('planFlight');
+  route.value = '6-8';
+  route.dispatchEvent(new w.Event('change'));
+  const lesson = d.getElementById('planLesson');
+  lesson.value = 'tract';
+  lesson.dispatchEvent(new w.Event('change'));
+  d.querySelector('form.practice-plan-form').dispatchEvent(new w.Event('submit', {cancelable: true}));
+  await tick();
+  const save = calls.find(call => call.name === 'save_morphology_practice_plan');
+  assert.deepEqual(JSON.parse(JSON.stringify(save.args.p_plan)), {
+    flight: '6-8', study: 'roots', activity: 'learn', challenge: false, lesson: 'tract'
+  });
+  close();
+});
+test('a student starts an exact lesson and can reveal other practice choices', async () => {
+  const exact = {flight: '2-3', study: 'prefixes', activity: 'learn', challenge: false, lesson: 'un-negation'};
+  const {w, calls, close} = setup('student', exact);
+  await tick();
+  const panel = w.document.querySelector('.student-entry .practice-plan-panel');
+  assert.match(panel.textContent, /Your lesson: un- · not/);
+  [...panel.querySelectorAll('button')].find(button => button.textContent === 'Start today’s lesson').click();
+  assert.deepEqual(w.applied, exact);
+  [...panel.querySelectorAll('button')].find(button => button.textContent === 'Adjust practice').click();
+  assert.ok(!w.document.getElementById('practiceSetup').hasAttribute('data-plan-choices-hidden'));
+  assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
+  close();
 });

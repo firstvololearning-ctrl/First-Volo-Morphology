@@ -75,7 +75,7 @@
     href="images/logo/logo.png"
   >
 
-  <link rel="stylesheet" href="style.css?v=20261108-educator-disclosures">
+  <link rel="stylesheet" href="style.css?v=20261109-start-lesson">
   <link rel="stylesheet" href="migration-map.css?v=20260901-waypoints1">
   <link rel="stylesheet" href="morphology-access.css">
   <link rel="stylesheet" href="transfer-challenge.css?v=20260819-1755">
@@ -85,7 +85,7 @@
   <link rel="stylesheet" href="reward-maze.css?v=20261108-maze-steer">
 
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
-<link rel="stylesheet" href="practice-plan.css?v=20261108-guidance1">
+<link rel="stylesheet" href="practice-plan.css?v=20261109-start-lesson">
 </head>
 
 <body class="morphology-practice-page">
@@ -204,7 +204,21 @@
         Manage Learners
       </a>
 
-    </section><a href="morphology-target-builder.html" class="educator-progress-link">Example objectives, standards &amp; research →</a><p id="learnerNextStep" role="status">Next: Choose a learner, or continue without saving to a learner.</p><a id="educatorPracticeStart" class="entry-primary" href="#practiceSetup">Choose word parts</a></details></div>
+    </section>
+      <div class="shared-lesson-choices">
+        <label>Migration Route
+          <select id="sharedLessonRoute">
+            <option value="2-3">Migration Route 1 · Typically grades 2–3</option>
+            <option value="4-5">Migration Route 2 · Typically grades 4–5</option>
+            <option value="6-8">Migration Route 3 · Typically grades 6–8</option>
+          </select>
+        </label>
+        <label>Learn lesson <select id="sharedLessonPart"></select></label>
+        <button id="sharedLessonStart" type="button" class="entry-primary">Start first lesson</button>
+        <a id="educatorPracticeStart" href="#practiceSetup">Choose a different activity</a>
+      </div>
+      <p id="learnerNextStep" role="status"></p>
+      </details></div>
       <button type="button" id="educatorStartOver" hidden>Back to start</button>
       <details class="educator-entry-section">
         <summary>Educator tools</summary>
@@ -2215,12 +2229,13 @@
   <script src="volo-token-celebration.js?v=20261108-route-names"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>
   <script src="learn-content.js?v=20261108-evidence1"></script>
-  <script src="script.js?v=20261108-workspace-navigation"></script>
+  <script src="script.js?v=20261109-start-lesson"></script>
   <script src="use-it.js?v=20261108-route-names"></script>
   <script src="change-it.js?v=20261108-route-names"></script>
-  <script src="practice-entry.js?v=20261108-route-names"></script>
+  <script src="lesson-choices.js"></script>
+  <script src="practice-entry.js?v=20261109-start-lesson"></script>
 <p style="text-align:center;padding:16px"><a href="https://firstvololearning-ctrl.github.io/First-Volo-Account/privacy-status.html">Privacy protections · September 6, 2026</a></p>
-<script src="practice-plan.js?v=20261108-route-names"></script>
+<script src="practice-plan.js?v=20261109-start-lesson"></script>
   <script src="target-builder-bridge.js?v=20261108"></script>
 </body>
 </html>

@@ -8545,6 +8545,7 @@ function renderLearnActivity() {
     card.type = "button";
     card.className =
       `learning-card ${typeClass}-card`;
+    card.dataset.lessonPart = item.id;
 
     card.innerHTML = `
       <img
