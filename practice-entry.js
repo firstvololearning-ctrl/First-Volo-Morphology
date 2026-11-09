@@ -35,7 +35,7 @@
     const learnerNext = document.getElementById("learnerNextStep");
     if (learnerNext) learnerNext.textContent = chosen ? `Next${who}: Open ${label} below.` : learner ? `Next: Choose word parts for ${learner.name}.` : "Next: Choose a learner, or continue without saving to a learner.";
     start.textContent = chosen ? `Continue ${label}` : "Choose practice";
-    note.textContent = chosen ? "Your most recent choices are ready. Change them below whenever you need to." : "Choose your Flight and word parts below, then choose an activity.";
+    note.textContent = chosen ? "Your most recent choices are ready. Change them below whenever you need to." : "Choose your Route and word parts below, then choose an activity.";
   }
   function save() {
     updateStart();

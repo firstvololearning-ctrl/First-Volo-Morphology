@@ -597,7 +597,7 @@ function renderSavedAssessments() {
   if (!sessions.length) {
     const empty = document.createElement("p");
     empty.className = "empty-note";
-    empty.textContent = "No saved Flight B assessments on this browser yet.";
+    empty.textContent = "No saved Migration Route 2 assessments on this browser yet.";
     savedAssessments.append(empty);
     return;
   }
@@ -887,7 +887,7 @@ function printStudentForm() {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Flight B ${escapeHtml(formLabel)} Student Form</title>
+<title>Migration Route 2 ${escapeHtml(formLabel)} Student Form</title>
 <style>
   @page { size: letter; margin: .55in; }
   * { box-sizing: border-box; }
@@ -911,7 +911,7 @@ function printStudentForm() {
 </head>
 <body>
 <header>
-  <h1>Flight B Check-In</h1>
+  <h1>Migration Route 2 Check-In</h1>
   <div class="sub">${escapeHtml(formLabel)} · First Volo Morphology</div>
   <div class="meta">
     <span>Student Code: ${escapeHtml(code || "________________")}</span>
@@ -1335,7 +1335,7 @@ function renderAppProgressSummary() {
   const sessions = (student.sessions || []).filter((session) => session.gradeBand === "4-5");
   const responses = sessions.flatMap((session) => Array.isArray(session.responses) ? session.responses : []);
   if (!responses.length) {
-    container.innerHTML = '<div class="app-summary-box">No linked Flight B app-practice responses are saved yet.</div>';
+    container.innerHTML = '<div class="app-summary-box">No linked Migration Route 2 app-practice responses are saved yet.</div>';
     return;
   }
 
@@ -1357,7 +1357,7 @@ function renderAppProgressSummary() {
 
   container.innerHTML = `
     <div class="app-summary-box">
-      <strong>${sessions.length} linked Flight B app ${sessions.length === 1 ? "session" : "sessions"}</strong><br>
+      <strong>${sessions.length} linked Migration Route 2 app ${sessions.length === 1 ? "session" : "sessions"}</strong><br>
       ${correct}/${scored.length} scored practice responses correct · <strong>${percent(correct, scored.length)}%</strong>
       <div class="app-skill-grid">${skillCards}</div>
     </div>
@@ -1446,7 +1446,7 @@ printButton.addEventListener("click", () => {
   const oldTitle = document.title;
 
   document.title =
-    `Flight B ${formLabel} Assessment Report`;
+    `Migration Route 2 ${formLabel} Assessment Report`;
 
   window.print();
 

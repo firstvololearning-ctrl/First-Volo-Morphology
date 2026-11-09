@@ -372,7 +372,7 @@
     help.textContent = student ? "Games unlock with Migration Map tokens. Points stay in the game and do not change learning progress." : "Choose a learner to see their unlocked games. Games unlock with Migration Map tokens; game points do not change learning progress.";
     if (educatorPreview) help.textContent = "Educator preview: try any game below. Previewing does not unlock learner rewards or change saved progress. Select a learner to see their earned games.";
     list.append(help);
-    [["2-3", "Flight A"], ["4-5", "Flight B"], ["6-8", "Flight C"]].forEach(([flight, label]) => {
+    [["2-3", "Migration Route 1"], ["4-5", "Migration Route 2"], ["6-8", "Migration Route 3"]].forEach(([flight, label]) => {
       const group = document.createElement("section");
       group.className = "reward-my-games-group";
       group.innerHTML = `<h3>${label}</h3><div></div>`;
@@ -381,7 +381,8 @@
         const unlocked = isUnlocked(reward, student);
         const item = document.createElement("article");
         item.className = `reward-my-game ${unlocked ? "is-unlocked" : "is-locked"}`;
-        item.innerHTML = `<div><strong>${unlocked ? "🎮" : "🔒"} ${reward.title}</strong><p>${reward.shortDescription}</p></div>`;
+        const gameTitle = reward.title.replace(/^Migration Route [123] /, "");
+        item.innerHTML = `<div><strong>${unlocked ? "🎮" : "🔒"} ${gameTitle}</strong><p>${reward.shortDescription}</p></div>`;
         const actions = document.createElement("div");
         actions.className = "reward-game-actions";
         const preview = !unlocked && educatorPreview;

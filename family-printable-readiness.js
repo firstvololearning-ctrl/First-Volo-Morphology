@@ -28,7 +28,7 @@
   {
     "id": "cook-family",
     "family": "COOK",
-    "flight": "Flight A",
+    "flight": "Migration Route 1",
     "title": "COOK Affix Practice Printable",
     "kind": "affix-practice",
     "triggerMode": "affix",
@@ -40,7 +40,7 @@
   {
     "id": "cook-roll-build",
     "family": "COOK",
-    "flight": "Flight A",
+    "flight": "Migration Route 1",
     "title": "COOK Roll & Build",
     "kind": "roll-build",
     "triggerMode": "affix",
@@ -52,7 +52,7 @@
   {
     "id": "view-family",
     "family": "VIEW",
-    "flight": "Flight A",
+    "flight": "Migration Route 1",
     "title": "VIEW Affix Practice Printable",
     "kind": "affix-practice",
     "triggerMode": "affix",
@@ -64,7 +64,7 @@
   {
     "id": "port-family",
     "family": "PORT",
-    "flight": "Flight B",
+    "flight": "Migration Route 2",
     "title": "PORT Family Printable",
     "kind": "family",
     "minActivity": "break",
@@ -74,7 +74,7 @@
   {
     "id": "port-roll-build",
     "family": "PORT",
-    "flight": "Flight B",
+    "flight": "Migration Route 2",
     "title": "PORT Roll & Build",
     "kind": "roll-build",
     "minActivity": "build",
@@ -84,7 +84,7 @@
   {
     "id": "struct-family",
     "family": "STRUCT",
-    "flight": "Flight B",
+    "flight": "Migration Route 2",
     "title": "STRUCT Family Printable",
     "kind": "family",
     "minActivity": "break",
@@ -94,7 +94,7 @@
   {
     "id": "tract-family",
     "family": "TRACT",
-    "flight": "Flight B",
+    "flight": "Migration Route 2",
     "title": "TRACT Family Printable",
     "kind": "family",
     "minActivity": "break",

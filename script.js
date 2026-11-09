@@ -6774,13 +6774,13 @@ function isMorphemeEligibleForSelectedGrade(item) {
 
 function getGradeBandLabel() {
   const labels = {
-    all: "All Flights",
-    "2-3": "Flight A",
-    "4-5": "Flight B",
-    "6-8": "Flight C"
+    all: "All Routes",
+    "2-3": "Migration Route 1",
+    "4-5": "Migration Route 2",
+    "6-8": "Migration Route 3"
   };
 
-  return labels[gradeBand] || "All Flights";
+  return labels[gradeBand] || "All Routes";
 }
 
 function getStudyModeLabel() {
@@ -6957,7 +6957,7 @@ function updateStudyChoiceAvailability() {
     if (small) {
       small.textContent = isAvailable
         ? button.dataset.availableLabel
-        : "Not in this flight";
+        : "Not in this route";
     }
 
     if (
@@ -6981,7 +6981,7 @@ function updateStudyChoiceAvailability() {
     });
 
     studyAvailability.textContent =
-      "Choose an available option for this Practice Flight.";
+      "Choose an available option for this Migration Route.";
   }
 }
 
@@ -7640,7 +7640,7 @@ function renderCurrentActivity() {
   ) {
     showStartMessage(
       `No ${getGradeBandLabel()} ${getStudyModeLabel()} are available here yet.`,
-      "Choose another practice flight or word part, or select All Flights."
+      "Choose another migration route or word part, or select All Routes."
     );
 
     return;
@@ -9116,7 +9116,7 @@ if (mode === "find") {
 
     showStartMessage(
       `No complete ${filterLabel} Word Hunt rounds are available for this word-part selection yet.`,
-      "Choose another practice flight, vocabulary level, or word part."
+      "Choose another migration route, vocabulary level, or word part."
     );
 
     return;
@@ -9203,7 +9203,7 @@ if (mode === "infer") {
 
     showStartMessage(
       `No ${activityName} items match ${getActiveWordFilterLabel()} for this word-part selection yet.`,
-      "Choose another practice flight, vocabulary level, or word part."
+      "Choose another migration route, vocabulary level, or word part."
     );
 
     return;
@@ -10986,7 +10986,7 @@ function renderBuildActivity() {
   ) {
     showStartMessage(
       `No Build Words match ${getActiveWordFilterLabel()} for this pattern yet.`,
-      "Choose another practice flight, vocabulary level, or word-building pattern."
+      "Choose another migration route, vocabulary level, or word-building pattern."
     );
 
     return;

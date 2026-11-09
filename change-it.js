@@ -289,7 +289,7 @@ function renderChangeItActivity() {
   if (eligible.length < 1) {
     showStartMessage(
       "No Change It questions match this selection yet.",
-      "Choose Roots + Suffixes or Prefixes + Roots + Suffixes, or adjust the Practice Flight or Vocabulary filter."
+      "Choose Roots + Suffixes or Prefixes + Roots + Suffixes, or adjust the Migration Route or Vocabulary filter."
     );
     return;
   }

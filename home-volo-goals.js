@@ -1,9 +1,9 @@
 (() => {
   const LEVELS = ["Foundation", "Expansion", "Advanced"];
   const FLIGHT_LABELS = {
-    Foundation: "Flight A",
-    Expansion: "Flight B",
-    Advanced: "Flight C"
+    Foundation: "Migration Route 1",
+    Expansion: "Migration Route 2",
+    Advanced: "Migration Route 3"
   };
 
   const studentBar =

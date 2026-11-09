@@ -6,7 +6,7 @@
   Purpose:
   Confirm that a learner can apply familiar morphemes
   to grade-appropriate words independently after all
-  Volo Tokens for a Practice Flight have been earned.
+  Volo Tokens for a Migration Route have been earned.
 
   IMPORTANT:
   - Transfer Challenge scores do NOT affect Volo Tokens.
@@ -18,7 +18,7 @@
   - Passing the Transfer Challenge allows the migration
     system to unlock Winter Home / Post-Test Ready.
 
-  Two parallel forms are provided for each Practice Flight.
+  Two parallel forms are provided for each Migration Route.
   A failed attempt should use the alternate form next.
 */
 
@@ -48,19 +48,19 @@
   /*
     Grade-band design rules are deliberately conservative.
 
-    Flight A:
+    Migration Route 1:
       familiar vocabulary
       high transparency
       simple, prominent morphology
       4-choice contextual reasoning / clean analysis
 
-    Flight B:
+    Migration Route 2:
       familiar or academic vocabulary
       high or medium transparency
       one or more meaningful parts
       contextual inference + some multi-part analysis
 
-    Flight C:
+    Migration Route 3:
       familiar or academic vocabulary
       high or medium transparency
       greater morphological complexity is appropriate
@@ -75,7 +75,7 @@
   const GRADE_RULES = Object.freeze({
     "2-3": {
       flightId: "A",
-      label: "Flight A",
+      label: "Migration Route 1",
       collection: "Foundation",
 
       allowedVocabLevels: [
@@ -91,7 +91,7 @@
 
     "4-5": {
       flightId: "B",
-      label: "Flight B",
+      label: "Migration Route 2",
       collection: "Expansion",
 
       allowedVocabLevels: [
@@ -109,7 +109,7 @@
 
     "6-8": {
       flightId: "C",
-      label: "Flight C",
+      label: "Migration Route 3",
       collection: "Advanced",
 
       allowedVocabLevels: [
@@ -139,7 +139,7 @@
 
     "2-3": {
       flightId: "A",
-      label: "Flight A",
+      label: "Migration Route 1",
       collection: "Foundation",
 
       forms: {
@@ -409,7 +409,7 @@
 
     "4-5": {
       flightId: "B",
-      label: "Flight B",
+      label: "Migration Route 2",
       collection: "Expansion",
 
       forms: {
@@ -698,7 +698,7 @@
 
     "6-8": {
       flightId: "C",
-      label: "Flight C",
+      label: "Migration Route 3",
       collection: "Advanced",
 
       forms: {
@@ -1042,7 +1042,7 @@
 
      Match the migration engine:
      Transfer unlocks only after every token
-     in the selected Flight collection is
+     in the selected Route collection is
      actually earned.
      ======================================== */
 

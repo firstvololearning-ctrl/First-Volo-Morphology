@@ -17,7 +17,7 @@
    - Access support is separate from morphology support.
    - Support never rewrites the original independent result.
    - Terminology comes from the specific item/family metadata, never from
-     Flight alone. If the exact linguistic role is unavailable, use the
+     Route alone. If the exact linguistic role is unavailable, use the
      neutral term "word part" rather than guessing root/base/combining form.
    - Transfer items remain protected and separate from ordinary practice.
    ======================================== */
@@ -477,12 +477,12 @@
 
   function getFlightLabel(gradeBand) {
     const labels = {
-      "2-3": "Flight A",
-      "4-5": "Flight B",
-      "6-8": "Flight C"
+      "2-3": "Migration Route 1",
+      "4-5": "Migration Route 2",
+      "6-8": "Migration Route 3"
     };
 
-    return labels[gradeBand] || gradeBand || "Practice Flight";
+    return labels[gradeBand] || gradeBand || "Migration Route";
   }
 
   function formatVocabularyLevel(value) {
@@ -1089,7 +1089,7 @@
       rules: {
         supportOrder: "attempt → identify barrier → least support → another attempt → fade",
         onlineBoundary: "Clarify directions, decode nonessential words, or model the task with examples not in the activity; do not solve the scored target item for the student.",
-        terminology: "Use the exact linguistic term attached to the specific item/family. Never infer base/root/Greek combining form from Flight alone.",
+        terminology: "Use the exact linguistic term attached to the specific item/family. Never infer base/root/Greek combining form from Route alone.",
         transfer: "Keep protected transfer items out of ordinary teaching/practice and do not preteach the transfer word."
       }
     };

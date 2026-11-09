@@ -148,37 +148,37 @@ const deleteStudentButton = document.getElementById("deleteStudentButton");
 const FV_PAPER_PRACTICE_RESOURCES = [
   {
     id: "view-build-discover",
-    flight: "Flight A",
+    flight: "Migration Route 1",
     label: "VIEW · Build & Discover"
   },
   {
     id: "cook-build-discover",
-    flight: "Flight A",
+    flight: "Migration Route 1",
     label: "COOK · Build & Discover"
   },
   {
     id: "cook-roll-build",
-    flight: "Flight A",
+    flight: "Migration Route 1",
     label: "COOK · Roll & Build"
   },
   {
     id: "struct-build-discover",
-    flight: "Flight B",
+    flight: "Migration Route 2",
     label: "STRUCT Family · Build & Discover"
   },
   {
     id: "port-build-discover",
-    flight: "Flight B",
+    flight: "Migration Route 2",
     label: "PORT Family · Build & Discover"
   },
   {
     id: "port-roll-build",
-    flight: "Flight B",
+    flight: "Migration Route 2",
     label: "PORT Family · Roll & Build"
   },
   {
     id: "tract-build-discover",
-    flight: "Flight B",
+    flight: "Migration Route 2",
     label: "TRACT Family · Build & Discover"
   }
 ];
@@ -758,9 +758,9 @@ const FV_ACTIVITY_STANDARD_MAP = {
 
 function getProgressGradeBandLabel(gradeBand) {
   const labels = {
-    "2-3": "Flight A",
-    "4-5": "Flight B",
-    "6-8": "Flight C"
+    "2-3": "Migration Route 1",
+    "4-5": "Migration Route 2",
+    "6-8": "Migration Route 3"
   };
 
   return labels[gradeBand] || gradeBand;
@@ -966,7 +966,7 @@ function renderVoloTokenProgress(
     "volo-token-progress-intro";
 
   intro.textContent =
-    "These Flight collections track practice evidence and game access. " +
+    "These route collections track practice evidence and game access. " +
     "In Learn, meaning groups organize instruction. Collection numbers are not prerequisites or a required teaching order.";
 
   section.append(intro);
@@ -978,9 +978,9 @@ function renderVoloTokenProgress(
   ];
 
   const collectionLabels = {
-    Foundation: "Flight A — Typically Grades 2–3",
-    Expansion: "Flight B — Typically Grades 4–5",
-    Advanced: "Flight C — Typically Grades 6–8"
+    Foundation: "Migration Route 1 — Typically Grades 2–3",
+    Expansion: "Migration Route 2 — Typically Grades 4–5",
+    Advanced: "Migration Route 3 — Typically Grades 6–8"
   };
 
   collections.forEach((collection) => {

@@ -80,7 +80,7 @@
       ]
     },
     {
-      id: "suffix-meaning-flight", flight: "2-3", title: "Flight A Meaning Flight",
+      id: "suffix-meaning-flight", flight: "2-3", title: "Migration Route 1 Meaning Flight",
       shortDescription: "Fly through the meaning that matches each familiar suffix.",
       unlockToken: "foundation-grade3-bridge", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "slow", rounds: 5 },
@@ -88,7 +88,7 @@
     },
     {
       id: "prefix-meaning-flight", flight: "4-5", title: "Prefix Meaning Flight",
-      shortDescription: "Guide Volo through meanings for new Flight B prefixes.",
+      shortDescription: "Guide Volo through meanings for new Migration Route 2 prefixes.",
       unlockToken: "expansion-prefixes-1", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 5 },
       prompts: ["inter", "trans", "con-com", "e-ex", "location-in-family"]
@@ -106,21 +106,21 @@
       ]
     },
     {
-      id: "expansion-meaning-flight", flight: "4-5", title: "Flight B Meaning Flight",
-      shortDescription: "Catch meanings for familiar Flight B roots and suffixes.",
+      id: "expansion-meaning-flight", flight: "4-5", title: "Migration Route 2 Meaning Flight",
+      shortDescription: "Catch meanings for familiar Migration Route 2 roots and suffixes.",
       unlockToken: "expansion-suffixes-2", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 5 },
       prompts: ["bio", "geo", "tele", "ology", "ify"]
     },
     {
-      id: "advanced-prefix-flight", flight: "6-8", title: "Flight C Prefix Flight",
+      id: "advanced-prefix-flight", flight: "6-8", title: "Migration Route 3 Prefix Flight",
       shortDescription: "Navigate meanings for more complex prefixes already introduced.",
       unlockToken: "advanced-prefixes", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 3 },
       prompts: ["ab", "a-ad", "retro"]
     },
     {
-      id: "advanced-root-builder", flight: "6-8", title: "Flight C Root Builder",
+      id: "advanced-root-builder", flight: "6-8", title: "Migration Route 3 Root Builder",
       shortDescription: "Assemble words from more complex roots and familiar affixes.",
       unlockToken: "advanced-roots-2", gameType: "build-word", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 4 },
@@ -132,7 +132,7 @@
       ]
     },
     {
-      id: "advanced-meaning-flight", flight: "6-8", title: "Flight C Meaning Flight",
+      id: "advanced-meaning-flight", flight: "6-8", title: "Migration Route 3 Meaning Flight",
       shortDescription: "Ride the wind through more complex root and suffix meanings.",
       unlockToken: "advanced-suffixes", gameType: "meaning-flight", theme: "migration-sky", launcher: "FirstVoloRewards.launch",
       difficulty: { pace: "steady", rounds: 5 },

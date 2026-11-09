@@ -100,6 +100,18 @@ assert.match($('.hoops-feedback').textContent, /Splash!.*not able to be seen/);
 $('.hoops-close').click();
 
 w.matchMedia = () => ({ matches: false });
+w.FirstVoloHoops.open(prefixReward, source);
+const movingRim = $('.hoops-basket');
+const firstRimPosition = movingRim.getAttribute('transform');
+frame(w.performance.now() + 800);
+assert.notEqual(movingRim.getAttribute('transform'), firstRimPosition);
+choice('invisible').click();
+$('.hoops-assist').click();
+$('.hoops-shoot').click();
+frame(w.performance.now() + 2200);
+assert.equal($('.hoops-score').textContent, '2 points', 'alignment predicts the rim at shot arrival');
+$('.hoops-close').click();
+
 w.FirstVoloHoops.open(prefixReward, source, { mode: 'toss' });
 const movingBalloon = $('.toss-target');
 const initialPosition = movingBalloon.getAttribute('transform');

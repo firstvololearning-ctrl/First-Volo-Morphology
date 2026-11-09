@@ -955,7 +955,7 @@
         "Migration complete.";
 
       text.textContent =
-        "Volo reached Winter Home. This Flight is ready for the post-test.";
+        "Volo reached Winter Home. This route is ready for the post-test.";
     } else if (
       progress.tokensComplete
     ) {
@@ -988,7 +988,7 @@
     );
 
     /*
-      Once every Volo Token in this Flight
+      Once every Volo Token in this Route
       is earned, the Transfer Challenge is
       the final step before Winter Home.
     */
@@ -1265,9 +1265,9 @@
 
     message.innerHTML =
       `
-        <strong>Choose a Practice Flight.</strong>
+        <strong>Choose a Migration Route.</strong>
         <span>
-          Select Flight A, B, or C to see Volo's migration journey.
+          Choose Migration Route 1, 2, or 3 to see Volo's migration journey.
         </span>
       `;
 

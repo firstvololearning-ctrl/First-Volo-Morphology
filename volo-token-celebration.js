@@ -17,9 +17,9 @@
   const celebrationQueue = [];
   let celebrationOpen = false;
   const collectionFlightLabels = {
-    Foundation: "Flight A",
-    Expansion: "Flight B",
-    Advanced: "Flight C"
+    Foundation: "Migration Route 1",
+    Expansion: "Migration Route 2",
+    Advanced: "Migration Route 3"
   };
 
 

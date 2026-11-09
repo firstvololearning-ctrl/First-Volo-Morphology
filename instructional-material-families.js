@@ -6,7 +6,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
   "families": {
     "COOK": {
       "family": "COOK",
-      "flight": "Flight A",
+      "flight": "Migration Route 1",
       "layout": "base-word",
       "sourceConfig": "printable-configs/cook.py",
       "labels": {
@@ -181,7 +181,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
     },
     "PORT": {
       "family": "PORT",
-      "flight": "Flight B",
+      "flight": "Migration Route 2",
       "layout": "root",
       "sourceConfig": "printable-configs/port.py",
       "labels": {
@@ -383,7 +383,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
     },
     "TRACT": {
       "family": "TRACT",
-      "flight": "Flight B",
+      "flight": "Migration Route 2",
       "layout": "root",
       "sourceConfig": "printable-configs/tract.py",
       "labels": {
@@ -608,7 +608,7 @@ window.FirstVoloInstructionalMaterialFamilies = {
     },
     "VIEW": {
       "family": "VIEW",
-      "flight": "Flight A",
+      "flight": "Migration Route 1",
       "layout": "base-word",
       "sourceConfig": "printable-configs/view.py",
       "labels": {

@@ -361,7 +361,7 @@
     flightBadge.textContent =
       item.flight === "?"
         ? "Unassigned"
-        : `Flight ${item.flight}`;
+        : `Migration Route ${"ABC".indexOf(item.flight) + 1}`;
 
     flightCell.append(
       flightBadge

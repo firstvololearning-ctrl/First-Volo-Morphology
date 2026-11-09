@@ -419,7 +419,7 @@ function addPracticeRow({
     "Target ID": targetId,
     "Target / Word Part": targetLabel,
     "Target Role": targetRole,
-    "Practice Flight": gradeBand,
+    "Migration Route": gradeBand,
     "Vocabulary Level": vocabLevel,
     "Grade Basis": gradeBasis,
     "Vocabulary Basis": vocabBasis,
@@ -1020,7 +1020,7 @@ const summaryMap = new Map();
 
 practiceRows.forEach((row) => {
   const key = [
-    row["Practice Flight"] || "Unspecified",
+    row["Migration Route"] || "Unspecified",
     row["Vocabulary Level"] || "Unspecified",
     row.Activity
   ].join("|||");
@@ -1041,7 +1041,7 @@ const summaryRows = [
   ] = key.split("|||");
 
   return {
-    "Practice Flight": gradeBand,
+    "Migration Route": gradeBand,
     "Vocabulary Level": vocabLevel,
     Activity: activity,
     "Question / Item Count": count
@@ -1080,7 +1080,7 @@ writeCsv(
     "Target / Word Part",
     "Target Role",
     "Contained Morphemes",
-    "Practice Flight",
+    "Migration Route",
     "Vocabulary Level",
     "Grade Basis",
     "Vocabulary Basis",
@@ -1092,7 +1092,7 @@ writeCsv(
   "curriculum-map-summary.csv",
   summaryRows,
   [
-    "Practice Flight",
+    "Migration Route",
     "Vocabulary Level",
     "Activity",
     "Question / Item Count"

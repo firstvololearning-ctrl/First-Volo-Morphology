@@ -1,7 +1,7 @@
 """VIEW family - Flight A Build & Discover packet."""
 
 FAMILY = "VIEW"
-FLIGHT = "Flight A"
+FLIGHT = "Migration Route 1"
 LAYOUT = "base-word"
 
 ROOT_SECTION_LABEL = "BASE WORD"

@@ -3,19 +3,19 @@
 (function () {
   const GRADES = {
     foundation: {
-      label: "Flight A · Typically Grades 2–3",
+      label: "Migration Route 1 · Typically Grades 2–3",
       expectation: "Work across all five morphology objectives with familiar, transparent prefixes and suffixes first, then grow toward more derivational and less transparent forms. Increase the number of meaningful parts, spelling or sound changes, lexical load, independence, and transfer gradually.",
       material: "transparent, familiar words with one or two meaningful parts, growing toward less transparent derivational forms",
       transfer: "supported transfer to new transparent words and short reading or writing contexts"
     },
     expansion: {
-      label: "Flight B · Typically Grades 4–5",
+      label: "Migration Route 2 · Typically Grades 4–5",
       expectation: "Coordinate prefixes, roots, and suffixes in words with multiple meaningful parts. Expect increasing tolerance for spelling, sound, and form changes, broader vocabulary load, and transfer to academic text.",
       material: "words with multiple affixes and roots, including moderate spelling, sound, or form changes",
       transfer: "increasingly independent transfer to unfamiliar words and curriculum-related text"
     },
     advanced: {
-      label: "Flight C · Typically Grades 6–8",
+      label: "Migration Route 3 · Typically Grades 6–8",
       expectation: "Analyze complex and less transparent morphological families, including classical roots and derivational patterns. Emphasize flexible reasoning, lexical precision, independence, and generalization across academic disciplines.",
       material: "complex, less transparent, and academically useful words with several meaningful parts",
       transfer: "independent generalization across novel words, connected text, writing, and content areas"
@@ -248,7 +248,7 @@
 
   function gradeStandardsHtml() {
     const row=window.FirstVoloGradeStandards.connections(schoolGrade.value,state.focus,standardsSystem.value);
-    if(!row)return '<h4>Choose the learner’s actual grade</h4><p>Practice Flight sets instructional complexity. It does not assign a school grade or standards level.</p>';
+    if(!row)return '<h4>Choose the learner’s actual grade</h4><p>Migration Route sets instructional complexity. It does not assign a school grade or standards level.</p>';
     return `<h4>${row.system} · Grade ${row.grade}</h4><p><b>${row.codes.join('; ')}</b> — ${row.summary}</p><p>${row.connection}</p><p>${row.condition}</p>${row.context?`<p><b>${row.context.code}</b> — ${row.context.summary}</p>`:''}<p><a href="${row.url}" target="_blank" rel="noopener">Read the official grade standards</a> · <a href="https://www.doe.mass.edu/frameworks/ela/2017-06.pdf" target="_blank" rel="noopener">MA framework</a></p><p class="alignment-note">Paraphrased connections checked November 8, 2026. Standards describe curriculum expectations; they do not establish an IEP need, mastery, or efficacy for this app.</p>`;
   }
   const ACTIVITY_MODES={'Learn':'learn','Meaning':'meaning','Word Part':'morpheme','Find':'find','Word Hunt':'hunt','Break It Apart':'break','Figure It Out':'infer','Build Words':'build','Use It':'use','Change It':'change'};
@@ -258,7 +258,7 @@
     return FOCUSES[state.focus].activities.map(name=>{
       const mode=ACTIVITY_MODES[name];if(['build','use','change'].includes(mode)&&!combo)return `<li>${name}: choose a combined word-part set above to open this activity.</li>`;
       if(mode==='change'&&builderStudy.value==='prefix-root')return '<li>Change It: choose a set containing suffixes.</li>';
-      if(state.grade==='foundation'&&builderStudy.value.includes('root'))return `<li>${name}: roots/combined root sets require Flight B or C.</li>`;
+      if(state.grade==='foundation'&&builderStudy.value.includes('root'))return `<li>${name}: roots/combined root sets require Migration Route 2 or 3.</li>`;
       const query=new URLSearchParams({from:'target-builder',flight:band,study:builderStudy.value,activity:mode});return `<li><a href="index.html?${query}">Open ${name} →</a></li>`;
     }).join('');
   }

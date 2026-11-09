@@ -134,7 +134,7 @@ def normalize_parts(items: Iterable[dict], role: str) -> list[Part]:
 
 def validate_config(cfg, repo_root: Path):
     family = str(require_attr(cfg, "FAMILY")).strip()
-    flight = str(getattr(cfg, "FLIGHT", "Flight B")).strip()
+    flight = str(getattr(cfg, "FLIGHT", "Migration Route 2")).strip()
 
     prefixes = normalize_parts(require_attr(cfg, "PREFIXES"), "PREFIXES")
     roots = normalize_parts(require_attr(cfg, "ROOTS"), "ROOTS")

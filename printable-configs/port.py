@@ -1,7 +1,7 @@
 """PORT family content for the locked First Volo Build & Discover generator."""
 
 FAMILY = "PORT"
-FLIGHT = "Flight B"
+FLIGHT = "Migration Route 2"
 ROOT_SECTION_LABEL = "ROOT / GREEK COMBINING FORM"
 MAT_A_TITLE = "MAT A - one prefix or combining form"
 MAT_A_PREFIX_LABEL = "PREFIX / COMBINING FORM"

@@ -4,7 +4,7 @@
   First Volo Morphology — Migration Challenge UI
 
   The Migration Challenge:
-  - appears only after all Volo Tokens for a Flight are earned
+  - appears only after all Volo Tokens for a Route are earned
   - uses reserved novel words
   - gives no item-by-item correctness feedback
   - does not create a regular practice session
@@ -272,7 +272,7 @@
 
         <p>
           Earn all of the Volo Tokens for this
-          Practice Flight first.
+          Migration Route first.
         </p>
 
         <button
@@ -901,7 +901,7 @@
               </p>
 
               <p class="transfer-challenge-note">
-                This Practice Flight is now
+                This Migration Route is now
                 Post-Test Ready.
               </p>
             `

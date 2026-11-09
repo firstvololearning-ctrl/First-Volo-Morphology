@@ -15,9 +15,9 @@ const visibleFiles = [
   "token-sets.js"
 ];
 
-assert.match(source, /Foundation:\s*"Flight A — Typically Grades 2–3"/);
-assert.match(source, /Expansion:\s*"Flight B — Typically Grades 4–5"/);
-assert.match(source, /Advanced:\s*"Flight C — Typically Grades 6–8"/);
+assert.match(source, /Foundation:\s*"Migration Route 1 — Typically Grades 2–3"/);
+assert.match(source, /Expansion:\s*"Migration Route 2 — Typically Grades 4–5"/);
+assert.match(source, /Advanced:\s*"Migration Route 3 — Typically Grades 6–8"/);
 assert.match(source, /collectionLabels\[collection\]/);
 
 for (const file of visibleFiles) {

@@ -1065,7 +1065,8 @@ def render_waypoint_pdf(word_data, flight_letter, out_pdf):
     c.drawString(32, H - 31, "FIRST VOLO MORPHOLOGY")
 
     c.setFillColor(PURPLE)
-    c.drawRightString(W - 32, H - 31, f"FLIGHT {flight_letter}  ·  WAYPOINT WORD")
+    route = "ABC".index(flight_letter) + 1
+    c.drawRightString(W - 32, H - 31, f"MIGRATION ROUTE {route}  ·  WAYPOINT WORD")
 
     c.setStrokeColor(LIGHT_RULE)
     c.setLineWidth(0.8)

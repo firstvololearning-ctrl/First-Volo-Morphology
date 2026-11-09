@@ -4,7 +4,7 @@
   "families": {
     "COOK": {
       "family": "COOK",
-      "flight": "Flight A",
+      "flight": "Migration Route 1",
       "layout": "base-word",
       "sourceConfig": "printable-configs/cook.py",
       "labels": {
@@ -179,7 +179,7 @@
     },
     "PORT": {
       "family": "PORT",
-      "flight": "Flight B",
+      "flight": "Migration Route 2",
       "layout": "root",
       "sourceConfig": "printable-configs/port.py",
       "labels": {
@@ -381,7 +381,7 @@
     },
     "TRACT": {
       "family": "TRACT",
-      "flight": "Flight B",
+      "flight": "Migration Route 2",
       "layout": "root",
       "sourceConfig": "printable-configs/tract.py",
       "labels": {
@@ -606,7 +606,7 @@
     },
     "VIEW": {
       "family": "VIEW",
-      "flight": "Flight A",
+      "flight": "Migration Route 1",
       "layout": "base-word",
       "sourceConfig": "printable-configs/view.py",
       "labels": {

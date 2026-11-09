@@ -10,13 +10,13 @@
 
   The token/mastery engine remains the source of truth for learning.
   This module translates demonstrated learning into discrete arrivals on
-  each Flight's active migration route.
+  each Route's active migration route.
 
   The final Destination is reserved for a future
   Transfer Check using novel words that are separate
   from formal assessment items.
 
-  All Flight Tokens + successful Transfer Check
+  All Route Tokens + successful Transfer Check
   = Journey Complete / Post-Test Ready.
 */
 
@@ -73,9 +73,9 @@
   const FLIGHTS = Object.freeze({
     "2-3": {
       id: "A",
-      label: "Flight A",
+      label: "Migration Route 1",
       collection: "Foundation",
-      badgeLabel: "Flight A Badge",
+      badgeLabel: "Migration Route 1 Badge",
       activeStopIds: [
         "home-tree", "meadow", "forest", "village", "coast", "destination"
       ]
@@ -83,9 +83,9 @@
 
     "4-5": {
       id: "B",
-      label: "Flight B",
+      label: "Migration Route 2",
       collection: "Expansion",
-      badgeLabel: "Flight B Badge",
+      badgeLabel: "Migration Route 2 Badge",
       activeStopIds: [
         "home-tree", "meadow", "river", "forest", "mountains",
         "pond", "village", "coast", "destination"
@@ -94,9 +94,9 @@
 
     "6-8": {
       id: "C",
-      label: "Flight C",
+      label: "Migration Route 3",
       collection: "Advanced",
-      badgeLabel: "Flight C Badge",
+      badgeLabel: "Migration Route 3 Badge",
       activeStopIds: [
         "home-tree", "meadow", "forest", "mountains", "village", "coast", "destination"
       ]

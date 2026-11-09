@@ -11,7 +11,7 @@ intractable or subtract can still appear in optional extension prompts.
 """
 
 FAMILY = "TRACT"
-FLIGHT = "Flight B"
+FLIGHT = "Migration Route 2"
 
 PREFIXES = [
     {
