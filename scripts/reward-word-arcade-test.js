@@ -76,10 +76,26 @@ $('.hoops-close').click();
 
 w.FirstVoloHoops.open(prefixReward, source, { mode: 'toss' });
 assert.equal($('.toss-balloon').parentElement.tagName.toLowerCase(), 'g');
-choice('invisible').click();
-$('.hoops-shoot').click();
-frame(w.performance.now() + 200);
-assert($('.toss-target.is-popped'));
+const range = $('.hoops-court');
+range.querySelector('svg').getBoundingClientRect = () => ({ left: 0, top: 0, width: 1000, height: 540 });
+function pullBalloonShot(endX) {
+  for (const [type, clientX, clientY] of [
+    ['pointerdown', 500, 440], ['pointermove', endX, 510], ['pointerup', endX, 510]
+  ]) {
+    const event = new w.MouseEvent(type, { clientX, clientY, bubbles: true, cancelable: true });
+    range.dispatchEvent(event);
+  }
+  frame(w.performance.now() + 200);
+}
+pullBalloonShot(448);
+assert($('.toss-target.is-bumped'), 'pulling left hits the right balloon');
+assert.equal($('.hoops-score').textContent, '0 points');
+assert.match($('.hoops-feedback').textContent, /into a place/);
+pullBalloonShot(552);
+assert.equal(d.querySelectorAll('.toss-target.is-popped').length, 1);
+assert.equal($('.toss-target.is-popped text').textContent, 'invisible');
+const impactY = Number($('.hoops-ball').getAttribute('transform').match(/translate\([^ ]+ ([^)]+)/)[1]);
+assert(impactY > 185, 'the shot stops on the upward approach to the balloon');
 assert.match($('.hoops-feedback').textContent, /Splash!.*not able to be seen/);
 $('.hoops-close').click();
 
@@ -120,12 +136,32 @@ assert.match($('.jump-prompt').textContent, /Course complete/);
 $('.jump-close').click();
 assert.equal(frame, null);
 assert.equal(d.activeElement, source);
+let mazeTick;
+w.setInterval = callback => { mazeTick = callback; return 1; };
+w.clearInterval = () => { mazeTick = undefined; };
 w.FirstVoloWordMaze.open(rewards[0], source);
 const board = $('.maze-board');
 const mazeKey = name => board.dispatchEvent(new w.KeyboardEvent('keydown', { key: name, bubbles: true }));
-const startCell = $('.maze-volo').parentElement;
+const mazePosition = () => {
+  const player = $('.maze-volo');
+  const column = Math.floor(parseFloat(player.style.left) * 15 / 100);
+  const row = Math.floor(parseFloat(player.style.top) * 9 / 100);
+  return row * 15 + column;
+};
+const startCell = mazePosition();
 mazeKey('ArrowUp');
-assert.equal($('.maze-volo').parentElement, startCell, 'walls stop movement');
+assert.equal(mazePosition(), startCell, 'walls stop movement');
+mazeKey('ArrowRight');
+assert.equal(mazePosition(), startCell + 1);
+mazeKey('ArrowUp');
+mazeTick();
+mazeTick();
+assert.equal(mazePosition(), startCell + 3, 'a single arrow press keeps Volo moving');
+mazeTick();
+assert.equal(mazePosition(), startCell + 3 - 15, 'an early turn is taken at the next opening');
+$('.maze-pause').click();
+assert.equal(mazeTick, undefined);
+assert.deepEqual([...d.querySelectorAll('.maze-token')].map(token => token.textContent), ['jumped', 'jumping']);
 
 const moves = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
 function pathTo(start, end) {
@@ -146,15 +182,22 @@ function pathTo(start, end) {
   return null;
 }
 const cellIndex = cell => [...board.children].indexOf(cell);
-const origin = cellIndex(startCell);
+const origin = mazePosition();
 const endpoints = [16, 28, 118];
 assert(endpoints.every(cell => pathTo(origin, cell)), 'every endpoint is reachable');
-const wrongCell = cellIndex($('.maze-token[data-marker="B"]').parentElement);
-for (const step of pathTo(origin, wrongCell)) mazeKey(step);
-assert.match($('.maze-feedback').textContent, /Try another token/);
+function follow(path) {
+  for (const direction of path) {
+    const wasMoving = Boolean(mazeTick);
+    mazeKey(direction);
+    if (wasMoving) mazeTick();
+  }
+}
+const wrongCell = cellIndex($('.maze-token[data-color="1"]').parentElement);
+follow(pathTo(origin, wrongCell));
+assert.match($('.maze-feedback').textContent, /Try another tile/);
 assert.equal($('.maze-score').textContent, '0 collected');
-const rightCell = cellIndex($('.maze-token[data-marker="A"]').parentElement);
-for (const step of pathTo(wrongCell, rightCell)) mazeKey(step);
+const rightCell = cellIndex($('.maze-token[data-color="0"]').parentElement);
+follow(pathTo(wrongCell, rightCell));
 assert.equal($('.maze-score').textContent, '1 collected');
 $('.maze-next').click();
 assert.match($('.maze-prompt').textContent, /Maze complete/);

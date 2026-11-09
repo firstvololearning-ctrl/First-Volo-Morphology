@@ -91,3 +91,25 @@
   box-shadow: inset 0 -4px 0 #7bc7c9, 0 4px 0 #08182e;
   color: #11353d;
 }
+
+.is-target-toss .toss-drops { fill: #a6f5ff; opacity: 0; }
+.is-target-toss .is-popped .toss-drops { opacity: 1; }
+.is-target-toss .is-bumped .toss-balloon { stroke: #ffe599; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-target-toss .is-popped .toss-drops {
+    animation: balloonDroplets .6s ease-out both;
+  }
+  .is-target-toss .is-bumped .toss-balloon {
+    animation: balloonBump .27s ease-out;
+  }
+}
+
+@keyframes balloonDroplets {
+  from { opacity: 1; transform: scale(.25); }
+  to { opacity: 0; transform: scale(1.35) translateY(15px); }
+}
+
+@keyframes balloonBump {
+  45% { transform: scale(1.08, .9); }
+}

@@ -16,21 +16,64 @@
     let round=0, score=0, selected=null, busy=false, frame=null, closed=false;
     let velocity={x:560,y:-700}, drag=null, targets=[], dragShot=false;
     let startSide=Math.random()<.5?-1:1;
-    const gravity=900, startPoint={x:160,y:425};
+    const gravity = 900;
+    const startPoint = toss ? { x: 500, y: 440 } : { x: 160, y: 425 };
+    const balloonY = 185;
     let launchPoint={...startPoint};
-    function crossing(v){const disc=v.y*v.y-2*gravity*(launchPoint.y-225);return disc<0?null:(-v.y+Math.sqrt(disc))/gravity;}
-    function hitX(v){const t=crossing(v);return t===null?null:launchPoint.x+v.x*t;}
-    function setAim(){launchPoint={...startPoint};dragShot=false;velocity.y=-700;velocity.x=(Number(aim.value)-launchPoint.x)/crossing(velocity);guide();}
+    function crossing(v) {
+      const height = toss ? balloonY : 225;
+      const disc = v.y * v.y - 2 * gravity * (launchPoint.y - height);
+      if (disc < 0) return null;
+      const root = Math.sqrt(disc);
+      return (-v.y + (toss ? -root : root)) / gravity;
+    }
+
+    function flightAt(time) {
+      return {
+        x: launchPoint.x + velocity.x * time,
+        y: launchPoint.y + velocity.y * time + .5 * gravity * time * time
+      };
+    }
+
+    function hitX() {
+      const time = crossing(velocity);
+      return time === null ? null : flightAt(time).x;
+    }
+
+    function setAim() {
+      launchPoint = { ...startPoint };
+      dragShot = false;
+      velocity.y = toss ? -1000 : -700;
+      velocity.x = (Number(aim.value) - launchPoint.x) / crossing(velocity);
+      guide();
+    }
+
+    function firstBalloonContact(landing) {
+      // Sample the flight in order so a foreground balloon intercepts the ball.
+      for (let time = 0; time <= landing; time += .008) {
+        const point = flightAt(time);
+        const target = targets.find(item => Math.hypot((point.x - item.x) / 90, (point.y - balloonY) / 83) <= 1);
+        if (target) return { target, time };
+      }
+      return null;
+    }
+
     const court=$(".hoops-court"), svg=court.querySelector("svg");
     court.setAttribute("tabindex","0");court.setAttribute("aria-label","Drag back from the ball and release to shoot. Keyboard users can use the aim slider and Shoot button.");
     const labels=document.createElementNS("http://www.w3.org/2000/svg","g");labels.setAttribute("class","toss-targets");svg.append(labels);
     if (toss) {
       svg.setAttribute('aria-label', 'Water balloon range with labeled targets');
-      svg.querySelectorAll(':scope > text')[1].textContent = 'PULL BACK. POP THE MATCH.';
+      const [name, instruction] = svg.querySelectorAll(':scope > text');
+      name.setAttribute('y', '58');
+      instruction.setAttribute('y', '90');
+      instruction.textContent = 'AIM UP. POP THE MATCH.';
     }
     const aim=$('.hoops-aim'), ball=$('.hoops-ball'), feedback=$('.hoops-feedback');
     if (toss) {
       ball.querySelector('path').setAttribute('d', 'M-18 -8Q-16 -18 -6 -20');
+      aim.min = '100';
+      aim.max = '900';
+      $('.hoops-hard').closest('label').hidden = true;
     }
     const manualOptions = el('details');
     manualOptions.className = 'hoops-manual-options';
@@ -43,7 +86,10 @@
 
     const stretch=document.createElementNS('http://www.w3.org/2000/svg','line');
     stretch.setAttribute('stroke','#ffe599');stretch.setAttribute('stroke-width','9');stretch.setAttribute('stroke-linecap','round');stretch.setAttribute('opacity','.8');stretch.style.display='none';svg.insertBefore(stretch,ball);
-    function resetPull(){stretch.style.display='none';ball.setAttribute('transform','translate(160 425)');}
+    function resetPull() {
+      stretch.style.display = 'none';
+      ball.setAttribute('transform', `translate(${startPoint.x} ${startPoint.y})`);
+    }
     const close=()=>{closed=true;cancelAnimationFrame(frame);overlay.remove();source?.focus();};
     $('.hoops-close').onclick=close;
     overlay.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); if(e.key==='Tab'){const nodes=[...overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),summary,[tabindex="0"]')].filter(node => !node.closest('[hidden]') && (!node.closest('details:not([open])') || node.matches('summary'))); const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}} });
@@ -56,15 +102,37 @@
     }
     aim.oninput=setAim;
     $('.hoops-assist').onclick=()=>{aim.value=820;setAim();feedback.textContent=toss?'Shot aimed at the middle target. Check its meaning before throwing.':'Shot lined up. Choose the matching ball, then shoot.';};
-    function point(event){const rect=svg.getBoundingClientRect();return{x:(event.clientX-rect.left)/rect.width*1000,y:(event.clientY-rect.top)/rect.height*540};}
+    function pointOnCourt(event){const rect=svg.getBoundingClientRect();return{x:(event.clientX-rect.left)/rect.width*1000,y:(event.clientY-rect.top)/rect.height*540};}
     court.addEventListener('pointerdown',event=>{
       if(busy)return;
       if(!selected){feedback.textContent='Choose your word-part ball first.';return;}
-      const p=point(event);if(Math.hypot(p.x-160,p.y-425)>105){feedback.textContent='Start on the ball, pull back and down, then release.';return;}
+      const p=pointOnCourt(event);if(Math.hypot(p.x-startPoint.x,p.y-startPoint.y)>105){feedback.textContent='Start on the ball, pull back and down, then release.';return;}
       launchPoint={...startPoint};court.style.setProperty('--pull-power', '0%');drag={x:p.x,y:p.y};court.setPointerCapture?.(event.pointerId);court.classList.add('is-aiming');event.preventDefault();
     });
-    court.addEventListener('pointermove',event=>{if(!drag)return;const p=point(event);dragShot=true;launchPoint={x:160+Math.max(-125,Math.min(0,p.x-drag.x)),y:425+Math.max(0,Math.min(75,p.y-drag.y))};ball.setAttribute('transform',`translate(${launchPoint.x} ${launchPoint.y})`);stretch.style.display='';stretch.setAttribute('x1','160');stretch.setAttribute('y1','425');stretch.setAttribute('x2',launchPoint.x);stretch.setAttribute('y2',launchPoint.y);velocity={x:Math.max(50,Math.min(1000,(drag.x-p.x)*5)),y:-Math.max(250,Math.min(1050,(p.y-drag.y)*8))};const x=hitX(velocity);if(x!==null)aim.value=Math.max(550,Math.min(950,x));guide();
-      const power = Math.round(Math.min(1, Math.hypot(drag.x - p.x, p.y - drag.y) / 170) * 100);
+    court.addEventListener('pointermove', event => {
+      if (!drag) return;
+      const point = pointOnCourt(event);
+      const pullX = drag.x - point.x;
+      const pullY = point.y - drag.y;
+      dragShot = true;
+      launchPoint = {
+        x: startPoint.x - Math.max(toss ? -125 : 0, Math.min(125, pullX)),
+        y: startPoint.y + Math.max(0, Math.min(75, pullY))
+      };
+      ball.setAttribute('transform', `translate(${launchPoint.x} ${launchPoint.y})`);
+      stretch.style.display = '';
+      stretch.setAttribute('x1', startPoint.x);
+      stretch.setAttribute('y1', startPoint.y);
+      stretch.setAttribute('x2', launchPoint.x);
+      stretch.setAttribute('y2', launchPoint.y);
+      velocity = {
+        x: toss ? Math.max(-1300, Math.min(1300, pullX * 10)) : Math.max(50, Math.min(1000, pullX * 5)),
+        y: -Math.max(250, Math.min(1050, pullY * (toss ? 14 : 8)))
+      };
+      const x = hitX();
+      if (x !== null) aim.value = Math.max(Number(aim.min), Math.min(Number(aim.max), x));
+      guide();
+      const power = Math.round(Math.min(1, Math.hypot(pullX, pullY) / (toss ? 105 : 170)) * 100);
       court.style.setProperty('--pull-power', `${power}%`);
       feedback.textContent = `Pull power: ${power}%. Release to launch! Pull farther down for a higher shot.`;
     });
@@ -77,18 +145,19 @@
       $('.hoops-round').textContent=`Round ${round+1} of ${deck.length}`;
       const question = deck[round];
       $('.hoops-prompt').textContent = question.prompt;
-      feedback.textContent=toss?'Aim at the matching water balloon, then pull back and release.':'Choose the ball that answers the prompt, then aim a fresh shot. Each round starts off target.';
+      feedback.textContent=toss?'Pull the ball down, then release to launch up at the matching balloon.':'Choose the ball that answers the prompt, then aim a fresh shot. Each round starts off target.';
       // Each basketball round needs a fresh aim; assistance is an explicit choice.
       startSide *= -1;
-      aim.value=toss ? 550 : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
+      aim.value=toss ? (question.choices.length === 2 ? 500 : 360) : startSide<0 ? 620+Math.floor(Math.random()*21)*5 : 900+Math.floor(Math.random()*11)*5;
       setAim();
-      targets=deck[round].choices.slice().sort(()=>Math.random()-.5).map((id,i)=>({id,x:deck[round].choices.length===2?700+i*200:610+i*160}));
+      const balloonPositions = question.choices.length === 2 ? [300, 700] : [220, 500, 780];
+      targets = toss ? Q.shuffled(question.choices).map((id, index) => ({ id, x: balloonPositions[index] })) : [];
       labels.replaceChildren();
       if (toss) targets.forEach((target, index) => {
         const svgNode = tag => document.createElementNS(svg.namespaceURI, tag);
         const group = svgNode('g');
         group.setAttribute('class', 'toss-target');
-        group.setAttribute('transform', `translate(${target.x} 225)`);
+        group.setAttribute('transform', `translate(${target.x} ${balloonY})`);
         const balloon = svgNode('path');
         balloon.setAttribute('class', 'toss-balloon');
         balloon.setAttribute('d', 'M0 -60 C-70 -61 -74 20 -25 46 L-8 55 L-13 65 L13 65 L8 55 L25 46 C74 20 70 -61 0 -60Z');
@@ -96,6 +165,15 @@
         const splash = svgNode('path');
         splash.setAttribute('class', 'toss-splash');
         splash.setAttribute('d', 'M0 -20L-19 -61L-25 -31L-63 -44L-43 -10L-77 4L-34 18L-43 51L-13 38L0 67L17 34L51 52L37 18L77 4L40 -12L56 -48L22 -31L17 -61Z');
+        const drops = svgNode('g');
+        drops.setAttribute('class', 'toss-drops');
+        for (const [x, y, radius] of [[-75,-54,7],[-44,-82,9],[1,-92,6],[51,-76,8],[80,-39,6],[-85,28,6],[77,43,7],[18,83,8]]) {
+          const drop = svgNode('circle');
+          drop.setAttribute('cx', x);
+          drop.setAttribute('cy', y);
+          drop.setAttribute('r', radius);
+          drops.append(drop);
+        }
         const label = svgNode('text');
         const labelText = Q.label(question, target.id);
         const lines = labelText.split(/,\s*|\/\s*/);
@@ -109,7 +187,7 @@
           span.textContent = line;
           label.append(span);
         });
-        group.append(balloon, splash, label);
+        group.append(balloon, splash, drops, label);
         labels.append(group);
         target.element = group;
       });
@@ -128,16 +206,35 @@
       if(!dragShot)setAim();
       busy=true;aim.disabled=true;$('.hoops-assist').disabled=true;$('.hoops-shoot').disabled=true;
       court.classList.add('is-in-flight');
-      const x=hitX(velocity), tolerance=$('.hoops-hard').checked?22:42;
-      const hit=toss&&x!==null?targets.find(t=>Math.abs(t.x-x)<=tolerance):null;
-      const made=toss?Boolean(hit&&hit.id===question.answer):x!==null&&Math.abs(x-820)<=tolerance;
-      const wrongTarget=Boolean(hit&&!made), landing=(-velocity.y+Math.sqrt(Math.max(0,velocity.y*velocity.y-2*gravity*(launchPoint.y-425))))/gravity;
-      const stop=made?crossing(velocity)+.09:landing+.25, start=performance.now(), duration=matchMedia('(prefers-reduced-motion: reduce)').matches?100:Math.max(850,stop*850);
-      function animate(now){if(closed)return;const t=Math.min(1,(now-start)/duration), elapsed=t*stop, flight=Math.min(elapsed,landing), bx=launchPoint.x+velocity.x*flight, by=elapsed<=landing?launchPoint.y+velocity.y*elapsed+.5*gravity*elapsed*elapsed:425-Math.sin((elapsed-landing)/.25*Math.PI)*42;ball.setAttribute('transform',`translate(${bx} ${by}) rotate(${t*650})`);if(t<1){frame=requestAnimationFrame(animate);return;}
+      labels.querySelector('.is-bumped')?.classList.remove('is-bumped');
+      const landing = (-velocity.y + Math.sqrt(Math.max(0, velocity.y ** 2 -
+        2 * gravity * (launchPoint.y - startPoint.y)))) / gravity;
+      const contact = toss ? firstBalloonContact(landing) : null;
+      const hit = contact?.target;
+      const rimX = toss ? null : hitX();
+      const tolerance = $('.hoops-hard').checked ? 22 : 42;
+      const made = toss ? hit?.id === question.answer : rimX !== null && Math.abs(rimX - 820) <= tolerance;
+      const wrongTarget = hit && !made;
+      const stop = contact?.time ?? (made ? crossing(velocity) + .09 : landing + .25);
+      const start = performance.now();
+      const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : Math.max(toss ? 270 : 850, stop * 850);
+
+      function animate(now) {
+        if (closed) return;
+        const progress = Math.min(1, (now - start) / duration);
+        const elapsed = progress * stop;
+        const point = flightAt(Math.min(elapsed, landing));
+        if (elapsed > landing) point.y = startPoint.y - Math.sin((elapsed - landing) / .25 * Math.PI) * 42;
+        ball.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${progress * 650})`);
+        if (progress < 1) {
+          frame = requestAnimationFrame(animate);
+          return;
+        }
         court.classList.remove('is-in-flight');
         if(made){hit?.element.classList.add('is-popped');court.classList.add('is-basket');score+=2;$('.hoops-score').textContent=`${score} points`;feedback.textContent=`${toss?'Splash!':'Basket!'} ${Q.explain(question, question.answer)} Two points!`;$('.hoops-next').hidden=false;$('.hoops-next').textContent=round===deck.length-1?'See results':'Next word part';$('.hoops-next').focus();}
         else {
           if (wrongTarget) {
+            hit.element.classList.add('is-bumped');
             const retry = question.explanations ? 'Aim for the other balloon.' : `Aim for the target meaning “${R.displayMeaning(question.id)}”.`;
             feedback.textContent = `${Q.explain(question, hit.id)} ${retry}`;
           } else {
@@ -145,12 +242,12 @@
               ? 'Missed the balloons. Adjust your aim and try again.'
               : 'Right word part or word. Adjust your aim and try the shot again.';
           }
-          busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;ball.setAttribute('transform','translate(160 425)');}
+          busy=false;aim.disabled=false;$('.hoops-assist').disabled=false;$('.hoops-shoot').disabled=false;resetPull();}
       }frame=requestAnimationFrame(animate);
     };
     $('.hoops-next').onclick=()=>{round++;if(round<deck.length){render();$('.hoops-choice').focus();}else{$('.hoops-prompt').textContent=`Final score: ${score} points!`;
       $('.hoops-choices').replaceChildren();$('.hoops-controls').hidden=true;feedback.textContent='You matched word parts with their meanings. Your learning progress has not changed.';const replay=el('button','Play again');replay.onclick=()=>{close();open(reward,source,options);};$('.hoops-choices').append(replay);replay.focus();}};
-    $('.hoops-help').textContent=toss?'Pull back and release the ball to pop the matching water balloon. For keyboard play, select a balloon and open Keyboard and assisted shooting. No timer.':'Choose the ball that answers the prompt. Pull the court ball back and down with a mouse or touch, then release! Open Keyboard and assisted shooting for the aim slider, alignment help, and Shoot. No timer.';
+    $('.hoops-help').textContent=toss?'Pull down and to the side to aim upward, then release to pop the matching balloon. For keyboard play, select a balloon and open Keyboard and assisted shooting. No timer.':'Choose the ball that answers the prompt. Pull the court ball back and down with a mouse or touch, then release! Open Keyboard and assisted shooting for the aim slider, alignment help, and Shoot. No timer.';
     render();$('.hoops-close').focus();
   }
   window.FirstVoloHoops={open,questions: Q.morphemeQuestions};

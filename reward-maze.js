@@ -29,25 +29,24 @@
           <button type="button" class="maze-close">Close</button></header>
         <div class="hoops-hud"><span class="maze-round"></span><span class="maze-score">0 collected</span></div>
         <p class="hoops-prompt maze-prompt"></p>
-        <div class="maze-legend" aria-label="Tokens and words"></div>
-        <div class="maze-board" tabindex="0" aria-label="Maze. Use the arrow keys to steer Volo toward the matching token."></div>
+        <div class="maze-board" tabindex="0" aria-label="Maze. Press an arrow key to start moving. Press Space to stop."></div>
         <div class="maze-controls" aria-label="Movement controls">
           <button type="button" data-direction="ArrowLeft" aria-label="Move left">←</button>
           <button type="button" data-direction="ArrowUp" aria-label="Move up">↑</button>
           <button type="button" data-direction="ArrowDown" aria-label="Move down">↓</button>
           <button type="button" data-direction="ArrowRight" aria-label="Move right">→</button>
+          <button type="button" class="maze-pause">Pause</button>
           <button type="button" class="maze-next" hidden>Next round</button>
         </div>
         <p class="hoops-feedback maze-feedback" role="status"></p>
         <details class="jump-alternate maze-alternate">
           <summary>Choose without moving</summary><div class="jump-answers maze-answers" aria-label="Answer choices"></div>
         </details>
-        <p class="hoops-help">Find the letter next to the answer, then steer Volo to that token. Use the arrow keys or hold a direction button. No timer.</p>
+        <p class="hoops-help">Steer toward the matching tile. Tap an arrow to keep moving in that direction. Press a turn early or use Pause to stop.</p>
       </section>`;
     document.body.append(overlay);
     const find = selector => overlay.querySelector(selector);
     const board = find('.maze-board');
-    const legend = find('.maze-legend');
     const next = find('.maze-next');
     const feedback = find('.maze-feedback');
     const answers = find('.maze-answers');
@@ -65,22 +64,69 @@
     let round = 0;
     let collected = 0;
     let complete = false;
-    let repeat;
+    let movementTimer;
+    let direction;
+    let queuedTurn;
     let x;
     let y;
     let choices = [];
 
-    function stopRepeat() { clearInterval(repeat); }
+    function stopMoving() {
+      clearInterval(movementTimer);
+      movementTimer = undefined;
+      direction = undefined;
+      queuedTurn = undefined;
+    }
+
+    function positionPlayer() {
+      player.style.left = `${(x + .5) * 100 / map[0].length}%`;
+      player.style.top = `${(y + .5) * 100 / map.length}%`;
+    }
+
+    function canMove(nextDirection) {
+      if (!nextDirection) return false;
+      const [dx, dy] = directions[nextDirection];
+      return map[y + dy]?.[x + dx] === '.';
+    }
+
+    function advance() {
+      if (canMove(queuedTurn)) {
+        direction = queuedTurn;
+        queuedTurn = undefined;
+      }
+      if (!canMove(direction)) {
+        stopMoving();
+        return;
+      }
+      const [dx, dy] = directions[direction];
+      x += dx;
+      y += dy;
+      cells[y][x].classList.add('is-visited');
+      player.classList.remove('is-resetting');
+      if (dx) player.style.setProperty('--maze-facing', dx);
+      positionPlayer();
+      const choice = choices.find(item => !item.used && item.x === x && item.y === y);
+      if (choice) choose(choice);
+    }
+
+    function steer(nextDirection) {
+      if (complete) return;
+      queuedTurn = nextDirection;
+      if (movementTimer === undefined && canMove(nextDirection)) {
+        movementTimer = setInterval(advance, 145);
+        advance();
+      }
+    }
 
     function choose(choice) {
       if (complete || choice.used) return;
+      stopMoving();
       const question = deck[round];
       choice.used = true;
       choice.token.remove();
       choice.button.disabled = true;
       if (choice.id === question.answer) {
         complete = true;
-        stopRepeat();
         collected++;
         cells[choice.y][choice.x].classList.add('is-collected');
         find('.maze-score').textContent = `${collected} collected`;
@@ -89,95 +135,74 @@
         next.hidden = false;
         next.focus();
       } else {
-        choice.legendItem.classList.add('is-passed');
-        feedback.textContent = `${questions.explain(question, choice.id)} Try another token.`;
+        feedback.textContent = `${questions.explain(question, choice.id)} Try another tile.`;
         if (document.activeElement === choice.button) choices.find(item => !item.used)?.button.focus();
       }
-    }
-
-    function move(direction) {
-      if (complete) return;
-      const [dx, dy] = directions[direction];
-      const nextX = x + dx;
-      const nextY = y + dy;
-      if (map[nextY]?.[nextX] !== '.') return;
-      x = nextX;
-      y = nextY;
-      cells[y][x].classList.add('is-visited');
-      cells[y][x].append(player);
-      const choice = choices.find(item => !item.used && item.x === x && item.y === y);
-      if (choice) choose(choice);
     }
 
     function render() {
       const question = deck[round];
       complete = false;
+      stopMoving();
       x = 6;
       y = 5;
       next.hidden = true;
       find('.maze-round').textContent = `Round ${round + 1} of ${deck.length}`;
       find('.maze-prompt').textContent = question.prompt;
-      feedback.textContent = 'Follow the maze to the matching token.';
-      legend.replaceChildren();
+      feedback.textContent = 'Follow the maze to the matching tile.';
       answers.replaceChildren();
       for (const row of cells) for (const cell of row) {
         cell.replaceChildren();
         cell.classList.remove('is-visited', 'is-collected');
       }
       cells[y][x].classList.add('is-visited');
-      cells[y][x].append(player);
+      player.classList.add('is-resetting');
+      player.style.setProperty('--maze-facing', 1);
+      positionPlayer();
+      board.append(player);
       const positions = questions.shuffled(endpoints);
       choices = questions.shuffled(question.choices).map((id, index) => {
         const [column, row] = positions[index];
-        const letter = 'ABC'[index];
         const token = document.createElement('span');
-        const legendItem = document.createElement('span');
         const button = document.createElement('button');
         token.className = 'maze-token';
-        token.dataset.marker = letter;
-        token.textContent = letter;
-        legendItem.className = 'maze-legend-item';
-        legendItem.dataset.marker = letter;
-        legendItem.textContent = `${letter} · ${questions.label(question, id)}`;
+        token.dataset.color = String(index);
+        token.dataset.side = column < map[0].length / 2 ? 'left' : 'right';
+        token.dataset.edge = row === 1 ? 'top' : 'bottom';
+        token.textContent = questions.label(question, id);
         button.type = 'button';
-        button.textContent = legendItem.textContent;
-        const choice = { id, x: column, y: row, token, legendItem, button, used: false };
+        button.textContent = token.textContent;
+        const choice = { id, x: column, y: row, token, button, used: false };
         button.addEventListener('click', () => choose(choice));
         cells[row][column].append(token);
-        legend.append(legendItem);
         answers.append(button);
         return choice;
       });
     }
 
     function close() {
-      stopRepeat();
-      window.removeEventListener('blur', stopRepeat);
+      stopMoving();
+      window.removeEventListener('blur', stopMoving);
       overlay.remove();
       source?.focus();
     }
 
-    window.addEventListener('blur', stopRepeat);
+    window.addEventListener('blur', stopMoving);
     for (const button of overlay.querySelectorAll('[data-direction]')) {
       const direction = button.dataset.direction;
-      button.addEventListener('pointerdown', event => {
-        stopRepeat();
-        button.setPointerCapture?.(event.pointerId);
-        move(direction);
-        if (!complete) repeat = setInterval(() => move(direction), 125);
-      });
-      for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
-        button.addEventListener(event, stopRepeat);
-      }
-      button.addEventListener('click', event => { if (event.detail === 0) move(direction); });
+      button.addEventListener('click', () => steer(direction));
     }
+    find('.maze-pause').addEventListener('click', stopMoving);
     overlay.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         event.stopPropagation();
         close();
       } else if (Object.hasOwn(directions, event.key)) {
         event.preventDefault();
-        move(event.key);
+        if (!event.repeat) steer(event.key);
+      } else if (event.code === 'Space' && event.target === board) {
+        event.preventDefault();
+        stopMoving();
       } else if (event.key === 'Tab') {
         const focusable = [...overlay.querySelectorAll('button:not([disabled]), summary, [tabindex="0"]')]
           .filter(node => !node.closest('[hidden]') && (!node.closest('details:not([open])') || node.matches('summary')));
@@ -202,8 +227,7 @@
         render();
         board.focus();
       } else {
-        find('.maze-alternate')?.setAttribute('hidden', '');
-        legend.replaceChildren();
+        find('.maze-alternate').hidden = true;
         answers.replaceChildren();
         find('.maze-prompt').textContent = `Maze complete! You collected ${collected} of ${deck.length}.`;
         feedback.textContent = '';
