@@ -12,6 +12,22 @@
 (function initializeFirstVoloTeacherWordExtensions() {
   const CANDIDATES_BY_TARGET =
       Object.freeze({
+        tract: Object.freeze([
+          Object.freeze({
+            word: "tractor",
+            segmentation: "tract + -or",
+            morphemes: Object.freeze(["tract", "-or"]),
+            definition: "a farm vehicle that pulls equipment",
+            teachingContext: "The tractor pulled a heavy trailer across the field.",
+            practiceBand: "4-5",
+            accessibilityBand: "4-5",
+            vocabLevel: "familiar",
+            transparency: "high",
+            semanticBridgeQuality: "high",
+            teacherLedOnly: true,
+            activities: Object.freeze(["morpheme"])
+          })
+        ]),
         mot: Object.freeze([
           Object.freeze({
             word: "remove",

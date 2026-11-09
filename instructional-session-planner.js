@@ -759,6 +759,15 @@
       return null;
     }
 
+    const availableRecipes = recipes.filter(recipe =>
+      recipe.applyKind !== "unavailable" &&
+      (recipe.activity !== "morpheme" || Boolean(recipe.applyWord))
+    );
+
+    if (!availableRecipes.length) {
+      return recipes[recipes.length - 1];
+    }
+
     const lastWord =
       String(
         guidance
@@ -776,7 +785,7 @@
       from supported building to contextual production.
     */
     const fresh =
-      recipes.filter(
+      availableRecipes.filter(
         recipe =>
           String(
             recipe?.word || ""
@@ -789,7 +798,7 @@
     const pool =
       fresh.length
         ? fresh
-        : recipes;
+        : availableRecipes;
 
     /* FIRST_VOLO_APPLY_PRIORITY_V1
        A recipe may explicitly reserve a safer or instructionally stronger
@@ -874,8 +883,8 @@
       null;
 
     if (
-      recipe?.applyKind ===
-        "unavailable"
+      recipe.applyKind === "unavailable" ||
+      (activity === "morpheme" && !recipe.applyWord)
     ) {
       return {
         minutes:

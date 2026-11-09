@@ -12922,12 +12922,7 @@ function ensureReadyMaterialContainer() {
           `3. ${activity} · Part B`;
       }
 
-      if (
-        time &&
-        partB
-          ?.recipe
-          ?._readyBreakUnavailable
-      ) {
+      if (time && (!partB || partB.recipe?._readyBreakUnavailable)) {
         time.textContent =
           "Not available";
       }
@@ -13635,13 +13630,6 @@ function ensureReadyMaterialContainer() {
         ) ||
       null;
 
-    const partBUnavailable =
-      Boolean(
-        partB
-          ?.recipe
-          ?._readyBreakUnavailable
-      );
-
     const transferCount =
       readyTransferItemsForSession(
         state.plan?.transfer
@@ -13677,9 +13665,7 @@ function ensureReadyMaterialContainer() {
         label:
           `${activity} · Part B`,
         detail:
-          partBUnavailable
-            ? "No fresh application item is available today"
-            : "1 fresh application item; do not preview the word"
+          readyApplicationDetail(partB)
       },
       {
         label:
@@ -14317,6 +14303,20 @@ function ensureReadyMaterialContainer() {
     ) || null;
   }
 
+  function readyApplicationDetail(task) {
+    if (!task || task.recipe?._readyBreakUnavailable) {
+      return "No application task is available for this session.";
+    }
+    const word = normalize(readyWord(task));
+    if (!word) {
+      return "1 open application task using a new example";
+    }
+    if (readyV10PracticeTasks().some(item => normalize(readyWord(item)) === word)) {
+      return "1 follow-up task using the practice word";
+    }
+    return "1 fresh application item; do not preview the word";
+  }
+
 
   function readyV10PracticePosition(
     task
@@ -14486,11 +14486,7 @@ function ensureReadyMaterialContainer() {
     }
 
     if (rows[2]) {
-      if (
-        apply
-          ?.recipe
-          ?._readyBreakUnavailable
-      ) {
+      if (!apply || apply.recipe?._readyBreakUnavailable) {
         rows[2].innerHTML = `
           <strong>
             3. ${esc(activity)} · Part B: Apply
@@ -16961,27 +16957,7 @@ function ensureReadyMaterialContainer() {
           "Apply"
       );
 
-    const applyDetail =
-      applyTask
-        ? (
-            currentActivity() === "morpheme"
-              ? (
-                  readyWord(applyTask)
-                    ? "retrieve the target from its meaning, then apply it in 1 fresh system-selected word; do not preview the word"
-                    : "no system-selected fresh Word Part example is available today; do not substitute an unplanned word"
-                )
-              : (
-                  normalize(
-                    state.plan
-                      ?.apply
-                      ?.item
-                      ?.word
-                  )
-                    ? `1 fresh system-selected ${currentActivityLabel()} item; do not preview the word`
-                    : `1 defined open-production ${currentActivityLabel()} Apply demand`
-                )
-          )
-        : `No valid ${currentActivityLabel()} Apply demand is available today`;
+    const applyDetail = readyApplicationDetail(applyTask);
 
     const transferCount =
       readyTransferItemsForSession(
