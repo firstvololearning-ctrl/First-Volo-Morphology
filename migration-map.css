@@ -2701,7 +2701,7 @@ html[data-morphology-mode="student"] .migration-flight-actions {
 .title-migration-map img {
   position: absolute;
   top: 1%;
-  left: 46%;
+  left: 48.5%;
   width: clamp(30px, 11%, 58px);
   height: auto;
 }
