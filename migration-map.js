@@ -1401,10 +1401,10 @@
         review.className = "migration-home-review";
         review.open = reviewOpen;
         const label = document.createElement("summary");
-        label.textContent = "Review to Remember";
+        label.textContent = "Word Cards";
         const hint = document.createElement("span");
         hint.className = "migration-home-review-hint";
-        hint.textContent = "Whole-word cards you unlock along this route";
+        hint.textContent = "Anchor words you unlock along this route";
         label.append(hint);
         review.append(label, waypointWords);
         content.append(review);
