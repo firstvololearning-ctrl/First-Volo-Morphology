@@ -6,7 +6,12 @@ const dom=new JSDOM(fs.readFileSync('index.html','utf8'),{runScripts:'outside-on
 const w=dom.window;w.HTMLElement.prototype.scrollIntoView=()=>{};
 for(const f of ['word-inventory.js','instructional-protection-registry.js','token-sets.js','volo-tokens.js'])w.eval(fs.readFileSync(f,'utf8'));
 w.eval(['script.js','use-it.js','change-it.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+`\nwindow.addedPractice=inferQuestions.filter(q=>q.practiceRevision);
-window.renderPracticeAudit=function(item){
+window.route3Inference=()=>{
+ gradeBand='6-8';
+ return filterWordsBySelectedGrade(inferQuestions);
+};
+window.renderPracticeAudit=function(item, band){
+ gradeBand=band;
  quizState={mode:'infer',items:[item],index:0,score:0,answered:false};
  renderInferQuestion(item);
 };
@@ -41,6 +46,9 @@ for(const flight of ['all','2-3','4-5','6-8']){
  const restored=JSON.parse(JSON.stringify(progress));assert.equal(w.FirstVoloTokens.updateEarnedTokens(restored).newlyEarned.length,0);
  checks+=statuses.length;console.log(`PASS ${flight}: ${statuses.length} token sets reachable; repeat/save/reopen do not duplicate awards.`);
 }
+for(const item of w.route3Inference()){
+ assert.ok(item.context?.toLowerCase().includes(item.word),`${item.word}: Route 3 context check needs a sentence containing the word`);
+}
 assert.equal(w.addedPractice.length,33);
 for (const word of ['absent','absentee','clarify','simplify','retrofit']) {
  const item=w.addedPractice.find(q=>q.word===word);
@@ -54,15 +62,34 @@ for(const item of w.addedPractice){
  assert.ok(!w.FirstVoloInstructionalProtection.isProtected(item.word),item.word);
  const recorded=[];
  w.FirstVoloActivityProgress={recordResponse:r=>recorded.push(r)};
- w.renderPracticeAudit(item);
+ const metadata=w.FIRST_VOLO_WORD_INVENTORY.find(q=>q.word===item.word);
+ assert.ok(metadata?.practiceBand,item.word);
+ w.renderPracticeAudit(item,metadata.practiceBand);
  assert.ok(w.document.getElementById('inferPrompt').textContent.includes(item.context));
  const button=[...w.document.querySelectorAll('#inferChoices button')].find(b=>b.textContent===item.correct);
- assert.ok(button,item.word);button.click();button.click();
+ assert.ok(button,item.word);
+ const contextCheck=w.document.getElementById('inferContextCheck');
+ if(metadata.practiceBand==='6-8'){
+  const wrong=[...w.document.querySelectorAll('#inferChoices button')].find(b=>b!==button);
+  wrong.click();
+  assert.equal(contextCheck.hidden,false,item.word);
+  assert.equal(w.document.getElementById('inferContextSentence').textContent,item.context);
+  assert.equal(w.document.getElementById('inferContextChoice').textContent,wrong.textContent);
+  assert.equal(recorded.length,0,'The first choice is provisional');
+  w.document.getElementById('inferChangeMeaning').click();
+  assert.equal(contextCheck.hidden,true,item.word);
+  button.click();
+  assert.equal(w.document.getElementById('inferContextChoice').textContent,item.correct);
+  w.document.getElementById('inferKeepMeaning').click();
+  assert.equal(contextCheck.hidden,true,item.word);
+ }else{
+  button.click();
+  assert.equal(contextCheck.hidden,true,item.word);
+ }
+ button.click();
  assert.equal(recorded.length,1,`${item.word}: one scored attempt`);
  assert.equal(recorded[0].primaryTargetId,item.itemId,item.word);
  assert.equal(recorded[0].correct,true,item.word);
- const metadata=w.FIRST_VOLO_WORD_INVENTORY.find(q=>q.word===item.word);
- assert.ok(metadata?.practiceBand,item.word);
  const response=w.practiceAudit(metadata.practiceBand).infer.find(q=>q.word===item.word&&q.primaryTargetId===item.itemId);
  assert.ok(response,`${item.word}: exact semantic target must receive scored evidence in its practice Flight`);
 }

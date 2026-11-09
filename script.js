@@ -3592,6 +3592,7 @@ const inferQuestions = [
     ],
     literal: "between nations",
     definition: "involving two or more countries or nations",
+    context: "The international robotics contest brought together teams from Brazil, Japan, and Canada.",
     image: "images/prefixes/inter.png"
   },
   {
@@ -3656,6 +3657,7 @@ const inferQuestions = [
     ],
     literal: "throw forward",
     definition: "to extend, send, or show something forward",
+    context: "The volunteers will project the film onto a sheet so the audience can see it.",
     image: "images/prefixes/pro.png"
   },
   {
@@ -3833,6 +3835,7 @@ const inferQuestions = [
     ],
     "literal": "able to be believed",
     "definition": "believable or worthy of trust",
+    "context": "The report seemed credible because three independent witnesses gave the same account.",
     "image": "images/roots/cred.png"
   },
   {
@@ -3865,6 +3868,7 @@ const inferQuestions = [
     ],
     "literal": "writing about books",
     "definition": "a list of books and other sources used or referred to in a work",
+    "context": "In her bibliography, Maya listed the books and articles she consulted for her report.",
     "image": "images/roots/graph.png"
   },
   {
@@ -3913,6 +3917,7 @@ const inferQuestions = [
     ],
     "literal": "things that follow",
     "definition": "a set of things arranged so that one follows another",
+    "context": "The sequence of steps starts with measuring the wood, then cutting it, and finally sanding it.",
     "image": "images/roots/sequ.png"
   },
   {
@@ -3929,6 +3934,7 @@ const inferQuestions = [
     ],
     "literal": "a pulling away",
     "definition": "something that draws or pulls attention away from what a person is doing",
+    "context": "The chatter in the hallway was a distraction, and Nia kept looking up from her reading.",
     "image": "images/roots/tract.png"
   },
   {
@@ -3961,6 +3967,7 @@ const inferQuestions = [
     ],
     "literal": "turn or change",
     "definition": "to change something into a different form, use, or system",
+    "context": "Solar panels convert sunlight into electricity that can power a building.",
     "image": "images/roots/vert.png"
   },
   {
@@ -3977,6 +3984,7 @@ const inferQuestions = [
     ],
     "literal": "a person connected with voice",
     "definition": "a singer, especially one who performs with a group",
+    "context": "The vocalist sang the melody while the other band members played their instruments.",
     "image": "images/roots/voc.png"
   },
   {
@@ -4413,6 +4421,7 @@ const inferQuestions = [
     ],
     literal: "pull toward",
     definition: "to draw something or someone toward",
+    context: "The magnet can attract a paper clip, pulling it closer without touching it.",
     image: "images/roots/tract.png"
   },
 
@@ -4431,6 +4440,7 @@ const inferQuestions = [
     ],
     literal: "book or source listing",
     definition: "a list of books or sources used in a work",
+    context: "In her bibliography, Maya listed the books and articles she consulted for her report.",
     image: "images/roots/biblio.png"
   },
 
@@ -4756,6 +4766,7 @@ const inferQuestions = [
     ],
     literal: "navigate around",
     definition: "to travel all the way around something",
+    context: "The sailors planned to circumnavigate the island and return to the harbor where they started.",
     image: "images/prefixes/circum.png"
   },
 
@@ -5026,6 +5037,7 @@ const inferQuestions = [
     ],
     literal: "join to or toward",
     definition: "to be next to or joined to something",
+    context: "The two gardens adjoin along a fence they share.",
     image: "images/prefixes/ad.png"
   },
 
@@ -5080,6 +5092,7 @@ const inferQuestions = [
     ],
     literal: "carry or direct back",
     definition: "to direct someone to another source or person for information or help",
+    context: "For more information, the librarian will refer you to a local historian who can answer your questions.",
     image: "images/roots/fer.png"
   },
 
@@ -5098,6 +5111,7 @@ const inferQuestions = [
     ],
     literal: "carry across",
     definition: "to move or carry something from one place or person to another",
+    context: "Please transfer the seedlings from these small cups into larger pots.",
     image: "images/roots/fer.png"
   },
 
@@ -5116,6 +5130,7 @@ const inferQuestions = [
     ],
     literal: "push or drive",
     definition: "to force or drive someone to do something",
+    context: "The flooded trail could compel the hikers to turn back even though they wanted to finish the route.",
     image: "images/roots/pel.png"
   },
 
@@ -5134,6 +5149,7 @@ const inferQuestions = [
     ],
     literal: "drive forward",
     definition: "to push or drive something forward",
+    context: "The spinning propeller can propel the boat forward through the water.",
     image: "images/roots/pel.png"
   },
 
@@ -5152,6 +5168,7 @@ const inferQuestions = [
     ],
     literal: "hanging thing",
     definition: "an object that hangs from a necklace or chain",
+    context: "A small silver star hung from her necklace as a pendant.",
     image: "images/roots/pend-pens.png"
   },
 
@@ -5170,6 +5187,7 @@ const inferQuestions = [
     ],
     literal: "hang beneath",
     definition: "to hang something so that it is supported from above",
+    context: "To keep the model above the table, we will suspend it from the ceiling with fishing line.",
     image: "images/roots/pend-pens.png"
   },
 
@@ -5188,6 +5206,7 @@ const inferQuestions = [
     ],
     literal: "put together",
     definition: "to put parts together to make something",
+    context: "The students will compose a song by putting together a melody, a rhythm, and lyrics.",
     image: "images/roots/pos.png"
   },
 
@@ -5206,6 +5225,7 @@ const inferQuestions = [
     ],
     literal: "place or put",
     definition: "the place where something is located",
+    context: "Mark the position of the first tent on the map so we know where to find it.",
     image: "images/roots/pos.png"
   },
 
@@ -5224,6 +5244,7 @@ const inferQuestions = [
     ],
     literal: "holding back",
     definition: "the state of being kept or held back",
+    context: "During detention, the students had to stay in the classroom after everyone else went home.",
     image: "images/roots/ten.png"
   },
 
@@ -5242,6 +5263,7 @@ const inferQuestions = [
     ],
     literal: "holding or keeping",
     definition: "the act of keeping or holding something",
+    context: "Mulch helps with water retention, so the soil stays moist longer between rainstorms.",
     image: "images/roots/ten.png"
   },
 
@@ -5260,6 +5282,7 @@ const inferQuestions = [
     ],
     literal: "worth",
     definition: "the worth or importance of something",
+    context: "The appraiser estimated the value of the painting by comparing what similar paintings had sold for.",
     image: "images/roots/val.png"
   },
 
@@ -5278,6 +5301,7 @@ const inferQuestions = [
     ],
     literal: "having worth or strength",
     definition: "acceptable, sound, or having legal force",
+    context: "The ticket is valid for the evening show, so the usher will accept it at the door.",
     image: "images/roots/val.png"
   },
 
@@ -5296,6 +5320,7 @@ const inferQuestions = [
     ],
     literal: "related to skin",
     definition: "related to the skin",
+    context: "The lotion caused a dermal reaction, leaving a red patch on the skin where it had been applied.",
     image: "images/roots/derma.png"
   },
 
@@ -5332,6 +5357,7 @@ const inferQuestions = [
     ],
     literal: "land",
     definition: "an area of land and its physical features",
+    context: "The hikers crossed rocky terrain with steep slopes and uneven ground.",
     image: "images/roots/terr.png"
   },
 
@@ -5350,6 +5376,7 @@ const inferQuestions = [
     ],
     literal: "area of land",
     definition: "an area of land controlled or claimed by someone or something",
+    context: "The fox marks its territory and chases other foxes away from that part of the forest.",
     image: "images/roots/terr.png"
   },
 
@@ -5402,6 +5429,7 @@ const inferQuestions = [
     ],
     "literal": "not linear",
     "definition": "not linear; in mathematics, not forming a straight-line relationship",
+    "context": "The relationship was nonlinear because the points formed a curve instead of a straight line.",
     "image": "images/prefixes/non.png"
   },
   {
@@ -5418,6 +5446,7 @@ const inferQuestions = [
     ],
     "literal": "a breaking apart",
     "definition": "an interruption that prevents something from continuing normally",
+    "context": "The power outage caused a disruption that stopped the assembly until the lights came back on.",
     "image": "images/prefixes/dis.png"
   },
   {
@@ -5434,6 +5463,7 @@ const inferQuestions = [
     ],
     "literal": "act or process of carrying across",
     "definition": "the movement of people or things from one place to another",
+    "context": "The town uses buses and trains for transportation between neighborhoods.",
     "image": "images/roots/port.png"
   },
   {
@@ -5466,6 +5496,7 @@ const inferQuestions = [
     ],
     "literal": "under the earth",
     "definition": "existing or occurring beneath the surface of the earth",
+    "context": "A subterranean tunnel carries water beneath the streets.",
     "image": "images/roots/terr.png"
   },
   {
@@ -5482,6 +5513,7 @@ const inferQuestions = [
     ],
     "literal": "write across or copy into writing",
     "definition": "to make a written copy of spoken words or another source",
+    "context": "Leo will transcribe the recording so the interviewer's exact words can be read on paper.",
     "image": "images/roots/scrib-script.png"
   },
   {
@@ -5498,6 +5530,7 @@ const inferQuestions = [
     ],
     "literal": "see again",
     "definition": "to look over something again and make changes to improve it",
+    "context": "After reading the feedback, Ana will revise her draft by clarifying the ending.",
     "image": "images/roots/vis-vid.png"
   },
   {
@@ -5514,6 +5547,7 @@ const inferQuestions = [
     ],
     "literal": "interpret wrongly",
     "definition": "to understand or explain something incorrectly",
+    "context": "Without hearing his joking tone, you might misinterpret the comment and think he was angry.",
     "image": "images/prefixes/mis.png"
   }
 ,
@@ -5547,6 +5581,7 @@ const inferQuestions = [
     ],
     literal: "able to be believed",
     definition: "able to be believed or trusted",
+    context: "The report seemed credible because three independent witnesses gave the same account.",
     image: "images/suffixes/able-ible.png"
   },
   {
@@ -5563,6 +5598,7 @@ const inferQuestions = [
     ],
     literal: "the process or result of producing",
     definition: "the process of making or creating something",
+    context: "The factory increased production and now makes twice as many bicycles each week.",
     image: "images/suffixes/ion.png"
   }
 ];
@@ -6308,6 +6344,12 @@ const inferPrompt = document.getElementById("inferPrompt");
 const inferWord = document.getElementById("inferWord");
 const inferChoices = document.getElementById("inferChoices");
 const inferFeedback = document.getElementById("inferFeedback");
+const inferContextCheck = document.getElementById("inferContextCheck");
+const inferContextHeading = document.getElementById("inferContextHeading");
+const inferContextSentence = document.getElementById("inferContextSentence");
+const inferContextChoice = document.getElementById("inferContextChoice");
+const inferKeepMeaning = document.getElementById("inferKeepMeaning");
+const inferChangeMeaning = document.getElementById("inferChangeMeaning");
 
 const buildPatternButtons = [
   ...document.querySelectorAll(".build-pattern-button")
@@ -10569,30 +10611,53 @@ function renderInferQuestion(question) {
     "Use a known word part to infer the whole word’s meaning.";
 
   inferFeedback.hidden = true;
+  inferContextCheck.hidden = true;
+  inferChoices.hidden = false;
+  inferPrompt.hidden = false;
   inferChoices.innerHTML = "";
 
   knownPartBox.innerHTML = `
     <strong>${escapeHTML(question.knownLabel)}</strong>
   `;
-inferPrompt.textContent =
-  (question.context ? question.context + " " : "") +
-  "Based on the word part, what might this word mean?";
-
+  inferPrompt.textContent =
+    (question.context ? question.context + " " : "") +
+    "Based on the word part, what might this word mean?";
   inferWord.textContent = question.word;
+
+  const checkInContext = gradeBand === "6-8" && Boolean(question.context?.trim());
 
   shuffle(question.choices).forEach((choice) => {
     const button = document.createElement("button");
-
     button.type = "button";
     button.className = "answer-button";
     button.textContent = choice;
 
     button.addEventListener("click", () => {
-      answerInferQuestion(
-        button,
-        choice,
-        question
-      );
+      if (!checkInContext) {
+        answerInferQuestion(button, choice, question);
+        return;
+      }
+
+      inferChoices.hidden = true;
+      inferPrompt.hidden = true;
+      inferContextSentence.textContent = question.context;
+      inferContextChoice.textContent = choice;
+      inferContextCheck.hidden = false;
+      inferContextHeading.focus();
+
+      inferKeepMeaning.onclick = () => {
+        inferContextCheck.hidden = true;
+        inferChoices.hidden = false;
+        inferPrompt.hidden = false;
+        answerInferQuestion(button, choice, question);
+        nextQuestionButton.focus();
+      };
+      inferChangeMeaning.onclick = () => {
+        inferContextCheck.hidden = true;
+        inferChoices.hidden = false;
+        inferPrompt.hidden = false;
+        button.focus();
+      };
     });
 
     inferChoices.append(button);

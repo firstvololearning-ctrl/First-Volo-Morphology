@@ -1407,6 +1407,17 @@
             id="inferChoices"
           ></div>
 
+          <section id="inferContextCheck" aria-labelledby="inferContextHeading" hidden>
+            <h4 class="question-prompt" id="inferContextHeading" tabindex="-1">Check the meaning in context</h4>
+            <p id="inferContextSentence"></p>
+            <p>Your choice: <strong id="inferContextChoice"></strong></p>
+            <p>Which words in the sentence help you decide if this meaning fits? Say them to yourself or a partner.</p>
+            <div class="answer-grid">
+              <button class="primary-button" id="inferKeepMeaning" type="button">Keep this meaning</button>
+              <button class="secondary-button" id="inferChangeMeaning" type="button">Choose a different meaning</button>
+            </div>
+          </section>
+
           <div
             class="feedback-panel"
             id="inferFeedback"
@@ -2273,7 +2284,7 @@
   <script src="volo-token-celebration.js?v=20261108-route-names"></script>
   <script src="instructional-audio.js?v=20260830-segments1"></script>
   <script src="learn-content.js?v=20261108-evidence1"></script>
-  <script src="script.js?v=20261108-route-names"></script>
+  <script src="script.js?v=20261108-context-check"></script>
   <script src="use-it.js?v=20261108-route-names"></script>
   <script src="change-it.js?v=20261108-route-names"></script>
   <script src="practice-entry.js?v=20261108-route-names"></script>
