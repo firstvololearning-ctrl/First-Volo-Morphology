@@ -248,6 +248,7 @@
   routeControl.className = "migration-map-route-control";
   routeControl.textContent = "View route";
   const routeSelect = document.createElement("select");
+  routeSelect.id = "studentMapRoute";
   for (const option of gradeBandSelect.options) {
     const route = window.FirstVoloMigration.getFlight(option.value);
     if (route) routeSelect.add(new Option(route.label, option.value));

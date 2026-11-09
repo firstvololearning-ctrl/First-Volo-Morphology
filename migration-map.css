@@ -2705,3 +2705,33 @@ html[data-morphology-mode="student"] .migration-flight-actions {
   width: clamp(30px, 11%, 58px);
   height: auto;
 }
+
+.earlier-parts summary {
+  cursor: pointer;
+  color: #173a64;
+  font-weight: 700;
+}
+
+.earlier-parts label {
+  flex: 1 1 220px;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.earlier-parts select {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  font: inherit;
+}
+
+.earlier-parts button[hidden] {
+  display: none;
+}
+
+#earlierPartsCheck {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #b9cddd;
+}

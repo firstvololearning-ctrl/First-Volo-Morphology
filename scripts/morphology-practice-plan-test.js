@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');
 const id='82222222-2222-4222-8222-222222222222';
 const plan={flight:'4-5',study:'root-suffix',activity:'use',challenge:false};
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-function setup(mode='educator',saved=null,failSave=false){
+function setup(mode='educator',saved=null,failSave=false,mapRoute=''){
  const dom=new JSDOM(fs.readFileSync('index.html','utf8'),{url:'https://example.test/',runScripts:'outside-only',pretendToBeVisual:true});const w=dom.window;
  w.HTMLElement.prototype.scrollIntoView=function(){};
  let context={status:'authorized',mode,userId:'fictional-owner',studentId:mode==='student'?id:null};const listeners=[],calls=[];
@@ -15,7 +15,14 @@ function setup(mode='educator',saved=null,failSave=false){
   return {error:true};
  }}};
  w.FirstVoloPracticeChoices={apply:p=>{w.applied=JSON.parse(JSON.stringify(p));return true;}};
- for (const file of ['word-inventory.js','lesson-choices.js','practice-plan.js']) w.eval(fs.readFileSync(file,'utf8'));
+ if (mapRoute) {
+  const select = w.document.createElement('select');
+  select.id = 'studentMapRoute';
+  for (const route of ['2-3', '4-5', '6-8']) select.add(new w.Option(route, route));
+  select.value = mapRoute;
+  w.document.getElementById('studentMapContent').append(select);
+ }
+ for (const file of ['word-inventory.js','lesson-choices.js','earlier-word-parts.js','practice-plan.js']) w.eval(fs.readFileSync(file,'utf8'));
  return {w,calls,publish:c=>{context=c;listeners.forEach(fn=>fn(c));},close:()=>dom.window.close()};
 }
 test('educator confirms enum choices; save has learner and revision but no assessment responses',async()=>{
@@ -74,6 +81,42 @@ test('a student starts an exact lesson and can reveal other practice choices', a
   assert.deepEqual(w.applied, exact);
   [...panel.querySelectorAll('button')].find(button => button.textContent === 'Adjust practice').click();
   assert.ok(!w.document.getElementById('practiceSetup').hasAttribute('data-plan-choices-hidden'));
+  assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
+  close();
+});
+
+
+test('the earlier-part picker follows the viewed route and the warm-up follows the assigned lesson', async () => {
+  const assigned = { flight:'6-8', study:'roots', activity:'learn', challenge:false, lesson:'tract' };
+  const {w, calls, close} = setup('student', assigned, false, '6-8');
+  await tick();
+  const d = w.document;
+  const map = d.getElementById('studentMapRoute');
+  const review = d.getElementById('earlierWordParts');
+  const chooser = d.getElementById('earlierPartChoice');
+  assert.ok([...chooser.options].some(option => option.value === 'pre'));
+  assert.ok([...chooser.options].some(option => option.value === 'port'));
+  map.value = '4-5';
+  map.dispatchEvent(new w.Event('change'));
+  assert.ok(![...chooser.options].some(option => option.value === 'port'));
+  d.getElementById('checkEarlierParts').click();
+  for (let i = 1; i <= 3; i++) {
+    assert.match(d.getElementById('earlierCheckPrompt').textContent, new RegExp(`^${i} of 3`));
+    d.querySelector('#earlierCheckOptions button').click();
+    assert.ok(d.getElementById('earlierCheckFeedback').textContent);
+    d.getElementById('earlierCheckNext').click();
+  }
+  assert.equal(d.getElementById('earlierPartsCheck').hidden, true);
+  assert.equal(w.applied, undefined);
+  map.value = '2-3';
+  map.dispatchEvent(new w.Event('change'));
+  assert.equal(review.hidden, true);
+  d.querySelector('.student-entry .plan-primary').click();
+  assert.equal(map.value, '6-8');
+  assert.match(d.getElementById('earlierCheckPrompt').textContent, /^1 of 2.*re-/);
+  assert.equal(w.applied, undefined);
+  d.getElementById('earlierCheckClose').click();
+  assert.deepEqual(w.applied, assigned);
   assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
   close();
 });
