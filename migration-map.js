@@ -1069,14 +1069,14 @@
       "migrationWaypointTitle";
 
     heading.textContent =
-      "⭐ Words to Explore";
+      "⭐ Words to Review";
 
     const description =
       document.createElement("p");
 
     description.textContent =
       accessState.availableCount
-        ? "Open a word to see how its parts work together."
+        ? "Open a word to review how its parts work together."
         : "Earn the needed tokens and reach the matching map stop to open these words.";
 
     headingWrap.append(
@@ -1091,7 +1091,7 @@
       "migration-waypoint-total";
 
     total.innerHTML =
-      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} discovered`;
+      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} unlocked`;
 
     header.append(
       headingWrap,
@@ -1230,7 +1230,7 @@
             locked.innerHTML =
               `
                 <span class="migration-waypoint-icon" aria-hidden="true">?</span>
-                <strong>Undiscovered word</strong>
+                <strong>Locked word</strong>
                 <small>Keep learning</small>
               `;
 
