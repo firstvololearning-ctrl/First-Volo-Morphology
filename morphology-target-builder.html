@@ -9,7 +9,7 @@
   <title>Morphology Objective Builder | First Volo Morphology</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="morphology-access.css">
-  <link rel="stylesheet" href="morphology-target-builder.css?v=20261108-builder-compact">
+  <link rel="stylesheet" href="morphology-target-builder.css?v=20261108-evidence-and-iep">
 <link rel="stylesheet" href="account-navigation.css?v=20261027">
 </head>
 <body class="target-builder-page">
@@ -88,8 +88,9 @@
     </section>
 
     <details class="builder-details why-section">
-      <summary>Standards and research</summary>
+      <summary id="builderEvidenceTitle">Evidence for Know the Parts</summary>
       <div class="builder-detail-body">
+        <ul class="builder-evidence-links" id="builderEvidenceLinks" aria-label="Research links for the selected skill"></ul>
         <p>Choose the learner’s actual grade to see grade-level standards. The route sets the difficulty of the word parts.</p>
       <div class="select-group grade-standard-controls"><label for="standardsGrade">Learner’s grade</label><select id="standardsGrade"><option value="">Choose grade</option><option value="2">Grade 2</option><option value="3">Grade 3</option><option value="4">Grade 4</option><option value="5">Grade 5</option><option value="6">Grade 6</option><option value="7">Grade 7</option><option value="8">Grade 8</option></select><label for="standardsSystem">Standards source</label><select id="standardsSystem"><option value="ccss">Common Core ELA</option><option value="ma">Massachusetts ELA/Literacy Framework</option></select></div>
 
@@ -126,7 +127,7 @@
             </select>
           </div>
           <div>
-            <label for="acrossSelect">Measured across</label>
+            <label for="acrossSelect">Where to measure progress</label>
             <select id="acrossSelect">
               <option value="structured morphology activities">Structured morphology activities</option>
               <option value="classroom reading and writing tasks">Classroom reading and writing tasks</option>
@@ -138,7 +139,7 @@
         <p><label for="sessionsSelect">Measurement schedule</label><select id="sessionsSelect"><option value="">Choose a schedule</option><option value="three probes on separate days">Three probes on separate days</option><option value="[individualized measurement schedule]">Individualized schedule (fill in)</option></select></p><div class="iep-preview" id="iepPreview" aria-live="polite" aria-disabled="true">
           Choose a criterion to generate optional IEP-style wording.
         </div>
-        <button type="button" class="copy-button" id="copyIepButton" disabled>Copy IEP-style wording</button>
+        <button type="button" class="copy-button" id="copyIepButton" disabled>Copy example objective</button>
         <p class="copy-status" id="iepCopyStatus" role="status"></p>
       </div>
     </details>
@@ -155,6 +156,6 @@
   <script src="js/auth/morphology-access.js?v=20261108-objectives"></script>
   <script src="morphology-reviewed-evidence.js?v=20261108-sets"></script>
   <script src="target-standards.js?v=20261108"></script>
-  <script src="target-builder-access.js?v=20261108-builder-compact"></script>
+  <script src="target-builder-access.js?v=20261108-evidence-and-iep"></script>
 </body>
 </html>

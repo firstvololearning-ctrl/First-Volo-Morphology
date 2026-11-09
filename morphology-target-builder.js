@@ -64,21 +64,25 @@
     program: {
       label: "Program supports available as needed",
       condition: "Given First Volo visual, meaning, and word-part supports available as needed",
+      measureWith: "with visual or word-part references available as needed",
       ideas: ["Program word-part references", "Meaning choices after an independent attempt", "Visible word-part boundaries when access is needed"]
     },
     guided: {
       label: "Teacher-guided support as needed",
       condition: "Given an independent attempt followed by the least teacher-guided support needed",
+      measureWith: "with a brief teacher cue as needed after an independent try",
       ideas: ["Prompt the learner to notice meaningful parts", "Ask a focused meaning or boundary question", "Retry the same demand and fade the prompt"]
     },
     independent: {
       label: "Independent",
       condition: "Without morphology-specific prompts or cues",
+      measureWith: "without word-part prompts or cues",
       ideas: ["Allow adequate processing time", "Use neutral directions", "Record self-initiated strategies and self-corrections"]
     },
     explicit: {
       label: "Explicit teaching / high support",
       condition: "Following explicit teaching with modeling, guided practice, and accessible word-part references",
+      measureWith: "after a model and guided practice, with word-part references available",
       ideas: ["Model think-aloud analysis", "Use color or spacing to mark meaningful parts", "Move from guided practice to an immediate independent retry"]
     }
   };
@@ -196,6 +200,8 @@
   const iepPreview = document.getElementById("iepPreview");
   const copyIepButton = document.getElementById("copyIepButton");
   const evidencePanel = document.getElementById("evidencePanel");
+  const evidenceTitle = document.getElementById("builderEvidenceTitle");
+  const evidenceLinks = document.getElementById("builderEvidenceLinks");
   const evidenceTabs = document.querySelectorAll("[data-evidence-tab]");
 
   function list(items) {
@@ -265,7 +271,10 @@
   function renderEvidence() {
     const grade = GRADES[state.grade];
     const focus = FOCUSES[state.focus];
-    const standard = STANDARD_ALIGNMENT[state.grade][state.focus];
+    evidenceTitle.textContent = `Evidence for ${focus.shortLabel}`;
+    evidenceLinks.innerHTML = relevantSources().filter(source => source.url).map(source =>
+      `<li><a href="${source.url}" target="_blank" rel="noopener noreferrer">${source.authors} (${source.year}) · ${source.title}</a></li>`
+    ).join("") + '<li><a href="research.html">Browse the First Volo evidence map</a></li>';
     const content = {
       standards: gradeStandardsHtml(),
       research: `
@@ -386,14 +395,23 @@
 
   function iepText() {
     if (!criterionSelect.value || !sessionsSelect.value) return "";
-    return `${SUPPORTS[state.support].condition}, the learner will ${FOCUSES[state.focus].action} using ${GRADES[state.grade].material}, ${criterionSelect.value === "4 out of 5 opportunities" ? "in " : "with "}${criterionSelect.value}, in ${acrossSelect.value}, sampled with ${sessionsSelect.value}, by [review date]. Record each response component and the cue level separately.`;
+    const focus = FOCUSES[state.focus];
+    const grade = GRADES[state.grade];
+    const support = SUPPORTS[state.support];
+    const criterion = criterionSelect.value === "4 out of 5 opportunities"
+      ? "in 4 out of 5 opportunities"
+      : `with ${criterionSelect.value}`;
+    const schedule = sessionsSelect.value === "three probes on separate days"
+      ? "three brief probes given on separate days"
+      : sessionsSelect.value;
+    return `By [review date], during ${acrossSelect.value}, the learner will ${focus.action} using ${grade.material}. The learner will meet this goal ${criterion}, ${support.measureWith}. Measure progress using ${schedule}. Record accuracy and any cues used.`;
   }
 
   function renderIep() {
     const text = iepText();
     copyIepButton.disabled = !text;
     iepPreview.setAttribute("aria-disabled", String(!text));
-    iepPreview.textContent = text || "Choose a performance criterion and measurement schedule to generate an example objective.";
+    iepPreview.textContent = text || "Choose a criterion and schedule to see an example.";
   }
 
   function selectButton(container, button, key) {
