@@ -141,8 +141,11 @@
     const original=document.getElementById('studentPracticeStart'),note=document.getElementById('studentPracticeResume');
     original.hidden=false;note.hidden=false;revealChoices();
     const plan=first(r.data)?.plan;
-    if(r.error){note.textContent='Your teacher’s plan could not be checked. Ask your teacher or reload to try again.';return;}
-    if(!plan)return;
+    if(r.error)note.textContent='Your teacher’s plan could not be checked. Ask your teacher or reload to try again.';
+    if(r.error||!plan){
+      window.dispatchEvent(new Event('firstvolopracticeplanroutechange'));
+      return;
+    }
     original.hidden=true;note.hidden=true;
     studentPanel=document.createElement('div');studentPanel.className='practice-plan-panel';
     studentPanel.dataset.planRoute = plan.flight;
@@ -156,6 +159,7 @@
     const status=document.createElement('p');status.setAttribute('role','status');
     const actions=document.createElement('div');actions.className='practice-plan-actions';actions.append(start,change);studentPanel.append(summary,actions,status);host.append(studentPanel);
     choices().forEach(n=>n.setAttribute('data-plan-choices-hidden',''));document.querySelector('.workspace')?.setAttribute('data-plan-workspace-hidden','');document.getElementById('currentPracticeSummary')?.setAttribute('data-plan-workspace-hidden','');
+    window.dispatchEvent(new Event('firstvolopracticeplanroutechange'));
     start.addEventListener('click',()=>{
       if(!window.FirstVoloPracticeChoices?.apply(plan)){status.textContent='These practice choices are not available. Ask your teacher to choose another activity.';return;}
       document.querySelector('.workspace')?.removeAttribute('data-plan-workspace-hidden');document.getElementById('currentPracticeSummary')?.removeAttribute('data-plan-workspace-hidden');

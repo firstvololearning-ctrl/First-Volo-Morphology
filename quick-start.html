@@ -81,6 +81,15 @@
     }
     .guide-stage-number::before { content: counter(guide-stage); }
     .guide-support { --guide-card-width: 17rem; }
+    .guide-student-map-example { margin: 16px 0; }
+    .guide-student-map-example img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #cbd9e7;
+      border-radius: 12px;
+    }
+    .guide-student-map-example figcaption { margin-top: 8px; color: #476484; }
   </style>
 </head>
 
@@ -223,10 +232,19 @@
         <p>For more examples or a grade-standard connection, open the <a href="morphology-target-builder.html">Objective Builder</a>. In the practice plan editor, <strong>Help me choose a starting point</strong> suggests an activity for the teaching need you select.</p>
       </details>
 
-      <details class="guide-dropdown">
-        <summary>Track progress and find games</summary>
-        <p>On the Student Mode home screen, learners open <strong>My Migration Map</strong> to see the stops they’ve reached and open unlocked <strong>Review to Remember</strong> words. They can change the route they’re viewing while keeping their current lesson.</p>
-        <p>Learners can open earned games from the map. To try games before teaching, open <strong>Educator tools</strong> and select <strong>Preview games</strong>. Game points stay in the game.</p>
+      <details class="guide-dropdown" id="guideMigrationMap">
+        <summary>What the Migration Map tracks</summary>
+        <p><strong>My Migration Map</strong> is the starting point in Student Mode. Learners can start their practice, view any route, play at unlocked game stops, and revisit unlocked <strong>Review to Remember</strong> words. Changing the map view keeps the learner’s current practice choices.</p>
+        <figure class="guide-student-map-example">
+          <a href="images/migration/student-map-guide-example.webp">
+            <img src="images/migration/student-map-guide-example.webp" width="1100" height="940" loading="lazy"
+              alt="Example student map showing an assigned lesson, two of five destinations reached, one Play marker, and two locked game markers. Open full-size example.">
+          </a>
+          <figcaption>Example student view. Volo has reached Forest on Route 3, and the game stop at Meadow is open.</figcaption>
+        </figure>
+        <p>Each route has learning sets that group word parts for progress tracking. Route 1 has four, Route 2 has seven, and Route 3 has five. The app looks at saved responses across sessions, including which parts learners recognize and how they apply them in activities such as Break It Apart or Build Words. Each earned set token moves Volo one stop. After earning all the route’s tokens, learners can try the Migration Challenge to reach Winter Home.</p>
+        <p>Game markers show which sets unlock games. Game scores stay in the game. Educators can preview games from <strong>Educator tools</strong> and use the <strong>Scope and Sequence</strong> to choose what to teach.</p>
+        <p><a href="curriculum-map.html#scope-and-sequence">See the Scope and Sequence</a></p>
       </details>
     </section>
 

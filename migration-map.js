@@ -271,6 +271,8 @@
 
   document.body.append(overlay);
 
+  const studentMapContent = document.getElementById("studentMapContent");
+  const isStudentMap = () => content.parentElement === studentMapContent;
   let returnFocus = null;
 
   function makeMapSketch() {
@@ -1289,9 +1291,10 @@
   }
 
   function render() {
-    content.innerHTML = "";
-
     const flightValue = routeSelect.value;
+    const previousMap = content.querySelector(".migration-map-scroll");
+    const scrollLeft = previousMap?.dataset.route === flightValue ? previousMap.scrollLeft : 0;
+    content.innerHTML = "";
 
     let student =
       getStudent();
@@ -1353,8 +1356,11 @@
     const scroll =
       document.createElement("div");
 
-    scroll.className =
-      "migration-map-scroll";
+    scroll.className = "migration-map-scroll";
+    scroll.dataset.route = flightValue;
+    scroll.tabIndex = 0;
+    scroll.setAttribute("role", "region");
+    scroll.setAttribute("aria-label", `${progress.flight.label} map. Scroll sideways to see all stops.`);
 
     const map =
       document.createElement("div");
@@ -1379,21 +1385,15 @@
       }
     );
 
-    const rewardAccess =
-      window.FirstVoloRewards
-        ?.createJourneyAccess?.(
-          student,
-          flightValue
-        );
+    const gamePanel = document.createElement("div");
+    gamePanel.className = "migration-game-panel";
+    const rewardAccesses = window.FirstVoloRewards
+      ?.createJourneyAccesses?.(student, flightValue, gamePanel) || [];
 
-    if (rewardAccess) {
+    rewardAccesses.forEach((rewardAccess) => {
       map.append(rewardAccess);
-      positionRewardOnRoute(
-        map,
-        rewardAccess,
-        progress
-      );
-    }
+      if (!positionRewardOnRoute(map, rewardAccess, progress)) rewardAccess.remove();
+    });
 
     scroll.append(map);
 
@@ -1403,17 +1403,31 @@
         flightValue
       );
 
+    const scrollHint = document.createElement("p");
+    scrollHint.className = "migration-map-scroll-hint";
+    scrollHint.textContent = "Scroll sideways to see every stop.";
+
     content.append(
       summary,
+      scrollHint,
       scroll,
+      gamePanel,
       makeLegend(),
       renderMessage(progress)
     );
 
+    scroll.scrollLeft = scrollLeft;
     if (waypointWords) {
-      content.append(
-        waypointWords
-      );
+      if (isStudentMap()) {
+        const review = document.createElement("details");
+        review.className = "migration-home-review";
+        const label = document.createElement("summary");
+        label.textContent = "Review to Remember";
+        review.append(label, waypointWords);
+        content.append(review);
+      } else {
+        content.append(waypointWords);
+      }
     }
   }
 
@@ -1429,6 +1443,10 @@
   }
 
   function openModal() {
+    if (isStudentMap()) {
+      document.getElementById("studentEntryTitle")?.focus();
+      return;
+    }
     chooseInitialRoute();
     returnFocus =
       document.activeElement;
@@ -1461,7 +1479,24 @@
     openModal
   );
 
-  document.getElementById("studentMigrationMap")?.addEventListener("click", openModal);
+  window.FirstVoloMorphologyAccess?.subscribe((context) => {
+    if (context.status === "authorized" && context.mode === "student" && studentMapContent) {
+      if (isStudentMap()) return;
+      if (!overlay.hidden) closeModal();
+      studentMapContent.append(routeControl, content);
+      chooseInitialRoute();
+      render();
+    } else if (isStudentMap()) {
+      content.replaceChildren();
+      dialog.append(routeControl, content);
+    }
+  });
+
+  window.addEventListener("firstvolopracticeplanroutechange", () => {
+    if (!isStudentMap()) return;
+    chooseInitialRoute();
+    render();
+  });
 
   closeButton.addEventListener(
     "click",
@@ -1494,7 +1529,7 @@
   gradeBandSelect.addEventListener(
     "change",
     () => {
-      if (!overlay.hidden) {
+      if (!overlay.hidden || isStudentMap()) {
         chooseInitialRoute();
         render();
       }
@@ -1520,7 +1555,7 @@
   window.addEventListener(
     "firstvoloprogresschange",
     () => {
-      if (!overlay.hidden) {
+      if (!overlay.hidden || isStudentMap()) {
         render();
       }
     }
@@ -1529,7 +1564,7 @@
   window.addEventListener(
     "firstvolotokenearned",
     () => {
-      if (!overlay.hidden) {
+      if (!overlay.hidden || isStudentMap()) {
         render();
       }
     }

@@ -2587,82 +2587,52 @@ body.migration-modal-open {
 
 /* === END WAYPOINT WORDS === */
 
-/* Student progress entry beside the practice start. */
-.student-migration-map {
-  grid-template-columns: minmax(150px, 26%) minmax(0, 1fr);
-  align-items: stretch;
-  width: 100%;
-  padding: 0;
-  margin: 0 0 22px;
-  overflow: hidden;
-  border: 1px solid #a9c4e1;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 4px 12px #173a6412;
+/* Student home hosts the same map used in the educator dialog. */
+html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
+#studentMapHome {
+  display: block;
+}
+
+#studentMapHome .migration-map-route-control,
+#studentMapHome .migration-modal-content {
+  padding-inline: 0;
+}
+
+#studentMapHome .migration-connected-map {
+  min-width: 960px;
+}
+
+#studentMapHome .migration-map-scroll {
+  overflow-x: auto;
+}
+
+.migration-map-scroll-hint {
+  margin: 0 0 8px;
+  color: #476484;
+  font-size: .875rem;
+}
+
+@media (min-width: 1100px) {
+  #studentMapHome .migration-map-scroll-hint { display: none; }
+}
+
+.migration-home-review {
+  margin-top: 16px;
+}
+
+.migration-home-review > summary {
   color: #173a64;
-  font: inherit;
-  text-align: left;
+  font-weight: 800;
   cursor: pointer;
+}
+
+.migration-return-link {
+  margin-bottom: 8px;
 }
 
 html[data-morphology-mode="student"] .migration-flight-actions {
   grid-template-columns: 1fr;
 }
-
-html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
-#studentMigrationMap {
-  display: grid;
-}
-
-.student-migration-map:hover {
-  background: #f2f7fc;
-  border-color: #6d9bc8;
-}
-
-.student-migration-map:focus-visible {
-  outline: 3px solid #147a92;
-  outline-offset: 3px;
-}
-
-.student-migration-art {
-  position: relative;
-  display: grid;
-  min-height: 116px;
-  place-items: center;
-  background: #f5e5c0 url("images/migration/migration-map-underlay.png") center / cover;
-}
-
-.student-migration-art svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: #173a64;
-  stroke: #173a64;
-  stroke-width: 2.5px;
-}
-
-.student-migration-art path {
-  fill: none;
-  stroke-dasharray: 3 5;
-  stroke-linecap: round;
-}
-
-.student-migration-art img {
-  position: relative;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 3px #34210d38);
-}
-
-.student-migration-copy {
-  display: grid;
-  align-content: center;
-  gap: 6px;
-  padding: 16px 20px;
-}
-
-.student-migration-copy strong { font-size: 1.2rem; }
-.student-migration-copy b { text-decoration: underline; text-underline-offset: 3px; }
 
 .migration-map-route-control:not([hidden]) {
   display: flex;
@@ -2683,7 +2653,55 @@ html[data-morphology-access-status="authorized"][data-morphology-mode="student"]
   font: inherit;
 }
 
-@media (max-width: 480px) {
-  .student-migration-map { grid-template-columns: minmax(90px, 28%) minmax(0, 1fr); }
-  .student-migration-copy { padding: 12px; }
+/* A preview of landmarks shared by the migration routes. */
+.title-migration-map {
+  position: relative;
+  width: min(100%, 520px);
+  height: clamp(88px, 22vw, 140px);
+  margin: 14px auto 0;
+  overflow: hidden;
+  border: 1px solid #f8e3b5;
+  border-radius: 12px;
+  background: #f5e5c0 url("images/migration/title/map.webp") center / cover;
+  color: #173a64;
+}
+
+.title-migration-map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.title-map-trail {
+  fill: none;
+  stroke: #173a64;
+  stroke-width: 3;
+  stroke-dasharray: 3 8;
+  stroke-linecap: round;
+}
+
+.title-map-stops {
+  fill: #fff7de;
+  stroke: #173a64;
+  stroke-width: 3;
+}
+
+.title-map-stops circle:first-child,
+.title-map-stops circle:last-child {
+  fill: #173a64;
+  stroke: #fff7de;
+}
+
+.title-map-landmarks image {
+  clip-path: inset(0 round 6px);
+}
+
+.title-migration-map img {
+  position: absolute;
+  top: 1%;
+  left: 46%;
+  width: clamp(30px, 11%, 58px);
+  height: auto;
 }

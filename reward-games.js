@@ -43,11 +43,11 @@
     const reward = REWARDS.find((item) => item.flight === flightValue);
     return reward ? createRewardAccess(reward, student) : null;
   }
-  function createJourneyAccesses(student, flightValue) {
+  function createJourneyAccesses(student, flightValue, gamePanel) {
     return REWARDS.filter((item) => item.flight === flightValue)
-      .map((reward) => createRewardAccess(reward, student));
+      .map((reward) => createRewardAccess(reward, student, gamePanel));
   }
-  function createRewardAccess(reward, student) {
+  function createRewardAccess(reward, student, gamePanel) {
     const unlocked = isUnlocked(reward, student);
     const stop = document.createElement("div");
     stop.className = `reward-route-stop ${unlocked ? "is-unlocked" : "is-locked"}`;
@@ -61,38 +61,56 @@
     marker.setAttribute("aria-label", unlocked
       ? `Reward unlocked: ${reward.title}`
       : `Locked reward: ${reward.title}`);
-    marker.innerHTML = `<span aria-hidden="true">${unlocked ? "🎮" : "🔒"}</span><small>Reward</small>`;
+    marker.innerHTML = `<span aria-hidden="true">${unlocked ? "🎮" : "🔒"}</span><small>${unlocked ? "Play" : "Game"}</small>`;
 
     const card = document.createElement("section");
-    card.className = "reward-route-popover";
+    card.className = gamePanel ? "migration-game-card" : "reward-route-popover";
+    card.id = `migration-games-${reward.id}`;
     card.hidden = true;
-    card.setAttribute("aria-label", `Optional reward: ${reward.title}`);
+    card.tabIndex = -1;
+    card.setAttribute("aria-label", reward.title);
+    marker.setAttribute("aria-controls", card.id);
     const copy = document.createElement("div");
     copy.className = "reward-stop-copy";
-    if (unlocked) {
-      copy.innerHTML = '<strong>🎮 Reward Stop Unlocked</strong>' +
-        `<span>${reward.title}</span>` +
-        `<p>${reward.shortDescription}</p>` +
-        '<small>Optional reward · Your Journey progress will not change.</small>';
-      const play = document.createElement("button");
-      play.type = "button";
-      play.className = "reward-play-button";
-      play.textContent = "Play";
-      play.addEventListener("click", (event) => {
-        event.stopPropagation();
-        launchReward(reward, play);
-      });
-      card.append(copy, play);
-    } else {
-      copy.innerHTML = '<strong>🔒 Reward Stop</strong>' +
-        '<span>Keep flying to unlock a game!</span><small>Optional reward</small>';
-      card.append(copy);
-    }
+    const title = document.createElement("span");
+    title.textContent = reward.title;
+    const description = document.createElement("p");
+    description.textContent = unlocked
+      ? reward.shortDescription
+      : "Earn this learning set’s token to unlock these games.";
+    copy.append(title, description);
+    card.append(copy);
+    if (unlocked) card.append(makeArcadeActions(reward, true));
+
     marker.addEventListener("click", () => {
-      card.hidden = !card.hidden;
+      const wasOpen = !card.hidden;
+      if (gamePanel) {
+        for (const openCard of gamePanel.querySelectorAll(".migration-game-card:not([hidden])")) {
+          openCard.hidden = true;
+          stop.parentElement.querySelector(`[aria-controls="${openCard.id}"]`)?.setAttribute("aria-expanded", "false");
+        }
+      }
+      card.hidden = wasOpen;
       marker.setAttribute("aria-expanded", String(!card.hidden));
+      if (gamePanel && !card.hidden) card.focus();
     });
-    stop.append(marker, card);
+
+    if (gamePanel) {
+      const back = document.createElement("button");
+      back.type = "button";
+      back.className = "migration-close-game-card";
+      back.textContent = "Back to stops";
+      back.addEventListener("click", () => {
+        card.hidden = true;
+        marker.setAttribute("aria-expanded", "false");
+        marker.focus();
+      });
+      card.append(back);
+      gamePanel.append(card);
+      stop.append(marker);
+    } else {
+      stop.append(marker, card);
+    }
     return stop;
   }
 
@@ -349,6 +367,36 @@
     actions.append(button);
   }
 
+  function makeArcadeActions(reward, unlocked, preview = false) {
+    const actions = document.createElement("div");
+    actions.className = "reward-game-actions";
+    const cloudLabel = reward.gameType === "sky-catch" ? "Cloud Catch"
+      : reward.gameType === "build-word" ? "Cloud Builder" : "Meaning Flight";
+    addArcadeAction(actions, "flight", preview ? `Preview ${cloudLabel}` : unlocked ? cloudLabel : "Locked",
+      source => launchReward(reward, source, true), !unlocked && !preview);
+    if (unlocked || preview) {
+      if (window.FirstVoloMemoryMatch) {
+        addArcadeAction(actions, "memory", preview ? "Preview Memory Match" : "Memory Match",
+          source => window.FirstVoloMemoryMatch.open(reward, source));
+      }
+      if (window.FirstVoloHoops) {
+        addArcadeAction(actions, "hoops", preview ? "Preview hoops" : "Shoot hoops",
+          source => window.FirstVoloHoops.open(reward, source));
+        addArcadeAction(actions, "balloon", preview ? "Preview balloon pop" : "Water Balloon Pop",
+          source => window.FirstVoloHoops.open(reward, source, { mode: "toss" }));
+      }
+      if (window.FirstVoloWordJump) {
+        addArcadeAction(actions, "jump", preview ? "Preview word jump" : "Word Jump",
+          source => window.FirstVoloWordJump.open(reward, source));
+      }
+      if (window.FirstVoloWordMaze) {
+        addArcadeAction(actions, "maze", preview ? "Preview word maze" : "Word Maze",
+          source => window.FirstVoloWordMaze.open(reward, source));
+      }
+    }
+    return actions;
+  }
+
   function openMyGames(student, source) {
     myGamesReturnFocus = source || document.activeElement;
     if (!myGamesOverlay) {
@@ -385,34 +433,7 @@
         item.className = `reward-my-game ${unlocked ? "is-unlocked" : "is-locked"}`;
         const gameTitle = reward.title.replace(/^Migration Route [123] /, "");
         item.innerHTML = `<div><strong>${unlocked ? "🎮" : "🔒"} ${gameTitle}</strong><p>${reward.shortDescription}</p></div>`;
-        const actions = document.createElement("div");
-        actions.className = "reward-game-actions";
-        const preview = !unlocked && educatorPreview;
-        const cloudLabel = reward.gameType === "sky-catch" ? "Cloud Catch"
-          : reward.gameType === "build-word" ? "Cloud Builder" : "Meaning Flight";
-        addArcadeAction(actions, "flight", preview ? `Preview ${cloudLabel}` : unlocked ? cloudLabel : "Locked",
-          source => launchReward(reward, source, true), !unlocked && !preview);
-        if (unlocked || preview) {
-          if (window.FirstVoloMemoryMatch) {
-            addArcadeAction(actions, "memory", preview ? "Preview Memory Match" : "Memory Match",
-              source => window.FirstVoloMemoryMatch.open(reward, source));
-          }
-          if (window.FirstVoloHoops) {
-            addArcadeAction(actions, "hoops", preview ? "Preview hoops" : "Shoot hoops",
-              source => window.FirstVoloHoops.open(reward, source));
-            addArcadeAction(actions, "balloon", preview ? "Preview balloon pop" : "Water Balloon Pop",
-              source => window.FirstVoloHoops.open(reward, source, { mode: "toss" }));
-          }
-          if (window.FirstVoloWordJump) {
-            addArcadeAction(actions, "jump", preview ? "Preview word jump" : "Word Jump",
-              source => window.FirstVoloWordJump.open(reward, source));
-          }
-          if (window.FirstVoloWordMaze) {
-            addArcadeAction(actions, "maze", preview ? "Preview word maze" : "Word Maze",
-              source => window.FirstVoloWordMaze.open(reward, source));
-          }
-        }
-        item.append(actions);
+        item.append(makeArcadeActions(reward, unlocked, !unlocked && educatorPreview));
         cards.append(item);
       });
       list.append(group);
