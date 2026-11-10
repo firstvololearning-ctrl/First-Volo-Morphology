@@ -6299,6 +6299,26 @@ a:focus-visible {
   gap: 12px;
 }
 
+.about-route-outcomes {
+  padding: 0;
+  list-style: none;
+}
+
+.about-route-outcomes > li {
+  padding: 14px;
+  border: 1px solid #d8e4ef;
+  border-radius: 14px;
+  background: #fbfdff;
+}
+
+.about-route-outcomes > li > strong {
+  color: #173f70;
+}
+
+.about-route-outcomes p {
+  margin: 6px 0 0;
+}
+
 .about-use-card {
   display: flex;
   align-items: flex-start;
