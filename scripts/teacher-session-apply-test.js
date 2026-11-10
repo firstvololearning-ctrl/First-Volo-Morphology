@@ -9,12 +9,18 @@ const { JSDOM } = require("jsdom");
 const root = path.resolve(__dirname, "..");
 const source = file => fs.readFileSync(path.join(root, file), "utf8");
 
-async function openSession(parameters, { omitTeacherExtensions = false } = {}) {
+async function openSession(parameters, { omitTeacherExtensions = false, student = null } = {}) {
   const dom = new JSDOM(source("session-materials.html"), {
     url: `http://localhost/session-materials.html?${new URLSearchParams(parameters)}`,
     runScripts: "outside-only"
   });
   const { document, MutationObserver } = dom.window;
+  if (student) {
+    dom.window.localStorage.setItem("firstVoloMorphologyProgressV1", JSON.stringify({
+      activeStudentId: student.id,
+      students: [student]
+    }));
+  }
   const observers = [];
   dom.window.MutationObserver = class extends MutationObserver {
     constructor(callback) {
@@ -148,6 +154,56 @@ test("Word Part and Use It open fresh Part B before transfer from the actual ses
       assert.equal(transfer().hidden, true);
       next.click();
       assert.equal(transfer().hidden, false);
+    } finally {
+      close();
+    }
+  }
+});
+
+
+test("Use It asks for a spoken sentence and resets the item observation across all three routes", async () => {
+  const route3 = {
+    id: "fictional-route-3",
+    name: "Demo learner",
+    sessions: [{
+      id: "fictional-session",
+      completedAt: "2026-11-09T10:00:00Z",
+      gradeBand: "6-8",
+      vocabLevel: "standard",
+      activity: "meaning",
+      studyMode: "roots",
+      totalItems: 1,
+      correct: 1,
+      responses: [{
+        skill: "meaning",
+        correct: true,
+        primaryTarget: "pel",
+        primaryTargetId: "pel",
+        targetType: "root",
+        word: "propel"
+      }]
+    }]
+  };
+
+  for (const [demo, teacherTarget, student] of [
+    ["COOK", "ed", null], ["PORT", "therm", null], ["", "chron", route3]
+  ]) {
+    const { byId, close } = await openSession({
+      demo, minutes: "10", sessionSource: "teacher-selected",
+      teacherTarget, teacherActivity: "use"
+    }, { student });
+    try {
+      let material = byId("readyStudentMaterial");
+      assert.match(material.textContent, /Say your own sentence aloud/, teacherTarget);
+      let observation = material.querySelector("[data-spoken-response]");
+      assert.equal(observation.closest("[hidden]"), null, teacherTarget);
+      assert.deepEqual(Array.from(observation.options, option => option.value),
+        ["", "independent", "cued", "retry"], teacherTarget);
+      observation.value = "cued";
+      byId("nextTaskButton").click();
+      material = byId("readyStudentMaterial");
+      assert.match(byId("sessionStep3Mount").textContent, /Say a new sentence aloud/, teacherTarget);
+      assert.equal(material.querySelector("[data-spoken-response]").value, "", teacherTarget);
     } finally {
       close();
     }

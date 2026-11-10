@@ -4258,7 +4258,7 @@ function ensureReadyMaterialContainer() {
         </h3>
 
         <p>
-          Complete the actual context task, then explain how the word part contributes.
+          Say your own sentence aloud and explain what the word part adds.
         </p>
       </div>
 
@@ -4279,7 +4279,7 @@ function ensureReadyMaterialContainer() {
       </div>
 
       <label class="ready-response-label">
-        Student response
+        Optional note on the student’s sentence
         <textarea
           class="ready-response-textarea"
           rows="3"
@@ -4287,12 +4287,23 @@ function ensureReadyMaterialContainer() {
       </label>
 
       <label class="ready-response-label">
-        How does the morphology help?
+        Optional note on what the word part adds
         <textarea
           class="ready-response-textarea"
           rows="2"
         ></textarea>
       </label>
+
+      <label class="ready-response-label">
+        Spoken response for this item
+        <select class="ready-response-input" data-spoken-response>
+          <option value="">Choose an observation</option>
+          <option value="independent">Used the target independently</option>
+          <option value="cued">Used the target after a cue</option>
+          <option value="retry">Still practicing the target</option>
+        </select>
+      </label>
+      <p>Use this while teaching. The observation clears when you change items.</p>
 
       ${readySupportDetailsMarkup()}
     `;

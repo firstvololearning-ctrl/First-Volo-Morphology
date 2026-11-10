@@ -1497,7 +1497,7 @@
         }
         add(
           "Ask",
-          `Use ${entry.word} in a sentence that makes that meaning clear. Then explain what ${label} contributes.`,
+          `Say a sentence aloud that shows what ${entry.word} means. Then explain what ${label} adds.`,
           "target-demand"
         );
         if (cloze) {
@@ -1984,8 +1984,8 @@
 
       case "use":
         return (
-          `Use ${word} in a sentence that makes its meaning clear. ` +
-          `Then explain what ${label} adds to the meaning of the word.`
+          `Say a sentence aloud that shows what ${word} means. ` +
+          `Then explain what ${label} adds.`
         );
 
       case "change": {
@@ -2367,7 +2367,7 @@
               "specific-new-item",
             word,
             prompt:
-              `Use ${word} in a new sentence that shows its meaning. Then explain what ${label} adds to the word's meaning.`,
+              `Say a new sentence aloud that shows what ${word} means. Then explain what ${label} adds.`,
             educatorKey:
               `Target word: ${word}. Verify an appropriate sentence and a correct explanation of ${label}.`,
             segmentation:
