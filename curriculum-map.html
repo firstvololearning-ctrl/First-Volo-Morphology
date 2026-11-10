@@ -114,6 +114,14 @@
       font-size: 1.08rem;
     }
 
+    .scope-band-starter {
+      display: block;
+      margin-top: 4px;
+      color: #42556c;
+      font-size: .94rem;
+      font-weight: 500;
+    }
+
     .scope-band-count {
       margin-left: auto;
       color: #617187;
@@ -219,6 +227,16 @@
       .scope-band summary {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      [data-scope-route] > summary {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 4px 10px;
+      }
+
+      [data-scope-route] > summary .scope-band-count {
+        grid-column: 2;
       }
 
       .scope-band-count {
@@ -409,7 +427,8 @@
     </section>
     <section class="extend-section" aria-labelledby="scope-and-sequence">
       <h2 id="scope-and-sequence">Scope and sequence with words in context</h2>
-      <p class="extend-section-intro"><strong>One scope and sequence for both online formats.</strong> A Migration Route shows where a word part is introduced. Open a Route and a meaning group to see the parts, what they mean or do, and an example in a sentence. Use the learner’s needs to choose a starting group. Earlier parts can return in new words and in set review.</p>
+      <p class="extend-section-intro"><strong>One scope and sequence for both online formats.</strong> Each Migration Route shows where word parts are introduced. The grade bands are a guide. Choose a route based on what the learner knows and use the learner’s actual grade to look up standards.</p>
+      <p><strong>Choose a first lesson, then build from there.</strong> Use the suggested first lesson below or start with the word part the learner needs. Open a route and a meaning group to see the parts and example sentences. Choose what comes next based on what the learner can explain and use. Revisit earlier parts in new words or in set review. The numbered Migration Map sets track practice progress and game access.</p>
       <div class="student-learning-grid">
         <div class="student-learning-card">
           <strong>Independent online learning</strong>
@@ -431,7 +450,12 @@
       <p class="student-learning-note"><a href="quick-start.html#guideTeachingTitle">Ways to teach and practice</a> · <a href="#instructional-scope">Skills and independent practice examples</a> · <a href="printables.html#routeTeachingPacks">Printable route teaching packs</a></p>
       <div class="scope-accordion">
         <details class="scope-band" data-scope-route="1">
-          <summary><span class="scope-band-title">Route 1 · Typically Grades 2–3</span><span class="scope-band-count">27 meanings and functions</span></summary>
+          <summary>
+            <span class="scope-band-title">Route 1 · Typically Grades 2–3
+              <span class="scope-band-starter">Suggested first lesson <strong>un-</strong> (“not”)</span>
+            </span>
+            <span class="scope-band-count">27 meanings and functions</span>
+          </summary>
           <div class="scope-band-body">
             <details class="scope-sequence-group">
               <summary id="sequence-route-1-group-1">Not, opposite, or undo</summary>
@@ -589,7 +613,12 @@
           </div>
         </details>
         <details class="scope-band" data-scope-route="2">
-          <summary><span class="scope-band-title">Route 2 · Typically Grades 4–5</span><span class="scope-band-count">41 meanings and functions</span></summary>
+          <summary>
+            <span class="scope-band-title">Route 2 · Typically Grades 4–5
+              <span class="scope-band-starter">Suggested first lesson <strong>port</strong> (“carry”)</span>
+            </span>
+            <span class="scope-band-count">41 meanings and functions</span>
+          </summary>
           <div class="scope-band-body">
             <details class="scope-sequence-group">
               <summary id="sequence-route-2-group-1">Not, opposite, or undo</summary>
@@ -813,7 +842,12 @@
           </div>
         </details>
         <details class="scope-band" data-scope-route="3">
-          <summary><span class="scope-band-title">Route 3 · Typically Grades 6–8</span><span class="scope-band-count">28 meanings and functions</span></summary>
+          <summary>
+            <span class="scope-band-title">Route 3 · Typically Grades 6–8
+              <span class="scope-band-starter">Suggested first lesson <strong>pel</strong> (“push or drive”)</span>
+            </span>
+            <span class="scope-band-count">28 meanings and functions</span>
+          </summary>
           <div class="scope-band-body">
             <details class="scope-sequence-group">
               <summary id="sequence-route-3-group-1">Again, before, or back</summary>
