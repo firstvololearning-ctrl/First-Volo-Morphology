@@ -33,9 +33,25 @@
   };
   // Source-reviewed starter lessons: model first, then apply in a new sentence.
   const additionalWorked = {
+    retro: [{
+      word: "retroreflector",
+      parts: "retro- (back) + reflector",
+      explanation: "A reflector bounces light. A retroreflector sends light back toward the source it came from.",
+      sentence: "The bicycle's retroreflector sends light back toward the car's headlights.",
+      question: "Where does the light go?",
+      choices: ["Back toward the headlights", "Straight ahead of the bicycle"],
+      answer: 0
+    }],
     "un-reversative": [{ word: "unroll", parts: "un- + roll → unroll", explanation: "Here un- reverses rolling. To unroll something, open it out from its rolled-up shape.", sentence: "We unroll the rug so it lies flat.", question: "What happens when we unroll the rug?", choices: ["We open the rolled rug out", "We roll the rug up"], answer: 0 }]
   };
   const practice = {
+    retroreflector: {
+      sentence: "A hiker shines a flashlight at a sign with a retroreflector.",
+      question: "How does retro- help explain why the sign looks bright to the hiker?",
+      choices: ["The sign sends light back toward the flashlight", "The sign sends light away from the flashlight"],
+      answer: 0,
+      feedback: ["Retro- means back here. The sign sends the light toward its source.", "Away would send the light in another direction. Retro- tells us it goes back toward the source."]
+    },
     unpack: { sentence: "After lunch, I unpack the picnic basket.", question: "What am I doing to the basket?", choices: ["Putting things into it", "Taking things out of it"], answer: 1, feedback: ["That would be packing the basket. Un- reverses the packing action.", "Unpacking the basket means taking out what was packed inside."] },
     unroll: { sentence: "We unroll the poster before hanging it on the wall.", question: "What does unroll mean here?", choices: ["Open the poster out from a roll", "Put the poster into a roll"], answer: 0, feedback: ["The poster was rolled up. Unrolling opens it out so we can hang it.", "That would be rolling it up. Un- tells us to reverse that action."] },
     friendly: { sentence: "The friendly guide welcomed us.", question: "What does friendly describe here?", choices: ["The way we moved", "What the guide was like"], answer: 1, feedback: ["Look for the person described as friendly. Here it describes the guide, not an action.", "Friendly describes the guide as kind and welcoming. Here -ly helps form an adjective."] }
@@ -1036,6 +1052,7 @@
     "exclude"
   ],
   "retro": [
+    "retroreflector",
     "retro-rocket",
     "retrofire"
   ],
@@ -1105,6 +1122,12 @@
     "vocabLevel": "academic",
     "placementStatus": "Editorial recommendation; not norm-verified",
     "source": "https://www.merriam-webster.com/dictionary/ablate"
+  },
+  "retroreflector": {
+    "practiceBand": "6-8",
+    "vocabLevel": "academic",
+    "placementStatus": "Editorial recommendation; not norm-verified",
+    "source": "https://www.merriam-webster.com/dictionary/retroreflector"
   },
   "retro-rocket": {
     "practiceBand": "6-8",

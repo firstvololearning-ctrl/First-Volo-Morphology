@@ -108,7 +108,7 @@ for (const flight of ["2-3", "4-5", "6-8"]) {
     for (const item of arrays[mode].filter(eligibleItem)) {
       if (!limitedStandard.has(item.id)) assert.ok(context.getLearnExamplesForSelectedVocabulary(item).length >= 2, `${flight}/${item.id}: needs two examples`);
       const lessons = content.lessons(item).filter(l => context.isLearnWordEligible(l.word));
-      if (item.id !== 'retro') assert.ok(lessons.length || targets.has(item.id), `${flight}/${item.id}: reference only`);
+      assert.ok(lessons.length || targets.has(item.id), `${flight}/${item.id}: reference only`);
     }
     if (flight === "6-8" && mode === "prefixes") assert.ok(!rounds.some(r => r.id === 'away-backward'), "specialized sort is excluded from Standard");
   }

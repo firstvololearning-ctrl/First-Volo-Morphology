@@ -96,11 +96,11 @@ test("previously uncovered teacher targets have a fresh Part B at their introduc
   const { close, window } = await openSession({ demo: "TRACT", minutes: "10" });
   const targetsByActivity = {
     morpheme: [
-      "en-em", "sub", "a-ad", "e-ex", "retro", "circum", "mit", "sequ", "ten",
+      "en-em", "sub", "a-ad", "e-ex", "retro", "circum", "chron", "pos", "mit", "sequ", "ten",
       "vert", "therm", "ance", "able-ible", "er-or", "ly-adjective", "ant-ent-agent", "ant-ent-adjective"
     ],
     use: [
-      "en-em", "sub", "a-ad", "e-ex", "retro", "mit", "sequ", "ten", "vert", "phon",
+      "en-em", "sub", "a-ad", "e-ex", "retro", "circum", "chron", "pos", "mit", "sequ", "ten", "vert", "phon",
       "therm", "ance", "ity", "ify", "ology", "able-ible", "er-or", "ly-adjective", "ant-ent-agent", "ant-ent-adjective"
     ]
   };

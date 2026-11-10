@@ -10,7 +10,6 @@
 */
 
 (function initializeFirstVoloTeacherWordExtensions() {
-  const WORD_PART = Object.freeze(["morpheme"]);
   const USE = Object.freeze(["use"]);
   const WORD_PART_AND_USE = Object.freeze(["morpheme", "use"]);
   const LEARN_AND_PRACTICE = Object.freeze(["learn", "morpheme", "use"]);
@@ -66,8 +65,17 @@
           ["retroreflector", "a device that sends light back toward its source", "A bicycle retroreflector sends light back toward a car's headlights."],
           ["retrofit", "to add new parts to something already in use", "The crew will retrofit the old school bus with seat belts."]
         ]),
-        circum: applicationExamples("4-5", "circum-", WORD_PART, [
-          ["circumnavigate", "to travel all the way around something", "They planned to circumnavigate the island by boat and finish at the same dock."]
+        circum: applicationExamples("4-5", "circum-", Object.freeze(["find", "hunt", "meaning", "morpheme", "use"]), [
+          ["circumnavigate", "to travel all the way around something", "They planned to circumnavigate the island by boat and finish at the same dock."],
+          ["circumference", "the distance all the way around a circle", "To find the circumference of the wheel, wrap a tape measure all the way around its rim."]
+        ]),
+        chron: applicationExamples("6-8", "chron", WORD_PART_AND_USE, [
+          ["chronological", "arranged by when things happened", "Put the diary entries in chronological order, starting with the earliest date."],
+          ["chronicle", "a written record of events, usually in the order they happened", "The town's chronicle begins with its founding and records what happened in each year that followed."]
+        ]),
+        pos: applicationExamples("6-8", "pos", WORD_PART_AND_USE, [
+          ["position", "to put something in a particular place", "Position the lamp beside the map so the whole page is lit."],
+          ["deposit", "to leave something in a place", "As the river slows, it can deposit sand along the bank."]
         ]),
         "able-ible": applicationExamples("2-3", "-able, -ible", WORD_PART_AND_USE, [
           ["foldable", "able to be folded", "We put the foldable chair away after folding it flat."],

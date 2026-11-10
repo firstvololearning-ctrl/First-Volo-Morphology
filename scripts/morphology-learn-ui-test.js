@@ -159,8 +159,9 @@ assert.equal(w.document.querySelector('[data-sort-card]'),null,'specialist sort 
 w.document.getElementById('learnExploreEmpty').click();
 assert.equal(w.learnMode,'explore');
 w.renderLearnDetail(w.prefixes.find(i=>i.id==='retro'));
-assert.equal(w.document.querySelector('.learn-worked-example'),null);
-assert.match(w.document.getElementById('learnDetailPanel').textContent,/Standard \+ Stretch/);
+assert.match(w.document.querySelector('.learn-worked-example').textContent, /retroreflector/);
+assert.match(w.document.getElementById('learnDetailPanel').textContent, /retroreflector/);
+assert.doesNotMatch(w.document.getElementById('learnDetailPanel').textContent, /retro-rocket/);
 w.gradeBand='all';w.vocabLevel='all';
 w.studyMode='prefixes';w.learnMode='sort';w.renderLearnActivity();
 assert.ok(w.document.querySelector('[data-sort-card]'), 'existing prefix sorting remains available');
