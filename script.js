@@ -10620,12 +10620,12 @@ function renderInferQuestion(question) {
   knownPartBox.innerHTML = `
     <strong>${escapeHTML(question.knownLabel)}</strong>
   `;
-  inferPrompt.textContent =
-    (question.context ? question.context + " " : "") +
-    "Based on the word part, what might this word mean?";
-  inferWord.textContent = question.word;
-
   const checkInContext = gradeBand === "6-8" && Boolean(question.context?.trim());
+  const meaningPrompt = "Based on the word part, what might this word mean?";
+  inferPrompt.textContent = !checkInContext && question.context
+    ? `${question.context} ${meaningPrompt}`
+    : meaningPrompt;
+  inferWord.textContent = question.word;
 
   shuffle(question.choices).forEach((choice) => {
     const button = document.createElement("button");
@@ -10657,6 +10657,7 @@ function renderInferQuestion(question) {
         inferContextCheck.hidden = true;
         inferChoices.hidden = false;
         inferPrompt.hidden = false;
+        inferPrompt.textContent = `${question.context} Choose a different meaning.`;
         button.focus();
       };
     });
