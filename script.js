@@ -3214,6 +3214,851 @@ const suffixFindQuestions = [
 const wordHuntQuestions = [
   {
     type: "prefix",
+    itemId: "en-em",
+    label: "en-, em-",
+    meaning: "put into; cause to become",
+    words: [
+      { word: "enclose", correct: true, before: "", target: "en", after: "close" },
+      { word: "unsafe", correct: false },
+      { word: "untie", correct: false },
+      { word: "rewrite", correct: false },
+      { word: "disconnect", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "non",
+    label: "non-",
+    meaning: "not",
+    words: [
+      { word: "nonstop", correct: true, before: "", target: "non", after: "stop" },
+      { word: "nonfiction", correct: true, before: "", target: "non", after: "fiction" },
+      { word: "disconnect", correct: false },
+      { word: "enclose", correct: false },
+      { word: "overuse", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "over",
+    label: "over-",
+    meaning: "above; too much",
+    words: [
+      { word: "overuse", correct: true, before: "", target: "over", after: "use" },
+      { word: "overhead", correct: true, before: "", target: "over", after: "head" },
+      { word: "preschool", correct: false },
+      { word: "forehead", correct: false },
+      { word: "midday", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "mis",
+    label: "mis-",
+    meaning: "wrongly; badly",
+    words: [
+      { word: "misread", correct: true, before: "", target: "mis", after: "read" },
+      { word: "midday", correct: false },
+      { word: "underground", correct: false },
+      { word: "submarine", correct: false },
+      { word: "darkness", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "sub",
+    label: "sub-",
+    meaning: "under; below",
+    words: [
+      { word: "submarine", correct: true, before: "", target: "sub", after: "marine" },
+      { word: "darkness", correct: false },
+      { word: "bendable", correct: false },
+      { word: "narrator", correct: false },
+      { word: "playful", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "fore",
+    label: "fore-",
+    meaning: "before; in front",
+    words: [
+      { word: "forehead", correct: true, before: "", target: "fore", after: "head" },
+      { word: "forecast", correct: true, before: "", target: "fore", after: "cast" },
+      { word: "playful", correct: false },
+      { word: "celebration", correct: false },
+      { word: "cloudless", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "mid",
+    label: "mid-",
+    meaning: "middle",
+    words: [
+      { word: "midday", correct: true, before: "", target: "mid", after: "day" },
+      { word: "midfield", correct: true, before: "", target: "mid", after: "field" },
+      { word: "friendly", correct: false },
+      { word: "enjoyment", correct: false },
+      { word: "walked", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "under",
+    label: "under-",
+    meaning: "below; too little",
+    words: [
+      { word: "underground", correct: true, before: "", target: "under", after: "ground" },
+      { word: "undercook", correct: true, before: "", target: "under", after: "cook" },
+      { word: "taller", correct: false },
+      { word: "fastest", correct: false },
+      { word: "sleeping", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ness",
+    label: "-ness",
+    meaning: "a state or quality someone or something has",
+    words: [
+      { word: "darkness", correct: true, before: "dark", target: "ness", after: "" },
+      { word: "happiness", correct: true, before: "happi", target: "ness", after: "" },
+      { word: "quickly", correct: false },
+      { word: "boxes", correct: false },
+      { word: "books", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "able-ible",
+    label: "-able, -ible",
+    meaning: "can be; able to be",
+    words: [
+      { word: "bendable", correct: true, before: "bend", target: "able", after: "" },
+      { word: "unsafe", correct: false },
+      { word: "untie", correct: false },
+      { word: "rewrite", correct: false },
+      { word: "disconnect", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "er-or",
+    label: "-er, -or",
+    meaning: "a person or thing that does something",
+    words: [
+      { word: "narrator", correct: true, before: "narrat", target: "or", after: "" },
+      { word: "writer", correct: true, before: "writ", target: "er", after: "" },
+      { word: "midday", correct: false },
+      { word: "misread", correct: false },
+      { word: "submarine", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "er-more",
+    label: "-er",
+    meaning: "more",
+    words: [
+      { word: "taller", correct: true, before: "tall", target: "er", after: "" },
+      { word: "stronger", correct: true, before: "strong", target: "er", after: "" },
+      { word: "midday", correct: false },
+      { word: "misread", correct: false },
+      { word: "submarine", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "est",
+    label: "-est",
+    meaning: "the most",
+    words: [
+      { word: "fastest", correct: true, before: "fast", target: "est", after: "" },
+      { word: "tallest", correct: true, before: "tall", target: "est", after: "" },
+      { word: "midday", correct: false },
+      { word: "underground", correct: false },
+      { word: "misread", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ion",
+    label: "-ion, -tion, -sion",
+    meaning: "an action, process, or result",
+    words: [
+      { word: "celebration", correct: true, before: "celebrat", target: "ion", after: "" },
+      { word: "action", correct: true, before: "act", target: "ion", after: "" },
+      { word: "submarine", correct: false },
+      { word: "darkness", correct: false },
+      { word: "bendable", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ly-adjective",
+    label: "-ly",
+    meaning: "having qualities of; like",
+    words: [
+      { word: "friendly", correct: true, before: "friend", target: "ly", after: "" },
+      { word: "playful", correct: false },
+      { word: "celebration", correct: false },
+      { word: "cloudless", correct: false },
+      { word: "enjoyment", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ment",
+    label: "-ment",
+    meaning: "an action, process, result, or state",
+    words: [
+      { word: "enjoyment", correct: true, before: "enjoy", target: "ment", after: "" },
+      { word: "cloudless", correct: false },
+      { word: "friendly", correct: false },
+      { word: "walked", correct: false },
+      { word: "taller", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "s-es",
+    label: "-s, -es",
+    meaning: "more than one",
+    words: [
+      { word: "boxes", correct: true, before: "box", target: "es", after: "" },
+      { word: "dogs", correct: true, before: "dog", target: "s", after: "" },
+      { word: "narrator", correct: false },
+      { word: "playful", correct: false },
+      { word: "celebration", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "negative-in-family",
+    label: "in-, im-, il-, ir-",
+    meaning: "not",
+    words: [
+      { word: "illegal", correct: true, before: "", target: "il", after: "legal" },
+      { word: "invisible", correct: true, before: "", target: "in", after: "visible" },
+      { word: "defrost", correct: false },
+      { word: "transform", correct: false },
+      { word: "superhuman", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "location-in-family",
+    label: "in-, im-",
+    meaning: "in; into; inside",
+    words: [
+      { word: "inset", correct: true, before: "", target: "in", after: "set" },
+      { word: "insert", correct: true, before: "", target: "in", after: "sert" },
+      { word: "antifreeze", correct: false },
+      { word: "connect", correct: false },
+      { word: "proceed", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "trans",
+    label: "trans-",
+    meaning: "across; through",
+    words: [
+      { word: "transform", correct: true, before: "", target: "trans", after: "form" },
+      { word: "connect", correct: false },
+      { word: "exclaim", correct: false },
+      { word: "proceed", correct: false },
+      { word: "circumference", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "semi",
+    label: "semi-",
+    meaning: "half; partly",
+    words: [
+      { word: "semifinal", correct: true, before: "", target: "semi", after: "final" },
+      { word: "semisweet", correct: true, before: "", target: "semi", after: "sweet" },
+      { word: "circumference", correct: false },
+      { word: "illegal", correct: false },
+      { word: "irregular", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "anti",
+    label: "anti-",
+    meaning: "against",
+    words: [
+      { word: "antifreeze", correct: true, before: "", target: "anti", after: "freeze" },
+      { word: "antisocial", correct: true, before: "", target: "anti", after: "social" },
+      { word: "biography", correct: false },
+      { word: "porter", correct: false },
+      { word: "scripted", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "con-com",
+    label: "con-, com-",
+    meaning: "with; together",
+    words: [
+      { word: "connect", correct: true, before: "", target: "con", after: "nect" },
+      { word: "activity", correct: false },
+      { word: "microorganism", correct: false },
+      { word: "telegraph", correct: false },
+      { word: "autograph", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "e-ex",
+    label: "e-, ex-",
+    meaning: "out; from",
+    words: [
+      { word: "exclaim", correct: true, before: "", target: "ex", after: "claim" },
+      { word: "phonics", correct: false },
+      { word: "construct", correct: false },
+      { word: "motion", correct: false },
+      { word: "musical", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "pro",
+    label: "pro-",
+    meaning: "forward; for",
+    words: [
+      { word: "proceed", correct: true, before: "", target: "pro", after: "ceed" },
+      { word: "promote", correct: true, before: "", target: "pro", after: "mote" },
+      { word: "millimeter", correct: false },
+      { word: "thermal", correct: false },
+      { word: "geography", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "circum",
+    label: "circum-",
+    meaning: "around",
+    words: [
+      { word: "circumference", correct: true, before: "", target: "circum", after: "ference" },
+      { word: "rupture", correct: false },
+      { word: "construct", correct: false },
+      { word: "predict", correct: false },
+      { word: "motion", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "bio",
+    label: "bio",
+    meaning: "life",
+    words: [
+      { word: "biography", correct: true, before: "", target: "bio", after: "graphy" },
+      { word: "biologist", correct: true, before: "", target: "bio", after: "logist" },
+      { word: "motion", correct: false },
+      { word: "perspective", correct: false },
+      { word: "invisible", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "scrib",
+    label: "scrib/script",
+    meaning: "write",
+    words: [
+      { word: "scripted", correct: true, before: "", target: "script", after: "ed" },
+      { word: "describe", correct: true, before: "de", target: "scrib", after: "e" },
+      { word: "musical", correct: false },
+      { word: "historic", correct: false },
+      { word: "destructive", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "spect",
+    label: "spect",
+    meaning: "look; watch",
+    words: [
+      { word: "perspective", correct: true, before: "per", target: "spect", after: "ive" },
+      { word: "inspecting", correct: true, before: "in", target: "spect", after: "ing" },
+      { word: "pianist", correct: false },
+      { word: "organize", correct: false },
+      { word: "clarify", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "act",
+    label: "act",
+    meaning: "do; act",
+    words: [
+      { word: "activity", correct: true, before: "", target: "act", after: "ivity" },
+      { word: "active", correct: true, before: "", target: "act", after: "ive" },
+      { word: "movement", correct: false },
+      { word: "dangerous", correct: false },
+      { word: "prediction", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "form",
+    label: "form",
+    meaning: "shape; form",
+    words: [
+      { word: "transform", correct: true, before: "trans", target: "form", after: "" },
+      { word: "reform", correct: true, before: "re", target: "form", after: "" },
+      { word: "prediction", correct: false },
+      { word: "inset", correct: false },
+      { word: "interact", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "graph",
+    label: "graph",
+    meaning: "write; record",
+    words: [
+      { word: "biography", correct: true, before: "bio", target: "graph", after: "y" },
+      { word: "autograph", correct: true, before: "auto", target: "graph", after: "" },
+      { word: "semifinal", correct: false },
+      { word: "antifreeze", correct: false },
+      { word: "connect", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "mot",
+    label: "mot/mov",
+    meaning: "move",
+    words: [
+      { word: "motion", correct: true, before: "", target: "mot", after: "ion" },
+      { word: "antifreeze", correct: false },
+      { word: "connect", correct: false },
+      { word: "exclaim", correct: false },
+      { word: "proceed", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "vis",
+    label: "vis/vid",
+    meaning: "see",
+    words: [
+      { word: "invisible", correct: true, before: "in", target: "vis", after: "ible" },
+      { word: "vision", correct: true, before: "", target: "vis", after: "ion" },
+      { word: "exclaim", correct: false },
+      { word: "proceed", correct: false },
+      { word: "circumference", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "tele",
+    label: "tele",
+    meaning: "far; distant",
+    words: [
+      { word: "telegraph", correct: true, before: "", target: "tele", after: "graph" },
+      { word: "television", correct: true, before: "", target: "tele", after: "vision" },
+      { word: "irregular", correct: false },
+      { word: "biography", correct: false },
+      { word: "porter", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "auto",
+    label: "auto",
+    meaning: "self",
+    words: [
+      { word: "autograph", correct: true, before: "", target: "auto", after: "graph" },
+      { word: "automatic", correct: true, before: "", target: "auto", after: "matic" },
+      { word: "porter", correct: false },
+      { word: "scripted", correct: false },
+      { word: "activity", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "phon",
+    label: "phon/phone",
+    meaning: "sound",
+    words: [
+      { word: "phonics", correct: true, before: "", target: "phon", after: "ics" },
+      { word: "telephone", correct: true, before: "tele", target: "phone", after: "" },
+      { word: "microorganism", correct: false },
+      { word: "telegraph", correct: false },
+      { word: "autograph", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "scop",
+    label: "scop/scope",
+    meaning: "look; examine",
+    words: [
+      { word: "telescope", correct: true, before: "tele", target: "scope", after: "" },
+      { word: "microscope", correct: true, before: "micro", target: "scope", after: "" },
+      { word: "phonics", correct: false },
+      { word: "millimeter", correct: false },
+      { word: "thermal", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "metr",
+    label: "metr/meter",
+    meaning: "measure",
+    words: [
+      { word: "millimeter", correct: true, before: "milli", target: "meter", after: "" },
+      { word: "metric", correct: true, before: "", target: "metr", after: "ic" },
+      { word: "geography", correct: false },
+      { word: "rupture", correct: false },
+      { word: "construct", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "geo",
+    label: "geo",
+    meaning: "earth",
+    words: [
+      { word: "geography", correct: true, before: "", target: "geo", after: "graphy" },
+      { word: "geographic", correct: true, before: "", target: "geo", after: "graphic" },
+      { word: "predict", correct: false },
+      { word: "motion", correct: false },
+      { word: "perspective", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ic",
+    label: "-ic",
+    meaning: "related to",
+    words: [
+      { word: "historic", correct: true, before: "histor", target: "ic", after: "" },
+      { word: "scientific", correct: true, before: "scientif", target: "ic", after: "" },
+      { word: "dangerous", correct: false },
+      { word: "inset", correct: false },
+      { word: "interact", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ity",
+    label: "-ity",
+    meaning: "a state or quality someone or something has",
+    words: [
+      { word: "activity", correct: true, before: "activ", target: "ity", after: "" },
+      { word: "clarity", correct: true, before: "clar", target: "ity", after: "" },
+      { word: "destructive", correct: false },
+      { word: "pianist", correct: false },
+      { word: "organize", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ive",
+    label: "-ive",
+    meaning: "describes what someone or something is like or tends to do",
+    words: [
+      { word: "destructive", correct: true, before: "destruct", target: "ive", after: "" },
+      { word: "active", correct: true, before: "act", target: "ive", after: "" },
+      { word: "movement", correct: false },
+      { word: "dangerous", correct: false },
+      { word: "prediction", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ize",
+    label: "-ize",
+    meaning: "make; become",
+    words: [
+      { word: "organize", correct: true, before: "organ", target: "ize", after: "" },
+      { word: "realize", correct: true, before: "real", target: "ize", after: "" },
+      { word: "dangerous", correct: false },
+      { word: "prediction", correct: false },
+      { word: "inset", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ify",
+    label: "-ify",
+    meaning: "make; cause to become",
+    words: [
+      { word: "clarify", correct: true, before: "clar", target: "ify", after: "" },
+      { word: "simplify", correct: true, before: "simpl", target: "ify", after: "" },
+      { word: "interact", correct: false },
+      { word: "defrost", correct: false },
+      { word: "transform", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ology",
+    label: "-ology",
+    meaning: "study of",
+    words: [
+      { word: "psychology", correct: true, before: "psych", target: "ology", after: "" },
+      { word: "superhuman", correct: false },
+      { word: "semifinal", correct: false },
+      { word: "antifreeze", correct: false },
+      { word: "connect", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "retro",
+    label: "retro-",
+    meaning: "backward; back",
+    words: [
+      { word: "retroreflector", correct: true, before: "", target: "retro", after: "reflector" },
+      { word: "absent", correct: false },
+      { word: "adhere", correct: false },
+      { word: "chronological", correct: false },
+      { word: "conduct", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "duct",
+    label: "duct/duce",
+    meaning: "lead",
+    words: [
+      { word: "conduct", correct: true, before: "con", target: "duct", after: "" },
+      { word: "introduce", correct: true, before: "intro", target: "duc", after: "e" },
+      { word: "chronological", correct: false },
+      { word: "transfer", correct: false },
+      { word: "submit", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "fer",
+    label: "fer",
+    meaning: "carry; bear",
+    words: [
+      { word: "transfer", correct: true, before: "trans", target: "fer", after: "" },
+      { word: "refer", correct: true, before: "re", target: "fer", after: "" },
+      { word: "propel", correct: false },
+      { word: "suspend", correct: false },
+      { word: "position", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "mit",
+    label: "mit",
+    meaning: "send",
+    words: [
+      { word: "submit", correct: true, before: "sub", target: "mit", after: "" },
+      { word: "transmitted", correct: true, before: "trans", target: "mit", after: "ted" },
+      { word: "reputation", correct: false },
+      { word: "detention", correct: false },
+      { word: "valid", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "pend",
+    label: "pend/pens",
+    meaning: "hang; weigh/consider",
+    words: [
+      { word: "suspend", correct: true, before: "sus", target: "pend", after: "" },
+      { word: "pendant", correct: true, before: "", target: "pend", after: "ant" },
+      { word: "convention", correct: false },
+      { word: "vocalist", correct: false },
+      { word: "audio", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "pos",
+    label: "pos",
+    meaning: "put; place",
+    words: [
+      { word: "position", correct: true, before: "", target: "pos", after: "ition" },
+      { word: "compose", correct: true, before: "com", target: "pos", after: "e" },
+      { word: "bibliography", correct: false },
+      { word: "dermal", correct: false },
+      { word: "terrain", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "sequ",
+    label: "sequ",
+    meaning: "follow",
+    words: [
+      { word: "sequence", correct: true, before: "", target: "sequ", after: "ence" },
+      { word: "consequence", correct: true, before: "con", target: "sequ", after: "ence" },
+      { word: "terrain", correct: false },
+      { word: "projection", correct: false },
+      { word: "attract", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "ten",
+    label: "ten",
+    meaning: "hold",
+    words: [
+      { word: "detention", correct: true, before: "de", target: "ten", after: "tion" },
+      { word: "retention", correct: true, before: "re", target: "ten", after: "tion" },
+      { word: "convert", correct: false },
+      { word: "credible", correct: false },
+      { word: "distraction", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "val",
+    label: "val",
+    meaning: "be strong; be of worth",
+    words: [
+      { word: "valid", correct: true, before: "", target: "val", after: "id" },
+      { word: "value", correct: true, before: "", target: "val", after: "ue" },
+      { word: "incredible", correct: false },
+      { word: "phoneme", correct: false },
+      { word: "biodiversity", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "ven",
+    label: "ven/vent",
+    meaning: "come",
+    words: [
+      { word: "convention", correct: true, before: "con", target: "ven", after: "tion" },
+      { word: "prevent", correct: true, before: "pre", target: "ven", after: "t" },
+      { word: "microscopic", correct: false },
+      { word: "performance", correct: false },
+      { word: "dependence", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "vert",
+    label: "vert",
+    meaning: "turn",
+    words: [
+      { word: "convert", correct: true, before: "con", target: "vert", after: "" },
+      { word: "divert", correct: true, before: "di", target: "vert", after: "" },
+      { word: "claimant", correct: false },
+      { word: "resistant", correct: false },
+      { word: "absent", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "voc",
+    label: "voc",
+    meaning: "call; voice",
+    words: [
+      { word: "vocalist", correct: true, before: "", target: "voc", after: "alist" },
+      { word: "vocal", correct: true, before: "", target: "voc", after: "al" },
+      { word: "adhere", correct: false },
+      { word: "retroreflector", correct: false },
+      { word: "chronological", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "aud",
+    label: "aud",
+    meaning: "hear",
+    words: [
+      { word: "audio", correct: true, before: "", target: "aud", after: "io" },
+      { word: "audience", correct: true, before: "", target: "aud", after: "ience" },
+      { word: "conduct", correct: false },
+      { word: "transfer", correct: false },
+      { word: "submit", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "cred",
+    label: "cred",
+    meaning: "believe; trust",
+    words: [
+      { word: "credible", correct: true, before: "", target: "cred", after: "ible" },
+      { word: "suspend", correct: false },
+      { word: "position", correct: false },
+      { word: "reputation", correct: false },
+      { word: "detention", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "biblio",
+    label: "biblio",
+    meaning: "book",
+    words: [
+      { word: "bibliography", correct: true, before: "", target: "biblio", after: "graphy" },
+      { word: "reputation", correct: false },
+      { word: "detention", correct: false },
+      { word: "valid", correct: false },
+      { word: "convention", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "derm",
+    label: "derm/dermat",
+    meaning: "skin",
+    words: [
+      { word: "dermal", correct: true, before: "", target: "derm", after: "al" },
+      { word: "dermatology", correct: true, before: "", target: "derm", after: "atology" },
+      { word: "convention", correct: false },
+      { word: "vocalist", correct: false },
+      { word: "audio", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "terr",
+    label: "terr",
+    meaning: "earth; land",
+    words: [
+      { word: "terrain", correct: true, before: "", target: "terr", after: "ain" },
+      { word: "territory", correct: true, before: "", target: "terr", after: "itory" },
+      { word: "bibliography", correct: false },
+      { word: "dermal", correct: false },
+      { word: "projection", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ant-ent-agent",
+    label: "-ant, -ent",
+    meaning: "a person or thing that does something",
+    words: [
+      { word: "claimant", correct: true, before: "claim", target: "ant", after: "" },
+      { word: "phoneme", correct: false },
+      { word: "biodiversity", correct: false },
+      { word: "microscopic", correct: false },
+      { word: "performance", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ant-ent-adjective",
+    label: "-ant, -ent",
+    meaning: "describes what someone or something is like or tends to do",
+    words: [
+      { word: "resistant", correct: true, before: "resist", target: "ant", after: "" },
+      { word: "performance", correct: false },
+      { word: "dependence", correct: false },
+      { word: "adhere", correct: false },
+      { word: "retroreflector", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
     itemId: "inter",
     label: "inter-",
     meaning: "between; among",
@@ -11491,6 +12336,7 @@ function renderHuntQuestion(question) {
   huntWordChoices.innerHTML = "";
 
   huntMorpheme.textContent = question.label;
+  document.getElementById("huntMeaning").textContent = question.meaning || "";
 
   if (
     normalizeMorphemeForMatch(
