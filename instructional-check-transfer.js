@@ -1202,7 +1202,7 @@
         Object.freeze({
           id: "ct-mot-01",
           word: "locomotive",
-          sentence: "The conductor inspected the locomotive before the train left the station.",
+          sentence: "The train couldn’t leave the station until a mechanic fixed the locomotive.",
           expectedMeaning: "a machine that moves a train"
         }),
         Object.freeze({

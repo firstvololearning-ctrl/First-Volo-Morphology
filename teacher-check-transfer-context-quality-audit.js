@@ -183,7 +183,7 @@ for (const record of records) {
 const required = new Map([
   [
     "ct-mot-01",
-    "The conductor inspected the locomotive before the train left the station."
+    "The train couldn’t leave the station until a mechanic fixed the locomotive."
   ],
   [
     "ct-mot-02",
