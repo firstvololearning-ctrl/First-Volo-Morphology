@@ -65,7 +65,7 @@ for(const item of w.addedPractice){
  const metadata=w.FIRST_VOLO_WORD_INVENTORY.find(q=>q.word===item.word);
  assert.ok(metadata?.practiceBand,item.word);
  w.renderPracticeAudit(item,metadata.practiceBand);
- assert.ok(w.document.getElementById('inferPrompt').textContent.includes(item.context));
+ assert.equal(w.document.getElementById('inferPrompt').textContent.includes(item.context), metadata.practiceBand !== '6-8');
  const button=[...w.document.querySelectorAll('#inferChoices button')].find(b=>b.textContent===item.correct);
  assert.ok(button,item.word);
  const contextCheck=w.document.getElementById('inferContextCheck');

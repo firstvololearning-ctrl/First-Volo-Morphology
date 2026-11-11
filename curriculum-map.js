@@ -813,8 +813,7 @@ infer.forEach((item) => {
 
 
 /* Use It:
-   same eligibility as the live activity:
-   a Build item must also have a sentence-bank entry. */
+   includes Build words with sentences and words authored for Use It. */
 
 const allBuild = [
   ...prefixRoot,
@@ -822,16 +821,22 @@ const allBuild = [
   ...prefixRootSuffix
 ];
 
-const useItems = allBuild.filter((item) =>
+const buildUseItems = allBuild.filter((item) =>
   Object.prototype.hasOwnProperty.call(
     useBank,
     item.word
   )
 );
 
+const additionalUseItems =
+  readLiteral("use-it.js", "additionalUseItWords") || [];
+const useItems = [
+  ...new Map([...buildUseItems, ...additionalUseItems].map(item => [item.word, item])).values()
+];
+
 useItems.forEach((item) => {
   const word = item.word;
-  const sentence = useBank[word];
+  const sentence = item.sentence || useBank[word];
   const meta = wordMeta(word);
 
   const supporting =

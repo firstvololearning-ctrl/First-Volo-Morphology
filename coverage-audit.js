@@ -430,9 +430,15 @@ const allBuild = [
   ...rootSuffix,
   ...prefixRootSuffix
 ];
-const useItems = allBuild.filter((item) =>
+const buildUseItems = allBuild.filter((item) =>
   Object.prototype.hasOwnProperty.call(useBank, item.word)
 );
+
+const additionalUseItems =
+  readLiteral("use-it.js", "additionalUseItWords") || [];
+const useItems = [
+  ...new Map([...buildUseItems, ...additionalUseItems].map(item => [item.word, item])).values()
+];
 
 console.log(`Use It: ${useItems.length}`);
 console.log(`Change It: ${change.length}`);
