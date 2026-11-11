@@ -242,6 +242,248 @@ const changeItQuestions = [
     explanation: "-ize can form a verb. Vocalize means to produce or express with the voice.",
     practiceBand: "6-8",
     vocabLevel: "academic"
+  },
+  {
+    family: "soft · softly · softer · softness",
+    sentence: "We spoke ___ so the baby could sleep.",
+    choices: ["soft", "softly", "softer", "softness"],
+    answer: "softly",
+    clue: "Look for a word that tells how we spoke.",
+    suffix: "-ly",
+    explanation: "Softly tells how we spoke. Adding -ly to soft gives us an adverb.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "paint · painted · painting · painter",
+    sentence: "Yesterday, we ___ a blue stripe on the wall.",
+    choices: ["paint", "painted", "painting", "painter"],
+    answer: "painted",
+    clue: "Yesterday tells when the action happened.",
+    suffix: "-ed",
+    explanation: "Painted tells what we did yesterday. Here, -ed marks past tense.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "walk · walked · walking · walker",
+    sentence: "We are ___ to the park right now.",
+    choices: ["walk", "walked", "walking", "walker"],
+    answer: "walking",
+    clue: "Look for the verb form that goes with are to show what is happening now.",
+    suffix: "-ing",
+    explanation: "Walking goes with are to tell what we are doing now. The verb form ends in -ing.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "dog · dogs · dogged · dogging",
+    sentence: "Two muddy ___ ran into the house.",
+    choices: ["dog", "dogs", "dogged", "dogging"],
+    answer: "dogs",
+    clue: "Two tells us how many.",
+    suffix: "-s",
+    explanation: "Dogs names more than one dog. Here, -s makes the noun plural.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "dish · dishes · dished · dishing",
+    sentence: "We washed all six ___ after dinner.",
+    choices: ["dish", "dishes", "dished", "dishing"],
+    answer: "dishes",
+    clue: "Six tells us how many.",
+    suffix: "-es",
+    explanation: "Dishes names more than one dish. Add -es to make dish plural.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "strong · stronger · strongest · strength",
+    sentence: "This rope is ___ than the thin string.",
+    choices: ["strong", "stronger", "strongest", "strength"],
+    answer: "stronger",
+    clue: "Than signals a comparison between the rope and the string.",
+    suffix: "-er",
+    explanation: "Stronger means having more strength. Here, -er helps compare two things.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "young · younger · youngest · youth",
+    sentence: "Of the three puppies, the ___ was born last.",
+    choices: ["young", "younger", "youngest", "youth"],
+    answer: "youngest",
+    clue: "Of the three signals that we are comparing one puppy with the whole group.",
+    suffix: "-est",
+    explanation: "Youngest means younger than all the others in the group. The ending -est marks that comparison.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "create · created · creation · creative",
+    sentence: "The puppet was Nora’s latest ___.",
+    choices: ["create", "created", "creation", "creative"],
+    answer: "creation",
+    clue: "Look for a noun that names something Nora made.",
+    suffix: "-ion",
+    explanation: "Creation names the result of creating something. The ending -ion helps form that noun.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "care · careful · carefully · caring",
+    sentence: "Jules carried the full bowl ___ to keep the soup from spilling.",
+    choices: ["care", "careful", "carefully", "caring"],
+    answer: "carefully",
+    clue: "Look for an adverb that tells how Jules carried the bowl.",
+    suffix: "-ly",
+    explanation: "Carefully tells how Jules carried the bowl. Adding -ly to careful forms an adverb.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "treat · treated · treatment · treatable",
+    sentence: "The doctor recommended a different ___ for the rash.",
+    choices: ["treat", "treated", "treatment", "treatable"],
+    answer: "treatment",
+    clue: "Look for a noun that names what the doctor recommended.",
+    suffix: "-ment",
+    explanation: "Treatment names a way of treating the rash. Adding -ment to treat forms a noun.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "fame · famous · famously · infamous",
+    sentence: "The singer became ___ for her beautiful voice and was recognized wherever she went.",
+    choices: ["fame", "famous", "famously", "infamous"],
+    answer: "famous",
+    clue: "Look for an adjective that describes the singer.",
+    suffix: "-ous",
+    explanation: "Famous means known by many people. The ending -ous helps form the adjective from fame.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "region · regional · regionally · regions",
+    sentence: "The team traveled to a ___ tournament with schools from nearby towns.",
+    choices: ["region", "regional", "regionally", "regions"],
+    answer: "regional",
+    clue: "Look for an adjective that describes the tournament.",
+    suffix: "-al",
+    explanation: "Regional means related to a region. Adding -al to region forms an adjective.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "piano · pianist · pianists · pianos",
+    sentence: "One skilled ___ played a solo on the grand piano.",
+    choices: ["piano", "pianist", "pianists", "pianos"],
+    answer: "pianist",
+    clue: "Look for a singular noun naming the person who played.",
+    suffix: "-ist",
+    explanation: "Pianist names a person who plays the piano. The ending -ist can form a noun naming a person.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "project · projects · projected · projection",
+    sentence: "A population ___ of 120,000 residents guided the city’s plans for new schools.",
+    choices: ["project", "projects", "projected", "projection"],
+    answer: "projection",
+    clue: "Look for a singular noun that names an estimate.",
+    suffix: "-ion",
+    explanation: "Projection names the result of estimating what might happen. Adding -ion to project forms a noun.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "respond · response · responsive · responsively",
+    sentence: "The touch screen became more ___ after the software update.",
+    choices: ["respond", "response", "responsive", "responsively"],
+    answer: "responsive",
+    clue: "Look for an adjective describing how readily the screen reacts.",
+    suffix: "-ive",
+    explanation: "Responsive describes something that responds readily. The ending -ive can help form an adjective.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "reverse · reversed · reversible · reversibly",
+    sentence: "The change is ___, so the team can restore the original settings.",
+    choices: ["reverse", "reversed", "reversible", "reversibly"],
+    answer: "reversible",
+    clue: "Look for an adjective that tells what can be done to the change.",
+    suffix: "-ible",
+    explanation: "Reversible means able to be reversed. The ending -ible can help form an adjective with that meaning.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "valid · validate · validity · validly",
+    sentence: "The researchers questioned the ___ of the test because it measured speed instead of accuracy.",
+    choices: ["valid", "validate", "validity", "validly"],
+    answer: "validity",
+    clue: "Look for a noun naming a quality of the test.",
+    suffix: "-ity",
+    explanation: "Validity names the quality of being valid. The ending -ity can form a noun naming a quality.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "depend · depended · dependence · depending",
+    sentence: "The town reduced its ___ on imported fuel by installing solar panels.",
+    choices: ["depend", "depended", "dependence", "depending"],
+    answer: "dependence",
+    clue: "Look for a noun that names the state of relying on something.",
+    suffix: "-ence",
+    explanation: "Dependence names the state of depending on something. The ending -ence helps form that noun.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "guide · guided · guidance · guiding",
+    sentence: "The new safety manual offers practical ___ on handling chemicals.",
+    choices: ["guide", "guided", "guidance", "guiding"],
+    answer: "guidance",
+    clue: "Look for a noun naming the help the manual provides.",
+    suffix: "-ance",
+    explanation: "Guidance names help that guides someone. The ending -ance can help form a noun.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "interfere · interfered · interference · interfering",
+    sentence: "Radio ___ made the signal harder to hear.",
+    choices: ["interfere", "interfered", "interference", "interfering"],
+    answer: "interference",
+    clue: "Look for a noun naming what disrupted the signal.",
+    suffix: "-ence",
+    explanation: "Interference names the effect of something interfering. The ending -ence can help form a noun.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "journal · journals · journalist · journalism",
+    sentence: "The ___ interviewed witnesses and wrote an article about the event.",
+    choices: ["journal", "journals", "journalist", "journalism"],
+    answer: "journalist",
+    clue: "Look for a singular noun that names the person doing the reporting.",
+    suffix: "-ist",
+    explanation: "Journalist names a person who reports news. The ending -ist can form a noun naming a person.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
+  },
+  {
+    family: "final · finally · finalize · finalized",
+    sentence: "The committee will ___ the schedule after reviewing everyone’s availability.",
+    choices: ["final", "finally", "finalize", "finalized"],
+    answer: "finalize",
+    clue: "After will, look for the verb that names the action.",
+    suffix: "-ize",
+    explanation: "Finalize means to make something final. Adding -ize to final forms a verb.",
+    practiceBand: "6-8",
+    vocabLevel: "academic"
   }
 ];
 
