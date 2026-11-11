@@ -1696,11 +1696,18 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "transparency": "low",
     "gradeConfidence": "low",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / recognition; avoid independent Figure It Out or Build",
-    "reviewCaution": "ad- = toward is historically relevant, but the remaining root is not taught; use only as advanced recognition.",
+    "recommendedActivityUse": "Learn / recognition; Figure It Out with a base clue and sentence check",
+    "reviewCaution": "Supply the meaning of the historical base (stick) so students can reason from ad- (to or toward).",
     "evidence": {
-      "wviVerification": "Not bulk-verified",
-      "nweaMatch": "No match"
+      "bncCocaCheck": "4k in user-supplied BNC/COCA 2.0.0 profiler results, 2026-11-11",
+      "gslAwlPhysicsCheck": "Off-list in user-supplied GSL/AWL/Physics profiler results, 2026-11-11",
+      "ngslNawlCheck": "Off-list in user-supplied NGSL/NAWL profiler results, 2026-11-11",
+      "wviLevel": 3,
+      "wviVerification": "W3 badge in user-supplied Wordsmyth entry, 2026-11-11",
+      "wordsmythSource": "https://www.wordsmyth.net/?level=3&ent=adhere",
+      "wordsmythWordParts": "ad- (to, toward) + her/hes (stick)",
+      "nweaMatch": "No match",
+      "etymologySource": "https://www.merriam-webster.com/dictionary/adhere"
     }
   },
   {
@@ -4370,6 +4377,32 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     }
   },
   {
+    "word": "exclaim",
+    "status": "current",
+    "morphemes": [
+      "ex-"
+    ],
+    "targetSenseIds": [
+      "e-ex"
+    ],
+    "segmentation": "ex + claim",
+    "morphemeIntroBand": "4-5",
+    "practiceBand": "4-5",
+    "accessibilityBand": "4-5",
+    "ccssSkill": "L.4\u20135.4b",
+    "vocabLevel": "academic",
+    "transparency": "medium",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "cry out",
+    "definition": "to say something suddenly and with strong feeling",
+    "recommendedActivityUse": "Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
+    }
+  },
+  {
     "word": "exhale",
     "status": "current",
     "morphemes": [
@@ -4681,6 +4714,32 @@ window.FIRST_VOLO_WORD_INVENTORY = [
       "nweaMatch": "Multiword context only",
       "nweaBands": "191–200; 201–210",
       "nweaDomains": "Earth and Space Science"
+    }
+  },
+  {
+    "word": "friendly",
+    "status": "current",
+    "morphemes": [
+      "-ly"
+    ],
+    "targetSenseIds": [
+      "ly-adjective"
+    ],
+    "segmentation": "friend + ly",
+    "morphemeIntroBand": "2-3",
+    "practiceBand": "2-3",
+    "accessibilityBand": "2-3",
+    "ccssSkill": "L.2\u20133.4",
+    "vocabLevel": "familiar",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "literal": "like a friend",
+    "definition": "kind and welcoming",
+    "recommendedActivityUse": "Figure It Out",
+    "evidence": {
+      "wviVerification": "Not bulk-verified",
+      "nweaMatch": "Not checked"
     }
   },
   {
@@ -7723,15 +7782,16 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "accessibilityBand": "6-8",
     "ccssSkill": "L.6–8.4b",
     "vocabLevel": "academic",
-    "transparency": "low",
+    "transparency": "medium",
     "gradeConfidence": "low",
     "vocabConfidence": "medium",
-    "recommendedActivityUse": "Learn / recognition; avoid independent Figure It Out or Build",
-    "reviewCaution": "Relationship to put = think/consider is historically informative but synchronically opaque. Recognition/stretch only.",
+    "recommendedActivityUse": "Learn / recognition; Figure It Out with root clue and sentence check",
+    "reviewCaution": "The supplied root meaning suggests what people think. Use the sentence to establish whose opinion it is and what it concerns.",
     "evidence": {
       "ngsl": true,
       "ngslRank": 1859,
-      "wviVerification": "Not bulk-verified",
+      "wviLevel": 2,
+      "wviVerification": "W2 badge in user-supplied Wordsmyth preview, 2026-11-11",
       "nweaMatch": "No match"
     }
   },
@@ -7898,8 +7958,49 @@ window.FIRST_VOLO_WORD_INVENTORY = [
     "vocabConfidence": "low",
     "recommendedActivityUse": "Learn / Find / Meaning; Figure It Out with scaffolding; Break It Apart; Build Words when both displayed pieces are explicitly taught",
     "evidence": {
+      "bncCocaCheck": "12k in user-supplied BNC/COCA 2.0.0 profiler results, 2026-11-11",
+      "gslAwlPhysicsCheck": "Off-list in user-supplied GSL/AWL/Physics profiler results, 2026-11-11",
+      "ngslNawlCheck": "Off-list in user-supplied NGSL/NAWL profiler results, 2026-11-11",
       "wviVerification": "Not bulk-verified",
       "nweaMatch": "No match"
+    }
+  },
+  {
+    "word": "retroreflector",
+    "status": "current",
+    "morphemes": [
+      "retro-"
+    ],
+    "targetSenseIds": [
+      "retro"
+    ],
+    "segmentation": "retro- + reflector",
+    "morphemeIntroBand": "6-8",
+    "practiceBand": "6-8",
+    "accessibilityBand": "6-8",
+    "ccssSkill": "L.6–8.4a–b",
+    "vocabLevel": "academic",
+    "transparency": "high",
+    "gradeConfidence": "medium",
+    "vocabConfidence": "medium",
+    "definition": "a device that reflects light back toward its source",
+    "recommendedActivityUse": "Figure It Out with a base clue and sentence check",
+    "evidence": {
+      "bncCocaCheck": "Off-list in user-supplied BNC/COCA 2.0.0 profiler results, 2026-11-11",
+      "gslAwlPhysicsCheck": "Off-list in user-supplied GSL/AWL/Physics profiler results, 2026-11-11",
+      "ngslNawlCheck": "Off-list in user-supplied NGSL/NAWL profiler results, 2026-11-11",
+      "wviVerification": "Checked by user, no WVI badge reported, 2026-11-11",
+      "nweaMatch": "Not checked",
+      "dictionarySource": "https://www.merriam-webster.com/dictionary/retroreflector",
+      "definitionSource": "https://www.nasa.gov/technology/how-nasa-uses-simple-technology-to-track-lunar-missions/",
+      "contextSource": "https://www.nasa.gov/image-article/retroreflectors-from-apollo-mars/",
+      "baseBncCocaCheck": "Reflector matched the 9k word-family band in user-supplied BNC/COCA 2.0.0 profiler results, 2026-11-11",
+      "baseNgslNawlCheck": "Reflector was off-list in user-supplied NGSL/NAWL profiler results, 2026-11-11",
+      "baseSvlLemmaCheck": "Reflector was off-list across all eight subjects in user-supplied SVL lemma profiler results, 2026-11-11",
+      "baseWordsmythSource": "https://kids.wordsmyth.net/we/?level=2&rid=34602&ent_l=reflector&dict=2",
+      "baseWviCheck": "Reflector entry shown in the user-supplied Wordsmyth preview with no WVI badge, 2026-11-11",
+      "relatedReflectWviCheck": "Reflect has a WVI 2 badge in the user-supplied Wordsmyth entry, 2026-11-11",
+      "relatedReflectWordParts": "Wordsmyth identifies re- (back or again) and flect/flex (bend) in reflect."
     }
   },
   {

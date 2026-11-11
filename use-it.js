@@ -172,6 +172,212 @@ boxes:
 };
 
 
+const additionalUseItWords = [
+  {
+    "study": "root-suffix",
+    "word": "playful",
+    "baseId": "play",
+    "base": "play",
+    "baseMeaning": "have fun",
+    "suffixId": "ful",
+    "suffix": "-ful",
+    "suffixMeaning": "full of",
+    "definition": "ready to have fun",
+    "sentence": "The ___ puppy kept dropping its ball at our feet."
+  },
+  {
+    "study": "root-suffix",
+    "word": "cloudless",
+    "baseId": "cloud",
+    "base": "cloud",
+    "baseMeaning": "a mass of tiny water drops in the sky",
+    "suffixId": "less",
+    "suffix": "-less",
+    "suffixMeaning": "without",
+    "definition": "without clouds",
+    "sentence": "The sky was ___, with nothing to hide the sun."
+  },
+  {
+    "study": "root-suffix",
+    "word": "writer",
+    "baseId": "write",
+    "base": "write",
+    "baseMeaning": "put words into written form",
+    "suffixId": "er-agent",
+    "suffix": "-er",
+    "suffixMeaning": "a person who does something",
+    "definition": "a person who writes",
+    "sentence": "The ___ revised the last chapter of her novel."
+  },
+  {
+    "study": "root-suffix",
+    "word": "painted",
+    "baseId": "paint",
+    "base": "paint",
+    "baseMeaning": "put color on a surface",
+    "suffixId": "ed",
+    "suffix": "-ed",
+    "suffixMeaning": "marks an action that already happened",
+    "definition": "put paint on something in the past",
+    "sentence": "Yesterday we ___ the fence blue."
+  },
+  {
+    "study": "prefix-root",
+    "word": "interact",
+    "prefixId": "inter",
+    "prefix": "inter-",
+    "prefixMeaning": "between; with one another",
+    "baseId": "act",
+    "base": "act",
+    "baseMeaning": "do; act",
+    "definition": "to act with or respond to one another",
+    "sentence": "At the workshop, students will ___ with a visiting author by asking questions and sharing ideas."
+  },
+  {
+    "study": "prefix-root",
+    "word": "predict",
+    "prefixId": "pre",
+    "prefix": "pre-",
+    "prefixMeaning": "before",
+    "baseId": "dict",
+    "base": "dict",
+    "baseMeaning": "say",
+    "definition": "to say what you think will happen before it happens",
+    "sentence": "Meteorologists use weather data to ___ when a storm will arrive."
+  },
+  {
+    "study": "prefix-root",
+    "word": "transform",
+    "prefixId": "trans",
+    "prefix": "trans-",
+    "prefixMeaning": "across; into a different form",
+    "baseId": "form",
+    "base": "form",
+    "baseMeaning": "shape",
+    "definition": "to change into a different form",
+    "sentence": "The artist used scissors and glue to ___ the flat paper into a three-dimensional model."
+  },
+  {
+    "study": "prefix-root-suffix",
+    "word": "prediction",
+    "prefixId": "pre",
+    "prefix": "pre-",
+    "prefixMeaning": "before",
+    "baseId": "dict",
+    "base": "dict",
+    "baseMeaning": "say",
+    "suffixId": "ion",
+    "suffix": "-ion",
+    "suffixMeaning": "an action, process, or result",
+    "definition": "a statement about what someone thinks will happen",
+    "sentence": "Her ___ that the storm would end by noon turned out to be right."
+  },
+  {
+    "study": "prefix-root-suffix",
+    "word": "interaction",
+    "prefixId": "inter",
+    "prefix": "inter-",
+    "prefixMeaning": "between; with one another",
+    "baseId": "act",
+    "base": "act",
+    "baseMeaning": "do; act",
+    "suffixId": "ion",
+    "suffix": "-ion",
+    "suffixMeaning": "an action, process, or result",
+    "definition": "an exchange in which people or things respond to one another",
+    "sentence": "The researchers observed the ___ between the bees and the flowers as the bees gathered nectar and moved pollen."
+  },
+  {
+    "study": "prefix-root-suffix",
+    "word": "destructive",
+    "prefixId": "de",
+    "prefix": "de-",
+    "prefixMeaning": "down; away",
+    "baseId": "struct",
+    "base": "struct",
+    "baseMeaning": "build",
+    "suffixId": "ive",
+    "suffix": "-ive",
+    "suffixMeaning": "having a quality or tendency",
+    "definition": "likely to damage or destroy things",
+    "sentence": "The ___ waves broke the wooden pier into pieces."
+  },
+  {
+    "study": "prefix-root",
+    "word": "transfer",
+    "prefixId": "trans",
+    "prefix": "trans-",
+    "prefixMeaning": "across; from one place to another",
+    "baseId": "fer",
+    "base": "fer",
+    "baseMeaning": "carry",
+    "definition": "to move something from one place to another",
+    "sentence": "Use the funnel to ___ water from the bowl into the bottle."
+  },
+  {
+    "study": "prefix-root",
+    "word": "submit",
+    "prefixId": "sub",
+    "prefix": "sub-",
+    "prefixMeaning": "under",
+    "baseId": "mit",
+    "base": "mit",
+    "baseMeaning": "send",
+    "definition": "to send something in for review",
+    "sentence": "Please ___ your application by Friday so the committee can review it."
+  },
+  {
+    "study": "root-suffix",
+    "word": "resistant",
+    "baseId": "resist",
+    "base": "resist",
+    "baseMeaning": "oppose or withstand",
+    "suffixId": "ant-ent-adjective",
+    "suffix": "-ant",
+    "suffixMeaning": "having a quality or tendency",
+    "definition": "able to withstand the effects of something",
+    "sentence": "The fabric is ___ to stains, so spills usually wipe away."
+  },
+  {
+    "study": "prefix-root-suffix",
+    "word": "extraction",
+    "prefixId": "e-ex",
+    "prefix": "ex-",
+    "prefixMeaning": "out; from",
+    "baseId": "tract",
+    "base": "tract",
+    "baseMeaning": "pull; draw",
+    "suffixId": "ion",
+    "suffix": "-ion",
+    "suffixMeaning": "an action, process, or result",
+    "definition": "the process of taking something out",
+    "sentence": "The dentist scheduled the ___ of a damaged tooth."
+  },
+  {
+    "study": "prefix-root-suffix",
+    "word": "transportation",
+    "prefixId": "trans",
+    "prefix": "trans-",
+    "prefixMeaning": "across",
+    "baseId": "port",
+    "base": "port",
+    "baseMeaning": "carry",
+    "suffixId": "ion",
+    "suffix": "-ation",
+    "suffixMeaning": "an action, process, or result",
+    "definition": "the movement of people or goods from place to place",
+    "sentence": "Road closures disrupted the ___ of food and supplies between the two towns."
+  }
+];
+
+function getUseItWordsForStudy() {
+  const byWord = new Map(getActiveBuildWords().map(item => [item.word, item]));
+  for (const item of additionalUseItWords) {
+    if (item.study === studyMode) byWord.set(item.word, item);
+  }
+  return [...byWord.values()];
+}
+
 /* ========================================
    STATE
    ======================================== */
@@ -189,7 +395,7 @@ let useItState = {
    ======================================== */
 
 function getUseItEligibleWords() {
-  const activeWords = getActiveBuildWords();
+  const activeWords = getUseItWordsForStudy();
 
   const inventory =
     window.FIRST_VOLO_WORD_INVENTORY || [];
@@ -219,7 +425,7 @@ function getUseItEligibleWords() {
       vocabLevel === "all" ||
       isWordEligibleForSelectedVocabulary(item.word);
 
-    const hasSentence =
+    const hasSentence = item.sentence ||
       Object.prototype.hasOwnProperty.call(
         useItSentenceBank,
         item.word
@@ -272,7 +478,7 @@ function makeUseItChoices(
   };
 
   const distractorPool =
-    getActiveBuildWords().filter((item) => {
+    getUseItWordsForStudy().filter((item) => {
       if (item.word === correctItem.word) {
         return false;
       }
@@ -319,7 +525,7 @@ function makeUseItChoices(
   if (distractors.length < 3) {
     const fallback =
       shuffle(
-        getActiveBuildWords().filter(
+        getUseItWordsForStudy().filter(
           (item) =>
             item.word !== correctItem.word &&
             !isReservedTransferWord(item.word) &&
@@ -410,7 +616,7 @@ function renderUseItQuestion() {
     makeUseItChoices(item);
 
   const sentence =
-    useItSentenceBank[item.word];
+    item.sentence || useItSentenceBank[item.word];
 
   activityProgress.textContent =
     `Choose It · ${useItState.index + 1} of ${useItState.items.length}`;
@@ -604,15 +810,17 @@ function renderUseItFeedback(
         )}
       </div>
 
-      <div class="feedback-label">
+      ${item.literal ? `<div class="feedback-label">
         Literal meaning
       </div>
 
       <div class="feedback-value">
         ${escapeHTML(
-          item.literal || ""
+          item.literal
         )}
       </div>
+
+      ` : ""}
 
       <div class="feedback-label">
         Whole-word meaning

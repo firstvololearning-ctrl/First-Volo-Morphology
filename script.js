@@ -2872,6 +2872,170 @@ const wordHuntQuestions = [
 const inferQuestions = [
 {
   "type": "prefix",
+  "itemId": "retro",
+  "knownLabel": "retro-",
+  "knownMeaning": "back; backward",
+  "baseClue": "A reflector is something that bounces light.",
+  "word": "retroreflector",
+  "correct": "a device that sends light back toward where it came from",
+  "choices": [
+    "a device that sends light back toward where it came from",
+    "a device that spreads light evenly in every direction",
+    "a device that splits light into different colors",
+    "a device that sends light farther in the same direction"
+  ],
+  "definition": "a device that reflects light back toward its source",
+  "literal": "a reflector that sends light back",
+  "context": "NASA aimed a laser at a retroreflector on the Moon. The device sent the light back toward the telescope that had sent it.",
+  "image": "images/prefixes/retro.png"
+},
+{
+  "type": "prefix",
+  "itemId": "a-ad",
+  "knownLabel": "ad-",
+  "knownMeaning": "to; toward",
+  "baseClue": "The rest of the word comes from a Latin word meaning “stick.”",
+  "word": "adhere",
+  "correct": "to stick to something",
+  "choices": [
+    "to stick to something",
+    "to stick out from something",
+    "to stop sticking",
+    "to make something sticky"
+  ],
+  "definition": "to stick firmly to something",
+  "literal": "stick to",
+  "context": "The label will adhere to the jar if you press it firmly. After that, it will stay in place even when you turn the jar over.",
+  "image": "images/prefixes/ad.png"
+},
+{
+  "type": "root",
+  "itemId": "put",
+  "knownLabel": "put",
+  "knownMeaning": "think; consider",
+  "word": "reputation",
+  "correct": "what people generally think about someone or something",
+  "choices": [
+    "what people generally think about someone or something",
+    "what someone plans to do next",
+    "how someone explains their own decision",
+    "what someone remembers about an event"
+  ],
+  "definition": "the opinion people generally have about someone or something",
+  "literal": "what others think of someone or something",
+  "context": "The bike shop earned a reputation for honest repairs. Customers told their friends the mechanics always explained what needed fixing and charged a fair price.",
+  "image": "images/roots/put.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ly-adjective",
+  "knownLabel": "-ly",
+  "knownMeaning": "having qualities of; like",
+  "word": "friendly",
+  "correct": "kind and welcoming",
+  "choices": [
+    "kind and welcoming",
+    "shy around others",
+    "angry with someone",
+    "alone and quiet"
+  ],
+  "definition": "kind and welcoming",
+  "literal": "like a friend",
+  "context": "The friendly neighbor smiled and invited us to play.",
+  "image": "images/suffixes/ly-adjective.png"
+},
+{
+  "type": "prefix",
+  "itemId": "con-com",
+  "knownLabel": "con-, com-",
+  "knownMeaning": "with; together",
+  "word": "connect",
+  "correct": "to join things together",
+  "choices": [
+    "to join things together",
+    "to pull things apart",
+    "to make things smaller",
+    "to move things farther away"
+  ],
+  "definition": "to join things together",
+  "literal": "join together",
+  "context": "Connect the two ends of the strap so the bag stays closed.",
+  "image": "images/prefixes/com-com.png"
+},
+{
+  "type": "prefix",
+  "itemId": "e-ex",
+  "knownLabel": "e-, ex-",
+  "knownMeaning": "out; from",
+  "word": "exclaim",
+  "correct": "to say something suddenly and with strong feeling",
+  "choices": [
+    "to say something suddenly and with strong feeling",
+    "to speak so quietly that nobody hears",
+    "to ask a question calmly",
+    "to write something down"
+  ],
+  "definition": "to say something suddenly and with strong feeling",
+  "literal": "cry out",
+  "context": "When the final whistle blows, fans might exclaim, \"We won!\"",
+  "image": "images/prefixes/e-ex.png"
+},
+{
+  "type": "root",
+  "itemId": "scrib",
+  "knownLabel": "scrib/script",
+  "knownMeaning": "write",
+  "word": "scripted",
+  "correct": "written in advance",
+  "choices": [
+    "written in advance",
+    "made up on the spot",
+    "spoken very softly",
+    "performed without words"
+  ],
+  "definition": "written in advance",
+  "literal": "put in writing",
+  "context": "The scripted dialogue was on the page for the actors to read.",
+  "image": "images/roots/scrib-script.png"
+},
+{
+  "type": "root",
+  "itemId": "act",
+  "knownLabel": "act",
+  "knownMeaning": "do; act",
+  "word": "activity",
+  "correct": "something a person does",
+  "choices": [
+    "something a person does",
+    "something a person owns",
+    "somewhere a person goes",
+    "someone a person knows"
+  ],
+  "definition": "something a person does",
+  "literal": "something done",
+  "context": "Our first activity was making a paper kite.",
+  "image": "images/roots/act.png"
+},
+{
+  "type": "root",
+  "itemId": "ject",
+  "knownLabel": "ject",
+  "knownMeaning": "throw",
+  "word": "project",
+  "correct": "to cast something forward onto a surface",
+  "choices": [
+    "to cast something forward onto a surface",
+    "to draw something back toward its source",
+    "to block something from reaching a surface",
+    "to store something for later use"
+  ],
+  "definition": "to cast something forward onto a surface",
+  "literal": "throw forward",
+  "context": "The lantern can project a pattern onto the wall across the room.",
+  "image": "images/roots/ject.png"
+},
+{
+  "type": "prefix",
   "itemId": "dis",
   "knownLabel": "dis-",
   "knownMeaning": "not; reverse",
@@ -11040,6 +11204,9 @@ function renderInferQuestion(question) {
   inferPrompt.textContent = !checkInContext && question.context
     ? `${question.context} ${meaningPrompt}`
     : meaningPrompt;
+  if (question.baseClue) {
+    inferPrompt.textContent += ` ${question.baseClue}`;
+  }
   inferWord.textContent = question.word;
 
   shuffle(question.choices).forEach((choice) => {

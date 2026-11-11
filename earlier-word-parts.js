@@ -11,6 +11,7 @@
     ["port", "dict", "struct", "trans", "inter"]
   ];
   const relatedParts = { dict: "pre", struct: "re", tract: "re", pel: "re" };
+  const reviewIntervalMs = 7 * 24 * 60 * 60 * 1000;
   const lessons = window.FirstVoloLessonChoices;
   const partsByRoute = routes.map(lessons.choices);
   const sets = window.FIRST_VOLO_TOKEN_SETS || [];
@@ -38,6 +39,10 @@
   }
 
   function resetCheck() {
+    const progress = window.FirstVoloActivityProgress;
+    if (round?.sessionId && progress?.getCurrentSession()?.id === round.sessionId) {
+      progress.cancelSession();
+    }
     check.hidden = true;
     panel.hidden = routes.indexOf(route) < 1;
     pick("earlierPartsChoices").hidden = false;
@@ -97,9 +102,15 @@
     updateSet();
   }
 
+  function warmUpExample(part) {
+    return part.currentExamples?.split(" · ").find(word =>
+      word.trim() && !window.FirstVoloInstructionalProtection?.isProtected(word)
+    );
+  }
+
   function showQuestion() {
     const part = round.questions[round.index];
-    const example = part.currentExamples.split(" · ")[0];
+    const example = round.continueLesson ? warmUpExample(part) : part.currentExamples.split(" · ")[0];
     const word = document.createElement("strong");
     word.textContent = example;
     const label = document.createElement("strong");
@@ -121,6 +132,19 @@
       button.addEventListener("click", () => {
         for (const answer of options.children) answer.disabled = true;
         if (choice !== part) round.missed.push(part);
+        const progress = window.FirstVoloActivityProgress;
+        if (round.sessionId && progress?.getCurrentSession()?.id === round.sessionId) {
+          progress.recordResponse({
+            skill: "earlier-review",
+            correct: choice === part,
+            primaryTarget: part.label,
+            primaryTargetId: part.id,
+            targetType: part.type,
+            word: example,
+            response: choice.meaning,
+            correctAnswer: part.meaning
+          });
+        }
         feedback.textContent = `${choice === part ? "Yes." : "Take a look."} In ${example}, ${part.label} means ${part.meaning}.`;
         next.textContent = round.index + 1 < round.questions.length ? "Next question" : "See what to do next";
         next.hidden = false;
@@ -130,20 +154,55 @@
     }
   }
 
+  function latestPracticeByPart() {
+    const student = window.FirstVoloActivityProgress?.getActiveStudent();
+    const latest = new Map();
+    for (const session of student?.sessions || []) {
+      const date = Date.parse(session.completedAt || session.startedAt);
+      if (!Number.isFinite(date)) continue;
+      for (const response of session.responses || []) {
+        const ids = [response.primaryTargetId, ...(response.supportingTargetIds || [])];
+        for (const id of ids.filter(Boolean)) {
+          latest.set(id, Math.max(latest.get(id) || 0, date));
+        }
+      }
+    }
+    return latest;
+  }
+
+  function warmUpQuestions(routePools, lessonId) {
+    const latest = latestPracticeByPart();
+    const cutoff = Date.now() - reviewIntervalMs;
+    const shown = knownParts();
+    const candidates = routePools.map((parts, index) => {
+      const due = parts.filter(part => latest.has(part.id) && latest.get(part.id) <= cutoff)
+        .sort((a, b) => latest.get(a.id) - latest.get(b.id));
+      const starters = parts.filter(part =>
+        reviewIds[index].includes(part.id) && !latest.has(part.id) && !shown.has(part.id)
+      );
+      const related = starters.find(part => part.id === relatedParts[lessonId]);
+      return [...due, ...new Set([related, ...starters].filter(Boolean))];
+    });
+    // Give each earlier route a turn before filling any remaining slot.
+    return [...new Set([...candidates.map(items => items[0]).filter(Boolean), ...candidates.flat()])]
+      .slice(0, 2);
+  }
+
   function startCheck({ set, lessonId, continueLesson, assigned = false }) {
     const routeIndex = routes.indexOf(route);
     if (!set && routeIndex < 1) return false;
-    const pools = set ? [shuffled(partsIn(set))] : partsByRoute.slice(0, routeIndex).map((parts, index) =>
-      shuffled(reviewIds[index].map(id => parts.find(part => part.id === id)).filter(Boolean)));
-    const pool = pools.flat();
-    const shown = continueLesson ? knownParts() : new Set();
-    const candidates = pools.map(parts => parts.filter(part => !shown.has(part.id)));
-    const related = relatedParts[lessonId];
-    const starters = candidates.map(items => items.find(part => part.id === related) || items[0]).filter(Boolean);
-    const questionCount = set ? pool.length : 2;
-    const questions = [...new Set([...starters, ...candidates.flat()])].slice(0, questionCount);
+    const routePools = partsByRoute.slice(0, routeIndex).map(parts =>
+      shuffled(parts.filter(part => warmUpExample(part)))
+    );
+    const pool = set ? shuffled(partsIn(set)) : routePools.flat();
+    const questions = set ? pool : warmUpQuestions(routePools, lessonId);
     if (!questions.length) return false;
-    round = { pool, questions, index: 0, missed: [], continueLesson, assigned };
+    const session = window.FirstVoloActivityProgress?.startSession({
+      activity: "earlier-review",
+      gradeBand: route,
+      totalItems: questions.length
+    });
+    round = { pool, questions, index: 0, missed: [], continueLesson, assigned, sessionId: session?.id };
     panel.hidden = false;
     panel.open = true;
     pick("earlierPartsChoices").hidden = assigned || Boolean(continueLesson);

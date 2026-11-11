@@ -184,3 +184,36 @@ test('an assigned Route 1 review opens even without an earlier route or assigned
   assert.ok(!calls.some(call => call.name === 'save_morphology_practice_plan'));
   close();
 });
+
+test('the warm-up revisits an older practiced part and saves the check separately', async () => {
+  const assigned = { flight: '4-5', study: 'roots', activity: 'learn', challenge: false, lesson: 'port' };
+  const { w, close } = setup('student', assigned, false, '4-5');
+  try {
+    await tick();
+    const d = w.document;
+    const oldDate = new Date(Date.now() - 10 * 86400000).toISOString();
+    const recentDate = new Date().toISOString();
+    const sessions = [
+      { completedAt: oldDate, responses: [{ primaryTargetId: 'mis' }] },
+      { completedAt: recentDate, responses: [{ primaryTargetId: 'pre' }] }
+    ];
+    let session;
+    w.FirstVoloActivityProgress = {
+      getActiveStudent: () => ({ sessions }),
+      getCurrentSession: () => session,
+      startSession: options => (session = { ...options, id: 'review', startedAt: recentDate, responses: [] }),
+      recordResponse: response => session.responses.push(response),
+      cancelSession: () => { session = null; }
+    };
+    d.getElementById('studentAssignedPracticeStart').click();
+    assert.match(d.getElementById('earlierCheckPrompt').textContent, /^1 of 2.*mis-/);
+    d.querySelector('#earlierCheckOptions button').click();
+    assert.equal(session.activity, 'earlier-review');
+    assert.equal(session.responses[0].primaryTargetId, 'mis');
+    assert.equal(session.responses[0].skill, 'earlier-review');
+    d.getElementById('earlierCheckClose').click();
+    assert.deepEqual(w.applied, assigned);
+  } finally {
+    close();
+  }
+});
