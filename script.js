@@ -2871,6 +2871,186 @@ const wordHuntQuestions = [
 
 const inferQuestions = [
 {
+  "type": "root",
+  "itemId": "port",
+  "knownLabel": "port",
+  "knownMeaning": "carry",
+  "word": "porter",
+  "correct": "a person who carries luggage",
+  "choices": [
+    "a person who carries luggage",
+    "a person who repairs luggage",
+    "a person who checks tickets",
+    "a person who drives the train"
+  ],
+  "literal": "someone who carries",
+  "definition": "a person whose job is to carry luggage",
+  "context": "At the station, a porter took our heavy bags to the platform.",
+  "image": "images/roots/port.png"
+},
+{
+  "type": "root",
+  "itemId": "struct",
+  "knownLabel": "struct",
+  "knownMeaning": "build",
+  "word": "construct",
+  "correct": "to build or put something together",
+  "choices": [
+    "to build or put something together",
+    "to take something apart",
+    "to carry something away",
+    "to draw a picture of something"
+  ],
+  "literal": "build together",
+  "definition": "to build or put something together",
+  "context": "The class will construct a model bridge using craft sticks.",
+  "image": "images/roots/struct.png"
+},
+{
+  "type": "prefix",
+  "itemId": "re",
+  "knownLabel": "re-",
+  "knownMeaning": "again",
+  "word": "rewrite",
+  "correct": "to write something again",
+  "choices": [
+    "to write something again",
+    "to read something again",
+    "to write something before it happens",
+    "to stop writing something"
+  ],
+  "definition": "to write something again",
+  "literal": "write again",
+  "context": "After the class gave feedback, Inez decided to rewrite the ending.",
+  "image": "images/prefixes/re.png"
+},
+{
+  "type": "prefix",
+  "itemId": "pre",
+  "knownLabel": "pre-",
+  "knownMeaning": "before",
+  "word": "preschool",
+  "correct": "a program children attend before they start elementary school",
+  "choices": [
+    "a program children attend before they start elementary school",
+    "a club children attend after school",
+    "a class children repeat",
+    "a room where teachers keep school supplies"
+  ],
+  "definition": "a program children attend before they start elementary school",
+  "literal": "before school",
+  "context": "At preschool, Leo painted and played with blocks. Next year he will start kindergarten.",
+  "image": "images/prefixes/pre.png"
+},
+{
+  "type": "prefix",
+  "itemId": "pre",
+  "knownLabel": "pre-",
+  "knownMeaning": "before",
+  "word": "precook",
+  "correct": "to cook something ahead of time",
+  "choices": [
+    "to cook something ahead of time",
+    "to cook something a second time",
+    "to cook something too long",
+    "to serve something without cooking it"
+  ],
+  "definition": "to cook something ahead of time",
+  "literal": "cook beforehand",
+  "context": "We can precook the rice tonight so dinner will be easier to make tomorrow.",
+  "image": "images/prefixes/pre.png"
+},
+{
+  "type": "prefix",
+  "itemId": "mis",
+  "knownLabel": "mis-",
+  "knownMeaning": "wrongly",
+  "word": "misread",
+  "correct": "to read something incorrectly",
+  "choices": [
+    "to read something incorrectly",
+    "to read something a second time",
+    "to read something aloud",
+    "to read something before others do"
+  ],
+  "definition": "to read something incorrectly",
+  "literal": "read wrongly",
+  "context": "I misread the sign and went to room 18 instead of room 81.",
+  "image": "images/prefixes/mis.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ance",
+  "knownLabel": "-ance",
+  "knownMeaning": "an action, state, or quality",
+  "word": "performance",
+  "correct": "the act of presenting something to an audience",
+  "choices": [
+    "the act of presenting something to an audience",
+    "the act of preparing a costume",
+    "the place where a show is held",
+    "the group of people who watch a show"
+  ],
+  "definition": "the act of presenting something to an audience",
+  "literal": "act of performing",
+  "context": "During the performance, the dancers stepped onto the stage and moved together.",
+  "image": "images/suffixes/ance.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ance",
+  "knownLabel": "-ance",
+  "knownMeaning": "an action, state, or quality",
+  "word": "importance",
+  "correct": "the quality of mattering or having value",
+  "choices": [
+    "the quality of mattering or having value",
+    "the quality of being easy to replace",
+    "the state of being widely known",
+    "the state of being difficult to find"
+  ],
+  "definition": "the quality of mattering or having value",
+  "literal": "quality of being important",
+  "context": "The rescue team understood the importance of checking the weather before heading out.",
+  "image": "images/suffixes/ance.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ence",
+  "knownLabel": "-ence",
+  "knownMeaning": "an action, state, or quality",
+  "word": "existence",
+  "correct": "the state of being real or present",
+  "choices": [
+    "the state of being real or present",
+    "the act of becoming more common",
+    "the quality of being easy to see",
+    "the state of having disappeared"
+  ],
+  "definition": "the state of being real or present",
+  "literal": "state of existing",
+  "context": "The newly found tracks confirmed the existence of wolves in the valley.",
+  "image": "images/suffixes/ence.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ence",
+  "knownLabel": "-ence",
+  "knownMeaning": "an action, state, or quality",
+  "word": "dependence",
+  "correct": "the state of relying on someone or something",
+  "choices": [
+    "the state of relying on someone or something",
+    "the state of being able to act alone",
+    "the act of offering help to others",
+    "the quality of being easy to trust"
+  ],
+  "definition": "the state of relying on someone or something",
+  "literal": "state of depending",
+  "context": "The island’s dependence on ferries became clear when a storm stopped deliveries.",
+  "image": "images/suffixes/ence.png"
+},
+{
   "type": "prefix",
   "itemId": "non",
   "knownLabel": "non-",
@@ -3710,6 +3890,7 @@ const inferQuestions = [
   },
   {
     type: "root",
+    itemId: "struct",
     knownLabel: "struct",
     knownMeaning: "build",
     word: "structure",
