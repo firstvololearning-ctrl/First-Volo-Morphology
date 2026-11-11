@@ -12,7 +12,27 @@
   function populate(select, route, selected = "") {
     const parts = choices(route);
     select.replaceChildren(new Option("Choose a word part", ""));
-    for (const item of parts) select.add(new Option(`${item.label} · ${item.meaning}`, item.id));
+    const remaining = new Map(parts.map(item => [item.id, item]));
+    for (const set of window.FIRST_VOLO_TOKEN_SETS || []) {
+      if (set.introBand !== route) continue;
+      const group = select.ownerDocument.createElement("optgroup");
+      group.label = set.label;
+      for (const id of set.morphemeIds) {
+        const item = remaining.get(id);
+        if (!item) continue;
+        group.append(new Option(`${item.label} · ${item.meaning}`, item.id));
+        remaining.delete(id);
+      }
+      if (group.children.length) select.append(group);
+    }
+    if (remaining.size) {
+      const group = select.ownerDocument.createElement("optgroup");
+      group.label = "Additional lessons";
+      for (const item of remaining.values()) {
+        group.append(new Option(`${item.label} · ${item.meaning}`, item.id));
+      }
+      select.append(group);
+    }
     select.value = parts.some(item => item.id === selected) ? selected : "";
   }
 

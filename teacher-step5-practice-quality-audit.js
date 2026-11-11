@@ -212,7 +212,7 @@ const wordPartStep5PrintSafetyChecks = [
   ],
   [
     source.includes(
-      "After you respond, your teacher will give you a new word."
+      "After you respond, your teacher will reveal the fresh word selected for this session."
     ),
     "student Part B print must withhold the fresh word until after the response"
   ],
