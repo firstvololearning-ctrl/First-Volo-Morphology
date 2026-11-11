@@ -625,7 +625,7 @@
         Object.freeze({
           id: "ct-circum-02",
           word: "circumstellar",
-          sentence: "The telescope detected a circumstellar disk near a distant star.",
+          sentence: "A bright star made it hard to photograph the faint circumstellar disk.",
           expectedMeaning: "around a star"
         }),
       ])
@@ -695,13 +695,13 @@
         Object.freeze({
           id: "ct-fer-01",
           word: "transferable",
-          sentence: "The ticket is transferable if another person needs to use it.",
+          sentence: "I could not go to the concert, so I checked whether my ticket was transferable.",
           expectedMeaning: "able to be transferred or carried from one to another"
         }),
         Object.freeze({
           id: "ct-fer-02",
           word: "transferral",
-          sentence: "The transferral of the records took place between two offices.",
+          sentence: "After the transferral, the records were in the downtown office.",
           expectedMeaning: "the act of transferring or carrying from one place to another"
         }),
       ])
@@ -1126,7 +1126,7 @@
         Object.freeze({
           id: "ct-cred-01",
           word: "credulous",
-          sentence: "The credulous shopper accepted every claim in the advertisement without checking any facts.",
+          sentence: "The credulous shopper bought the cream after seeing one ad.",
           expectedMeaning: "too ready to believe something"
         }),
         Object.freeze({
@@ -1259,7 +1259,7 @@
         Object.freeze({
           id: "ct-tele-01",
           word: "teleconference",
-          sentence: "The two classes held a teleconference so students in distant cities could meet.",
+          sentence: "The class joined a teleconference with students from a school in another state.",
           expectedMeaning: "a conference held across a distance"
         }),
         Object.freeze({
@@ -1341,7 +1341,7 @@
         Object.freeze({
           id: "ct-phon-02",
           word: "phonology",
-          sentence: "The class compared phonology in English and Spanish during a language lesson.",
+          sentence: "To compare English and Spanish phonology, the class listened to recordings of people speaking.",
           expectedMeaning: "the study or system of language sounds"
         }),
       ])
