@@ -2871,6 +2871,240 @@ const wordHuntQuestions = [
 
 const inferQuestions = [
 {
+  "type": "prefix",
+  "itemId": "dis",
+  "knownLabel": "dis-",
+  "knownMeaning": "not; reverse",
+  "word": "disconnect",
+  "correct": "to separate things that were joined",
+  "choices": [
+    "to separate things that were joined",
+    "to join things again",
+    "to check that things are joined",
+    "to move joined things together"
+  ],
+  "definition": "to separate things that were joined",
+  "literal": "undo a connection",
+  "context": "Disconnect the cord from the speaker before you put it away.",
+  "image": "images/prefixes/dis.png"
+},
+{
+  "type": "prefix",
+  "itemId": "sub",
+  "knownLabel": "sub-",
+  "knownMeaning": "under; below",
+  "word": "submarine",
+  "correct": "a vehicle that travels under water",
+  "choices": [
+    "a vehicle that travels under water",
+    "a vehicle that flies over water",
+    "a boat that travels on the surface",
+    "a vehicle that stays on land"
+  ],
+  "definition": "a vehicle that travels under water",
+  "literal": "under the sea",
+  "context": "The submarine went deep below the waves.",
+  "image": "images/prefixes/sub.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ful",
+  "knownLabel": "-ful",
+  "knownMeaning": "full of; showing",
+  "word": "playful",
+  "correct": "showing a desire to play",
+  "choices": [
+    "showing a desire to play",
+    "unable to play",
+    "finished playing",
+    "a person who watches a game"
+  ],
+  "definition": "showing a desire to play",
+  "literal": "showing play",
+  "context": "The playful puppy bounced toward the ball.",
+  "image": "images/suffixes/ful.png"
+},
+{
+  "type": "suffix",
+  "itemId": "less",
+  "knownLabel": "-less",
+  "knownMeaning": "without",
+  "word": "cloudless",
+  "correct": "without clouds",
+  "choices": [
+    "without clouds",
+    "covered in clouds",
+    "having clouds again",
+    "full of rain"
+  ],
+  "definition": "without clouds",
+  "literal": "without clouds",
+  "context": "A cloudless sky gave us a clear view of the stars.",
+  "image": "images/suffixes/less.png"
+},
+{
+  "type": "prefix",
+  "itemId": "negative-in-family",
+  "knownLabel": "in-, im-, il-, ir-",
+  "knownMeaning": "not",
+  "word": "illegal",
+  "correct": "against the law",
+  "choices": [
+    "against the law",
+    "required by law",
+    "written into a new law",
+    "allowed by law"
+  ],
+  "definition": "against the law",
+  "literal": "not legal",
+  "context": "It is illegal to dump trash in the river.",
+  "image": "images/prefixes/in-im-il-ir.png"
+},
+{
+  "type": "prefix",
+  "itemId": "trans",
+  "knownLabel": "trans-",
+  "knownMeaning": "across; from one form to another",
+  "word": "transform",
+  "correct": "to change into a different form",
+  "choices": [
+    "to change into a different form",
+    "to keep in the same form",
+    "to return to the original place",
+    "to put two things side by side"
+  ],
+  "definition": "to change into a different form",
+  "literal": "change form",
+  "context": "Heat can transform solid wax into a liquid.",
+  "image": "images/prefixes/trans.png"
+},
+{
+  "type": "root",
+  "itemId": "rupt",
+  "knownLabel": "rupt",
+  "knownMeaning": "break",
+  "word": "disrupting",
+  "correct": "interrupting the normal flow of something",
+  "choices": [
+    "interrupting the normal flow of something",
+    "helping something continue as planned",
+    "starting something early",
+    "bringing two things together"
+  ],
+  "definition": "interrupting the normal flow of something",
+  "literal": "breaking the flow",
+  "context": "The repeated alarms were disrupting the lesson.",
+  "image": "images/roots/rupt.png"
+},
+{
+  "type": "root",
+  "itemId": "graph",
+  "knownLabel": "graph",
+  "knownMeaning": "write; record",
+  "word": "graphical",
+  "correct": "shown using pictures or diagrams",
+  "choices": [
+    "shown using pictures or diagrams",
+    "explained only by sound",
+    "hidden from view",
+    "measured by weight"
+  ],
+  "definition": "shown using pictures or diagrams",
+  "literal": "related to a drawn or recorded display",
+  "context": "The report used a graphical display of rainfall.",
+  "image": "images/roots/graph.png"
+},
+{
+  "type": "suffix",
+  "itemId": "al",
+  "knownLabel": "-al",
+  "knownMeaning": "related to",
+  "word": "musical",
+  "correct": "related to music",
+  "choices": [
+    "related to music",
+    "without music",
+    "played a second time",
+    "a person who listens"
+  ],
+  "definition": "related to music",
+  "literal": "related to music",
+  "context": "The class tried several musical instruments.",
+  "image": "images/suffixes/al.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ive",
+  "knownLabel": "-ive",
+  "knownMeaning": "having a quality or tendency",
+  "word": "destructive",
+  "correct": "likely to damage or destroy things",
+  "choices": [
+    "likely to damage or destroy things",
+    "likely to protect things",
+    "able to repair things",
+    "easy to move"
+  ],
+  "definition": "likely to damage or destroy things",
+  "literal": "having a tendency to destroy",
+  "context": "The destructive storm tore roofs off houses.",
+  "image": "images/suffixes/ive.png"
+},
+{
+  "type": "suffix",
+  "itemId": "ist",
+  "knownLabel": "-ist",
+  "knownMeaning": "a person who does or studies something",
+  "word": "pianist",
+  "correct": "a person who plays the piano",
+  "choices": [
+    "a person who plays the piano",
+    "a person who tunes guitars",
+    "a place to buy a piano",
+    "a piece of music for drums"
+  ],
+  "definition": "a person who plays the piano",
+  "literal": "person who plays piano",
+  "context": "The pianist sat at the keyboard and played the opening notes.",
+  "image": "images/suffixes/ist.png"
+},
+{
+  "type": "root",
+  "itemId": "duct",
+  "knownLabel": "duct/duce",
+  "knownMeaning": "lead",
+  "word": "conduct",
+  "correct": "to lead or direct",
+  "choices": [
+    "to lead or direct",
+    "to follow someone else",
+    "to carry something away",
+    "to separate into pieces"
+  ],
+  "definition": "to lead or direct",
+  "literal": "lead",
+  "context": "The music teacher will conduct the orchestra during the concert.",
+  "image": "images/roots/duct-duce.png"
+},
+{
+  "type": "root",
+  "itemId": "ven",
+  "knownLabel": "ven/vent",
+  "knownMeaning": "come",
+  "word": "convention",
+  "correct": "a gathering of people for a shared purpose",
+  "choices": [
+    "a gathering of people for a shared purpose",
+    "a rule about traveling alone",
+    "a message sent to one person",
+    "a place to store supplies"
+  ],
+  "definition": "a gathering of people for a shared purpose",
+  "literal": "people coming together",
+  "context": "At the convention, teachers from many schools met to share lesson ideas.",
+  "image": "images/roots/ven-vent.png"
+},
+{
   "type": "root",
   "itemId": "port",
   "knownLabel": "port",
