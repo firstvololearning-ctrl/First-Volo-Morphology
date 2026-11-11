@@ -2409,6 +2409,241 @@ const suffixFindQuestions = [
    ======================================== */
 
 const wordHuntQuestions = [
+  {
+    type: "prefix",
+    itemId: "inter",
+    label: "inter-",
+    meaning: "between; among",
+    words: [
+      { word: "interact", correct: true, before: "", target: "inter", after: "act" },
+      { word: "interaction", correct: true, before: "", target: "inter", after: "action" },
+      { word: "defrost", correct: false },
+      { word: "telescope", correct: false },
+      { word: "musical", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "de",
+    label: "de-",
+    meaning: "off; from; down",
+    words: [
+      { word: "defrost", correct: true, before: "", target: "de", after: "frost" },
+      { word: "descend", correct: true, before: "", target: "de", after: "scend" },
+      { word: "interact", correct: false },
+      { word: "autobiography", correct: false },
+      { word: "pianist", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "super",
+    label: "super-",
+    meaning: "above; beyond",
+    words: [
+      { word: "superhero", correct: true, before: "", target: "super", after: "hero" },
+      { word: "superhuman", correct: true, before: "", target: "super", after: "human" },
+      { word: "semifinal", correct: false },
+      { word: "antifreeze", correct: false },
+      { word: "geothermal", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "dict",
+    label: "dict",
+    meaning: "say; tell",
+    words: [
+      { word: "predict", correct: true, before: "pre", target: "dict", after: "" },
+      { word: "dictionary", correct: true, before: "", target: "dict", after: "ionary" },
+      { word: "autograph", correct: false },
+      { word: "musical", correct: false },
+      { word: "defrost", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "micro",
+    label: "micro",
+    meaning: "small",
+    words: [
+      { word: "microscope", correct: true, before: "", target: "micro", after: "scope" },
+      { word: "microorganism", correct: true, before: "", target: "micro", after: "organism" },
+      { word: "telescope", correct: false },
+      { word: "autobiography", correct: false },
+      { word: "semifinal", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "therm",
+    label: "therm",
+    meaning: "heat",
+    words: [
+      { word: "geothermal", correct: true, before: "geo", target: "therm", after: "al" },
+      { word: "thermostat", correct: true, before: "", target: "therm", after: "ostat" },
+      { word: "microscope", correct: false },
+      { word: "television", correct: false },
+      { word: "nonverbal", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "al",
+    label: "-al",
+    meaning: "related to",
+    words: [
+      { word: "musical", correct: true, before: "music", target: "al", after: "" },
+      { word: "regional", correct: true, before: "region", target: "al", after: "" },
+      { word: "pianist", correct: false },
+      { word: "dangerous", correct: false },
+      { word: "telescope", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ist",
+    label: "-ist",
+    meaning: "person who does or studies",
+    words: [
+      { word: "artist", correct: true, before: "art", target: "ist", after: "" },
+      { word: "pianist", correct: true, before: "pian", target: "ist", after: "" },
+      { word: "musical", correct: false },
+      { word: "creative", correct: false },
+      { word: "semifinal", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ous",
+    label: "-ous",
+    meaning: "having a quality",
+    words: [
+      { word: "dangerous", correct: true, before: "danger", target: "ous", after: "" },
+      { word: "joyous", correct: true, before: "joy", target: "ous", after: "" },
+      { word: "musical", correct: false },
+      { word: "creative", correct: false },
+      { word: "microscope", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "ab",
+    label: "ab-",
+    meaning: "away; from",
+    words: [
+      { word: "absent", correct: true, before: "", target: "ab", after: "sent" },
+      { word: "absentee", correct: true, before: "", target: "ab", after: "sentee" },
+      { word: "project", correct: false },
+      { word: "convert", correct: false },
+      { word: "dependence", correct: false }
+    ]
+  },
+  {
+    type: "prefix",
+    itemId: "a-ad",
+    label: "a-, ad-",
+    meaning: "to; toward",
+    words: [
+      { word: "adhere", correct: true, before: "", target: "ad", after: "here" },
+      { word: "audio", correct: false },
+      { word: "propel", correct: false },
+      { word: "terrain", correct: false },
+      { word: "credible", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "chron",
+    label: "chron",
+    meaning: "time",
+    words: [
+      { word: "chronological", correct: true, before: "", target: "chron", after: "ological" },
+      { word: "synchronize", correct: true, before: "syn", target: "chron", after: "ize" },
+      { word: "audience", correct: false },
+      { word: "credible", correct: false },
+      { word: "detention", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "ject",
+    label: "ject",
+    meaning: "throw",
+    words: [
+      { word: "project", correct: true, before: "pro", target: "ject", after: "" },
+      { word: "projection", correct: true, before: "pro", target: "ject", after: "ion" },
+      { word: "extract", correct: false },
+      { word: "retention", correct: false },
+      { word: "credible", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "pel",
+    label: "pel",
+    meaning: "push; drive",
+    words: [
+      { word: "compel", correct: true, before: "com", target: "pel", after: "" },
+      { word: "propel", correct: true, before: "pro", target: "pel", after: "" },
+      { word: "attract", correct: false },
+      { word: "evidence", correct: false },
+      { word: "submit", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "tract",
+    label: "tract",
+    meaning: "pull; draw",
+    words: [
+      { word: "attract", correct: true, before: "at", target: "tract", after: "" },
+      { word: "extract", correct: true, before: "ex", target: "tract", after: "" },
+      { word: "project", correct: false },
+      { word: "convert", correct: false },
+      { word: "performance", correct: false }
+    ]
+  },
+  {
+    type: "root",
+    itemId: "put",
+    label: "put",
+    meaning: "think; consider",
+    words: [
+      { word: "compute", correct: true, before: "com", target: "put", after: "e" },
+      { word: "dispute", correct: true, before: "dis", target: "put", after: "e" },
+      { word: "reputation", correct: true, before: "re", target: "put", after: "ation" },
+      { word: "difference", correct: false },
+      { word: "chronological", correct: false },
+      { word: "terrain", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ance",
+    label: "-ance",
+    meaning: "an action, or a state or quality someone or something has",
+    words: [
+      { word: "importance", correct: true, before: "import", target: "ance", after: "" },
+      { word: "performance", correct: true, before: "perform", target: "ance", after: "" },
+      { word: "existence", correct: false },
+      { word: "credible", correct: false },
+      { word: "projection", correct: false }
+    ]
+  },
+  {
+    type: "suffix",
+    itemId: "ence",
+    label: "-ence",
+    meaning: "an action, or a state or quality someone or something has",
+    words: [
+      { word: "existence", correct: true, before: "exist", target: "ence", after: "" },
+      { word: "dependence", correct: true, before: "depend", target: "ence", after: "" },
+      { word: "importance", correct: false },
+      { word: "terrain", correct: false },
+      { word: "project", correct: false }
+    ]
+  },
   // PREFIXES
   {
     type: "prefix",

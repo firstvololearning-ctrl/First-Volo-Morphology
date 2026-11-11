@@ -1061,7 +1061,7 @@
       "migrationWaypointTitle";
 
     heading.textContent =
-      "Word cards by map stop";
+      "Anchor words by map stop";
 
     const description =
       document.createElement("p");
@@ -1069,7 +1069,7 @@
     description.textContent =
       accessState.availableCount
         ? "Open a word card to see how its parts help explain the whole word."
-        : "Your word cards open when you earn the needed tokens and reach their map stops.";
+        : "Your anchor word cards open when you earn the needed tokens and reach their map stops.";
 
     headingWrap.append(
       heading,
@@ -1083,7 +1083,7 @@
       "migration-waypoint-total";
 
     total.innerHTML =
-      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} word cards unlocked`;
+      `<b>${accessState.availableCount}</b> of ${accessState.totalCount} anchor word cards unlocked`;
 
     header.append(
       headingWrap,
@@ -1166,7 +1166,7 @@
 
               link.setAttribute(
                 "aria-label",
-                `Open the ${waypoint.word} word card (PDF, new tab)`
+                `Open the ${waypoint.word} anchor word card (PDF, new tab)`
               );
 
               const icon =
@@ -1193,7 +1193,7 @@
                 document.createElement("small");
 
               action.textContent =
-                "Open word card (PDF) ↗";
+                "Open anchor word card (PDF) ↗";
 
               link.append(
                 icon,
@@ -1401,7 +1401,7 @@
         review.className = "migration-home-review";
         review.open = reviewOpen;
         const label = document.createElement("summary");
-        label.textContent = "Word Cards";
+        label.textContent = "Anchor Words";
         const hint = document.createElement("span");
         hint.className = "migration-home-review-hint";
         hint.textContent = "Anchor words you unlock along this route";
