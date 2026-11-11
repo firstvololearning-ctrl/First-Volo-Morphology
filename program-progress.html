@@ -259,6 +259,27 @@
 </section>
 
 
+<details class="progress-major-collapse" id="teacherObservationPanel" hidden data-morphology-generic-educator-only>
+  <summary class="progress-major-collapse-summary">Record an observed response</summary>
+  <div class="progress-major-collapse-body">
+    <p>Record a response after teaching the part. Enter only the practice word. Use a different word for each check on the same day, and check again on a later date. To correct an entry, submit the same date, part, task, and word with the corrected result.</p>
+    <form id="teacherObservationForm" class="tracker-controls">
+      <label>Lesson date <input type="date" name="date" required></label>
+      <label>Route set <select name="setId" required></select></label>
+      <label>Word part <select name="targetId" required disabled></select></label>
+      <label>Task observed <select name="task" required></select></label>
+      <label>Practice word <input name="word" maxlength="40" required></label>
+      <label>Result <select name="outcome" required></select></label>
+      <label><input type="checkbox" name="taught" required> This part has been taught and I heard or saw the learner’s first attempt.</label>
+      <button type="submit" class="progress-add-student-button">Save observed response</button>
+      <p id="teacherObservationStatus" role="status"></p>
+    </form>
+    <p>Correct independent responses contribute to set evidence. An unsuccessful first attempt can show where practice is needed. Responses marked correct after a cue stay available for planning.</p>
+    <ul id="teacherObservationHistory"></ul>
+  </div>
+</details>
+
+
 <details
   class="progress-major-collapse progress-guide-collapse"
   id="instructionalGuidanceWrap"
@@ -312,11 +333,12 @@
   <script src="instructional-target-resolver.js?v=20260820-target2"></script>
   <script src="instructional-session-planner.js?v=20261109-fresh-apply"></script>
   <script src="token-sets.js?v=20261108-route-names"></script>
-  <script src="volo-tokens.js"></script>
+  <script src="teacher-observation.js"></script>
+  <script src="volo-tokens.js?v=20261111-teacher-observation"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
   <script src="js/auth/morphology-access.js"></script>
   <script src="js/cloud/morphology-cloud.js"></script>
-  <script src="progress-tracker.js?v=20261108-route-names"></script>
+  <script src="progress-tracker.js?v=20261111-teacher-observation"></script>
   <!-- FIRST_VOLO_FAMILY_PRINTABLE_READINESS_V1_1 -->
   <script src="family-printable-readiness.js?v=20261108-route-names"></script>
   <script src="family-printable-readiness-ui.js"></script>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sort and Explain | First Volo Morphology</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #203246; background: #f2f6fa; }
+    body { margin: 0; }
+    main { box-sizing: border-box; max-width: 52rem; margin: 1.5rem auto; padding: 1.5rem; background: white; }
+    h1 { margin: .8rem 0 .25rem; }
+    h2 { font-size: 1.1rem; margin: .9rem 0 .35rem; }
+    p { margin: .35rem 0 .7rem; }
+    a { color: #174878; }
+    button { font: inherit; padding: .45rem .8rem; color: white; background: #174878; border: 0; border-radius: .3rem; cursor: pointer; }
+    nav, .groups { display: flex; gap: .8rem; flex-wrap: wrap; }
+    nav { align-items: center; justify-content: space-between; }
+    .groups label { flex: 1 1 13rem; }
+    label { display: block; font-weight: 600; }
+    select, input, textarea { box-sizing: border-box; display: block; width: 100%; margin-top: .2rem; padding: .35rem .5rem; color: inherit; background: white; border: 1px solid #71859a; border-radius: .25rem; font: inherit; font-weight: 400; }
+    textarea { min-height: 3.5rem; resize: vertical; }
+    details, .route-picker { margin-top: .85rem; }
+    @media print {
+      @page { size: letter; margin: .55in; }
+      :root { background: white; color: black; }
+      main { margin: 0; padding: 0; }
+      nav, details, .route-picker { display: none; }
+      h1 { margin-top: 0; }
+      .groups label { flex-basis: 0; }
+      input, textarea { border-color: #555; }
+    }
+  </style>
+  <script src="word-sort.js" defer></script>
+</head>
+<body>
+  <main>
+    <nav aria-label="Worksheet tools">
+      <a href="../printables.html">Printable materials</a>
+      <button type="button" id="printSort">Print worksheet</button>
+    </nav>
+    <h1>Sort and Explain</h1>
+    <p>Group words that have something meaningful in common. Explain your rule, then sort the same words a different way.</p>
+
+    <label class="route-picker" for="sortRoute">Choose a sample or use your own words
+      <select id="sortRoute">
+        <option value="1">Route 1 · Prefixes, endings, and familiar bases</option>
+        <option value="2">Route 2 · Two roots in the same word</option>
+        <option value="3">Route 3 · Roots and word jobs</option>
+        <option value="custom">My own word list</option>
+      </select>
+    </label>
+    <p id="sortTiming" aria-live="polite">Use after teaching re- and -ing from Route 1 Set 1 · Core Word Parts.</p>
+    <label for="wordBank">Words to sort</label>
+    <input id="wordBank" value="rewrite, replay, writing, playing">
+
+    <section aria-labelledby="firstSort">
+      <h2 id="firstSort">First sort</h2>
+      <div class="groups">
+        <label>Group 1 name and words<textarea rows="2"></textarea></label>
+        <label>Group 2 name and words<textarea rows="2"></textarea></label>
+      </div>
+      <label>Why do these words belong together?<input></label>
+    </section>
+
+    <section aria-labelledby="secondSort">
+      <h2 id="secondSort">Sort again</h2>
+      <div class="groups">
+        <label>Group 1 name and words<textarea rows="2"></textarea></label>
+        <label>Group 2 name and words<textarea rows="2"></textarea></label>
+      </div>
+      <label>Which word moved, and what did you notice this time?<input></label>
+    </section>
+
+    <section aria-labelledby="applySort">
+      <h2 id="applySort">Use the word parts</h2>
+      <label>Use one word in a sentence. Explain what a word part adds.<textarea rows="2"></textarea></label>
+    </section>
+
+    <details>
+      <summary>Teacher prompts and example</summary>
+      <p>Replace the sample words with words from today’s lesson. Invite the learner to name each group, explain a connection, and set aside a word if needed. For a hands-on sort, write the words on movable cards before recording the groups.</p>
+      <p id="sortExample">Group rewrite and replay by re- (“again”), and writing and playing by -ing. Then pair rewrite with writing by the base write, and replay with playing by the base play.</p>
+    </details>
+  </main>
+</body>
+</html>

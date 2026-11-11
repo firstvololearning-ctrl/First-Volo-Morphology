@@ -182,10 +182,10 @@
       return evidence.get(id);
     }
 
-    const sessions =
-      Array.isArray(student?.sessions)
-        ? student.sessions
-        : [];
+    const sessions = [
+      ...(Array.isArray(student?.sessions) ? student.sessions : []),
+      ...(student ? window.FirstVoloTeacherObservation?.evidenceSessions(student) || [] : [])
+    ];
 
     sessions.forEach(
       (session, sessionIndex) => {
@@ -228,6 +228,8 @@
                 `session-${sessionIndex}`,
 
               sessionDate,
+
+              teacherObserved: session.teacherObserved === true,
 
               order:
                 sessionTime * 1000 +
@@ -525,6 +527,12 @@
       );
 
 
+    const includesTeacherObservation =
+      relevantRecords.some(record => record.teacherObserved);
+    const practiceDates = new Set(
+      relevantRecords.map(record => String(record.sessionDate).slice(0, 10)).filter(Boolean)
+    );
+
     const ready =
       allKnowledgeReady &&
 
@@ -548,8 +556,8 @@
           RULES.applicationActivityTypes
       ) &&
 
-      sessionIds.size >=
-        RULES.sessions;
+      sessionIds.size >= RULES.sessions &&
+      (!includesTeacherObservation || practiceDates.size >= RULES.sessions);
 
 
     return {
@@ -575,6 +583,8 @@
 
       sessionCount:
         sessionIds.size,
+
+      observationDateCount: includesTeacherObservation ? practiceDates.size : null,
 
       morphemes
     };

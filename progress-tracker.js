@@ -451,6 +451,7 @@ function renderStudentRoster() {
 
 function renderStudentSummary() {
   const student = getActiveStudent();
+  renderTeacherObservations(student);
 
   if (!student) {
     studentSummary.hidden = true;
@@ -461,7 +462,7 @@ function renderStudentSummary() {
   studentSummaryName.textContent = student.name;
 
   const sessions = Array.isArray(student.sessions)
-  ? student.sessions
+  ? student.sessions.filter(session => session.activity !== "teacher-observation")
   : [];
 
 const completedCount = sessions.filter(
@@ -646,6 +647,103 @@ deleteStudentButton.addEventListener("click", () => {
   saveProgressData();
   renderStudentRoster();
 });
+
+const teacherObservationPanel = document.getElementById("teacherObservationPanel");
+const teacherObservationForm = document.getElementById("teacherObservationForm");
+const teacherObservation = window.FirstVoloTeacherObservation;
+
+function renderTeacherObservations(student) {
+  if (!teacherObservationPanel || !teacherObservationForm || !teacherObservation) return;
+  teacherObservationPanel.hidden = !student || !educatorProgressAuthorized();
+  if (teacherObservationPanel.hidden) {
+    delete teacherObservationForm.dataset.studentId;
+    return;
+  }
+
+  const fields = teacherObservationForm.elements;
+  if (teacherObservationForm.dataset.studentId !== student.id) {
+    teacherObservationForm.reset();
+    teacherObservationForm.dataset.studentId = student.id;
+    fields.date.value = getPaperPracticeInputValue(new Date()).slice(0, 10);
+    fields.date.max = fields.date.value;
+    fields.setId.dispatchEvent(new Event("change"));
+    document.getElementById("teacherObservationStatus").textContent = "";
+  }
+  const rows = teacherObservation.latest(student).reverse().map(({ teacherObservation: entry }) => {
+    const li = document.createElement("li");
+    li.textContent = `${entry.date} · ${teacherObservation.targets.get(entry.targetId)} · ${entry.word} · ${teacherObservation.tasks[entry.task]} · ${teacherObservation.outcomes[entry.outcome]}`;
+    return li;
+  });
+  document.getElementById("teacherObservationHistory").replaceChildren(...rows);
+  if (window.location.hash === "#teacherObservationPanel") teacherObservationPanel.open = true;
+}
+
+if (teacherObservationForm && teacherObservation) {
+  const fields = teacherObservationForm.elements;
+  for (const [field, options] of [
+    [fields.setId, teacherObservation.sets.map(set => [set.id, set.label])],
+    [fields.task, Object.entries(teacherObservation.tasks)],
+    [fields.outcome, Object.entries(teacherObservation.outcomes)]
+  ]) {
+    field.add(new Option("Choose an option", ""));
+    for (const [id, label] of options) field.add(new Option(label, id));
+  }
+  function selectedSet() {
+    return teacherObservation.sets.find(set => set.id === fields.setId.value);
+  }
+  fields.setId.addEventListener("change", () => {
+    const set = selectedSet();
+    fields.targetId.replaceChildren(new Option("Choose a word part", ""));
+    fields.targetId.disabled = !set;
+    for (const id of set?.morphemeIds || []) {
+      fields.targetId.add(new Option(teacherObservation.targets.get(id), id));
+    }
+  });
+  teacherObservationForm.addEventListener("submit", event => {
+    event.preventDefault();
+    if (!educatorProgressAuthorized() || !FV_PROGRESS_KEY) return;
+
+    const studentId = teacherObservationForm.dataset.studentId;
+    const data = loadProgressData();
+    const student = data.students.find(item => item.id === studentId);
+    if (!student || data.activeStudentId !== studentId) {
+      refreshProgressFromStorage();
+      return;
+    }
+
+    const entry = {
+      date: fields.date.value,
+      targetId: fields.targetId.value,
+      task: fields.task.value,
+      word: fields.word.value.trim().toLowerCase(),
+      outcome: fields.outcome.value
+    };
+    const status = document.getElementById("teacherObservationStatus");
+    if (!fields.taught.checked || entry.date > getPaperPracticeInputValue(new Date()).slice(0, 10) ||
+        !selectedSet()?.morphemeIds.includes(entry.targetId) || !teacherObservation.validate(entry)) {
+      status.textContent = "Check the date and task. Use an ordinary practice word and confirm the first attempt.";
+      return;
+    }
+
+    const now = new Date().toISOString();
+    student.sessions = [...(student.sessions || []), {
+      id: makePaperPracticeLogId(),
+      startedAt: now,
+      completedAt: now,
+      activity: "teacher-observation",
+      responses: [],
+      teacherObservation: entry
+    }];
+    progressData = data;
+    const earned = window.FirstVoloTokens?.updateEarnedTokens(progressData)?.newlyEarned || [];
+    saveProgressData();
+    renderStudentSummary();
+    fields.taught.checked = false;
+    status.textContent = earned.some(token => token.studentId === studentId)
+      ? "Saved. The learner earned a set token."
+      : "Saved.";
+  });
+}
 
 window.FirstVoloProgress = {
   getData: () => progressData,
@@ -1241,7 +1339,9 @@ function renderVoloTokenProgress(
           "volo-token-evidence-line";
 
         sessionsLine.textContent =
-          `Sessions: ${Math.min(status.sessionCount, 2)}/2`;
+          status.observationDateCount === null
+            ? `Sessions: ${Math.min(status.sessionCount, 2)}/2`
+            : `Practice dates: ${Math.min(status.observationDateCount, 2)}/2`;
 
         card.append(sessionsLine);
 
@@ -1624,7 +1724,7 @@ function renderStudentProgressDetails(student) {
   details.innerHTML = "";
 
   const sessions = Array.isArray(student.sessions)
-    ? student.sessions
+    ? student.sessions.filter(session => session.activity !== "teacher-observation")
     : [];
 
   renderVoloTokenProgress(

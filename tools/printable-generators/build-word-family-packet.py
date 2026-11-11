@@ -163,7 +163,7 @@ def validate_config(cfg, repo_root: Path):
     missing: list[Path] = []
     for part in prefixes + roots + suffixes + extensions:
         p = repo_root / part.image
-        if not p.is_file():
+        if part.image and not p.is_file():
             missing.append(p)
 
     if missing:
@@ -313,9 +313,10 @@ def card(c, repo_root: Path, x: float, y: float, part: Part, role: str):
     image_w = image_h
     ix = x + 6
     iy = y + (CARD_H - image_h) / 2
-    draw_image_contain(c, repo_root / part.image, ix, iy, image_w, image_h)
+    if part.image:
+        draw_image_contain(c, repo_root / part.image, ix, iy, image_w, image_h)
 
-    tx = ix + image_w + 9
+    tx = ix + image_w + 9 if part.image else x + 12
     avail = x + CARD_W - 7 - tx
 
     label_size = 13.5
@@ -372,7 +373,7 @@ def draw_cards_page(c, cfg, repo_root: Path):
     W, H = PORTRAIT
     c.setPageSize(PORTRAIT)
 
-    page_header(c, cfg["family"], "Word-Part Cards", f'{cfg["flight"]} | Color clay tiles', W)
+    page_header(c, cfg["family"], "Word-Part Cards", cfg["flight"], W)
 
     c.setFillColor(black)
     c.setFont("Helvetica", 9.2)
@@ -523,6 +524,12 @@ def draw_mats_page(c, cfg):
             W,
         )
 
+    elif cfg.get("layout") == "single-prefix":
+        mat_row(c, "MAT A - prefix and root", 320, 105,
+                [("prefix", "PREFIX"), ("root", "ROOT")], W)
+        mat_row(c, "MAT B - prefix, root, and suffix", 145, 105,
+                [("prefix", "PREFIX"), ("root", "ROOT"), ("suffix", "SUFFIX")], W)
+
     else:
         mat_h = 105
         mat_row(
@@ -618,11 +625,10 @@ def draw_clues_page(c, cfg):
     start_y = 590
     row_gap = 5
 
-    for i in range(8):
+    for i, text in enumerate(cfg["word_clues"]):
         row, col = divmod(i, 2)
         x = left_x if col == 0 else right_x
         y = start_y - row * (box_h + row_gap)
-        text = cfg["word_clues"][i] if i < len(cfg["word_clues"]) else ""
         clue_box(c, x, y, box_w, box_h, GREEN, str(i + 1), text)
 
     # B. Sentence / context clues.
@@ -637,11 +643,10 @@ def draw_clues_page(c, cfg):
     cstart_y = 311
     cg = 5
     letters = "ABCDEFGH"
-    for i in range(8):
+    for i, text in enumerate(cfg["context_clues"]):
         row, col = divmod(i, 2)
         x = left_x if col == 0 else right_x
         y = cstart_y - row * (cbox_h + cg)
-        text = cfg["context_clues"][i] if i < len(cfg["context_clues"]) else ""
         clue_box(c, x, y, box_w, cbox_h, PURPLE, letters[i], text)
 
     # C. Extension - remains on the same page. Never add a hidden extra page.
@@ -792,7 +797,8 @@ def qa(pdf_path: Path, cfg, repo_root: Path, preview_dir: Path):
 
     print("\n=== BUILD & DISCOVER QA ===")
     print(f"✓ family: {cfg['family']}")
-    print(f"✓ real image assets found: {len(cfg['prefixes']) + len(cfg['roots']) + len(cfg['suffixes']) + len(cfg['extensions'])}")
+    image_count = sum(bool(part.image) for role in ('prefixes', 'roots', 'suffixes', 'extensions') for part in cfg[role])
+    print(f"✓ configured image assets found: {image_count}")
     print(f"✓ cut-apart card: {CARD_W/72:.2f} x {CARD_H/72:.2f} in")
     print(f"✓ narrowest Mat B slot: {MAT_B_SLOT_W/72:.2f} in wide")
     print(f"✓ horizontal clearance: {clearance/72:.2f} in")
