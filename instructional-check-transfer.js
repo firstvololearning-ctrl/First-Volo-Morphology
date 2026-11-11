@@ -1360,7 +1360,7 @@
         Object.freeze({
           id: "ct-scop-02",
           word: "arthroscope",
-          sentence: "An arthroscope lets a surgeon look inside a joint through a tiny opening.",
+          sentence: "The surgeon asked for an arthroscope before the knee procedure.",
           expectedMeaning: "an instrument used to examine a joint"
         }),
       ])
@@ -1468,7 +1468,7 @@
         Object.freeze({
           id: "ct-ance-01",
           word: "reliance",
-          sentence: "The hikers' reliance on the map showed how much they depended on it.",
+          sentence: "The hikers' reliance on the map grew as the trail signs became harder to read.",
           expectedMeaning: "the state of relying or depending"
         }),
         Object.freeze({

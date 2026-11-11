@@ -1453,6 +1453,39 @@ const suffixVariants = [
 const prefixFindQuestions = [
   {
     type: "prefix",
+    word: "absent",
+    before: "",
+    target: "ab",
+    after: "sent",
+    answer: "ab-",
+    choices: ["ab-", "re-", "pre-", "mis-"],
+    itemId: "ab",
+    definition: "away from a place where you are expected to be"
+  },
+  {
+    type: "prefix",
+    word: "adhere",
+    before: "",
+    target: "ad",
+    after: "here",
+    answer: "ad-",
+    choices: ["ad-", "pre-", "mis-", "retro-"],
+    itemId: "a-ad",
+    definition: "to stick firmly to something"
+  },
+  {
+    type: "prefix",
+    word: "retroreflector",
+    before: "",
+    target: "retro",
+    after: "reflector",
+    answer: "retro-",
+    choices: ["retro-", "pre-", "mis-", "ad-"],
+    itemId: "retro",
+    definition: "a device that sends light back toward its source"
+  },
+  {
+    type: "prefix",
     word: "preview",
     before: "",
     target: "pre",
@@ -1622,6 +1655,182 @@ const prefixFindQuestions = [
 ];
 
 const rootFindQuestions = [
+  {
+    type: "root",
+    word: "chronological",
+    before: "",
+    target: "chron",
+    after: "ological",
+    answer: "chron",
+    choices: ["chron", "port", "struct", "phon"],
+    itemId: "chron",
+    definition: "arranged in the order things happened"
+  },
+  {
+    type: "root",
+    word: "conduct",
+    before: "con",
+    target: "duct",
+    after: "",
+    answer: "duct",
+    choices: ["duct", "port", "struct", "phon"],
+    itemId: "duct",
+    definition: "to lead or carry out an activity"
+  },
+  {
+    type: "root",
+    word: "transfer",
+    before: "trans",
+    target: "fer",
+    after: "",
+    answer: "fer",
+    choices: ["fer", "port", "struct", "phon"],
+    itemId: "fer",
+    definition: "to move something from one place to another"
+  },
+  {
+    type: "root",
+    word: "submit",
+    before: "sub",
+    target: "mit",
+    after: "",
+    answer: "mit",
+    choices: ["mit", "port", "struct", "phon"],
+    itemId: "mit",
+    definition: "to hand something in for review"
+  },
+  {
+    type: "root",
+    word: "propel",
+    before: "pro",
+    target: "pel",
+    after: "",
+    answer: "pel",
+    choices: ["pel", "port", "struct", "phon"],
+    itemId: "pel",
+    definition: "to push or drive something forward"
+  },
+  {
+    type: "root",
+    word: "suspend",
+    before: "sus",
+    target: "pend",
+    after: "",
+    answer: "pend",
+    choices: ["pend", "port", "struct", "phon"],
+    itemId: "pend",
+    definition: "to hang something from above"
+  },
+  {
+    type: "root",
+    word: "position",
+    before: "",
+    target: "pos",
+    after: "ition",
+    answer: "pos",
+    choices: ["pos", "port", "struct", "phon"],
+    itemId: "pos",
+    definition: "the place where something is"
+  },
+  {
+    type: "root",
+    word: "reputation",
+    before: "re",
+    target: "put",
+    after: "ation",
+    answer: "put",
+    choices: ["put", "port", "struct", "phon"],
+    itemId: "put",
+    definition: "what people generally think about someone or something"
+  },
+  {
+    type: "root",
+    word: "detention",
+    before: "de",
+    target: "ten",
+    after: "tion",
+    answer: "ten",
+    choices: ["ten", "port", "struct", "phon"],
+    itemId: "ten",
+    definition: "the act of holding someone back or keeping them in a place"
+  },
+  {
+    type: "root",
+    word: "valid",
+    before: "",
+    target: "val",
+    after: "id",
+    answer: "val",
+    choices: ["val", "port", "struct", "phon"],
+    itemId: "val",
+    definition: "acceptable or well supported"
+  },
+  {
+    type: "root",
+    word: "convention",
+    before: "con",
+    target: "ven",
+    after: "tion",
+    answer: "ven",
+    choices: ["ven", "port", "struct", "phon"],
+    itemId: "ven",
+    definition: "a large meeting where people come together"
+  },
+  {
+    type: "root",
+    word: "vocalist",
+    before: "",
+    target: "voc",
+    after: "alist",
+    answer: "voc",
+    choices: ["voc", "port", "struct", "phon"],
+    itemId: "voc",
+    definition: "a singer"
+  },
+  {
+    type: "root",
+    word: "audio",
+    before: "",
+    target: "aud",
+    after: "io",
+    answer: "aud",
+    choices: ["aud", "port", "struct", "phon"],
+    itemId: "aud",
+    definition: "sound, especially when recorded or played"
+  },
+  {
+    type: "root",
+    word: "bibliography",
+    before: "",
+    target: "biblio",
+    after: "graphy",
+    answer: "biblio",
+    choices: ["biblio", "port", "struct", "phon"],
+    itemId: "biblio",
+    definition: "a list of sources used or consulted"
+  },
+  {
+    type: "root",
+    word: "dermal",
+    before: "",
+    target: "derm",
+    after: "al",
+    answer: "derm",
+    choices: ["derm", "port", "struct", "phon"],
+    itemId: "derm",
+    definition: "relating to skin"
+  },
+  {
+    type: "root",
+    word: "terrain",
+    before: "",
+    target: "terr",
+    after: "ain",
+    answer: "terr",
+    choices: ["terr", "port", "struct", "phon"],
+    itemId: "terr",
+    definition: "the shape or features of an area of land"
+  },
   {
     type: "root",
     word: "biology",
@@ -2150,6 +2359,50 @@ const rootFindQuestions = [
   }
 ];
 const suffixFindQuestions = [
+  {
+    type: "suffix",
+    word: "performance",
+    before: "perform",
+    target: "ance",
+    after: "",
+    answer: "-ance",
+    choices: ["-ance", "-ment", "-ness", "-ous"],
+    itemId: "ance",
+    definition: "the act of performing or how well something is done"
+  },
+  {
+    type: "suffix",
+    word: "dependence",
+    before: "depend",
+    target: "ence",
+    after: "",
+    answer: "-ence",
+    choices: ["-ence", "-ment", "-ness", "-ous"],
+    itemId: "ence",
+    definition: "the state of relying on something"
+  },
+  {
+    type: "suffix",
+    word: "claimant",
+    before: "claim",
+    target: "ant",
+    after: "",
+    answer: "-ant",
+    choices: ["-ant", "-ment", "-ness", "-ous"],
+    itemId: "ant-ent-agent",
+    definition: "a person who makes a claim"
+  },
+  {
+    type: "suffix",
+    word: "resistant",
+    before: "resist",
+    target: "ant",
+    after: "",
+    answer: "-ant",
+    choices: ["-ant", "-ment", "-ness", "-ous"],
+    itemId: "ant-ent-adjective",
+    definition: "able to withstand or oppose something"
+  },
   {
     type: "suffix",
     word: "portable",
