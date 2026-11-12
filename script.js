@@ -9563,8 +9563,8 @@ function getCurrentPracticeStudyLabel() {
     prefixes: "Prefixes",
     roots: "Roots",
     suffixes: "Suffixes",
-    "prefix-root": "Prefixes + Roots",
-    "root-suffix": "Roots + Suffixes",
+    "prefix-root": "Prefixes + Bases or Roots",
+    "root-suffix": "Bases or Roots + Suffixes",
     "prefix-root-suffix":
       "Prefixes + Roots + Suffixes"
   };
@@ -9656,6 +9656,10 @@ function getAvailableMorphemeTypesForSelectedFlight() {
 
 function studyModeIsAvailableForSelectedFlight(mode) {
   if (gradeBand === "all") {
+    return true;
+  }
+
+  if (gradeBand === "2-3" && (mode === "prefix-root" || mode === "root-suffix")) {
     return true;
   }
 
