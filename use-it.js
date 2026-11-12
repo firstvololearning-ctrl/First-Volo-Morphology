@@ -12,6 +12,31 @@
    ======================================== */
 
 const useItSentenceBank = {
+  rewrite: "The ending is unclear, so I’ll ___ the last paragraph.",
+  untie: "Please ___ the knot so we can open the bag.",
+  disconnect: "Before moving the lamp, ___ its cord from the wall.",
+  undercook: "If you take the bread out too early, you might ___ it.",
+  overuse: "A single word can sound repetitive if you ___ it in a story.",
+  nonfiction: "Our class reads ___ to learn facts about real animals.",
+  darkness: "When the flashlight went out, the cave fell into ___.",
+  enjoyment: "Their laughter showed how much ___ they got from the game.",
+  bendable: "The ___ wire curved around the jar without breaking.",
+  playful: "The ___ kitten pounced on a ball of yarn.",
+  cloudless: "The sky was ___, with nothing to hide the sun.",
+  antifreeze: "The mechanic added ___ to keep the coolant from freezing in winter.",
+  semifinal: "We won the ___ and will play in the final tomorrow.",
+  superhuman: "Lifting a car with one hand would take ___ strength.",
+  thermal: "The ___ camera shows where heat is escaping from the building.",
+  graphic: "The designer made a ___ display that uses pictures to show each step.",
+  historic: "The town protected the ___ building where its first council met.",
+  transfer: "Use a funnel to ___ the water from the jug into the bottle.",
+  submit: "Please ___ your assignment for the teacher to review by Friday.",
+  propel: "The paddles ___ the boat forward.",
+  deposit: "The machine lets you ___ coins into your savings account.",
+  dermal: "The researcher tested ___ patches that stick to the skin.",
+  claimant: "The ___ asked for payment for the damage to her bike.",
+  resistant: "The waterproof cover is ___ to rain.",
+  performance: "The judges scored the dancer’s ___ after she left the stage.",
   scripted:
     "The actors followed a ___ scene so each line and action happened as planned.",
 
@@ -173,6 +198,51 @@ boxes:
 
 
 const additionalUseItWords = [
+  {
+    study: "prefix-root",
+    word: "microscope",
+    rootId: "micro",
+    root: "micro",
+    rootMeaning: "small",
+    baseId: "scop",
+    base: "scope",
+    baseMeaning: "look at",
+    definition: "a tool for looking at things too small to see clearly",
+    sentence: "The class used a ___ to see tiny cells in a drop of pond water."
+  },
+  {
+    study: "prefix-root",
+    word: "biography",
+    rootId: "bio",
+    root: "bio",
+    rootMeaning: "life",
+    baseId: "graph",
+    base: "graph",
+    baseMeaning: "write",
+    definition: "a written account of someone’s life",
+    sentence: "I read a ___ to learn what the inventor did before she became famous."
+  },
+  {
+    study: "prefix-root",
+    word: "suspend",
+    rootId: "pend",
+    root: "pend",
+    rootMeaning: "hang",
+    definition: "to hang something from above",
+    sentence: "The workers will ___ the sign from two hooks in the ceiling."
+  },
+  {
+    study: "root-suffix",
+    word: "vocalist",
+    rootId: "voc",
+    root: "voc",
+    rootMeaning: "voice",
+    suffixId: "ist",
+    suffix: "-ist",
+    suffixMeaning: "a person who does something",
+    definition: "a singer",
+    sentence: "The ___ stepped to the microphone and sang the first verse."
+  },
   {
     "study": "root-suffix",
     "word": "playful",
@@ -465,9 +535,49 @@ function getUseItPartsText(item) {
 }
 
 
+const useItAuthoredDistractors = {
+  rewrite: ["untie", "overuse", "undercook"],
+  untie: ["rewrite", "overuse", "undercook"],
+  disconnect: ["untie", "rewrite", "undercook"],
+  undercook: ["rewrite", "untie", "disconnect"],
+  overuse: ["undercook", "untie", "disconnect"],
+  nonfiction: ["darkness", "enjoyment", "overuse"],
+  darkness: ["enjoyment", "nonfiction", "overuse"],
+  enjoyment: ["darkness", "nonfiction", "overuse"],
+  bendable: ["playful", "cloudless", "darkness"],
+  playful: ["cloudless", "bendable", "darkness"],
+  cloudless: ["playful", "bendable", "darkness"],
+  antifreeze: ["graphic", "thermal", "telegraph"],
+  semifinal: ["antifreeze", "telegraph", "biography"],
+  superhuman: ["thermal", "graphic", "scientific"],
+  thermal: ["graphic", "semifinal", "antifreeze"],
+  graphic: ["antifreeze", "telegraph", "semifinal"],
+  historic: ["antifreeze", "semifinal", "telegraph"],
+  transfer: ["submit", "propel", "suspend"],
+  submit: ["transfer", "propel", "suspend"],
+  propel: ["submit", "suspend", "deposit"],
+  suspend: ["submit", "deposit", "propel"],
+  deposit: ["submit", "propel", "suspend"],
+  dermal: ["claimant", "vocalist", "dependence"],
+  claimant: ["performance", "dependence", "dermal"],
+  resistant: ["claimant", "dermal", "dependence"],
+  performance: ["claimant", "dependence", "dermal"],
+  dependence: ["claimant", "performance", "dermal"],
+  microscope: ["telegraph", "biography", "antifreeze"],
+  biography: ["microscope", "telegraph", "antifreeze"],
+  vocalist: ["claimant", "dependence", "dermal"],
+};
+
 function makeUseItChoices(
   correctItem
 ) {
+  const authored = useItAuthoredDistractors[correctItem.word];
+  if (authored?.every(word =>
+    !isReservedTransferWord(word) && isWordEligibleForSelectedVocabulary(word)
+  )) {
+    return shuffle([correctItem.word, ...authored]);
+  }
+
   const inventory =
     window.FIRST_VOLO_WORD_INVENTORY || [];
 

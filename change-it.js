@@ -2,6 +2,85 @@
 
 const changeItQuestions = [
   {
+    family: "dark · darker · darkest · darkness",
+    sentence: "After sunset, the hikers waited for their eyes to adjust to the ___.",
+    choices: ["dark", "darker", "darkest", "darkness"],
+    answer: "darkness",
+    clue: "Choose the noun that names a condition.",
+    suffix: "-ness",
+    explanation: "Adding -ness to dark names the state of having little or no light.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "enjoy · enjoyed · enjoying · enjoyment",
+    sentence: "The children got a lot of ___ from making up their own game.",
+    choices: ["enjoy", "enjoyed", "enjoying", "enjoyment"],
+    answer: "enjoyment",
+    clue: "Choose the noun that names what the children got from the game.",
+    suffix: "-ment",
+    explanation: "Enjoyment names the pleasure of doing something. Adding -ment forms a noun.",
+    practiceBand: "2-3",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "geography · geographic · geographically · geographer",
+    sentence: "The atlas shows the ___ features of the island, including its mountains and bays.",
+    choices: ["geography", "geographic", "geographically", "geographer"],
+    answer: "geographic",
+    clue: "Choose an adjective that describes the features.",
+    suffix: "-ic",
+    explanation: "Geographic describes things related to the land or places. The ending -ic helps form an adjective.",
+    practiceBand: "4-5",
+    vocabLevel: "academic"
+  },
+  {
+    family: "active · actively · activity · activate",
+    sentence: "The students chose a quiet ___ to do while they waited for the bus.",
+    choices: ["active", "actively", "activity", "activate"],
+    answer: "activity",
+    clue: "Choose a noun for something the students can do.",
+    suffix: "-ity",
+    explanation: "Activity names something someone does. The ending -ity helps form a noun.",
+    practiceBand: "4-5",
+    vocabLevel: "familiar"
+  },
+  {
+    family: "simple · simpler · simplest · simplify",
+    sentence: "We can ___ the directions by cutting out two steps.",
+    choices: ["simple", "simpler", "simplest", "simplify"],
+    answer: "simplify",
+    clue: "Choose the verb that says what we can do to the directions.",
+    suffix: "-ify",
+    explanation: "Adding -ify to a form of simple makes a verb meaning to make something simpler.",
+    practiceBand: "4-5",
+    vocabLevel: "academic"
+  },
+  {
+    family: "resist · resistance · resistant · resisted",
+    sentence: "The material is ___ to heat, so it works well near the oven.",
+    choices: ["resist", "resistance", "resistant", "resisted"],
+    answer: "resistant",
+    clue: "Choose the adjective that describes a quality of the material.",
+    suffix: "-ant",
+    explanation: "Here, -ant makes an adjective. Resistant describes something that can withstand heat or another force.",
+    practiceBand: "6-8",
+    vocabLevel: "academic",
+    suffixId: "ant-ent-adjective"
+  },
+  {
+    family: "claim · claiming · claimant · claimed",
+    sentence: "The ___ sent photos to support her request for payment.",
+    choices: ["claim", "claiming", "claimant", "claimed"],
+    answer: "claimant",
+    clue: "Choose the noun that names the person making the request.",
+    suffix: "-ant",
+    explanation: "Here, -ant helps form a noun for the person who makes a claim.",
+    practiceBand: "6-8",
+    vocabLevel: "academic",
+    suffixId: "ant-ent-agent"
+  },
+  {
     family: "act → action → active → actively",
     sentence: "The class decided to take ___ to reduce wasted paper.",
     choices: ["act", "action", "active", "actively"],
@@ -617,7 +696,7 @@ function checkChangeItChoice(selectedButton, selectedWord, item) {
     correct: isCorrect,
     primaryTarget: item.suffix,
     primaryTargetId:
-      window.FirstVoloMorphemeProgress
+      item.suffixId || window.FirstVoloMorphemeProgress
         ?.canonicalId(
           item.suffix,
           {

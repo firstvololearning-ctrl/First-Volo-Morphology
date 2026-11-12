@@ -8072,6 +8072,136 @@ const inferQuestions = [
 
 const buildWords = [
   {
+    word: "rewrite",
+    prefixId: "re",
+    prefix: "re-",
+    prefixMeaning: "again",
+    rootId: "write",
+    root: "write",
+    rootMeaning: "put words down",
+    definition: "to write something again"
+  },
+  {
+    word: "untie",
+    prefixId: "un-reversative",
+    prefix: "un-",
+    prefixMeaning: "reverse an action",
+    rootId: "tie",
+    root: "tie",
+    rootMeaning: "fasten with a knot",
+    definition: "to undo a knot"
+  },
+  {
+    word: "disconnect",
+    prefixId: "dis",
+    prefix: "dis-",
+    prefixMeaning: "apart",
+    rootId: "connect",
+    root: "connect",
+    rootMeaning: "join",
+    definition: "to separate things that were joined"
+  },
+  {
+    word: "undercook",
+    prefixId: "under",
+    prefix: "under-",
+    prefixMeaning: "too little",
+    rootId: "cook",
+    root: "cook",
+    rootMeaning: "prepare food with heat",
+    definition: "to cook food for too short a time"
+  },
+  {
+    word: "overuse",
+    prefixId: "over",
+    prefix: "over-",
+    prefixMeaning: "too much",
+    rootId: "use",
+    root: "use",
+    rootMeaning: "put something to work",
+    definition: "to use something too much"
+  },
+  {
+    word: "nonfiction",
+    prefixId: "non",
+    prefix: "non-",
+    prefixMeaning: "not",
+    rootId: "fiction",
+    root: "fiction",
+    rootMeaning: "stories made up by a writer",
+    definition: "writing about real people, events, or facts"
+  },
+  {
+    word: "antifreeze",
+    prefixId: "anti",
+    prefix: "anti-",
+    prefixMeaning: "against",
+    rootId: "freeze",
+    root: "freeze",
+    rootMeaning: "turn to ice",
+    definition: "a liquid added to keep another liquid from freezing"
+  },
+  {
+    word: "semifinal",
+    prefixId: "semi",
+    prefix: "semi-",
+    prefixMeaning: "halfway or partly",
+    rootId: "final",
+    root: "final",
+    rootMeaning: "the last round",
+    definition: "a round before the final that decides who advances"
+  },
+  {
+    word: "superhuman",
+    prefixId: "super",
+    prefix: "super-",
+    prefixMeaning: "beyond",
+    rootId: "human",
+    root: "human",
+    rootMeaning: "a person",
+    definition: "beyond ordinary human ability"
+  },
+  {
+    word: "transfer",
+    prefixId: "trans",
+    prefix: "trans-",
+    prefixMeaning: "across",
+    rootId: "fer",
+    root: "fer",
+    rootMeaning: "carry",
+    definition: "to move something from one place to another"
+  },
+  {
+    word: "submit",
+    prefixId: "sub",
+    prefix: "sub-",
+    prefixMeaning: "under",
+    rootId: "mit",
+    root: "mit",
+    rootMeaning: "send",
+    definition: "to hand something in for review"
+  },
+  {
+    word: "propel",
+    prefixId: "pro",
+    prefix: "pro-",
+    prefixMeaning: "forward",
+    rootId: "pel",
+    root: "pel",
+    rootMeaning: "push or drive",
+    definition: "to push or drive something forward"
+  },
+  {
+    word: "deposit",
+    prefixId: "de",
+    prefix: "de-",
+    prefixMeaning: "down",
+    rootId: "pos",
+    root: "pos",
+    rootMeaning: "put or place",
+    definition: "to put something in a particular place"
+  },
+  {
     word: "construct",
     prefixId: "con",
     prefix: "con-",
@@ -8186,6 +8316,136 @@ const buildWords = [
    ======================================== */
 
 const rootSuffixBuildWords = [
+  {
+    word: "darkness",
+    baseId: "dark",
+    base: "dark",
+    baseMeaning: "having little or no light",
+    suffixId: "ness",
+    suffix: "-ness",
+    suffixMeaning: "state or quality",
+    definition: "the state of having little or no light"
+  },
+  {
+    word: "enjoyment",
+    baseId: "enjoy",
+    base: "enjoy",
+    baseMeaning: "take pleasure in",
+    suffixId: "ment",
+    suffix: "-ment",
+    suffixMeaning: "state or result",
+    definition: "the pleasure you get from something"
+  },
+  {
+    word: "bendable",
+    baseId: "bend",
+    base: "bend",
+    baseMeaning: "curve without breaking",
+    suffixId: "able-ible",
+    suffix: "-able",
+    suffixMeaning: "able to be",
+    definition: "able to be bent"
+  },
+  {
+    word: "playful",
+    baseId: "play",
+    base: "play",
+    baseMeaning: "have fun",
+    suffixId: "ful",
+    suffix: "-ful",
+    suffixMeaning: "full of or showing",
+    definition: "ready to have fun"
+  },
+  {
+    word: "cloudless",
+    baseId: "cloud",
+    base: "cloud",
+    baseMeaning: "a mass of tiny water drops in the sky",
+    suffixId: "less",
+    suffix: "-less",
+    suffixMeaning: "without",
+    definition: "without clouds"
+  },
+  {
+    word: "thermal",
+    baseId: "therm",
+    base: "therm",
+    baseMeaning: "heat",
+    suffixId: "al",
+    suffix: "-al",
+    suffixMeaning: "relating to",
+    definition: "relating to heat"
+  },
+  {
+    word: "graphic",
+    baseId: "graph",
+    base: "graph",
+    baseMeaning: "write or draw",
+    suffixId: "ic",
+    suffix: "-ic",
+    suffixMeaning: "relating to",
+    definition: "communicating through pictures or diagrams"
+  },
+  {
+    word: "historic",
+    baseId: "histor",
+    base: "histor",
+    baseMeaning: "history",
+    suffixId: "ic",
+    suffix: "-ic",
+    suffixMeaning: "relating to",
+    definition: "important in history"
+  },
+  {
+    word: "dermal",
+    baseId: "derm",
+    base: "derm",
+    baseMeaning: "skin",
+    suffixId: "al",
+    suffix: "-al",
+    suffixMeaning: "relating to",
+    definition: "relating to skin"
+  },
+  {
+    word: "claimant",
+    baseId: "claim",
+    base: "claim",
+    baseMeaning: "ask for something as a right",
+    suffixId: "ant-ent-agent",
+    suffix: "-ant",
+    suffixMeaning: "a person who does something",
+    definition: "a person who makes a claim"
+  },
+  {
+    word: "resistant",
+    baseId: "resist",
+    base: "resist",
+    baseMeaning: "withstand",
+    suffixId: "ant-ent-adjective",
+    suffix: "-ant",
+    suffixMeaning: "having a quality",
+    definition: "able to withstand something"
+  },
+  {
+    word: "performance",
+    baseId: "perform",
+    base: "perform",
+    baseMeaning: "carry out or present",
+    suffixId: "ance",
+    suffix: "-ance",
+    suffixMeaning: "act or result",
+    definition: "the act of performing or how well it is done"
+  },
+  {
+    word: "dependence",
+    baseId: "depend",
+    base: "depend",
+    baseMeaning: "rely on",
+    suffixId: "ence",
+    suffix: "-ence",
+    suffixMeaning: "state or condition",
+    definition: "the state of relying on something"
+  },
   {
     word: "portable",
     baseId: "port",
@@ -9686,7 +9946,7 @@ function showStartMessage(title, message) {
         studyMode === "root-suffix"
           ? "Combine a root or base with a suffix to create a real word."
           : studyMode === "prefix-root"
-            ? "Combine a prefix and a root to create a real word."
+            ? "Combine a prefix and a base or root to create a real word."
             : "Combine word parts to create a real word."
     }
   };
@@ -11435,11 +11695,26 @@ const breakApartExcludedWords = new Set([
 ]);
 
 
+const additionalBreakExamples = {
+  bendable: { segmentation: "bend + -able" },
+  darkness: { segmentation: "dark + -ness", definition: "the state of having little or no light" },
+  enclose: { segmentation: "en- + close" },
+  enjoyment: { segmentation: "enjoy + -ment", definition: "pleasure from doing or having something" },
+  graphic: { segmentation: "graph + -ic", definition: "communicating through pictures or diagrams" },
+  microscope: { segmentation: "micro + scope", definition: "an instrument that makes very small things easier to see" },
+  submit: { segmentation: "sub- + mit", definition: "to hand something in for review" },
+  thermal: { segmentation: "therm + -al", definition: "related to heat" }
+};
+
 function createBreakApartQuestions() {
   const inventory =
     window.FIRST_VOLO_WORD_INVENTORY || [];
 
   return inventory
+    .map(entry => {
+      const example = additionalBreakExamples[entry.word];
+      return example ? { ...entry, ...example } : entry;
+    })
     .filter(
       (entry) =>
         entry.status === "current" &&
@@ -13539,7 +13814,7 @@ function renderBuildActivity() {
       "Combine a prefix, root or base, and suffix to create a real word.";
   } else {
     workspaceSubtitle.textContent =
-      "Combine a prefix and a root to create a real word.";
+      "Combine a prefix and a base or root to create a real word.";
   }
 
   activityProgress.hidden = true;
@@ -13672,7 +13947,7 @@ function renderPrefixRootBuildBanks(
     <section class="word-part-bank root-bank">
 
       <h4 class="bank-heading">
-        Roots
+        Bases and roots
       </h4>
 
       <div
@@ -14048,7 +14323,7 @@ function updateBuildWorkspace() {
     } else {
       wordBuildingWorkspace.innerHTML = `
         <span class="empty-build-message">
-          Select a prefix and a root.
+          Select a prefix and a base or root.
         </span>
       `;
     }
@@ -14143,7 +14418,7 @@ function checkBuiltWord() {
         </h4>
 
         <p>
-          Select one prefix and one root
+          Select one prefix and one base or root
           before checking the word.
         </p>
       `;
