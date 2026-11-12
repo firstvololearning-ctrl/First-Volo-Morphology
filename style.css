@@ -6299,6 +6299,11 @@ a:focus-visible {
   gap: 12px;
 }
 
+.about-use-section > ul {
+  padding: 0;
+  list-style: none;
+}
+
 .about-route-outcomes {
   padding: 0;
   list-style: none;
