@@ -3,7 +3,7 @@
   const access = window.FirstVoloMorphologyAccess;
   if (!access?.client) return;
   const flights = {"2-3":"Migration Route 1", "4-5":"Migration Route 2", "6-8":"Migration Route 3"};
-  const studies = {prefixes:"Prefixes",roots:"Roots",suffixes:"Suffixes","prefix-root":"Prefixes + Roots","root-suffix":"Roots + Suffixes","prefix-root-suffix":"Prefixes + Roots + Suffixes"};
+  const studies = {prefixes:"Prefixes",roots:"Roots",suffixes:"Suffixes","prefix-root":"Prefixes + Bases or Roots","root-suffix":"Bases or Roots + Suffixes","prefix-root-suffix":"Prefixes + Roots + Suffixes"};
   const activities = {learn:"Learn — explore word parts",find:"Find — identify a word part",hunt:"Word Hunt — find matching words",meaning:"Meaning — recall word-part meanings",morpheme:"Word Part — match meaning to a part",break:"Break It Apart — analyze parts",infer:"Figure It Out — infer a word’s meaning",build:"Build Words — combine parts",use:"Use It — fit a word to a sentence",change:"Change It — choose a word form"};
   const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const lessonChoices = window.FirstVoloLessonChoices;
@@ -70,9 +70,22 @@
     availability();
   }
   function availability() {
-    for (const o of field('planStudy').options) o.disabled=field('planFlight').value==='2-3' && o.value && !['prefixes','suffixes'].includes(o.value);
-    if (field('planStudy').selectedOptions[0]?.disabled) field('planStudy').value='';
-    for (const o of field('planActivity').options) o.disabled=(['build','use','change'].includes(o.value) && !['prefix-root','root-suffix','prefix-root-suffix'].includes(field('planStudy').value)) || (o.value==='change' && field('planStudy').value==='prefix-root');
+    const routeOne = field('planFlight').value === '2-3';
+    const applicationActivities = ['build', 'use', 'change'];
+    for (const option of field('planStudy').options) {
+      option.disabled = routeOne && ['roots', 'prefix-root-suffix'].includes(option.value);
+    }
+    if (field('planStudy').selectedOptions[0]?.disabled) field('planStudy').value = '';
+    const study = field('planStudy').value;
+    const isCombination = ['prefix-root', 'root-suffix', 'prefix-root-suffix'].includes(study);
+    for (const option of field('planActivity').options) {
+      const isApplication = applicationActivities.includes(option.value);
+      option.disabled = Boolean(option.value) && (
+        (isApplication && !isCombination) ||
+        (option.value === 'change' && study === 'prefix-root') ||
+        (routeOne && isCombination && !isApplication)
+      );
+    }
     if (field('planActivity').selectedOptions[0]?.disabled) field('planActivity').value='';
   }
   async function showEditor() {

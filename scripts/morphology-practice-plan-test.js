@@ -217,3 +217,38 @@ test('the warm-up revisits an older practiced part and saves the check separatel
     close();
   }
 });
+
+test('Route 1 assigns base-word application practice and opens it for a learner', async () => {
+  const educator = setup();
+  const document = educator.w.document;
+  document.getElementById('openPracticePlan').click();
+  await tick();
+  const select = (field, value) => {
+    const input = document.getElementById(field);
+    input.value = value;
+    input.dispatchEvent(new educator.w.Event('change'));
+    return input;
+  };
+  select('planLearner', id);
+  await tick();
+  select('planFlight', '2-3');
+  select('planStudy', 'prefix-root');
+  const activity = document.getElementById('planActivity');
+  const enabled = () => [...activity.options].filter(option => option.value && !option.disabled).map(option => option.value);
+  assert.deepEqual(enabled(), ['build', 'use']);
+  select('planStudy', 'root-suffix');
+  assert.deepEqual(enabled(), ['build', 'use', 'change']);
+  select('planActivity', 'change');
+  document.querySelector('.practice-plan-form').dispatchEvent(new educator.w.Event('submit', {cancelable: true}));
+  await tick();
+  const saved = educator.calls.find(call => call.name === 'save_morphology_practice_plan').args.p_plan;
+  const expected = {flight: '2-3', study: 'root-suffix', activity: 'change', challenge: false};
+  assert.deepEqual(JSON.parse(JSON.stringify(saved)), expected);
+  educator.close();
+
+  const learner = setup('student', saved);
+  await tick();
+  [...learner.w.document.querySelectorAll('button')].find(button => button.textContent === 'Start today’s practice').click();
+  assert.deepEqual(learner.w.applied, expected);
+  learner.close();
+});
