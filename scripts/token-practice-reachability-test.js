@@ -78,6 +78,7 @@ for(const item of w.addedPractice){
   assert.equal(recorded.length,0,'The first choice is provisional');
   w.document.getElementById('inferChangeMeaning').click();
   assert.equal(contextCheck.hidden,true,item.word);
+  assert.ok(w.document.getElementById('inferPrompt').textContent.includes(item.context),item.word);
   button.click();
   assert.equal(w.document.getElementById('inferContextChoice').textContent,item.correct);
   w.document.getElementById('inferKeepMeaning').click();
