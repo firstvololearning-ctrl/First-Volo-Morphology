@@ -14851,21 +14851,27 @@ studySelect.addEventListener("change", () => {
   updateCurrentPracticeSummary();
 });
 
+function selectPracticeActivity(nextMode) {
+  if (activeMode === "build" && nextMode !== "build") {
+    window.FirstVoloActivityProgress?.finishSession();
+  }
+  activeMode = nextMode;
+  activateActivityButton(activeMode);
+  renderCurrentActivity();
+}
+
+function verifyStudentActivitySelection(event, action) {
+  const access = window.FirstVoloMorphologyAccess;
+  if (event.isTrusted && access?.getContext?.()?.mode === "student" &&
+      access.withVerifiedStudentAccess) {
+    return access.withVerifiedStudentAccess(action);
+  }
+  return action();
+}
+
 activityButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const nextMode = button.dataset.mode;
-
-    if (
-      activeMode === "build" &&
-      nextMode !== "build"
-    ) {
-      window.FirstVoloActivityProgress?.finishSession();
-    }
-
-    activeMode = nextMode;
-
-    activateActivityButton(activeMode);
-    renderCurrentActivity();
+  button.addEventListener("click", (event) => {
+    verifyStudentActivitySelection(event, () => selectPracticeActivity(button.dataset.mode));
   });
 });
 
@@ -14888,7 +14894,7 @@ wordBuilderPathTrack?.addEventListener(
           button.dataset.mode === mode
       );
 
-    activityButton?.click();
+    verifyStudentActivitySelection(event, () => activityButton?.click());
   }
 );
 

@@ -5,6 +5,7 @@
     "https://apkvvspubolyxlqtlkto.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_0O4rNLfhuW18xYRZSPkLpw_xyXR9d3n";
+  const STUDENT_ACCESS_CHECK_INTERVAL_MS = 15_000;
   const PRODUCT_KEY = "first-volo-morphology";
   const EDUCATOR_SELECTED_PROGRESS_PREFIX =
     "firstVoloMorphologyProgressV1:educator-selected:";
@@ -77,6 +78,7 @@
   });
   let readyPromise = Promise.resolve(context);
   let selectedReadAbortController = null;
+  let studentAccessCheck = null;
   const listeners = new Set();
 
   function installAccessShell() {
@@ -371,6 +373,7 @@
   }
 
   function resolveForSession(session) {
+    studentAccessCheck = null;
     const expectedGeneration = ++generation;
     selectedReadAbortController?.abort();
     selectedReadAbortController = null;
@@ -404,6 +407,38 @@
     return readyPromise;
   }
 
+  function refreshStudentAccess() {
+    const user = currentUser;
+    if (!isAnonymous(user) || EDUCATOR_ONLY_PAGES.has(currentPageName())) {
+      return Promise.resolve(context);
+    }
+    if (studentAccessCheck) return studentAccessCheck;
+
+    const expectedGeneration = generation;
+    const check = authorizeUser(user, expectedGeneration)
+      .catch(() => publish({ ...LOCKED_CONTEXT, userId: user.id }, expectedGeneration))
+      .finally(() => {
+        if (studentAccessCheck === check) studentAccessCheck = null;
+      });
+    studentAccessCheck = check;
+    return check;
+  }
+
+  async function withVerifiedStudentAccess(action) {
+    const before = context;
+    if (before.status !== "authorized" || before.mode !== "student") return;
+    const checked = await refreshStudentAccess();
+    if (checked === context && sameEffectiveContext(before, checked)) action();
+  }
+
+  function checkVisibleStudentAccess() {
+    if (!document.hidden && context.status === "authorized" &&
+        context.mode === "student") void refreshStudentAccess();
+  }
+
+  window.setInterval(checkVisibleStudentAccess, STUDENT_ACCESS_CHECK_INTERVAL_MS);
+  document.addEventListener("visibilitychange", checkVisibleStudentAccess);
+
   window.FirstVoloMorphologyAccess = {
     client,
     PRODUCT_KEY,
@@ -411,6 +446,7 @@
     getUser: () => currentUser,
     whenReady: () => readyPromise,
     resolveForSession,
+    withVerifiedStudentAccess,
     subscribe(listener) {
       listeners.add(listener);
       listener(context);

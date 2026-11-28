@@ -3,7 +3,7 @@ const source=fs.readFileSync('js/auth/morphology-access.js','utf8');
 async function run(user,result){
  const gate={innerHTML:'',hidden:false};const doc={readyState:'complete',getElementById:id=>id==='morphologyAccessGate'?gate:null,documentElement:{dataset:{}},querySelectorAll:()=>[],addEventListener(){}};
  const client={rpc:async()=>result,auth:{onAuthStateChange(){},getSession:async()=>({data:{session:null},error:null})}};
- const window={supabase:{createClient:()=>client},location:{pathname:'/index.html',search:''},dispatchEvent(){}};
+ const window={setInterval(){},supabase:{createClient:()=>client},location:{pathname:'/index.html',search:''},dispatchEvent(){}};
  vm.runInNewContext(source,{window,document:doc,URL,URLSearchParams,console,clearTimeout,CustomEvent:class{}});
  await new Promise(r=>setImmediate(r));await window.FirstVoloMorphologyAccess.resolveForSession(user?{user}:null);
  return {gate,context:window.FirstVoloMorphologyAccess.getContext(),doc};

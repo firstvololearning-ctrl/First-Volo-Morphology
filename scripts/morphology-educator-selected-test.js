@@ -215,6 +215,7 @@ async function bootAccess(search, user, selectedResponse) {
     addEventListener() {}
   };
   const window = {
+    setInterval() {},
     supabase: { createClient: () => client },
     location: {
       search,
@@ -306,6 +307,7 @@ async function bootStartupAccess(search, user) {
     addEventListener() {}
   };
   const window = {
+    setInterval() {},
     supabase: { createClient: () => client },
     location: { search, pathname: "/index.html" },
     dispatchEvent(event) {
@@ -609,6 +611,7 @@ test("late selected A read is ignored after selected B becomes current", async (
     addEventListener() {}
   };
   const window = {
+    setInterval() {},
     supabase: { createClient: () => client },
     location: { search: `?studentId=${A}`, pathname: "/index.html" },
     dispatchEvent() {}

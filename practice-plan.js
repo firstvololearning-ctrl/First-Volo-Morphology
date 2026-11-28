@@ -226,20 +226,27 @@
       document.querySelector('.workspace')?.removeAttribute('data-plan-workspace-hidden');document.getElementById('currentPracticeSummary')?.removeAttribute('data-plan-workspace-hidden');
       const title=document.getElementById(lesson?'learnDetailPanel':'workspaceTitle');title?.scrollIntoView({behavior:'smooth',block:'start'});title?.setAttribute('tabindex','-1');title?.focus({preventScroll:true});
     }
-    start.addEventListener('click', () => {
-      if (lesson && !review && !warmedUp && window.FirstVoloEarlierWordParts?.warmUp(plan, openPlan)) {
+    const verifyStudent = action => () => {
+      if (access.withVerifiedStudentAccess) {
+        return access.withVerifiedStudentAccess(action);
+      }
+      return action();
+    };
+    start.addEventListener('click', verifyStudent(() => {
+      if (lesson && !review && !warmedUp &&
+          window.FirstVoloEarlierWordParts?.warmUp(plan, verifyStudent(openPlan))) {
         warmedUp = true;
         return;
       }
       openPlan();
-    });
-    start.addEventListener('firstvoloopenreviewedlesson', openPlan);
-    reviewStart.addEventListener('click', () => {
+    }));
+    start.addEventListener('firstvoloopenreviewedlesson', verifyStudent(openPlan));
+    reviewStart.addEventListener('click', verifyStudent(() => {
       if (identity(access.getContext()) !== expected) return;
       if (!window.FirstVoloEarlierWordParts?.openAssigned(plan)) {
         status.textContent = 'The assigned review could not open. Reload to try again.';
       }
-    });
+    }));
     change.addEventListener('click',()=>{revealChoices();document.getElementById('practiceSetup')?.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('gradeBandSelect')?.focus({preventScroll:true});});
   }
   let educatorPlanContext=null;

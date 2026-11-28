@@ -108,19 +108,27 @@
   }
   [flight, study, challenge, stretch].forEach(control => control?.addEventListener("change", () => queueMicrotask(save)));
   document.querySelectorAll('[data-study-mode], .activity-button').forEach(button => button.addEventListener("click", () => queueMicrotask(save)));
-  start.addEventListener("click", () => {
+  function verifyStudent(action) {
+    return () => {
+      if (access?.getContext?.()?.mode === "student" && access.withVerifiedStudentAccess) {
+        return access.withVerifiedStudentAccess(action);
+      }
+      return action();
+    };
+  }
+  start.addEventListener("click", verifyStudent(() => {
     const chosen = study.value && activity() && !activity().disabled;
     const target = chosen ? document.getElementById("workspaceTitle") : document.getElementById("practiceSetup");
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
     if (chosen && target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
     else document.querySelector("[data-study-mode]")?.focus({ preventScroll: true });
-  });
-  openChosen?.addEventListener("click", () => {
+  }));
+  openChosen?.addEventListener("click", verifyStudent(() => {
     activity()?.click();
     const target = document.getElementById("workspaceTitle");
     target?.scrollIntoView({behavior:"smooth",block:"start"});
     target?.setAttribute("tabindex", "-1"); target?.focus({preventScroll:true});
-  });
+  }));
   window.FirstVoloPracticeChoices = { apply(plan) {
     if (!plan || ![...flight.options].some(o => o.value === plan.flight)) return false;
     flight.value = plan.flight; flight.dispatchEvent(new Event("change", {bubbles:true}));
